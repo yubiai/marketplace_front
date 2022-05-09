@@ -59,6 +59,9 @@ const theme = extendTheme({
     peru: {
       100: "#f7fafc",
       700: "#d49943",
+    },
+    yb: {
+      1: "linear-gradient(90deg, rgb(0, 171, 209) 0%, #1C538A 100%) !important"
     }
   }
 });
