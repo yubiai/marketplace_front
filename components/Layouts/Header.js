@@ -1,7 +1,7 @@
+import Link from "next/link";
 import {
   Box,
   Flex,
-  Link,
   Button,
   Container,
   Image,
@@ -33,12 +33,14 @@ const Header = () => {
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           {/* Logo */}
           <Box width={"6em"}>
+            <Link href={"/"}>
             <Image
               alt={"Logo"}
               objectFit={"cover"}
               src={"/static/images/logoyubiai.png"}
               fallbackSrc={"/static/images/logoyubiai.png"}
             />
+            </Link>
           </Box>
 
           {/* Search */}
@@ -81,8 +83,8 @@ const Header = () => {
                   backgroundColor="transparent"
                   color="white"
                   _hover={{ bg: "gray.600", color: "gray.200" }}
-                  _expanded={{ bg: 'blue.400' }}
-                  _focus={{ boxShadow: 'outline' }}
+                  _expanded={{ bg: "blue.400" }}
+                  _focus={{ boxShadow: "outline" }}
                 >
                   EN
                 </MenuButton>

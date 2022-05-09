@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  Avatar,
   HStack,
   Link,
   Center,
@@ -12,12 +11,16 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
   useDisclosure,
   useColorModeValue,
-  Stack
+  Stack,
+  Text,
+  Image
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { BsFillBellFill, BsClock } from "react-icons/bs";
+import { FaUserCircle } from "react-icons/fa";
+import { BiHappyAlt } from "react-icons/bi";
+import { MdMessage, MdOutlineKeyboardArrowUp } from "react-icons/md";
 
 const Links = ["Sell", "Browsing history", "Watch List", "Help Desk"];
 
@@ -75,7 +78,7 @@ const Navbar = () => {
                 >
                   Categories
                 </MenuButton>
-                <MenuList> 
+                <MenuList>
                   <MenuItem color="black">Services</MenuItem>
                 </MenuList>
               </Menu>
@@ -84,28 +87,102 @@ const Navbar = () => {
               ))}
             </HStack>
           </HStack>
-          <Flex>
-            <Menu>
+          <Flex mt="1em">
+            <Menu mr="1em">
               <MenuButton
-                as={Button}
-                rounded={"full"}
-                variant={"link"}
-                cursor={"pointer"}
-                minW={0}
-              >
-                <Avatar
-                  size={"sm"}
-                  src={
-                    "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                  }
-                />
-              </MenuButton>
+                as={IconButton}
+                mr="10px"
+                aria-label="Options"
+                borderColor={"transparent"}
+                icon={<FaUserCircle color="white" />}
+                variant="outline"
+                _hover={{ bg: "gray.600", color: "gray.200" }}
+                _expanded={{ bg: "blue.400" }}
+                _focus={{ boxShadow: "outline" }}
+              />
               <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
+                <Flex w="200px">
+                  <Center w="33%">
+                    <Image
+                      alt={"Logo"}
+                      borderRadius="2xl"
+                      width={"3em"}
+                      objectFit={"cover"}
+                      src={"/static/images/userdefault.png"}
+                      fallbackSrc={"/static/images/userdefault.png"}
+                    />
+                  </Center>
+                  <Text>
+                    Name User <br />
+                    <Flex>
+                      <Image
+                        alt={"Logo"}
+                        width="1em"
+                        borderRadius="2xl"
+                        objectFit={"cover"}
+                        src={"/static/images/logoubi.png"}
+                        fallbackSrc={"/static/images/logoubi.png"}
+                      />
+                      <Text fontSize={"10px"} fontWeight={"bold"}>
+                        6801.90 UBI's dripped
+                      </Text>
+                    </Flex>
+                  </Text>
+                </Flex>
+                <MenuItem command="I">My Info</MenuItem>
+                <MenuItem command="O">Orders </MenuItem>
+                <MenuItem command="S">Sales</MenuItem>
+                <MenuItem command="M">Mailbox</MenuItem>
               </MenuList>
+            </Menu>
+            <Menu>
+              {({ onClose }) => (
+                <>
+                  <MenuButton
+                    as={IconButton}
+                    aria-label="alert"
+                    borderColor={"transparent"}
+                    icon={<BsFillBellFill color="white" />}
+                    variant="outline"
+                    _hover={{ bg: "gray.600", color: "gray.200" }}
+                    _expanded={{ bg: "blue.400" }}
+                    _focus={{ boxShadow: "outline" }}
+                  />
+                  <MenuList>
+                    <Button
+                      bg="transparent"
+                      h="2em"
+                      float="right"
+                      onClick={() => onClose()}
+                    >
+                      <MdOutlineKeyboardArrowUp />
+                    </Button>
+                    <MenuItem
+                      icon={<BiHappyAlt />}
+                      borderBottom={"1px solid #bababa"}
+                    >
+                      The Englego´s course is in offer
+                    </MenuItem>
+                    <MenuItem
+                      icon={<BsClock />}
+                      borderBottom={"1px solid #bababa"}
+                    >
+                      You´ve 2 days, 45 minutes to confirm the payment
+                    </MenuItem>
+                    <MenuItem
+                      icon={<MdMessage />}
+                      borderBottom={"1px solid #bababa"}
+                    >
+                      You´ve 1 new message
+                    </MenuItem>
+                    <Center>
+                      <Button bg="transparent" color="#00abd1">
+                        See more...
+                      </Button>
+                    </Center>
+                  </MenuList>
+                </>
+              )}
             </Menu>
           </Flex>
         </Flex>
