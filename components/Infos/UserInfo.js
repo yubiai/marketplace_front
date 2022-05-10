@@ -36,7 +36,7 @@ const UserInfo = () => {
               src={"/static/images/logoubi.png"}
               fallbackSrc={"/static/images/logoubi.png"}
             />
-            <Text fontSize={"13px"} fontWeight="bold">
+            <Text fontSize={"5px"} fontWeight="bold">
               6801.90 UBI's dripped
             </Text>
           </Flex>

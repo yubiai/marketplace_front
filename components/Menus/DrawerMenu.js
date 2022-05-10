@@ -27,8 +27,13 @@ const DrawerMenu = () => {
 
   return (
     <>
-      <Button ref={btnRef} color="white" bg="transparent" onClick={onOpen}>
-        <FiMoreVertical />
+      <Button
+        ref={btnRef}
+        color="white"
+        bg="transparent"
+        onClick={onOpen}
+      >
+        <FiMoreVertical fontSize={"2em"} />
       </Button>
       <Drawer
         isOpen={isOpen}
@@ -48,7 +53,12 @@ const DrawerMenu = () => {
             <List spacing={3}>
               <ListItem>
                 <Link href="/profile">
-                  <Button onClick={() => onClose()} w="full" bg="transparent" justifyContent={"left"}>
+                  <Button
+                    onClick={() => onClose()}
+                    w="full"
+                    bg="transparent"
+                    justifyContent={"left"}
+                  >
                     <ListIcon as={FaUserCircle} />
                     Profile
                   </Button>
@@ -56,7 +66,12 @@ const DrawerMenu = () => {
               </ListItem>
               <ListItem>
                 <Link href="/notifications">
-                  <Button onClick={() => onClose()} w="full" bg="transparent" justifyContent={"left"}>
+                  <Button
+                    onClick={() => onClose()}
+                    w="full"
+                    bg="transparent"
+                    justifyContent={"left"}
+                  >
                     <ListIcon as={BsFillBellFill} />
                     Notifications
                   </Button>
@@ -64,7 +79,12 @@ const DrawerMenu = () => {
               </ListItem>
               <ListItem>
                 <Link href="/sell">
-                  <Button onClick={() => onClose()} w="full" bg="transparent" justifyContent={"left"}>
+                  <Button
+                    onClick={() => onClose()}
+                    w="full"
+                    bg="transparent"
+                    justifyContent={"left"}
+                  >
                     <ListIcon as={MdSell} />
                     Sell
                   </Button>
@@ -72,7 +92,12 @@ const DrawerMenu = () => {
               </ListItem>
               <ListItem>
                 <Link href="/favorites">
-                  <Button onClick={() => onClose()} w="full" bg="transparent" justifyContent={"left"}>
+                  <Button
+                    onClick={() => onClose()}
+                    w="full"
+                    bg="transparent"
+                    justifyContent={"left"}
+                  >
                     <ListIcon as={MdFavorite} />
                     Favorites
                   </Button>
@@ -80,7 +105,12 @@ const DrawerMenu = () => {
               </ListItem>
               <ListItem>
                 <Link href="/help">
-                  <Button onClick={() => onClose()} w="full" bg="transparent" justifyContent={"left"}>
+                  <Button
+                    onClick={() => onClose()}
+                    w="full"
+                    bg="transparent"
+                    justifyContent={"left"}
+                  >
                     <ListIcon as={MdHelp} />
                     Help
                   </Button>

@@ -10,6 +10,7 @@ const LenguageChange = () => {
         rightIcon={<ChevronDownIcon />}
         backgroundColor="transparent"
         color="white"
+        display={{base: "none", md: "flex"}}
         _hover={{ bg: "gray.600", color: "gray.200" }}
         _expanded={{ bg: "blue.400" }}
         _focus={{ boxShadow: "outline" }}

@@ -6,7 +6,7 @@ import {
   Container,
   Image,
   useColorModeValue,
-  Stack,
+  Show,
   Center,
   Input,
   InputGroup,
@@ -17,13 +17,19 @@ import LenguageChange from "../Menus/LenguageChange";
 import DrawerMenu from "../Menus/DrawerMenu";
 
 const Header = () => {
-
   return (
-    <Box bg={useColorModeValue("yb.1", "gray.900")} px={4}>
+    <Box
+      bg={useColorModeValue("yb.1", "gray.900")}
+      px={{ base: "full", md: 4 }}
+    >
       <Container maxW="container.xl">
-        <Flex h={{base: '100px', md: '16'}} alignItems={"center"} justifyContent={{ base: 'center', md: 'center', lg: 'space-between' }}>
+        <Flex
+          h={{ base: "100px", md: "16" }}
+          alignItems={"center"}
+          justifyContent={{ base: "center", md: "center", lg: "space-between" }}
+        >
           {/* Logo */}
-          <Box width={{md: "6em"}}>
+          <Box width={{ md: "6em" }}>
             <Link href={"/"}>
               <Image
                 alt={"Logo"}
@@ -43,7 +49,7 @@ const Header = () => {
                 backgroundColor={"white"}
                 focusBorderColor={"transparent"}
                 size="md"
-                placeholder={`Search for items, categories or sellers`}
+                placeholder={`Search in Yubiai Marketplace`}
               />
               <InputRightElement
                 color="gray.300"
@@ -68,10 +74,13 @@ const Header = () => {
             color={"#00abd1"}
             rounded={"full"}
             cursor={"pointer"}
+            display={{ base: "none", md: "flex" }}
           >
             Connect
           </Button>
-          <DrawerMenu />
+          <Show below='md'>
+            <DrawerMenu />
+          </Show>
         </Flex>
       </Container>
     </Box>
