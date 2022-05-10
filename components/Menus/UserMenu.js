@@ -15,6 +15,7 @@ import {
   Box
 } from "@chakra-ui/react";
 import { FaUserCircle } from "react-icons/fa";
+import UserInfo from "../Infos/userInfo";
 
 const UserMenu = () => {
   return (
@@ -32,43 +33,7 @@ const UserMenu = () => {
       />
       <Portal>
         <MenuList>
-          <HStack spacing="1em">
-            <Box w="33%" h="60px">
-            <Center>
-            <Image
-              alt={"Logo"}
-              borderRadius="2xl"
-              marginTop={"6px"}
-              width={"3em"}
-              objectFit={"cover"}
-              src={"/static/images/userdefault.png"}
-              fallbackSrc={"/static/images/userdefault.png"}
-            />
-            </Center>
-            </Box>
-            <Box w="66%" h="60px" p="5px">
-            <Stack spacing={2}>
-              <Text fontSize={"15px"}>Roberto Gomez</Text>
-              <Flex>
-                <Image
-                  alt={"Logo"}
-                  width="1em"
-                  borderRadius="2xl"
-                  objectFit={"cover"}
-                  src={"/static/images/logoubi.png"}
-                  fallbackSrc={"/static/images/logoubi.png"}
-                />
-                <Text fontSize={"10px"} fontWeight="bold">
-                  6801.90 UBI's dripped
-                </Text>
-              </Flex>
-            </Stack>
-            </Box>
-          </HStack>
-          <Center>
-            
-            
-          </Center>
+          <UserInfo />
           <MenuItem>My Info</MenuItem>
           <MenuItem>Orders </MenuItem>
           <MenuItem>Sales</MenuItem>
@@ -81,34 +46,5 @@ const UserMenu = () => {
 
 export default UserMenu;
 
-/*
- <Flex w="200px">
-                  <Center w="33%">
-                    <Image
-                      alt={"Logo"}
-                      borderRadius="2xl"
-                      width={"3em"}
-                      objectFit={"cover"}
-                      src={"/static/images/userdefault.png"}
-                      fallbackSrc={"/static/images/userdefault.png"}
-                    />
-                  </Center>
-                  <Text>
-                    Name User <br />
-                    <Flex>
-                      <Image
-                        alt={"Logo"}
-                        width="1em"
-                        borderRadius="2xl"
-                        objectFit={"cover"}
-                        src={"/static/images/logoubi.png"}
-                        fallbackSrc={"/static/images/logoubi.png"}
-                      />
-                      <Text fontSize={"10px"} fontWeight={"bold"}>
-                        6801.90 UBI's dripped
-                      </Text>
-                    </Flex>
-                  </Text>
-                </Flex>
 
-*/
+

@@ -7,39 +7,31 @@ import {
   Image,
   useColorModeValue,
   Stack,
-  useColorMode,
   Center,
   Input,
   InputGroup,
-  InputRightElement,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem
+  InputRightElement
 } from "@chakra-ui/react";
-import {
-  MoonIcon,
-  SunIcon,
-  SearchIcon,
-  ChevronDownIcon
-} from "@chakra-ui/icons";
+import { SearchIcon } from "@chakra-ui/icons";
+import LenguageChange from "../Menus/LenguageChange";
+import DrawerMenu from "../Menus/DrawerMenu";
 
 const Header = () => {
-  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <Box bg={useColorModeValue("yb.1", "gray.900")} px={4}>
       <Container maxW="container.xl">
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+        <Flex h={{base: '100px', md: '16'}} alignItems={"center"} justifyContent={{ base: 'center', md: 'center', lg: 'space-between' }}>
           {/* Logo */}
-          <Box width={"6em"}>
+          <Box width={{md: "6em"}}>
             <Link href={"/"}>
-            <Image
-              alt={"Logo"}
-              objectFit={"cover"}
-              src={"/static/images/logoyubiai.png"}
-              fallbackSrc={"/static/images/logoyubiai.png"}
-            />
+              <Image
+                alt={"Logo"}
+                objectFit={"cover"}
+                display={{ base: "none", md: "flex" }}
+                src={"/static/images/logoyubiai.png"}
+                fallbackSrc={"/static/images/logoyubiai.png"}
+              />
             </Link>
           </Box>
 
@@ -69,47 +61,17 @@ const Header = () => {
             </InputGroup>
           </Center>
 
-          {/* Connect */}
-          <Flex alignItems={"center"}>
-            <Stack direction={"row"} spacing={7}>
-              <Button onClick={toggleColorMode}>
-                {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-              </Button>
-
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  rightIcon={<ChevronDownIcon />}
-                  backgroundColor="transparent"
-                  color="white"
-                  _hover={{ bg: "gray.600", color: "gray.200" }}
-                  _expanded={{ bg: "blue.400" }}
-                  _focus={{ boxShadow: "outline" }}
-                >
-                  EN
-                </MenuButton>
-                <MenuList>
-                  <MenuItem>EN</MenuItem>
-                  <MenuItem>ES</MenuItem>
-                  <MenuItem>PR</MenuItem>
-                  <MenuItem>AL</MenuItem>
-                  <MenuItem>IT</MenuItem>
-                </MenuList>
-              </Menu>
-
-              <Button
-                backgroundColor={"white"}
-                padding={"7px 18px"}
-                color={"#00abd1"}
-                rounded={"full"}
-                cursor={"pointer"}
-                variant={"link"}
-                minW={0}
-              >
-                Connect
-              </Button>
-            </Stack>
-          </Flex>
+          {/* Lenguage */}
+          <LenguageChange />
+          <Button
+            backgroundColor={"white"}
+            color={"#00abd1"}
+            rounded={"full"}
+            cursor={"pointer"}
+          >
+            Connect
+          </Button>
+          <DrawerMenu />
         </Flex>
       </Container>
     </Box>
