@@ -14,25 +14,31 @@ import {
   ListIcon
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { FiMoreVertical } from "react-icons/fi";
 import UserInfo from "../Infos/userInfo";
 import { FaUserCircle } from "react-icons/fa";
 import { BsFillBellFill } from "react-icons/bs";
-import { MdSell, MdFavorite, MdHelp } from "react-icons/md";
+import {
+  MdSell,
+  MdFavorite,
+  MdHelp,
+  MdKeyboardArrowDown,
+  MdKeyboardArrowUp
+} from "react-icons/md";
 
 const DrawerMenu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
 
+  const [listCategory, onListCategory] = useState("false");
+  const onCategory = () => {
+    onListCategory(!listCategory);
+  };
+
   return (
     <>
-      <Button
-        ref={btnRef}
-        color="white"
-        bg="transparent"
-        onClick={onOpen}
-      >
+      <Button ref={btnRef} color="white" bg="transparent" onClick={onOpen}>
         <FiMoreVertical fontSize={"2em"} />
       </Button>
       <Drawer
@@ -116,6 +122,36 @@ const DrawerMenu = () => {
                   </Button>
                 </Link>
               </ListItem>
+              <ListItem>
+                <Button
+                  onClick={() => onCategory()}
+                  w="full"
+                  bg="transparent"
+                  justifyContent={"left"}
+                >
+                  <ListIcon
+                    as={listCategory ? MdKeyboardArrowUp : MdKeyboardArrowDown}
+                  />
+                  Categories
+                </Button>
+              </ListItem>
+              {listCategory && (
+                <>
+                  <ListItem>
+                    <Link href="/category/services">
+                      <Button
+                        onClick={() => onClose()}
+                        w="full"
+                        bg="transparent"
+                        justifyContent={"left"}
+                      >
+                        <ListIcon as={MdHelp} />
+                        Services
+                      </Button>
+                    </Link>
+                  </ListItem>
+                </>
+              )}
             </List>
           </DrawerBody>
 

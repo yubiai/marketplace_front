@@ -122,15 +122,11 @@ const Navbar = () => {
       href: "#"
     },
     {
-      label: "Browser History",
+      label: "Favorites",
       href: "#"
     },
     {
-      label: "Watch List",
-      href: "#"
-    },
-    {
-      label: "Help Desk",
+      label: "Help",
       href: "#"
     }
   ];
