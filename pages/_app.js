@@ -7,6 +7,10 @@ import Header from "../components/Layouts/Header";
 import Navbar from "../components/Layouts/Navbar";
 
 import { Hide } from "@chakra-ui/react";
+import Axios from "axios";
+import MetaAlert from "../components/Alerts/metaAlert";
+
+Axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -16,6 +20,7 @@ function MyApp({ Component, pageProps }) {
       <Hide below='md'>
         <Navbar />
       </Hide>
+      <MetaAlert />
       <Component {...pageProps} />
       <Footer />
     </ChakraProvider>

@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from 'next/link'
 import {
   Box,
   Flex,
@@ -8,12 +8,15 @@ import {
   useColorModeValue,
   Show,
   Center
-} from '@chakra-ui/react';
-import LenguageChange from '../Menus/LenguageChange';
-import DrawerMenu from '../Menus/DrawerMenu';
-import SearchBar from './SearchBar';
+} from '@chakra-ui/react'
+import LenguageChange from '../Menus/LenguageChange'
+import DrawerMenu from '../Menus/DrawerMenu'
+import SearchBar from './SearchBar'
+import ButtonConnect from '../Buttons/ButtonConnect'
 
 const Header = () => {
+
+
   return (
     <Box
       bg={useColorModeValue('yb.1', 'peru.700')}
@@ -30,7 +33,7 @@ const Header = () => {
             <Button
               bg="transparent"
               _hover={{
-                bg: '#1C538A'
+                bg: '#1C538A',
               }}
             >
               <Link href={'/'}>
@@ -52,24 +55,16 @@ const Header = () => {
           {/* Lenguage */}
           <Center>
             <LenguageChange />
-            <Button
-              backgroundColor={'white'}
-              color={'#00abd1'}
-              rounded={'full'}
-              ml="1em"
-              cursor={'pointer'}
-              display={{ base: 'none', md: 'flex' }}
-            >
-              Connect
-            </Button>
+            <ButtonConnect />
           </Center>
           <Show below="md">
             <DrawerMenu />
           </Show>
         </Flex>
       </Container>
+     
     </Box>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header

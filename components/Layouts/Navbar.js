@@ -10,60 +10,63 @@ import {
   PopoverContent,
   useColorModeValue,
   Container
-} from '@chakra-ui/react';
-import UserAlerts from '../Menus/UserAlerts';
-import UserMenu from '../Menus/UserMenu';
-import { ChevronRightIcon } from '@chakra-ui/icons';
+} from '@chakra-ui/react'
+import UserAlerts from '../Menus/UserAlerts'
+import UserMenu from '../Menus/UserMenu'
+import { ChevronRightIcon } from '@chakra-ui/icons'
 
 const Navbar = () => {
   const DesktopNav = () => {
-    const linkColor = useColorModeValue('white', 'gray.200');
-    const linkHoverColor = useColorModeValue('white.800', 'white');
-    const popoverContentBgColor = useColorModeValue('white', 'gray.800');
+    const linkColor = useColorModeValue('white', 'gray.200')
+    const linkHoverColor = useColorModeValue('white.800', 'white')
+    const popoverContentBgColor = useColorModeValue('white', 'gray.800')
 
     return (
-      <Stack direction={'row'} spacing={4}>
-        {NAV_ITEMS.map(navItem => (
-          <Box key={navItem.label}>
-            <Popover trigger={'hover'} placement={'bottom-start'}>
-              <PopoverTrigger>
-                <Link
-                  p={2}
-                  href={navItem.href ?? '#'}
-                  fontSize={'sm'}
-                  fontWeight={500}
-                  color={linkColor}
-                  _hover={{
-                    textDecoration: 'none',
-                    color: linkHoverColor
-                  }}
-                >
-                  {navItem.label}
-                </Link>
-              </PopoverTrigger>
+      <>
+        <Stack direction={'row'} spacing={4}>
+          {NAV_ITEMS.map((navItem) => (
+            <Box key={navItem.label}>
+              <Popover trigger={'hover'} placement={'bottom-start'}>
+                <PopoverTrigger>
+                  <Link
+                    p={2}
+                    href={navItem.href ?? '#'}
+                    fontSize={'sm'}
+                    fontWeight={500}
+                    color={linkColor}
+                    _hover={{
+                      textDecoration: 'none',
+                      color: linkHoverColor,
+                    }}
+                  >
+                    {navItem.label}
+                  </Link>
+                </PopoverTrigger>
 
-              {navItem.children && (
-                <PopoverContent
-                  border={0}
-                  boxShadow={'xl'}
-                  bg={popoverContentBgColor}
-                  p={4}
-                  rounded={'xl'}
-                  minW={'sm'}
-                >
-                  <Stack>
-                    {navItem.children.map(child => (
-                      <DesktopSubNav key={child.label} {...child} />
-                    ))}
-                  </Stack>
-                </PopoverContent>
-              )}
-            </Popover>
-          </Box>
-        ))}
-      </Stack>
-    );
-  };
+                {navItem.children && (
+                  <PopoverContent
+                    border={0}
+                    boxShadow={'xl'}
+                    bg={popoverContentBgColor}
+                    p={4}
+                    rounded={'xl'}
+                    minW={'sm'}
+                  >
+                    <Stack>
+                      {navItem.children.map((child) => (
+                        <DesktopSubNav key={child.label} {...child} />
+                      ))}
+                    </Stack>
+                  </PopoverContent>
+                )}
+              </Popover>
+            </Box>
+          ))}
+        </Stack>
+
+      </>
+    )
+  }
 
   const DesktopSubNav = ({ label, subLabel }) => {
     return (
@@ -99,8 +102,8 @@ const Navbar = () => {
           </Flex>
         </Stack>
       </Link>
-    );
-  };
+    )
+  }
 
   const NAV_ITEMS = [
     {
@@ -109,23 +112,23 @@ const Navbar = () => {
         {
           label: 'Services',
           subLabel: 'List Services lorem lorem lorem',
-          href: '/category/services'
-        }
-      ]
+          href: '/category/services',
+        },
+      ],
     },
     {
       label: 'Sell',
-      href: '/sell'
+      href: '/sell',
     },
     {
       label: 'Favorites',
-      href: '/favorites'
+      href: '/favorites',
     },
     {
       label: 'Help',
-      href: '/help'
-    }
-  ];
+      href: '/help',
+    },
+  ]
 
   return (
     <Box bg={useColorModeValue('yb.1', 'gray.900')} px={4}>
@@ -153,7 +156,7 @@ const Navbar = () => {
         </Flex>
       </Container>
     </Box>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
