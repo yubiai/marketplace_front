@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { Box, Button, Heading, Text } from '@chakra-ui/react'
+import Link from 'next/link'
 
 export default function Custom500() {
   return (
@@ -15,7 +16,7 @@ export default function Custom500() {
       <Text fontSize="18px" mt={3} mb={2}>
         Error
       </Text>
-      <Text color={"gray.500"} mb={6}>
+      <Text color={'gray.500'} mb={6}>
         500 - Server-side error occurred
       </Text>
 
@@ -28,5 +29,5 @@ export default function Custom500() {
         <Link href="/">Go to Home</Link>
       </Button>
     </Box>
-  );
+  )
 }

@@ -1,16 +1,33 @@
 {
   "env": {
-      "browser": true,
-      "es2021": true
+    "browser": true,
+    "es2021": true
   },
-  "extends": ["plugin:react/recommended", "prettier"],
+  "extends": ["eslint:recommended", "next"],
   "parserOptions": {
-      "ecmaFeatures": {
-          "jsx": true
-      },
-      "ecmaVersion": 12,
-      "sourceType": "module"
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 13,
+    "sourceType": "module"
   },
   "plugins": ["react"],
-  "rules": {}
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": 0,
+    "react/no-children-prop": [
+      0,
+      {
+        "allowFunctions": false
+      }
+    ]
+  },
+  "globals": {
+    "React": "writable"
+  },
+  "settings": {
+    "react": {
+      "version": "18.1.0"
+    }
+  }
 }

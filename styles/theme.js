@@ -61,7 +61,8 @@ const theme = extendTheme({
       700: "#d49943",
     },
     yb: {
-      1: "linear-gradient(90deg, rgb(0, 171, 209) 0%, #1C538A 100%) !important"
+      1: "linear-gradient(90deg, rgb(0, 171, 209) 0%, #1C538A 100%) !important",
+      2: "#d4ee42"
     }
   }
 });

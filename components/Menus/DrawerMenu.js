@@ -12,26 +12,26 @@ import {
   List,
   ListItem,
   ListIcon
-} from "@chakra-ui/react";
-import Link from "next/link";
-import { useRef, useState } from "react";
-import { FiMoreVertical } from "react-icons/fi";
-import UserInfo from "../Infos/userInfo";
-import { FaUserCircle } from "react-icons/fa";
-import { BsFillBellFill } from "react-icons/bs";
+} from '@chakra-ui/react';
+import Link from 'next/link';
+import { useRef, useState } from 'react';
+import { FiMoreVertical } from 'react-icons/fi';
+import UserInfo from '../Infos/userInfo';
+import { FaUserCircle } from 'react-icons/fa';
+import { BsFillBellFill } from 'react-icons/bs';
 import {
   MdSell,
   MdFavorite,
   MdHelp,
   MdKeyboardArrowDown,
   MdKeyboardArrowUp
-} from "react-icons/md";
+} from 'react-icons/md';
 
 const DrawerMenu = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = useRef();
 
-  const [listCategory, onListCategory] = useState("false");
+  const [listCategory, onListCategory] = useState('false');
   const onCategory = () => {
     onListCategory(!listCategory);
   };
@@ -39,7 +39,7 @@ const DrawerMenu = () => {
   return (
     <>
       <Button ref={btnRef} color="white" bg="transparent" onClick={onOpen}>
-        <FiMoreVertical fontSize={"2em"} />
+        <FiMoreVertical fontSize={'2em'} />
       </Button>
       <Drawer
         isOpen={isOpen}
@@ -63,7 +63,7 @@ const DrawerMenu = () => {
                     onClick={() => onClose()}
                     w="full"
                     bg="transparent"
-                    justifyContent={"left"}
+                    justifyContent={'left'}
                   >
                     <ListIcon as={FaUserCircle} />
                     Profile
@@ -76,7 +76,7 @@ const DrawerMenu = () => {
                     onClick={() => onClose()}
                     w="full"
                     bg="transparent"
-                    justifyContent={"left"}
+                    justifyContent={'left'}
                   >
                     <ListIcon as={BsFillBellFill} />
                     Notifications
@@ -89,7 +89,7 @@ const DrawerMenu = () => {
                     onClick={() => onClose()}
                     w="full"
                     bg="transparent"
-                    justifyContent={"left"}
+                    justifyContent={'left'}
                   >
                     <ListIcon as={MdSell} />
                     Sell
@@ -102,7 +102,7 @@ const DrawerMenu = () => {
                     onClick={() => onClose()}
                     w="full"
                     bg="transparent"
-                    justifyContent={"left"}
+                    justifyContent={'left'}
                   >
                     <ListIcon as={MdFavorite} />
                     Favorites
@@ -115,7 +115,7 @@ const DrawerMenu = () => {
                     onClick={() => onClose()}
                     w="full"
                     bg="transparent"
-                    justifyContent={"left"}
+                    justifyContent={'left'}
                   >
                     <ListIcon as={MdHelp} />
                     Help
@@ -127,7 +127,7 @@ const DrawerMenu = () => {
                   onClick={() => onCategory()}
                   w="full"
                   bg="transparent"
-                  justifyContent={"left"}
+                  justifyContent={'left'}
                 >
                   <ListIcon
                     as={listCategory ? MdKeyboardArrowUp : MdKeyboardArrowDown}
@@ -143,7 +143,7 @@ const DrawerMenu = () => {
                         onClick={() => onClose()}
                         w="full"
                         bg="transparent"
-                        justifyContent={"left"}
+                        justifyContent={'left'}
                       >
                         <ListIcon as={MdHelp} />
                         Services
