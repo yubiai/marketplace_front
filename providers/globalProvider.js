@@ -13,9 +13,6 @@ const initialState = {
 
 // Reducers
 const reducer = (state, action) => {
-  console.log('arranco')
-  console.log(action)
-  console.log(state.profile)
   switch (action.type) {
     case 'AUTHPROFILE':
       return {

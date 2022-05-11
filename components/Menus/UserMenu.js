@@ -10,20 +10,28 @@ import {
 import { FaUserCircle } from 'react-icons/fa';
 import UserInfo from '../Infos/userInfo';
 import { useEffect, useState } from 'react'
-import { useGlobal } from '../../providers/globalProvider'
+import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 
 const UserMenu = () => {
+  const dispatch = useDispatchGlobal()
 
   const global = useGlobal()
   const [profileLogin, setProfileLogin] = useState(null)
 
   useEffect(() => {
     const getProfile = () => {
-      console.log(global.profile)
       setProfileLogin(global.profile);
     }
     getProfile()
   }, [global])
+
+  const disconnect = () => {
+    console.log("Disconnect")
+    dispatch({
+      type: 'AUTHPROFILE',
+      payload: null,
+    })
+  };
 
   return (
     <Menu mr="1em">
@@ -53,9 +61,11 @@ const UserMenu = () => {
           <MenuItem>
             <Link href="/mailbox">Mailbox</Link>
           </MenuItem>
-          <MenuItem>
-            <Link href="/mailbox">Disconnect</Link>
+          {global.profile && (
+            <MenuItem>
+            <button  onClick={() => disconnect()}>Disconnect</button>
           </MenuItem>
+          )}
         </MenuList>
       </Portal>
     </Menu>
