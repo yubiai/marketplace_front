@@ -13,8 +13,10 @@ import LenguageChange from '../Menus/LenguageChange'
 import DrawerMenu from '../Menus/DrawerMenu'
 import SearchBar from './SearchBar'
 import ButtonConnect from '../Buttons/ButtonConnect'
+import { useGlobal } from '../../providers/globalProvider'
 
 const Header = () => {
+  const global = useGlobal();
 
 
   return (
@@ -55,7 +57,7 @@ const Header = () => {
           {/* Lenguage */}
           <Center>
             <LenguageChange />
-            <ButtonConnect />
+            {global.meta ? <ButtonConnect /> : ""}
           </Center>
           <Show below="md">
             <DrawerMenu />

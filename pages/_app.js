@@ -9,6 +9,7 @@ import Navbar from "../components/Layouts/Navbar";
 import { Hide } from "@chakra-ui/react";
 import Axios from "axios";
 import MetaAlert from "../components/Alerts/metaAlert";
+import { GlobalProvider } from "../providers/globalProvider";
 
 Axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
@@ -16,6 +17,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      <GlobalProvider>
       <Header />
       <Hide below='md'>
         <Navbar />
@@ -23,6 +25,7 @@ function MyApp({ Component, pageProps }) {
       <MetaAlert />
       <Component {...pageProps} />
       <Footer />
+      </GlobalProvider>
     </ChakraProvider>
   );
 }

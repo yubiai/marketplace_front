@@ -9,8 +9,22 @@ import {
 } from '@chakra-ui/react';
 import { FaUserCircle } from 'react-icons/fa';
 import UserInfo from '../Infos/userInfo';
+import { useEffect, useState } from 'react'
+import { useGlobal } from '../../providers/globalProvider'
 
 const UserMenu = () => {
+
+  const global = useGlobal()
+  const [profileLogin, setProfileLogin] = useState(null)
+
+  useEffect(() => {
+    const getProfile = () => {
+      console.log(global.profile)
+      setProfileLogin(global.profile);
+    }
+    getProfile()
+  }, [global])
+
   return (
     <Menu mr="1em">
       <MenuButton
@@ -26,7 +40,7 @@ const UserMenu = () => {
       />
       <Portal>
         <MenuList>
-          <UserInfo />
+          <UserInfo profile={profileLogin} />
           <MenuItem>
             <Link href="/profile">My Info</Link>
           </MenuItem>
@@ -38,6 +52,9 @@ const UserMenu = () => {
           </MenuItem>
           <MenuItem>
             <Link href="/mailbox">Mailbox</Link>
+          </MenuItem>
+          <MenuItem>
+            <Link href="/mailbox">Disconnect</Link>
           </MenuItem>
         </MenuList>
       </Portal>

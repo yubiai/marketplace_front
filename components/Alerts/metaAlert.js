@@ -1,21 +1,28 @@
 import { Alert, AlertIcon, Button } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import Link from 'next/link';
+import { useDispatchGlobal } from "../../providers/globalProvider";
 
 const MetaAlert = () => {
   const [verifyMeta, setVerifyMeta] = useState(false)
+  const dispatch = useDispatchGlobal();
 
   useEffect(() => {
     const verifyMetamask = () => {
       if (!window.ethereum) {
         console.log('no hay metamask')
-        setVerifyMeta(true)
+        setVerifyMeta(true)  
         return null
+      } else {
+        dispatch({
+          type: 'VERIFYMETA',
+          payload: true
+        }) 
       }
     }
     verifyMetamask()
     return
-  }, [])
+  }, [dispatch])
 
   return (
     <>
