@@ -1,14 +1,14 @@
-import Link from 'next/link';
+import Link from 'next/link'
 import {
   Menu,
   MenuItem,
   MenuButton,
   MenuList,
   IconButton,
-  Portal
-} from '@chakra-ui/react';
-import { FaUserCircle } from 'react-icons/fa';
-import UserInfo from '../Infos/userInfo';
+  Portal,
+} from '@chakra-ui/react'
+import { FaUserCircle } from 'react-icons/fa'
+import UserInfo from '../Infos/userInfo'
 import { useEffect, useState } from 'react'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 
@@ -20,18 +20,18 @@ const UserMenu = () => {
 
   useEffect(() => {
     const getProfile = () => {
-      setProfileLogin(global.profile);
+      setProfileLogin(global.profile)
     }
     getProfile()
   }, [global])
 
   const disconnect = () => {
-    console.log("Disconnect")
+    console.log('Disconnect')
     dispatch({
       type: 'AUTHPROFILE',
       payload: null,
     })
-  };
+  }
 
   return (
     <Menu mr="1em">
@@ -61,15 +61,13 @@ const UserMenu = () => {
           <MenuItem>
             <Link href="/mailbox">Mailbox</Link>
           </MenuItem>
-          {global.profile && (
-            <MenuItem>
-            <button  onClick={() => disconnect()}>Disconnect</button>
+          <MenuItem>
+            <span onClick={() => disconnect()}>Disconnect</span>
           </MenuItem>
-          )}
         </MenuList>
       </Portal>
     </Menu>
-  );
-};
+  )
+}
 
-export default UserMenu;
+export default UserMenu

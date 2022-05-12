@@ -11,30 +11,94 @@ import {
   useDisclosure,
   List,
   ListItem,
-  ListIcon
-} from '@chakra-ui/react';
-import Link from 'next/link';
-import { useRef, useState } from 'react';
-import { FiMoreVertical } from 'react-icons/fi';
-import UserInfo from '../Infos/userInfo';
-import { FaUserCircle } from 'react-icons/fa';
-import { BsFillBellFill } from 'react-icons/bs';
+  ListIcon,
+  useToast,
+} from '@chakra-ui/react'
+import Link from 'next/link'
+import { useEffect, useRef, useState } from 'react'
+import { FiMoreVertical } from 'react-icons/fi'
+import UserInfo from '../Infos/userInfo'
+import { FaUserCircle } from 'react-icons/fa'
+import { BsFillBellFill } from 'react-icons/bs'
 import {
   MdSell,
   MdFavorite,
   MdHelp,
   MdKeyboardArrowDown,
-  MdKeyboardArrowUp
-} from 'react-icons/md';
+  MdKeyboardArrowUp,
+  MdHome,
+  MdDesignServices,
+} from 'react-icons/md'
+import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
+import { profileService } from '../../services/profileService'
+import { loginMetamask } from '../../utils/ethereum'
 
 const DrawerMenu = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const btnRef = useRef();
+  const global = useGlobal()
+  const dispatch = useDispatchGlobal()
+  const toast = useToast()
 
-  const [listCategory, onListCategory] = useState('false');
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const btnRef = useRef()
+
+  const [listCategory, onListCategory] = useState(false)
+  const [statusLogin, setStatusLogin] = useState(false)
+
   const onCategory = () => {
-    onListCategory(!listCategory);
-  };
+    onListCategory(!listCategory)
+  }
+
+  useEffect(() => {
+    const verifyLogin = () => {
+      if (global && global.profile) {
+        setStatusLogin(true)
+      } else {
+        setStatusLogin(false)
+      }
+    }
+    verifyLogin()
+  }, [global])
+
+  const onConnect = async () => {
+    const signerAddress = await loginMetamask()
+
+    if (!signerAddress) {
+      console.log('Error al iniciar sesion.')
+      toast({
+        title: 'Failed to login.',
+        description: 'Review application',
+        position: 'top-right',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      })
+      return
+    }
+
+    console.log('Address: ', signerAddress)
+    const result = await profileService.login(signerAddress)
+    console.log(result.data)
+    dispatch({
+      type: 'AUTHPROFILE',
+      payload: result.data,
+    })
+    toast({
+      title: 'Login',
+      description: 'You have successfully logged in, Welcome!',
+      position: 'top-right',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    })
+  }
+
+  const disconnect = () => {
+    console.log('Disconnect')
+    dispatch({
+      type: 'AUTHPROFILE',
+      payload: null,
+    })
+  }
 
   return (
     <>
@@ -50,39 +114,71 @@ const DrawerMenu = () => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>
-            <UserInfo />
+
+          <DrawerHeader bg="yb.1">
+            {statusLogin ? (
+              <UserInfo profile={global && global.profile} />
+            ) : (
+              <Button
+                backgroundColor={'white'}
+                color={'#00abd1'}
+                rounded={'full'}
+                ml="1em"
+                cursor={'pointer'}
+                onClick={() => onConnect()}
+              >
+                Connect
+              </Button>
+            )}
           </DrawerHeader>
           <Divider />
 
           <DrawerBody>
             <List spacing={3}>
               <ListItem>
-                <Link href="/profile">
+                <Link href="/">
                   <Button
                     onClick={() => onClose()}
                     w="full"
                     bg="transparent"
                     justifyContent={'left'}
                   >
-                    <ListIcon as={FaUserCircle} />
-                    Profile
+                    <ListIcon as={MdHome} />
+                    Home
                   </Button>
                 </Link>
               </ListItem>
-              <ListItem>
-                <Link href="/notifications">
-                  <Button
-                    onClick={() => onClose()}
-                    w="full"
-                    bg="transparent"
-                    justifyContent={'left'}
-                  >
-                    <ListIcon as={BsFillBellFill} />
-                    Notifications
-                  </Button>
-                </Link>
-              </ListItem>
+              {global && global.profile && (
+                <>
+                  <ListItem>
+                    <Link href="/profile">
+                      <Button
+                        onClick={() => onClose()}
+                        w="full"
+                        bg="transparent"
+                        justifyContent={'left'}
+                      >
+                        <ListIcon as={FaUserCircle} />
+                        Profile
+                      </Button>
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                    <Link href="/notifications">
+                      <Button
+                        onClick={() => onClose()}
+                        w="full"
+                        bg="transparent"
+                        justifyContent={'left'}
+                      >
+                        <ListIcon as={BsFillBellFill} />
+                        Notifications
+                      </Button>
+                    </Link>
+                  </ListItem>
+                </>
+              )}
+
               <ListItem>
                 <Link href="/sell">
                   <Button
@@ -145,7 +241,7 @@ const DrawerMenu = () => {
                         bg="transparent"
                         justifyContent={'left'}
                       >
-                        <ListIcon as={MdHelp} />
+                        <ListIcon as={MdDesignServices} />
                         Services
                       </Button>
                     </Link>
@@ -155,11 +251,15 @@ const DrawerMenu = () => {
             </List>
           </DrawerBody>
 
-          <DrawerFooter>Yubiai</DrawerFooter>
+          <DrawerFooter>
+            {statusLogin && (
+              <Button onClick={() => disconnect()}>Disconnect</Button>
+            )}
+          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </>
-  );
-};
+  )
+}
 
-export default DrawerMenu;
+export default DrawerMenu

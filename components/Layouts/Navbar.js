@@ -1,15 +1,16 @@
+import Link from 'next/link'
 import {
   Box,
   Flex,
   Text,
   Stack,
-  Link,
   Icon,
   Popover,
   PopoverTrigger,
   PopoverContent,
   useColorModeValue,
-  Container
+  Container,
+  Button,
 } from '@chakra-ui/react'
 import UserAlerts from '../Menus/UserAlerts'
 import UserMenu from '../Menus/UserMenu'
@@ -28,10 +29,10 @@ const Navbar = () => {
             <Box key={navItem.label}>
               <Popover trigger={'hover'} placement={'bottom-start'}>
                 <PopoverTrigger>
-                  <Link
+                  <Button
                     p={2}
-                    href={navItem.href ?? '#'}
                     fontSize={'sm'}
+                    bg="transparent"
                     fontWeight={500}
                     color={linkColor}
                     _hover={{
@@ -39,8 +40,8 @@ const Navbar = () => {
                       color: linkHoverColor,
                     }}
                   >
-                    {navItem.label}
-                  </Link>
+                    <Link href={`${navItem.href ? navItem.href : "/"}`}>{navItem.label}</Link>
+                  </Button>
                 </PopoverTrigger>
 
                 {navItem.children && (
@@ -63,18 +64,16 @@ const Navbar = () => {
             </Box>
           ))}
         </Stack>
-
       </>
     )
   }
 
-  const DesktopSubNav = ({ label, subLabel }) => {
+  const DesktopSubNav = ({ label, href }) => {
     return (
-      <Link
-        href={'/'}
+      <Link href={`${href}`}>
+      <Button
         role={'group'}
         display={'block'}
-        p={2}
         rounded={'md'}
         _hover={{ bg: useColorModeValue('blue.50', 'gray.900') }}
       >
@@ -87,7 +86,6 @@ const Navbar = () => {
             >
               {label}
             </Text>
-            <Text fontSize={'sm'}>{subLabel}</Text>
           </Box>
           <Flex
             transition={'all .3s ease'}
@@ -101,6 +99,7 @@ const Navbar = () => {
             <Icon color={'blue.400'} w={5} h={5} as={ChevronRightIcon} />
           </Flex>
         </Stack>
+      </Button>
       </Link>
     )
   }
@@ -111,8 +110,7 @@ const Navbar = () => {
       children: [
         {
           label: 'Services',
-          subLabel: 'List Services lorem lorem lorem',
-          href: '/category/services',
+          href: '/category/services'
         },
       ],
     },
