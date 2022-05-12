@@ -17,7 +17,7 @@ import {
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
-import UserInfo from '../Infos/userInfo'
+import UserInfo from '../Infos/UserInfo';
 import { FaUserCircle } from 'react-icons/fa'
 import { BsFillBellFill } from 'react-icons/bs'
 import {

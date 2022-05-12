@@ -8,7 +8,7 @@ import {
   Portal,
 } from '@chakra-ui/react'
 import { FaUserCircle } from 'react-icons/fa'
-import UserInfo from '../Infos/userInfo'
+import UserInfo from '../Infos/UserInfo';
 import { useEffect, useState } from 'react'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 
