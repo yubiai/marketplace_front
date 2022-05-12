@@ -53,7 +53,7 @@ const Footer = () => {
       >
         <Image
           alt={'Logo'}
-          w={'4em'}
+          w={'5em'}
           h={'2em'}
           src={'/static/images/logoyubiai.png'}
           fallbackSrc={'/static/images/logoyubiai.png'}
