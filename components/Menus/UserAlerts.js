@@ -13,13 +13,18 @@ import {
 import { BsFillBellFill, BsClock } from 'react-icons/bs';
 import { MdMessage, MdOutlineKeyboardArrowUp } from 'react-icons/md';
 import { BiHappyAlt } from 'react-icons/bi';
+import { useGlobal } from '../../providers/globalProvider';
 
 const UserAlerts = () => {
+  const global = useGlobal()
+
   return (
     <Menu>
       {({ onClose }) => (
         <>
-          <MenuButton
+          
+          {global && global.profile && (
+            <MenuButton
             as={IconButton}
             aria-label="alert"
             borderColor={'transparent'}
@@ -29,6 +34,7 @@ const UserAlerts = () => {
             _expanded={{ bg: 'blue.400' }}
             _focus={{ boxShadow: 'outline' }}
           />
+          )}
           <Portal>
             <MenuList>
               <Button
@@ -53,7 +59,7 @@ const UserAlerts = () => {
               </MenuItem>
               <Center>
                 <Button bg="transparent" color="#00abd1">
-                  <Link href="/notifications">See more...</Link>
+                  <Link href="/profile/notifications">See more...</Link>
                 </Button>
               </Center>
             </MenuList>

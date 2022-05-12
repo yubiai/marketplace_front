@@ -35,17 +35,19 @@ const UserMenu = () => {
 
   return (
     <Menu mr="1em">
-      <MenuButton
-        as={IconButton}
-        mr="10px"
-        aria-label="Options"
-        borderColor={'transparent'}
-        icon={<FaUserCircle color="white" />}
-        variant="outline"
-        _hover={{ bg: '#1C538A', color: 'gray.200' }}
-        _expanded={{ bg: 'blue.400' }}
-        _focus={{ boxShadow: 'outline' }}
-      />
+      {profileLogin && (
+        <MenuButton
+          as={IconButton}
+          mr="10px"
+          aria-label="Options"
+          borderColor={'transparent'}
+          icon={<FaUserCircle color="white" />}
+          variant="outline"
+          _hover={{ bg: '#1C538A', color: 'gray.200' }}
+          _expanded={{ bg: 'blue.400' }}
+          _focus={{ boxShadow: 'outline' }}
+        />
+      )}
       <Portal>
         <MenuList>
           <UserInfo profile={profileLogin} />
@@ -53,13 +55,13 @@ const UserMenu = () => {
             <Link href="/profile">My Info</Link>
           </MenuItem>
           <MenuItem>
-            <Link href="/orders">Orders</Link>
+            <Link href="/profile/orders">Orders</Link>
           </MenuItem>
           <MenuItem>
-            <Link href="/sale">Sale</Link>
+            <Link href="/profile/sale">Sale</Link>
           </MenuItem>
           <MenuItem>
-            <Link href="/mailbox">Mailbox</Link>
+            <Link href="/profile/mailboxs">Mailboxs</Link>
           </MenuItem>
           <MenuItem>
             <span onClick={() => disconnect()}>Disconnect</span>
