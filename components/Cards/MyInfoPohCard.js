@@ -24,6 +24,7 @@ const MyInfoPohCard = () => {
         >
           <Flex flex={0.2}>
             <Image
+              alt="Photo perfil"
               objectFit="cover"
               boxSize="100%"
               borderRadius={'10px'}
