@@ -32,7 +32,7 @@ const LinkItems = [
 export default function ProfileMenu({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
-    <Box minH="70vh" bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Box minH={{base: "full", md: "70vh"}} bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
@@ -52,7 +52,7 @@ export default function ProfileMenu({ children }) {
       </Drawer>
       {/* mobilenav */}
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4" h="80vh">
+      <Box ml={{ base: 0, md: 60 }} p="4" h={{ md: "80vh"}}>
         {children}
       </Box>
     </Box>

@@ -16,7 +16,7 @@ const MyInfoPohCard = () => {
           borderWidth="1px"
           borderRadius="lg"
           w={{ sm: '100%', md: '100%' }}
-          height={{ sm: '476px', md: '10rem' }}
+          height={{ sm: 'full', md: '10rem' }}
           direction={{ base: 'column', md: 'row' }}
           bg={useColorModeValue('white', 'gray.900')}
           boxShadow={'2xl'}

@@ -13,7 +13,7 @@ const MyInfoPrivateCard = () => {
           borderWidth="1px"
           borderRadius="lg"
           w={{ sm: '100%', md: '100%' }}
-          height={{ sm: '476px', md: '10rem' }}
+          height={{ base: 'full', sm: '476px', md: '10rem' }}
           direction={{ base: 'column', md: 'row' }}
           bg={'white'}
           boxShadow={'2xl'}

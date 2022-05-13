@@ -44,7 +44,7 @@ const ItemCard = () => {
           </Heading>
           <Stack direction={'row'}>
             <Text fontWeight={800} fontSize={'1ems'}>
-              $100 
+              100 
             </Text>
             <Text>UBI</Text>
             {/* <Text textDecoration={'line-through'} color={'red'}>
