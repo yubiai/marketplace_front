@@ -11,6 +11,9 @@ import Axios from "axios";
 import MetaAlert from "../components/Alerts/metaAlert";
 import { GlobalProvider } from "../providers/globalProvider";
 
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 Axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 Axios.defaults.headers['content-type']='application/json'
 Axios.defaults.headers['withCredentials']=true

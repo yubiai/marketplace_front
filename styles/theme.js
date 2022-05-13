@@ -44,6 +44,13 @@ const config = {
 
 const theme = extendTheme({
   config,
+  styles: {
+    global: () => ({
+      body: {
+        bg: "#f1f1f1"
+      }
+    })
+  },
   components: {
     ButtonYB,
   },

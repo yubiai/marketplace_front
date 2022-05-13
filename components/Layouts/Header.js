@@ -7,7 +7,7 @@ import {
   Image,
   useColorModeValue,
   Show,
-  Center
+  Center,
 } from '@chakra-ui/react'
 import LenguageChange from '../Menus/LenguageChange'
 import DrawerMenu from '../Menus/DrawerMenu'
@@ -16,8 +16,7 @@ import ButtonConnect from '../Buttons/ButtonConnect'
 import { useGlobal } from '../../providers/globalProvider'
 
 const Header = () => {
-  const global = useGlobal();
-
+  const global = useGlobal()
 
   return (
     <Box
@@ -31,7 +30,7 @@ const Header = () => {
           justifyContent={{ base: 'center', md: 'center', lg: 'space-between' }}
         >
           {/* Logo */}
-          <Box width={{ md: '6em' }}>
+          <Box width={{ md: '6em' }} display={{ base: 'none', md: 'flex' }}>
             <Button
               bg="transparent"
               _hover={{
@@ -41,7 +40,6 @@ const Header = () => {
               <Link href={'/'}>
                 <Image
                   alt={'Logo'}
-                  display={{ base: 'none', md: 'flex' }}
                   src={'/static/images/logoyubiai.png'}
                   fallbackSrc={'/static/images/logoyubiai.png'}
                 />
@@ -50,21 +48,20 @@ const Header = () => {
           </Box>
 
           {/* Search */}
-          <Center w={'md'}>
+          <Center w={{base: 'full', md: 'md'}}>
             <SearchBar />
           </Center>
 
           {/* Lenguage */}
           <Center>
             <LenguageChange />
-            {global.meta ? <ButtonConnect /> : ""}
+            {global.meta ? <ButtonConnect /> : ''}
           </Center>
           <Show below="md">
             <DrawerMenu />
           </Show>
         </Flex>
       </Container>
-     
     </Box>
   )
 }

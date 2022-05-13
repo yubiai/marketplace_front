@@ -1,10 +1,12 @@
+import Carousel from "../components/Cards/CarouselCards";
 
 
 const Help = () => {
 
     return(
         <>
-        Helppppppppppppppppppppppppppppp
+                <Carousel />
+
         </>
     )
 }

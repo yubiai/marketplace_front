@@ -1,10 +1,11 @@
+import { Box } from '@chakra-ui/react'
 import Head from 'next/head'
-import Hero from '../components/Layouts/Hero'
+import CarouselCards from '../components/Cards/CarouselCards'
 
 export default function Home() {
   return (
     <div>
-     <Head>
+      <Head>
         <title>Yubiai Marketplace - Web</title>
         <meta
           name="viewport"
@@ -13,20 +14,11 @@ export default function Home() {
         />
         <meta charSet="utf-8" />
         <meta name="theme-color" content="#f8f8f8" />
-        <meta
-          name="description"
-          content="Soy Marketplace"
-        />
-        <meta
-          name="keywords"
-          content="ybiaiiii"
-        />
+        <meta name="description" content="Soy Marketplace" />
+        <meta name="keywords" content="ybiaiiii" />
         <meta name="author" content="VeneziaDev" />
         <meta property="og:title" content="Yubiai - Web" />
-        <meta
-          property="og:description"
-          content="Soy yubiii."
-        />
+        <meta property="og:description" content="Soy yubiii." />
         <meta property="og:url" content="https://www.yubiai.com/" />
         <meta property="og:type" content="website" />
         <link rel="icon" href="/favicon.ico" />
@@ -35,7 +27,10 @@ export default function Home() {
       </Head>
 
       <main>
-        <Hero />
+        <Box h="80vh" m="2em">
+        <CarouselCards title={"Services in your watchlist"} />
+        <CarouselCards title={"Services in your watchlist"} />
+        </Box>
       </main>
     </div>
   )
