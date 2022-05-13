@@ -12,6 +12,9 @@ import MetaAlert from "../components/Alerts/metaAlert";
 import { GlobalProvider } from "../providers/globalProvider";
 
 Axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
+Axios.defaults.headers['content-type']='application/json'
+Axios.defaults.headers['withCredentials']=true
+Axios.defaults.headers['crossorigin']=true
 
 function MyApp({ Component, pageProps }) {
   return (
