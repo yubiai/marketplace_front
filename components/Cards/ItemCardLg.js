@@ -12,31 +12,30 @@ import {
 const IMAGE =
   'https://images.unsplash.com/photo-1587089879249-87bf7d2972df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2952&q=80'
 
-const ItemCard = () => {
+const ItemCardLg = () => {
   return (
-    <Center p={1}>
+    <Center p={2}>
       <Box
         role={'group'}
-        p={2}
-        maxW={'155px'}
+        maxW={'262px'}
         w={'full'}
-        maxH={'260px'}
-        h={'260px'}
+        maxH={'400px'}
+        h={'378px'}
         bg={useColorModeValue('white', 'gray.800')}
         rounded={'lg'}
         pos={'relative'}
       >
         <Image
           alt="Img Item"
-          rounded={'lg'}
-          height={"140px"}
-          width={"170px"}
+          borderTopRadius="lg"
+          height={"236px"}
+          width={"262px"}
           objectFit={'cover'}
           src={IMAGE}
         />
-        <Stack align={'left'} mt="2px">
+        <Stack align={'left'} m="1em">
         <Divider />
-          <Text color={'gray.600'} fontSize={'sm'} textTransform={'uppercase'}>
+          <Text color={'gray.600'} fontSize={'16px'} textTransform={'uppercase'}>
             Diseñador
           </Text>
           <Heading fontSize={'10px'} fontFamily={'body'} fontWeight={500}>
@@ -57,4 +56,4 @@ const ItemCard = () => {
   )
 }
 
-export default ItemCard
+export default ItemCardLg
