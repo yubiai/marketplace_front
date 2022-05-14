@@ -16,7 +16,7 @@ const ItemsByCategory = () => {
         <Flex alignItems={'center'}>
           <Text fontWeight={'bold'}>CATEGORIES</Text>
           <MdKeyboardArrowRight alignContent="center" />
-          <Text fontWeight={'bold'}>{category.toLocaleUpperCase()}</Text>
+          <Text fontWeight={'bold'}>{category}</Text>
           <MdKeyboardArrowRight />
           <Text fontWeight={'bold'}>ALL</Text>
         </Flex>
