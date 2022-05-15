@@ -1,12 +1,9 @@
-import Carousel from "../components/Cards/CarouselCards";
-
 
 const Help = () => {
 
     return(
         <>
-                <Carousel />
-
+            <h1>Help</h1>
         </>
     )
 }

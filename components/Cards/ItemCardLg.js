@@ -16,6 +16,7 @@ const ItemCardLg = () => {
   return (
     <Center p={2}>
       <Box
+        as={'Button'}
         role={'group'}
         maxW={'262px'}
         w={'full'}
@@ -24,18 +25,25 @@ const ItemCardLg = () => {
         bg={useColorModeValue('white', 'gray.800')}
         rounded={'lg'}
         pos={'relative'}
+        _hover={{
+          bg: 'gray.300',
+        }}
       >
         <Image
           alt="Img Item"
           borderTopRadius="lg"
-          height={"236px"}
-          width={"262px"}
+          height={'280px'}
+          width={'262px'}
           objectFit={'cover'}
           src={IMAGE}
         />
-        <Stack align={'left'} m="1em">
-        <Divider />
-          <Text color={'gray.600'} fontSize={'16px'} textTransform={'uppercase'}>
+        <Stack align={'left'} m="5px">
+          <Divider />
+          <Text
+            color={'gray.600'}
+            fontSize={'16px'}
+            textTransform={'uppercase'}
+          >
             Diseñador
           </Text>
           <Heading fontSize={'10px'} fontFamily={'body'} fontWeight={500}>
@@ -43,7 +51,7 @@ const ItemCardLg = () => {
           </Heading>
           <Stack direction={'row'}>
             <Text fontWeight={800} fontSize={'1ems'}>
-              100 
+              100
             </Text>
             <Text>UBI</Text>
             {/* <Text textDecoration={'line-through'} color={'red'}>
