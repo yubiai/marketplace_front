@@ -16,7 +16,6 @@ const ItemCardLg = () => {
   return (
     <Center p={2}>
       <Box
-        as={'Button'}
         role={'group'}
         maxW={'262px'}
         w={'full'}

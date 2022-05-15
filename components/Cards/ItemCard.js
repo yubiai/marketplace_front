@@ -18,7 +18,6 @@ const ItemCard = () => {
     <Center p={1} >
       <Link href="/item/asdsd">
         <Box
-          as={"Button"}
           role={'group'}
           p={2}
           maxW={'155px'}
