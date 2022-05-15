@@ -31,7 +31,7 @@ const Navbar = () => {
                 <PopoverTrigger>
                   <Button
                     p={2}
-                    fontSize={'sm'}
+                    fontSize={'16px'}
                     bg="transparent"
                     fontWeight={500}
                     color={linkColor}
@@ -131,7 +131,11 @@ const Navbar = () => {
   ]
 
   return (
-    <Box bg={useColorModeValue('yb.1', 'gray.900')} px={4}>
+    <Box
+      bg={useColorModeValue('yb.1', 'gray.900')}
+      px={4}
+      boxShadow={'0px 5px 4px 0px #00000029'}
+    >
       <Container maxW="container.xl">
         <Flex
           color={useColorModeValue('white.600', 'white')}

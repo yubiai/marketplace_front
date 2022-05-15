@@ -25,12 +25,12 @@ const Header = () => {
     >
       <Container maxW="container.xl">
         <Flex
-          h={{ base: '100px', md: '16' }}
+          h={{ base: '100px', md: '12' }}
           alignItems={'center'}
           justifyContent={{ base: 'center', md: 'center', lg: 'space-between' }}
         >
           {/* Logo */}
-          <Box width={{ md: '6em' }} display={{ base: 'none', md: 'flex' }}>
+          <Box width={{ md: '6em' }} display={{ base: 'none', md: 'flex' }} mt={'15px'}>
             <Button
               bg="transparent"
               _hover={{
@@ -48,12 +48,12 @@ const Header = () => {
           </Box>
 
           {/* Search */}
-          <Center w={{base: 'full', md: 'md'}}>
+          <Center w={{ base: 'full', md: 'md' }} mt={'15px'}>
             <SearchBar />
           </Center>
 
           {/* Lenguage */}
-          <Center>
+          <Center mt={'15px'} >
             <LenguageChange />
             {global.meta ? <ButtonConnect /> : ''}
           </Center>
