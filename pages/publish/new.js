@@ -20,6 +20,7 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Divider,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import ProfileMenu from '../../components/Menus/ProfileMenu'
@@ -27,13 +28,24 @@ import { useForm } from 'react-hook-form'
 import Link from 'next/link'
 import PreviewItem from '../../components/Modals/previewItem'
 import SuccessItem from '../../components/Modals/successItem'
+import { useGlobal } from '../../providers/globalProvider'
+import { itemService } from '../../services/itemService'
+import FileUpload from '../../components/Utils/FileUpload'
 
 const NewPublish = () => {
+  const global = useGlobal()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [stateSubmit, setStateSubmit] = useState(0)
+  const [dataSubmit, setDataSubmit] = useState(null)
 
   // State useForm
-  const { register, handleSubmit } = useForm()
+  const {
+    handleSubmit,
+    register,
+    setError,
+    control,
+    formState: { errors, isSubmitting },
+  } = useForm()
 
   // Input Price config
   const format = (val) => `$` + val
@@ -42,20 +54,30 @@ const NewPublish = () => {
 
   // Form Submit Preview
   const onSubmit = (data) => {
+    console.log(data, "dataaa form")
     const newItemPreview = {
       title: data.title,
       description: data.description,
-      number: priceValue,
+      price: priceValue,
+      pictures: ['asdadasdas', 'adasdaa12'],
+      seller: 'idseller',
+      maxorders: 3,
       category: 'services',
+      subcategory: ['azz', 'asdsdsdaa12'],
     }
 
+    setDataSubmit(newItemPreview)
     onOpen()
     console.log(newItemPreview)
   }
 
   // Confirm Submit
-  const confirmSubmit = () => {
+  const confirmSubmit = async () => {
     console.log('Saved')
+    let result = await itemService.newItem(dataSubmit)
+    if (!result) {
+      console.log(result)
+    }
     onClose()
     setStateSubmit(1)
 
@@ -67,7 +89,7 @@ const NewPublish = () => {
   return (
     <>
       <ProfileMenu>
-        <Container maxW={'lg'}>
+        <Container maxW={'lg'} h={{ md: "100vh"}}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Heading>New Publish</Heading>
             <Text mt="2em">Category</Text>
@@ -103,6 +125,38 @@ const NewPublish = () => {
               </NumberInputStepper>
             </NumberInput>
 
+            <Divider />
+            <FileUpload
+              name="img1"
+              acceptedFileTypes="image/*"
+              isRequired={true}
+              placeholder="Your avatar"
+              control={control}
+            >
+              Imagen 1
+            </FileUpload>
+
+            <FileUpload
+              name="img2"
+              acceptedFileTypes="image/*"
+              isRequired={true}
+              placeholder="Your avatar"
+              control={control}
+            >
+              Imagen 2
+            </FileUpload>
+
+            <FileUpload
+              name="img3"
+              acceptedFileTypes="image/*"
+              isRequired={true}
+              placeholder="Your avatar"
+              control={control}
+            >
+              Imagen 3
+            </FileUpload>
+
+
             <Box float={'right'} mt="2em">
               <Button bg="#00abd1" color="white" type="submit">
                 Preview & Submit for review
@@ -119,8 +173,7 @@ const NewPublish = () => {
               <ModalHeader>Review your listing</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-              <PreviewItem />
-
+                <PreviewItem />
               </ModalBody>
 
               <ModalFooter>
