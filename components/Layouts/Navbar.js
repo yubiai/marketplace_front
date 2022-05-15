@@ -31,7 +31,7 @@ const Navbar = () => {
                 <PopoverTrigger>
                   <Button
                     p={2}
-                    fontSize={'sm'}
+                    fontSize={'16px'}
                     bg="transparent"
                     fontWeight={500}
                     color={linkColor}

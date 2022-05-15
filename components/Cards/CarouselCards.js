@@ -87,7 +87,7 @@ const settings = {
 
 const CarouselCards = ({title}) => {
   return (
-    <Container maxW="full" mt="2em">
+    <Container display={{base:"contents"}} maxW="full" mt="2em">
       <Text color={"#727272"} fontSize="19px">{title}</Text>
       <Slider {...settings} >
         <ItemCard />
