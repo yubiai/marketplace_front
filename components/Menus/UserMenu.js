@@ -8,7 +8,7 @@ import {
   Portal,
 } from '@chakra-ui/react'
 import { FaUserCircle } from 'react-icons/fa'
-import UserInfo from '../Infos/UserInfo';
+import UserInfo from '../Infos/UserInfo'
 import { useEffect, useState } from 'react'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 
@@ -54,15 +54,20 @@ const UserMenu = () => {
           <MenuItem>
             <Link href="/profile">My Info</Link>
           </MenuItem>
-          <MenuItem>
-            <Link href="/profile/orders">Orders</Link>
+          <Link href="/publish/new">
+            <MenuItem>New Publish</MenuItem>
+          </Link>
+          <Link href="/profile/orders">
+            <MenuItem isDisabled>Orders</MenuItem>
+          </Link>
+          <Link href="/profile/sale">
+            <MenuItem isDisabled>Sale</MenuItem>
+          </Link>
+          <Link href="/profile/mailboxs">
+          <MenuItem isDisabled>
+            Mailboxs
           </MenuItem>
-          <MenuItem>
-            <Link href="/profile/sale">Sale</Link>
-          </MenuItem>
-          <MenuItem>
-            <Link href="/profile/mailboxs">Mailboxs</Link>
-          </MenuItem>
+          </Link>
           <MenuItem>
             <span onClick={() => disconnect()}>Disconnect</span>
           </MenuItem>

@@ -35,8 +35,8 @@ const ItemCard = () => {
           <Image
             alt="Img Item"
             rounded={'lg'}
-            height={'160px'}
-            width={'170px'}
+            height={'150px'}
+            width={'180px'}
             objectFit={'cover'}
             src={IMAGE}
           />
