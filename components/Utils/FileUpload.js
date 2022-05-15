@@ -23,8 +23,8 @@ export const FileUpload = ({
 }) => {
   const inputRef = useRef()
   const {
-    field: { ref, onChange, value, ...inputProps },
-    fieldState: { invalid, isTouched, isDirty },
+    field: { onChange, value, ...inputProps },
+    fieldState: { invalid },
   } = useController({
     name,
     control,

@@ -28,12 +28,10 @@ import { useForm } from 'react-hook-form'
 import Link from 'next/link'
 import PreviewItem from '../../components/Modals/previewItem'
 import SuccessItem from '../../components/Modals/successItem'
-import { useGlobal } from '../../providers/globalProvider'
 import { itemService } from '../../services/itemService'
 import FileUpload from '../../components/Utils/FileUpload'
 
 const NewPublish = () => {
-  const global = useGlobal()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [stateSubmit, setStateSubmit] = useState(0)
   const [dataSubmit, setDataSubmit] = useState(null)
@@ -42,9 +40,7 @@ const NewPublish = () => {
   const {
     handleSubmit,
     register,
-    setError,
-    control,
-    formState: { errors, isSubmitting },
+    control
   } = useForm()
 
   // Input Price config
