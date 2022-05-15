@@ -25,6 +25,8 @@ import { useState } from 'react'
 import ProfileMenu from '../../components/Menus/ProfileMenu'
 import { useForm } from 'react-hook-form'
 import Link from 'next/link'
+import PreviewItem from '../../components/Modals/previewItem'
+import SuccessItem from '../../components/Modals/successItem'
 
 const NewPublish = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -116,7 +118,10 @@ const NewPublish = () => {
             <ModalContent>
               <ModalHeader>Review your listing</ModalHeader>
               <ModalCloseButton />
-              <ModalBody>adsasdasdasdasd</ModalBody>
+              <ModalBody>
+              <PreviewItem />
+
+              </ModalBody>
 
               <ModalFooter>
                 <Button
@@ -142,10 +147,12 @@ const NewPublish = () => {
           <>
             <ModalOverlay />
             <ModalContent>
-              <ModalBody>Todo genial</ModalBody>
+              <ModalBody>
+                <SuccessItem />
+              </ModalBody>
               <ModalFooter>
                 <Link href="/">
-                  <Button>Go Home</Button>
+                  <Button>Close</Button>
                 </Link>
               </ModalFooter>
             </ModalContent>
