@@ -72,14 +72,14 @@ const Navbar = () => {
 
   const DesktopSubNav = ({ label, href }) => {
     return (
-      <Link href={`${href}`}>
+      <Link  href={`${href}`}>
         <Button
           role={'group'}
           display={'block'}
           rounded={'md'}
           _hover={{ bg: useColorModeValue('blue.50', 'gray.900') }}
         >
-          <Stack direction={'row'} align={'center'}>
+          <Stack  direction={'row'} align={'center'}>
             <Box>
               <Text
                 transition={'all .3s ease'}
@@ -131,7 +131,8 @@ const Navbar = () => {
   ]
 
   return (
-    <Box bg={useColorModeValue('yb.1', 'gray.900')} px={4}>
+    <Box  bg={useColorModeValue('yb.1', 'gray.900')} px={4} boxShadow={'0px 3px 6px #00000029'}
+    >
       <Container maxW="container.xl">
         <Flex
           color={useColorModeValue('white.600', 'white')}
