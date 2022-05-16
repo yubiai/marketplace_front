@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const itemService = {
-  newItem
+  newItem,
 }
 
 /**
@@ -10,7 +10,8 @@ export const itemService = {
  */
 
 async function newItem(payload) {
-  return await axios.post(`/items/item`, {
-    payload
-  })
+  return await axios.post(
+    `/items/new`, payload,
+    { headers: { 'Content-Type': 'multipart/form-data' } }
+  )
 }

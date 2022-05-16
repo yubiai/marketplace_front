@@ -1,8 +1,26 @@
-import { Box, Center, Flex, Image } from '@chakra-ui/react'
+import { Box, Center, Flex, Image, Text } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
 
-const PreviewItem = () => {
-  const IMAGE =
-    'https://images.unsplash.com/photo-1587089879249-87bf7d2972df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2952&q=80'
+const PreviewItem = ({ item }) => {
+  const [itemInfo, setItemInfo] = useState(null)
+  const [imagePreview, setImagePreview] = useState(null)
+
+  useEffect(() => {
+    const loadItem = () => {
+      console.log(item.pictures[0])
+      setItemInfo(item)
+
+      let fileImg = item.pictures[0]
+      const reader = new FileReader()
+
+      reader.readAsDataURL(fileImg)
+
+      reader.onload = () => {
+        setImagePreview(reader.result)
+      }
+    }
+    loadItem()
+  }, [item])
 
   return (
     <Flex width={'full'} direction={{ base: 'column', md: 'row' }}>
@@ -14,15 +32,24 @@ const PreviewItem = () => {
             height={'400px'}
             width={'full'}
             objectFit={'cover'}
-            src={IMAGE}
+            src={imagePreview}
           />
         </Center>
       </Box>
-      <Box width={'full'}>
-          
-          Title
+      <Box width={'full'} p={'1em'}>
+        <Text fontWeight={'bold'}>Title</Text>
+        <Text>{itemInfo?.title}</Text>
 
-          Description
+        <Text fontWeight={'bold'}> Description: </Text>
+        <Text>{itemInfo?.description}</Text>
+        <Text fontWeight={'bold'}>Price: </Text>
+        <Text>{itemInfo?.price}</Text>
+
+        <Text fontWeight={'bold'}>Category: </Text>
+        <Text>{itemInfo?.category}</Text>
+
+        <Text fontWeight={'bold'}>SubCategory: </Text>
+        <Text>{itemInfo?.subcategory}</Text>
       </Box>
     </Flex>
   )
