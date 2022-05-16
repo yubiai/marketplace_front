@@ -28,7 +28,7 @@ export default function Home() {
 
       <main>
         <Box h="80vh" m="2em">
-        <CarouselCards title={"Services in your watchlist"} />
+        <CarouselCards title={"Last services posted on the marketplace"} />
         <CarouselCards title={"Services in your watchlist"} />
         </Box>
       </main>
