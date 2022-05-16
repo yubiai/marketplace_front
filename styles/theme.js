@@ -47,7 +47,8 @@ const theme = extendTheme({
   styles: {
     global: () => ({
       body: {
-        bg: "#f1f1f1"
+        bg: "#f1f1f1",
+        fontFamily: "OpenSans, sans-serif",
       }
     })
   },
@@ -56,7 +57,7 @@ const theme = extendTheme({
   },
   textStyles: {
     body: {
-      fontFamily: "Libre Baskerville, sans-serif",
+      fontFamily: "OpenSans, sans-serif",
     },
     test: {
       fontFamily: "Open Sans"
