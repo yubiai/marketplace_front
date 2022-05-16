@@ -1,4 +1,4 @@
-# YDAIai Marketplace Front 🎫
+# Yubiai Marketplace Front 🎫
 
 Desarrollo Frontend hecho con Next.js
 
