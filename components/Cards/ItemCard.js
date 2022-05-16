@@ -55,7 +55,7 @@ const ItemCard = () => {
               <Text fontWeight={800} fontSize={'1ems'}>
                 100
               </Text>
-              <Text>UBI</Text>
+              <Text>DAI</Text>
               {/* <Text textDecoration={'line-through'} color={'red'}>
               $199
             </Text> */}

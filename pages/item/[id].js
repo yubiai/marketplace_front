@@ -57,7 +57,7 @@ const ItemById = () => {
             <Text>New</Text>
             <Text>Enlego English Courses</Text>
             <Text>Sell by Englego</Text>
-            <Text>45 Ubis</Text>
+            <Text>45 DAIs</Text>
             <Button
               bg="#00abd1" color="white"
             >
