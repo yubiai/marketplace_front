@@ -9,7 +9,7 @@ export const profileService = {
  * @param {str} walletAddress
  */
 async function login(walletAddress) {
-    console.log("arranco logimn profile services")
+    console.log("arranco login profile services")
   return await axios.post(`/profiles/login`, {
     walletAddress,
   })

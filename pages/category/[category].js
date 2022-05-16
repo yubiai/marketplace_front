@@ -7,6 +7,9 @@ import ItemCardLg from '../../components/Cards/ItemCardLg'
 const ItemsByCategory = () => {
   const router = useRouter()
   const { category } = router.query
+  const capitalize = (word) => {
+    return word && word[0].toUpperCase() + word.slice(1);
+  }
 
   // Si no existe category error
 
@@ -14,11 +17,11 @@ const ItemsByCategory = () => {
     <>
       <SubCategoriesMenu>
         <Flex alignItems={'center'}>
-          <Text fontWeight={'bold'}>CATEGORIES</Text>
+          <Text fontWeight={'bold'}>Categories</Text>
           <MdKeyboardArrowRight alignContent="center" />
-          <Text fontWeight={'bold'}>{category}</Text>
+          <Text fontWeight={'bold'}>{capitalize(category)}</Text>
           <MdKeyboardArrowRight />
-          <Text fontWeight={'bold'}>ALL</Text>
+          <Text fontWeight={'bold'}>All</Text>
         </Flex>
         Listado de Publicaciones de la Categoria: {category}
         <SimpleGrid minChildWidth="250px" spacing="2px">
