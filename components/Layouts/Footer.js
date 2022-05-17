@@ -5,7 +5,6 @@ import {
   Image,
   Stack,
   Link,
-  useColorModeValue,
   VisuallyHidden,
   Center,
 } from '@chakra-ui/react'
@@ -15,7 +14,7 @@ import ShareEmail from './ShareEmail'
 const SocialButton = ({ children, label, href }) => {
   return (
     <chakra.button
-      bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
+      bg={'blackAlpha.100'}
       rounded={'full'}
       w={8}
       h={8}
@@ -26,9 +25,7 @@ const SocialButton = ({ children, label, href }) => {
       alignItems={'center'}
       justifyContent={'center'}
       transition={'background 0.3s ease'}
-      _hover={{
-        bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
-      }}
+      
     >
       <VisuallyHidden>{label}</VisuallyHidden>
       {children}
@@ -39,8 +36,8 @@ const SocialButton = ({ children, label, href }) => {
 const Footer = () => {
   return (
     <Box
-      bg={useColorModeValue('yb.1', 'gray.900')}
-      color={useColorModeValue('white', 'gray.200')}
+      bg={'yb.1'}
+      color={'white'}
     >
       <Container
         as={Stack}

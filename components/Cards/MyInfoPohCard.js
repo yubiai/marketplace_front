@@ -6,7 +6,6 @@ import {
   Image,
   Stack,
   Text,
-  useColorModeValue,
 } from '@chakra-ui/react'
 const MyInfoPohCard = () => {
   return (
@@ -18,7 +17,7 @@ const MyInfoPohCard = () => {
           w={{ sm: '100%', md: '100%' }}
           height={{ sm: 'full', md: '10rem' }}
           direction={{ base: 'column', md: 'row' }}
-          bg={useColorModeValue('white', 'gray.900')}
+          bg={'white'}
           boxShadow={'2xl'}
           padding={4}
         >

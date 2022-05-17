@@ -5,7 +5,6 @@ import {
   Button,
   Container,
   Image,
-  useColorModeValue,
   Show,
   Center,
 } from '@chakra-ui/react'
@@ -20,7 +19,7 @@ const Header = () => {
 
   return (
     <Box
-      bg={useColorModeValue('yb.1', 'peru.700')}
+      bg={'yb.1'}
       px={{ base: 'full', md: 4 }}
     >
       <Container maxW="container.xl">

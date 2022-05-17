@@ -1,7 +1,6 @@
 import {
   Box,
   Center,
-  useColorModeValue,
   Heading,
   Text,
   Stack,
@@ -21,7 +20,7 @@ const ItemCardLg = () => {
         w={'full'}
         maxH={'400px'}
         h={'378px'}
-        bg={useColorModeValue('white', 'gray.800')}
+        bg={'white'}
         rounded={'lg'}
         pos={'relative'}
         _hover={{
