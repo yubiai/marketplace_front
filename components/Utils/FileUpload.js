@@ -7,11 +7,14 @@ import {
   FormErrorMessage,
   Icon,
   Box,
+  Center,
+  Image,
   Text,
+  Flex,
 } from '@chakra-ui/react'
-import { FiFile } from 'react-icons/fi'
 import { useController } from 'react-hook-form'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { MdOutlineImage } from 'react-icons/md'
 
 export const FileUpload = ({
   name,
@@ -23,40 +26,63 @@ export const FileUpload = ({
 }) => {
   const inputRef = useRef()
   const {
-    field: { onChange, value, ...inputProps },
-    fieldState: { invalid },
+    field: { ref, onChange, value, ...inputProps },
+    fieldState: { invalid, isTouched, isDirty },
   } = useController({
     name,
     control,
     rules: { required: isRequired },
   })
 
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [imageUrl, setImageUrl] = useState(null)
+
+  useEffect(() => {
+    if (selectedImage) {
+      setImageUrl(URL.createObjectURL(selectedImage))
+    }
+  }, [selectedImage])
+
   return (
     <FormControl isInvalid={invalid} isRequired>
       <FormLabel htmlFor="writeUpFile">{children}</FormLabel>
       <InputGroup>
-        <InputLeftElement pointerEvents="none">
-          <Icon as={FiFile} />
-        </InputLeftElement>
         <input
           type="file"
-          onChange={(e) => onChange(e.target.files[0])}
+          onChange={(e) => setSelectedImage(e.target.files[0])}
           accept={acceptedFileTypes}
           name={name}
           ref={inputRef}
           {...inputProps}
           style={{ display: 'none' }}
         />
-        <Box>
-            <Text>{(value && value.name) || ''}</Text>
-        </Box>
-        <Input
-          placeholder={placeholder || 'Your file ...'}
+        <Box
+          w={'full'}
+          h={'200px'}
+          border={'1px dashed grey'}
+          bg={'#f5f5f5'}
+          m={'1em'}
           onClick={() => inputRef.current.click()}
-          // onChange={(e) => {}}
-          readOnly={true}
-          value={(value && value.name) || ''}
-        />
+        >
+          <Center width={'full'} h={'full'}>
+            {!imageUrl && (
+              <Text textAlign={'center'}>
+                <MdOutlineImage fontSize="3em" />
+                <Text color="#1c548b">Browse</Text>
+              </Text>
+            )}
+            {imageUrl && selectedImage && (
+              <Image
+                alt={selectedImage.name}
+                rounded={'lg'}
+                height={'full'}
+                width={'full'}
+                objectFit={'cover'}
+                src={imageUrl}
+              />
+            )}
+          </Center>
+        </Box>
       </InputGroup>
       <FormErrorMessage>{invalid}</FormErrorMessage>
     </FormControl>

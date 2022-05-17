@@ -21,6 +21,8 @@ import {
   ModalCloseButton,
   useDisclosure,
   Divider,
+  Spinner,
+  Flex,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import ProfileMenu from '../../components/Menus/ProfileMenu'
@@ -33,15 +35,15 @@ import FileUpload from '../../components/Utils/FileUpload'
 
 const NewPublish = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+
   const [stateSubmit, setStateSubmit] = useState(0)
+  const [loadingSubmit, setLoadingSubmit] = useState(false)
   const [dataSubmit, setDataSubmit] = useState(null)
 
+  const [result, setResult] = useState(null)
+
   // State useForm
-  const {
-    handleSubmit,
-    register,
-    control
-  } = useForm()
+  const { handleSubmit, register, control } = useForm()
 
   // Input Price config
   const format = (val) => `$` + val
@@ -49,43 +51,68 @@ const NewPublish = () => {
   const [priceValue, setPriceValue] = useState('10')
 
   // Form Submit Preview
-  const onSubmit = (data) => {
-    console.log(data, "dataaa form")
-    const newItemPreview = {
-      title: data.title,
-      description: data.description,
-      price: priceValue,
-      pictures: ['asdadasdas', 'adasdaa12'],
-      seller: 'idseller',
-      maxorders: 3,
-      category: 'services',
-      subcategory: ['azz', 'asdsdsdaa12'],
+  const onSubmit = async (data) => {
+    const form = new FormData()
+
+    if (data.img1) {
+      form.append('file', data.img1)
     }
 
-    setDataSubmit(newItemPreview)
+    if (data.img2) {
+      form.append('file', data.img2)
+    }
+
+    if (data.img3) {
+      form.append('file', data.img3)
+    }
+
+    form.append('title', data.title)
+    form.append('description', data.description)
+    form.append('price', priceValue)
+    form.append('seller', 'idseller')
+    form.append('maxorders', 3)
+    form.append('category', 'services')
+    form.append('subcategory', ['tag', 'subtag'])
+
+    let newData = JSON.stringify(Object.fromEntries(form))
+    newData = JSON.parse(newData)
+    newData = {
+      ...newData,
+      pictures: [data.img1, data.img2, data.img3],
+    }
+    // Data Save useState
+    setDataSubmit(form)
+    setResult(newData)
+    // Open Modal
     onOpen()
-    console.log(newItemPreview)
   }
 
   // Confirm Submit
   const confirmSubmit = async () => {
-    console.log('Saved')
-    let result = await itemService.newItem(dataSubmit)
-    if (!result) {
-      console.log(result)
-    }
-    onClose()
-    setStateSubmit(1)
+    setLoadingSubmit(true)
 
-    setTimeout(() => {
-      onOpen()
-    }, 300)
+    try {
+      let result = await itemService.newItem(dataSubmit)
+      console.log(result, 'result')
+
+      setLoadingSubmit(false)
+      onClose()
+      setStateSubmit(1)
+
+      setTimeout(() => {
+        onOpen()
+      }, 300)
+    } catch (err) {
+      console.log(err)
+      setLoadingSubmit(false)
+      setStateSubmit(2)
+    }
   }
 
   return (
     <>
       <ProfileMenu>
-        <Container maxW={'lg'} h={{ md: "100vh"}}>
+        <Container maxW={'full'} h={{ md: '100vh' }}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Heading>New Publish</Heading>
             <Text mt="2em">Category</Text>
@@ -122,36 +149,46 @@ const NewPublish = () => {
             </NumberInput>
 
             <Divider />
-            <FileUpload
-              name="img1"
-              acceptedFileTypes="image/*"
-              isRequired={true}
-              placeholder="Your avatar"
-              control={control}
-            >
-              Imagen 1
-            </FileUpload>
 
-            <FileUpload
-              name="img2"
-              acceptedFileTypes="image/*"
-              isRequired={true}
-              placeholder="Your avatar"
-              control={control}
-            >
-              Imagen 2
-            </FileUpload>
+            <Heading>Product Images</Heading>
 
-            <FileUpload
-              name="img3"
-              acceptedFileTypes="image/*"
-              isRequired={true}
-              placeholder="Your avatar"
-              control={control}
-            >
-              Imagen 3
-            </FileUpload>
+            <Text>
+              Get noticed by the right buyers with visual examples of your
+              services. Images must have a minimum width of 375px, height of
+              375px and must not be more than 10mb each
+            </Text>
 
+            <Flex>
+              <FileUpload
+                name="img1"
+                acceptedFileTypes="image/*"
+                isRequired={true}
+                placeholder="Your avatar"
+                control={control}
+              >
+                Imagen 1
+              </FileUpload>
+
+              <FileUpload
+                name="img2"
+                acceptedFileTypes="image/*"
+                isRequired={false}
+                placeholder="Your avatar"
+                control={control}
+              >
+                Imagen 2
+              </FileUpload>
+
+              <FileUpload
+                name="img3"
+                acceptedFileTypes="image/*"
+                isRequired={false}
+                placeholder="Your avatar"
+                control={control}
+              >
+                Imagen 3
+              </FileUpload>
+            </Flex>
 
             <Box float={'right'} mt="2em">
               <Button bg="#00abd1" color="white" type="submit">
@@ -169,7 +206,7 @@ const NewPublish = () => {
               <ModalHeader>Review your listing</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-                <PreviewItem />
+                <PreviewItem item={result} />
               </ModalBody>
 
               <ModalFooter>
@@ -181,13 +218,25 @@ const NewPublish = () => {
                 >
                   Go Back
                 </Button>
-                <Button
-                  bg="#00abd1"
-                  color="white"
-                  onClick={() => confirmSubmit()}
-                >
-                  Submit for review
-                </Button>
+
+                {loadingSubmit === false && (
+                  <Button
+                    bg="#00abd1"
+                    color="white"
+                    onClick={() => confirmSubmit()}
+                  >
+                    Submit for review
+                  </Button>
+                )}
+                {loadingSubmit === true && (
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="xl"
+                  />
+                )}
               </ModalFooter>
             </ModalContent>
           </>
@@ -211,8 +260,17 @@ const NewPublish = () => {
           <>
             <ModalOverlay />
             <ModalContent>
-              <ModalCloseButton />
               <ModalBody>Error de carga</ModalBody>
+              <ModalFooter>
+                <Button
+                  onClick={() => {
+                    setStateSubmit(0)
+                    onClose()
+                  }}
+                >
+                  Close
+                </Button>
+              </ModalFooter>
             </ModalContent>
           </>
         )}
