@@ -1,16 +1,12 @@
 import {
-  Input,
   FormControl,
   FormLabel,
   InputGroup,
-  InputLeftElement,
   FormErrorMessage,
-  Icon,
   Box,
   Center,
   Image,
-  Text,
-  Flex,
+  Text
 } from '@chakra-ui/react'
 import { useController } from 'react-hook-form'
 import { useEffect, useRef, useState } from 'react'
@@ -18,7 +14,6 @@ import { MdOutlineImage } from 'react-icons/md'
 
 export const FileUpload = ({
   name,
-  placeholder,
   acceptedFileTypes,
   control,
   children,
@@ -26,8 +21,8 @@ export const FileUpload = ({
 }) => {
   const inputRef = useRef()
   const {
-    field: { ref, onChange, value, ...inputProps },
-    fieldState: { invalid, isTouched, isDirty },
+    field: {  ...inputProps },
+    fieldState: { invalid },
   } = useController({
     name,
     control,
