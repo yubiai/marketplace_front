@@ -5,7 +5,6 @@ import {
   CloseButton,
   Flex,
   Icon,
-  useColorModeValue,
   Link,
   Drawer,
   DrawerContent,
@@ -32,7 +31,7 @@ const LinkItems = [
 export default function ProfileMenu({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
-    <Box minH={{base: "full", md: "70vh"}} bg={useColorModeValue('gray.100', 'gray.900')}>
+    <Box minH={{base: "full", md: "70vh"}} bg={'gray.100'}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
@@ -62,9 +61,9 @@ export default function ProfileMenu({ children }) {
 const SidebarContent = ({ onClose, ...rest }) => {
   return (
     <Box
-      bg={useColorModeValue('white', 'gray.900')}
+      bg={'white'}
       borderRight="1px"
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
+      borderRightColor={'gray.200'}
       w={{ base: 'full', md: 60 }}
       pos="absolute"
       h="80vh"
@@ -128,9 +127,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
       px={{ base: 4, md: 24 }}
       height="20"
       alignItems="center"
-      bg={useColorModeValue('white', 'gray.900')}
+      bg={'white'}
       borderBottomWidth="1px"
-      borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
+      borderBottomColor={'gray.200'}
       justifyContent="flex-start"
       {...rest}
     >

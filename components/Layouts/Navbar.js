@@ -8,7 +8,6 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  useColorModeValue,
   Container,
   Button,
 } from '@chakra-ui/react'
@@ -18,9 +17,9 @@ import { ChevronRightIcon } from '@chakra-ui/icons'
 
 const Navbar = () => {
   const DesktopNav = () => {
-    const linkColor = useColorModeValue('white', 'gray.200')
-    const linkHoverColor = useColorModeValue('white.800', 'white')
-    const popoverContentBgColor = useColorModeValue('white', 'gray.800')
+    const linkColor = ('white')
+    const linkHoverColor = ('white')
+    const popoverContentBgColor = ('white')
 
     return (
       <>
@@ -77,7 +76,7 @@ const Navbar = () => {
           role={'group'}
           display={'block'}
           rounded={'md'}
-          _hover={{ bg: useColorModeValue('blue.50', 'gray.900') }}
+          _hover={{ bg:('blue.50') }}
         >
           <Stack direction={'row'} align={'center'}>
             <Box>
@@ -132,13 +131,13 @@ const Navbar = () => {
 
   return (
     <Box
-      bg={useColorModeValue('yb.1', 'gray.900')}
+      bg={'yb.1'}
       px={4}
       boxShadow={'0px 5px 4px 0px #00000029'}
     >
       <Container maxW="container.xl">
         <Flex
-          color={useColorModeValue('white.600', 'white')}
+          color={'white'}
           minH={'60px'}
           align={'center'}
         >
