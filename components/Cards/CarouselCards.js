@@ -14,14 +14,14 @@ function SampleNextArrow(props) {
       borderRadius={'54px'}
       boxShadow={'0px 3px 6px #00000029'}
       fontSize={'2em'}
-      width={'54px'}
+      width={'45px'}
       height={'45px'}
       position={'absolute'}
       top={'40%'}
       right={'0%'}
       zIndex={'99'}
     >
-      <MdKeyboardArrowRight />
+      <MdKeyboardArrowRight  />
     </Button>
   )
 }
@@ -37,7 +37,7 @@ function SamplePrevArrow(props) {
       borderRadius={'40px'}
       fontSize={'2em'}
       boxShadow={'0px 3px 6px #00000029'}
-      width={'54px'}
+      width={'45px'}
       height={'45px'}
       position={'absolute'}
       top={'40%'}

@@ -30,7 +30,7 @@ const Header = () => {
           justifyContent={{ base: 'center', md: 'center', lg: 'space-between' }}
         >
           {/* Logo */}
-          <Box width={{ md: '6em' }} display={{ base: 'none', md: 'flex' }} mt={'15px'}>
+          <Box display={{ base: 'none', md: 'flex' }} mt={'15px'}>
             <Button
               bg="transparent"
               _hover={{
@@ -39,6 +39,7 @@ const Header = () => {
             >
               <Link href={'/'}>
                 <Image
+                  w={'100px'} h={'39.16px'}
                   alt={'Logo'}
                   src={'/static/images/logoyubiai.png'}
                   fallbackSrc={'/static/images/logoyubiai.png'}
