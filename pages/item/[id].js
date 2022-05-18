@@ -10,6 +10,8 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import ItemCard from '../../components/Cards/ItemCard'
+// import { FaBeer } from 'react-icons/fa';
+import { MdOutlineStar } from "react-icons/md";
 
 const ItemById = () => {
   const router = useRouter()
@@ -53,16 +55,58 @@ const ItemById = () => {
             width={{ base: '100%', md: '33%' }}
             h="546px"
             border={'solid 1px #bababa;'}
+            borderRadius={'5px'}
           >
-            <Text>New</Text>
-            <Text>Enlego English Courses</Text>
-            <Text>Sell by Englego</Text>
-            <Text>45 DAIs</Text>
-            <Button
-              bg="#00abd1" color="white"
+            <Text
+            color="#323232"
+            fontSize="14px"
+            fontWeight="300"
+            >New</Text>
+            <Text
+            fontSize="20px"
+            fontWeight="600"
+            >Enlego English Courses</Text>
+            <Text
+            color="#01abd0"
+            fontSize="14px"
+            fontWeight="600"
+            >Sell by Englego</Text>
+            <Box
+            display={'flex'}
+            flexDirection={'row'}
+            mt="5px"
+            alignItems={"center"}
             >
-              Buy Now
-            </Button>
+              <MdOutlineStar color="00abd1" />
+              <MdOutlineStar color="00abd1" />
+              <MdOutlineStar color="00abd1" />
+              <MdOutlineStar color="00abd1" />
+              <MdOutlineStar color="00abd1" />
+              <Text
+            color="#323232"
+            fontSize="14px"
+            fontWeight="300"
+            >3 Opinions</Text>
+            </Box>
+            <Text>45 DAIs</Text>
+            <Text>0% addtional for Yubiai Fee</Text>
+            <Text>0.6% additional for UBI Burner Fee</Text>
+            <Box
+            display={'flex'}
+            h="-webkit-fill-available"
+            alignItems={'center'}
+            justifyContent={'center'}
+            >
+              <Button
+                bg="#00abd1" color="white"
+                w="312px"
+                h="32px"
+                fontSize={"16px"}
+                fontWeight={"600"}
+              >
+                Buy Now
+              </Button>
+            </Box>  
           </Box>
         </Flex>
         <Divider />
