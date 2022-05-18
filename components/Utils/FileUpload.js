@@ -46,7 +46,10 @@ export const FileUpload = ({
       <InputGroup>
         <input
           type="file"
-          onChange={(e) => setSelectedImage(e.target.files[0])}
+          onChange={(e) => {
+            setSelectedImage(e.target.files[0])
+            onChange(e.target.files[0])
+          }}
           accept={acceptedFileTypes}
           name={name}
           ref={inputRef}

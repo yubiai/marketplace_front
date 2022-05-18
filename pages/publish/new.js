@@ -112,7 +112,7 @@ const NewPublish = () => {
   return (
     <>
       <ProfileMenu>
-        <Container maxW={'full'} h={{ md: '130vh' }}>
+        <Container maxW={'full'} h={{ md: '110vh' }}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Heading>New Publish</Heading>
             <Text mt="2em">Category</Text>
@@ -168,7 +168,6 @@ const NewPublish = () => {
               >
                 Imagen 1
               </FileUpload>
-
               <FileUpload
                 name="img2"
                 acceptedFileTypes="image/*"
@@ -178,7 +177,6 @@ const NewPublish = () => {
               >
                 Imagen 2
               </FileUpload>
-
               <FileUpload
                 name="img3"
                 acceptedFileTypes="image/*"
