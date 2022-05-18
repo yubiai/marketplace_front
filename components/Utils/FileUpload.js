@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   FormControl,
   FormLabel,
@@ -21,8 +22,9 @@ export const FileUpload = ({
 }) => {
   const inputRef = useRef()
   const {
-    field: {  ...inputProps },
-    fieldState: { invalid },
+    field: { ref, onChange, value, ...inputProps },
+    // eslint-disable-next-line no-unused-vars
+    fieldState: { invalid, isTouched, isDirty }
   } = useController({
     name,
     control,
