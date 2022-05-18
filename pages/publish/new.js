@@ -112,7 +112,7 @@ const NewPublish = () => {
   return (
     <>
       <ProfileMenu>
-        <Container maxW={'full'} h={{ md: '100vh' }}>
+        <Container maxW={'full'} h={{ md: '130vh' }}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Heading>New Publish</Heading>
             <Text mt="2em">Category</Text>
