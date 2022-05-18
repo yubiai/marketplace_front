@@ -137,7 +137,7 @@ const Navbar = () => {
     >
       <Container maxW="container.xl">
         <Flex
-          color={'white'}
+          color={'black'}
           minH={'60px'}
           align={'center'}
         >
