@@ -117,7 +117,7 @@ const Navbar = () => {
     },
     {
       label: 'Sell',
-      href: '/sell',
+      href:'/publish/new',
     },
     {
       label: 'Favorites',
