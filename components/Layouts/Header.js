@@ -8,7 +8,7 @@ import {
   Show,
   Center,
 } from '@chakra-ui/react'
-import LenguageChange from '../Menus/LenguageChange'
+import LanguageChange from '../Menus/LanguageChange'
 import DrawerMenu from '../Menus/DrawerMenu'
 import SearchBar from './SearchBar'
 import ButtonConnect from '../Buttons/ButtonConnect'
@@ -52,9 +52,9 @@ const Header = () => {
             <SearchBar />
           </Center>
 
-          {/* Lenguage */}
+          {/* Language */}
           <Center mt={'15px'} >
-            <LenguageChange />
+            <LanguageChange />
             {global.meta ? <ButtonConnect /> : ''}
           </Center>
           <Show below="md">

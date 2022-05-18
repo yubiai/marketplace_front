@@ -1,12 +1,12 @@
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 
-const LenguageChange = () => {
+const LanguageChange = () => {
   return (
     <Menu>
       <MenuButton
         as={Button}
-        aria-label="lenguage"
+        aria-label="language"
         rightIcon={<ChevronDownIcon />}
         backgroundColor="transparent"
         color="white"
@@ -20,12 +20,12 @@ const LenguageChange = () => {
       <MenuList>
         <MenuItem>EN</MenuItem>
         <MenuItem>ES</MenuItem>
-        <MenuItem>PR</MenuItem>
-        <MenuItem>AL</MenuItem>
+        <MenuItem>PT</MenuItem>
+        <MenuItem>DE</MenuItem>
         <MenuItem>IT</MenuItem>
       </MenuList>
     </Menu>
   );
 };
 
-export default LenguageChange;
+export default LanguageChange;
