@@ -1,11 +1,13 @@
-import {
-  Center,
-  Divider,
-  Stack,
-  Text,
-} from '@chakra-ui/react'
+import { Center, Divider, Stack, Text } from '@chakra-ui/react'
 
-const MyInfoPrivateCard = () => {
+const MyInfoPrivateCard = ({ dataProfile }) => {
+
+  if(!dataProfile.realname && !dataProfile.address && !dataProfile.city && !dataProfile.country && !dataProfile.telephone && !dataProfile.email) return (
+    <>
+    No Data
+    </>
+  )
+
   return (
     <>
       <Center py={6}>
@@ -27,25 +29,43 @@ const MyInfoPrivateCard = () => {
             p={2}
             pt={2}
           >
-                          <Divider />
-            <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              <b>Real Name:</b> Adsds Esdsds
-            </Text>
-            <Divider />
-            <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              <b>ID:</b> qweqwe2232
-            </Text>
-            <Divider />
-            <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-            <b>Cellphone:</b> 23232232
-            </Text>
-            <Divider />
-            <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-            <b>Telegram:</b> 2323232
-            </Text>
-            <Divider />
+            {dataProfile && dataProfile.realname && (
+              <>
+                <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
+                  <b>Real Name:</b> {dataProfile.realname}
+                </Text>
+                <Divider />
+              </>
+            )}
+            {dataProfile &&
+              dataProfile.address &&
+              dataProfile.city &&
+              dataProfile.country && (
+                <>
+                  <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
+                    <b>Ubication:</b> {dataProfile.address} - {dataProfile.city}{' '}
+                    - {dataProfile.country}
+                  </Text>
+                  <Divider />
+                </>
+              )}
+            {dataProfile && dataProfile.telephone && (
+              <>
+                <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
+                  <b>Telephone:</b> {dataProfile.telephone}
+                </Text>
+                <Divider />
+              </>
+            )}
+            {dataProfile && dataProfile.email && (
+              <>
+                <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
+                  <b>Email:</b> {dataProfile.email}
+                </Text>
+                <Divider />
+              </>
+            )}
           </Stack>
-
         </Stack>
       </Center>
     </>

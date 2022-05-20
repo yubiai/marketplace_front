@@ -176,11 +176,8 @@ const DrawerMenu = () => {
                       </Button>
                     </Link>
                   </ListItem>
-                </>
-              )}
-
-              <ListItem>
-                <Link href="/sell">
+                  <ListItem>
+                <Link href="/publish/new">
                   <Button
                     onClick={() => onClose()}
                     w="full"
@@ -188,10 +185,14 @@ const DrawerMenu = () => {
                     justifyContent={'left'}
                   >
                     <ListIcon as={MdSell} />
-                    Sell
+                    New Publish
                   </Button>
                 </Link>
               </ListItem>
+                </>
+              )}
+
+              
               <ListItem>
                 <Link href="/favorites">
                   <Button
