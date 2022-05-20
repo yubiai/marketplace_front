@@ -112,8 +112,8 @@ const NewPublish = () => {
   return (
     <>
       <ProfileMenu>
-        <Container maxW={'full'} h={{ md: '110vh' }}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+        <Container maxW={'full'} display={'flex'} flexDirection={'column'} >
+          <form onSubmit={handleSubmit(onSubmit)} >
             <Heading>New Publish</Heading>
             <Text mt="2em">Category</Text>
             <Select placeholder="Services" isDisabled></Select>
