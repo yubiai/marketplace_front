@@ -7,8 +7,16 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-const MyInfoPohCard = () => {
-  return (
+import Link from 'next/link'
+const MyInfoPohCard = ({dataProfile, balance}) => {
+
+  if(!dataProfile) return (
+    <>
+      <Text>No Data</Text>
+    </>
+  )
+
+  if(dataProfile) return (
     <>
       <Center py={6}>
         <Stack
@@ -41,19 +49,21 @@ const MyInfoPohCard = () => {
             pt={2}
           >
             <Heading fontSize={'2xl'} fontFamily={'body'}>
-              Lea Vene
+              {dataProfile.first_name} {dataProfile.last_name}
             </Heading>
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              0x00000
+            {dataProfile.eth_address}
             </Text>
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              23232 ubis
+              {balance} ubis
             </Text>
           </Stack>
           <Flex flex={0.2} justifyContent="center" alignItems="center">
+            <Link href={'https://app.proofofhumanity.id/profile/' + dataProfile.eth_address} external>
             <Button bg="#00ABD1" color="white">
               My PoH Profile
             </Button>
+            </Link>
           </Flex>
         </Stack>
       </Center>
