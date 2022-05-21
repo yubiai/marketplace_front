@@ -1,7 +1,9 @@
-import { Center, Divider, Stack, Text } from '@chakra-ui/react'
+import { Button, Center, Divider, Stack, Text } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 
 const MyInfoPrivateCard = ({ dataProfile }) => {
   if (!dataProfile) return <>No Data</>
+  const router = useRouter()
 
   return (
     <>
@@ -9,8 +11,8 @@ const MyInfoPrivateCard = ({ dataProfile }) => {
         <Stack
           borderWidth="1px"
           borderRadius="lg"
-          w={{ sm: '100%', md: '100%' }}
-          height={{ base: 'full', sm: '476px', md: '10rem' }}
+          width={{ base: '100%', sm: '100%', md: '100%' }}
+          height={{ base: 'full', sm: 'full', md: '50%' }}
           direction={{ base: 'column', md: 'row' }}
           bg={'white'}
           boxShadow={'2xl'}
@@ -49,6 +51,7 @@ const MyInfoPrivateCard = ({ dataProfile }) => {
               {dataProfile && dataProfile.email ? dataProfile.email : 'Empty'}
             </Text>
             <Divider />
+            <Button bg="#00ABD1" color="white" w="10em" onClick={() => router.push("/profile/edit")}>Edit Profile</Button>
           </Stack>
         </Stack>
       </Center>
