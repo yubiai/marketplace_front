@@ -27,14 +27,14 @@ const Profile = () => {
       }
     }
     setProfile()
-  }, [global])
+  }, [global, router])
 
   if(!dataProfile) return <Loading />
 
   return (
     <>
       <ProfileMenu>
-        <Box h={{ md: '100vh' }}>
+        <Box h={{ md: '100vh' }} w={{base: 'full'}}>
           <Text fontWeight={'bold'}>My Info</Text>
           <Text fontWeight={'bold'}>Proof of humanity information</Text>
           <MyInfoPohCard dataProfile={dataProfile} balance={balanceToken} />

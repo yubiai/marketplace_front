@@ -24,7 +24,7 @@ import {
   Spinner,
   Flex,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ProfileMenu from '../../components/Menus/ProfileMenu'
 import { useForm } from 'react-hook-form'
 import Link from 'next/link'
@@ -32,23 +32,46 @@ import PreviewItem from '../../components/Modals/PreviewItem'
 import SuccessItem from '../../components/Modals/SuccessItem'
 import { itemService } from '../../services/itemService'
 import FileUpload from '../../components/Utils/FileUpload'
+import { subcategoryService } from '../../services/subcategoryService'
 
 const NewPublish = () => {
+  //Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
-
-  const [stateSubmit, setStateSubmit] = useState(0)
-  const [loadingSubmit, setLoadingSubmit] = useState(false)
-  const [dataSubmit, setDataSubmit] = useState(null)
-
-  const [result, setResult] = useState(null)
 
   // State useForm
   const { handleSubmit, register, control } = useForm()
+  const [result, setResult] = useState(null)
+
+  // State Submit
+  const [stateSubmit, setStateSubmit] = useState(0)
+  const [loadingSubmit, setLoadingSubmit] = useState(false)
+  const [dataSubmit, setDataSubmit] = useState(null)
 
   // Input Price config
   const format = (val) => `$` + val
   const parse = (val) => val.replace(/^\$/, '')
   const [priceValue, setPriceValue] = useState('10')
+
+  // Sub Categories
+  const [subCategories, setSubCategories] = useState(null)
+
+  // Loading Sub Categories
+  useEffect(() => {  
+    return async() => {
+      await subcategoryService.getSubCategories()
+        .then((res) => {
+          console.log(res)
+          if(res.data.result.length > 0){
+            setSubCategories(res.data.result)
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setSubCategories(null);
+        })
+    }
+  }, [])
+  
 
   // Form Submit Preview
   const onSubmit = async (data) => {
@@ -112,8 +135,8 @@ const NewPublish = () => {
   return (
     <>
       <ProfileMenu>
-        <Container maxW={'full'} display={'flex'} flexDirection={'column'} >
-          <form onSubmit={handleSubmit(onSubmit)} >
+        <Container maxW={'full'} display={'flex'} flexDirection={'column'}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Heading>New Publish</Heading>
             <Text mt="2em">Category</Text>
             <Select placeholder="Services" isDisabled></Select>
