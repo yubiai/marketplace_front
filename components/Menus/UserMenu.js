@@ -11,16 +11,24 @@ import { FaUserCircle } from 'react-icons/fa'
 import UserInfo from '../Infos/UserInfo'
 import { useEffect, useState } from 'react'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
+import { balanceUbi1 } from '../../utils/ethereum'
 
 const UserMenu = () => {
   const dispatch = useDispatchGlobal()
 
   const global = useGlobal()
   const [profileLogin, setProfileLogin] = useState(null)
+  const [balanceToken, setBalanceToken] = useState(null)
 
   useEffect(() => {
-    const getProfile = () => {
-      setProfileLogin(global.profile)
+    const getProfile = async() => {
+      if (global && global.profile) {
+        setProfileLogin(global.profile)
+        await balanceUbi1(global.profile.eth_address)
+          .then((res) => {
+            setBalanceToken(res)
+          })
+      }
     }
     getProfile()
   }, [global])
@@ -50,7 +58,7 @@ const UserMenu = () => {
       )}
       <Portal>
         <MenuList>
-          <UserInfo profile={profileLogin} />
+          <UserInfo profile={profileLogin} balanceToken={balanceToken} />
           <MenuItem>
             <Link href="/profile">My Info</Link>
           </MenuItem>
@@ -64,9 +72,7 @@ const UserMenu = () => {
             <MenuItem isDisabled>Sale</MenuItem>
           </Link>
           <Link href="/profile/mailboxs">
-          <MenuItem isDisabled>
-            Mailboxs
-          </MenuItem>
+            <MenuItem isDisabled>Mailboxs</MenuItem>
           </Link>
           <MenuItem>
             <span onClick={() => disconnect()}>Disconnect</span>
