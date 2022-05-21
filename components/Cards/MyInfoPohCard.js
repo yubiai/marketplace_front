@@ -36,7 +36,7 @@ const MyInfoPohCard = ({dataProfile, balance}) => {
               boxSize="100%"
               borderRadius={'10px'}
               src={
-                'https://ipfs.kleros.io/ipfs/QmRETAM6QAF5Foeqqxe7wZQhfjef6EbaLsSEaL2ZHZ11L5/foto-perfil-leandro-venezia-ver-2.jpg'
+                dataProfile.photo
               }
             />
           </Flex>
