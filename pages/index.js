@@ -1,27 +1,8 @@
 import { Box } from '@chakra-ui/react'
 import Head from 'next/head'
-import { useEffect } from 'react'
 import CarouselCards from '../components/Cards/CarouselCards'
-import { useDispatchGlobal } from '../providers/globalProvider'
-import { profileService } from '../services/profileService'
 
 export default function Home() {
-  const dispatch = useDispatchGlobal()
-
-  useEffect(() => {
-    return async () => {
-      const dataToken = await profileService.getCurrentUser()
-      if (dataToken && dataToken.walletAddress) {
-        const result = await profileService.login(dataToken.walletAddress)
-        console.log(result.data)
-        dispatch({
-          type: 'AUTHPROFILE',
-          payload: result.data,
-        })
-        localStorage.setItem('YBI-token', result.data.token)
-      }
-    }
-  }, [dispatch])
 
   return (
     <div>
