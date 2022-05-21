@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 
 const MyInfoPrivateCard = ({ dataProfile }) => {
   if (!dataProfile) return <>No Data</>
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter()
 
   return (
