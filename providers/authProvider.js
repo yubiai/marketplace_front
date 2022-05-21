@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
         const result = await profileService.login(dataToken.walletAddress)
         dispatch({
           type: 'AUTHPROFILE',
-          payload: result.data,
+          payload: result.data.data,
         })
         localStorage.setItem('YBI-token', result.data.token)
       }
