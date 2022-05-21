@@ -1,7 +1,7 @@
 import { Center, Flex, Image, Text, Stack, HStack, Box } from '@chakra-ui/react'
 
 
-const UserInfo = ({profile}) => {
+const UserInfo = ({profile, balanceToken}) => {
 
 
   if (profile){
@@ -33,7 +33,7 @@ const UserInfo = ({profile}) => {
                 fallbackSrc={'/static/images/logoubi.png'}
               />
               <Text fontSize={'10px'} fontWeight="bold">
-                6801.90 UBI dripped
+                {balanceToken} UBI dripped
               </Text>
             </Flex>
           </Stack>

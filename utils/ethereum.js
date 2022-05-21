@@ -1,5 +1,6 @@
 import { ethers } from 'ethers'
 import genericErc20Abi from '../providers/Erc20.json'
+import { etherscanService } from '../services/etherscanService'
 
 // Login Metamask
 const loginMetamask = async () => {
@@ -24,7 +25,24 @@ const loginMetamask = async () => {
 }
 
 // Balance Ubi Token ver 1
-const balanceUbi = async (wallet) => {
+const balanceUbi1 = (wallet) => {
+  let balance = new Promise((resolve, reject) => {
+     etherscanService
+      .getBalanceUbi(wallet)
+      .then((res) => {
+        let oldBalance = res.data.result
+        let newBalance = Number.parseFloat(`${oldBalance}e-18`).toFixed(2)
+        resolve(newBalance)
+      })
+      .catch((err) => {
+        console.log(err)
+        reject(null)
+      })
+  })
+  return balance
+}
+
+const balanceUbi2 = async (wallet) => {
   if (!window.ethereum) {
     console.log('no hay metamask')
     return null
@@ -49,4 +67,4 @@ const balanceUbi = async (wallet) => {
   }
 }
 
-export { loginMetamask, balanceUbi }
+export { loginMetamask, balanceUbi1, balanceUbi2 }
