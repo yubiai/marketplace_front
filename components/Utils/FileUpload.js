@@ -7,7 +7,7 @@ import {
   Box,
   Center,
   Image,
-  Text
+  Text,
 } from '@chakra-ui/react'
 import { useController } from 'react-hook-form'
 import { useEffect, useRef, useState } from 'react'
@@ -24,7 +24,7 @@ export const FileUpload = ({
   const {
     field: { ref, onChange, value, ...inputProps },
     // eslint-disable-next-line no-unused-vars
-    fieldState: { invalid, isTouched, isDirty }
+    fieldState: { invalid, isTouched, isDirty },
   } = useController({
     name,
     control,
@@ -41,7 +41,7 @@ export const FileUpload = ({
   }, [selectedImage])
 
   return (
-    <FormControl isInvalid={invalid} isRequired>
+    <FormControl isInvalid={invalid}  >
       <FormLabel htmlFor="writeUpFile">{children}</FormLabel>
       <InputGroup>
         <input
@@ -62,26 +62,25 @@ export const FileUpload = ({
           border={'1px dashed grey'}
           bg={'#f5f5f5'}
           m={'1em'}
+          cursor="pointer"
           onClick={() => inputRef.current.click()}
         >
-          <Center width={'full'} h={'full'}>
-            {!imageUrl && (
-              <Text textAlign={'center'}>
-                <MdOutlineImage fontSize="3em" />
-                <Text color="#1c548b">Browse</Text>
-              </Text>
-            )}
-            {imageUrl && selectedImage && (
-              <Image
-                alt={selectedImage.name}
-                rounded={'lg'}
-                height={'full'}
-                width={'full'}
-                objectFit={'cover'}
-                src={imageUrl}
-              />
-            )}
-          </Center>
+          {!imageUrl && (
+            <Box w="full" h="full" display='flex' alignItems='center' justifyContent='center'>
+              <MdOutlineImage fontSize="3em" />
+              Browse
+            </Box>
+          )}
+          {imageUrl && selectedImage && (
+            <Image
+              alt={selectedImage && selectedImage.name}
+              rounded={'lg'}
+              height={'full'}
+              width={'full'}
+              objectFit={'cover'}
+              src={imageUrl}
+            />
+          )}
         </Box>
       </InputGroup>
       <FormErrorMessage>{invalid}</FormErrorMessage>
