@@ -1,4 +1,18 @@
+import { categoryService } from '../services/categoryService'
 import { subcategoryService } from '../services/subcategoryService'
+
+const getListCategory = () => {
+  let categories = new Promise((resolve, reject) => {
+    try {
+      const result = categoryService.getCategories()
+      resolve(result)
+    } catch (err) {
+      console.log(err)
+      reject(err)
+    }
+  })
+  return categories
+}
 
 const getListSubCategory = () => {
   let categories = new Promise((resolve, reject) => {
@@ -13,4 +27,4 @@ const getListSubCategory = () => {
   return categories
 }
 
-export { getListSubCategory }
+export { getListCategory, getListSubCategory }

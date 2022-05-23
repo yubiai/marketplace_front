@@ -40,11 +40,6 @@ export const FileUpload = ({
     }
   }, [selectedImage])
 
-  useEffect(() => {
-    console.log(imageUrl, 'imageUrlimageUrl')
-    console.log(selectedImage, 'selectedImage')
-  }, [imageUrl, selectedImage])
-
   return (
     <FormControl isInvalid={invalid} isRequired={isRequired && isRequired}>
       <FormLabel htmlFor="writeUpFile">{children}</FormLabel>

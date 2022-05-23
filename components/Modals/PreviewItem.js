@@ -37,10 +37,6 @@ const PreviewItem = ({ item }) => {
     loadItem()
   }, [item])
 
-  useEffect(() => {
-    console.log(imagesPreview, '311111111111')
-  }, [imagesPreview])
-
   return (
     <Flex width={'full'} direction={{ base: 'column', md: 'row' }}>
       <Box width={'full'}>
