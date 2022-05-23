@@ -13,7 +13,7 @@ const IMAGE =
 
 const ItemCardLg = () => {
   return (
-    <Center p={2}>
+    <Center p={2} cursor="pointer">
       <Box
         role={'group'}
         maxW={'262px'}

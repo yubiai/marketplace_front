@@ -14,8 +14,8 @@ const IMAGE =
 
 const ItemCard = () => {
   return (
-    <Center p={1} >
-      <Link href="/item/asdsd">
+    <Center p={1} cursor="pointer">
+      <Link href="/item/asdsd" >
         <Box
           role={'group'}
           p={2}
