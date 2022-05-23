@@ -33,7 +33,7 @@ import SuccessItem from '../../components/Modals/SuccessItem'
 import FileUpload from '../../components/Utils/FileUpload'
 import { useGlobal } from '../../providers/globalProvider'
 import { itemService } from '../../services/itemService'
-import { getListSubCategory } from '../../utils/itemUtils'
+import { getListCategory, getListSubCategory } from '../../utils/itemUtils'
 
 const NewPublish = () => {
   const global = useGlobal()
@@ -43,6 +43,7 @@ const NewPublish = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   // State SubCategories
+  const [categories, setCategories] = useState([])
   const [subCategories, setSubCategories] = useState([])
 
   // State useForm
@@ -57,6 +58,14 @@ const NewPublish = () => {
   useEffect(() => {
     const init = () => {
       if (global && global.profile) {
+        // Get Categories
+        getListCategory().then((res) => {
+          console.log(res.data.result)
+          let categories = res.data.result
+          if (categories.length > 0) {
+            setCategories(res.data.result)
+          }
+        })
         // Get SubCategories
         getListSubCategory().then((res) => {
           console.log(res.data.result)
@@ -99,7 +108,7 @@ const NewPublish = () => {
     form.append('price', priceValue)
     form.append('seller', global.profile._id)
     form.append('maxorders', 3)
-    form.append('category', 'services')
+    form.append('category', data.category)
     form.append('subcategory', data.subcategory)
 
     let newData = JSON.stringify(Object.fromEntries(form))
@@ -143,9 +152,30 @@ const NewPublish = () => {
       <Container maxW="2xl" display={'flex'} flexDirection={'column'}>
         <Heading mt="1em">New Publish</Heading>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Text mt="2em">Category</Text>
           <Select placeholder="Services" isDisabled></Select>
-          <Divider />
+          {categories && categories.length > 0 && (
+            <Box mb="2em">
+              <Text mt="2em">Category</Text>
+              <Select
+                bg="white"
+                color="black"
+                name="category"
+                id="category"
+                placeholder="Select Option"
+                {...register('category', { required: true })}
+              >
+                {categories.map((category) => (
+                  <option
+                    key={category._id}
+                    value={category._id}
+                    id="category"
+                  >
+                    {category.title}
+                  </option>
+                ))}
+              </Select>
+            </Box>
+          )}
 
           {subCategories.length > 0 && (
             <Box mb="2em">
