@@ -40,8 +40,13 @@ export const FileUpload = ({
     }
   }, [selectedImage])
 
+  useEffect(() => {
+    console.log(imageUrl, 'imageUrlimageUrl')
+    console.log(selectedImage, 'selectedImage')
+  }, [imageUrl, selectedImage])
+
   return (
-    <FormControl isInvalid={invalid}  >
+    <FormControl isInvalid={invalid} isRequired={isRequired && isRequired}>
       <FormLabel htmlFor="writeUpFile">{children}</FormLabel>
       <InputGroup>
         <input
@@ -65,12 +70,18 @@ export const FileUpload = ({
           cursor="pointer"
           onClick={() => inputRef.current.click()}
         >
-          {!imageUrl && (
-            <Box w="full" h="full" display='flex' alignItems='center' justifyContent='center'>
+          {!imageUrl || !selectedImage ? (
+            <Box
+              w="full"
+              h="full"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
               <MdOutlineImage fontSize="3em" />
               Browse
             </Box>
-          )}
+          ) : null}
           {imageUrl && selectedImage && (
             <Image
               alt={selectedImage && selectedImage.name}
