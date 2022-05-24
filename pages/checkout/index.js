@@ -8,6 +8,7 @@ import {
   } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import ButtonCheckout from '../../components/Buttons/ButtonCheckout'
+import KlerosEscrowProvider from '../../providers/klerosEscrowProvider'
 import {
     ordersToTransactionData,
     loadDummyData
@@ -30,9 +31,13 @@ const Checkout = () => {
     useEffect(() => {
         const dummyData = loadDummyData();
         setOrderData(dummyData);
-        if (dummyData.orderInfo.orders.length) {
+        if (dummyData.orderInfo.orders.length && dummyData.recipient) {
             setTransactionData(
-                ordersToTransactionData(orderData.orderInfo, orderData.recipient, orderData.timeout)
+                ordersToTransactionData(
+                    orderData.orderInfo,
+                    orderData.recipient,
+                    orderData.timeout
+                )
             );
         }
     }, []);
@@ -43,27 +48,28 @@ const Checkout = () => {
     };
 
     return (
-        <>
+        <KlerosEscrowProvider transactionData>
           <Container padding={'2rem 0'} height={'calc(100vh - 180px)'}>
               <Heading>Order summary</Heading>
-              <Flex padding={'1rem 0'}>
+              <Flex padding={'1rem 0'} flexDirection='column'>
                   {
                       orderData.orderInfo.orders.map((orderItem, orderIndex) => (
-                          <Box key={`order-item-${orderIndex}`}>
-                              <Text>{orderItem.name}</Text>
+                          <Box key={`order-item-${orderIndex}`} margin='1.25rem 0'>
+                              <Text fontWeight='bold' fontSize='18px'>{orderItem.name}</Text>
+                              <Text fontSize='14px'>Price: ${orderItem.value}</Text>
                           </Box>
                       ))
                   }
               </Flex>
-              <Divider></Divider>
-              <Box>
-                  <Text>Total: ${_totalAmountOrder(orderData.orderInfo.orders)}</Text>
+              <Box borderTop='1.5px solid #212121'>
+                  <Text><span style={{fontSize: '18px'}}>Total:</span> ${_totalAmountOrder(orderData.orderInfo.orders)}</Text>
               </Box>
-              <Box>
-                  <ButtonCheckout transactionInfo={transactionData} />
-              </Box>
+              <Flex>
+                  <ButtonCheckout style={{display: 'block', margin: '1rem auto'}}
+                                  transactionInfo={transactionData} />
+              </Flex>
           </Container>
-        </>
+        </KlerosEscrowProvider>
       )
 }
 

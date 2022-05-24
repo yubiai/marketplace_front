@@ -1,6 +1,8 @@
 const ordersToTransactionData = (order, recipient, timeout) => {
+    /*
     const totalAmount = order.orders.reduce(
         (currentVal, prevAmount) => (prevAmount + currentVal.amount), 0)
+    */
     const generatedDescription = order.orders.map(order => order.name).join(',');
 
     return {
@@ -8,7 +10,7 @@ const ordersToTransactionData = (order, recipient, timeout) => {
         description: generatedDescription,
         fileURI: { contract: `Generated order #${order.name}` },
         amount: {
-            value: totalAmount || 1e16,
+            value: 1e16,
             currency: 'UBI'
         },
         recipient,

@@ -9,6 +9,7 @@ const initialState = {
   search: '',
   meta: false,
   profile: null,
+  klerosEscrowInstance: {}
 }
 
 // Reducers
@@ -33,6 +34,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         meta: action.payload,
+      }
+    case 'SET_KLEROS_ESCROW_INSTANCE':
+      return {
+        ...state,
+        klerosEscrowInstance: action.payload
       }
     default:
       throw new Error('Action Fail')
