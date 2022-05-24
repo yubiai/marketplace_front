@@ -42,7 +42,6 @@ const NewPublish = () => {
 
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [scrollBehavior, setScrollBehavior] = useState('inside')
 
   // State SubCategories
   const [categories, setCategories] = useState([])
@@ -230,6 +229,7 @@ const NewPublish = () => {
             onChange={(valueString) => setPriceValue(parse(valueString))}
             value={format(priceValue)}
             bg="white"
+            min={1}
             max={999999}
             isRequired
           >
@@ -289,7 +289,7 @@ const NewPublish = () => {
           isOpen={isOpen}
           onClose={onClose}
           size="5xl"
-          scrollBehavior={scrollBehavior}
+          scrollBehavior={'inside'}
         >
           {stateSubmit === 0 && (
             <>
