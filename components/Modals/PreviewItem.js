@@ -8,6 +8,7 @@ const PreviewItem = ({ item }) => {
 
   useEffect(() => {
     const loadItem = async () => {
+      console.log(item, 'item PreviewItem')
       setItemInfo(item)
       const filePromises = item.pictures.map((file) => {
         if (file) {
@@ -39,7 +40,7 @@ const PreviewItem = ({ item }) => {
 
   return (
     <Flex width={'full'} direction={{ base: 'column', md: 'row' }}>
-      <Box width={'full'}>
+      <Box width={'50%'}>
         <Box>
           {imagesPreview && imagesPreview[0] && (
             <Center>
@@ -79,12 +80,10 @@ const PreviewItem = ({ item }) => {
           </Flex>
         </Box>
       </Box>
-      <Box width={'full'} p={'1em'}>
+      <Box width={'50%'} p={'1em'}>
         <Text fontWeight={'bold'}>Title</Text>
         <Text>{itemInfo?.title}</Text>
 
-        <Text fontWeight={'bold'}> Description: </Text>
-        <Text>{itemInfo?.description}</Text>
         <Text fontWeight={'bold'}>Price: </Text>
         <Text>{itemInfo?.price}</Text>
 
@@ -93,6 +92,9 @@ const PreviewItem = ({ item }) => {
 
         <Text fontWeight={'bold'}>SubCategory: </Text>
         <Text>{itemInfo?.subcategory}</Text>
+
+        <Text fontWeight={'bold'}> Description: </Text>
+        <Text>{itemInfo?.description}</Text>
       </Box>
     </Flex>
   )

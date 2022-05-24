@@ -5,7 +5,6 @@ import {
   InputGroup,
   FormErrorMessage,
   Box,
-  Center,
   Image,
   Text,
 } from '@chakra-ui/react'
@@ -33,12 +32,24 @@ export const FileUpload = ({
 
   const [selectedImage, setSelectedImage] = useState(null)
   const [imageUrl, setImageUrl] = useState(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     if (selectedImage) {
       setImageUrl(URL.createObjectURL(selectedImage))
     }
   }, [selectedImage])
+
+  const verifyImage = (file) => {
+    if (file.size > 3e6) {
+      setError('Error upload: limit size.')
+      setSelectedImage(null)
+      return
+    }
+
+    setSelectedImage(file)
+    onChange(file)
+  }
 
   return (
     <FormControl isInvalid={invalid} isRequired={isRequired && isRequired}>
@@ -47,8 +58,7 @@ export const FileUpload = ({
         <input
           type="file"
           onChange={(e) => {
-            setSelectedImage(e.target.files[0])
-            onChange(e.target.files[0])
+            verifyImage(e.target.files[0])
           }}
           accept={acceptedFileTypes}
           name={name}
@@ -66,16 +76,19 @@ export const FileUpload = ({
           onClick={() => inputRef.current.click()}
         >
           {!imageUrl || !selectedImage ? (
-            <Box
-              w="full"
-              h="full"
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <MdOutlineImage fontSize="3em" />
-              Browse
-            </Box>
+            <>
+              <Box
+                w="full"
+                h="full"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <MdOutlineImage fontSize="3em" />
+                Browse
+              </Box>
+              <Text color="red.500"> {error && error}</Text>
+            </>
           ) : null}
           {imageUrl && selectedImage && (
             <Image

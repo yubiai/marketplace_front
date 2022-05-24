@@ -24,6 +24,7 @@ import {
   Textarea,
   useDisclosure,
 } from '@chakra-ui/react'
+import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -41,6 +42,7 @@ const NewPublish = () => {
 
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [scrollBehavior, setScrollBehavior] = useState('inside')
 
   // State SubCategories
   const [categories, setCategories] = useState([])
@@ -60,7 +62,6 @@ const NewPublish = () => {
       if (global && global.profile) {
         // Get Categories
         getListCategory().then((res) => {
-          console.log(res.data.result)
           let categories = res.data.result
           if (categories.length > 0) {
             setCategories(res.data.result)
@@ -68,9 +69,8 @@ const NewPublish = () => {
         })
         // Get SubCategories
         getListSubCategory().then((res) => {
-          console.log(res.data.result)
-          let categories = res.data.result
-          if (categories.length > 0) {
+          let subcategories = res.data.result
+          if (subcategories.length > 0) {
             setSubCategories(res.data.result)
           }
         })
@@ -111,14 +111,23 @@ const NewPublish = () => {
     form.append('category', data.category)
     form.append('subcategory', data.subcategory)
 
+    // Get Title category and subcategory
+    const categorySelected = categories.find(
+      (category) => category._id === data.category
+    )
+    const subcategorySelected = subCategories.find(
+      (subcategory) => subcategory._id === data.subcategory
+    )
+
     let newData = JSON.stringify(Object.fromEntries(form))
     newData = JSON.parse(newData)
     newData = {
       ...newData,
       pictures: [data.img1, data.img2, data.img3],
+      category: categorySelected.title,
+      subcategory: subcategorySelected.title,
     }
     // Data Save useState
-    console.log(newData)
     setDataSubmit(form)
     setResult(newData)
     // Open Modal
@@ -149,6 +158,9 @@ const NewPublish = () => {
 
   return (
     <>
+      <Head>
+        <title>Yubiai Marketplace - New Publish</title>
+      </Head>
       <Container maxW="2xl" display={'flex'} flexDirection={'column'}>
         <Heading mt="1em">New Publish</Heading>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -161,15 +173,11 @@ const NewPublish = () => {
                 color="black"
                 name="category"
                 id="category"
-                placeholder="Select Option"
+                placeholder="Select Category"
                 {...register('category', { required: true })}
               >
                 {categories.map((category) => (
-                  <option
-                    key={category._id}
-                    value={category._id}
-                    id="category"
-                  >
+                  <option key={category._id} value={category._id} id="category">
                     {category.title}
                   </option>
                 ))}
@@ -185,7 +193,7 @@ const NewPublish = () => {
                 color="black"
                 name="subcategory"
                 id="subcategory"
-                placeholder="Select Option"
+                placeholder="Select Sub Category"
                 {...register('subcategory', { required: true })}
               >
                 {subCategories.map((subcategory) => (
@@ -205,7 +213,7 @@ const NewPublish = () => {
           <Input
             placeholder="Title"
             bg="white"
-            {...register('title', {})}
+            {...register('title', { required: true, maxLength: 150 })}
             isRequired
           />
 
@@ -213,7 +221,7 @@ const NewPublish = () => {
           <Textarea
             placeholder="Description"
             bg="white"
-            {...register('description', { required: true, maxLength: 400 })}
+            {...register('description', { required: true, maxLength: 800 })}
             isRequired
           />
           <Text mt="2em">Price</Text>
@@ -241,7 +249,7 @@ const NewPublish = () => {
             and must not be more than 10mb each
           </Text>
 
-          <Flex>
+          <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }}>
             <FileUpload
               name="img1"
               acceptedFileTypes="image/*"
@@ -277,7 +285,12 @@ const NewPublish = () => {
             </Button>
           </Box>
         </form>
-        <Modal isOpen={isOpen} onClose={onClose} size="xl">
+        <Modal
+          isOpen={isOpen}
+          onClose={onClose}
+          size="5xl"
+          scrollBehavior={scrollBehavior}
+        >
           {stateSubmit === 0 && (
             <>
               <ModalOverlay />
