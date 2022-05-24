@@ -155,222 +155,230 @@ const NewPublish = () => {
     }
   }
 
-  return (
-    <>
-      <Head>
-        <title>Yubiai Marketplace - New Publish</title>
-      </Head>
-      <Container maxW="2xl" display={'flex'} flexDirection={'column'}>
-        <Heading mt="1em">New Publish</Heading>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Select placeholder="Services" isDisabled></Select>
-          {categories && categories.length > 0 && (
-            <Box mb="2em">
-              <Text mt="2em">Category</Text>
-              <Select
-                bg="white"
-                color="black"
-                name="category"
-                id="category"
-                placeholder="Select Category"
-                {...register('category', { required: true })}
+  if (global && global.profile)
+    return (
+      <>
+        <Head>
+          <title>Yubiai Marketplace - New Publish</title>
+        </Head>
+        <Container maxW="2xl" display={'flex'} flexDirection={'column'}>
+          <Heading mt="1em">New Publish</Heading>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Select placeholder="Services" isDisabled></Select>
+            {categories && categories.length > 0 && (
+              <Box mb="2em">
+                <Text mt="2em">Category</Text>
+                <Select
+                  bg="white"
+                  color="black"
+                  name="category"
+                  id="category"
+                  placeholder="Select Category"
+                  {...register('category', { required: true })}
+                >
+                  {categories.map((category) => (
+                    <option
+                      key={category._id}
+                      value={category._id}
+                      id="category"
+                    >
+                      {category.title}
+                    </option>
+                  ))}
+                </Select>
+              </Box>
+            )}
+
+            {subCategories.length > 0 && (
+              <Box mb="2em">
+                <Text mt="2em">Sub Category</Text>
+                <Select
+                  bg="white"
+                  color="black"
+                  name="subcategory"
+                  id="subcategory"
+                  placeholder="Select Sub Category"
+                  {...register('subcategory', { required: true })}
+                >
+                  {subCategories.map((subcategory) => (
+                    <option
+                      key={subcategory._id}
+                      value={subcategory._id}
+                      id="subcategory"
+                    >
+                      {subcategory.title}
+                    </option>
+                  ))}
+                </Select>
+                <Divider />
+              </Box>
+            )}
+            <Text mt="2em">Title</Text>
+            <Input
+              placeholder="Title"
+              bg="white"
+              {...register('title', { required: true, maxLength: 150 })}
+              isRequired
+            />
+
+            <Text mt="2em">Description</Text>
+            <Textarea
+              placeholder="Description"
+              bg="white"
+              {...register('description', { required: true, maxLength: 800 })}
+              isRequired
+            />
+            <Text mt="2em">Price</Text>
+
+            <NumberInput
+              onChange={(valueString) => setPriceValue(parse(valueString))}
+              value={format(priceValue)}
+              bg="white"
+              min={1}
+              max={999999}
+              isRequired
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+            <Divider />
+
+            <Heading mt="1em">Product Images</Heading>
+
+            <Text>
+              Get noticed by the right buyers with visual examples of your
+              services. Images must have a minimum width of 375px, height of
+              375px and must not be more than 10mb each
+            </Text>
+
+            <Flex
+              display={'flex'}
+              flexDirection={{ base: 'column', sm: 'row' }}
+            >
+              <FileUpload
+                name="img1"
+                acceptedFileTypes="image/*"
+                isRequired={true}
+                placeholder="Your photo 1"
+                control={control}
               >
-                {categories.map((category) => (
-                  <option key={category._id} value={category._id} id="category">
-                    {category.title}
-                  </option>
-                ))}
-              </Select>
-            </Box>
-          )}
-
-          {subCategories.length > 0 && (
-            <Box mb="2em">
-              <Text mt="2em">Sub Category</Text>
-              <Select
-                bg="white"
-                color="black"
-                name="subcategory"
-                id="subcategory"
-                placeholder="Select Sub Category"
-                {...register('subcategory', { required: true })}
+                Image 1
+              </FileUpload>
+              <FileUpload
+                name="img2"
+                acceptedFileTypes="image/*"
+                isRequired={false}
+                placeholder="Your photo 2"
+                control={control}
               >
-                {subCategories.map((subcategory) => (
-                  <option
-                    key={subcategory._id}
-                    value={subcategory._id}
-                    id="subcategory"
-                  >
-                    {subcategory.title}
-                  </option>
-                ))}
-              </Select>
-              <Divider />
+                Image 2
+              </FileUpload>
+              <FileUpload
+                name="img3"
+                acceptedFileTypes="image/*"
+                isRequired={false}
+                placeholder="Your photo 3"
+                control={control}
+              >
+                Image 3
+              </FileUpload>
+            </Flex>
+
+            <Box float={'right'} m="2em">
+              <Button bg="#00abd1" color="white" type="submit">
+                Preview & Submit for review
+              </Button>
             </Box>
-          )}
-          <Text mt="2em">Title</Text>
-          <Input
-            placeholder="Title"
-            bg="white"
-            {...register('title', { required: true, maxLength: 150 })}
-            isRequired
-          />
-
-          <Text mt="2em">Description</Text>
-          <Textarea
-            placeholder="Description"
-            bg="white"
-            {...register('description', { required: true, maxLength: 800 })}
-            isRequired
-          />
-          <Text mt="2em">Price</Text>
-
-          <NumberInput
-            onChange={(valueString) => setPriceValue(parse(valueString))}
-            value={format(priceValue)}
-            bg="white"
-            min={1}
-            max={999999}
-            isRequired
+          </form>
+          <Modal
+            isOpen={isOpen}
+            onClose={onClose}
+            size="5xl"
+            scrollBehavior={'inside'}
           >
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-          <Divider />
+            {stateSubmit === 0 && (
+              <>
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalHeader>Review your listing</ModalHeader>
+                  {loadingSubmit === false && <ModalCloseButton />}
+                  <ModalBody>
+                    <PreviewItem item={result} />
+                  </ModalBody>
 
-          <Heading mt="1em">Product Images</Heading>
-
-          <Text>
-            Get noticed by the right buyers with visual examples of your
-            services. Images must have a minimum width of 375px, height of 375px
-            and must not be more than 10mb each
-          </Text>
-
-          <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }}>
-            <FileUpload
-              name="img1"
-              acceptedFileTypes="image/*"
-              isRequired={true}
-              placeholder="Your photo 1"
-              control={control}
-            >
-              Image 1
-            </FileUpload>
-            <FileUpload
-              name="img2"
-              acceptedFileTypes="image/*"
-              isRequired={false}
-              placeholder="Your photo 2"
-              control={control}
-            >
-              Image 2
-            </FileUpload>
-            <FileUpload
-              name="img3"
-              acceptedFileTypes="image/*"
-              isRequired={false}
-              placeholder="Your photo 3"
-              control={control}
-            >
-              Image 3
-            </FileUpload>
-          </Flex>
-
-          <Box float={'right'} m="2em">
-            <Button bg="#00abd1" color="white" type="submit">
-              Preview & Submit for review
-            </Button>
-          </Box>
-        </form>
-        <Modal
-          isOpen={isOpen}
-          onClose={onClose}
-          size="5xl"
-          scrollBehavior={'inside'}
-        >
-          {stateSubmit === 0 && (
-            <>
-              <ModalOverlay />
-              <ModalContent>
-                <ModalHeader>Review your listing</ModalHeader>
-                {loadingSubmit === false && <ModalCloseButton />}
-                <ModalBody>
-                  <PreviewItem item={result} />
-                </ModalBody>
-
-                <ModalFooter>
-                  {loadingSubmit === false && (
-                    <>
-                      <Button
-                        variant="ghost"
-                        colorScheme="blue"
-                        mr={3}
-                        onClick={onClose}
-                      >
-                        Go Back
-                      </Button>
-                      <Button
-                        bg="#00abd1"
-                        color="white"
-                        onClick={() => confirmSubmit()}
-                      >
-                        Submit for review
-                      </Button>
-                    </>
-                  )}
-                  {loadingSubmit === true && (
-                    <Spinner
-                      thickness="4px"
-                      speed="0.65s"
-                      emptyColor="gray.200"
-                      color="blue.500"
-                      size="xl"
-                    />
-                  )}
-                </ModalFooter>
-              </ModalContent>
-            </>
-          )}
-          {stateSubmit === 1 && (
-            <>
-              <ModalOverlay />
-              <ModalContent>
-                <ModalBody>
-                  <SuccessItem />
-                </ModalBody>
-                <ModalFooter>
-                  <Link href="/">
-                    <Button>Close</Button>
-                  </Link>
-                </ModalFooter>
-              </ModalContent>
-            </>
-          )}
-          {stateSubmit === 2 && (
-            <>
-              <ModalOverlay />
-              <ModalContent>
-                <ModalBody>Error de carga</ModalBody>
-                <ModalFooter>
-                  <Button
-                    onClick={() => {
-                      setStateSubmit(0)
-                      onClose()
-                    }}
-                  >
-                    Close
-                  </Button>
-                </ModalFooter>
-              </ModalContent>
-            </>
-          )}
-        </Modal>
-      </Container>
-    </>
-  )
+                  <ModalFooter>
+                    {loadingSubmit === false && (
+                      <>
+                        <Button
+                          variant="ghost"
+                          colorScheme="blue"
+                          mr={3}
+                          onClick={onClose}
+                        >
+                          Go Back
+                        </Button>
+                        <Button
+                          bg="#00abd1"
+                          color="white"
+                          onClick={() => confirmSubmit()}
+                        >
+                          Submit for review
+                        </Button>
+                      </>
+                    )}
+                    {loadingSubmit === true && (
+                      <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                        size="xl"
+                      />
+                    )}
+                  </ModalFooter>
+                </ModalContent>
+              </>
+            )}
+            {stateSubmit === 1 && (
+              <>
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalBody>
+                    <SuccessItem />
+                  </ModalBody>
+                  <ModalFooter>
+                    <Link href="/">
+                      <Button>Close</Button>
+                    </Link>
+                  </ModalFooter>
+                </ModalContent>
+              </>
+            )}
+            {stateSubmit === 2 && (
+              <>
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalBody>Error de carga</ModalBody>
+                  <ModalFooter>
+                    <Button
+                      onClick={() => {
+                        setStateSubmit(0)
+                        onClose()
+                      }}
+                    >
+                      Close
+                    </Button>
+                  </ModalFooter>
+                </ModalContent>
+              </>
+            )}
+          </Modal>
+        </Container>
+      </>
+    )
 }
 
 export default NewPublish
