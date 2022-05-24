@@ -12,10 +12,10 @@ import Link from 'next/link'
 const IMAGE =
   'https://images.unsplash.com/photo-1587089879249-87bf7d2972df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2952&q=80'
 
-const ItemCard = () => {
+const ItemCard = ({item}) => {
   return (
     <Center p={1} cursor="pointer">
-      <Link href="/item/asdsd" >
+      <Link href={`/item/${item.slug}`} >
         <Box
           role={'group'}
           p={2}
@@ -36,20 +36,17 @@ const ItemCard = () => {
             height={'150px'}
             width={'180px'}
             objectFit={'cover'}
-            src={IMAGE}
+            src={item.pictures[0]}
           />
           <Stack align={'left'} mt="2px">
             <Divider />
             <Text
               color={'gray.600'}
-              fontSize={'sm'}
+              fontSize={'0.7em'}
               textTransform={'uppercase'}
             >
-              Diseñador
+              {item.title}
             </Text>
-            <Heading fontSize={'10px'} fontFamily={'body'} fontWeight={500}>
-              Diseñador de LogosSSS
-            </Heading>
             <Stack direction={'row'}>
               <Text fontWeight={800} fontSize={'1ems'}>
                 100
