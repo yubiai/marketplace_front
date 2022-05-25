@@ -56,7 +56,7 @@ const PreviewItem = ({ item }) => {
           )}
         </Box>
         <Box>
-          <Flex mt="5px">
+          <Flex mt="5px" justifyContent={"center"}>
             {imagesPreview &&
               imagesPreview.length > 0 &&
               imagesPreview.map((image, i) => {
@@ -67,7 +67,7 @@ const PreviewItem = ({ item }) => {
                         alt="Img Item"
                         rounded={'lg'}
                         height={'70px'}
-                        width={'full'}
+                        width={'100px'}
                         cursor="pointer"
                         objectFit={'cover'}
                         src={image}
