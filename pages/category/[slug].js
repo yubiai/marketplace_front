@@ -4,16 +4,20 @@ import { MdKeyboardArrowRight } from 'react-icons/md'
 import ItemCardLg from '../../components/Cards/ItemCardLg'
 import axios from 'axios'
 import Loading from '../../components/Spinners/Loading'
+import Head from 'next/head'
 
 const ItemsByCategory = ({ items, category }) => {
   const capitalize = (word) => {
     return word && word[0].toUpperCase() + word.slice(1)
   }
 
-  if(!items || !category ) return <Loading />
+  if (!items || !category) return <Loading />
 
   return (
     <>
+      <Head>
+        <title>Yubiai Marketplace - {category}</title>
+      </Head>
       <SubCategoriesMenu>
         <Flex alignItems={'center'}>
           <Text fontWeight={'bold'}>Categories</Text>

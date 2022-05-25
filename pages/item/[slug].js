@@ -14,6 +14,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import InfoUserModal from '../../components/Modals/InfoUserModal'
 import Loading from '../../components/Spinners/Loading'
+import Head from 'next/head'
 
 const ItemById = ({ item }) => {
   const [selectImage, setSelectImage] = useState(null)
@@ -24,12 +25,15 @@ const ItemById = ({ item }) => {
       }
     }
     funcSelectImage()
-  }, [item]);
+  }, [item])
 
-  if(!item) return <Loading />
+  if (!item) return <Loading />
 
   return (
     <>
+      <Head>
+        <title>Yubiai Marketplace - {item.title}</title>
+      </Head>
       <Container maxW="container.xl">
         <Flex width={'full'} direction={{ base: 'column', md: 'row' }}>
           <Box width={{ base: '100%', md: '66%' }} m="5px">
@@ -143,10 +147,9 @@ export async function getStaticPaths() {
   return { paths, fallback: true }
 }
 
-
 export async function getStaticProps({ params }) {
   try {
-    const { slug } = params;
+    const { slug } = params
     const res = await axios.get(`/items/item/${slug}`)
     const item = res.data.result
 
