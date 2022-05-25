@@ -9,9 +9,6 @@ import {
 } from '@chakra-ui/react'
 import Link from 'next/link'
 
-const IMAGE =
-  'https://images.unsplash.com/photo-1587089879249-87bf7d2972df?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2952&q=80'
-
 const ItemCard = ({item}) => {
   return (
     <Center p={1} cursor="pointer">

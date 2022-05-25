@@ -8,7 +8,6 @@ import {
   Image,
   Text,
 } from '@chakra-ui/react'
-import ItemCard from '../../components/Cards/ItemCard'
 // import { FaBeer } from 'react-icons/fa';
 import { MdOutlineStar } from 'react-icons/md'
 import axios from 'axios'
