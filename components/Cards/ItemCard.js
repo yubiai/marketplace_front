@@ -1,7 +1,6 @@
 import {
   Box,
   Center,
-  Heading,
   Text,
   Stack,
   Image,
