@@ -59,7 +59,7 @@ const MyInfoPohCard = ({dataProfile, balance}) => {
             </Text>
           </Stack>
           <Flex flex={0.2} justifyContent="center" alignItems="center">
-            <Link href={'https://app.proofofhumanity.id/profile/' + dataProfile.eth_address} external>
+            <Link href={'https://app.proofofhumanity.id/profile/' + dataProfile.eth_address} isExternal>
             <Button bg="#00ABD1" color="white">
               My PoH Profile
             </Button>

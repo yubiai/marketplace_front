@@ -12,11 +12,11 @@ import {
 import { MdOutlineStar } from 'react-icons/md'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import InfoUserModal from '../../components/Modals/InfoUserModal'
 
 const ItemById = ({ item }) => {
-  console.log(item)
   const [selectImage, setSelectImage] = useState(null)
-
+  console.log(item, "item")
   useEffect(() => {
     const funcSelectImage = () => {
       if (item && item.pictures && item.pictures.length > 0) {
@@ -24,7 +24,7 @@ const ItemById = ({ item }) => {
       }
     }
     funcSelectImage()
-  }, [item])
+  }, [item]);
 
   return (
     <>
@@ -48,7 +48,7 @@ const ItemById = ({ item }) => {
             <Box>
               <Divider />
               <Box>
-                <Flex justifyContent={"center"}>
+                <Flex justifyContent={'center'}>
                   {item &&
                     item.pictures &&
                     item.pictures.length > 0 &&
@@ -88,9 +88,7 @@ const ItemById = ({ item }) => {
             <Text fontSize="20px" fontWeight="600">
               {item.title}
             </Text>
-            <Text color="#01abd0" fontSize="14px" fontWeight="600">
-              Sell by Englego
-            </Text>
+            <InfoUserModal user={item.seller} />
             <Box
               display={'flex'}
               flexDirection={'row'}
@@ -142,7 +140,7 @@ export async function getServerSideProps(context) {
   try {
     const { slug } = context.query
     const res = await axios.get(`/items/item/${slug}`)
-    const item = res.data.result[0]
+    const item = res.data.result
 
     return { props: { item } }
   } catch (err) {
