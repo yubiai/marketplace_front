@@ -13,10 +13,10 @@ import { MdOutlineStar } from 'react-icons/md'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import InfoUserModal from '../../components/Modals/InfoUserModal'
+import Loading from '../../components/Spinners/Loading'
 
 const ItemById = ({ item }) => {
   const [selectImage, setSelectImage] = useState(null)
-  console.log(item, "item")
   useEffect(() => {
     const funcSelectImage = () => {
       if (item && item.pictures && item.pictures.length > 0) {
@@ -25,6 +25,8 @@ const ItemById = ({ item }) => {
     }
     funcSelectImage()
   }, [item]);
+
+  if(!item) return <Loading />
 
   return (
     <>
@@ -136,9 +138,15 @@ const ItemById = ({ item }) => {
   )
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticPaths() {
+  const paths = []
+  return { paths, fallback: true }
+}
+
+
+export async function getStaticProps({ params }) {
   try {
-    const { slug } = context.query
+    const { slug } = params;
     const res = await axios.get(`/items/item/${slug}`)
     const item = res.data.result
 

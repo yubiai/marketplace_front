@@ -2,8 +2,11 @@ import { Box } from '@chakra-ui/react'
 import axios from 'axios'
 import Head from 'next/head'
 import CarouselCards from '../components/Cards/CarouselCards'
+import Loading from '../components/Spinners/Loading'
 
 const Home = ({ itemsByServices }) => {
+
+  if(!itemsByServices) return <Loading />
 
   return (
     <div>
@@ -44,7 +47,7 @@ const Home = ({ itemsByServices }) => {
   )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
     const res = await axios.get(`/items/bycategory/628be6c99659a661e05f9e2f`)
     const itemsByServices = res.data.result

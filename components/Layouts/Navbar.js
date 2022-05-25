@@ -4,7 +4,6 @@ import {
   Flex,
   Text,
   Stack,
-  Icon,
   Popover,
   PopoverTrigger,
   PopoverContent,
@@ -13,7 +12,6 @@ import {
 } from '@chakra-ui/react'
 import UserAlerts from '../Menus/UserAlerts'
 import UserMenu from '../Menus/UserMenu'
-import { ChevronRightIcon } from '@chakra-ui/icons'
 import { useGlobal } from '../../providers/globalProvider'
 
 const Navbar = () => {
@@ -95,17 +93,6 @@ const Navbar = () => {
                 {label}
               </Text>
             </Box>
-            <Flex
-              transition={'all .3s ease'}
-              transform={'translateX(-10px)'}
-              opacity={0}
-              _groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
-              justify={'flex-end'}
-              align={'center'}
-              flex={1}
-            >
-              <Icon color={'blue.400'} w={5} h={5} as={ChevronRightIcon} />
-            </Flex>
           </Stack>
         </Button>
       </Link>
