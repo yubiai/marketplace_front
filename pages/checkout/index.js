@@ -4,11 +4,12 @@ import {
     Text,
     Flex,
     Heading,
-    Divider
   } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import ButtonCheckout from '../../components/Buttons/ButtonCheckout'
+import { useGlobal } from '../../providers/globalProvider'
 import KlerosEscrowProvider from '../../providers/klerosEscrowProvider'
+import { orderService } from '../../services/orderService'
 import {
     ordersToTransactionData,
     loadDummyData
@@ -16,11 +17,7 @@ import {
 
 const Checkout = () => {
     // Global
-    /*
     const global = useGlobal()
-    const router = useRouter()
-    */
-
     const DEFAULT_DUMMY_AMOUNT = 1000;
     const [orderData, setOrderData] = useState({ orderInfo: { orders: [] } });
     const [transactionData, setTransactionData] = useState({});
@@ -29,23 +26,37 @@ const Checkout = () => {
      * Load data
      */
     useEffect(() => {
+        if (orderData.recipient) {
+            return;
+        }
+
         const dummyData = loadDummyData();
         setOrderData(dummyData);
-        if (dummyData.orderInfo.orders.length && dummyData.recipient) {
-            setTransactionData(
-                ordersToTransactionData(
-                    orderData.orderInfo,
-                    orderData.recipient,
-                    orderData.timeout
-                )
+        if (dummyData.orderInfo.orders.length && dummyData.recipient, dummyData.timeout) {
+            const parsedDataToTransaction = ordersToTransactionData(
+                dummyData.orderInfo,
+                dummyData.recipient,
+                dummyData.timeout
             );
+            setTransactionData(parsedDataToTransaction);
         }
-    }, []);
+    }, [orderData]);
 
     const _totalAmountOrder = (orders) => {
         return orders.reduce(
             (currentVal, prevOrder) => currentVal + prevOrder.value, 0) || DEFAULT_DUMMY_AMOUNT;
     };
+
+    const createOrder = async (transactionResult = {}) => {
+        const currentWalletAccount = await global.klerosEscrowInstance.getAccount();
+        await orderService.createOrder({
+            order: {
+                items: [...orderData.orderInfo.orders],
+                userBuyer: currentWalletAccount
+            },
+            transactionInfo: transactionResult
+        });
+    }
 
     return (
         <KlerosEscrowProvider transactionData>
@@ -66,7 +77,8 @@ const Checkout = () => {
               </Box>
               <Flex>
                   <ButtonCheckout style={{display: 'block', margin: '1rem auto'}}
-                                  transactionInfo={transactionData} />
+                                  transactionInfo={transactionData}
+                                  createOrder={createOrder} />
               </Flex>
           </Container>
         </KlerosEscrowProvider>

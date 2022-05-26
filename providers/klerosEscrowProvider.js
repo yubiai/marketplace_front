@@ -3,14 +3,13 @@ import { useDispatchGlobal } from './globalProvider'
 import KlerosEscrow from '../utils/escrow-utils/kleros-escrow'
 import Web3 from 'web3'
 
-export const KlerosEscrowProvider = ({ children, transactionData }) => {
+const KlerosEscrowProvider = ({ children, transactionData }) => {
   const dispatch = useDispatchGlobal()
 
   let web3 = new Web3(
     process.env.NEXT_PUBLIC_INFURA_ENDPOINT ||
     new Web3.providers.HttpProvider('http://localhost:8545')
   );
-  
 
   const klerosEscrowRef = useRef(new KlerosEscrow(web3));
   const [metaEvidenceFileURI, setMetaEvidenceFileURI] = useState(transactionData.fileURI,)
@@ -21,6 +20,8 @@ export const KlerosEscrowProvider = ({ children, transactionData }) => {
       type: 'SET_KLEROS_ESCROW_INSTANCE',
       payload: klerosEscrowRef.current,
     })
+    // FIXME: Remove.... 
+    window.klerosInstance = klerosEscrowRef.current;
   }, [klerosEscrowRef, dispatch]);
 
   useEffect(() => {

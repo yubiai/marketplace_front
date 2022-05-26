@@ -198,7 +198,6 @@ export default class KlerosEscrow {
   }
 
   async pay(transactionID, amount) {
-    // const sender = await this.getAccount();
     return this.contract.methods.pay(transactionID, amount)
       .send()
   }

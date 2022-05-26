@@ -1,8 +1,7 @@
 import { Button } from '@chakra-ui/react'
-import { useState } from 'react'
 import { useGlobal } from '../../providers/globalProvider'
 
-const ButtonCheckout = ({ transactionInfo }) => {
+const ButtonCheckout = ({ transactionInfo, createOrder }) => {
     const global = useGlobal()
     const { amount, recipient, timeout, title, description, fileURI } = transactionInfo
     const metaEvidence = {
@@ -14,8 +13,30 @@ const ButtonCheckout = ({ transactionInfo }) => {
     const createTransaction = async () => {
         try {
             const result = await global.klerosEscrowInstance.createTransaction(
-                amount.value, recipient, timeout, metaEvidence)  
-            setTransactionId(result.transactionIndex)
+                amount.value, recipient, timeout, metaEvidence)
+
+            const {
+                blockHash,
+                blockNumber,
+                cumulativeGasUsed,
+                effectiveGasPrice,
+                from,
+                to,
+                transactionHash,
+                transactionIndex
+            } = result;
+            console.log('Transaction full information:: ', result);
+            await createOrder({
+                blockHash,
+                blockNumber,
+                cumulativeGasUsed,
+                effectiveGasPrice,
+                from,
+                to,
+                transactionHash,
+                transactionIndex,
+                networkEnv: process.env.NEXT_PUBLIC_NETWORK || 'mainnet'
+            })
         } catch (e) {
             console.log('Error creating an Escrow contract: ', e);
         }
