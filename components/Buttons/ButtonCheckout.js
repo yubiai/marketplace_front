@@ -23,9 +23,9 @@ const ButtonCheckout = ({ transactionInfo, createOrder }) => {
                 from,
                 to,
                 transactionHash,
-                transactionIndex
+                events
             } = result;
-            console.log('Transaction full information:: ', result);
+            const transactionIndex = events.MetaEvidence.returnValues._metaEvidenceID;
             await createOrder({
                 blockHash,
                 blockNumber,

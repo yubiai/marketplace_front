@@ -65,7 +65,7 @@ export default class KlerosEscrow {
     return account
   }
 
-  async setCourtAndCurrency(court = 'blockchain-non-technical', currency) {
+  async setCourtAndCurrency(court = 'general', currency) {
     if (!ethereumAddressRegExp.test(court)) {
       let ETHNetID;
       try {
