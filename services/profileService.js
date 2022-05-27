@@ -18,15 +18,27 @@ async function login(walletAddress) {
  */
 async function getCurrentUser() {
   try {
-      const token = localStorage.getItem("YBI-token");
-      const decodeToken = await jwtDecode(token)
-      return decodeToken
+    const token = localStorage.getItem("YBI-token");
+    const decodeToken = await jwtDecode(token)
+    return decodeToken
   } catch (error) {
-      return null;
+    return null;
+  }
+}
+
+/**
+ * Get profile by _id
+ */
+ async function getProfileFromId(_id) {
+  try {
+    return await axios.get(`/profiles/${_id}`)
+  } catch (error) {
+    return null;
   }
 }
 
 export const profileService = {
   login,
-  getCurrentUser
+  getCurrentUser,
+  getProfileFromId
 }

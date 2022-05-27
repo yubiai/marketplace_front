@@ -1,13 +1,11 @@
 import axios from 'axios'
 
-const BACKEND_API = process.env.BACKEND_API || 'http://localhost:4000';
-
 async function getOrderByTransaction(transactionId) {
-  return await axios.get(`${BACKEND_API}/api/orders/${transactionId}`)
+  return await axios.get(`/orders/${transactionId}`)
 }
 
 async function createOrder(body) {
-  return await axios.post(`${BACKEND_API}/api/orders/`, {...body})
+  return await axios.post('/orders/', {...body})
 }
 
 export const orderService = {

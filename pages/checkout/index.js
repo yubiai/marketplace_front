@@ -11,47 +11,46 @@ import { useGlobal } from '../../providers/globalProvider'
 import KlerosEscrowProvider from '../../providers/klerosEscrowProvider'
 import { orderService } from '../../services/orderService'
 import {
-    ordersToTransactionData,
-    loadDummyData
-} from '../../utils/escrowTransactionUtils'
+    parseItemIntoOrderTransaction
+} from '../../utils/orderUtils'
 
 const Checkout = () => {
     // Global
     const global = useGlobal()
     const DEFAULT_DUMMY_AMOUNT = 1000;
-    const [orderData, setOrderData] = useState({ orderInfo: { orders: [] } });
+    const [orderData, setOrderData] = useState({ orders: [] });
     const [transactionData, setTransactionData] = useState({});
 
-    /**
-     * Load data
-     */
     useEffect(() => {
-        if (orderData.recipient) {
-            return;
+        const loadOrderData = async () => {
+            const items = global.itemsToCheckout
+            const seller = items[0].seller;
+
+            const { eth_address } = seller
+            const result = parseItemIntoOrderTransaction(
+                global.itemsToCheckout, eth_address)
+            const { orderInfo, transaction } = result
+
+            setOrderData(orderInfo)
+            setTransactionData(transaction)
         }
 
-        const dummyData = loadDummyData();
-        setOrderData(dummyData);
-        if (dummyData.orderInfo.orders.length && dummyData.recipient, dummyData.timeout) {
-            const parsedDataToTransaction = ordersToTransactionData(
-                dummyData.orderInfo,
-                dummyData.recipient,
-                dummyData.timeout
-            );
-            setTransactionData(parsedDataToTransaction);
+        if (!global.itemsToCheckout.length || orderData.orders.length) {
+            return;
         }
+        loadOrderData()
     }, [orderData]);
 
     const _totalAmountOrder = (orders) => {
         return orders.reduce(
-            (currentVal, prevOrder) => currentVal + prevOrder.value, 0) || DEFAULT_DUMMY_AMOUNT;
+            (currentVal, prevOrder) => currentVal + prevOrder.price, 0) || DEFAULT_DUMMY_AMOUNT;
     };
 
     const createOrder = async (transactionResult = {}) => {
-        const currentWalletAccount = await global.klerosEscrowInstance.getAccount();
+        const currentWalletAccount = await global.klerosEscrowInstance.getAccount()
         await orderService.createOrder({
             order: {
-                items: [...orderData.orderInfo.orders],
+                items: [...orderData.orders],
                 userBuyer: currentWalletAccount
             },
             transactionInfo: transactionResult
@@ -64,16 +63,16 @@ const Checkout = () => {
               <Heading>Order summary</Heading>
               <Flex padding={'1rem 0'} flexDirection='column'>
                   {
-                      orderData.orderInfo.orders.map((orderItem, orderIndex) => (
+                      orderData.orders.map((orderItem, orderIndex) => (
                           <Box key={`order-item-${orderIndex}`} margin='1.25rem 0'>
-                              <Text fontWeight='bold' fontSize='18px'>{orderItem.name}</Text>
-                              <Text fontSize='14px'>Price: ${orderItem.value}</Text>
+                              <Text fontWeight='bold' fontSize='18px'>{orderItem.title}</Text>
+                              <Text fontSize='14px'>Price: ${orderItem.price}</Text>
                           </Box>
                       ))
                   }
               </Flex>
               <Box borderTop='1.5px solid #212121'>
-                  <Text><span style={{fontSize: '18px'}}>Total:</span> ${_totalAmountOrder(orderData.orderInfo.orders)}</Text>
+                  <Text><span style={{fontSize: '18px'}}>Total:</span> ${_totalAmountOrder(orderData.orders)}</Text>
               </Box>
               <Flex>
                   <ButtonCheckout style={{display: 'block', margin: '1rem auto'}}

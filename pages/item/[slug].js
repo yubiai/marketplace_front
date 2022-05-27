@@ -12,12 +12,17 @@ import {
 import { MdOutlineStar } from 'react-icons/md'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import InfoUserModal from '../../components/Modals/InfoUserModal'
+import { useDispatchGlobal } from '../../providers/globalProvider'
 import Loading from '../../components/Spinners/Loading'
 import Head from 'next/head'
 
 const ItemById = ({ item }) => {
   const [selectImage, setSelectImage] = useState(null)
+  const router = useRouter()
+  const dispatch = useDispatchGlobal()
+
   useEffect(() => {
     const funcSelectImage = () => {
       if (item && item.pictures && item.pictures.length > 0) {
@@ -26,6 +31,14 @@ const ItemById = ({ item }) => {
     }
     funcSelectImage()
   }, [item])
+
+  const buyAndCheckoutItem = () => {
+    dispatch({
+      type: 'SET_ITEMS_TO_CHECKOUT',
+      payload: [item],
+    })
+    router.push('/checkout')
+  }
 
   if (!item) return <Loading />
 
@@ -126,6 +139,7 @@ const ItemById = ({ item }) => {
                 h="32px"
                 fontSize={'16px'}
                 fontWeight={'600'}
+                onClick={buyAndCheckoutItem}
               >
                 Buy Now
               </Button>
