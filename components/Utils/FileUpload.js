@@ -5,9 +5,8 @@ import {
   InputGroup,
   FormErrorMessage,
   Box,
-  Center,
   Image,
-  Text
+  Text,
 } from '@chakra-ui/react'
 import { useController } from 'react-hook-form'
 import { useEffect, useRef, useState } from 'react'
@@ -24,7 +23,7 @@ export const FileUpload = ({
   const {
     field: { ref, onChange, value, ...inputProps },
     // eslint-disable-next-line no-unused-vars
-    fieldState: { invalid, isTouched, isDirty }
+    fieldState: { invalid, isTouched, isDirty },
   } = useController({
     name,
     control,
@@ -33,6 +32,7 @@ export const FileUpload = ({
 
   const [selectedImage, setSelectedImage] = useState(null)
   const [imageUrl, setImageUrl] = useState(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     if (selectedImage) {
@@ -40,15 +40,25 @@ export const FileUpload = ({
     }
   }, [selectedImage])
 
+  const verifyImage = (file) => {
+    if (file.size > 3e6) {
+      setError('Error upload: limit size.')
+      setSelectedImage(null)
+      return
+    }
+
+    setSelectedImage(file)
+    onChange(file)
+  }
+
   return (
-    <FormControl isInvalid={invalid} isRequired>
+    <FormControl isInvalid={invalid} isRequired={isRequired && isRequired}>
       <FormLabel htmlFor="writeUpFile">{children}</FormLabel>
       <InputGroup>
         <input
           type="file"
           onChange={(e) => {
-            setSelectedImage(e.target.files[0])
-            onChange(e.target.files[0])
+            verifyImage(e.target.files[0])
           }}
           accept={acceptedFileTypes}
           name={name}
@@ -62,26 +72,34 @@ export const FileUpload = ({
           border={'1px dashed grey'}
           bg={'#f5f5f5'}
           m={'1em'}
+          cursor="pointer"
           onClick={() => inputRef.current.click()}
         >
-          <Center width={'full'} h={'full'}>
-            {!imageUrl && (
-              <Text textAlign={'center'}>
+          {!imageUrl || !selectedImage ? (
+            <>
+              <Box
+                w="full"
+                h="full"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
                 <MdOutlineImage fontSize="3em" />
-                <Text color="#1c548b">Browse</Text>
-              </Text>
-            )}
-            {imageUrl && selectedImage && (
-              <Image
-                alt={selectedImage.name}
-                rounded={'lg'}
-                height={'full'}
-                width={'full'}
-                objectFit={'cover'}
-                src={imageUrl}
-              />
-            )}
-          </Center>
+                Browse
+              </Box>
+              <Text color="red.500"> {error && error}</Text>
+            </>
+          ) : null}
+          {imageUrl && selectedImage && (
+            <Image
+              alt={selectedImage && selectedImage.name}
+              rounded={'lg'}
+              height={'full'}
+              width={'full'}
+              objectFit={'cover'}
+              src={imageUrl}
+            />
+          )}
         </Box>
       </InputGroup>
       <FormErrorMessage>{invalid}</FormErrorMessage>

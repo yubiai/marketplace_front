@@ -94,23 +94,16 @@ const settings = {
   ],
 }
 
-const CarouselCards = ({title}) => {
+const CarouselCards = ({title, items}) => {
   return (
     <Container display={{base:"contents"}} maxW="full" mt="2em">
       <Text color={"#727272"} fontSize="19px">{title}</Text>
       <Slider {...settings} >
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
-        <ItemCard />
+         {items && items.length && items.map((item) => {
+           return(
+            <ItemCard item={item} key={item._id}/>
+           )
+         })}
       </Slider>
     </Container>
   )

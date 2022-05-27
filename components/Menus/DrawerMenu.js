@@ -17,7 +17,7 @@ import {
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { FiMoreVertical } from 'react-icons/fi'
-import UserInfo from '../Infos/UserInfo';
+import UserInfo from '../Infos/UserInfo'
 import { FaUserCircle } from 'react-icons/fa'
 import { BsFillBellFill } from 'react-icons/bs'
 import {
@@ -31,7 +31,7 @@ import {
 } from 'react-icons/md'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { profileService } from '../../services/profileService'
-import { loginMetamask } from '../../utils/ethereum'
+import { balanceUbi1, loginMetamask } from '../../utils/ethereum'
 
 const DrawerMenu = () => {
   const global = useGlobal()
@@ -43,14 +43,18 @@ const DrawerMenu = () => {
 
   const [listCategory, onListCategory] = useState(false)
   const [statusLogin, setStatusLogin] = useState(false)
+  const [balanceToken, setBalanceToken] = useState(null)
 
   const onCategory = () => {
     onListCategory(!listCategory)
   }
 
   useEffect(() => {
-    const verifyLogin = () => {
+    const verifyLogin = async () => {
       if (global && global.profile) {
+        await balanceUbi1(global.profile.eth_address).then((res) => {
+          setBalanceToken(res)
+        })
         setStatusLogin(true)
       } else {
         setStatusLogin(false)
@@ -77,10 +81,10 @@ const DrawerMenu = () => {
 
     console.log('Address: ', signerAddress)
     const result = await profileService.login(signerAddress)
-    console.log(result.data)
+    console.log(result.data.data)
     dispatch({
       type: 'AUTHPROFILE',
-      payload: result.data,
+      payload: result.data.data,
     })
     toast({
       title: 'Login',
@@ -117,7 +121,10 @@ const DrawerMenu = () => {
 
           <DrawerHeader bg="yb.1">
             {statusLogin ? (
-              <UserInfo profile={global && global.profile} />
+              <UserInfo
+                profile={global && global.profile}
+                balanceToken={balanceToken}
+              />
             ) : (
               <Button
                 backgroundColor={'white'}
@@ -177,35 +184,34 @@ const DrawerMenu = () => {
                     </Link>
                   </ListItem>
                   <ListItem>
-                <Link href="/publish/new">
-                  <Button
-                    onClick={() => onClose()}
-                    w="full"
-                    bg="transparent"
-                    justifyContent={'left'}
-                  >
-                    <ListIcon as={MdSell} />
-                    New Publish
-                  </Button>
-                </Link>
-              </ListItem>
+                    <Link href="/publish/new">
+                      <Button
+                        onClick={() => onClose()}
+                        w="full"
+                        bg="transparent"
+                        justifyContent={'left'}
+                      >
+                        <ListIcon as={MdSell} />
+                        New Publish
+                      </Button>
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                    <Link href="/favorites">
+                      <Button
+                        onClick={() => onClose()}
+                        w="full"
+                        bg="transparent"
+                        justifyContent={'left'}
+                      >
+                        <ListIcon as={MdFavorite} />
+                        Favorites
+                      </Button>
+                    </Link>
+                  </ListItem>
                 </>
               )}
 
-              
-              <ListItem>
-                <Link href="/favorites">
-                  <Button
-                    onClick={() => onClose()}
-                    w="full"
-                    bg="transparent"
-                    justifyContent={'left'}
-                  >
-                    <ListIcon as={MdFavorite} />
-                    Favorites
-                  </Button>
-                </Link>
-              </ListItem>
               <ListItem>
                 <Link href="/help">
                   <Button

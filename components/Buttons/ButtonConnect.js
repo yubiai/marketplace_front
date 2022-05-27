@@ -27,7 +27,6 @@ const ButtonConnect = () => {
     console.log('Address: ', signerAddress)
     const result = await profileService.login(signerAddress)
     console.log(result.data.data)
-    console.log(result.data.token)
     dispatch({
       type: 'AUTHPROFILE',
       payload: result.data.data,
@@ -53,8 +52,9 @@ const ButtonConnect = () => {
         cursor={'pointer'}
         display={{ base: 'none', md: 'flex' }}
         onClick={() => onConnect()}
+        isDisabled={global.profile && global.profile.eth_address}
       >
-        {global.profile ? global.profile.eth_address.substr(0, 8) : 'Connect'}
+        {global.profile && global.profile.eth_address ? global.profile.eth_address.substr(0, 8) : 'Connect'}
       </Button>
     </>
   )

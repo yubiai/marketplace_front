@@ -1,13 +1,17 @@
 import { Box } from '@chakra-ui/react'
+import axios from 'axios'
 import Head from 'next/head'
 import CarouselCards from '../components/Cards/CarouselCards'
+import Loading from '../components/Spinners/Loading'
 
-export default function Home() {
+const Home = ({ itemsByServices }) => {
+
+  if(!itemsByServices) return <Loading />
 
   return (
     <div>
       <Head>
-        <title>Yubiai Marketplace - Web</title>
+        <title>Yubiai Marketplace - Home</title>
         <meta
           name="viewport"
           content="initial-scale=1.0, width=device-width"
@@ -29,10 +33,29 @@ export default function Home() {
 
       <main>
         <Box h="80vh" m="2em">
-          <CarouselCards title={'Last services posted on the marketplace'} />
-          <CarouselCards title={'Services in your watchlist'} />
+          <CarouselCards
+            title={'Items the services.'}
+            items={itemsByServices}
+          />
+          <CarouselCards
+            title={'Items in your favorites.'}
+            items={itemsByServices}
+          />
         </Box>
       </main>
     </div>
   )
 }
+
+export async function getStaticProps() {
+  try {
+    const res = await axios.get(`/items/bycategory/628be6c99659a661e05f9e2f`)
+    const itemsByServices = res.data.result
+    return { props: { itemsByServices } }
+  } catch (err) {
+    console.log(err)
+    return { props: '' }
+  }
+}
+
+export default Home

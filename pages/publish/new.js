@@ -2,47 +2,50 @@ import {
   Box,
   Button,
   Container,
+  Divider,
+  Flex,
   Heading,
   Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   NumberDecrementStepper,
   NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
+  Select,
+  Spinner,
   Text,
   Textarea,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
   useDisclosure,
-  Select,
-  Divider,
-  Spinner,
-  Flex,
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
-import ProfileMenu from '../../components/Menus/ProfileMenu'
-import { useForm } from 'react-hook-form'
+import Head from 'next/head'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import PreviewItem from '../../components/Modals/PreviewItem'
 import SuccessItem from '../../components/Modals/SuccessItem'
-import { itemService } from '../../services/itemService'
 import FileUpload from '../../components/Utils/FileUpload'
-import { subcategoryService } from '../../services/subcategoryService'
 import { useGlobal } from '../../providers/globalProvider'
-import { useRouter } from 'next/router'
+import { itemService } from '../../services/itemService'
+import { getListCategory, getListSubCategory } from '../../utils/itemUtils'
 
 const NewPublish = () => {
-  // Global
   const global = useGlobal()
   const router = useRouter()
 
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  // State SubCategories
+  const [categories, setCategories] = useState([])
+  const [subCategories, setSubCategories] = useState([])
 
   // State useForm
   const { handleSubmit, register, control } = useForm()
@@ -53,37 +56,34 @@ const NewPublish = () => {
   const [loadingSubmit, setLoadingSubmit] = useState(false)
   const [dataSubmit, setDataSubmit] = useState(null)
 
-  // Input Price config
-  const format = (val) => `$` + val
-  const parse = (val) => val.replace(/^\$/, '')
-  const [priceValue, setPriceValue] = useState('0')
-
-  // Sub Categories
-  const [subCategories, setSubCategories] = useState([])
-
-  // Loading Sub Categories
   useEffect(() => {
-    return async () => {
+    const init = () => {
       if (global && global.profile) {
-        console.log(global.profile)
-        await subcategoryService
-          .getSubCategories()
-          .then((res) => {
-            const result = res.data.result
-            if (result.length > 0) {
-              console.log(result)
-              setSubCategories(result)
-            }
-          })
-          .catch((err) => {
-            console.log(err)
-            setSubCategories(null)
-          })
+        // Get Categories
+        getListCategory().then((res) => {
+          let categories = res.data.result
+          if (categories.length > 0) {
+            setCategories(res.data.result)
+          }
+        })
+        // Get SubCategories
+        getListSubCategory().then((res) => {
+          let subcategories = res.data.result
+          if (subcategories.length > 0) {
+            setSubCategories(res.data.result)
+          }
+        })
       } else {
         router.push('/')
       }
     }
+    init()
   }, [global, router])
+
+  // Input Price config
+  const format = (val) => `$` + val
+  const parse = (val) => val.replace(/^\$/, '')
+  const [priceValue, setPriceValue] = useState('0')
 
   // Form Submit Preview
   const onSubmit = async (data) => {
@@ -107,17 +107,26 @@ const NewPublish = () => {
     form.append('price', priceValue)
     form.append('seller', global.profile._id)
     form.append('maxorders', 3)
-    form.append('category', 'services')
+    form.append('category', data.category)
     form.append('subcategory', data.subcategory)
+
+    // Get Title category and subcategory
+    const categorySelected = categories.find(
+      (category) => category._id === data.category
+    )
+    const subcategorySelected = subCategories.find(
+      (subcategory) => subcategory._id === data.subcategory
+    )
 
     let newData = JSON.stringify(Object.fromEntries(form))
     newData = JSON.parse(newData)
     newData = {
       ...newData,
       pictures: [data.img1, data.img2, data.img3],
+      category: categorySelected.title,
+      subcategory: subcategorySelected.title,
     }
     // Data Save useState
-    console.log(newData)
     setDataSubmit(form)
     setResult(newData)
     // Open Modal
@@ -146,14 +155,39 @@ const NewPublish = () => {
     }
   }
 
-  return (
-    <>
-      <ProfileMenu>
-        <Container maxW={'full'} display={'flex'} flexDirection={'column'}>
+  if (global && global.profile)
+    return (
+      <>
+        <Head>
+          <title>Yubiai Marketplace - New Publish</title>
+        </Head>
+        <Container maxW="2xl" display={'flex'} flexDirection={'column'}>
+          <Heading mt="1em">New Publish</Heading>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Heading>New Publish</Heading>
-            <Text mt="2em">Category</Text>
             <Select placeholder="Services" isDisabled></Select>
+            {categories && categories.length > 0 && (
+              <Box mb="2em">
+                <Text mt="2em">Category</Text>
+                <Select
+                  bg="white"
+                  color="black"
+                  name="category"
+                  id="category"
+                  placeholder="Select Category"
+                  {...register('category', { required: true })}
+                >
+                  {categories.map((category) => (
+                    <option
+                      key={category._id}
+                      value={category._id}
+                      id="category"
+                    >
+                      {category.title}
+                    </option>
+                  ))}
+                </Select>
+              </Box>
+            )}
 
             {subCategories.length > 0 && (
               <Box mb="2em">
@@ -163,7 +197,7 @@ const NewPublish = () => {
                   color="black"
                   name="subcategory"
                   id="subcategory"
-                  placeholder="Select Option"
+                  placeholder="Select Sub Category"
                   {...register('subcategory', { required: true })}
                 >
                   {subCategories.map((subcategory) => (
@@ -183,7 +217,7 @@ const NewPublish = () => {
             <Input
               placeholder="Title"
               bg="white"
-              {...register('title', {})}
+              {...register('title', { required: true, maxLength: 150 })}
               isRequired
             />
 
@@ -191,7 +225,7 @@ const NewPublish = () => {
             <Textarea
               placeholder="Description"
               bg="white"
-              {...register('description', { required: true, maxLength: 400 })}
+              {...register('description', { required: true, maxLength: 800 })}
               isRequired
             />
             <Text mt="2em">Price</Text>
@@ -200,6 +234,7 @@ const NewPublish = () => {
               onChange={(valueString) => setPriceValue(parse(valueString))}
               value={format(priceValue)}
               bg="white"
+              min={1}
               max={999999}
               isRequired
             >
@@ -209,10 +244,9 @@ const NewPublish = () => {
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
-
             <Divider />
 
-            <Heading>Product Images</Heading>
+            <Heading mt="1em">Product Images</Heading>
 
             <Text>
               Get noticed by the right buyers with visual examples of your
@@ -220,123 +254,131 @@ const NewPublish = () => {
               375px and must not be more than 10mb each
             </Text>
 
-            <Flex>
+            <Flex
+              display={'flex'}
+              flexDirection={{ base: 'column', sm: 'row' }}
+            >
               <FileUpload
                 name="img1"
                 acceptedFileTypes="image/*"
                 isRequired={true}
-                placeholder="Your avatar"
+                placeholder="Your photo 1"
                 control={control}
               >
-                Imagen 1
+                Image 1
               </FileUpload>
               <FileUpload
                 name="img2"
                 acceptedFileTypes="image/*"
                 isRequired={false}
-                placeholder="Your avatar"
+                placeholder="Your photo 2"
                 control={control}
               >
-                Imagen 2
+                Image 2
               </FileUpload>
               <FileUpload
                 name="img3"
                 acceptedFileTypes="image/*"
                 isRequired={false}
-                placeholder="Your avatar"
+                placeholder="Your photo 3"
                 control={control}
               >
-                Imagen 3
+                Image 3
               </FileUpload>
             </Flex>
 
-            <Box float={'right'} mt="2em">
+            <Box float={'right'} m="2em">
               <Button bg="#00abd1" color="white" type="submit">
                 Preview & Submit for review
               </Button>
             </Box>
           </form>
+          <Modal
+            isOpen={isOpen}
+            onClose={onClose}
+            size="5xl"
+            scrollBehavior={'inside'}
+          >
+            {stateSubmit === 0 && (
+              <>
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalHeader>Review your listing</ModalHeader>
+                  {loadingSubmit === false && <ModalCloseButton />}
+                  <ModalBody>
+                    <PreviewItem item={result} />
+                  </ModalBody>
+
+                  <ModalFooter>
+                    {loadingSubmit === false && (
+                      <>
+                        <Button
+                          variant="ghost"
+                          colorScheme="blue"
+                          mr={3}
+                          onClick={onClose}
+                        >
+                          Go Back
+                        </Button>
+                        <Button
+                          bg="#00abd1"
+                          color="white"
+                          onClick={() => confirmSubmit()}
+                        >
+                          Submit for review
+                        </Button>
+                      </>
+                    )}
+                    {loadingSubmit === true && (
+                      <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                        size="xl"
+                      />
+                    )}
+                  </ModalFooter>
+                </ModalContent>
+              </>
+            )}
+            {stateSubmit === 1 && (
+              <>
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalBody>
+                    <SuccessItem />
+                  </ModalBody>
+                  <ModalFooter>
+                    <Link href="/">
+                      <Button>Close</Button>
+                    </Link>
+                  </ModalFooter>
+                </ModalContent>
+              </>
+            )}
+            {stateSubmit === 2 && (
+              <>
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalBody>Error de carga</ModalBody>
+                  <ModalFooter>
+                    <Button
+                      onClick={() => {
+                        setStateSubmit(0)
+                        onClose()
+                      }}
+                    >
+                      Close
+                    </Button>
+                  </ModalFooter>
+                </ModalContent>
+              </>
+            )}
+          </Modal>
         </Container>
-      </ProfileMenu>
-      <Modal isOpen={isOpen} onClose={onClose} size="xl">
-        {stateSubmit === 0 && (
-          <>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalHeader>Review your listing</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                <PreviewItem item={result} />
-              </ModalBody>
-
-              <ModalFooter>
-                <Button
-                  variant="ghost"
-                  colorScheme="blue"
-                  mr={3}
-                  onClick={onClose}
-                >
-                  Go Back
-                </Button>
-
-                {loadingSubmit === false && (
-                  <Button
-                    bg="#00abd1"
-                    color="white"
-                    onClick={() => confirmSubmit()}
-                  >
-                    Submit for review
-                  </Button>
-                )}
-                {loadingSubmit === true && (
-                  <Spinner
-                    thickness="4px"
-                    speed="0.65s"
-                    emptyColor="gray.200"
-                    color="blue.500"
-                    size="xl"
-                  />
-                )}
-              </ModalFooter>
-            </ModalContent>
-          </>
-        )}
-        {stateSubmit === 1 && (
-          <>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalBody>
-                <SuccessItem />
-              </ModalBody>
-              <ModalFooter>
-                <Link href="/">
-                  <Button>Close</Button>
-                </Link>
-              </ModalFooter>
-            </ModalContent>
-          </>
-        )}
-        {stateSubmit === 2 && (
-          <>
-            <ModalOverlay />
-            <ModalContent>
-              <ModalBody>Error de carga</ModalBody>
-              <ModalFooter>
-                <Button
-                  onClick={() => {
-                    setStateSubmit(0)
-                    onClose()
-                  }}
-                >
-                  Close
-                </Button>
-              </ModalFooter>
-            </ModalContent>
-          </>
-        )}
-      </Modal>
-    </>
-  )
+      </>
+    )
 }
 
 export default NewPublish

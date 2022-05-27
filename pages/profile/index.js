@@ -1,4 +1,5 @@
 import { Box, Text } from '@chakra-ui/react'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import MyInfoPohCard from '../../components/Cards/MyInfoPohCard'
@@ -23,18 +24,21 @@ const Profile = () => {
           setBalanceToken(res)
         })
       } else {
-        router.push("/")
+        router.push('/')
       }
     }
     setProfile()
   }, [global, router])
 
-  if(!dataProfile) return <Loading />
+  if (!dataProfile) return <Loading />
 
   return (
     <>
+      <Head>
+        <title>Yubiai Marketplace - My Profile</title>
+      </Head>
       <ProfileMenu>
-        <Box h={{ md: '100vh' }} w={{base: 'full'}}>
+        <Box h={{ md: '100vh' }} w={{ base: 'full' }}>
           <Text fontWeight={'bold'}>My Info</Text>
           <Text fontWeight={'bold'}>Proof of humanity information</Text>
           <MyInfoPohCard dataProfile={dataProfile} balance={balanceToken} />

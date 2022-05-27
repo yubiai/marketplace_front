@@ -43,7 +43,7 @@ const UserMenu = () => {
 
   return (
     <Menu mr="1em">
-      {profileLogin && (
+      {global && global.profile && profileLogin && (
         <MenuButton
           as={IconButton}
           mr="10px"
