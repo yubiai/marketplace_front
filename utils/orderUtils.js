@@ -1,10 +1,31 @@
 const DEFAULT_TIMEOUT = 604800;
 
-const parseItemIntoOrderTransaction = (items = [], recipient, timeout=DEFAULT_TIMEOUT) => {
+const parsePriceToETHAmount = (priceInUSD, ethData, web3Instance) => {
+    const { price } = ethData || { price: 1 };
+    const rateValue = (priceInUSD / price);
+    return web3Instance.utils.toWei(rateValue.toString())
+}
+
+const totalAmountOrder = (orders) => {
+    return orders.reduce(
+        (currentVal, prevOrder) => currentVal + prevOrder.price, 0) || 0;
+};
+
+const parseItemIntoOrderTransaction = (
+    items = [],
+    recipient,
+    currencyValues=[],
+    web3Instance,
+    timeout=DEFAULT_TIMEOUT
+) => {
     const generatedDescription = items.map(item => item.title).join(',')
     const compiledItemIds = items.map(item => item._id).join(',#')
     const date = Date.now()
     const generatedTitle = `Order for items: ${compiledItemIds}, Date ${date}`
+
+    const totalOrderValue = totalAmountOrder(items)
+    const ethObj = currencyValues.find(currency => currency.symbol === 'ETH')
+    const priceInETH = parsePriceToETHAmount(totalOrderValue, ethObj, web3Instance)
 
     return {
         orderInfo: {
@@ -17,8 +38,8 @@ const parseItemIntoOrderTransaction = (items = [], recipient, timeout=DEFAULT_TI
                 contract: generatedTitle
             },
             amount: {
-                value: 1e16,
-                currency: 'UBI'
+                value: priceInETH,
+                currency: 'ETH'
             },
             recipient,
             timeout
@@ -27,5 +48,7 @@ const parseItemIntoOrderTransaction = (items = [], recipient, timeout=DEFAULT_TI
 }
 
 export {
-    parseItemIntoOrderTransaction
+    parseItemIntoOrderTransaction,
+    totalAmountOrder,
+    parsePriceToETHAmount
 }

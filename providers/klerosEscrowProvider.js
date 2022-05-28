@@ -20,8 +20,6 @@ const KlerosEscrowProvider = ({ children, transactionData }) => {
       type: 'SET_KLEROS_ESCROW_INSTANCE',
       payload: klerosEscrowRef.current,
     })
-    // FIXME: Remove.... 
-    window.klerosInstance = klerosEscrowRef.current;
   }, [klerosEscrowRef, dispatch]);
 
   useEffect(() => {
