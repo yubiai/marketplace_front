@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react'
+import { Box, Button, Text } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -44,6 +44,7 @@ const Profile = () => {
           <MyInfoPohCard dataProfile={dataProfile} balance={balanceToken} />
           <Text fontWeight={'bold'}>Personal Info</Text>
           <MyInfoPrivateCard dataProfile={dataProfile} />
+          <Button onClick={() => router.push("/profile/mailboxs/628d1ef2c39d5841b9105889")}>Mailbox tanto</Button>
         </Box>
       </ProfileMenu>
     </>
