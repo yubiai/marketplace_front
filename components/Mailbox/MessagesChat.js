@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
-import { Avatar, Flex, Text } from '@chakra-ui/react'
+import { Avatar, Box, Center, Flex, Text } from '@chakra-ui/react'
+import moment from 'moment'
 
 const MessagesChat = ({ messages, buyer, seller, me }) => {
   const AlwaysScrollToBottom = () => {
@@ -8,24 +9,47 @@ const MessagesChat = ({ messages, buyer, seller, me }) => {
     return <div ref={elementRef} />
   }
 
+  const dates = new Set()
+
+  const renderDate = (date, dateNum) => {
+    const timestampDate = moment(date).format('MMMM Do YYYY')
+
+    // Add to Set so it does not render again
+    dates.add(dateNum)
+
+    return (
+      <Center>
+        <Text fontWeight={"bold"}>{timestampDate}</Text>
+      </Center>
+    )
+  }
+
   return (
     <Flex w="100%" h="80%" overflowY="scroll" flexDirection="column" p="3">
       {messages.map((item, index) => {
         console.log(messages, 'messages')
+        const dateNum = moment(item.date).format('MMMM Do YYYY')
+        console.log(dateNum)
+
         if (item.user === me) {
           return (
-            <Flex key={index} w="100%" justify="flex-end">
-              <Flex
-                bg="black"
-                color="white"
-                minW="100px"
-                maxW="350px"
-                my="1"
-                p="3"
-              >
-                <Text>{item.text}</Text>
+            <>
+              {dates.has(dateNum) ? null : renderDate(item.date, dateNum)}
+
+              <Flex key={index} w="100%" justify="flex-end">
+                <Box
+                  bg="black"
+                  color="white"
+                  minW="100px"
+                  maxW="350px"
+                  my="1"
+                  p="3"
+                >
+                  <Box>{item.text}</Box>
+                  <Box>{moment(item.date).format('h:mm a')}</Box>
+                </Box>
               </Flex>
-            </Flex>
+            </>
           )
         } else {
           return (
@@ -35,7 +59,7 @@ const MessagesChat = ({ messages, buyer, seller, me }) => {
                 src={buyer._id == me ? seller.photo : buyer.photo}
                 bg="blue.300"
               ></Avatar>
-              <Flex
+              <Box
                 bg="gray.100"
                 color="black"
                 minW="100px"
@@ -43,8 +67,9 @@ const MessagesChat = ({ messages, buyer, seller, me }) => {
                 my="1"
                 p="3"
               >
-                <Text>{item.text}</Text>
-              </Flex>
+                <Box>{item.text}</Box>
+                <Box>{moment(item.date).format('h:mm a')}</Box>
+              </Box>
             </Flex>
           )
         }

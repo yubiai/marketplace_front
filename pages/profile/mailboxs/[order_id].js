@@ -3,7 +3,7 @@ import {
   Container,
   Divider as ChakraDivider,
   Flex,
-  Heading,
+  Text,
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -57,16 +57,17 @@ const MailBoxs = () => {
 
   // Saved Channel
 
-  const saveMessage = async(message) => {
-    await channelService.pushMsg(channel._id, message)
-        .then((res) => {
-            console.log(res.data)
-            setInputMessage('');
-        })
-        .catch((err) => {
-            console.log(err)
-            setInputMessage('');
-        })
+  const saveMessage = async (message) => {
+    await channelService
+      .pushMsg(channel._id, message)
+      .then((res) => {
+        console.log(res.data)
+        setInputMessage('')
+      })
+      .catch((err) => {
+        console.log(err)
+        setInputMessage('')
+      })
   }
 
   const handleSendMessage = () => {
@@ -76,16 +77,12 @@ const MailBoxs = () => {
     const data = inputMessage
 
     let newMessage = {
-        user: global.profile._id,
-        text: data
+      user: global.profile._id,
+      text: data,
     }
 
-    setMessages((old) => [...old, newMessage]);
+    setMessages((old) => [...old, newMessage])
     saveMessage(newMessage)
-
-
-
-
   }
 
   if (!channel) return <Loading />
@@ -97,9 +94,15 @@ const MailBoxs = () => {
       </Head>
 
       <Container maxW="5xl" display={'flex'} flexDirection={'row'}>
-        <Box w="70%">
-          <Heading mt="1em">Mailbox the Order ID: {order_id}</Heading>
-          <Flex w="100%" h="80vh" justify="center" align="center">
+        <Box w="70%" h="90vh">
+          <Text m="1em">Mailbox the Order ID: {order_id}</Text>
+          <Flex
+            w="100%"
+            h="600px"
+            justify="center"
+            align="center"
+            bg="white"
+          >
             <Flex w="80%" h="90%" flexDir="column">
               <HeaderChat
                 dataUser={
@@ -139,8 +142,8 @@ const MailBoxs = () => {
             </Flex>
           </Flex>
         </Box>
-        <Box w="30%">
-          <p>asdadasd</p>
+        <Box w="30%" p="1em">
+          <p>Payment waiting on escrow</p>
         </Box>
       </Container>
     </>
