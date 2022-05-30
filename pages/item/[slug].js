@@ -7,24 +7,112 @@ import {
   Flex,
   Image,
   Text,
+  useToast,
 } from '@chakra-ui/react'
 // import { FaBeer } from 'react-icons/fa';
-import { MdOutlineStar } from 'react-icons/md'
+import { MdOutlineStar, MdStarOutline, MdStar } from 'react-icons/md'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import InfoUserModal from '../../components/Modals/InfoUserModal'
 import Loading from '../../components/Spinners/Loading'
 import Head from 'next/head'
+import { useGlobal } from '../../providers/globalProvider'
+import { profileService } from '../../services/profileService'
 
 const ItemById = ({ item }) => {
+  const global = useGlobal()
+  const toast = useToast()
+
+  const [owner, setOwner] = useState(false)
+  const [favorite, setFavorite] = useState(false)
+
   const [selectImage, setSelectImage] = useState(null)
+
+  const actionToat = (title, description, status) => {
+
+    toast({
+      title,
+      description: description,
+      position: 'top-right',
+      status: status,
+      duration: 5000,
+      isClosable: true
+    })
+  }
+
+  const getFavorites = async () => {
+    console.log('Get Favorites')
+    let favorites
+    await profileService
+      .getFavorites((global && global.profile && global.profile._id) || null)
+      .then((res) => {
+        favorites = res.data || []
+        if (favorites.length > 0) {
+          for (let i = 0; i < favorites.length; i++) {
+            if (favorites[i]._id === item._id) {
+              console.log('es favorito')
+              setFavorite(true)
+              break;
+            } else {
+              setFavorite(false);
+            }
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const addFavorite = async () => {
+    console.log('add Favorite')
+    await profileService
+      .addFavorite(
+        (global && global.profile && global.profile._id) || null,
+        item || null
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          getFavorites();
+          actionToat("Favorites", "Item added to favorites successfully.", "success")
+          return
+        }
+      })
+  }
+
+  const removeFavorite = async () => {
+    console.log('Remove Favorite')
+    await profileService
+      .removeFavorite(
+        (global && global.profile && global.profile._id) || null,
+        item || null
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          getFavorites()
+          actionToat("Favorites", "Item removed from favorites successfully.", "info")
+          return
+        }
+      })
+  }
+
   useEffect(() => {
+    console.log(item, 'item')
+    console.log(global.profile)
     const funcSelectImage = () => {
       if (item && item.pictures && item.pictures.length > 0) {
         setSelectImage(item.pictures[0])
       }
     }
+    const InitProfile = () => {
+      if (item && item.seller && item.seller._id === global.profile._id) {
+        setOwner(true)
+      } else {
+        getFavorites()
+      }
+    }
     funcSelectImage()
+    InitProfile()
   }, [item])
 
   if (!item) return <Loading />
@@ -88,9 +176,25 @@ const ItemById = ({ item }) => {
             border={'solid 1px #bababa;'}
             borderRadius={'5px'}
           >
-            <Text color="#323232" fontSize="14px" fontWeight="300">
-              New
-            </Text>
+            <Flex justifyContent={'space-between'}>
+              <Text color="#323232" fontSize="14px" fontWeight="300">
+                New
+              </Text>
+              {!owner && (
+                <Box>
+                  {!favorite && (
+                    <Button onClick={() => addFavorite()}>
+                      <MdStarOutline color="00abd1" />
+                    </Button>
+                  )}
+                  {favorite && (
+                    <Button onClick={() => removeFavorite()}>
+                      <MdStar color="00abd1" />
+                    </Button>
+                  )}
+                </Box>
+              )}
+            </Flex>
             <Text fontSize="20px" fontWeight="600">
               {item.title}
             </Text>
@@ -113,23 +217,29 @@ const ItemById = ({ item }) => {
             <Text>{item.price} DAIs</Text>
             <Text>0% addtional for Yubiai Fee</Text>
             <Text>0.6% additional for UBI Burner Fee</Text>
-            <Box
-              display={'flex'}
-              h="-webkit-fill-available"
-              alignItems={'center'}
-              justifyContent={'center'}
+            <Flex
+              direction={{ base: 'column' }}
+              justifyContent="center"
+              w="full"
+              h="300px"
             >
-              <Button
-                bg="#00abd1"
-                color="white"
-                w="312px"
-                h="32px"
-                fontSize={'16px'}
-                fontWeight={'600'}
-              >
-                Buy Now
-              </Button>
-            </Box>
+              <Center>
+                <Button
+                  bg="#00abd1"
+                  color="white"
+                  w="312px"
+                  h="32px"
+                  fontSize={'16px'}
+                  fontWeight={'600'}
+                  disabled={owner}
+                >
+                  Buy Now
+                </Button>
+              </Center>
+              <Center>
+                {owner && <Text color="red.300">It is your publication</Text>}
+              </Center>
+            </Flex>
           </Box>
         </Flex>
         <Divider />

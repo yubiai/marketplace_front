@@ -1,12 +1,41 @@
 import { Box } from '@chakra-ui/react'
 import axios from 'axios'
 import Head from 'next/head'
+import { useEffect, useState } from 'react'
 import CarouselCards from '../components/Cards/CarouselCards'
 import Loading from '../components/Spinners/Loading'
+import { useGlobal } from '../providers/globalProvider'
+import { profileService } from '../services/profileService'
 
 const Home = ({ itemsByServices }) => {
+  const global = useGlobal()
+  const [favorites, setFavorites] = useState(null)
+  const [listFavorites, setListFavorites] = useState(null)
 
-  if(!itemsByServices) return <Loading />
+  useEffect(() => {
+    const initItem = async () => {
+      setFavorites([])
+      if (global && global.profile && global.profile._id) {
+        await profileService
+          .getFavorites(global.profile._id)
+          .then((res) => {
+            const favorites = res.data;
+            if(favorites.length > 0){
+              setListFavorites(favorites)
+              setFavorites(true)
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+            setListFavorites([])
+            setFavorites(false)
+          })
+      }
+    }
+    initItem()
+  }, [global])
+
+  if (!itemsByServices) return <Loading />
 
   return (
     <div>
@@ -37,10 +66,18 @@ const Home = ({ itemsByServices }) => {
             title={'Items the services.'}
             items={itemsByServices}
           />
-          <CarouselCards
-            title={'Items in your favorites.'}
-            items={itemsByServices}
-          />
+          {favorites === true && (
+            <CarouselCards
+              title={'Items in your favorites.'}
+              items={listFavorites}
+            />
+          )}
+          {favorites === false && (
+             <CarouselCards
+             title={'Items Random.'}
+             items={itemsByServices}
+           />
+          )}
         </Box>
       </main>
     </div>

@@ -1,27 +1,61 @@
-import { Box, Container, Heading, Text } from '@chakra-ui/react'
+import { Container, Flex, Heading, SimpleGrid, Text } from '@chakra-ui/react'
+import Loading from '../components/Spinners/Loading'
 import Head from 'next/head'
+import { useEffect, useState } from 'react'
+import ItemCardLg from '../components/Cards/ItemCardLg'
+import { profileService } from '../services/profileService'
+import { useGlobal } from '../providers/globalProvider'
 
 const Favorites = () => {
+  const global = useGlobal()
+
+  const [items, setItems] = useState(null)
+
+  const getFavorites = async () => {
+    await profileService
+      .getFavorites((global && global.profile && global.profile._id) || null)
+      .then((res) => {
+        const favorites = res.data || []
+        setItems(favorites)
+      })
+      .catch((err) => {
+        console.log(err)
+        setItems([])
+      })
+  }
+
+  useEffect(() => {
+    const initItem = () => {
+      getFavorites()
+    }
+    initItem()
+  }, [global])
+
+  if (!items) return <Loading />
+
   return (
     <>
       <Head>
         <title>Yubiai Marketplace - Favorites</title>
       </Head>
-      <Container maxW="2xl" display={'flex'} flexDirection={'column'}>
-        <Box h="100vh">
-          <Heading mt="1em">Favorites</Heading>
-          <Text>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industrys standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.z
-          </Text>
-        </Box>
+      <Container maxW="6xl" h="full" display={'flex'} flexDirection={'column'}>
+        <Flex alignItems={'center'}>
+          {items && items.length > 0 && (
+            <Text fontWeight={'bold'}>List your favorites</Text>
+          )}
+        </Flex>
+        <SimpleGrid minChildWidth="250px" spacing="2px">
+          {items.length === 0 && (
+            <Heading mt="5em">
+              You do not have any items added to favorites.
+            </Heading>
+          )}
+          {items &&
+            items.length > 0 &&
+            items.map((item, i) => {
+              return <ItemCardLg key={i} item={item} />
+            })}
+        </SimpleGrid>
       </Container>
     </>
   )
