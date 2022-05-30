@@ -3,7 +3,6 @@ import { Button, Container, Text } from '@chakra-ui/react'
 import React from 'react'
 import Slider from 'react-slick'
 import ItemCard from './ItemCard'
-import Loading from '../Spinners/Loading'
 
 function SampleNextArrow(props) {
   const { onClick } = props
