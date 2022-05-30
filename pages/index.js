@@ -30,6 +30,8 @@ const Home = ({ itemsByServices }) => {
             setListFavorites([])
             setFavorites(false)
           })
+      } else {
+        setFavorites(false)
       }
     }
     initItem()
