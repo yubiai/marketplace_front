@@ -35,7 +35,7 @@ const Home = ({ itemsByServices }) => {
       }
     }
     initItem()
-  }, [global])
+  }, [global, global.profile])
 
   if (!itemsByServices) return <Loading />
 
