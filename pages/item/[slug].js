@@ -23,7 +23,7 @@ const ItemById = ({ item }) => {
   const global = useGlobal()
   const toast = useToast()
 
-  const [owner, setOwner] = useState(false)
+  const [owner, setOwner] = useState(null)
   const [favorite, setFavorite] = useState(false)
 
   const [selectImage, setSelectImage] = useState(null)
@@ -42,6 +42,7 @@ const ItemById = ({ item }) => {
   const getFavorites = async () => {
     console.log('Get Favorites')
     let favorites
+    setOwner(false)
     await profileService
       .getFavorites((global && global.profile && global.profile._id) || null)
       .then((res) => {
@@ -60,6 +61,7 @@ const ItemById = ({ item }) => {
       })
       .catch((err) => {
         console.log(err)
+        setFavorite(false)
       })
   }
 
@@ -103,30 +105,33 @@ const ItemById = ({ item }) => {
       })
   }
 
+  const funcSelectImage = () => {
+    if (item && item.pictures && item.pictures.length > 0) {
+      setSelectImage(item.pictures[0])
+    }
+  }
+
+  const funcFavorites = () => {
+    if (item && item.seller && item.seller._id === global.profile._id) {
+      setOwner(true)
+    } else {
+      getFavorites()
+    }
+  }
+
   useEffect(() => {
-    console.log(item, 'item')
-    console.log(global.profile)
-    const funcSelectImage = () => {
-      if (item && item.pictures && item.pictures.length > 0) {
-        setSelectImage(item.pictures[0])
-      }
-    }
-    const InitProfile = () => {
-      if (item && item.seller && item.seller._id === global.profile._id) {
-        setOwner(true)
-      } else {
-        getFavorites()
-      }
-    }
+
     if (item) {
       funcSelectImage()
-      InitProfile()
     }
-  }, [item])
+    if (global && global.profile && item && item._id) {
+      funcFavorites()
+    } else {
+      setOwner(null)
+    }
+  }, [item, global])
 
   if (!item) return <Loading />
-
-  if (item.notExist) return <Text>Item no exists.</Text>
 
   return (
     <>
@@ -196,7 +201,7 @@ const ItemById = ({ item }) => {
               <Text color="#323232" fontSize="14px" fontWeight="300">
                 New
               </Text>
-              {!owner && (
+              {owner === false && (
                 <Box>
                   {!favorite && (
                     <Button onClick={() => addFavorite()}>
