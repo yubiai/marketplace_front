@@ -4,6 +4,8 @@ export const priceService = {
   getCurrencyPrices
 }
 
-async function getCurrencyPrices() {
-  return await axios.get('/prices')
+async function getCurrencyPrices(protocol='') {
+  let url = protocol ? `/prices?protocol=${protocol}` : '/prices'
+
+  return await axios.get(url)
 }

@@ -1,5 +1,10 @@
 const DEFAULT_TIMEOUT = 604800;
 
+const getProtocolNamingFromNetwork = () => {
+    const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet';
+    return network === 'kovan' ? 'Kovan ERC20' : 'ERC20';
+}
+
 const parsePriceToETHAmount = (priceInUSD, ethData, web3Instance) => {
     const { price } = ethData || { price: 1 };
     const rateValue = (priceInUSD / price);
@@ -14,8 +19,7 @@ const totalAmountOrder = (orders) => {
 const parseItemIntoOrderTransaction = (
     items = [],
     recipient,
-    currencyValues=[],
-    web3Instance,
+    currencyContract='',
     timeout=DEFAULT_TIMEOUT
 ) => {
     const generatedDescription = items.map(item => item.title).join(',')
@@ -24,8 +28,6 @@ const parseItemIntoOrderTransaction = (
     const generatedTitle = `Order for items: ${compiledItemIds}, Date ${date}`
 
     const totalOrderValue = totalAmountOrder(items)
-    const ethObj = currencyValues.find(currency => currency.symbol === 'ETH')
-    const priceInETH = parsePriceToETHAmount(totalOrderValue, ethObj, web3Instance)
 
     return {
         orderInfo: {
@@ -38,8 +40,8 @@ const parseItemIntoOrderTransaction = (
                 contract: generatedTitle
             },
             amount: {
-                value: priceInETH,
-                currency: 'ETH'
+                value: totalOrderValue,
+                currency: currencyContract
             },
             recipient,
             timeout
@@ -50,5 +52,6 @@ const parseItemIntoOrderTransaction = (
 export {
     parseItemIntoOrderTransaction,
     totalAmountOrder,
-    parsePriceToETHAmount
+    parsePriceToETHAmount,
+    getProtocolNamingFromNetwork
 }

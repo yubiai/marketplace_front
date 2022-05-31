@@ -106,7 +106,7 @@ export default class KlerosEscrow {
       });
       const json = await res.json();
       const data = json.data;
-      const url = `${process.env.REACT_APP_IPFS_GATEWAY}/ipfs/${data[1].hash}${data[0].path}`; 
+      const url = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${data[1].hash}${data[0].path}`; 
       await fetch(url, {
         method: 'GET',
         headers: {
@@ -137,16 +137,11 @@ export default class KlerosEscrow {
   }
 
   async createTransaction(amount, recipient, timeout, metaEvidence) {
-    /*
     if (this.tokenContract) {
-      console.log('Kleros Escrow/amount', amount / 1000000000000000000);
-
       await this.tokenContract.methods
         .approve(this.contract.options.address, amount)
-        .send()
+        .send();
     }
-    //  Here should have a comment "* /"
-    */
 
     if (metaEvidence.file) {
       metaEvidence = { ...metaEvidence }
@@ -182,19 +177,26 @@ export default class KlerosEscrow {
       arbitrableAddress: this.contract.options.address,
       receiver: recipient,
       sender,
-      subCategory: 'Cryptocurrency Transaction',
+      subCategory: 'General Service',
       timeout,
       token: this.tokenContract && {
         address: this.tokenContract.options.address,
       },
     })
 
-    // value: this.web3.utils.toWei(amount.toString(10), 'Kwei')
-    
-    // { from: sender, value: amount }
     return this.contract.methods
-      .createTransaction(timeout, recipient, metaEvidenceURI)
-      .send({ value: amount })
+      .createTransaction(
+        ...(this.tokenContract
+          ? [
+              amount,
+              this.tokenContract.options.address,
+              timeout,
+              recipient,
+              metaEvidenceURI,
+            ]
+          : [timeout, recipient, metaEvidenceURI])
+      )
+      .send(!this.tokenContract && { value: amount });
   }
 
   async pay(transactionID, amount) {
