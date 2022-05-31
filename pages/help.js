@@ -7,7 +7,7 @@ const Help = () => {
       <Head>
         <title>Yubiai Marketplace - Help</title>
       </Head>
-      <Container maxW="2xl" display={'flex'} flexDirection={'column'}>
+      <Container maxW="6xl" h={{base: "full", sm: "full", md: "full", lg: "100vh", xl: "100vh"}} display={'flex'} flexDirection={'column'}>
         <Box h="100vh">
         <Heading mt="1em">Help</Heading>
         <Text>

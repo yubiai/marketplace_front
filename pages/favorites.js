@@ -39,7 +39,7 @@ const Favorites = () => {
         <title>Yubiai Marketplace - Favorites</title>
         <meta name="keywords" content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask" />
       </Head>
-      <Container maxW="6xl" h="1000px" display={'flex'} flexDirection={'column'}>
+      <Container maxW="6xl" h={{base: "full", sm: "full", md: "full", lg: "100vh", xl: "100vh"}} display={'flex'} flexDirection={'column'}>
         <Flex alignItems={'center'} mt="1em">
           {items && items.length > 0 && (
             <Text fontWeight={'bold'}>List your favorites</Text>

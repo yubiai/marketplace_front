@@ -122,8 +122,8 @@ const ItemById = ({ item }) => {
       <Head>
         <title>Yubiai Marketplace - {item.title}</title>
       </Head>
-      <Container maxW="container.xl">
-        <Flex width={'full'} direction={{ base: 'column', md: 'row' }}>
+      <Container maxW="6xl" h={{base: "full", sm: "full", md: "full", lg: "full", xl: "100vh"}} display={'flex'} flexDirection={'column'}>
+        <Flex width={'full'} direction={{ base: 'column', md: 'row' }} mt="1em">
           <Box width={{ base: '100%', md: '66%' }} m="5px">
             <Box padding="5px">
               {selectImage && (

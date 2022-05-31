@@ -59,7 +59,7 @@ const Home = ({ itemsByServices }) => {
   if (!itemsByServices) return <Loading />
 
   return (
-    <div>
+    <>
       <Head>
         <title>Yubiai Marketplace - Home</title>
         <meta
@@ -82,7 +82,7 @@ const Home = ({ itemsByServices }) => {
       </Head>
 
       <main>
-        <Box h={{base: "full", sm: "full", md: "100vh", lg: "80vh"}} m="2em">
+        <Box h={{base: "full", sm: "full", md: "full", lg: "100vh", xl: "100vh"}} m="2em">
           <CarouselCards
             title={'Items the services.'}
             items={itemsByServices}
@@ -98,7 +98,7 @@ const Home = ({ itemsByServices }) => {
           )}
         </Box>
       </main>
-    </div>
+    </>
   )
 }
 

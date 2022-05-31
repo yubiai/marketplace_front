@@ -38,7 +38,7 @@ const Profile = () => {
         <title>Yubiai Marketplace - My Profile</title>
       </Head>
       <ProfileMenu>
-        <Box h={{ md: '100vh' }} w={{ base: 'full' }}>
+        <Box maxW="6xl" h={{base: "full", sm: "full", md: "full", lg: "100vh", xl: "100vh"}} display={'flex'} flexDirection={'column'} w={{ base: 'full' }}>
           <Text fontWeight={'bold'}>My Info</Text>
           <Text fontWeight={'bold'}>Proof of humanity information</Text>
           <MyInfoPohCard dataProfile={dataProfile} balance={balanceToken} />
