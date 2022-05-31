@@ -29,14 +29,13 @@ const ItemById = ({ item }) => {
   const [selectImage, setSelectImage] = useState(null)
 
   const actionToat = (title, description, status) => {
-
     toast({
       title,
       description: description,
       position: 'top-right',
       status: status,
       duration: 5000,
-      isClosable: true
+      isClosable: true,
     })
   }
 
@@ -52,9 +51,9 @@ const ItemById = ({ item }) => {
             if (favorites[i]._id === item._id) {
               console.log('es favorito')
               setFavorite(true)
-              break;
+              break
             } else {
-              setFavorite(false);
+              setFavorite(false)
             }
           }
         }
@@ -73,8 +72,12 @@ const ItemById = ({ item }) => {
       )
       .then((res) => {
         if (res.status === 200) {
-          getFavorites();
-          actionToat("Favorites", "Item added to favorites successfully.", "success")
+          getFavorites()
+          actionToat(
+            'Favorites',
+            'Item added to favorites successfully.',
+            'success'
+          )
           return
         }
       })
@@ -90,7 +93,11 @@ const ItemById = ({ item }) => {
       .then((res) => {
         if (res.status === 200) {
           getFavorites()
-          actionToat("Favorites", "Item removed from favorites successfully.", "info")
+          actionToat(
+            'Favorites',
+            'Item removed from favorites successfully.',
+            'info'
+          )
           return
         }
       })
@@ -111,18 +118,27 @@ const ItemById = ({ item }) => {
         getFavorites()
       }
     }
-    funcSelectImage()
-    InitProfile()
+    if (item) {
+      funcSelectImage()
+      InitProfile()
+    }
   }, [item])
 
   if (!item) return <Loading />
+
+  if (item.notExist) return <Text>Item no exists.</Text>
 
   return (
     <>
       <Head>
         <title>Yubiai Marketplace - {item.title}</title>
       </Head>
-      <Container maxW="6xl" h={{base: "full", sm: "full", md: "full", lg: "full", xl: "100vh"}} display={'flex'} flexDirection={'column'}>
+      <Container
+        maxW="6xl"
+        h={{ base: 'full', sm: 'full', md: 'full', lg: 'full', xl: '100vh' }}
+        display={'flex'}
+        flexDirection={'column'}
+      >
         <Flex width={'full'} direction={{ base: 'column', md: 'row' }} mt="1em">
           <Box width={{ base: '100%', md: '66%' }} m="5px">
             <Box padding="5px">
@@ -258,15 +274,24 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  let item = null
   try {
     const { slug } = params
     const res = await axios.get(`/items/item/${slug}`)
-    const item = res.data.result
 
+    if (!res.data.result) {
+      return {
+        notFound: true,
+      }
+    }
+
+    item = res.data.result
     return { props: { item } }
   } catch (err) {
     console.log(err)
-    return { props: '' }
+    return {
+      notFound: true,
+    }
   }
 }
 
