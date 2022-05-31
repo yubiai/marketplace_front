@@ -140,7 +140,7 @@ const ItemById = ({ item }) => {
       </Head>
       <Container
         maxW="6xl"
-        h={{ base: 'full', sm: 'full', md: 'full', lg: 'full', xl: '100vh' }}
+        h={"full"}
         display={'flex'}
         flexDirection={'column'}
       >

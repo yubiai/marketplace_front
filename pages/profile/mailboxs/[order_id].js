@@ -93,8 +93,8 @@ const MailBoxs = () => {
         <title>Yubiai Marketplace - Mailbox</title>
       </Head>
 
-      <Container maxW="5xl" display={'flex'} flexDirection={'row'}>
-        <Box w="70%" h="90vh">
+      <Container maxW="5xl" display={'flex'} flexDirection={{base: 'column', md: 'column', lg: 'row'}}>
+        <Box w={{base: 'full', lg: '70%'}} h="90vh">
           <Text m="1em">Mailbox the Order ID: {order_id}</Text>
           <Flex
             w="100%"
@@ -142,7 +142,7 @@ const MailBoxs = () => {
             </Flex>
           </Flex>
         </Box>
-        <Box w="30%" p="1em">
+        <Box w={{base: 'full', lg: '30%'}} p="1em">
           <p>Payment waiting on escrow</p>
         </Box>
       </Container>
