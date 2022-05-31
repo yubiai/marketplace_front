@@ -45,7 +45,7 @@ const ItemCard = ({item}) => {
             </Text>
             <Stack direction={'row'}>
               <Text fontWeight={800} fontSize={'1ems'}>
-                100
+                {item.price}
               </Text>
               <Text>DAI</Text>
               {/* <Text textDecoration={'line-through'} color={'red'}>
