@@ -8,12 +8,13 @@ export default function Custom404() {
       <Head>
         <title>Yubiai Marketplace - Error 404</title>
       </Head>
-      <Box textAlign="center" py={10} px={6}>
+      <Box textAlign="center" h="100vh" py={10} px={6}>
         <Heading
           display="inline-block"
           as="h2"
           size="2xl"
-          bgGradient="linear(to-r, teal.400, teal.600)"
+          bg="#00abd1"
+          color="white"
           backgroundClip="text"
         >
           404
@@ -25,12 +26,7 @@ export default function Custom404() {
           Page not exists.
         </Text>
 
-        <Button
-          colorScheme="teal"
-          bgGradient="linear(to-r, teal.400, teal.500, teal.600)"
-          color="white"
-          variant="solid"
-        >
+        <Button bg="#00abd1" color="white" variant="solid">
           <Link href="/">Go to Home</Link>
         </Button>
       </Box>

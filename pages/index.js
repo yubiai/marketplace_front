@@ -11,16 +11,33 @@ const Home = ({ itemsByServices }) => {
   const global = useGlobal()
   const [favorites, setFavorites] = useState(null)
   const [listFavorites, setListFavorites] = useState(null)
+  const [listRandom, setListRandom] = useState(null)
+
+  const arrayRandom = () => {
+    if (itemsByServices) {
+      let newList = []
+      itemsByServices.map((item) => {
+        newList.push(item)
+      })
+
+      const shuffleArray = () => {
+        newList.sort(() => Math.random() - 0.5)
+      }
+
+      shuffleArray()
+      setListRandom(newList)
+    }
+  }
 
   useEffect(() => {
     const initItem = async () => {
-      setFavorites([])
+      setFavorites(null)
       if (global && global.profile && global.profile._id) {
         await profileService
           .getFavorites(global.profile._id)
           .then((res) => {
-            const favorites = res.data;
-            if(favorites.length > 0){
+            const favorites = res.data
+            if (favorites.length > 0) {
               setListFavorites(favorites)
               setFavorites(true)
             }
@@ -29,9 +46,11 @@ const Home = ({ itemsByServices }) => {
             console.log(err)
             setListFavorites([])
             setFavorites(false)
+            arrayRandom()
           })
       } else {
         setFavorites(false)
+        arrayRandom()
       }
     }
     initItem()
@@ -50,11 +69,11 @@ const Home = ({ itemsByServices }) => {
         />
         <meta charSet="utf-8" />
         <meta name="theme-color" content="#f8f8f8" />
-        <meta name="description" content="Soy Marketplace" />
-        <meta name="keywords" content="ybiaiiii" />
+        <meta name="description" content="Marketplace" />
+        <meta name="keywords" content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask" />
         <meta name="author" content="VeneziaDev" />
         <meta property="og:title" content="Yubiai - Web" />
-        <meta property="og:description" content="Soy yubiii." />
+        <meta property="og:description" content="Marketplace" />
         <meta property="og:url" content="https://www.yubiai.com/" />
         <meta property="og:type" content="website" />
         <link rel="icon" href="/favicon.ico" />
@@ -63,7 +82,7 @@ const Home = ({ itemsByServices }) => {
       </Head>
 
       <main>
-        <Box h="80vh" m="2em">
+        <Box h={{base: "full", sm: "full", md: "100vh", lg: "80vh"}} m="2em">
           <CarouselCards
             title={'Items the services.'}
             items={itemsByServices}
@@ -75,10 +94,7 @@ const Home = ({ itemsByServices }) => {
             />
           )}
           {favorites === false && (
-             <CarouselCards
-             title={'Items Random.'}
-             items={itemsByServices}
-           />
+            <CarouselCards title={'Items Random.'} items={listRandom} />
           )}
         </Box>
       </main>
