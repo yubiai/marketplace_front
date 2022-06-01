@@ -34,7 +34,7 @@ const Navbar = () => {
                     <Button
                       p={2}
                       fontSize={'16px'}
-                      bg="transparent"
+                      bg="er"
                       fontWeight={500}
                       color={linkColor}
                       _hover={{
@@ -87,7 +87,6 @@ const Navbar = () => {
             <Box>
               <Text
                 transition={'all .3s ease'}
-                _groupHover={{ color: 'blue.400' }}
                 fontWeight={500}
               >
                 {label}

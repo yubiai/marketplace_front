@@ -1,23 +1,23 @@
-import { Alert, AlertIcon, Button } from '@chakra-ui/react'
+import { Alert, AlertIcon, Button, Center } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import Link from 'next/link';
-import { useDispatchGlobal } from "../../providers/globalProvider";
+import Link from 'next/link'
+import { useDispatchGlobal } from '../../providers/globalProvider'
 
 const MetaAlert = () => {
   const [verifyMeta, setVerifyMeta] = useState(false)
-  const dispatch = useDispatchGlobal();
+  const dispatch = useDispatchGlobal()
 
   useEffect(() => {
     const verifyMetamask = () => {
       if (!window.ethereum) {
         console.log('no hay metamask')
-        setVerifyMeta(true)  
+        setVerifyMeta(true)
         return null
       } else {
         dispatch({
           type: 'VERIFYMETA',
-          payload: true
-        }) 
+          payload: true,
+        })
       }
     }
     verifyMetamask()
@@ -27,17 +27,19 @@ const MetaAlert = () => {
   return (
     <>
       {verifyMeta && (
-        <Alert status="error">
-          <AlertIcon />
-          It has been verified that you do not have metamask installed you will not be able to connect.
-          <Button ml="1em">
-          <Link href="https://metamask.io/download/">Download</Link>
-          </Button>
+        <Alert status="error" w="full">
+          <Center ml="1em">
+            <AlertIcon />
+            It has been verified that you do not have metamask installed you
+            will not be able to connect.
+            <Button ml="1em">
+              <Link href="https://metamask.io/download/">Download</Link>
+            </Button>
+          </Center>
         </Alert>
       )}
     </>
   )
 }
 
-
-export default MetaAlert;
+export default MetaAlert

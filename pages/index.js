@@ -84,17 +84,17 @@ const Home = ({ itemsByServices }) => {
       <main>
         <Box h={{base: "full", sm: "full", md: "full", lg: "100vh", xl: "100vh"}} m="2em">
           <CarouselCards
-            title={'Items the services.'}
+            title={'Popular services'}
             items={itemsByServices}
           />
           {favorites === true && (
             <CarouselCards
-              title={'Items in your favorites.'}
+              title={'Your favorites'}
               items={listFavorites}
             />
           )}
           {favorites === false && (
-            <CarouselCards title={'Items Random.'} items={listRandom} />
+            <CarouselCards title={'Last viewed items'} items={listRandom} />
           )}
         </Box>
       </main>

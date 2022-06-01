@@ -32,6 +32,7 @@ const Header = () => {
           <Box display={{ base: 'none', md: 'flex' }} mt={'15px'}>
             <Button
               bg="transparent"
+              p="1.5em"
               _hover={{
                 bg: '#1C538A',
               }}

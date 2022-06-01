@@ -42,7 +42,7 @@ const Favorites = () => {
       <Container maxW="6xl" h={{base: "full", sm: "full", md: "full", lg: "100vh", xl: "100vh"}} display={'flex'} flexDirection={'column'}>
         <Flex alignItems={'center'} mt="1em">
           {items && items.length > 0 && (
-            <Text fontWeight={'bold'}>List your favorites</Text>
+            <Text fontWeight={'bold'}>Your favorites</Text>
           )}
         </Flex>
         <SimpleGrid minChildWidth="250px" spacing="2px">
