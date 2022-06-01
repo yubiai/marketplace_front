@@ -15,13 +15,17 @@ const KlerosEscrowProvider = ({ children, transactionData }) => {
   const [metaEvidenceFileURI, setMetaEvidenceFileURI] = useState("")
 
   useEffect(() => {
+    if (!transactionData.fileURI) {
+      return;
+    }
     setMetaEvidenceFileURI(transactionData.fileURI)
     klerosEscrowRef.current.setCourtAndCurrency('general', (transactionData.amount || {}).currency)
     dispatch({
       type: 'SET_KLEROS_ESCROW_INSTANCE',
       payload: klerosEscrowRef.current,
     })
-  }, [klerosEscrowRef, dispatch, metaEvidenceFileURI]);
+    window.klerosEscrowRef = klerosEscrowRef.current;
+  }, [metaEvidenceFileURI]);
 
   useEffect(() => {
     let cancelled = false

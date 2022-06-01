@@ -20,7 +20,6 @@ import {
 } from '../../utils/orderUtils'
 
 const Checkout = () => {
-    // Global
     const global = useGlobal()
     const router = useRouter()
     const [orderData, setOrderData] = useState({ orders: [] });
@@ -35,7 +34,7 @@ const Checkout = () => {
 
             const items = global.itemsToCheckout
             const seller = items[0].seller;
-            const itemCurrencySymbol = items[0].currencySymbolPrice || 'ETH';
+            const itemCurrencySymbol = items[0].currencySymbolPrice || '';
 
             const { eth_address } = seller
 
@@ -65,21 +64,21 @@ const Checkout = () => {
 
         if (
             !global.itemsToCheckout.length ||
-            orderData.orders.length ||
-            !global.klerosEscrowInstance
+            orderData.orders.length
         ) {
             return;
         }
         loadCurrencyPrices()
         loadOrderData()
-    }, [orderData, global.klerosEscrowInstance, global.currencyPriceList]);
+    }, [orderData, transactionData, global.currencyPriceList]);
 
     const createOrder = async (transactionResult = {}) => {
         const currentWalletAccount = await global.klerosEscrowInstance.getAccount()
         await orderService.createOrder({
             order: {
                 items: [...orderData.orders],
-                userBuyer: currentWalletAccount
+                userBuyer: currentWalletAccount,
+                status: 'ORDER_CREATED'
             },
             transactionInfo: transactionResult
         });
@@ -100,7 +99,7 @@ const Checkout = () => {
                                         src={orderItem.pictures[0]}/>
                                 <Box>
                                     <Text fontWeight='bold' fontSize='18px'>{orderItem.title}</Text>
-                                    <Text fontSize='14px'>Price: ${orderItem.price}</Text>
+                                    <Text fontSize='14px'>Price: {orderItem.price}{orderItem.currencySymbolPrice}</Text>
                                 </Box>
                             </Flex>
                         ))

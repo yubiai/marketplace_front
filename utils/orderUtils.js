@@ -11,6 +11,14 @@ const parsePriceToETHAmount = (priceInUSD, ethData, web3Instance) => {
     return web3Instance.utils.toWei(rateValue.toString())
 }
 
+const parseFromAToBToken = (basePrice, tokenA, tokenB) => {
+    const priceA = tokenA.price;
+    const priceB = tokenB.price;
+
+    const rateValue = (basePrice * priceB) / priceA;
+    return rateValue
+}
+
 const totalAmountOrder = (orders) => {
     return orders.reduce(
         (currentVal, prevOrder) => currentVal + prevOrder.price, 0) || 0;
@@ -53,5 +61,6 @@ export {
     parseItemIntoOrderTransaction,
     totalAmountOrder,
     parsePriceToETHAmount,
-    getProtocolNamingFromNetwork
+    getProtocolNamingFromNetwork,
+    parseFromAToBToken
 }

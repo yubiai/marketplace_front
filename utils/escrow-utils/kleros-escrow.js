@@ -137,7 +137,7 @@ export default class KlerosEscrow {
   }
 
   async createTransaction(amount, recipient, timeout, metaEvidence) {
-    if (this.tokenContract) {
+    if (this.isNotSetDefaultContract()) {
       await this.tokenContract.methods
         .approve(this.contract.options.address, amount)
         .send();
@@ -184,19 +184,21 @@ export default class KlerosEscrow {
       },
     })
 
+    if (this.isNotSetDefaultContract()) {
+      return this.contract.methods
+        .createTransaction(
+          amount,
+          this.tokenContract.options.address,
+          timeout,
+          recipient,
+          metaEvidenceURI,
+        )
+        .send();
+    }
+  
     return this.contract.methods
-      .createTransaction(
-        ...(this.tokenContract
-          ? [
-              amount,
-              this.tokenContract.options.address,
-              timeout,
-              recipient,
-              metaEvidenceURI,
-            ]
-          : [timeout, recipient, metaEvidenceURI])
-      )
-      .send(!this.tokenContract && { value: amount });
+      .createTransaction(timeout, recipient, metaEvidenceURI)
+      .send({ value: amount })
   }
 
   async pay(transactionID, amount) {
@@ -237,5 +239,9 @@ export default class KlerosEscrow {
     return this.contract.methods
       .submitEvidence(transactionID, evidenceURI)
       .send()
+  }
+
+  isNotSetDefaultContract() {
+    return this.tokenContract && this.tokenContract._address.toLowerCase() !== ETHCurrencyAddress.toLowerCase();
   }
 }

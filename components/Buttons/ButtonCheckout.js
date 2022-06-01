@@ -12,8 +12,9 @@ const ButtonCheckout = ({ transactionInfo, createOrder }) => {
 
     const createTransaction = async () => {
         try {
+            const amountToWei = global.klerosEscrowInstance.web3.utils.toWei(amount.value.toString())
             const result = await global.klerosEscrowInstance.createTransaction(
-                amount.value, recipient, timeout, metaEvidence)
+                amountToWei, recipient, timeout, metaEvidence)
 
             const {
                 blockHash,

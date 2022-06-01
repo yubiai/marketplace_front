@@ -1,15 +1,21 @@
 import { Button } from '@chakra-ui/react'
 import { useGlobal } from '../../providers/globalProvider'
+import { parsePriceToETHAmount } from '../../utils/orderUtils'
 
-const ButtonCheckout = ({ transactionIndex }) => {
+const ButtonStartEscrowDispute = ({ transactionIndex, amount }) => {
     const global = useGlobal()
     const startEscrowDispute = async () => {
         try {
-            console.log('Transaction Index:: ', transactionIndex);
-            const n = global.klerosEscrowInstance.web3.utils.toNumber(transactionIndex);
+            const transactionIndexParsed = global.klerosEscrowInstance.web3.utils.toNumber(
+                transactionIndex);
+            const ethContract = global.currencyPriceList.find(
+                currencyObject => currencyObject.symbol === 'ETH');
+            const parsedETHPrice = parsePriceToETHAmount(
+                amount, ethContract, global.klerosEscrowInstance.web3);
+
             const result = await global.klerosEscrowInstance.payArbitrationFee(
-                n, 1e16)
-            console.log('Result:: ', result);
+                transactionIndexParsed, parsedETHPrice)
+            console.log('Result: ', result)
         } catch (e) {
             console.log('Error creating an Escrow contract: ', e);
         }
@@ -20,4 +26,4 @@ const ButtonCheckout = ({ transactionIndex }) => {
     );
 };
 
-export default ButtonCheckout;
+export default ButtonStartEscrowDispute;
