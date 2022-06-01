@@ -26,9 +26,26 @@ async function getCurrentUser() {
 
 /**
  * Get Favorites the perfil
+ * @param {str} id user
+ */
+async function getProfile(eth_address) {
+  return await axios.get(`/profiles/${eth_address}`)
+}
+
+/**
+ * Get Favorites the perfil
+ * @param {str} id user
+ * @param {str} data
+ */
+async function updateProfile(profile, data) {
+  return await axios.put(`/profiles/${profile}`, data)
+}
+
+/**
+ * Get Favorites the perfil
  * @param {str} profile
  */
- async function getFavorites(profile) {
+async function getFavorites(profile) {
   return await axios.get(`/profiles/favorites/${profile}`)
 }
 
@@ -56,10 +73,21 @@ async function removeFavorite(profile, item) {
   })
 }
 
+/**
+ * Get Favorites the perfil
+ * @param {str} profile
+ */
+ async function getMyPublished(profile) {
+  return await axios.get(`/profiles/my_published/${profile}`)
+}
+
 export const profileService = {
   login,
   getCurrentUser,
+  getProfile,
+  updateProfile,
   getFavorites,
   addFavorite,
   removeFavorite,
+  getMyPublished
 }

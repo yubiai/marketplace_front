@@ -7,6 +7,7 @@ import MyInfoPrivateCard from '../../components/Cards/MyInfoPrivateCard'
 import ProfileMenu from '../../components/Menus/ProfileMenu'
 import Loading from '../../components/Spinners/Loading'
 import { useGlobal } from '../../providers/globalProvider'
+import { profileService } from '../../services/profileService'
 import { balanceUbi1 } from '../../utils/ethereum'
 
 const Profile = () => {
@@ -19,9 +20,12 @@ const Profile = () => {
   useEffect(() => {
     const setProfile = async () => {
       if (global && global.profile) {
-        setDataProfile(global.profile)
         await balanceUbi1(global.profile.eth_address).then((res) => {
           setBalanceToken(res)
+        })
+        await profileService.getProfile(global.profile.eth_address).then((res) => {
+          const data = res.data;
+          setDataProfile(data);
         })
       } else {
         router.push('/')

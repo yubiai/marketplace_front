@@ -1,17 +1,10 @@
-import {
-  Box,
-  Center,
-  Text,
-  Stack,
-  Image,
-  Divider,
-} from '@chakra-ui/react'
+import { Box, Center, Text, Stack, Image, Divider } from '@chakra-ui/react'
 import Link from 'next/link'
 
-const ItemCard = ({item}) => {
+const ItemCard = ({ item }) => {
   return (
     <Center p={1} cursor="pointer">
-      <Link href={`/item/${item.slug}`} >
+      <Link href={`/item/${item.slug}`}>
         <Box
           role={'group'}
           p={2}
@@ -43,7 +36,9 @@ const ItemCard = ({item}) => {
             >
               {item.title}
             </Text>
-            <Stack direction={'row'}>
+            <Stack
+              direction={'row'} position="absolute" bottom="1"
+            >
               <Text fontWeight={800} fontSize={'1ems'}>
                 {item.price}
               </Text>
