@@ -1,40 +1,38 @@
 import { Container, Flex, Heading, SimpleGrid, Text } from '@chakra-ui/react'
+import Loading from '../../../components/Spinners/Loading'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import ItemCardLg from '../../../components/Cards/ItemCardLg'
 import { profileService } from '../../../services/profileService'
-import { useRouter } from 'next/router'
-import Loading from '../../../components/Spinners/Loading'
 import { useGlobal } from '../../../providers/globalProvider'
+import { useRouter } from 'next/router'
 import ProfileMenu from '../../../components/Menus/ProfileMenu'
 
-const Published = () => {
+const Favorites = () => {
   const global = useGlobal()
   const router = useRouter()
   const [items, setItems] = useState(null)
 
-  const getMyPublished = async () => {
-    if (global && global.profile) {
-      await profileService
-        .getMyPublished(
-          (global && global.profile && global.profile._id) || null
-        )
-        .then((res) => {
-          const published = res.data || []
-          setItems(published)
-        })
-        .catch((err) => {
-          console.log(err)
-          setItems([])
-        })
-    } else {
-      router.push('/')
-    }
+  const getFavorites = async () => {
+    await profileService
+      .getFavorites((global && global.profile && global.profile._id) || null)
+      .then((res) => {
+        const favorites = res.data || []
+        setItems(favorites)
+      })
+      .catch((err) => {
+        console.log(err)
+        setItems([])
+      })
   }
 
   useEffect(() => {
     const initItem = () => {
-      getMyPublished()
+      if (global && global.profile) {
+        getFavorites()
+      } else {
+        router.push('/')
+      }
     }
     initItem()
   }, [global])
@@ -59,12 +57,14 @@ const Published = () => {
         >
           <Flex alignItems={'center'} mt="1em">
             {items && items.length > 0 && (
-              <Text fontWeight={'bold'}>Your published</Text>
+              <Text fontWeight={'bold'}>Your favorites</Text>
             )}
           </Flex>
           <SimpleGrid minChildWidth="250px" spacing="2px">
             {items.length === 0 && (
-              <Heading mt="5em">You do not have any items published </Heading>
+              <Heading mt="5em">
+                You do not have any items added to favorites.
+              </Heading>
             )}
             {items &&
               items.length > 0 &&
@@ -78,4 +78,4 @@ const Published = () => {
   )
 }
 
-export default Published
+export default Favorites

@@ -25,7 +25,7 @@ const LinkItems = [
   { name: 'New Publish', icon: FiSettings, url: '/publish/new' },
   { name: 'Published', icon: FiTrendingUp, url: '/profile/published' },
   { name: 'Orders', icon: FiCompass, url: '/profile/orders' },
-  { name: 'Favorites', icon: FiStar, url: '/favorites' }
+  { name: 'Favorites', icon: FiStar, url: '/profile/favorites' }
 ]
 
 export default function ProfileMenu({ children }) {
