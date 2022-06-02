@@ -7,12 +7,19 @@ const Help = () => {
       <Head>
         <title>Yubiai Marketplace - Help</title>
       </Head>
-      <Container maxW="2xl" display={'flex'} flexDirection={'column'}>
+      <Container
+        maxW="6xl"
+        h={{ base: 'full', sm: 'full', md: 'full', lg: '100vh', xl: '100vh' }}
+        display={'flex'}
+        flexDirection={'column'}
+      >
         <Box h="100vh">
-        <Heading mt="1em">Help</Heading>
-        <Text>
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.z
-        </Text>
+          <Heading mt="1em">Help</Heading>
+          <Text>
+            Welcome to Yubiai, the marketplace where you can find or publish
+            services with crypto. For any support that you need you can contact
+            us through our social media channels.
+          </Text>
         </Box>
       </Container>
     </>

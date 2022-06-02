@@ -1,15 +1,65 @@
 import { Box } from '@chakra-ui/react'
 import axios from 'axios'
 import Head from 'next/head'
+import { useEffect, useState } from 'react'
 import CarouselCards from '../components/Cards/CarouselCards'
 import Loading from '../components/Spinners/Loading'
+import { useGlobal } from '../providers/globalProvider'
+import { profileService } from '../services/profileService'
 
 const Home = ({ itemsByServices }) => {
+  const global = useGlobal()
+  const [favorites, setFavorites] = useState(null)
+  const [listFavorites, setListFavorites] = useState(null)
+  const [listRandom, setListRandom] = useState(null)
 
-  if(!itemsByServices) return <Loading />
+  const arrayRandom = () => {
+    if (itemsByServices) {
+      let newList = []
+      itemsByServices.map((item) => {
+        newList.push(item)
+      })
+
+      const shuffleArray = () => {
+        newList.sort(() => Math.random() - 0.5)
+      }
+
+      shuffleArray()
+      setListRandom(newList)
+    }
+  }
+
+  useEffect(() => {
+    const initItem = async () => {
+      setFavorites(null)
+      if (global && global.profile && global.profile._id) {
+        await profileService
+          .getFavorites(global.profile._id)
+          .then((res) => {
+            const favorites = res.data
+            if (favorites.length > 0) {
+              setListFavorites(favorites)
+              setFavorites(true)
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+            setListFavorites([])
+            setFavorites(false)
+            arrayRandom()
+          })
+      } else {
+        setFavorites(false)
+        arrayRandom()
+      }
+    }
+    initItem()
+  }, [global, global.profile])
+
+  if (!itemsByServices) return <Loading />
 
   return (
-    <div>
+    <>
       <Head>
         <title>Yubiai Marketplace - Home</title>
         <meta
@@ -19,11 +69,11 @@ const Home = ({ itemsByServices }) => {
         />
         <meta charSet="utf-8" />
         <meta name="theme-color" content="#f8f8f8" />
-        <meta name="description" content="Soy Marketplace" />
-        <meta name="keywords" content="ybiaiiii" />
+        <meta name="description" content="Marketplace" />
+        <meta name="keywords" content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask" />
         <meta name="author" content="VeneziaDev" />
         <meta property="og:title" content="Yubiai - Web" />
-        <meta property="og:description" content="Soy yubiii." />
+        <meta property="og:description" content="Marketplace" />
         <meta property="og:url" content="https://www.yubiai.com/" />
         <meta property="og:type" content="website" />
         <link rel="icon" href="/favicon.ico" />
@@ -32,18 +82,23 @@ const Home = ({ itemsByServices }) => {
       </Head>
 
       <main>
-        <Box h="80vh" m="2em">
+        <Box h={{base: "full", sm: "full", md: "full", lg: "100vh", xl: "100vh"}} m="2em">
           <CarouselCards
-            title={'Items the services.'}
+            title={'Popular services'}
             items={itemsByServices}
           />
-          <CarouselCards
-            title={'Items in your favorites.'}
-            items={itemsByServices}
-          />
+          {favorites === true && (
+            <CarouselCards
+              title={'Your favorites'}
+              items={listFavorites}
+            />
+          )}
+          {favorites === false && (
+            <CarouselCards title={'Last viewed items'} items={listRandom} />
+          )}
         </Box>
       </main>
-    </div>
+    </>
   )
 }
 

@@ -42,7 +42,7 @@ const ItemCardLg = ({ item }) => {
             >
               {item.title}
             </Text>
-            <Stack direction={'row'}>
+            <Stack direction={'row'} position="absolute" bottom="1">
               <Text fontWeight={800} fontSize={'1ems'}>
                 {item.price}
               </Text>

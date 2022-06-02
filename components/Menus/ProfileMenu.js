@@ -5,7 +5,6 @@ import {
   CloseButton,
   Flex,
   Icon,
-  Link,
   Drawer,
   DrawerContent,
   Text,
@@ -19,13 +18,14 @@ import {
   FiSettings,
   FiMenu,
 } from 'react-icons/fi'
+import Link from 'next/link'
 
 const LinkItems = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Trending', icon: FiTrendingUp },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Settings', icon: FiSettings },
+  { name: 'Profile', icon: FiHome, url: '/profile' },
+  { name: 'New Publish', icon: FiSettings, url: '/publish/new' },
+  { name: 'Published', icon: FiTrendingUp, url: '/profile/published' },
+  { name: 'Orders', icon: FiCompass, url: '/profile/orders' },
+  { name: 'Favorites', icon: FiStar, url: '/profile/favorites' }
 ]
 
 export default function ProfileMenu({ children }) {
@@ -76,7 +76,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem key={link.name} icon={link.icon} url={link.url}>
           {link.name}
         </NavItem>
       ))}
@@ -84,10 +84,10 @@ const SidebarContent = ({ onClose, ...rest }) => {
   )
 }
 
-const NavItem = ({ icon, children, ...rest }) => {
+const NavItem = ({ icon, url, children, ...rest }) => {
   return (
     <Link
-      href="#"
+      href={url}
       style={{ textDecoration: 'none' }}
       _focus={{ boxShadow: 'none' }}
     >

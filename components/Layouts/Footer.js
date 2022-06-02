@@ -38,6 +38,7 @@ const Footer = () => {
     <Box
       bg={'yb.1'}
       color={'white'}
+      position="revert"
     >
       <Container
         as={Stack}

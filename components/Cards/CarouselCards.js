@@ -62,8 +62,8 @@ const settings = {
       breakpoint: 2256,
       settings: {
         slidesToShow: 7,
-        slidesToScroll: 3,
-        infinite: true,
+        slidesToScroll: 1,
+        infinite: false,
         dots: false,
       },
     },
@@ -71,8 +71,8 @@ const settings = {
       breakpoint: 1024,
       settings: {
         slidesToShow: 5,
-        slidesToScroll: 3,
-        infinite: true,
+        slidesToScroll: 1,
+        infinite: false,
         dots: false,
       },
     },
@@ -80,7 +80,7 @@ const settings = {
       breakpoint: 600,
       settings: {
         slidesToShow: 2,
-        slidesToScroll: 2,
+        slidesToScroll: 1,
         initialSlide: 2,
       },
     },
@@ -95,13 +95,14 @@ const settings = {
 }
 
 const CarouselCards = ({title, items}) => {
+
   return (
     <Container display={{base:"contents"}} maxW="full" mt="2em">
       <Text color={"#727272"} fontSize="19px">{title}</Text>
       <Slider {...settings} >
-         {items && items.length && items.map((item) => {
+         {items.map((item, i) => {
            return(
-            <ItemCard item={item} key={item._id}/>
+            <ItemCard item={item} key={i}/>
            )
          })}
       </Slider>

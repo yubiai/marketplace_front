@@ -65,14 +65,11 @@ const UserMenu = () => {
           <Link href="/publish/new">
             <MenuItem>New Publish</MenuItem>
           </Link>
+          <Link href="/profile/published">
+            <MenuItem>Published</MenuItem>
+          </Link>
           <Link href="/profile/orders">
             <MenuItem isDisabled>Orders</MenuItem>
-          </Link>
-          <Link href="/profile/sale">
-            <MenuItem isDisabled>Sale</MenuItem>
-          </Link>
-          <Link href="/profile/mailboxs">
-            <MenuItem isDisabled>Mailboxs</MenuItem>
           </Link>
           <MenuItem>
             <span onClick={() => disconnect()}>Disconnect</span>

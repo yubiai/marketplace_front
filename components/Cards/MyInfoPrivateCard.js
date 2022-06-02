@@ -12,8 +12,8 @@ const MyInfoPrivateCard = ({ dataProfile }) => {
         <Stack
           borderWidth="1px"
           borderRadius="lg"
-          width={{ base: '100%', sm: '100%', md: '100%' }}
-          height={{ base: 'full', sm: 'full', md: '50%' }}
+          width={'full'}
+          height={'full'}
           direction={{ base: 'column', md: 'row' }}
           bg={'white'}
           boxShadow={'2xl'}

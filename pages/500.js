@@ -13,7 +13,8 @@ export default function Custom500() {
           display="inline-block"
           as="h2"
           size="2xl"
-          bgGradient="linear(to-r, teal.400, teal.600)"
+          bg="#00abd1"
+          color="white"
           backgroundClip="text"
         >
           500
@@ -25,12 +26,7 @@ export default function Custom500() {
           500 - Server-side error occurred
         </Text>
 
-        <Button
-          colorScheme="teal"
-          bgGradient="linear(to-r, teal.400, teal.500, teal.600)"
-          color="white"
-          variant="solid"
-        >
+        <Button bg="#00abd1" color="white" variant="solid">
           <Link href="/">Go to Home</Link>
         </Button>
       </Box>
