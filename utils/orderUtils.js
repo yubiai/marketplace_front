@@ -19,7 +19,7 @@ const parseFromAToBToken = (basePrice, tokenA, tokenB) => {
     return rateValue
 }
 
-const totalAmountOrder = (orders) => {
+const totalAmountOrder = (orders = []) => {
     return orders.reduce(
         (currentVal, prevOrder) => currentVal + prevOrder.price, 0) || 0;
 };
