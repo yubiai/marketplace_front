@@ -4,12 +4,5 @@ const nextConfig = {
 }
 
 module.exports = {
-  nextConfig,
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      require('./scripts/cache')
-    }
-
-    return config
-  }
+  nextConfig
 }
