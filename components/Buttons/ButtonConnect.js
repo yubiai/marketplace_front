@@ -27,11 +27,16 @@ const ButtonConnect = () => {
     console.log('Address: ', signerAddress)
     const result = await profileService.login(signerAddress)
     console.log(result.data.data)
+    const data = result.data.data;
     dispatch({
       type: 'AUTHPROFILE',
-      payload: result.data.data,
+      payload: data
     })
-    localStorage.setItem('YBI-token', result.data.token)
+    const yubiaiLS = {
+      token: result.data.token,
+      wallet: data.eth_address
+    }
+    localStorage.setItem('Yubiai', JSON.stringify(yubiaiLS))
     toast({
       title: 'Login',
       description: 'You have successfully logged in, Welcome!',

@@ -16,8 +16,8 @@ async function login(walletAddress) {
  */
 async function getCurrentUser() {
   try {
-    const token = localStorage.getItem('YBI-token')
-    const decodeToken = await jwtDecode(token)
+    const yubiaiLS = localStorage.getItem('Yubiai')
+    const decodeToken = await jwtDecode(JSON.parse(yubiaiLS.token))
     return decodeToken
   } catch (error) {
     return null
