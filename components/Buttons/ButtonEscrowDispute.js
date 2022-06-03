@@ -1,8 +1,9 @@
 import { Button } from '@chakra-ui/react'
 import { useGlobal } from '../../providers/globalProvider'
+import { orderService } from '../../services/orderService'
 import { parsePriceToETHAmount } from '../../utils/orderUtils'
 
-const ButtonStartEscrowDispute = ({ transactionIndex, amount }) => {
+const ButtonEscrowDispute = ({ transactionIndex, amount, asSeller=false, transactionHash }) => {
     const global = useGlobal()
     const startEscrowDispute = async () => {
         try {
@@ -15,15 +16,20 @@ const ButtonStartEscrowDispute = ({ transactionIndex, amount }) => {
 
             const result = await global.klerosEscrowInstance.payArbitrationFee(
                 transactionIndexParsed, parsedETHPrice)
-            console.log('Result: ', result)
+            if (result) {
+                const status = asSeller ? 'ORDER_DISPUTE_IN_PROGRESS' : 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
+                await orderService.updateOrderStatus(transactionHash, status);
+            }
         } catch (e) {
             console.log('Error creating an Escrow contract: ', e);
         }
     };
   
     return (
-        <Button bg='#00abd1' color={'white'} onClick={startEscrowDispute}>Start dispute</Button>
+        <Button bg='#00abd1' color={'white'} onClick={startEscrowDispute}>
+            {asSeller ? 'Pay arbitration fee' : 'Start dispute'}
+        </Button>
     );
 };
 
-export default ButtonStartEscrowDispute;
+export default ButtonEscrowDispute;

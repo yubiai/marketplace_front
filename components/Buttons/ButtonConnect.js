@@ -32,6 +32,7 @@ const ButtonConnect = () => {
       payload: result.data.data,
     })
     localStorage.setItem('YBI-token', result.data.token)
+    localStorage.setItem('YBI-currentWallet', signerAddress)
     toast({
       title: 'Login',
       description: 'You have successfully logged in, Welcome!',

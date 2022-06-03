@@ -5,9 +5,9 @@ import { useGlobal, useDispatchGlobal } from '../../../../providers/globalProvid
 import {
     loadCurrencyPrices,
     loadOrderData,
-    setKlerosInstance
+    setKlerosInstance,
+    getAccount
 } from '../../../../providers/orderProvider'
-import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder'
 import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'
 
 import {
@@ -28,11 +28,24 @@ const OrderDetail = () => {
     const [orderDetail, setOrderDetail] = useState({})
     const [transactionData, setTransactionData] = useState({})
 
+    const redirectIfCurrentWalletIsNotSeller = (order, wallet) => {
+        if (wallet === order.userBuyer) {
+            router.push('/');
+            return true;
+        }
+        return false;
+    }
+
     useEffect(() => {
+        const currentWallet = localStorage.getItem('YBI-currentWallet');
         const loadOrder = async () => {
             const response = await orderService.getOrderByTransaction(transactionId)
             const { data } = response;
             const orderInfo = data.result;
+
+            if (redirectIfCurrentWalletIsNotSeller(orderInfo, currentWallet)) {
+                return;
+            }
 
             const { transaction } = await loadOrderData(
                 orderInfo.items, global.currencyPriceList, true);
@@ -80,31 +93,18 @@ const OrderDetail = () => {
                 <Text marginBottom='1rem'>Transaction hash: {(orderDetail.transaction || {}).transactionHash}</Text>
             </Box>
             {
-                (orderDetail.transaction || {}).transactionIndex && orderDetail.status === 'ORDER_CREATED' && (
+                (orderDetail.transaction || {}).transactionIndex && orderDetail.status === 'ORDER_DISPUTE_RECEIVER_FEE_PENDING' && (
                     <Flex marginTop='auto' justifyContent='space-around'>
-                        {
-                            transactionData && transactionData.amount && 
-                            <ButtonPayOrder transactionIndex={(orderDetail.transaction || {}).transactionIndex}
-                                            transactionHash={(orderDetail.transaction || {}).transactionHash}
-                                            amount={(transactionData.amount || {}).value || 0} />
-                        }
                         <ButtonEscrowDispute transactionIndex={(orderDetail.transaction || {}).transactionIndex}
                                              transactionHash={(orderDetail.transaction || {}).transactionHash}
-                                             amount={minimumArbitrationFeeUSD} />
+                                             amount={minimumArbitrationFeeUSD}
+                                             asSeller={true} />
                     </Flex>
                 )
             }
             {
-                transactionData && orderDetail.status === 'ORDER_PAID' && 
-                <p>Order paid</p>
-            }
-            {
-                transactionData && orderDetail.status === 'ORDER_DISPUTE_RECEIVER_FEE_PENDING' && 
-                <p>Dispute pending to start, waiting for seller to pay the arbitration fee.</p>
-            }
-            {
-                transactionData && orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && 
-                <p>Dispute in progress.</p>
+                (orderDetail.transaction || {}).transactionIndex && orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && 
+                <p>Dispute in progress</p>
             }
         </Container>
     )

@@ -1,7 +1,8 @@
 import { Button } from '@chakra-ui/react'
 import { useGlobal } from '../../providers/globalProvider'
+import { updateOrderStatus } from '../../services/orderService'
 
-const ButtonPayOrder = ({ transactionIndex, amount }) => {
+const ButtonPayOrder = ({ transactionIndex, amount, transactionHash }) => {
     const global = useGlobal()
     const payOrder = async () => {
         try {
@@ -11,7 +12,9 @@ const ButtonPayOrder = ({ transactionIndex, amount }) => {
             const amountToWei = global.klerosEscrowInstance.web3.utils.toWei(amount.toString());
 
             const result = await global.klerosEscrowInstance.pay(parsedTransactionIndex, amountToWei)
-            console.log('Result on pay::: ', result);
+            if (result) {
+                await updateOrderStatus(transactionHash, 'ORDER_PAID');
+            }
         } catch (e) {
             console.log('Error creating an Escrow contract: ', e);
         }

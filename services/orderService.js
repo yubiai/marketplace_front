@@ -8,7 +8,12 @@ async function createOrder(body) {
   return await axios.post('/orders/', {...body})
 }
 
+async function updateOrderStatus(transactionId, status) {
+  return await axios.put(`/orders/${transactionId}`, { status })
+}
+
 export const orderService = {
   getOrderByTransaction,
-  createOrder
+  createOrder,
+  updateOrderStatus
 }
