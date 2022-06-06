@@ -13,24 +13,39 @@ import { GlobalProvider } from '../providers/globalProvider'
 
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-import AuthProvider from '../providers/authProvider'
+import { SWRConfig } from 'swr'
 
 Axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API_URL
+//Axios.defaults.withCredentials = true;
+
+const fetcher = async (url) => {
+  try {
+    const res = await Axios.get(url)
+    return res.data
+  } catch (err) {
+    throw err.response.data
+  }
+}
 
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <GlobalProvider>
-        <Header />
-        <Hide below="md">
-          <Navbar />
-        </Hide>
-        <MetaAlert />
-        <AuthProvider>
-          <Component {...pageProps} />
-        </AuthProvider>
-        <Footer />
+        <SWRConfig
+          value={{
+            fetcher,
+            dedupingInterval: 10000,
+          }}
+        >
+          <Header />
+          <Hide below="md">
+            <Navbar />
+          </Hide>
+          <MetaAlert />
+            <Component {...pageProps} />
+          <Footer />
+        </SWRConfig>
       </GlobalProvider>
     </ChakraProvider>
   )

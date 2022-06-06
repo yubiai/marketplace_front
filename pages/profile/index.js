@@ -7,34 +7,40 @@ import MyInfoPrivateCard from '../../components/Cards/MyInfoPrivateCard'
 import ProfileMenu from '../../components/Menus/ProfileMenu'
 import Loading from '../../components/Spinners/Loading'
 import { useGlobal } from '../../providers/globalProvider'
-import { profileService } from '../../services/profileService'
 import { balanceUbi1 } from '../../utils/ethereum'
+import useFetch from '../../hooks/data/useFetch'
 
 const Profile = () => {
   const global = useGlobal()
   const router = useRouter()
 
-  const [dataProfile, setDataProfile] = useState(null)
   const [balanceToken, setBalanceToken] = useState(null)
 
+  const {
+    data: profile,
+    loading,
+    error,
+  } = useFetch(
+    `/profiles/${
+      global && global.profile && global.profile.eth_address
+        ? global.profile.eth_address
+        : null
+    }`
+  )
+
   useEffect(() => {
-    const setProfile = async () => {
-      if (global && global.profile) {
-        await balanceUbi1(global.profile.eth_address).then((res) => {
+    const getInitBalance = async () => {
+      if (profile) {
+        await balanceUbi1(profile.eth_address || null).then((res) => {
           setBalanceToken(res)
         })
-        await profileService.getProfile(global.profile.eth_address).then((res) => {
-          const data = res.data;
-          setDataProfile(data);
-        })
-      } else {
-        router.push('/')
       }
     }
-    setProfile()
-  }, [global, router])
+    getInitBalance()
+  }, [profile])
 
-  if (!dataProfile) return <Loading />
+  if (loading) return <Loading />
+  if (error) throw error
 
   return (
     <>
@@ -42,13 +48,25 @@ const Profile = () => {
         <title>Yubiai Marketplace - My Profile</title>
       </Head>
       <ProfileMenu>
-        <Box maxW="6xl" h={{base: "full", sm: "full", md: "full", lg: "100vh", xl: "100vh"}} display={'flex'} flexDirection={'column'} w={{ base: 'full' }}>
+        <Box
+          maxW="6xl"
+          h={{ base: 'full', sm: 'full', md: 'full', lg: '100vh', xl: '100vh' }}
+          display={'flex'}
+          flexDirection={'column'}
+          w={{ base: 'full' }}
+        >
           <Text fontWeight={'bold'}>My Info</Text>
           <Text fontWeight={'bold'}>Proof of humanity information</Text>
-          <MyInfoPohCard dataProfile={dataProfile} balance={balanceToken} />
+          <MyInfoPohCard dataProfile={profile} balance={balanceToken} />
           <Text fontWeight={'bold'}>Personal Info</Text>
-          <MyInfoPrivateCard dataProfile={dataProfile} />
-          <Button onClick={() => router.push("/profile/mailboxs/628d1ef2c39d5841b9105889")}>Mailbox tanto</Button>
+          <MyInfoPrivateCard dataProfile={profile} />
+          <Button
+            onClick={() =>
+              router.push('/profile/mailboxs/628d1ef2c39d5841b9105889')
+            }
+          >
+            Mailbox tanto
+          </Button>
         </Box>
       </ProfileMenu>
     </>
