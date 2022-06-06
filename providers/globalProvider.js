@@ -9,6 +9,9 @@ const initialState = {
   search: '',
   meta: false,
   profile: null,
+  klerosEscrowInstance: null,
+  itemsToCheckout: [],
+  currencyPriceList: []
 }
 
 // Reducers
@@ -33,6 +36,21 @@ const reducer = (state, action) => {
       return {
         ...state,
         meta: action.payload,
+      }
+    case 'SET_KLEROS_ESCROW_INSTANCE':
+      return {
+        ...state,
+        klerosEscrowInstance: action.payload
+      }
+    case 'SET_ITEMS_TO_CHECKOUT':
+      return {
+        ...state,
+        itemsToCheckout: [...action.payload]
+      }
+    case 'SET_CURRENCY_PRICE_LIST':
+      return {
+        ...state,
+        currencyPriceList: [...action.payload]
       }
     default:
       throw new Error('Action Fail')

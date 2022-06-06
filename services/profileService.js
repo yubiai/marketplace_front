@@ -25,6 +25,17 @@ async function getCurrentUser() {
 }
 
 /**
+ * Get profile by _id
+ */
+ async function getProfileFromId(_id) {
+  try {
+    return await axios.get(`/profiles/${_id}`)
+  } catch (error) {
+    return null;
+  }
+}
+
+/**
  * Get Favorites the perfil
  * @param {str} id user
  */
@@ -84,6 +95,7 @@ async function removeFavorite(profile, item) {
 export const profileService = {
   login,
   getCurrentUser,
+  getProfileFromId,
   getProfile,
   updateProfile,
   getFavorites,

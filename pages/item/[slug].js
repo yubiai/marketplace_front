@@ -13,7 +13,9 @@ import {
 import { MdOutlineStar, MdStarOutline, MdStar } from 'react-icons/md'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import InfoUserModal from '../../components/Modals/InfoUserModal'
+import { useDispatchGlobal } from '../../providers/globalProvider'
 import Loading from '../../components/Spinners/Loading'
 import Head from 'next/head'
 import { useGlobal } from '../../providers/globalProvider'
@@ -27,6 +29,8 @@ const ItemById = ({ item }) => {
   const [favorite, setFavorite] = useState(false)
 
   const [selectImage, setSelectImage] = useState(null)
+  const router = useRouter()
+  const dispatch = useDispatchGlobal()
 
   const actionToat = (title, description, status) => {
     toast({
@@ -130,6 +134,14 @@ const ItemById = ({ item }) => {
       setOwner(null)
     }
   }, [item, global])
+
+  const buyAndCheckoutItem = () => {
+    dispatch({
+      type: 'SET_ITEMS_TO_CHECKOUT',
+      payload: [item],
+    })
+    router.push('/checkout')
+  }
 
   if (!item) return <Loading />
 
@@ -252,6 +264,7 @@ const ItemById = ({ item }) => {
                   h="32px"
                   fontSize={'16px'}
                   fontWeight={'600'}
+                  onClick={buyAndCheckoutItem}
                   disabled={owner}
                 >
                   Buy Now
