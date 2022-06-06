@@ -6,7 +6,6 @@ import {
     loadCurrencyPrices,
     loadOrderData,
     setKlerosInstance,
-    getAccount
 } from '../../../../providers/orderProvider'
 import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'
 
