@@ -10,12 +10,18 @@ export const AuthProvider = ({ children }) => {
       console.log('Verificacion AUTH')
       const dataToken = await profileService.getCurrentUser()
       if (dataToken && dataToken.walletAddress) {
-        const result = await profileService.login(dataToken.walletAddress)
+        const result = await profileService.login(dataToken.walletAddress);
+        const data = result.data.data;
+
         dispatch({
           type: 'AUTHPROFILE',
-          payload: result.data.data,
+          payload: data
         })
-        localStorage.setItem('YBI-token', result.data.token)
+        const yubiaiLS = {
+          token: result.data.token,
+          wallet: data.eth_address
+        }
+        localStorage.setItem('Yubiai', yubiaiLS)
       }
     }
   }, [dispatch])

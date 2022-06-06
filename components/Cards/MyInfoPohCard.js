@@ -55,7 +55,7 @@ const MyInfoPohCard = ({dataProfile, balance}) => {
             {dataProfile.eth_address}
             </Text>
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              {balance} ubis
+              {balance || "No Data"} ubis
             </Text>
           </Stack>
           <Flex flex={0.2} justifyContent="center" alignItems="center">

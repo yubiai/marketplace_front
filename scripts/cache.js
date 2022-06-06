@@ -1,6 +1,6 @@
 const fs = require('fs')
 const axios = require('axios')
-
+// no usado
 try {
   fs.readdirSync('cache')
 } catch (e) {

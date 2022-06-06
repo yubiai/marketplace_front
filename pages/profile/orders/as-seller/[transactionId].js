@@ -37,13 +37,15 @@ const OrderDetail = () => {
     }
 
     useEffect(() => {
-        const currentWallet = localStorage.getItem('YBI-currentWallet');
+        const yubiaiLS = JSON.parse(localStorage.getItem('Yubiai'));
+        const { wallet } = yubiaiLS;
+
         const loadOrder = async () => {
             const response = await orderService.getOrderByTransaction(transactionId)
             const { data } = response;
             const orderInfo = data.result;
 
-            if (redirectIfCurrentWalletIsNotSeller(orderInfo, currentWallet)) {
+            if (redirectIfCurrentWalletIsNotSeller(orderInfo, wallet)) {
                 return;
             }
 
