@@ -211,10 +211,6 @@ export default class KlerosEscrow {
   }
 
   async executeTransaction(transactionID) {
-    // const sender = await this.getAccount();
-    // console.log('Execute transaction: ', transactionID)
-
-    // { value: 0, from: sender }
     return this.contract.methods.executeTransaction(transactionID).send()
   }
 

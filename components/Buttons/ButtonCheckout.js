@@ -1,7 +1,7 @@
 import { Button } from '@chakra-ui/react'
 import { useGlobal } from '../../providers/globalProvider'
 
-const ButtonCheckout = ({ transactionInfo, createOrder }) => {
+const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus }) => {
     const global = useGlobal()
     const { amount, recipient, timeout, title, description, fileURI } = transactionInfo
     const metaEvidence = {
@@ -12,6 +12,7 @@ const ButtonCheckout = ({ transactionInfo, createOrder }) => {
 
     const createTransaction = async () => {
         try {
+            toggleLoadingStatus(true);
             const amountToWei = global.klerosEscrowInstance.web3.utils.toWei(amount.value.toString())
             const result = await global.klerosEscrowInstance.createTransaction(
                 amountToWei, recipient, timeout, metaEvidence)
@@ -40,6 +41,7 @@ const ButtonCheckout = ({ transactionInfo, createOrder }) => {
             })
         } catch (e) {
             console.log('Error creating an Escrow contract: ', e);
+            toggleLoadingStatus(false);
         }
     };
   
