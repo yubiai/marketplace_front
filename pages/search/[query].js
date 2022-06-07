@@ -10,33 +10,18 @@ import {
 } from '@chakra-ui/react'
 import Loading from '../../components/Spinners/Loading'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
 import ItemCardLg from '../../components/Cards/ItemCardLg'
 import { useRouter } from 'next/router'
-import { itemService } from '../../services/itemService'
+import useFetch from '../../hooks/data/useFetch'
 
 const Search = () => {
   const router = useRouter()
   const { query } = router.query
 
-  const [items, setItems] = useState(null)
+  const { data: items, loading, error } = useFetch(`/items/search?q=${query}`)
 
-  useEffect(() => {
-    const initSearch = async () => {
-      if (query && query.length) {
-        await itemService.search(query)
-          .then((res) => {
-            setItems(res.data.result);
-          })
-          .catch((err) => {
-            console.log(err);
-          })
-      }
-    }
-    initSearch()
-  }, [query])
-
-  if (!items) return <Loading />
+  if (loading) return <Loading />
+  if (error) throw error
 
   return (
     <>
@@ -59,7 +44,7 @@ const Search = () => {
           )}
         </Flex>
         <SimpleGrid minChildWidth="250px" spacing="2px">
-          {items.length === 0 && <Heading mt="5em">Not result.</Heading>}
+        {items && items.length === 0 && <Heading mt="5em">Not result.</Heading>}
           {items &&
             items.length > 0 &&
             items.map((item, i) => {
