@@ -59,22 +59,23 @@ const NewPublish = () => {
   useEffect(() => {
     const init = () => {
       if (global && global.profile) {
+        
         // Get Categories
         getListCategory().then((res) => {
           let categories = res.data.result
           if (categories.length > 0) {
             setCategories(res.data.result)
           }
-        })
+        });
+
         // Get SubCategories
         getListSubCategory().then((res) => {
           let subcategories = res.data.result
           if (subcategories.length > 0) {
             setSubCategories(res.data.result)
           }
-        })
-      } else {
-        router.push('/')
+        });
+
       }
     }
     init()
@@ -87,7 +88,7 @@ const NewPublish = () => {
 
   // Form Submit Preview
   const onSubmit = async (data) => {
-    console.log(data, 'dataaa')
+
     const form = new FormData()
 
     if (data.img1) {
@@ -114,6 +115,7 @@ const NewPublish = () => {
     const categorySelected = categories.find(
       (category) => category._id === data.category
     )
+
     const subcategorySelected = subCategories.find(
       (subcategory) => subcategory._id === data.subcategory
     )
