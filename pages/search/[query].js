@@ -12,11 +12,10 @@ import Loading from '../../components/Spinners/Loading'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import ItemCardLg from '../../components/Cards/ItemCardLg'
-import { useGlobal } from '../../providers/globalProvider'
 import { useRouter } from 'next/router'
+import { itemService } from '../../services/itemService'
 
 const Search = () => {
-  const global = useGlobal()
   const router = useRouter()
   const { query } = router.query
 
@@ -24,18 +23,18 @@ const Search = () => {
 
   useEffect(() => {
     const initSearch = async () => {
-      const searchEndpoint = (query) => `/api/search?q=${query}`
       if (query && query.length) {
-        fetch(searchEndpoint(query))
-          .then((res) => res.json())
+        await itemService.search(query)
           .then((res) => {
-            console.log(res.results)
-            setItems(res.results)
+            setItems(res.data.result);
+          })
+          .catch((err) => {
+            console.log(err);
           })
       }
     }
     initSearch()
-  }, [global, query])
+  }, [query])
 
   if (!items) return <Loading />
 
