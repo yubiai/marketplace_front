@@ -5,34 +5,68 @@ import ItemCardLg from '../../components/Cards/ItemCardLg'
 import axios from 'axios'
 import Loading from '../../components/Spinners/Loading'
 import Head from 'next/head'
+import Paginations from '../../components/Layouts/Paginations'
+import useSWR from 'swr'
+import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
+import Error from '../../components/Infos/Error'
+import { useEffect } from 'react'
 
-const ItemsByCategory = ({ items, category }) => {
+const ItemsByCategory = ({ response, category }) => {
+  const global = useGlobal()
+  const dispatch = useDispatchGlobal()
+
+  const { data, error } = useSWR(
+    `/items/?page=${global.pageIndex}&categoryId=${
+      category ? category._id : ''
+    }&subcategoryId=${global.subCategory ? global.subCategory : ''}`,
+    {
+      initialData: response,
+      revalidateOnMount: false,
+    }
+  )
+
+  useEffect(() => {
+    dispatch({
+      type: 'RESETPAGEINDEX',
+    })
+    dispatch({
+      type: 'SELECTSUBCATEGORY',
+      payload: '',
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const capitalize = (word) => {
     return word && word[0].toUpperCase() + word.slice(1)
   }
 
-  if (!items || !category) return <Loading />
+  if (!data || !category) return <Loading />
+
+  if (error) {
+    return <Error error={error?.message} />
+  }
 
   return (
     <>
       <Head>
-        <title>Yubiai Marketplace - {category}</title>
+        <title>Yubiai Marketplace - {category.title}</title>
       </Head>
-      <SubCategoriesMenu>
+      <SubCategoriesMenu category={category._id}>
         <Flex alignItems={'center'}>
           <Text fontWeight={'bold'}>Categories</Text>
           <MdKeyboardArrowRight />
-          <Text fontWeight={'bold'}>{capitalize(category)}</Text>
+          <Text fontWeight={'bold'}>{capitalize(category && category.title)}</Text>
           <MdKeyboardArrowRight />
           <Text fontWeight={'bold'}>All</Text>
         </Flex>
         <SimpleGrid minChildWidth="250px" spacing="2px">
-          {items &&
-            items.length > 0 &&
-            items.map((item, i) => {
+          {data &&
+            data.items.length > 0 &&
+            data.items.map((item, i) => {
               return <ItemCardLg key={i} item={item} />
             })}
         </SimpleGrid>
+        <Paginations data={data} />
       </SubCategoriesMenu>
     </>
   )
@@ -47,14 +81,13 @@ export async function getStaticProps({ params }) {
   try {
     const { slug } = params
     const resCategory = await axios.get(`/categories/slug/${slug}`)
-    const category = resCategory.data.result.title
-
+    const category = resCategory.data.result;
     const resItems = await axios.get(
-      `/items/bycategory/${resCategory.data.result._id}`
+      `/items/?size=12&categoryId=${category._id}`
     )
-    const items = resItems.data.result
+    const response = resItems.data
 
-    return { props: { items, category } }
+    return { props: { response, category } }
   } catch (err) {
     console.log(err)
     return { props: '' }
