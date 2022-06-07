@@ -42,6 +42,9 @@ const OrderDetail = () => {
         const { data } = response;
         const orderInfo = data.result;
 
+        const yubiaiLS = JSON.parse(localStorage.getItem('Yubiai'));
+        const { wallet } = yubiaiLS;
+
         if (redirectIfCurrentWalletIsNotSeller(orderInfo, wallet)) {
             return;
         }
@@ -58,9 +61,6 @@ const OrderDetail = () => {
     }
 
     useEffect(() => {
-        const yubiaiLS = JSON.parse(localStorage.getItem('Yubiai'));
-        const { wallet } = yubiaiLS;
-
         if (!transactionId) {
             return;
         }
