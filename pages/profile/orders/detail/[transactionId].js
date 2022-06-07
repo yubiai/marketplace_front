@@ -9,6 +9,7 @@ import {
 } from '../../../../providers/orderProvider'
 import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder'
 import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'
+import Loading from '../../../../components/Spinners/Loading'
 
 import {
     Box,
@@ -16,6 +17,7 @@ import {
     Text,
     Heading,
     Flex,
+    Button
   } from '@chakra-ui/react'
 
 const minimumArbitrationFeeUSD = 90;
@@ -27,20 +29,30 @@ const OrderDetail = () => {
     const { transactionId } = router.query
     const [orderDetail, setOrderDetail] = useState({})
     const [transactionData, setTransactionData] = useState({})
+    const [operationInProgress, setOperationInProgress] = useState(false)
+
+    const loadOrder = async () => {
+        const response = await orderService.getOrderByTransaction(transactionId)
+        const { data } = response;
+        const orderInfo = data.result;
+
+        const { transaction } = await loadOrderData(
+            orderInfo.items, global.currencyPriceList, true);
+
+        setOrderDetail(orderInfo)
+        setTransactionData(transaction)
+    }
+
+    const toggleLoadingStatus = (status) => {
+        setOperationInProgress(status);
+    }
+
+    const redirectToChat = () => {
+        const { _id } = orderDetail;
+        router.push(`/profile/mailboxs/${_id}`)
+    }
 
     useEffect(() => {
-        const loadOrder = async () => {
-            const response = await orderService.getOrderByTransaction(transactionId)
-            const { data } = response;
-            const orderInfo = data.result;
-
-            const { transaction } = await loadOrderData(
-                orderInfo.items, global.currencyPriceList, true);
-
-            setOrderDetail(orderInfo)
-            setTransactionData(transaction)
-        }
-
         if (!transactionId) {
             return;
         }
@@ -62,7 +74,11 @@ const OrderDetail = () => {
      
 
     return (
-        <Container padding='2rem 0' height={'calc(100vh - 180px)'}>
+        <Container padding='2rem 0' height={'calc(100vh - 180px)'} position={'relative'}>
+            {
+                operationInProgress && 
+                <Loading styleType={'checkout'} />
+            }
             <Heading marginBottom='2rem'>OrderDetail</Heading>
             <Box>
                 <Text marginBottom='1rem'>Order nro: {orderDetail._id}</Text>
@@ -86,11 +102,17 @@ const OrderDetail = () => {
                             transactionData && transactionData.amount && 
                             <ButtonPayOrder transactionIndex={(orderDetail.transaction || {}).transactionIndex}
                                             transactionHash={(orderDetail.transaction || {}).transactionHash}
-                                            amount={(transactionData.amount || {}).value || 0} />
+                                            amount={(transactionData.amount || {}).value || 0}
+                                            stepsPostAction={loadOrder}
+                                            toggleLoadingStatus={toggleLoadingStatus} />
                         }
+                        <Button bg='#00abd1' color={'white'}
+                                onClick={redirectToChat}>Chat with seller</Button>
                         <ButtonEscrowDispute transactionIndex={(orderDetail.transaction || {}).transactionIndex}
                                              transactionHash={(orderDetail.transaction || {}).transactionHash}
-                                             amount={minimumArbitrationFeeUSD} />
+                                             amount={minimumArbitrationFeeUSD}
+                                             stepsPostAction={loadOrder}
+                                             toggleLoadingStatus={toggleLoadingStatus} />
                     </Flex>
                 )
             }

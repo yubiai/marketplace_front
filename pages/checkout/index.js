@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
 import ButtonCheckout from '../../components/Buttons/ButtonCheckout'
+import Loading from '../../components/Spinners/Loading'
 import { useGlobal, useDispatchGlobal } from '../../providers/globalProvider'
 import {
     loadCurrencyPrices,
@@ -18,6 +19,7 @@ import {
 } from '../../providers/orderProvider'
 import { orderService } from '../../services/orderService'
 import { totalAmountOrder } from '../../utils/orderUtils'
+import { channelService } from '../../services/channelService'
 
 const Checkout = () => {
     const global = useGlobal()
@@ -25,6 +27,7 @@ const Checkout = () => {
     const router = useRouter()
     const [orderData, setOrderData] = useState({});
     const [transactionData, setTransactionData] = useState({});
+    const [operationInProgress, setOperationInProgress] = useState(false);
 
     useEffect(() => {
         const loadOrder = async () => {
@@ -56,7 +59,7 @@ const Checkout = () => {
 
     const createOrder = async (transactionResult = {}) => {
         const currentWalletAccount = await global.klerosEscrowInstance.getAccount()
-        await orderService.createOrder({
+        const orderResponse = await orderService.createOrder({
             order: {
                 items: [...orderData.orders],
                 userBuyer: currentWalletAccount,
@@ -64,11 +67,33 @@ const Checkout = () => {
             },
             transactionInfo: transactionResult
         });
+        const { data } = orderResponse;
+        const { result } = data;
+
+        const orderId = result._id;
+        const buyerId = global.profile._id;
+        const sellerId = orderData.orders[0]._id;
+
+        await channelService.createChannel({
+            order_id: orderId,
+            buyer: buyerId,
+            seller: sellerId
+        });
+
+        toggleLoadingStatus(false);
         router.push(`/profile/orders/detail/${transactionResult.transactionHash}`)
     }
 
+    const toggleLoadingStatus = (status) => {
+        setOperationInProgress(status);
+    }
+
     return transactionData && (
-        <Container padding={'2rem 0'} height={'calc(100vh - 180px)'}>
+        <Container padding={'2rem 0'} position={'relative'} height={'calc(100vh - 180px)'}>
+            {
+                operationInProgress && 
+                <Loading styleType={'checkout'} />
+            }
             <Heading>Order summary</Heading>
             <Flex padding={'1rem 0'} flexDirection='column'>
                 {
@@ -93,6 +118,7 @@ const Checkout = () => {
             <Flex>
                 <ButtonCheckout style={{display: 'block', margin: '1rem auto'}}
                                 transactionInfo={transactionData}
+                                toggleLoadingStatus={toggleLoadingStatus}
                                 createOrder={createOrder} />
             </Flex>
         </Container>

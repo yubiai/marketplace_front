@@ -3,10 +3,12 @@ import { useGlobal } from '../../providers/globalProvider'
 import { orderService } from '../../services/orderService'
 import { parsePriceToETHAmount } from '../../utils/orderUtils'
 
-const ButtonEscrowDispute = ({ transactionIndex, amount, asSeller=false, transactionHash }) => {
+const ButtonEscrowDispute = ({
+    transactionIndex, amount, asSeller=false, transactionHash, stepsPostAction, toggleLoadingStatus }) => {
     const global = useGlobal()
     const startEscrowDispute = async () => {
         try {
+            toggleLoadingStatus(true);
             const transactionIndexParsed = global.klerosEscrowInstance.web3.utils.toNumber(
                 transactionIndex);
             const ethContract = global.currencyPriceList.find(
@@ -19,9 +21,12 @@ const ButtonEscrowDispute = ({ transactionIndex, amount, asSeller=false, transac
             if (result) {
                 const status = asSeller ? 'ORDER_DISPUTE_IN_PROGRESS' : 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
                 await orderService.updateOrderStatus(transactionHash, status);
+                stepsPostAction();
+                toggleLoadingStatus(false);
             }
         } catch (e) {
             console.log('Error creating an Escrow contract: ', e);
+            toggleLoadingStatus(false);
         }
     };
   

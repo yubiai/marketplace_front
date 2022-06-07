@@ -2,13 +2,18 @@ import axios from 'axios'
 
 export const channelService = {
   getChannelByOrderId,
-  pushMsg
+  pushMsg,
+  createChannel
 }
 
 /**
  * Get List SubCategories
  * @param {str} data
  */
+
+ async function createChannel(body = {}) {
+  return await axios.post('/channel', {...body})
+}
 
 async function getChannelByOrderId(orderid) {
   return await axios.get(
