@@ -99,17 +99,31 @@ const SidebarContent = ({ onClose, subcategories, ...rest }) => {
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
+      <RadioGroup onChange={(e) => selectSubCategory(e)} value={value}>
+        <NavItem>{{
+          title: "All",
+          _id: ""
+        }}</NavItem>
+      </RadioGroup>
       {subcategories &&
         subcategories.length > 0 &&
-        subcategories.map((link, i) => (
-          <RadioGroup
-            key={i}
-            onChange={(e) => selectSubCategory(e)}
-            value={value}
-          >
-            <NavItem>{link}</NavItem>
-          </RadioGroup>
-        ))}
+        subcategories.map((subcategory, i) => {
+          if (
+            subcategory &&
+            subcategory.items &&
+            subcategory.items.length > 0
+          ) {
+            return (
+              <RadioGroup
+                key={i}
+                onChange={(e) => selectSubCategory(e)}
+                value={value}
+              >
+                <NavItem>{subcategory}</NavItem>
+              </RadioGroup>
+            )
+          }
+        })}
     </Box>
   )
 }
