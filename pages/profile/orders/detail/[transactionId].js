@@ -13,6 +13,7 @@ import {
 import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder'
 import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'
 import Loading from '../../../../components/Spinners/Loading'
+import Link from 'next/link'
 
 import { Box, Container, Text, Heading, Flex, Button } from '@chakra-ui/react'
 
@@ -50,6 +51,12 @@ const OrderDetail = () => {
   const redirectToChat = () => {
     const { _id } = orderDetail
     router.push(`/profile/mailboxs/${_id}`)
+  }
+
+  const getTransactionLink = (transactionHash='') => {
+    return network === 'kovan'
+            ? `https://kovan.etherscan.io/tx/${transactionHash}`
+            :   `https://etherscan.io/tx/${transactionHash}`
   }
 
   useEffect(() => {
@@ -92,14 +99,17 @@ const OrderDetail = () => {
             </Box>
           ))}
         </Box>
-        <Text marginBottom="1rem">
-          Transaction hash: {network === 'kovan'
-            ? `https://kovan.etherscan.io/tx/${(orderDetail.transaction || {}).transactionHash}`
-            :   `https://etherscan.io/tx/${(orderDetail.transaction || {}).transactionHash}`}
-        </Text>
+        <Text marginBottom="1rem">Transaction hash: </Text>
+        <Link target='_blank'
+              href={getTransactionLink((orderDetail.transaction || {}).transactionHash)}>
+          <Text color='#00abd1' cursor='pointer' wordBreak={'break-all'}>
+            {getTransactionLink((orderDetail.transaction || {}).transactionHash)}
+          </Text>
+        </Link>
       </Box>
-      {(orderDetail.transaction || {}).transactionIndex &&
-        orderDetail.status === 'ORDER_CREATED' && (
+      <Box marginTop={'24px'}>
+        {(orderDetail.transaction || {}).transactionIndex &&
+          orderDetail.status === 'ORDER_CREATED' && (
           <Flex marginTop="auto" justifyContent="space-around">
             {transactionData && transactionData.amount && (
               <ButtonPayOrder
@@ -128,20 +138,21 @@ const OrderDetail = () => {
             />
           </Flex>
         )}
-      {transactionData && orderDetail.status === 'ORDER_PAID' && (
-        <p>Order paid</p>
-      )}
-      {transactionData &&
-        orderDetail.status === 'ORDER_DISPUTE_RECEIVER_FEE_PENDING' && (
-          <p>
-            Dispute pending to start, waiting for seller to pay the arbitration
-            fee.
-          </p>
+        {transactionData && orderDetail.status === 'ORDER_PAID' && (
+          <p>Order paid</p>
         )}
-      {transactionData &&
-        orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && (
-          <p>Dispute in progress.</p>
-        )}
+        {transactionData &&
+          orderDetail.status === 'ORDER_DISPUTE_RECEIVER_FEE_PENDING' && (
+            <p>
+              Dispute pending to start, waiting for seller to pay the arbitration
+              fee.
+            </p>
+          )}
+        {transactionData &&
+          orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && (
+            <p>Dispute in progress.</p>
+          )}
+      </Box>
     </Container>
   )
 }
