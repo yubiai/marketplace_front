@@ -20,8 +20,7 @@ const ItemsByCategory = ({ response, category }) => {
       category ? category._id : ''
     }&subcategoryId=${global.subCategory ? global.subCategory : ''}`,
     {
-      initialData: response,
-      revalidateOnMount: false,
+      initialData: response
     }
   )
 
