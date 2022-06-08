@@ -14,10 +14,10 @@ const getListCategory = () => {
   return categories
 }
 
-const getListSubCategory = () => {
+const getListSubCategory = (categoryId) => {
   let categories = new Promise((resolve, reject) => {
     try {
-      const result = subcategoryService.getSubCategories()
+      const result = subcategoryService.getSubCategories(categoryId)
       resolve(result)
     } catch (err) {
       console.log(err)
