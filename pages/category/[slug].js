@@ -56,7 +56,7 @@ const ItemsByCategory = ({ response, category }) => {
           <MdKeyboardArrowRight />
           <Text fontWeight={'bold'}>{capitalize(category && category.title)}</Text>
           <MdKeyboardArrowRight />
-          <Text fontWeight={'bold'}>All</Text>
+          <Text fontWeight={'bold'}>{global.subCategory}</Text>
         </Flex>
         <SimpleGrid minChildWidth="250px" spacing="2px">
           {data &&
