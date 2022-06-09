@@ -69,7 +69,7 @@ const OrderDetail = () => {
       return
     }
 
-    if (!(transactionData || {}).fileURI) {
+    if (!(transactionData || {}).extraData) {
       loadOrder()
     } else {
       if (!global.klerosEscrowInstance) {
