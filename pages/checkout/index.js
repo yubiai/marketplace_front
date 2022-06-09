@@ -72,7 +72,7 @@ const Checkout = () => {
 
         const orderId = result._id;
         const buyerId = global.profile._id;
-        const sellerId = orderData.orders[0]._id;
+        const sellerId = orderData.orders[0].seller._id;
 
         await channelService.createChannel({
             order_id: orderId,
