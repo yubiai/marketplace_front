@@ -27,9 +27,7 @@ const MessagesChat = ({ messages, buyer, seller, me }) => {
   return (
     <Flex w="100%" h="80%" overflowY="scroll" flexDirection="column" p="3">
       {messages.map((item, index) => {
-        console.log(messages, 'messages')
         const dateNum = moment(item.date).format('MMMM Do YYYY')
-        console.log(dateNum)
 
         if (item.user === me) {
           return (

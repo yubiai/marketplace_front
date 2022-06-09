@@ -12,6 +12,7 @@ import FooterChat from '../../../components/Mailbox/FooterChat'
 import HeaderChat from '../../../components/Mailbox/HeaderChat'
 import MessagesChat from '../../../components/Mailbox/MessagesChat'
 import Loading from '../../../components/Spinners/Loading'
+import useFetch from '../../../hooks/data/useFetch'
 import { useGlobal } from '../../../providers/globalProvider'
 import { channelService } from '../../../services/channelService'
 
@@ -20,40 +21,25 @@ const MailBoxs = () => {
   const router = useRouter()
   const { order_id } = router.query
 
-  const [channel, setChannel] = useState(null)
   const [messages, setMessages] = useState([])
   const [inputMessage, setInputMessage] = useState('')
 
-  // Get Channel
-  const getChannel = async () => {
-    await channelService
-      .getChannelByOrderId(order_id)
-      .then((res) => {
-        let channel = res.data.result
-        if (channel) {
-          setChannel(channel)
-          setMessages(channel.messages)
-        }
-        return true
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
+  const {
+    data: channel,
+    loading,
+    error,
+  } = useFetch(
+    `/channel/orderid/${order_id}`
+  )
 
   useEffect(() => {
     const initChannel = async () => {
-      console.log(order_id)
-      console.log(global.profile)
-      if (global && global.profile) {
-        // Get Channel
-        getChannel(order_id)
-      } else {
-        router.push('/')
+      if(channel){
+        setMessages(channel.messages)
       }
     }
     initChannel()
-  }, [global])
+  }, [channel])
 
   // Saved Channel
 
@@ -85,7 +71,8 @@ const MailBoxs = () => {
     saveMessage(newMessage)
   }
 
-  if (!channel) return <Loading />
+  if (loading) return <Loading />
+  if (error) throw error
 
   return (
     <>
@@ -94,7 +81,7 @@ const MailBoxs = () => {
       </Head>
 
       <Container maxW="5xl" display={'flex'} flexDirection={{base: 'column', md: 'column', lg: 'row'}}>
-        <Box w={{base: 'full', lg: '70%'}} h="90vh">
+        <Box w={{base: 'full', lg: '70%'}} h="900px">
           <Text m="1em">Mailbox the Order ID: {order_id}</Text>
           <Flex
             w="100%"
@@ -104,11 +91,12 @@ const MailBoxs = () => {
             bg="white"
           >
             <Flex w="80%" h="90%" flexDir="column">
-              <HeaderChat
+              {global && global.profile && (
+                <HeaderChat
                 dataUser={
-                  global && global.profile._id !== channel.buyer._id
-                    ? channel.buyer
-                    : channel.seller
+                  global && global.profile && global.profile._id !== channel.buyer._id
+                    ? channel.buyer || null
+                    : channel.seller || null
                 }
                 type={
                   global && global.profile._id !== channel.buyer._id
@@ -116,18 +104,21 @@ const MailBoxs = () => {
                     : 'Seller'
                 }
               />
+              )}
               <ChakraDivider
                 w="100%"
                 borderBottomWidth="3px"
                 color="black"
                 mt="5"
               />
-              <MessagesChat
+              {global.profile && (
+                <MessagesChat
                 messages={messages}
                 buyer={channel.buyer}
                 seller={channel.seller}
                 me={global && global.profile && global.profile._id}
               />
+              )}
               <ChakraDivider
                 w="100%"
                 borderBottomWidth="3px"
