@@ -57,7 +57,7 @@ async function updateProfile(profile, data) {
  * @param {str} profile
  */
 async function getFavorites(profile) {
-  return await axios.get(`/profiles/favorites/${profile}`)
+  return await axios.get(`/profiles/favorites/${profile}?size=40`)
 }
 
 /**

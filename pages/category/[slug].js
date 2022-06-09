@@ -89,7 +89,7 @@ export async function getStaticProps({ params }) {
     return { props: { response, category } }
   } catch (err) {
     console.log(err)
-    return { props: '' }
+    return { notFound: true };
   }
 }
 

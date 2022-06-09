@@ -1,43 +1,27 @@
 import { Container, Flex, Heading, SimpleGrid, Text } from '@chakra-ui/react'
 import Loading from '../../../components/Spinners/Loading'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
 import ItemCardLg from '../../../components/Cards/ItemCardLg'
-import { profileService } from '../../../services/profileService'
 import { useGlobal } from '../../../providers/globalProvider'
-import { useRouter } from 'next/router'
 import ProfileMenu from '../../../components/Menus/ProfileMenu'
+import Error from '../../../components/Infos/Error'
+import useFetch from '../../../hooks/data/useFetch'
+import Paginations from '../../../components/Layouts/Paginations'
 
 const Favorites = () => {
   const global = useGlobal()
-  const router = useRouter()
-  const [items, setItems] = useState(null)
 
-  const getFavorites = async () => {
-    await profileService
-      .getFavorites((global && global.profile && global.profile._id) || null)
-      .then((res) => {
-        const favorites = res.data || []
-        setItems(favorites)
-      })
-      .catch((err) => {
-        console.log(err)
-        setItems([])
-      })
+  const {
+    data,
+    loading,
+    error,
+  } = useFetch(`/profiles/favorites/${global && global.profile && global.profile._id || null}?page=${global.pageIndex}&size=8`);
+
+  if (loading) return <Loading />
+
+  if (error) {
+    return <Error error={error?.message} />
   }
-
-  useEffect(() => {
-    const initItem = () => {
-      if (global && global.profile) {
-        getFavorites()
-      } else {
-        router.push('/')
-      }
-    }
-    initItem()
-  }, [global])
-
-  if (!items) return <Loading />
 
   return (
     <>
@@ -56,22 +40,24 @@ const Favorites = () => {
           flexDirection={'column'}
         >
           <Flex alignItems={'center'} mt="1em">
-            {items && items.length > 0 && (
+            {data && data.items && data.items.length > 0 && (
               <Text fontWeight={'bold'}>Your favorites</Text>
             )}
           </Flex>
           <SimpleGrid minChildWidth="250px" spacing="2px">
-            {items.length === 0 && (
+            {data && data.items && data.items.length === 0 && (
               <Heading mt="5em">
                 You do not have any items added to favorites.
               </Heading>
             )}
-            {items &&
-              items.length > 0 &&
-              items.map((item, i) => {
+            {data && data.items &&
+              data.items.length > 0 &&
+              data.items.map((item, i) => {
                 return <ItemCardLg key={i} item={item} />
               })}
           </SimpleGrid>
+          <Paginations data={data ? data : null} />
+
         </Container>
       </ProfileMenu>
     </>

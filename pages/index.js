@@ -8,10 +8,10 @@ import { useGlobal } from '../providers/globalProvider'
 import { profileService } from '../services/profileService'
 
 const Home = ({ items }) => {
-  const global = useGlobal()
-  const [favorites, setFavorites] = useState(null)
-  const [listFavorites, setListFavorites] = useState(null)
-  const [listRandom, setListRandom] = useState(null)
+  const global = useGlobal();
+  const [favorites, setFavorites] = useState(null);
+  const [listFavorites, setListFavorites] = useState(null);
+  const [listRandom, setListRandom] = useState(null);
 
   const arrayRandom = () => {
     if (items) {
@@ -36,7 +36,7 @@ const Home = ({ items }) => {
         await profileService
           .getFavorites(global.profile._id)
           .then((res) => {
-            const favorites = res.data
+            const favorites = res.data.items;
             if (favorites.length > 0) {
               setListFavorites(favorites)
               setFavorites(true)
@@ -55,6 +55,7 @@ const Home = ({ items }) => {
     }
     initItem()
   }, [global, global.profile])
+
 
   if (!items) return <Loading />
 
@@ -106,10 +107,13 @@ export async function getStaticProps() {
   try {
     const res = await axios.get('/items/?size=30&categoryId=628be6c99659a661e05f9e2f')
     const items = res.data.items;
+    if(items.length === 0){
+      return { notFound: true };
+    }
     return { props: { items } }
   } catch (err) {
     console.log(err)
-    return { props: '' }
+    return { notFound: true };
   }
 }
 

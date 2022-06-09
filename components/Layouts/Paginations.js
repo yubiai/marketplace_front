@@ -28,6 +28,8 @@ const Paginations = ({ data }) => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
 
+  console.log(data, "data")
+
   const pages = []
   for (let i = 1; i < data?.totalPages + 1; i++) {
     pages.push(<Page id={i} key={i} />)
