@@ -16,6 +16,7 @@ import {
     Text,
     Heading,
     Flex,
+    Button
   } from '@chakra-ui/react'
 
 const minimumArbitrationFeeUSD = 90;
@@ -35,6 +36,11 @@ const OrderDetail = () => {
             return true;
         }
         return false;
+    }
+
+    const redirectToChat = () => {
+        const { _id } = orderDetail
+        router.push(`/profile/mailboxs/${_id}`)
     }
 
     const loadOrder = async () => {
