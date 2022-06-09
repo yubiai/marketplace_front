@@ -7,16 +7,16 @@ import Loading from '../components/Spinners/Loading'
 import { useGlobal } from '../providers/globalProvider'
 import { profileService } from '../services/profileService'
 
-const Home = ({ itemsByServices }) => {
-  const global = useGlobal()
-  const [favorites, setFavorites] = useState(null)
-  const [listFavorites, setListFavorites] = useState(null)
-  const [listRandom, setListRandom] = useState(null)
+const Home = ({ items }) => {
+  const global = useGlobal();
+  const [favorites, setFavorites] = useState(null);
+  const [listFavorites, setListFavorites] = useState(null);
+  const [listRandom, setListRandom] = useState(null);
 
   const arrayRandom = () => {
-    if (itemsByServices) {
+    if (items) {
       let newList = []
-      itemsByServices.map((item) => {
+      items.map((item) => {
         newList.push(item)
       })
 
@@ -36,7 +36,7 @@ const Home = ({ itemsByServices }) => {
         await profileService
           .getFavorites(global.profile._id)
           .then((res) => {
-            const favorites = res.data
+            const favorites = res.data.items;
             if (favorites.length > 0) {
               setListFavorites(favorites)
               setFavorites(true)
@@ -56,7 +56,8 @@ const Home = ({ itemsByServices }) => {
     initItem()
   }, [global, global.profile])
 
-  if (!itemsByServices) return <Loading />
+
+  if (!items) return <Loading />
 
   return (
     <>
@@ -85,7 +86,7 @@ const Home = ({ itemsByServices }) => {
         <Box h={{base: "full", sm: "full", md: "full", lg: "100vh", xl: "100vh"}} m="2em">
           <CarouselCards
             title={'Popular services'}
-            items={itemsByServices}
+            items={items}
           />
           {favorites === true && (
             <CarouselCards
@@ -104,12 +105,15 @@ const Home = ({ itemsByServices }) => {
 
 export async function getStaticProps() {
   try {
-    const res = await axios.get(`/items/bycategory/628be6c99659a661e05f9e2f`)
-    const itemsByServices = res.data.result
-    return { props: { itemsByServices } }
+    const res = await axios.get('/items/?size=30&categoryId=628be6c99659a661e05f9e2f')
+    const items = res.data.items;
+    if(items.length === 0){
+      return { notFound: true };
+    }
+    return { props: { items } }
   } catch (err) {
     console.log(err)
-    return { props: '' }
+    return { notFound: true };
   }
 }
 

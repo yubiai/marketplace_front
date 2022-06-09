@@ -1,43 +1,43 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   IconButton,
   Box,
   CloseButton,
   Flex,
-  Link,
   Drawer,
   DrawerContent,
   Text,
   useDisclosure,
-  Checkbox,
+  RadioGroup,
+  Radio,
 } from '@chakra-ui/react'
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
-} from 'react-icons/fi'
+import { FiMenu } from 'react-icons/fi'
+import useFetch from '../../hooks/data/useFetch'
+import Error from '../Infos/Error'
+import Loading from '../Spinners/Loading'
+import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 
-const LinkItems = [
-  { name: 'Home and Construction', icon: FiHome },
-  { name: 'Events', icon: FiTrendingUp },
-  { name: 'Courses and Classes', icon: FiCompass },
-  { name: 'Transport', icon: FiStar },
-  { name: 'Vehicle Maintenance', icon: FiSettings },
-]
-
-export default function SubCategoriesMenu({ children }) {
+export default function SubCategoriesMenu({ children, category }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const { data, loading, error } = useFetch(`/subcategories/${category}`)
+
+  if (loading) return <Loading />
+
+  if (error) {
+    return <Error error={error?.message} />
+  }
+
   return (
     <Box
-      minH={{ base: 'full', md: '70vh' }}
+      h={{ base: 'full', sm: 'full', md: '70vh', lg: '900px', xl: '900px' }}
+      m="2em"
       bg={'gray.100'}
     >
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
+        subcategories={data}
       />
       <Drawer
         autoFocus={false}
@@ -49,7 +49,7 @@ export default function SubCategoriesMenu({ children }) {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} />
+          <SidebarContent onClose={onClose} subcategories={data} />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
@@ -61,7 +61,24 @@ export default function SubCategoriesMenu({ children }) {
   )
 }
 
-const SidebarContent = ({ onClose, ...rest }) => {
+const SidebarContent = ({ onClose, subcategories, ...rest }) => {
+  const global = useGlobal()
+  const dispatch = useDispatchGlobal()
+
+  const [value, setValue] = useState(null)
+
+  useEffect(() => {
+    setValue(global.subCategory)
+  }, [global.subCategory])
+
+  const selectSubCategory = (subCategory) => {
+    setValue(subCategory)
+    dispatch({
+      type: 'SELECTSUBCATEGORY',
+      payload: subCategory,
+    })
+  }
+
   return (
     <Box
       bg={'white'}
@@ -69,49 +86,65 @@ const SidebarContent = ({ onClose, ...rest }) => {
       borderRightColor={'gray.200'}
       w={{ base: 'full', md: 60 }}
       pos="absolute"
-      h="80vh"
+      h="900px"
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="18px" fontFamily="Open Sans, sans-serif" fontWeight="normal">
+        <Text
+          fontSize="18px"
+          fontFamily="Open Sans, sans-serif"
+          fontWeight="normal"
+        >
           Sub - Categories
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem key={link.name}>
-          {link.name}
-        </NavItem>
-      ))}
+      <RadioGroup onChange={(e) => selectSubCategory(e)} value={value}>
+        <NavItem>{{
+          title: "All",
+          _id: ""
+        }}</NavItem>
+      </RadioGroup>
+      {subcategories &&
+        subcategories.length > 0 &&
+        subcategories.map((subcategory, i) => {
+          if (
+            subcategory &&
+            subcategory.items &&
+            subcategory.items.length > 0
+          ) {
+            return (
+              <RadioGroup
+                key={i}
+                onChange={(e) => selectSubCategory(e)}
+                value={value}
+              >
+                <NavItem>{subcategory}</NavItem>
+              </RadioGroup>
+            )
+          }
+        })}
     </Box>
   )
 }
 
 const NavItem = ({ children, ...rest }) => {
   return (
-    <Link
-      href="#"
-      style={{ textDecoration: 'none' }}
-      _focus={{ boxShadow: 'none' }}
+    <Flex
+      align="center"
+      p="4"
+      mx="4"
+      borderRadius="lg"
+      role="group"
+      cursor="pointer"
+      _hover={{
+        bg: 'cyan.400',
+        color: 'white',
+      }}
+      {...rest}
     >
-      <Flex
-        align="center"
-        p="4"
-        mx="4"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: 'cyan.400',
-          color: 'white',
-        }}
-        {...rest}
-      >
-        <Checkbox defaultChecked isDisabled>
-          {children}
-        </Checkbox>
-      </Flex>
-    </Link>
+      <Radio value={children._id}>{children.title}</Radio>
+    </Flex>
   )
 }
 
