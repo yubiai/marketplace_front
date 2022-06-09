@@ -73,7 +73,7 @@ const NewPublish = () => {
   }
 
   // Input Price config
-  const format = (val) =>   val + ` DAI` 
+  const format = (val) =>   val
   const parse = (val) => val.replace(/^\$/, '')
   const [priceValue, setPriceValue] = useState('')
 
@@ -225,7 +225,7 @@ const NewPublish = () => {
             {...register('description', { required: true, maxLength: 800 })}
             isRequired
           />
-          <Text mt="2em">Price</Text>
+          <Text mt="2em">Price DAI</Text>
 
           <NumberInput
             onChange={(valueString) => setPriceValue(parse(valueString))}
