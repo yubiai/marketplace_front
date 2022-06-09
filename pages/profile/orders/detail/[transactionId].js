@@ -108,6 +108,9 @@ const OrderDetail = () => {
         </Link>
       </Box>
       <Box marginTop={'24px'}>
+        <Button bg="#00abd1" color={'white'} onClick={redirectToChat}>
+          Chat with seller
+        </Button>
         {(orderDetail.transaction || {}).transactionIndex &&
           orderDetail.status === 'ORDER_CREATED' && (
           <Flex marginTop="auto" justifyContent="space-around">
