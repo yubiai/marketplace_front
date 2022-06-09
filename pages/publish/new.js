@@ -73,7 +73,7 @@ const NewPublish = () => {
   }
 
   // Input Price config
-  const format = (val) => `$` + val
+  const format = (val) =>   val + ` DAI` 
   const parse = (val) => val.replace(/^\$/, '')
   const [priceValue, setPriceValue] = useState('')
 
@@ -231,7 +231,7 @@ const NewPublish = () => {
             onChange={(valueString) => setPriceValue(parse(valueString))}
             value={format(priceValue)}
             bg="white"
-            min={1}
+            min={0.00001}
             max={999999}
             isRequired
           >
