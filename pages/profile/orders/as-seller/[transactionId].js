@@ -16,6 +16,7 @@ import {
     Text,
     Heading,
     Flex,
+    Button
   } from '@chakra-ui/react'
 
 const minimumArbitrationFeeUSD = 90;
@@ -35,6 +36,11 @@ const OrderDetail = () => {
             return true;
         }
         return false;
+    }
+
+    const redirectToChat = () => {
+        const { _id } = orderDetail
+        router.push(`/profile/mailboxs/${_id}`)
     }
 
     const loadOrder = async () => {
@@ -70,7 +76,7 @@ const OrderDetail = () => {
             return;
         }
 
-        if (!(transactionData || {}).fileURI) {
+        if (!(transactionData || {}).extraData) {
             loadOrder()
         } else {
             if (!global.klerosEscrowInstance) {
@@ -103,7 +109,11 @@ const OrderDetail = () => {
                 </Box>
                 <Text marginBottom='1rem'>Transaction hash: {(orderDetail.transaction || {}).transactionHash}</Text>
             </Box>
-            {
+            <Box>
+                <Button bg="#00abd1" color={'white'} onClick={redirectToChat}>
+                    Chat with seller
+                </Button>
+                {
                 (orderDetail.transaction || {}).transactionIndex && orderDetail.status === 'ORDER_DISPUTE_RECEIVER_FEE_PENDING' && (
                     <Flex marginTop='auto' justifyContent='space-around'>
                         <ButtonEscrowDispute transactionIndex={(orderDetail.transaction || {}).transactionIndex}
@@ -113,12 +123,13 @@ const OrderDetail = () => {
                                              stepsPostAction={loadOrder}
                                              toggleLoadingStatus={toggleLoadingStatus} />
                     </Flex>
-                )
-            }
-            {
-                (orderDetail.transaction || {}).transactionIndex && orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && 
-                <p>Dispute in progress</p>
-            }
+                    )
+                }
+                {
+                    (orderDetail.transaction || {}).transactionIndex && orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && 
+                    <p>Dispute in progress</p>
+                }
+            </Box>
         </Container>
     )
 }

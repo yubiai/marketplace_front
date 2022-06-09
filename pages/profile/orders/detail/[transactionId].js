@@ -108,6 +108,12 @@ const OrderDetail = () => {
         </Link>
       </Box>
       <Box marginTop={'24px'}>
+        <Box margin={'2rem 0'}>
+          <Text>Chat</Text>
+          <Button bg="#00abd1" color={'white'} onClick={redirectToChat}>
+            Chat with seller
+          </Button>
+        </Box>
         {(orderDetail.transaction || {}).transactionIndex &&
           orderDetail.status === 'ORDER_CREATED' && (
           <Flex marginTop="auto" justifyContent="space-around">
@@ -124,9 +130,6 @@ const OrderDetail = () => {
                 toggleLoadingStatus={toggleLoadingStatus}
               />
             )}
-            <Button bg="#00abd1" color={'white'} onClick={redirectToChat}>
-              Chat with seller
-            </Button>
             <ButtonEscrowDispute
               transactionIndex={
                 (orderDetail.transaction || {}).transactionIndex

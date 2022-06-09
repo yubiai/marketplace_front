@@ -32,7 +32,12 @@ const parseItemIntoOrderTransaction = (
 ) => {
     const generatedDescription = items.map(item => item.title).join(',')
     const compiledItemIds = items.map(item => item._id).join(',#')
-    const date = Date.now()
+
+    const now = new Date()
+    const month = now.getMonth() + 1
+    const day = now.getDate() + 1
+    const date = `${now.getFullYear()}-${month < 10 ? `0${month}` : month }-${day < 10 ? `0${day}` : day }`
+
     const generatedTitle = `Order for items: ${compiledItemIds}, Date ${date}`
 
     const totalOrderValue = totalAmountOrder(items)
@@ -44,8 +49,8 @@ const parseItemIntoOrderTransaction = (
         transaction: {
             title: generatedTitle,
             description: generatedDescription,
-            fileURI: {
-                contract: generatedTitle
+            extraData: {
+                'Contract information': generatedTitle
             },
             amount: {
                 value: totalOrderValue,
