@@ -3,11 +3,11 @@ import { useGlobal } from '../../providers/globalProvider'
 
 const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus }) => {
     const global = useGlobal()
-    const { amount, recipient, timeout, title, description, fileURI } = transactionInfo
+    const { amount, recipient, timeout, title, description, extraData } = transactionInfo
     const metaEvidence = {
         title,
         description,
-        fileURI,
+        extraData
     };
 
     const createTransaction = async () => {
