@@ -127,9 +127,6 @@ const OrderDetail = () => {
                 toggleLoadingStatus={toggleLoadingStatus}
               />
             )}
-            <Button bg="#00abd1" color={'white'} onClick={redirectToChat}>
-              Chat with seller
-            </Button>
             <ButtonEscrowDispute
               transactionIndex={
                 (orderDetail.transaction || {}).transactionIndex
