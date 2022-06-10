@@ -1,10 +1,6 @@
 import {
-  Box,
-  Button,
-  Center,
   Container,
   Flex,
-  Heading,
   SimpleGrid,
   Text,
 } from '@chakra-ui/react'

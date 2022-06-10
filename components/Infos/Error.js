@@ -2,12 +2,8 @@ import { CloseIcon } from '@chakra-ui/icons'
 import {
   Box,
   Button,
-  Center,
-  Container,
   Flex,
   Heading,
-  Stack,
-  Text,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 
