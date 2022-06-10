@@ -26,7 +26,8 @@ import {
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import Error from '../../components/Infos/Error'
 import PreviewItem from '../../components/Modals/PreviewItem'
@@ -34,12 +35,14 @@ import SuccessItem from '../../components/Modals/SuccessItem'
 import Loading from '../../components/Spinners/Loading'
 import FileUpload from '../../components/Utils/FileUpload'
 import useFetch from '../../hooks/data/useFetch'
+import useUser from '../../hooks/data/useUser'
 import { useGlobal } from '../../providers/globalProvider'
 import { itemService } from '../../services/itemService'
 import { getListSubCategory } from '../../utils/itemUtils'
 
 const NewPublish = () => {
   const global = useGlobal()
+  const router = useRouter()
 
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -55,6 +58,16 @@ const NewPublish = () => {
   const [stateSubmit, setStateSubmit] = useState(0)
   const [loadingSubmit, setLoadingSubmit] = useState(false)
   const [dataSubmit, setDataSubmit] = useState(null)
+
+  // Auth
+  const { user, loggedOut } = useUser()
+
+  // if logged in, redirect to the dashboard
+  useEffect(() => {
+    if (loggedOut) {
+      router.replace('/')
+    }
+  }, [user, loggedOut, router])
 
   const { data: categories, isLoading, isError } = useFetch('/categories/')
 
@@ -73,7 +86,7 @@ const NewPublish = () => {
   }
 
   // Input Price config
-  const format = (val) =>   val
+  const format = (val) => val
   const parse = (val) => val.replace(/^\$/, '')
   const [priceValue, setPriceValue] = useState('')
 
@@ -147,7 +160,7 @@ const NewPublish = () => {
     }
   }
 
-  if (isLoading) return <Loading />
+  if (isLoading || !user) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />

@@ -23,7 +23,7 @@ const fetcher = async (url) => {
     const res = await Axios.get(url)
     return res.data
   } catch (err) {
-    throw err.response.data
+    throw err.response
   }
 }
 
