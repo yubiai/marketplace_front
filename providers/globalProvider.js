@@ -12,6 +12,7 @@ const initialState = {
   meta: false,
   profile: null,
   klerosEscrowInstance: null,
+  arbitratorInstance: null,
   itemsToCheckout: [],
   currencyPriceList: [],
 }
@@ -43,6 +44,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         klerosEscrowInstance: action.payload,
+      }
+    case 'SET_ARBITRATOR_INSTANCE':
+      return {
+        ...state,
+        arbitratorInstance: action.payload
       }
     case 'SET_ITEMS_TO_CHECKOUT':
       return {

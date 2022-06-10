@@ -7,6 +7,7 @@ import {
   parseItemIntoOrderTransaction,
   parseFromAToBToken
 } from '../utils/orderUtils'
+import Arbitrator from '../utils/escrow-utils/arbitrator';
 
 
 let web3 = new Web3(
@@ -56,6 +57,14 @@ const loadOrderData = async (items = [], currencyPriceList = [], ethPrice=false)
   }
 }
 
+const setArbitratorInstance = (account, dispatch) => {
+  // NOTE: Web3 instance has the correct infura endpoint?
+  const arbitratorInstance = new Arbitrator(web3, account);
+  dispatch({
+    type: 'SET_ARBITRATOR_INSTANCE',
+    payload: arbitratorInstance
+  })
+}
 
 const setKlerosInstance = (transactionData, dispatch) => {
   const klerosEscrowRef = new KlerosEscrow(web3);
@@ -82,5 +91,6 @@ export {
   setKlerosInstance,
   loadCurrencyPrices,
   loadOrderData,
-  getAccount
+  getAccount,
+  setArbitratorInstance
 }
