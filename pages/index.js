@@ -34,7 +34,7 @@ const Home = ({ items }) => {
       setFavorites(null)
       if (global && global.profile && global.profile._id) {
         await profileService
-          .getFavorites(global.profile._id)
+          .getFavorites(global.profile._id, "40")
           .then((res) => {
             const favorites = res.data.items;
             if (favorites.length > 0) {

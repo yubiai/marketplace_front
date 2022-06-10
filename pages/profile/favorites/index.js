@@ -13,14 +13,14 @@ const Favorites = () => {
 
   const {
     data,
-    loading,
-    error,
+    isLoading,
+    isError,
   } = useFetch(`/profiles/favorites/${global && global.profile && global.profile._id || null}?page=${global.pageIndex}&size=8`);
 
-  if (loading) return <Loading />
+  if (isLoading) return <Loading />
 
-  if (error) {
-    return <Error error={error?.message} />
+  if (isError) {
+    return <Error error={isError?.message} />
   }
 
   return (
@@ -35,7 +35,7 @@ const Favorites = () => {
       <ProfileMenu>
         <Container
           maxW="6xl"
-          h={{ base: 'full', sm: 'full', md: 'full', lg: '100vh', xl: '100vh' }}
+          h={{ base: 'full', sm: 'full', md: '1000px'}}
           display={'flex'}
           flexDirection={'column'}
         >

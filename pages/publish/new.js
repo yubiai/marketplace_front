@@ -56,7 +56,7 @@ const NewPublish = () => {
   const [loadingSubmit, setLoadingSubmit] = useState(false)
   const [dataSubmit, setDataSubmit] = useState(null)
 
-  const { data: categories, loading, error } = useFetch('/categories/')
+  const { data: categories, isLoading, isError } = useFetch('/categories/')
 
   const getSubCategories = (categoryId) => {
     // Get SubCategories
@@ -147,10 +147,10 @@ const NewPublish = () => {
     }
   }
 
-  if (loading) return <Loading />
+  if (isLoading) return <Loading />
 
-  if (error) {
-    return <Error error={error?.message} />
+  if (isError) {
+    return <Error error={isError?.message} />
   }
 
   return (
