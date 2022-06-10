@@ -26,7 +26,7 @@ const ItemById = ({ item }) => {
   const toast = useToast()
 
   const [owner, setOwner] = useState(null)
-  const [favorite, setFavorite] = useState(false)
+  const [favorite, setFavorite] = useState(null)
 
   const [selectImage, setSelectImage] = useState(null)
   const router = useRouter()
@@ -50,7 +50,8 @@ const ItemById = ({ item }) => {
     await profileService
       .getFavorites((global && global.profile && global.profile._id) || null)
       .then((res) => {
-        favorites = res.data || []
+        console.log(res.data)
+        favorites = res.data.items || []
         if (favorites.length > 0) {
           for (let i = 0; i < favorites.length; i++) {
             if (favorites[i]._id === item._id) {
@@ -215,12 +216,12 @@ const ItemById = ({ item }) => {
               </Text>
               {owner === false && (
                 <Box>
-                  {!favorite && (
+                  {favorite === false && (
                     <Button onClick={() => addFavorite()}>
                       <MdStarOutline color="00abd1" />
                     </Button>
                   )}
-                  {favorite && (
+                  {favorite === true && (
                     <Button onClick={() => removeFavorite()}>
                       <MdStar color="00abd1" />
                     </Button>

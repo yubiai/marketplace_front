@@ -1,10 +1,6 @@
 import {
-  Box,
-  Button,
-  Center,
   Container,
   Flex,
-  Heading,
   SimpleGrid,
   Text,
 } from '@chakra-ui/react'
@@ -13,15 +9,21 @@ import Head from 'next/head'
 import ItemCardLg from '../../components/Cards/ItemCardLg'
 import { useRouter } from 'next/router'
 import useFetch from '../../hooks/data/useFetch'
+import Error from '../../components/Infos/Error'
+import Warm from '../../components/Infos/Warm'
 
 const Search = () => {
   const router = useRouter()
   const { query } = router.query
 
-  const { data: items, loading, error } = useFetch(`/items/search?q=${query}`)
+  const { data: items, isLoading, isError } = useFetch(`/items/search?q=${query}`)
 
-  if (loading) return <Loading />
-  if (error) throw error
+  if (isLoading) return <Loading />
+
+  if (isError) {
+    return <Error error={isError?.message} />
+  }
+
 
   return (
     <>
@@ -44,20 +46,13 @@ const Search = () => {
           )}
         </Flex>
         <SimpleGrid minChildWidth="250px" spacing="2px">
-        {items && items.length === 0 && <Heading mt="5em">Not result.</Heading>}
+        {items && items.length === 0 && <Warm message="Not Result." />}
           {items &&
             items.length > 0 &&
             items.map((item, i) => {
               return <ItemCardLg key={i} item={item} />
             })}
         </SimpleGrid>
-        <Box m="2em">
-          <Center>
-            <Button bg="#00abd1" color="white" onClick={() => router.push('/')}>
-              Back
-            </Button>
-          </Center>
-        </Box>
       </Container>
     </>
   )

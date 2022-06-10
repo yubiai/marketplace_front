@@ -1,6 +1,5 @@
-import { Box, Button, Text } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import MyInfoPohCard from '../../components/Cards/MyInfoPohCard'
 import MyInfoPrivateCard from '../../components/Cards/MyInfoPrivateCard'
@@ -9,17 +8,17 @@ import Loading from '../../components/Spinners/Loading'
 import { useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
 import useFetch from '../../hooks/data/useFetch'
+import Error from '../../components/Infos/Error'
 
 const Profile = () => {
   const global = useGlobal()
-  const router = useRouter()
 
   const [balanceToken, setBalanceToken] = useState(null)
 
   const {
     data: profile,
-    loading,
-    error,
+    isLoading,
+    isError,
   } = useFetch(
     `/profiles/${
       global && global.profile && global.profile.eth_address
@@ -31,7 +30,7 @@ const Profile = () => {
   useEffect(() => {
     const getInitBalance = async () => {
       if (profile) {
-        await balanceUbi1(profile.eth_address || null).then((res) => {
+        await balanceUbi1(profile.eth_address.toLowerCase() || null).then((res) => {
           setBalanceToken(res)
         })
       }
@@ -39,8 +38,12 @@ const Profile = () => {
     getInitBalance()
   }, [profile])
 
-  if (loading) return <Loading />
-  if (error) throw error
+
+  if (isLoading) return <Loading />
+
+  if (isError) {
+    return <Error error={isError?.message} />
+  }
 
   return (
     <>
@@ -60,13 +63,7 @@ const Profile = () => {
           <MyInfoPohCard dataProfile={profile} balance={balanceToken} />
           <Text fontWeight={'bold'}>Personal Info</Text>
           <MyInfoPrivateCard dataProfile={profile} />
-          <Button
-            onClick={() =>
-              router.push('/profile/mailboxs/628d1ef2c39d5841b9105889')
-            }
-          >
-            Mailbox tanto
-          </Button>
+
         </Box>
       </ProfileMenu>
     </>
