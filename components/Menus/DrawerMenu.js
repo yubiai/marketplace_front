@@ -52,7 +52,7 @@ const DrawerMenu = () => {
   useEffect(() => {
     const verifyLogin = async () => {
       if (global && global.profile) {
-        await balanceUbi1(global.profile.eth_address).then((res) => {
+        await balanceUbi1(global.profile.eth_address || null).then((res) => {
           setBalanceToken(res)
         })
         setStatusLogin(true)
@@ -102,12 +102,18 @@ const DrawerMenu = () => {
       type: 'AUTHPROFILE',
       payload: null,
     })
-    localStorage.removeItem('Yubiai');
+    localStorage.removeItem('Yubiai')
   }
 
   return (
     <>
-      <Button ref={btnRef} color="white" bg="transparent" onClick={onOpen}>
+      <Button
+        ref={btnRef}
+        color="white"
+        bg="transparent"
+        onClick={onOpen}
+        display={{ base: 'flex', md: 'none' }}
+      >
         <FiMoreVertical fontSize={'2em'} />
       </Button>
       <Drawer

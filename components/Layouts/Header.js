@@ -5,7 +5,6 @@ import {
   Button,
   Container,
   Image,
-  Show,
   Center,
 } from '@chakra-ui/react'
 import LanguageChange from '../Menus/LanguageChange'
@@ -49,7 +48,7 @@ const Header = () => {
           </Box>
 
           {/* Search */}
-          <Center w={{ base: 'full', md: 'md' }} mt={'15px'}>
+          <Center w={{ base: 'full', md: 'md' }} mt={{md: '15px'}}>
             <SearchBar />
           </Center>
 
@@ -58,9 +57,7 @@ const Header = () => {
             <LanguageChange />
             {global.meta ? <ButtonConnect /> : ''}
           </Center>
-          <Show below="md">
             <DrawerMenu />
-          </Show>
         </Flex>
       </Container>
     </Box>
