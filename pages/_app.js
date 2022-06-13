@@ -10,6 +10,7 @@ import { Hide } from '@chakra-ui/react'
 import Axios from 'axios'
 import MetaAlert from '../components/Alerts/metaAlert'
 import { GlobalProvider } from '../providers/globalProvider'
+import { AuthProvider } from '../providers/authProvider'
 
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -38,6 +39,7 @@ function MyApp({ Component, pageProps }) {
             dedupingInterval: 10000,
           }}
         >
+          <AuthProvider>
           <Header />
           <Hide below="md">
             <Navbar />
@@ -45,6 +47,7 @@ function MyApp({ Component, pageProps }) {
           <MetaAlert />
             <Component {...pageProps} />
           <Footer />
+          </AuthProvider>
         </SWRConfig>
       </GlobalProvider>
     </ChakraProvider>

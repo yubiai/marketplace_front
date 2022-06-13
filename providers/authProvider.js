@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     return async () => {
       console.log('Verificacion AUTH')
-      const dataToken = await profileService.getCurrentUser()
+/*       const dataToken = await profileService.getCurrentUser()
       if (dataToken && dataToken.walletAddress) {
         const result = await profileService.login(dataToken.walletAddress);
         const data = result.data.data;
@@ -22,9 +22,9 @@ export const AuthProvider = ({ children }) => {
           wallet: data.eth_address
         }
         localStorage.setItem('Yubiai', yubiaiLS)
-      }
+      } */
     }
-  }, [dispatch])
+  }, [])
   return <>{children}</>
 }
 

@@ -62,7 +62,7 @@ const NewPublish = () => {
   // Auth
   const { user, loggedOut } = useUser()
 
-  // if logged in, redirect to the dashboard
+  // if logged in, redirect to the home
   useEffect(() => {
     if (loggedOut) {
       router.replace('/')
