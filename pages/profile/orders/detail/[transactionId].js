@@ -5,10 +5,15 @@ import {
   useGlobal,
   useDispatchGlobal,
 } from '../../../../providers/globalProvider'
+import { getCurrentWallet } from '../../../../utils/walletUtils'
+import {
+  translateStatusIdToNamingInTransaction
+} from '../../../../utils/orderUtils'
 import {
   loadCurrencyPrices,
   loadOrderData,
   setKlerosInstance,
+  setArbitratorInstance
 } from '../../../../providers/orderProvider'
 import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder'
 import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'
@@ -27,6 +32,7 @@ const OrderDetail = () => {
   const [orderDetail, setOrderDetail] = useState({})
   const [transactionData, setTransactionData] = useState({})
   const [operationInProgress, setOperationInProgress] = useState(false)
+  const [orderTransactionStatus, setOrderTransactionStatus] = useState(null)
   const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet';
 
   const loadOrder = async () => {
@@ -78,6 +84,26 @@ const OrderDetail = () => {
       return
     }
   }, [transactionId, transactionData, global.currencyPriceList])
+
+  useEffect(() => {
+    const checkAndUpdateDisputeStatus = async () => {
+      const disputeId = (orderDetail.transaction || {}).disputeId;
+      const disputeStatus = await global.arbitratorInstance.disputeStatus(disputeId);
+      const disputeStatusParsed = translateStatusIdToNamingInTransaction(disputeStatus);
+
+      if (orderDetail.status !== disputeStatusParsed) {
+        const transactionId = (orderDetail.transaction || {}).transactionHash;
+        await orderService.updateOrderStatus(transactionId);
+      }
+    }
+
+    if (!global.arbitratorInstance) {
+      setArbitratorInstance(getCurrentWallet(true), dispatch)
+      return;
+    } else {
+      checkAndUpdateDisputeStatus();
+    }
+  }, [orderTransactionStatus, global.arbitratorInstance, orderDetail])
 
   return (
     <Container

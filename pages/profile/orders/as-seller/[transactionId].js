@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { orderService } from '../../../../services/orderService'
 import { useGlobal, useDispatchGlobal } from '../../../../providers/globalProvider'
+import { getCurrentWallet } from '../../../../utils/walletUtils'
+import { translateStatusIdToNamingInTransaction } from '../../../../utils/orderUtils'
 import {
     loadCurrencyPrices,
     loadOrderData,
     setKlerosInstance,
+    setArbitratorInstance
 } from '../../../../providers/orderProvider'
 import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'
 import Loading from '../../../../components/Spinners/Loading'
@@ -85,7 +88,27 @@ const OrderDetail = () => {
             return;
         }
     }, [transactionId, transactionData, global.currencyPriceList])
-     
+
+
+    useEffect(() => {
+        const checkAndUpdateDisputeStatus = async () => {
+          const disputeId = (orderDetail.transaction || {}).disputeId;
+          const disputeStatus = await global.arbitratorInstance.disputeStatus(disputeId);
+          const disputeStatusParsed = translateStatusIdToNamingInTransaction(disputeStatus);
+    
+          if (orderDetail.status !== disputeStatusParsed) {
+            const transactionId = (orderDetail.transaction || {}).transactionHash;
+            await orderService.updateOrderStatus(transactionId);
+          }
+        }
+    
+        if (!global.arbitratorInstance) {
+          setArbitratorInstance(getCurrentWallet(true), dispatch)
+          return;
+        } else {
+          checkAndUpdateDisputeStatus();
+        }
+      }, [global.arbitratorInstance, orderDetail])
 
     return (
         <Container padding='2rem 0' height={'calc(100vh - 180px)'} position={'relative'}>
