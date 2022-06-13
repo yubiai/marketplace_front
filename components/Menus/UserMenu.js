@@ -39,6 +39,7 @@ const UserMenu = () => {
       type: 'AUTHPROFILE',
       payload: null,
     })
+    localStorage.removeItem('Yubiai');
   }
 
   return (
