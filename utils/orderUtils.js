@@ -56,7 +56,7 @@ const parseItemIntoOrderTransaction = (
                 value: totalOrderValue,
                 currency: currencyContract
             },
-            recipient,
+            recipient: recipient.toLowerCase(),
             timeout
         }
     }
