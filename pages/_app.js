@@ -40,13 +40,11 @@ function MyApp({ Component, pageProps }) {
           }}
         >
           <AuthProvider>
-          <Header />
-          <Hide below="md">
+            <Header />
             <Navbar />
-          </Hide>
-          <MetaAlert />
+            <MetaAlert />
             <Component {...pageProps} />
-          <Footer />
+            <Footer />
           </AuthProvider>
         </SWRConfig>
       </GlobalProvider>

@@ -28,7 +28,7 @@ const loginMetamask = async () => {
 const balanceUbi1 = (wallet) => {
   let balance = new Promise((resolve, reject) => {
      etherscanService
-      .getBalanceUbi(wallet)
+      .getBalanceUbi(wallet && wallet.toLowerCase())
       .then((res) => {
         let oldBalance = res.data.result
         let newBalance = Number.parseFloat(`${oldBalance}e-18`).toFixed(2)
