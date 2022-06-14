@@ -1,15 +1,32 @@
-import useSWR from "swr"
+import axios from 'axios'
+import useSWR from 'swr'
 
-export default function useFetch (url) {
-    const { data, error } = useSWR(url)
+const fetcher = async (url, accessToken) => {
+  return axios
+    .get(
+      url,
+      accessToken
+        ? {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        : null
+    )
+    .then((res) => res.data)
+    .catch((err) => {
+      throw err.response
+    })
+}
 
-    const message = {
-      message: "Failed to load"
-    }
+export default function useFetch(url, token) {
+  console.log(url,"dataa")
 
-    return {
-      data,
-      isLoading: !error && !data,
-      isError: error ? message : null
-    }
+  const { data, error } = useSWR([url, token], fetcher)
+
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error ? error.message : null,
   }
+}

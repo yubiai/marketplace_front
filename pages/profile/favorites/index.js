@@ -15,7 +15,7 @@ const Favorites = () => {
     data,
     isLoading,
     isError,
-  } = useFetch(`/profiles/favorites/${global && global.profile && global.profile._id || null}?page=${global.pageIndex}&size=8`);
+  } = useFetch(`/profiles/favorites/${global && global.profile && global.profile._id || null}?page=${global.pageIndex}&size=8`, global && global.profile && global.profile.token);
 
   if (isLoading) return <Loading />
 

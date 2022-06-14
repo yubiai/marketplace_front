@@ -36,7 +36,7 @@ const Profile = () => {
       global && global.profile && global.profile.eth_address
         ? global.profile.eth_address
         : null
-    }`
+    }`, global && global.profile && global.profile.token
   )
 
   useEffect(() => {
@@ -51,11 +51,13 @@ const Profile = () => {
   }, [profile])
 
 
-  if (isLoading || !user) return <Loading />
+  if (isLoading || !user ) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />
   }
+
+  console.log(global.profile)
 
   return (
     <>

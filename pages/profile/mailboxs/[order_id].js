@@ -71,6 +71,8 @@ const MailBoxs = () => {
     saveMessage(newMessage)
   }
 
+  console.log(channel)
+
   if (loading) return <Loading />
   if (error) throw error
 
@@ -91,7 +93,7 @@ const MailBoxs = () => {
             bg="white"
           >
             <Flex w="80%" h="90%" flexDir="column">
-              {global && global.profile && (
+              {/* {global && global.profile && (
                 <HeaderChat
                 dataUser={
                   global && global.profile && global.profile._id !== channel.buyer._id
@@ -104,7 +106,7 @@ const MailBoxs = () => {
                     : 'Seller'
                 }
               />
-              )}
+              )} */}
               <ChakraDivider
                 w="100%"
                 borderBottomWidth="3px"

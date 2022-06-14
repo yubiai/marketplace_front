@@ -1,10 +1,12 @@
 import { Box, Button, Container, Heading, Input, Text } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import Error from '../../../components/Infos/Error'
 import ProfileMenu from '../../../components/Menus/ProfileMenu'
 import Loading from '../../../components/Spinners/Loading'
+import useFetch from '../../../hooks/data/useFetch'
 import { useGlobal } from '../../../providers/globalProvider'
 import { profileService } from '../../../services/profileService'
 
@@ -15,37 +17,49 @@ const ProfileEdit = () => {
   // State useForm
   const { handleSubmit, register, reset } = useForm()
 
-  const [dataProfile, setDataProfile] = useState(null)
+  const {
+    data: dataProfile,
+    isLoading,
+    isError,
+  } = useFetch(
+    `/profiles/${
+      global && global.profile && global.profile.eth_address
+        ? global.profile.eth_address
+        : null
+    }`,
+    global && global.profile && global.profile.token
+  )
 
   useEffect(() => {
-    const initProfile = async () => {
-      if (global && global.profile) {
-        await profileService.getProfile(global.profile.eth_address).then((res) => {
-          const data = res.data;
-          setDataProfile(data);
-          reset(data)
-        })
-      } else {
-        router.push('/')
+    const initProfile = () => {
+      console.log('se activo')
+      if (dataProfile) {
+        reset(dataProfile)
       }
     }
     initProfile()
-  }, [global, router])
+  }, [dataProfile, reset])
 
   // Form Submit Preview
   const onSubmit = async (data) => {
     console.log(data, 'dataaa')
 
-    await profileService.updateProfile(global.profile._id, data).then((res) => {
-      console.log(res)
-      router.push('/profile')
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+    await profileService
+      .updateProfile(global.profile._id, data, global?.profile?.token)
+      .then((res) => {
+        console.log(res)
+        router.push('/profile')
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
-  if (!dataProfile) return <Loading />
+  if (isLoading /* || !user */) return <Loading />
+
+  if (isError) {
+    return <Error error={isError?.message} />
+  }
 
   return (
     <>
