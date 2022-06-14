@@ -31,7 +31,7 @@ const parseFromAToBToken = (basePrice, tokenA, tokenB) => {
     const priceA = tokenA.price;
     const priceB = tokenB.price;
 
-    const rateValue = (basePrice * priceB) / priceA;
+    const rateValue = (basePrice * priceA) / priceB;
     return rateValue
 }
 
