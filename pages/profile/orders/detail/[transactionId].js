@@ -85,6 +85,8 @@ const OrderDetail = () => {
     }
   }, [transactionId, transactionData, global.currencyPriceList])
 
+  /*
+  // useEffect for update status based on dispute status
   useEffect(() => {
     const checkAndUpdateDisputeStatus = async () => {
       const disputeId = (orderDetail.transaction || {}).disputeId;
@@ -93,7 +95,7 @@ const OrderDetail = () => {
 
       if (orderDetail.status !== disputeStatusParsed) {
         const transactionId = (orderDetail.transaction || {}).transactionHash;
-        await orderService.updateOrderStatus(transactionId);
+        await orderService.updateOrderStatus(transactionId, disputeStatusParsed);
       }
     }
 
@@ -104,6 +106,7 @@ const OrderDetail = () => {
       checkAndUpdateDisputeStatus();
     }
   }, [orderTransactionStatus, global.arbitratorInstance, orderDetail])
+  */
 
   return (
     <Container
