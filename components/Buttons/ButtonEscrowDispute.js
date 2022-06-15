@@ -17,7 +17,8 @@ const ButtonEscrowDispute = ({
                 amount, ethContract, global.klerosEscrowInstance.web3);
 
             const result = await global.klerosEscrowInstance.payArbitrationFee(
-                transactionIndexParsed, parsedETHPrice)
+                transactionIndexParsed, parsedETHPrice);
+
             if (result) {
                 const status = asSeller ? 'ORDER_DISPUTE_IN_PROGRESS' : 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
 

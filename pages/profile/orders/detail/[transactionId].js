@@ -5,17 +5,15 @@ import {
   useGlobal,
   useDispatchGlobal,
 } from '../../../../providers/globalProvider'
-// import { getCurrentWallet } from '../../../../utils/walletUtils'
-/*
+import { getCurrentWallet } from '../../../../utils/walletUtils'
 import {
   translateStatusIdToNamingInTransaction
 } from '../../../../utils/orderUtils'
-*/
-// Note: Add 'setArbitratorInstance' from orderProvider
 import {
   loadCurrencyPrices,
   loadOrderData,
-  setKlerosInstance
+  setKlerosInstance,
+  setArbitratorInstance
 } from '../../../../providers/orderProvider'
 import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder'
 import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'
@@ -86,17 +84,17 @@ const OrderDetail = () => {
     }
   }, [transactionId, transactionData, global.currencyPriceList])
 
-  /*
-  // useEffect for update status based on dispute status
   useEffect(() => {
     const checkAndUpdateDisputeStatus = async () => {
       const disputeId = (orderDetail.transaction || {}).disputeId;
-      const disputeStatus = await global.arbitratorInstance.disputeStatus(disputeId);
-      const disputeStatusParsed = translateStatusIdToNamingInTransaction(disputeStatus);
-
-      if (orderDetail.status !== disputeStatusParsed) {
-        const transactionId = (orderDetail.transaction || {}).transactionHash;
-        await orderService.updateOrderStatus(transactionId, disputeStatusParsed);
+      if (disputeId) {
+        const disputeStatus = await global.arbitratorInstance.disputeStatus(disputeId);
+        const disputeStatusParsed = translateStatusIdToNamingInTransaction(disputeStatus);
+  
+        if (orderDetail.status !== disputeStatusParsed) {
+          const transactionId = (orderDetail.transaction || {}).transactionHash;
+          await orderService.updateOrderStatus(transactionId, disputeStatusParsed);
+        }
       }
     }
 
@@ -106,8 +104,7 @@ const OrderDetail = () => {
     } else {
       checkAndUpdateDisputeStatus();
     }
-  }, [orderTransactionStatus, global.arbitratorInstance, orderDetail])
-  */
+  }, [global.arbitratorInstance, orderDetail])
 
   return (
     <Container
