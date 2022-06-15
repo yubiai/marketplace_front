@@ -69,7 +69,7 @@ const UserMenu = () => {
             <MenuItem>Published</MenuItem>
           </Link>
           <Link href="/profile/orders">
-            <MenuItem isDisabled>Orders</MenuItem>
+            <MenuItem>Orders</MenuItem>
           </Link>
           <MenuItem>
             <span onClick={() => disconnect()}>Disconnect</span>

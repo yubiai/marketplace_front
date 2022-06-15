@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { useEffect } from 'react'
 import { profileService } from '../services/profileService'
+import { loginMetamask } from '../utils/ethereum'
 import { useDispatchGlobal } from './globalProvider'
 
 export const AuthProvider = ({ children }) => {
@@ -8,6 +9,9 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const authToken = async () => {
+
+      await loginMetamask()
+
       const YubiaiLs =
         typeof window !== 'undefined' ? localStorage.getItem('Yubiai') : null
       const Yubiai = YubiaiLs ? JSON.parse(YubiaiLs) : null
@@ -38,6 +42,13 @@ export const AuthProvider = ({ children }) => {
           type: 'AUTHPROFILE',
           payload: { ...user.data, token: Yubiai.token },
         })
+        return
+      } else {
+        dispatch({
+          type: 'AUTHPROFILE',
+          payload: null,
+        })
+        return
       }
     }
     authToken()

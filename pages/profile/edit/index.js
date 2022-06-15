@@ -46,14 +46,13 @@ const ProfileEdit = () => {
       .updateProfile(global.profile._id, data, global?.profile?.token)
       .then((res) => {
         console.log(res)
-        router.push('/profile')
       })
       .catch((err) => {
         console.log(err)
       })
   }
 
-  if (isLoading /* || !user */) return <Loading />
+  if ( isLoading || !dataProfile ) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />
