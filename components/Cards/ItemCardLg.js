@@ -46,7 +46,7 @@ const ItemCardLg = ({ item }) => {
               <Text fontWeight={800} fontSize={'1ems'}>
                 {item.price}
               </Text>
-              <Text>ETH</Text>
+              <Text>{item.currencySymbolPrice || 'ETH'}</Text>
               {/* <Text textDecoration={'line-through'} color={'red'}>
               $199
             </Text> */}
