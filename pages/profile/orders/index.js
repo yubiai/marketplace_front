@@ -1,6 +1,8 @@
 import { Container, Flex, Text } from '@chakra-ui/react'
 import Head from 'next/head'
+import OrderCard from '../../../components/Cards/OrderCard'
 import Error from '../../../components/Infos/Error'
+import Paginations from '../../../components/Layouts/Paginations'
 import ProfileMenu from '../../../components/Menus/ProfileMenu'
 import Loading from '../../../components/Spinners/Loading'
 import useFetch from '../../../hooks/data/useFetch'
@@ -10,7 +12,9 @@ const Orders = () => {
   const global = useGlobal()
 
   const { data, loading, error } = useFetch(
-    `/orders/buyer/${global && global.profile && global.profile.eth_address}`
+    `/orders/buyer/${
+      global && global.profile && global.profile.eth_address
+    }?page=${global.pageIndex}&size=4`
   )
 
   if (loading) return <Loading />
@@ -33,13 +37,19 @@ const Orders = () => {
       <ProfileMenu>
         <Container
           maxW="6xl"
-          h={{ base: 'full', sm: 'full', md: 'full', lg: '100vh', xl: '100vh' }}
+          h={{ base: 'full', sm: 'full', md: 'full' }}
           display={'flex'}
           flexDirection={'column'}
         >
           <Flex alignItems={'center'} mt="1em">
             <Text fontWeight={'bold'}>Orders</Text>
           </Flex>
+          {data &&
+            data.items.length > 0 &&
+            data.items.map((order, i) => {
+              return <OrderCard order={order} key={i} />
+            })}
+          <Paginations data={data ? data : null} />
         </Container>
       </ProfileMenu>
     </>
