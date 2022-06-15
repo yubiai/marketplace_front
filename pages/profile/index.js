@@ -57,8 +57,6 @@ const Profile = () => {
     return <Error error={isError?.message} />
   }
 
-  console.log(global.profile)
-
   return (
     <>
       <Head>

@@ -44,13 +44,11 @@ const ItemById = ({ item }) => {
   }
 
   const getFavorites = async () => {
-    console.log('Get Favorites')
     let favorites
     setOwner(false)
     await profileService
       .getFavorites((global && global.profile && global.profile._id) || null, null, global?.profile?.token)
       .then((res) => {
-        console.log(res.data)
         favorites = res.data.items || []
         if (favorites.length > 0) {
           for (let i = 0; i < favorites.length; i++) {

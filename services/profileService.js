@@ -11,16 +11,6 @@ async function login(walletAddress) {
 }
 
 /**
- * Auth
- * @param {str} token
- */
- async function auth(token) {
-  return await axios.post(`/auth/session`, {
-    token
-  })
-}
-
-/**
  * Get profile by _id
  */
  async function getProfileFromId(_id, token) {
@@ -110,7 +100,6 @@ async function removeFavorite(profile, item, token) {
 
 export const profileService = {
   login,
-  auth,
   getProfileFromId,
   getProfile,
   updateProfile,

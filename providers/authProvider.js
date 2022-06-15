@@ -11,11 +11,17 @@ export const AuthProvider = ({ children }) => {
       const YubiaiLs =
         typeof window !== 'undefined' ? localStorage.getItem('Yubiai') : null
       const Yubiai = YubiaiLs ? JSON.parse(YubiaiLs) : null
-      console.log('Inicio de provider Auth', Yubiai)
 
       const response = Yubiai
         ? await axios.get(
-            `/auth/session/${Yubiai && Yubiai.token ? Yubiai.token : null}`
+            '/auth/session/',
+            Yubiai && Yubiai.token
+              ? {
+                  headers: {
+                    Authorization: `Bearer ${Yubiai.token}`,
+                  },
+                }
+              : null
           )
         : null
 
