@@ -245,7 +245,7 @@ const ItemById = ({ item }) => {
                 3 Opinions
               </Text>
             </Box>
-            <Text>{item.price} DAIs</Text>
+            <Text>{item.price} ETH</Text>
             <Text>0% addtional for Yubiai Fee</Text>
             <Text>0.6% additional for UBI Burner Fee</Text>
             <Flex
