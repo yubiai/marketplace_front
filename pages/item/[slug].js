@@ -89,7 +89,6 @@ const ItemById = ({ item }) => {
   }
 
   const removeFavorite = async () => {
-    console.log('Remove Favorite')
     await profileService
       .removeFavorite(
         (global && global.profile && global.profile._id) || null,

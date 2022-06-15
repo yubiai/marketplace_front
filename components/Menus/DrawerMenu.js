@@ -67,7 +67,6 @@ const DrawerMenu = () => {
     const signerAddress = await loginMetamask()
 
     if (!signerAddress) {
-      console.log('Error al iniciar sesion.')
       toast({
         title: 'Failed to login.',
         description: 'Review application',
@@ -79,9 +78,7 @@ const DrawerMenu = () => {
       return
     }
 
-    console.log('Address: ', signerAddress)
     const result = await profileService.login(signerAddress)
-    console.log(result.data.data)
     dispatch({
       type: 'AUTHPROFILE',
       payload: result.data.data,

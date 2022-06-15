@@ -45,12 +45,10 @@ const MailBoxs = () => {
   const saveMessage = async (message) => {
     await channelService
       .pushMsg(channel._id, message)
-      .then((res) => {
-        console.log(res.data)
+      .then(() => {
         setInputMessage('')
       })
-      .catch((err) => {
-        console.log(err)
+      .catch(() => {
         setInputMessage('')
       })
   }

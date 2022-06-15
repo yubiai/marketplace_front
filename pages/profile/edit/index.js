@@ -32,7 +32,6 @@ const ProfileEdit = () => {
 
   useEffect(() => {
     const initProfile = () => {
-      console.log('se activo')
       if (dataProfile) {
         reset(dataProfile)
       }
@@ -42,7 +41,6 @@ const ProfileEdit = () => {
 
   // Form Submit Preview
   const onSubmit = async (data) => {
-    console.log(data, 'dataaa')
 
     await profileService
       .updateProfile(global.profile._id, data, global?.profile?.token)

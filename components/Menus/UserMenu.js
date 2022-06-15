@@ -34,7 +34,6 @@ const UserMenu = () => {
   }, [global])
 
   const disconnect = () => {
-    console.log('Disconnect')
     dispatch({
       type: 'AUTHPROFILE',
       payload: null,
