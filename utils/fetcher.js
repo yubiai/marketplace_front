@@ -12,8 +12,11 @@ const fetcher = async (url, accessToken) => {
           }
         : null
     )
-    .then((res) => res.data)
+    .then((res) => {
+      return res.data
+    })
     .catch((err) => {
+      console.log(err)
       throw err.response
     })
 }
