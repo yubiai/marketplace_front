@@ -34,7 +34,6 @@ const OrderDetail = () => {
   const [orderDetail, setOrderDetail] = useState({})
   const [transactionData, setTransactionData] = useState({})
   const [operationInProgress, setOperationInProgress] = useState(false)
-  const [orderTransactionStatus, setOrderTransactionStatus] = useState(null)
   const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet';
 
   const loadOrder = async () => {

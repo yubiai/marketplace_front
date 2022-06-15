@@ -134,7 +134,7 @@ const Checkout = () => {
                         cursor='pointer'
                         onClick={() => setMessageOpened(false)}
                     />
-                    <Text>When you click on 'Hire service', your payment will be held and it will be released to the seller 
+                    <Text>When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller 
                         when you get the service.
                     </Text>
                 </Box>
