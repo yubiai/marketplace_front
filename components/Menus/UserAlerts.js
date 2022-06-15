@@ -33,6 +33,7 @@ const UserAlerts = () => {
             _hover={{ bg: '#1C538A', color: 'gray.200' }}
             _expanded={{ bg: 'blue.400' }}
             _focus={{ boxShadow: 'outline' }}
+            isDisabled
           />
           )}
           <Portal>

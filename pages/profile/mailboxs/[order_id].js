@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Container,
   Divider as ChakraDivider,
   Flex,
@@ -28,13 +29,11 @@ const MailBoxs = () => {
     data: channel,
     loading,
     error,
-  } = useFetch(
-    `/channel/orderid/${order_id}`
-  )
+  } = useFetch(`/channel/orderid/${order_id}`)
 
   useEffect(() => {
     const initChannel = async () => {
-      if(channel){
+      if (channel) {
         setMessages(channel.messages)
       }
     }
@@ -69,8 +68,8 @@ const MailBoxs = () => {
     saveMessage(newMessage)
   }
 
-  console.log(channel, "channel")
-  console.log(messages, "messages")
+  console.log(channel, 'channel')
+  console.log(messages, 'messages')
 
   if (loading | !channel) return <Loading />
   if (error) throw error
@@ -81,31 +80,43 @@ const MailBoxs = () => {
         <title>Yubiai Marketplace - Mailbox</title>
       </Head>
 
-      <Container maxW="5xl" display={'flex'} flexDirection={{base: 'column', md: 'column', lg: 'row'}}>
-        <Box w={{base: 'full', lg: '70%'}} h="900px">
-          <Text m="1em">Mailbox the Order ID: {order_id}</Text>
-          <Flex
-            w="100%"
-            h="600px"
-            justify="center"
-            align="center"
-            bg="white"
+      <Container
+        maxW="5xl"
+        display={'flex'}
+        flexDirection={{ base: 'column', md: 'column', lg: 'row' }}
+      >
+        <Box w={{ base: 'full', lg: '70%' }} h="900px">
+          <Button
+            mt="1em"
+            backgroundColor={'#00abd1'}
+            color={'white'}
+            rounded={'full'}
+            ml="1em"
+            cursor={'pointer'}
+            display={{ base: 'none', md: 'flex' }}
+            onClick={() => router.back()}
           >
+            Back
+          </Button>
+          <Text m="1em">Mailbox the Order ID: {order_id}</Text>
+          <Flex w="100%" h="600px" justify="center" align="center" bg="white">
             <Flex w="80%" h="90%" flexDir="column">
               {global && global.profile && (
                 <HeaderChat
-                dataUser={
-                  global && global.profile && global.profile._id !== channel.buyer._id
-                    ? channel.buyer || null
-                    : channel.seller || null
-                }
-                type={
-                  global && global.profile._id !== channel.buyer._id
-                    ? 'Buyer'
-                    : 'Seller'
-                }
-              />
-              )} 
+                  dataUser={
+                    global &&
+                    global.profile &&
+                    global.profile._id !== channel.buyer._id
+                      ? channel.buyer || null
+                      : channel.seller || null
+                  }
+                  type={
+                    global && global.profile._id !== channel.buyer._id
+                      ? 'Buyer'
+                      : 'Seller'
+                  }
+                />
+              )}
               <ChakraDivider
                 w="100%"
                 borderBottomWidth="3px"
@@ -114,11 +125,11 @@ const MailBoxs = () => {
               />
               {global.profile && (
                 <MessagesChat
-                messages={messages}
-                buyer={channel.buyer}
-                seller={channel.seller}
-                me={global && global.profile && global.profile._id}
-              />
+                  messages={messages}
+                  buyer={channel.buyer}
+                  seller={channel.seller}
+                  me={global && global.profile && global.profile._id}
+                />
               )}
               <ChakraDivider
                 w="100%"
@@ -134,8 +145,8 @@ const MailBoxs = () => {
             </Flex>
           </Flex>
         </Box>
-        <Box w={{base: 'full', lg: '30%'}} p="1em">
-          <p>Payment waiting on escrow</p>
+        <Box w={{ base: 'full', lg: '30%' }} p="1em">
+          <p></p>
         </Box>
       </Container>
     </>

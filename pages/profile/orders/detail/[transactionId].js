@@ -6,14 +6,12 @@ import {
   useDispatchGlobal,
 } from '../../../../providers/globalProvider'
 import { getCurrentWallet } from '../../../../utils/walletUtils'
-import {
-  translateStatusIdToNamingInTransaction
-} from '../../../../utils/orderUtils'
+import { translateStatusIdToNamingInTransaction } from '../../../../utils/orderUtils'
 import {
   loadCurrencyPrices,
   loadOrderData,
   setKlerosInstance,
-  setArbitratorInstance
+  setArbitratorInstance,
 } from '../../../../providers/orderProvider'
 import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder'
 import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'
@@ -32,7 +30,7 @@ const OrderDetail = () => {
   const [orderDetail, setOrderDetail] = useState({})
   const [transactionData, setTransactionData] = useState({})
   const [operationInProgress, setOperationInProgress] = useState(false)
-  const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet';
+  const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet'
 
   const loadOrder = async () => {
     const response = await orderService.getOrderByTransaction(transactionId)
@@ -58,10 +56,10 @@ const OrderDetail = () => {
     router.push(`/profile/mailboxs/${_id}`)
   }
 
-  const getTransactionLink = (transactionHash='') => {
+  const getTransactionLink = (transactionHash = '') => {
     return network === 'kovan'
-            ? `https://kovan.etherscan.io/tx/${transactionHash}`
-            :   `https://etherscan.io/tx/${transactionHash}`
+      ? `https://kovan.etherscan.io/tx/${transactionHash}`
+      : `https://etherscan.io/tx/${transactionHash}`
   }
 
   useEffect(() => {
@@ -86,23 +84,29 @@ const OrderDetail = () => {
 
   useEffect(() => {
     const checkAndUpdateDisputeStatus = async () => {
-      const disputeId = (orderDetail.transaction || {}).disputeId;
+      const disputeId = (orderDetail.transaction || {}).disputeId
       if (disputeId) {
-        const disputeStatus = await global.arbitratorInstance.disputeStatus(disputeId);
-        const disputeStatusParsed = translateStatusIdToNamingInTransaction(disputeStatus);
-  
+        const disputeStatus = await global.arbitratorInstance.disputeStatus(
+          disputeId
+        )
+        const disputeStatusParsed =
+          translateStatusIdToNamingInTransaction(disputeStatus)
+
         if (orderDetail.status !== disputeStatusParsed) {
-          const transactionId = (orderDetail.transaction || {}).transactionHash;
-          await orderService.updateOrderStatus(transactionId, disputeStatusParsed);
+          const transactionId = (orderDetail.transaction || {}).transactionHash
+          await orderService.updateOrderStatus(
+            transactionId,
+            disputeStatusParsed
+          )
         }
       }
     }
 
     if (!global.arbitratorInstance) {
       setArbitratorInstance(getCurrentWallet(true), dispatch)
-      return;
+      return
     } else {
-      checkAndUpdateDisputeStatus();
+      checkAndUpdateDisputeStatus()
     }
   }, [global.arbitratorInstance, orderDetail])
 
@@ -116,22 +120,30 @@ const OrderDetail = () => {
       <Heading marginBottom="2rem">OrderDetail</Heading>
       <Box>
         <Text marginBottom="1rem">Order id: {orderDetail._id}</Text>
-        <Box>
+         <Box>
           <Text marginBottom="1rem">Items:</Text>
           {(orderDetail.items || []).map((item, index) => (
             <Box padding="1rem" key={`order-item-${index}`}>
-              <Text>{item.name}</Text>
+              <Text>{item.title}</Text>
               <Text>Price: {item.price || 0}</Text>
               {item.currencySymbolPrice || 'ETH'}
             </Box>
           ))}
-        </Box>
+        </Box> 
         <Text marginBottom="1rem">Transaction hash: </Text>
-        <Link target='_blank'
-              href={getTransactionLink((orderDetail.transaction || {}).transactionHash)}>
-          <Text color='#00abd1' cursor='pointer' wordBreak={'break-all'}>
-            {getTransactionLink((orderDetail.transaction || {}).transactionHash)}
-          </Text>
+        <Link
+          href={getTransactionLink(
+            (orderDetail.transaction || {}).transactionHash
+          )}
+          passHref
+        >
+          <a target="_blank" rel="noopener noreferrer">
+            <Text color="#00abd1" cursor="pointer" wordBreak={'break-all'}>
+              {getTransactionLink(
+                (orderDetail.transaction || {}).transactionHash
+              )}
+            </Text>
+          </a>
         </Link>
       </Box>
       <Box marginTop={'24px'}>
@@ -143,39 +155,41 @@ const OrderDetail = () => {
         </Box>
         {(orderDetail.transaction || {}).transactionIndex &&
           orderDetail.status === 'ORDER_CREATED' && (
-          <Flex marginTop="auto" justifyContent="space-around">
-            {transactionData && transactionData.amount && (
-              <ButtonPayOrder
+            <Flex marginTop="auto" justifyContent="space-around">
+              {transactionData && transactionData.amount && (
+                <ButtonPayOrder
+                  transactionIndex={
+                    (orderDetail.transaction || {}).transactionIndex
+                  }
+                  transactionHash={
+                    (orderDetail.transaction || {}).transactionHash
+                  }
+                  amount={(transactionData.amount || {}).value || 0}
+                  stepsPostAction={loadOrder}
+                  toggleLoadingStatus={toggleLoadingStatus}
+                />
+              )}
+              <ButtonEscrowDispute
                 transactionIndex={
                   (orderDetail.transaction || {}).transactionIndex
                 }
                 transactionHash={
                   (orderDetail.transaction || {}).transactionHash
                 }
-                amount={(transactionData.amount || {}).value || 0}
+                amount={minimumArbitrationFeeUSD}
                 stepsPostAction={loadOrder}
                 toggleLoadingStatus={toggleLoadingStatus}
               />
-            )}
-            <ButtonEscrowDispute
-              transactionIndex={
-                (orderDetail.transaction || {}).transactionIndex
-              }
-              transactionHash={(orderDetail.transaction || {}).transactionHash}
-              amount={minimumArbitrationFeeUSD}
-              stepsPostAction={loadOrder}
-              toggleLoadingStatus={toggleLoadingStatus}
-            />
-          </Flex>
-        )}
+            </Flex>
+          )}
         {transactionData && orderDetail.status === 'ORDER_PAID' && (
           <p>Order paid</p>
         )}
         {transactionData &&
           orderDetail.status === 'ORDER_DISPUTE_RECEIVER_FEE_PENDING' && (
             <p>
-              Dispute pending to start, waiting for seller to pay the arbitration
-              fee.
+              Dispute pending to start, waiting for seller to pay the
+              arbitration fee.
             </p>
           )}
         {transactionData &&

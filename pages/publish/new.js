@@ -238,7 +238,7 @@ const NewPublish = () => {
             {...register('description', { required: true, maxLength: 800 })}
             isRequired
           />
-          <Text mt="2em">Price DAI</Text>
+          <Text mt="2em">Price ETH</Text>
 
           <NumberInput
             onChange={(valueString) => setPriceValue(parse(valueString))}

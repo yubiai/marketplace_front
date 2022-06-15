@@ -8,7 +8,7 @@ const ItemCard = ({ item }) => {
         <Box
           role={'group'}
           p={2}
-          maxW={'155px'}
+          maxW={'180px'}
           w={'full'}
           maxH={'260px'}
           h={'260px'}
