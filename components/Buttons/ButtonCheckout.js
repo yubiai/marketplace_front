@@ -46,7 +46,7 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus }) =
     };
   
     return (
-        <Button bg='#00abd1' color={'white'} onClick={createTransaction}>Checkout</Button>
+        <Button bg='#00abd1' color={'white'} onClick={createTransaction}>Hire service</Button>
     );
 };
 

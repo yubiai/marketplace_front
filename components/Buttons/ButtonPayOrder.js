@@ -25,7 +25,7 @@ const ButtonPayOrder = ({ transactionIndex, amount, transactionHash, stepsPostAc
     };
   
     return (
-        <Button bg='#00abd1' color={'white'} onClick={payOrder}>Pay order</Button>
+        <Button bg='#00abd1' color={'white'} onClick={payOrder}>Release payment</Button>
     );
 };
 
