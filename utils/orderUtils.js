@@ -1,5 +1,21 @@
 const DEFAULT_TIMEOUT = 604800;
 
+const translateStatusIdToNamingInTransaction = (statusId = 0) => {
+    const WAITING_STATUS = 0;
+    const APPEALABLE_STATUS = 1;
+    const SOLVED_STATUS = 2;
+
+    switch (statusId) {
+        case APPEALABLE_STATUS:
+            return 'ORDER_DISPUTE_APPEALABLE';
+        case SOLVED_STATUS:
+            return 'ORDER_DISPUTE_FINISHED';
+        case WAITING_STATUS:
+        default:
+            return 'ORDER_DISPUTE_IN_PROGRESS';
+    }
+}
+
 const getProtocolNamingFromNetwork = () => {
     const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet';
     return network === 'kovan' ? 'Kovan ERC20' : 'ERC20';
@@ -15,7 +31,7 @@ const parseFromAToBToken = (basePrice, tokenA, tokenB) => {
     const priceA = tokenA.price;
     const priceB = tokenB.price;
 
-    const rateValue = (basePrice * priceB) / priceA;
+    const rateValue = (basePrice * priceA) / priceB;
     return rateValue
 }
 
@@ -67,5 +83,6 @@ export {
     totalAmountOrder,
     parsePriceToETHAmount,
     getProtocolNamingFromNetwork,
-    parseFromAToBToken
+    parseFromAToBToken,
+    translateStatusIdToNamingInTransaction
 }

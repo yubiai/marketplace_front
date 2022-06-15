@@ -28,6 +28,7 @@ const Checkout = () => {
     const [orderData, setOrderData] = useState({});
     const [transactionData, setTransactionData] = useState({});
     const [operationInProgress, setOperationInProgress] = useState(false);
+    const [messageOpened, setMessageOpened] = useState(true);
 
     useEffect(() => {
         const loadOrder = async () => {
@@ -115,9 +116,31 @@ const Checkout = () => {
             <Box borderTop='1.5px solid #212121'>
                 <Text><span style={{fontSize: '18px'}}>Total:</span> ${totalAmountOrder(orderData.orders)}</Text>
             </Box>
-            <Flex>
-                <ButtonCheckout style={{display: 'block', margin: '1rem auto'}}
-                                transactionInfo={transactionData}
+            {
+                messageOpened && 
+                <Box bg='#FFFF8A' margin={'1rem 0'}
+                              padding={'1.5rem .5rem'}
+                              borderRadius={2}
+                              position='relative'>
+                    <Image
+                        alt={'Close'}
+                        width={'12px'}
+                        position={'absolute'}
+                        right={2}
+                        top={2}
+                        objectFit={'cover'}
+                        src={'/static/images/close.png'}
+                        fallbackSrc={'/static/images/close.png'}
+                        cursor='pointer'
+                        onClick={() => setMessageOpened(false)}
+                    />
+                    <Text>When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller 
+                        when you get the service.
+                    </Text>
+                </Box>
+            }
+            <Flex justifyContent='center' padding={'1rem 0'}>
+                <ButtonCheckout transactionInfo={transactionData}
                                 toggleLoadingStatus={toggleLoadingStatus}
                                 createOrder={createOrder} />
             </Flex>

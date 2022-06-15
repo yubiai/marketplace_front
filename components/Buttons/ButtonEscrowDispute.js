@@ -20,6 +20,16 @@ const ButtonEscrowDispute = ({
                 transactionIndexParsed, parsedETHPrice)
             if (result) {
                 const status = asSeller ? 'ORDER_DISPUTE_IN_PROGRESS' : 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
+
+                if (asSeller) {
+                    const eventDispute = result.events.Dispute;
+                    if (eventDispute) {
+                        const disputeId = eventDispute.returnValues._disputeID;
+                        await orderService.setDisputeOnOrderTransaction(
+                            transactionHash, parseInt(disputeId, 10));
+                    }
+                }
+
                 await orderService.updateOrderStatus(transactionHash, status);
                 stepsPostAction();
                 toggleLoadingStatus(false);

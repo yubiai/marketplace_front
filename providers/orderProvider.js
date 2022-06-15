@@ -28,11 +28,11 @@ const loadOrderData = async (items = [], currencyPriceList = [], ethPrice=false)
   const { eth_address } = seller;
 
   const currencyContract = currencyPriceList.length ? currencyPriceList.find(
-      currencyItem => currencyItem.symbol === currencySymbol).token_address : {};
+      currencyItem => currencyItem.symbol === currencySymbol) : {};
 
   if (ethPrice) {
     const _contract = currencyPriceList.length ? currencyPriceList.find(
-      currencyItem => currencyItem.symbol === copyItems[0].currencySymbolPrice).token_address : {};
+      currencyItem => currencyItem.symbol === copyItems[0].currencySymbolPrice) : {};
 
     copyItems = copyItems.map(item => ({
       ...item,
@@ -69,7 +69,7 @@ const setArbitratorInstance = (account, dispatch) => {
 const setKlerosInstance = (transactionData, dispatch) => {
   const klerosEscrowRef = new KlerosEscrow(web3);
   klerosEscrowRef.setCourtAndCurrency(
-    'general', (transactionData.amount || {}).currency)
+    'general', (transactionData.amount || {}).currency.token_address)
 
   dispatch({
     type: 'SET_KLEROS_ESCROW_INSTANCE',
