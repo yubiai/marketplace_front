@@ -5,15 +5,17 @@ import {
   useGlobal,
   useDispatchGlobal,
 } from '../../../../providers/globalProvider'
-import { getCurrentWallet } from '../../../../utils/walletUtils'
+// import { getCurrentWallet } from '../../../../utils/walletUtils'
+/*
 import {
   translateStatusIdToNamingInTransaction
 } from '../../../../utils/orderUtils'
+*/
+// Note: Add 'setArbitratorInstance' from orderProvider
 import {
   loadCurrencyPrices,
   loadOrderData,
-  setKlerosInstance,
-  setArbitratorInstance
+  setKlerosInstance
 } from '../../../../providers/orderProvider'
 import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder'
 import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'

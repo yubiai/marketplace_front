@@ -132,9 +132,9 @@ const Checkout = () => {
                         src={'/static/images/close.png'}
                         fallbackSrc={'/static/images/close.png'}
                         cursor='pointer'
-                        onClick={_ => setMessageOpened(false)}
+                        onClick={() => setMessageOpened(false)}
                     />
-                    <Text>When you click on "Hire service", your payment will be held and it will be released to the seller 
+                    <Text>When you click on 'Hire service', your payment will be held and it will be released to the seller 
                         when you get the service.
                     </Text>
                 </Box>

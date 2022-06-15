@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { orderService } from '../../../../services/orderService'
 import { useGlobal, useDispatchGlobal } from '../../../../providers/globalProvider'
-import { getCurrentWallet } from '../../../../utils/walletUtils'
-import { translateStatusIdToNamingInTransaction } from '../../../../utils/orderUtils'
+// import { getCurrentWallet } from '../../../../utils/walletUtils'
+// import { translateStatusIdToNamingInTransaction } from '../../../../utils/orderUtils'
+
+// Note: Add 'setArbitratorInstance' from orderProvider
 import {
     loadCurrencyPrices,
     loadOrderData,
     setKlerosInstance,
-    setArbitratorInstance
 } from '../../../../providers/orderProvider'
 import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'
 import Loading from '../../../../components/Spinners/Loading'
