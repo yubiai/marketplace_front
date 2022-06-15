@@ -36,16 +36,20 @@ import Loading from '../../components/Spinners/Loading'
 import FileUpload from '../../components/Utils/FileUpload'
 import useFetch from '../../hooks/data/useFetch'
 import useUser from '../../hooks/data/useUser'
-import { useGlobal } from '../../providers/globalProvider'
+import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { itemService } from '../../services/itemService'
 import { getListSubCategory } from '../../utils/itemUtils'
+import { loadCurrencyPrices } from '../../providers/orderProvider'
 
 const NewPublish = () => {
   const global = useGlobal()
+  const dispatch = useDispatchGlobal()
   const router = useRouter()
 
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
+
+  const [selectedCurrency, setSelectedCurrency] = useState('ETH')
 
   // State SubCategories
   const [subCategories, setSubCategories] = useState([])
@@ -67,7 +71,12 @@ const NewPublish = () => {
     if (loggedOut) {
       router.replace('/')
     }
-  }, [user, loggedOut, router])
+
+    if (!global.currencyPriceList.length) {
+      loadCurrencyPrices(dispatch)
+      return;
+    }
+  }, [user, loggedOut, router, global.currencyPriceList])
 
   const { data: categories, isLoading, isError } = useFetch('/categories/')
 
@@ -113,6 +122,7 @@ const NewPublish = () => {
     form.append('maxorders', 3)
     form.append('category', data.category)
     form.append('subcategory', data.subcategory)
+    form.append('currencySymbolPrice', selectedCurrency)
 
     // Get Title category and subcategory
     const categorySelected = categories.find(
@@ -238,22 +248,44 @@ const NewPublish = () => {
             {...register('description', { required: true, maxLength: 800 })}
             isRequired
           />
-          <Text mt="2em">Price ETH</Text>
+          <Text mt="2em">Price</Text>
+          <Box margin="1rem 0">
+            {global.currencyPriceList && global.currencyPriceList.length > 0 && (
+              <Box mb="2em">
+                <Select
+                  bg="white"
+                  color="black"
+                  name="currency"
+                  id="currency"
+                  placeholder="Select Currency"
+                  onChange={(e) => {
+                    setSelectedCurrency(e.target.value)
+                  }}
+                >
+                  {global.currencyPriceList.map((currency) => (
+                    <option key={currency._id} value={currency.symbol} id="currency">
+                      {currency.symbol}
+                    </option>
+                  ))}
+                </Select>
+              </Box>
+            )}
+            <NumberInput
+              onChange={(valueString) => setPriceValue(parse(valueString))}
+              value={format(priceValue)}
+              bg="white"
+              min={0.00001}
+              max={999999}
+              isRequired
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </Box>
 
-          <NumberInput
-            onChange={(valueString) => setPriceValue(parse(valueString))}
-            value={format(priceValue)}
-            bg="white"
-            min={0.00001}
-            max={999999}
-            isRequired
-          >
-            <NumberInputField />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
           <Divider />
 
           <Heading mt="1em">Product Images</Heading>
