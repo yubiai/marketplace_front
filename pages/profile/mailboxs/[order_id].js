@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import FooterChat from '../../../components/Mailbox/FooterChat'
 import MessagesChat from '../../../components/Mailbox/MessagesChat'
+import HeaderChat from '../../../components/Mailbox/HeaderChat'
 import Loading from '../../../components/Spinners/Loading'
 import useFetch from '../../../hooks/data/useFetch'
 import { useGlobal } from '../../../providers/globalProvider'
@@ -68,9 +69,10 @@ const MailBoxs = () => {
     saveMessage(newMessage)
   }
 
-  console.log(channel)
+  console.log(channel, "channel")
+  console.log(messages, "messages")
 
-  if (loading) return <Loading />
+  if (loading | !channel) return <Loading />
   if (error) throw error
 
   return (
@@ -90,7 +92,7 @@ const MailBoxs = () => {
             bg="white"
           >
             <Flex w="80%" h="90%" flexDir="column">
-              {/* {global && global.profile && (
+              {global && global.profile && (
                 <HeaderChat
                 dataUser={
                   global && global.profile && global.profile._id !== channel.buyer._id
@@ -103,7 +105,7 @@ const MailBoxs = () => {
                     : 'Seller'
                 }
               />
-              )} */}
+              )} 
               <ChakraDivider
                 w="100%"
                 borderBottomWidth="3px"

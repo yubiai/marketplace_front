@@ -31,7 +31,7 @@ const MessagesChat = ({ messages, buyer, seller, me }) => {
 
         if (item.user === me) {
           return (
-            <>
+            <div key={index}>
               {dates.has(dateNum) ? null : renderDate(item.date, dateNum)}
 
               <Flex key={index} w="100%" justify="flex-end">
@@ -47,7 +47,7 @@ const MessagesChat = ({ messages, buyer, seller, me }) => {
                   <Box>{moment(item.date).format('h:mm a')}</Box>
                 </Box>
               </Flex>
-            </>
+            </div>
           )
         } else {
           return (
