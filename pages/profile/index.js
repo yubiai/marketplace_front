@@ -5,7 +5,7 @@ import MyInfoPohCard from '../../components/Cards/MyInfoPohCard'
 import MyInfoPrivateCard from '../../components/Cards/MyInfoPrivateCard'
 import ProfileMenu from '../../components/Menus/ProfileMenu'
 import Loading from '../../components/Spinners/Loading'
-import { useGlobal } from '../../providers/globalProvider'
+import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
 import useFetch from '../../hooks/data/useFetch'
 import Error from '../../components/Infos/Error'
@@ -15,6 +15,7 @@ import { useRouter } from 'next/router'
 const Profile = () => {
   const global = useGlobal()
   const router = useRouter()
+  const dispatch = useDispatchGlobal()
 
   const { user, loggedOut } = useUser()
 
@@ -22,6 +23,10 @@ const Profile = () => {
   useEffect(() => {
     if (loggedOut) {
       router.replace('/')
+      dispatch({
+        type: 'AUTHPROFILE',
+        payload: null,
+      })
     }
   }, [user, loggedOut, router])
 
@@ -36,7 +41,8 @@ const Profile = () => {
       global && global.profile && global.profile.eth_address
         ? global.profile.eth_address
         : null
-    }`, global && global.profile && global.profile.token
+    }`,
+    global && global.profile && global.profile.token
   )
 
   useEffect(() => {
@@ -50,8 +56,7 @@ const Profile = () => {
     getInitBalance()
   }, [profile])
 
-
-  if (isLoading || !user ) return <Loading />
+  if (isLoading || !user) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />
@@ -75,7 +80,6 @@ const Profile = () => {
           <MyInfoPohCard dataProfile={profile} balance={balanceToken} />
           <Text fontWeight={'bold'}>Personal Info</Text>
           <MyInfoPrivateCard dataProfile={profile} />
-
         </Box>
       </ProfileMenu>
     </>
