@@ -10,7 +10,6 @@ const MetaAlert = () => {
   useEffect(() => {
     const verifyMetamask = () => {
       if (!window.ethereum) {
-        console.log('no hay metamask')
         setVerifyMeta(true)
         return null
       } else {

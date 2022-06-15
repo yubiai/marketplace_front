@@ -9,9 +9,21 @@ import { useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
 import useFetch from '../../hooks/data/useFetch'
 import Error from '../../components/Infos/Error'
+import useUser from '../../hooks/data/useUser'
+import { useRouter } from 'next/router'
 
 const Profile = () => {
   const global = useGlobal()
+  const router = useRouter()
+
+  const { user, loggedOut } = useUser()
+
+  // if logged in, redirect to the home
+  useEffect(() => {
+    if (loggedOut) {
+      router.replace('/')
+    }
+  }, [user, loggedOut, router])
 
   const [balanceToken, setBalanceToken] = useState(null)
 
@@ -24,13 +36,13 @@ const Profile = () => {
       global && global.profile && global.profile.eth_address
         ? global.profile.eth_address
         : null
-    }`
+    }`, global && global.profile && global.profile.token
   )
 
   useEffect(() => {
     const getInitBalance = async () => {
       if (profile) {
-        await balanceUbi1(profile.eth_address.toLowerCase() || null).then((res) => {
+        await balanceUbi1(profile.eth_address || null).then((res) => {
           setBalanceToken(res)
         })
       }
@@ -39,7 +51,7 @@ const Profile = () => {
   }, [profile])
 
 
-  if (isLoading) return <Loading />
+  if (isLoading || !user ) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />

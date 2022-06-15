@@ -24,7 +24,7 @@ const UserMenu = () => {
     const getProfile = async() => {
       if (global && global.profile) {
         setProfileLogin(global.profile)
-        await balanceUbi1(global.profile.eth_address)
+        await balanceUbi1(global.profile.eth_address || null)
           .then((res) => {
             setBalanceToken(res)
           })
@@ -34,7 +34,6 @@ const UserMenu = () => {
   }, [global])
 
   const disconnect = () => {
-    console.log('Disconnect')
     dispatch({
       type: 'AUTHPROFILE',
       payload: null,

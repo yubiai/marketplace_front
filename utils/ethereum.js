@@ -5,7 +5,6 @@ import { etherscanService } from '../services/etherscanService'
 // Login Metamask
 const loginMetamask = async () => {
   if (!window.ethereum) {
-    console.log('no hay metamask')
     return null
   }
 
@@ -28,7 +27,7 @@ const loginMetamask = async () => {
 const balanceUbi1 = (wallet) => {
   let balance = new Promise((resolve, reject) => {
      etherscanService
-      .getBalanceUbi(wallet)
+      .getBalanceUbi(wallet && wallet.toLowerCase())
       .then((res) => {
         let oldBalance = res.data.result
         let newBalance = Number.parseFloat(`${oldBalance}e-18`).toFixed(2)
@@ -58,7 +57,6 @@ const balanceUbi2 = async (wallet) => {
       _Provider
     )
     let balance = await newContract.balanceOf(wallet)
-    console.log(balance)
     balance = ethers.utils.formatEther(balance)
     return balance
   } catch (error) {

@@ -23,7 +23,7 @@ const MyInfoPohCard = ({ dataProfile, balance }) => {
           <Stack
             borderWidth="1px"
             borderRadius="lg"
-            w={{ sm: '100%', md: '100%' }}
+            w={'full'}
             height={{ sm: 'full', md: '10rem' }}
             direction={{ base: 'column', md: 'row' }}
             bg={'white'}

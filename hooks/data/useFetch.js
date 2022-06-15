@@ -1,15 +1,13 @@
-import useSWR from "swr"
+import useSWR from 'swr'
+import fetcher from '../../utils/fetcher'
 
-export default function useFetch (url) {
-    const { data, error } = useSWR(url)
+export default function useFetch(url, token) {
 
-    const message = {
-      message: "Failed to load"
-    }
+  const { data, error } = useSWR([url, token], fetcher)
 
-    return {
-      data,
-      isLoading: !error && !data,
-      isError: error ? message : null
-    }
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error ? error.message : null,
   }
+}

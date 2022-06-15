@@ -44,13 +44,11 @@ const ItemById = ({ item }) => {
   }
 
   const getFavorites = async () => {
-    console.log('Get Favorites')
     let favorites
     setOwner(false)
     await profileService
-      .getFavorites((global && global.profile && global.profile._id) || null)
+      .getFavorites((global && global.profile && global.profile._id) || null, null, global?.profile?.token)
       .then((res) => {
-        console.log(res.data)
         favorites = res.data.items || []
         if (favorites.length > 0) {
           for (let i = 0; i < favorites.length; i++) {
@@ -75,7 +73,7 @@ const ItemById = ({ item }) => {
     await profileService
       .addFavorite(
         (global && global.profile && global.profile._id) || null,
-        item || null
+        item || null, global?.profile?.token
       )
       .then((res) => {
         if (res.status === 200) {
@@ -91,11 +89,10 @@ const ItemById = ({ item }) => {
   }
 
   const removeFavorite = async () => {
-    console.log('Remove Favorite')
     await profileService
       .removeFavorite(
         (global && global.profile && global.profile._id) || null,
-        item || null
+        item || null, global?.profile?.token
       )
       .then((res) => {
         if (res.status === 200) {

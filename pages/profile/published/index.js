@@ -15,7 +15,7 @@ const Published = () => {
     data,
     isLoading,
     isError,
-  } = useFetch(`/profiles/my_published/${global && global.profile && global.profile._id || null}?page=${global.pageIndex}&size=8`);
+  } = useFetch(`/profiles/my_published/${global && global.profile && global.profile._id || null}?page=${global.pageIndex}&size=8`, global?.profile?.token);
 
   if (isLoading) return <Loading />
 

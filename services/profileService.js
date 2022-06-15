@@ -1,48 +1,26 @@
 import axios from 'axios'
-import jwtDecode from 'jwt-decode'
 
 /**
  * Login
  * @param {str} walletAddress
  */
 async function login(walletAddress) {
-  return await axios.post(`/profiles/login`, {
+  return await axios.post(`/auth/login`, {
     walletAddress,
   })
 }
 
 /**
- * Auth
- * @param {str} token
- */
- async function auth(token) {
-  return await axios.post(`/profiles/session`, {
-    token
-  })
-}
-
-/**
- * Get Current User
- */
-async function getCurrentUser() {
-  try {
-    const yubiaiLS = localStorage.getItem('Yubiai')
-    const decodeToken = await jwtDecode(JSON.parse(yubiaiLS.token))
-    return decodeToken
-  } catch (error) {
-    return null
-  }
-}
-
-/**
  * Get profile by _id
  */
- async function getProfileFromId(_id) {
-  try {
-    return await axios.get(`/profiles/${_id}`)
-  } catch (error) {
-    return null;
-  }
+ async function getProfileFromId(_id, token) {
+    return await axios.get(`/profiles/${_id}`,token
+    ? {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    : null)
 }
 
 /**
@@ -58,16 +36,29 @@ async function getProfile(eth_address) {
  * @param {str} id user
  * @param {str} data
  */
-async function updateProfile(profile, data) {
-  return await axios.put(`/profiles/${profile}`, data)
+async function updateProfile(profile, data, token) {
+  return await axios.put(`/profiles/id/${profile}`, data, token
+  ? {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  : null
+  )
 }
 
 /**
  * Get Favorites the perfil
  * @param {str} profile
  */
-async function getFavorites(profile, size) {
-  return await axios.get(`/profiles/favorites/${profile}?size=${size || ""}`)
+async function getFavorites(profile, size, token) {
+  return await axios.get(`/profiles/favorites/${profile}?size=${size || ""}`, token
+  ? {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  : null)
 }
 
 /**
@@ -75,11 +66,17 @@ async function getFavorites(profile, size) {
  * @param {str} profile
  * @param {str} item
  */
-async function addFavorite(profile, item) {
+async function addFavorite(profile, item, token) {
   return await axios.put(`/profiles/favorites/${profile}`, {
     action: 'add',
     item_id: item._id,
-  })
+  }, token
+  ? {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  : null)
 }
 
 /**
@@ -87,30 +84,26 @@ async function addFavorite(profile, item) {
  * @param {str} item
  * @param {str} item
  */
-async function removeFavorite(profile, item) {
+async function removeFavorite(profile, item, token) {
   return await axios.put(`/profiles/favorites/${profile}`, {
     action: 'remove',
     item_id: item._id,
-  })
+  }, token
+  ? {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  : null)
 }
 
-/**
- * Get Favorites the perfil
- * @param {str} profile
- */
- async function getMyPublished(profile) {
-  return await axios.get(`/profiles/my_published/${profile}`)
-}
 
 export const profileService = {
   login,
-  auth,
-  getCurrentUser,
   getProfileFromId,
   getProfile,
   updateProfile,
   getFavorites,
   addFavorite,
-  removeFavorite,
-  getMyPublished
+  removeFavorite
 }

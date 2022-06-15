@@ -1,12 +1,12 @@
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from '../styles/theme'
+export { reportWebVitals } from 'next-axiom';
 
 import '../styles/globals.css'
 import Footer from '../components/Layouts/Footer'
 import Header from '../components/Layouts/Header'
 import Navbar from '../components/Layouts/Navbar'
 
-import { Hide } from '@chakra-ui/react'
 import Axios from 'axios'
 import MetaAlert from '../components/Alerts/metaAlert'
 import { GlobalProvider } from '../providers/globalProvider'
@@ -36,17 +36,15 @@ function MyApp({ Component, pageProps }) {
         <SWRConfig
           value={{
             fetcher,
-            dedupingInterval: 10000,
+            dedupingInterval: 10000
           }}
         >
           <AuthProvider>
-          <Header />
-          <Hide below="md">
+            <Header />
             <Navbar />
-          </Hide>
-          <MetaAlert />
+            <MetaAlert />
             <Component {...pageProps} />
-          <Footer />
+            <Footer />
           </AuthProvider>
         </SWRConfig>
       </GlobalProvider>
