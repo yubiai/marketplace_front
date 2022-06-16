@@ -115,7 +115,7 @@ const Checkout = () => {
             </Flex>
             <Box borderTop='1.5px solid #212121'>
                 <Text><span style={{fontSize: '18px'}}>
-                    Total:</span> {totalAmountOrder(orderData.orders)} {orderData.orders[0].currencySymbolPrice || 'ETH'}
+                    Total:</span> {totalAmountOrder(orderData.orders)} {((orderData.orders || [])[0] || {}).currencySymbolPrice || 'ETH'}
                 </Text>
             </Box>
             {
