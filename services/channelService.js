@@ -11,8 +11,14 @@ export const channelService = {
  * @param {str} data
  */
 
- async function createChannel(body = {}) {
-  return await axios.post('/channel', {...body})
+ async function createChannel(body = {}, token) {
+  return await axios.post('/channel', {...body}, token
+  ? {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  : null)
 }
 
 async function getChannelByOrderId(orderid) {

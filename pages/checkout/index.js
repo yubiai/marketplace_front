@@ -79,7 +79,7 @@ const Checkout = () => {
             order_id: orderId,
             buyer: buyerId,
             seller: sellerId
-        });
+        }, global.profile.token);
 
         toggleLoadingStatus(false);
         router.push(`/profile/orders/detail/${transactionResult.transactionHash}`)
