@@ -107,14 +107,16 @@ const Checkout = () => {
                                     src={orderItem.pictures[0]}/>
                             <Box>
                                 <Text fontWeight='bold' fontSize='18px'>{orderItem.title}</Text>
-                                <Text fontSize='14px'>Price: {orderItem.price}{orderItem.currencySymbolPrice}</Text>
+                                <Text fontSize='14px'>Price: {orderItem.price} {orderItem.currencySymbolPrice || 'ETH'}</Text>
                             </Box>
                         </Flex>
                     ))
                 }
             </Flex>
             <Box borderTop='1.5px solid #212121'>
-                <Text><span style={{fontSize: '18px'}}>Total:</span> ${totalAmountOrder(orderData.orders)}</Text>
+                <Text><span style={{fontSize: '18px'}}>
+                    Total:</span> {totalAmountOrder(orderData.orders)} {((orderData.orders || [])[0] || {}).currencySymbolPrice || 'ETH'}
+                </Text>
             </Box>
             {
                 messageOpened && 
