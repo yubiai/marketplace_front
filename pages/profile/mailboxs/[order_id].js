@@ -14,22 +14,41 @@ import MessagesChat from '../../../components/Mailbox/MessagesChat'
 import HeaderChat from '../../../components/Mailbox/HeaderChat'
 import Loading from '../../../components/Spinners/Loading'
 import useFetch from '../../../hooks/data/useFetch'
-import { useGlobal } from '../../../providers/globalProvider'
+import { useDispatchGlobal, useGlobal } from '../../../providers/globalProvider'
 import { channelService } from '../../../services/channelService'
+import useUser from '../../../hooks/data/useUser'
+import Error from '../../../components/Infos/Error'
 
 const MailBoxs = () => {
   const global = useGlobal()
+  const dispatch = useDispatchGlobal()
   const router = useRouter()
   const { order_id } = router.query
 
   const [messages, setMessages] = useState([])
   const [inputMessage, setInputMessage] = useState('')
 
+  const { user, loggedOut } = useUser()
+
+  // if logged in, redirect to the home
+  useEffect(() => {
+    if (loggedOut) {
+      router.replace('/')
+      dispatch({
+        type: 'AUTHPROFILE',
+        payload: null,
+      })
+    }
+  }, [user, loggedOut, router, dispatch])
+
   const {
     data: channel,
-    loading,
-    error,
-  } = useFetch(`/channel/orderid/${order_id}`)
+    isLoading,
+    isError,
+  } = useFetch(
+    `/channel/orderid/${order_id}`,
+    global && global.profile && global.profile.token
+  )
 
   useEffect(() => {
     const initChannel = async () => {
@@ -44,7 +63,7 @@ const MailBoxs = () => {
 
   const saveMessage = async (message) => {
     await channelService
-      .pushMsg(channel._id, message)
+      .pushMsg(channel._id, message, global.profile.token)
       .then(() => {
         setInputMessage('')
       })
@@ -71,8 +90,11 @@ const MailBoxs = () => {
   console.log(channel, 'channel')
   console.log(messages, 'messages')
 
-  if (loading | !channel) return <Loading />
-  if (error) throw error
+  if (isLoading || !user) return <Loading />
+
+  if (isError) {
+    return <Error error={isError?.message} />
+  }
 
   return (
     <>

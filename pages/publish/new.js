@@ -37,7 +37,7 @@ import FileUpload from '../../components/Utils/FileUpload'
 import useFetch from '../../hooks/data/useFetch'
 import useUser from '../../hooks/data/useUser'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
-import { itemService } from '../../services/itemService'
+import { publishService } from '../../services/publishService'
 import { getListSubCategory } from '../../utils/itemUtils'
 import { loadCurrencyPrices } from '../../providers/orderProvider'
 
@@ -62,6 +62,7 @@ const NewPublish = () => {
   const [stateSubmit, setStateSubmit] = useState(0)
   const [loadingSubmit, setLoadingSubmit] = useState(false)
   const [dataSubmit, setDataSubmit] = useState(null)
+  const [itemSuccess, setItemSuccess] = useState(null)
 
   // Auth
   const { user, loggedOut } = useUser()
@@ -153,11 +154,14 @@ const NewPublish = () => {
     setLoadingSubmit(true)
 
     try {
-      let result = await itemService.newItem(dataSubmit)
-      console.log(result, 'result')
+      let response = await publishService.newItem(dataSubmit, global.profile.token)
+      console.log(response, 'result')
+
+      let slugItem = response.data.result.slug ? response.data.result.slug : null;
 
       setLoadingSubmit(false)
       onClose()
+      setItemSuccess(slugItem)
       setStateSubmit(1)
 
       setTimeout(() => {
@@ -389,7 +393,7 @@ const NewPublish = () => {
                   <SuccessItem />
                 </ModalBody>
                 <ModalFooter>
-                  <Link href="/">
+                  <Link href={itemSuccess ? `/item/${itemSuccess}` : '/'}>
                     <Button>Close</Button>
                   </Link>
                 </ModalFooter>

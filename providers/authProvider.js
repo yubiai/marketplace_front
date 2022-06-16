@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
       await loginMetamask()
 
       const YubiaiLs =
-        typeof window !== 'undefined' ? localStorage.getItem('Yubiai') : null
+        typeof window !== 'undefined' && localStorage.getItem('Yubiai') ? localStorage.getItem('Yubiai') : null
       const Yubiai = YubiaiLs ? JSON.parse(YubiaiLs) : null
 
       const response = Yubiai

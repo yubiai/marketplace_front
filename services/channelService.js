@@ -21,9 +21,14 @@ async function getChannelByOrderId(orderid) {
   )
 }
 
-async function pushMsg(orderid, message){
-  console.log(orderid, message)
+async function pushMsg(orderid, message, token){
   return await axios.post(
-    `/channel/pushmsg/${orderid}`, message
+    `/channel/pushmsg/${orderid}`, message, token
+    ? {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    : null
   )
 }
