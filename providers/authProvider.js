@@ -9,15 +9,15 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const authToken = async () => {
-
       try {
         await loginMetamask()
 
         const YubiaiLs =
-          typeof window !== 'undefined' && localStorage.getItem('Yubiai') ? localStorage.getItem('Yubiai') : null
+          typeof window !== 'undefined' && localStorage.getItem('Yubiai')
+            ? localStorage.getItem('Yubiai')
+            : null
         const Yubiai = YubiaiLs ? JSON.parse(YubiaiLs) : null
-  
-        console.log(Yubiai, "Yubiai")
+
         const response = Yubiai
           ? await axios.get(
               '/auth/session/',
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
                 : null
             )
           : null
-  
+
         const user =
           response && response.data && response.data.walletAddress
             ? await profileService.getProfileFromId(
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
                 Yubiai.token
               )
             : null
-  
+
         if (user && user.status === 200) {
           dispatch({
             type: 'AUTHPROFILE',
@@ -52,12 +52,14 @@ export const AuthProvider = ({ children }) => {
           })
           return
         }
-      } catch(err){
-        console.log(err)
+      } catch (err) {
+        dispatch({
+          type: 'AUTHPROFILE',
+          payload: null,
+        })
+        localStorage.removeItem('Yubiai')
         return
       }
-
-
     }
     authToken()
   }, [dispatch])
