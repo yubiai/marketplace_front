@@ -53,7 +53,6 @@ const ItemById = ({ item }) => {
         if (favorites.length > 0) {
           for (let i = 0; i < favorites.length; i++) {
             if (favorites[i]._id === item._id) {
-              console.log('es favorito')
               setFavorite(true)
               break
             } else {
@@ -62,8 +61,7 @@ const ItemById = ({ item }) => {
           }
         }
       })
-      .catch((err) => {
-        console.log(err)
+      .catch(() => {
         setFavorite(false)
       })
   }

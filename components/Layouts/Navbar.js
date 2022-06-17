@@ -98,6 +98,7 @@ const Navbar = () => {
   const NAV_ITEMS = [
     {
       label: 'Categories',
+      href: '/category/services',
       children: [
         {
           label: 'Services',

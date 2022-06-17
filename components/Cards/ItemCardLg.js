@@ -38,7 +38,6 @@ const ItemCardLg = ({ item }) => {
             <Text
               color={'gray.600'}
               fontSize={'16px'}
-              textTransform={'uppercase'}
             >
               {item.title}
             </Text>

@@ -15,8 +15,6 @@ const ItemsByCategory = ({ response, category }) => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
 
-  console.log(response)
-
   const { data, error } = useSWR(
     `/items/?page=${global.pageIndex}&categoryId=${
       category ? category._id : ''

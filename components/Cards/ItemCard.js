@@ -31,8 +31,7 @@ const ItemCard = ({ item }) => {
             <Divider />
             <Text
               color={'gray.600'}
-              fontSize={'0.7em'}
-              textTransform={'uppercase'}
+              fontSize={'0.9em'}
             >
               {item.title}
             </Text>
