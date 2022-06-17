@@ -45,6 +45,8 @@ const ItemsByCategory = ({ response, category }) => {
     return <Error error={error?.message} />
   }
 
+  console.log(data.items.length)
+
   return (
     <>
       <Head>
@@ -55,10 +57,10 @@ const ItemsByCategory = ({ response, category }) => {
           <Text fontWeight={'bold'}>Categories</Text>
           <MdKeyboardArrowRight />
           <Text fontWeight={'bold'}>{capitalize(category && category.title)}</Text>
-          <MdKeyboardArrowRight />
-          <Text fontWeight={'bold'}>{global.subCategory}</Text>
-        </Flex>
-        <SimpleGrid minChildWidth="250px" spacing="2px">
+          {/*<MdKeyboardArrowRight />
+           <Text fontWeight={'bold'}>{global.subCategory}</Text>
+ */}        </Flex>
+        <SimpleGrid minChildWidth="250px" spacing="1px" h={{base: 'full', sm: 'full', md: data.items.length == 12 ? 'full': '900px'}}>
           {data &&
             data.items.length > 0 &&
             data.items.map((item, i) => {

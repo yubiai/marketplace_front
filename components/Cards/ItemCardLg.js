@@ -1,6 +1,5 @@
 import {
   Box,
-  Center,
   Text,
   Stack,
   Image,
@@ -10,7 +9,7 @@ import Link from 'next/link'
 
 const ItemCardLg = ({ item }) => {
   return (
-    <Center p={2} cursor="pointer">
+    <Box p={2} cursor="pointer">
       <Link href={`/item/${item.slug}`}>
         <Box
           role={'group'}
@@ -53,7 +52,7 @@ const ItemCardLg = ({ item }) => {
           </Stack>
         </Box>
       </Link>
-    </Center>
+    </Box>
   )
 }
 

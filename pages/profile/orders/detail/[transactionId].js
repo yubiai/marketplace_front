@@ -113,7 +113,7 @@ const OrderDetail = () => {
   return (
     <Container
       padding="2rem 0"
-      height={'calc(100vh - 180px)'}
+      height={{base: 'full', sm: 'full', md: '100vh'}}
       position={'relative'}
     >
       {operationInProgress && <Loading styleType={'checkout'} />}

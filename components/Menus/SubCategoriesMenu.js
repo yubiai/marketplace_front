@@ -30,7 +30,7 @@ export default function SubCategoriesMenu({ children, category }) {
 
   return (
     <Box
-      h={{ base: 'full', sm: 'full', md: '70vh', lg: '900px', xl: '900px' }}
+      h={'full'}
       m="2em"
       bg={'gray.100'}
     >
@@ -54,7 +54,7 @@ export default function SubCategoriesMenu({ children, category }) {
       </Drawer>
       {/* mobilenav */}
       <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, md: 60 }} p="4" >
         {children}
       </Box>
     </Box>
