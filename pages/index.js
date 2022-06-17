@@ -83,7 +83,7 @@ const Home = ({ items }) => {
       </Head>
 
       <main>
-        <Box h={{base: "full", sm: "full", md: "full", lg: "100vh", xl: "100vh"}} m="2em">
+        <Box h={{base: "full", sm: "full", md: "full", lg: "full", xl: "100vh"}} m="2em">
           <CarouselCards
             title={'Popular services'}
             items={items}

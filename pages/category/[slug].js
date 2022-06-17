@@ -44,9 +44,7 @@ const ItemsByCategory = ({ response, category }) => {
   if (error) {
     return <Error error={error?.message} />
   }
-
-  console.log(data.items.length)
-
+  
   return (
     <>
       <Head>

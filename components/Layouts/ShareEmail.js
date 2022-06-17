@@ -5,7 +5,7 @@ import { MdKeyboardArrowRight } from 'react-icons/md';
 const ShareEmail = () => {
   return (
     <>
-      <InputGroup backgroundColor={'white'} borderRadius="5px" width={"300px"}>
+      <InputGroup backgroundColor={'white'} borderRadius="5px" width={"300px"} >
         <Input
           variant="filled"
           backgroundColor={'white'}
@@ -13,6 +13,7 @@ const ShareEmail = () => {
           focusBorderColor={'transparent'}
           size="md"
           placeholder={`Contact me, share us your e-mail`}
+          isDisabled
         />
         <InputRightElement
           color="gray.300"
