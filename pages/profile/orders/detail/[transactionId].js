@@ -16,18 +16,16 @@ import {
 } from '../../../../providers/orderProvider'
 import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder'
 import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'
-import Loading from '../../../../components/Spinners/Loading'
 import Link from 'next/link'
+import Loading from '../../../../components/Spinners/Loading'
 
 import {
   Box,
-  Container,
   Text,
   Heading,
   Flex,
   Button,
   Stack,
-  Badge,
   useColorModeValue,
   Center,
   Avatar,
@@ -137,6 +135,7 @@ const OrderDetail = () => {
         />
       </Head>
       <Center py={6}>
+      {operationInProgress && <Loading styleType={'checkout'} />}
         <Box
           maxW={'360px'}
           w={'full'}
