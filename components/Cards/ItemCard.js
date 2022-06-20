@@ -32,12 +32,12 @@ const ItemCard = ({ item }) => {
             <Text
               color={'gray.600'}
               fontSize={'0.9em'}
+              noOfLines={2}
+              maxH="70px"
             >
               {item.title}
             </Text>
-            <Stack
-              direction={'row'} position="absolute" bottom="1"
-            >
+            <Stack direction={'row'} position="absolute" bottom="1">
               <Text fontWeight={800} fontSize={'1ems'}>
                 {item.price}
               </Text>

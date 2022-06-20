@@ -19,7 +19,21 @@ import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDisp
 import Loading from '../../../../components/Spinners/Loading'
 import Link from 'next/link'
 
-import { Box, Container, Text, Heading, Flex, Button } from '@chakra-ui/react'
+import {
+  Box,
+  Container,
+  Text,
+  Heading,
+  Flex,
+  Button,
+  Stack,
+  Badge,
+  useColorModeValue,
+  Center,
+  Avatar,
+  Alert,
+  AlertIcon,
+} from '@chakra-ui/react'
 
 const minimumArbitrationFeeUSD = 90
 
@@ -111,6 +125,8 @@ const OrderDetail = () => {
     }
   }, [global.arbitratorInstance, orderDetail])
 
+  console.log(orderDetail)
+
   return (
     <>
       <Head>
@@ -120,97 +136,135 @@ const OrderDetail = () => {
           content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask"
         />
       </Head>
-      <Container
-        padding="2rem 0"
-        height={{ base: 'full', sm: 'full', md: '100vh' }}
-        position={'relative'}
-      >
-        {operationInProgress && <Loading styleType={'checkout'} />}
-        <Heading marginBottom="2rem">OrderDetail</Heading>
-        <Box>
-          <Text marginBottom="1rem">Order id: {orderDetail._id}</Text>
+      <Center py={6}>
+        <Box
+          maxW={'360px'}
+          w={'full'}
+          bg={useColorModeValue('white', 'gray.900')}
+          boxShadow={'2xl'}
+          rounded={'lg'}
+          p={6}
+          textAlign={'center'}
+        >
+          <Avatar
+            size={'xl'}
+            src={`${
+              orderDetail &&
+              orderDetail.items &&
+              orderDetail?.items[0]?.pictures[0]
+            }`}
+            alt={'Avatar Alt'}
+            mb={4}
+            pos={'relative'}
+            _after={{
+              content: '""',
+              w: 4,
+              h: 4,
+              bg: 'green.300',
+              border: '2px solid white',
+              rounded: 'full',
+              pos: 'absolute',
+              bottom: 0,
+              right: 3,
+            }}
+          />
+          <Heading fontSize={'2xl'} fontFamily={'body'}>
+            Order Detail
+          </Heading>
+          <Text fontWeight={600} color={'gray.500'} mb={4}>
+            Order ID: {orderDetail?._id}
+          </Text>
           <Box>
-            <Text marginBottom="1rem">Items:</Text>
             {(orderDetail.items || []).map((item, index) => (
               <Box padding="1rem" key={`order-item-${index}`}>
-                <Text>{item.title}</Text>
+                <Text noOfLines={3}>{item.title}</Text>
                 <Text>Price: {item.price || 0}</Text>
                 {item.currencySymbolPrice || 'ETH'}
               </Box>
             ))}
           </Box>
-          <Text marginBottom="1rem">Transaction hash: </Text>
-          <Link
-            href={getTransactionLink(
-              (orderDetail.transaction || {}).transactionHash
-            )}
-            passHref
-          >
-            <a target="_blank" rel="noopener noreferrer">
-              <Text color="#00abd1" cursor="pointer" wordBreak={'break-all'}>
-                {getTransactionLink(
-                  (orderDetail.transaction || {}).transactionHash
-                )}
-              </Text>
-            </a>
-          </Link>
-        </Box>
-        <Box marginTop={'24px'}>
-          <Box margin={'2rem 0'}>
-            <Text>Chat</Text>
-            <Button bg="#00abd1" color={'white'} onClick={redirectToChat}>
-              Chat with seller
-            </Button>
-          </Box>
-          {(orderDetail.transaction || {}).transactionIndex &&
-            orderDetail.status === 'ORDER_CREATED' && (
-              <Flex marginTop="auto" justifyContent="space-around">
-                {transactionData && transactionData.amount && (
-                  <ButtonPayOrder
-                    transactionIndex={
-                      (orderDetail.transaction || {}).transactionIndex
-                    }
-                    transactionHash={
-                      (orderDetail.transaction || {}).transactionHash
-                    }
-                    amount={(transactionData.amount || {}).value || 0}
-                    tokenSymbol={
-                      ((orderDetail.items || [])[0] || {})
-                        .currencySymbolPrice || 'ETH'
-                    }
-                    stepsPostAction={loadOrder}
-                    toggleLoadingStatus={toggleLoadingStatus}
-                  />
-                )}
-                <ButtonEscrowDispute
-                  transactionIndex={
-                    (orderDetail.transaction || {}).transactionIndex
-                  }
-                  transactionHash={
+          <Text marginBottom="1rem" fontWeight={'bold'}>
+            Transaction hash:{' '}
+          </Text>
+
+          <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
+            <Link
+              href={getTransactionLink(
+                (orderDetail.transaction || {}).transactionHash
+              )}
+              passHref
+            >
+              <a target="_blank" rel="noopener noreferrer">
+                <Text color="#00abd1" cursor="pointer" wordBreak={'break-all'}>
+                  {getTransactionLink(
                     (orderDetail.transaction || {}).transactionHash
-                  }
-                  amount={minimumArbitrationFeeUSD}
-                  stepsPostAction={loadOrder}
-                  toggleLoadingStatus={toggleLoadingStatus}
-                />
-              </Flex>
-            )}
-          {transactionData && orderDetail.status === 'ORDER_PAID' && (
-            <p>Order paid</p>
-          )}
-          {transactionData &&
-            orderDetail.status === 'ORDER_DISPUTE_RECEIVER_FEE_PENDING' && (
-              <p>
-                Dispute pending to start, waiting for seller to pay the
-                arbitration fee.
-              </p>
-            )}
-          {transactionData &&
-            orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && (
-              <p>Dispute in progress.</p>
-            )}
+                  )}
+                </Text>
+              </a>
+            </Link>
+          </Stack>
+
+          <Stack mt={8} direction={'row'} spacing={4}>
+            <Box marginTop={'24px'}>
+              <Box margin={'2rem 0'}>
+                <Button bg="green" color={'white'} onClick={redirectToChat}>
+                  Chat with seller
+                </Button>
+              </Box>
+              {(orderDetail.transaction || {}).transactionIndex &&
+                orderDetail.status === 'ORDER_CREATED' && (
+                  <Flex marginTop="auto" justifyContent="space-around">
+                    {transactionData && transactionData.amount && (
+                      <ButtonPayOrder
+                        transactionIndex={
+                          (orderDetail.transaction || {}).transactionIndex
+                        }
+                        transactionHash={
+                          (orderDetail.transaction || {}).transactionHash
+                        }
+                        amount={(transactionData.amount || {}).value || 0}
+                        tokenSymbol={
+                          ((orderDetail.items || [])[0] || {})
+                            .currencySymbolPrice || 'ETH'
+                        }
+                        stepsPostAction={loadOrder}
+                        toggleLoadingStatus={toggleLoadingStatus}
+                      />
+                    )}
+                    <ButtonEscrowDispute
+                      transactionIndex={
+                        (orderDetail.transaction || {}).transactionIndex
+                      }
+                      transactionHash={
+                        (orderDetail.transaction || {}).transactionHash
+                      }
+                      amount={minimumArbitrationFeeUSD}
+                      stepsPostAction={loadOrder}
+                      toggleLoadingStatus={toggleLoadingStatus}
+                    />
+                  </Flex>
+                )}
+              {transactionData && orderDetail.status === 'ORDER_PAID' && (
+                <Alert status="success">
+                  <AlertIcon />
+                  Order paid
+                </Alert>
+              )}
+              {transactionData &&
+                orderDetail.status === 'ORDER_DISPUTE_RECEIVER_FEE_PENDING' && (
+                  <p>
+                    Dispute pending to start, waiting for seller to pay the
+                    arbitration fee.
+                  </p>
+                )}
+              {transactionData &&
+                orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && (
+                  <p>Dispute in progress.</p>
+                )}
+            </Box>
+          </Stack>
         </Box>
-      </Container>
+      </Center>
     </>
   )
 }

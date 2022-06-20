@@ -1,7 +1,8 @@
-import { Button } from '@chakra-ui/react'
+import { Button, Center, Spinner } from '@chakra-ui/react'
 import { useGlobal } from '../../providers/globalProvider'
+import Loading from '../Spinners/Loading';
 
-const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus }) => {
+const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress }) => {
     const global = useGlobal()
     const { amount, recipient, timeout, title, description, extraData } = transactionInfo
     const metaEvidence = {
@@ -44,9 +45,17 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus }) =
             toggleLoadingStatus(false);
         }
     };
+
   
     return (
-        <Button bg='#00abd1' color={'white'} onClick={createTransaction}>Hire service</Button>
+       <>
+        {operationInProgress && (
+        <Center >
+            <Spinner />
+        </Center>
+        )}
+        <Button bg='#00abd1' color={'white'} onClick={createTransaction} isDisabled={operationInProgress && operationInProgress}>Hire service</Button>
+       </>
     );
 };
 
