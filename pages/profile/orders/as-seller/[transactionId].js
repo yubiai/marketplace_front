@@ -15,6 +15,7 @@ import {
 } from '../../../../providers/orderProvider'
 import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'
 import Loading from '../../../../components/Spinners/Loading'
+import Head from 'next/head'
 
 import { Box, Container, Text, Heading, Flex, Button } from '@chakra-ui/react'
 
@@ -117,6 +118,14 @@ const OrderDetail = () => {
   }, [global.arbitratorInstance, orderDetail])
 
   return (
+    <>
+    <Head>
+        <title>Yubiai Marketplace - Order As Seller</title>
+        <meta
+          name="keywords"
+          content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask"
+        />
+      </Head>
     <Container
       padding="2rem 0"
       height={{ base: 'full', sm: 'full', md: '100vh' }}
@@ -169,6 +178,7 @@ const OrderDetail = () => {
           )}
       </Box>
     </Container>
+    </>
   )
 }
 
