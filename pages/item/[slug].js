@@ -242,13 +242,13 @@ const ItemById = ({ item }) => {
               mt="5px"
               alignItems={'center'}
             >
-              <MdOutlineStar color="00abd1" />
-              <MdOutlineStar color="00abd1" />
-              <MdOutlineStar color="00abd1" />
-              <MdOutlineStar color="00abd1" />
-              <MdOutlineStar color="00abd1" />
+              <MdStarOutline color="00abd1" />
+              <MdStarOutline color="00abd1" />
+              <MdStarOutline color="00abd1" />
+              <MdStarOutline color="00abd1" />
+              <MdStarOutline color="00abd1" />
               <Text color="#323232" fontSize="14px" fontWeight="300">
-                3 Opinions
+                0 Opinions
               </Text>
             </Box>
             <Text>{item.price} {item.currencySymbolPrice || 'ETH'}</Text>
