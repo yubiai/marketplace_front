@@ -10,7 +10,7 @@ import {
   useToast,
 } from '@chakra-ui/react'
 // import { FaBeer } from 'react-icons/fa';
-import { MdOutlineStar, MdStarOutline, MdStar } from 'react-icons/md'
+import { MdStarOutline, MdStar } from 'react-icons/md'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
