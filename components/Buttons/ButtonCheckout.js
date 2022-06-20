@@ -1,6 +1,5 @@
 import { Button, Center, Spinner } from '@chakra-ui/react'
 import { useGlobal } from '../../providers/globalProvider'
-import Loading from '../Spinners/Loading';
 
 const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress }) => {
     const global = useGlobal()
