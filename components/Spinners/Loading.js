@@ -6,7 +6,7 @@ const styles = {
     left: 0,
     background: 'rgba(42, 42, 42, 0.2)',
     zIndex: 1,
-    height: '500px'
+    height: 'full'
   }
 };
 
@@ -25,7 +25,7 @@ const Loading = ({ styleType }) => {
   const spinnerStyleImp = spinnerStyles[styleType];
 
   return (
-    <Container style={myStyles || null} maxW='container.xl' h='100vh'>
+    <Container style={myStyles || null} maxW='100%' h='100vh'>
       <Center mt="5em" style={spinnerStyleImp || null}>
         <Spinner
           thickness="4px"

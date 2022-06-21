@@ -139,6 +139,10 @@ const OrderDetail = () => {
           content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask"
         />
       </Head>
+      <Box
+          h={{ base: 'full', sm: 'full', md: 'full', lg: 'full', xl: '80vh' }}
+          m="2em"
+        >
       {operationInProgress && <Loading styleType={'checkout'} />}
       <Center py={6}>
         <Box
@@ -230,6 +234,7 @@ const OrderDetail = () => {
           </Stack>
         </Box>
       </Center>
+      </Box>
     </>
   )
 }

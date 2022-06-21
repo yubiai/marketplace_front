@@ -30,10 +30,15 @@ const Orders = () => {
     }
   }, [user, loggedOut, router, dispatch])
 
-  const { data, isLoading, isError} = useFetch(
+  const {
+    data,
+    isLoading,
+    isError,
+  } = useFetch(
     `/orders/buyer/${
       global && global.profile && global.profile.eth_address
-    }?page=${global.pageIndex}&size=4`
+    }?page=${global.pageIndex}&size=4`,
+    global && global.profile && global.profile.token
   )
 
 

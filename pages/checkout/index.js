@@ -61,14 +61,17 @@ const Checkout = () => {
 
   const createOrder = async (transactionResult = {}) => {
     const currentWalletAccount = await global.klerosEscrowInstance.getAccount()
-    const orderResponse = await orderService.createOrder({
-      order: {
-        items: [...orderData.orders],
-        userBuyer: currentWalletAccount,
-        status: 'ORDER_CREATED',
+    const orderResponse = await orderService.createOrder(
+      {
+        order: {
+          items: [...orderData.orders],
+          userBuyer: currentWalletAccount,
+          status: 'ORDER_CREATED',
+        },
+        transactionInfo: transactionResult,
       },
-      transactionInfo: transactionResult,
-    }, global?.profile?.token)
+      global?.profile?.token
+    )
     const { data } = orderResponse
     const { result } = data
 
@@ -103,73 +106,75 @@ const Checkout = () => {
             content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask"
           />
         </Head>
-        <Center py={6}>
-          <Box
-            maxW={'360px'}
-            w={'full'}
-            bg={'white'}
-            boxShadow={'2xl'}
-            rounded={'lg'}
-            p={6}
-            textAlign={'center'}
-          >
-            <Avatar
-              size={'xl'}
-              src={orderData.orders && orderData.orders[0].pictures[0]}
-              alt={'Avatar Alt'}
-              mb={4}
-              pos={'relative'}
-              _after={{
-                content: '""',
-                w: 4,
-                h: 4,
-                bg: 'green.300',
-                border: '2px solid white',
-                rounded: 'full',
-                pos: 'absolute',
-                bottom: 0,
-                right: 3,
-              }}
-            />
-            <Heading fontSize={'2xl'} fontFamily={'body'}>
-            Order summary
-
-            </Heading>
-            <Text fontWeight={600} color={'gray.500'} mb={4}>
-            Price: {orderData.orders && orderData.orders[0].price}{' '}
-                      {orderData.orders && orderData.orders[0].currencySymbolPrice || 'ETH'}
-            </Text>
-            <Text
+        <Box
+          h={{ base: 'full', sm: 'full', md: 'full', lg: 'full', xl: '100vh' }}
+          m="2em"
+        >
+          <Center py={6}>
+            <Box
+              maxW={'360px'}
+              w={'full'}
+              bg={'white'}
+              boxShadow={'2xl'}
+              rounded={'lg'}
+              p={6}
               textAlign={'center'}
-              color={'gray.700'}
-              px={3}
             >
-              {orderData.orders && orderData.orders[0].title} 
-            </Text>
-
-            <Stack
-              align={'center'}
-              justify={'center'}
-              direction={'row'}
-              mt={6}
-            ></Stack>
-            <Alert status="warning">
-              <AlertIcon />
-              When you click on &apos;Hire service&apos;, your payment will be
-              held and it will be released to the seller when you get the
-              service.{' '}
-            </Alert>
-
-            <Stack mt={8}>
-              <ButtonCheckout
-                transactionInfo={transactionData}
-                toggleLoadingStatus={toggleLoadingStatus}
-                createOrder={createOrder}
-                operationInProgress={operationInProgress}
+              <Avatar
+                size={'xl'}
+                src={orderData.orders && orderData.orders[0].pictures[0]}
+                alt={'Avatar Alt'}
+                mb={4}
+                pos={'relative'}
+                _after={{
+                  content: '""',
+                  w: 4,
+                  h: 4,
+                  bg: 'green.300',
+                  border: '2px solid white',
+                  rounded: 'full',
+                  pos: 'absolute',
+                  bottom: 0,
+                  right: 3,
+                }}
               />
-            </Stack>
-          </Box>
-        </Center>
+              <Heading fontSize={'2xl'} fontFamily={'body'}>
+                Order summary
+              </Heading>
+              <Text fontWeight={600} color={'gray.500'} mb={4}>
+                Price: {orderData.orders && orderData.orders[0].price}{' '}
+                {(orderData.orders &&
+                  orderData.orders[0].currencySymbolPrice) ||
+                  'ETH'}
+              </Text>
+              <Text textAlign={'center'} color={'gray.700'} px={3}>
+                {orderData.orders && orderData.orders[0].title}
+              </Text>
+
+              <Stack
+                align={'center'}
+                justify={'center'}
+                direction={'row'}
+                mt={6}
+              ></Stack>
+              <Alert status="warning">
+                <AlertIcon />
+                When you click on &apos;Hire service&apos;, your payment will be
+                held and it will be released to the seller when you get the
+                service.{' '}
+              </Alert>
+
+              <Stack mt={8}>
+                <ButtonCheckout
+                  transactionInfo={transactionData}
+                  toggleLoadingStatus={toggleLoadingStatus}
+                  createOrder={createOrder}
+                  operationInProgress={operationInProgress}
+                />
+              </Stack>
+            </Box>
+          </Center>
+        </Box>
       </>
     )
   )

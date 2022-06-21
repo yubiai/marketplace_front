@@ -77,9 +77,9 @@ const setKlerosInstance = (transactionData, dispatch) => {
   })
 }
 
-const loadCurrencyPrices = async (dispatch) => {
+const loadCurrencyPrices = async (dispatch, global) => {
   const naming = getProtocolNamingFromNetwork();
-  const resp = await priceService.getCurrencyPrices(naming);
+  const resp = await priceService.getCurrencyPrices(naming, global && global.profile && global.profile.token);
   const { data } = resp;
   dispatch({
       type: 'SET_CURRENCY_PRICE_LIST',
