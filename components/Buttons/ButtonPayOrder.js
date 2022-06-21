@@ -34,7 +34,7 @@ const ButtonPayOrder = ({ transactionIndex, amount, transactionHash, stepsPostAc
     };
   
     return (
-        <Button bg='#00abd1' color={'white'} onClick={payOrder}>Release payment</Button>
+        <Button bg='#00abd1' m="5px" color={'white'} onClick={payOrder}>Release payment</Button>
     );
 };
 

@@ -88,6 +88,7 @@ const Home = ({ items }) => {
             title={'Popular services'}
             items={items}
           />
+          {favorites === null && <Loading />}
           {favorites === true && (
             <CarouselCards
               title={'Your favorites'}

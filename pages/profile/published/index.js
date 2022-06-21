@@ -26,7 +26,7 @@ const Published = () => {
   return (
     <>
       <Head>
-        <title>Yubiai Marketplace - Favorites</title>
+        <title>Yubiai Marketplace - Published</title>
         <meta
           name="keywords"
           content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask"
