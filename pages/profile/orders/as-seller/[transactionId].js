@@ -43,7 +43,8 @@ const OrderDetail = () => {
   }
 
   const loadOrder = async () => {
-    const response = await orderService.getOrderByTransaction(transactionId)
+    const response = await orderService.getOrderByTransaction(
+      transactionId, global?.profile?.token)
     const { data } = response
     const orderInfo = data.result
 
@@ -74,7 +75,7 @@ const OrderDetail = () => {
     }
 
     if (!global.currencyPriceList.length) {
-      loadCurrencyPrices(dispatch)
+      loadCurrencyPrices(dispatch, global)
       return
     }
 
@@ -102,7 +103,8 @@ const OrderDetail = () => {
           const transactionId = (orderDetail.transaction || {}).transactionHash
           await orderService.updateOrderStatus(
             transactionId,
-            disputeStatusParsed
+            disputeStatusParsed,
+            global?.profile?.token
           )
         }
       }

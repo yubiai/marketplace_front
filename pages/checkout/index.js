@@ -40,7 +40,7 @@ const Checkout = () => {
         }
 
         if (!global.currencyPriceList.length) {
-            loadCurrencyPrices(dispatch)
+            loadCurrencyPrices(dispatch, global)
             return;
         }
 
@@ -67,7 +67,7 @@ const Checkout = () => {
                 status: 'ORDER_CREATED'
             },
             transactionInfo: transactionResult
-        });
+        }, global?.profile?.token);
         const { data } = orderResponse;
         const { result } = data;
 
