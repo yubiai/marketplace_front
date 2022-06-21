@@ -27,11 +27,12 @@ const ButtonEscrowDispute = ({
                     if (eventDispute) {
                         const disputeId = eventDispute.returnValues._disputeID;
                         await orderService.setDisputeOnOrderTransaction(
-                            transactionHash, parseInt(disputeId, 10));
+                            transactionHash, parseInt(disputeId, 10), global?.profile?.token);
                     }
                 }
 
-                await orderService.updateOrderStatus(transactionHash, status);
+                await orderService.updateOrderStatus(
+                    transactionHash, status, global?.profile?.token);
                 stepsPostAction();
                 toggleLoadingStatus(false);
             }

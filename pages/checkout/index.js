@@ -68,7 +68,7 @@ const Checkout = () => {
         status: 'ORDER_CREATED',
       },
       transactionInfo: transactionResult,
-    })
+    }, global?.profile?.token)
     const { data } = orderResponse
     const { result } = data
 

@@ -74,7 +74,7 @@ const NewPublish = () => {
     }
 
     if (!global.currencyPriceList.length) {
-      loadCurrencyPrices(dispatch)
+      loadCurrencyPrices(dispatch, global)
       return;
     }
   }, [user, loggedOut, router, global.currencyPriceList])

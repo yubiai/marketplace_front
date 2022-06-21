@@ -14,13 +14,15 @@ const ButtonPayOrder = ({ transactionIndex, amount, transactionHash, stepsPostAc
 
             if (tokenSymbol !== 'ETH') {
                 await global.klerosEscrowInstance.pay(parsedTransactionIndex, amountToWei)
-                await orderService.updateOrderStatus(transactionHash, 'ORDER_PAID');
+                await orderService.updateOrderStatus(
+                    transactionHash, 'ORDER_PAID', global?.profile?.token);
                 stepsPostAction();
                 toggleLoadingStatus(false);
             } else {
                 global.klerosEscrowInstance.pay(parsedTransactionIndex, amountToWei);
                 window.setTimeout(async () => {
-                    await orderService.updateOrderStatus(transactionHash, 'ORDER_PAID');
+                    await orderService.updateOrderStatus(
+                        transactionHash, 'ORDER_PAID', global?.profile?.token);
                     stepsPostAction();
                     toggleLoadingStatus(false);
                 }, 5000);

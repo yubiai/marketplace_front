@@ -4,8 +4,14 @@ export const priceService = {
   getCurrencyPrices
 }
 
-async function getCurrencyPrices(protocol='') {
+async function getCurrencyPrices(protocol='', token) {
   let url = protocol ? `/prices?protocol=${protocol}` : '/prices'
 
-  return await axios.get(url)
+  return await axios.get(url, token
+    ? {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    : null)
 }
