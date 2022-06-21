@@ -52,7 +52,6 @@ const Footer = () => {
           src={'/static/images/logoyubiai.png'}
           fallbackSrc={'/static/images/logoyubiai.png'}
         />
-        <Text>v0.1</Text>
         <ShareEmail />
         <Center display={{ base: 'none', md: 'flex' }}>
           <Link mr={'1em'} href="https://gov.proofofhumanity.id/" isExternal>
