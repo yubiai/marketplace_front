@@ -7,6 +7,7 @@ import {
   Link,
   VisuallyHidden,
   Center,
+  Text,
 } from '@chakra-ui/react'
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
 import ShareEmail from './ShareEmail'
@@ -25,7 +26,6 @@ const SocialButton = ({ children, label, href }) => {
       alignItems={'center'}
       justifyContent={'center'}
       transition={'background 0.3s ease'}
-      
     >
       <VisuallyHidden>{label}</VisuallyHidden>
       {children}
@@ -35,11 +35,7 @@ const SocialButton = ({ children, label, href }) => {
 
 const Footer = () => {
   return (
-    <Box
-      bg={'yb.1'}
-      color={'white'}
-      position="revert"
-    >
+    <Box bg={'yb.1'} color={'white'} position="revert">
       <Container
         as={Stack}
         maxW={'6xl'}
@@ -56,18 +52,19 @@ const Footer = () => {
           src={'/static/images/logoyubiai.png'}
           fallbackSrc={'/static/images/logoyubiai.png'}
         />
+        <Text>v0.1</Text>
         <ShareEmail />
         <Center display={{ base: 'none', md: 'flex' }}>
-          <Link mr={"1em"} href="https://gov.proofofhumanity.id/" isExternal>
+          <Link mr={'1em'} href="https://gov.proofofhumanity.id/" isExternal>
             Governance Forum
           </Link>
-          <Link mr={"1em"} href="https://snapshot.org/#/" isExternal>
+          <Link mr={'1em'} href="https://snapshot.org/#/" isExternal>
             Snapshot
           </Link>
-          <Link mr={"1em"} href="https://app.democracy.earth/#/" isExternal>
+          <Link mr={'1em'} href="https://app.democracy.earth/#/" isExternal>
             UBI Vaults
           </Link>
-          <Link mr={"1em"} href="https://court.kleros.io/" isExternal>
+          <Link mr={'1em'} href="https://court.kleros.io/" isExternal>
             Kleros
           </Link>
         </Center>
