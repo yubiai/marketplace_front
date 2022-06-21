@@ -41,7 +41,7 @@ const Checkout = () => {
     }
 
     if (!global.currencyPriceList.length) {
-      loadCurrencyPrices(dispatch)
+      loadCurrencyPrices(dispatch, global)
       return
     }
 
