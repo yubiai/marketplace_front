@@ -6,8 +6,7 @@ import {
   Stack,
   Link,
   VisuallyHidden,
-  Center,
-  Text,
+  Center
 } from '@chakra-ui/react'
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
 import ShareEmail from './ShareEmail'
