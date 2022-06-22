@@ -48,7 +48,7 @@ const Header = () => {
             </Button>
           </Box>
           <Text>
-            asdasdas
+            Test
           </Text>
 
           {/* Search */}
