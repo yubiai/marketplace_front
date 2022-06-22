@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { profileService } from '../services/profileService'
 import { loginMetamask } from '../utils/ethereum'
 import { useDispatchGlobal } from './globalProvider'
+import Cookies from 'js-cookie'
 
 export const AuthProvider = ({ children }) => {
   const dispatch = useDispatchGlobal()
@@ -18,17 +19,14 @@ export const AuthProvider = ({ children }) => {
             : null
         const Yubiai = YubiaiLs ? JSON.parse(YubiaiLs) : null
 
+        const Ybcookies = Cookies.get('Yubiai') ? Cookies.get('Yubiai') : null
+
         const response = Yubiai
-          ? await axios.get(
-              '/auth/session/',
-              Yubiai && Yubiai.token
-                ? {
-                    headers: {
-                      Authorization: `Bearer ${Yubiai.token}`,
-                    },
-                  }
-                : null
-            )
+          ? await axios.get('/auth/session/', {
+              headers: {
+                Authorization: `Bearer ${Yubiai.token ? Yubiai.token : Ybcookies}`,
+              }
+            })
           : null
 
         const user =

@@ -79,10 +79,17 @@ const DrawerMenu = () => {
     }
 
     const result = await profileService.login(signerAddress)
+    const data = result.data.data;
     dispatch({
       type: 'AUTHPROFILE',
-      payload: result.data.data,
+      payload: data
     })
+    const yubiaiLS = {
+      token: result.data.token,
+      wallet: data.eth_address
+    }
+
+    localStorage.setItem('Yubiai', JSON.stringify(yubiaiLS))
     toast({
       title: 'Login',
       description: 'You have successfully logged in, Welcome!',

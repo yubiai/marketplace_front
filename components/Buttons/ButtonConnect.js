@@ -2,6 +2,7 @@ import { Button, useToast } from '@chakra-ui/react'
 import { loginMetamask } from '../../utils/ethereum'
 import { profileService } from '../../services/profileService'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
+import Cookies from 'js-cookie'
 
 const ButtonConnect = () => {
   const toast = useToast()
@@ -33,6 +34,8 @@ const ButtonConnect = () => {
       token: result.data.token,
       wallet: data.eth_address
     }
+
+    Cookies.set('Yubiai', result.data.token, { expires: 1, secure: true })
     localStorage.setItem('Yubiai', JSON.stringify(yubiaiLS))
     toast({
       title: 'Login',
