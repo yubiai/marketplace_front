@@ -51,6 +51,7 @@ const Footer = () => {
         py={2}
         direction={{ base: 'column', md: 'row' }}
         spacing={3}
+        mt="3em"
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
