@@ -11,15 +11,14 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
-import ShareEmail from './ShareEmail'
 
 const SocialButton = ({ children, label, href }) => {
   return (
     <chakra.button
       bg={'blackAlpha.100'}
       rounded={'full'}
-      w={8}
-      h={8}
+      w={12}
+      h={12}
       cursor={'pointer'}
       as={'a'}
       href={href}
@@ -42,7 +41,7 @@ const Footer = () => {
       <Container
         as={Stack}
         maxW={'6xl'}
-        py={4}
+        py={2}
         direction={{ base: 'column', md: 'row' }}
         spacing={3}
         justify={{ base: 'center', md: 'space-between' }}
@@ -64,8 +63,6 @@ const Footer = () => {
             fallbackSrc={'/static/images/logoyubiai.png'}
           />
         </Button>
-
-        <ShareEmail />
         <Center display={{ base: 'none', md: 'flex' }}>
           <Link mr={'1em'} href="https://gov.proofofhumanity.id/" isExternal>
             Governance Forum
@@ -82,13 +79,13 @@ const Footer = () => {
         </Center>
         <Stack direction={'row'} spacing={6}>
           <SocialButton label={'Twitter'} href={'https://twitter.com/YubiaiM'}>
-            <FaTwitter />
+            <FaTwitter fontSize={25} />
           </SocialButton>
           <SocialButton label={'YouTube'} href={'/'}>
-            <FaYoutube />
+            <FaYoutube fontSize={25} />
           </SocialButton>
           <SocialButton label={'Instagram'} href={'/'}>
-            <FaInstagram />
+            <FaInstagram fontSize={25} />
           </SocialButton>
         </Stack>
       </Container>
