@@ -241,7 +241,7 @@ const NewPublish = () => {
           <Input
             placeholder="Title"
             bg="white"
-            {...register('title', { required: true, maxLength: 150 })}
+            {...register('title', { required: true, maxLength: 72 })}
             isRequired
           />
 
