@@ -92,7 +92,6 @@ const ProfileEdit = () => {
               placeholder="Address"
               bg="white"
               {...register('address', { maxLength: 150 })}
-              isRequired
             />
             <Text mt="2em">City</Text>
             <Input
