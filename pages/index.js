@@ -40,6 +40,11 @@ const Home = ({ items }) => {
             if (favorites.length > 0) {
               setListFavorites(favorites)
               setFavorites(true)
+            } 
+            if(favorites.length === 0){
+              setListFavorites([])
+              setFavorites(false)
+              arrayRandom()
             }
           })
           .catch((err) => {

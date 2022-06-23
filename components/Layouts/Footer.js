@@ -8,9 +8,11 @@ import {
   VisuallyHidden,
   Center,
   Button,
+  Tooltip,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
+import { FaTelegramPlane, FaTwitter, FaYoutube } from 'react-icons/fa'
+import { SiLinktree } from 'react-icons/si'
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -37,7 +39,12 @@ const Footer = () => {
   const router = useRouter()
 
   return (
-    <Box bg={'yb.1'} color={'white'} position="revert">
+    <Box
+      bg={'yb.1'}
+      color={'white'}
+      position="revert"
+      h={{ base: '150px', sm: 'full' }}
+    >
       <Container
         as={Stack}
         maxW={'6xl'}
@@ -50,7 +57,7 @@ const Footer = () => {
         <Button
           bg="transparent"
           p="1.5em"
-          onClick={() => router.push("/")}
+          onClick={() => router.push('/')}
           _hover={{
             bg: '#1C538A',
           }}
@@ -77,15 +84,26 @@ const Footer = () => {
             Kleros
           </Link>
         </Center>
-        <Stack direction={'row'} spacing={6} h="4em">
-          <SocialButton label={'Twitter'} href={'https://twitter.com/YubiaiM'}>
-            <FaTwitter fontSize={25} />
+        <Stack direction={'row'} spacing={6}>
+          <Tooltip label="Twitter">
+            <SocialButton
+              label={'Twitter'}
+              href={'https://twitter.com/YubiaiM'}
+            >
+              <FaTwitter fontSize={20} />
+            </SocialButton>
+          </Tooltip>
+          <SocialButton label={'Linktree'} href={'https://linktr.ee/Yubiai'}>
+            <SiLinktree fontSize={20} />
           </SocialButton>
-          <SocialButton label={'YouTube'} href={'/'}>
+          <SocialButton label={'Telegram'} href={'https://t.me/yubiai'}>
+            <FaTelegramPlane fontSize={25} />
+          </SocialButton>
+          <SocialButton
+            label={'YouTube'}
+            href={'https://www.youtube.com/channel/UCbxVCRRIO3xGnZuPywJ_0TA'}
+          >
             <FaYoutube fontSize={25} />
-          </SocialButton>
-          <SocialButton label={'Instagram'} href={'/'}>
-            <FaInstagram fontSize={25} />
           </SocialButton>
         </Stack>
       </Container>

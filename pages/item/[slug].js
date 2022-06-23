@@ -60,6 +60,9 @@ const ItemById = ({ item }) => {
             }
           }
         }
+        if(favorites.length === 0){
+          setFavorite(false)
+        }
       })
       .catch(() => {
         setFavorite(false)
