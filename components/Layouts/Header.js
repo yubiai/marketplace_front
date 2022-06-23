@@ -6,7 +6,6 @@ import {
   Container,
   Image,
   Center,
-  Text,
 } from '@chakra-ui/react'
 import LanguageChange from '../Menus/LanguageChange'
 import DrawerMenu from '../Menus/DrawerMenu'
@@ -47,9 +46,6 @@ const Header = () => {
               </Link>
             </Button>
           </Box>
-          <Text>
-            Test
-          </Text>
 
           {/* Search */}
           <Center w={{ base: 'full', md: 'md' }} mt={{md: '15px'}}>
