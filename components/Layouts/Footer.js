@@ -77,7 +77,7 @@ const Footer = () => {
             Kleros
           </Link>
         </Center>
-        <Stack direction={'row'} spacing={6}>
+        <Stack direction={'row'} spacing={6} h="4em">
           <SocialButton label={'Twitter'} href={'https://twitter.com/YubiaiM'}>
             <FaTwitter fontSize={25} />
           </SocialButton>
