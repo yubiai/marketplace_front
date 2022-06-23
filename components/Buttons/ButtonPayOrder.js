@@ -12,20 +12,12 @@ const ButtonPayOrder = ({ transactionIndex, amount, transactionHash, stepsPostAc
 
             const amountToWei = global.klerosEscrowInstance.web3.utils.toWei(amount.toString());
 
-            if (tokenSymbol !== 'ETH') {
-                await global.klerosEscrowInstance.pay(parsedTransactionIndex, amountToWei)
+            const result = await global.klerosEscrowInstance.pay(parsedTransactionIndex, amountToWei)
+            if (result) {
                 await orderService.updateOrderStatus(
                     transactionHash, 'ORDER_PAID', global?.profile?.token);
                 stepsPostAction();
                 toggleLoadingStatus(false);
-            } else {
-                global.klerosEscrowInstance.pay(parsedTransactionIndex, amountToWei);
-                window.setTimeout(async () => {
-                    await orderService.updateOrderStatus(
-                        transactionHash, 'ORDER_PAID', global?.profile?.token);
-                    stepsPostAction();
-                    toggleLoadingStatus(false);
-                }, 5000);
             }
         } catch (e) {
             console.log('Error creating an Escrow contract: ', e);
