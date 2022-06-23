@@ -70,7 +70,7 @@ const Profile = () => {
       <ProfileMenu>
         <Box
           maxW="6xl"
-          h={'full'}
+          h={{base: 'full', sm: 'full', md: '80vh'}}
           display={'flex'}
           flexDirection={'column'}
           w={{ base: 'full' }}

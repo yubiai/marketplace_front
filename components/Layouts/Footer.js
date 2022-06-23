@@ -6,8 +6,10 @@ import {
   Stack,
   Link,
   VisuallyHidden,
-  Center
+  Center,
+  Button,
 } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'
 import ShareEmail from './ShareEmail'
 
@@ -33,6 +35,8 @@ const SocialButton = ({ children, label, href }) => {
 }
 
 const Footer = () => {
+  const router = useRouter()
+
   return (
     <Box bg={'yb.1'} color={'white'} position="revert">
       <Container
@@ -44,13 +48,23 @@ const Footer = () => {
         justify={{ base: 'center', md: 'space-between' }}
         align={{ base: 'center', md: 'center' }}
       >
-        <Image
-          alt={'Logo'}
-          w={'5em'}
-          h={'2em'}
-          src={'/static/images/logoyubiai.png'}
-          fallbackSrc={'/static/images/logoyubiai.png'}
-        />
+        <Button
+          bg="transparent"
+          p="1.5em"
+          onClick={() => router.push("/")}
+          _hover={{
+            bg: '#1C538A',
+          }}
+        >
+          <Image
+            alt={'Logo'}
+            w={'5em'}
+            h={'2em'}
+            src={'/static/images/logoyubiai.png'}
+            fallbackSrc={'/static/images/logoyubiai.png'}
+          />
+        </Button>
+
         <ShareEmail />
         <Center display={{ base: 'none', md: 'flex' }}>
           <Link mr={'1em'} href="https://gov.proofofhumanity.id/" isExternal>

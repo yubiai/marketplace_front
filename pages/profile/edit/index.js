@@ -1,4 +1,4 @@
-import { Box, Button, Container, Heading, Input, Text } from '@chakra-ui/react'
+import { Box, Button, Container, Heading, Input, Text, useToast } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
@@ -13,6 +13,7 @@ import { profileService } from '../../../services/profileService'
 const ProfileEdit = () => {
   const global = useGlobal()
   const router = useRouter()
+  const toast = useToast()
 
   // State useForm
   const { handleSubmit, register, reset } = useForm()
@@ -39,6 +40,17 @@ const ProfileEdit = () => {
     initProfile()
   }, [dataProfile, reset])
 
+  const actionToat = (title, description, status) => {
+    toast({
+      title,
+      description: description,
+      position: 'top-right',
+      status: status,
+      duration: 5000,
+      isClosable: true,
+    })
+  }
+
   // Form Submit Preview
   const onSubmit = async (data) => {
 
@@ -46,9 +58,11 @@ const ProfileEdit = () => {
       .updateProfile(global.profile._id, data, global?.profile?.token)
       .then((res) => {
         console.log(res)
+        actionToat("Profile", res.data && res.data.message , "success")
       })
       .catch((err) => {
         console.log(err)
+        actionToat("Profile", err.response && err.response.data && err.response.data.message, "error")
       })
   }
 
@@ -65,7 +79,7 @@ const ProfileEdit = () => {
       </Head>
       <ProfileMenu>
         <Container maxW="2xl" display={'flex'} flexDirection={'column'}>
-          <Heading mt="1em">Ediy My Profile</Heading>
+          <Heading mt="1em">Edit My Profile</Heading>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Text mt="2em">Real Name</Text>
             <Input
