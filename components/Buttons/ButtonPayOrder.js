@@ -2,7 +2,7 @@ import { Button } from '@chakra-ui/react';
 import { useGlobal } from '../../providers/globalProvider';
 import { orderService } from '../../services/orderService';
 
-const ButtonPayOrder = ({ transactionIndex, amount, transactionHash, stepsPostAction, toggleLoadingStatus, tokenSymbol }) => {
+const ButtonPayOrder = ({ transactionIndex, amount, transactionHash, stepsPostAction, toggleLoadingStatus }) => {
     const global = useGlobal()
     const payOrder = async () => {
         try {

@@ -228,10 +228,6 @@ const OrderDetail = () => {
                           (orderDetail.transaction || {}).transactionHash
                         }
                         amount={(transactionData.amount || {}).value || 0}
-                        tokenSymbol={
-                          ((orderDetail.items || [])[0] || {})
-                            .currencySymbolPrice || 'ETH'
-                        }
                         stepsPostAction={loadOrder}
                         toggleLoadingStatus={toggleLoadingStatus}
                       />
