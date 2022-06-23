@@ -20,7 +20,7 @@ const ItemsByCategory = ({ response, category }) => {
       category ? category._id : ''
     }&subcategoryId=${global.subCategory ? global.subCategory : ''}`,
     {
-      initialData: response
+      initialData: response,
     }
   )
 
@@ -44,7 +44,7 @@ const ItemsByCategory = ({ response, category }) => {
   if (error) {
     return <Error error={error?.message} />
   }
-  
+
   return (
     <>
       <Head>
@@ -54,11 +54,23 @@ const ItemsByCategory = ({ response, category }) => {
         <Flex alignItems={'center'}>
           <Text fontWeight={'bold'}>Categories</Text>
           <MdKeyboardArrowRight />
-          <Text fontWeight={'bold'}>{capitalize(category && category.title)}</Text>
+          <Text fontWeight={'bold'}>
+            {capitalize(category && category.title)}
+          </Text>
           {/*<MdKeyboardArrowRight />
            <Text fontWeight={'bold'}>{global.subCategory}</Text>
- */}        </Flex>
-        <SimpleGrid minChildWidth="250px" spacing="1px" w={'full'} h={{base: 'full', sm: 'full', md: data.items.length == 12 ? 'full': '900px'}}>
+ */}{' '}
+        </Flex>
+        <SimpleGrid
+          minChildWidth="250px"
+          spacing="1px"
+          w={'full'}
+          h={{
+            base: 'full',
+            sm: 'full',
+            md: data.items.length == 12 ? 'full' : '900px',
+          }}
+        >
           {data &&
             data.items.length > 0 &&
             data.items.map((item, i) => {
@@ -80,7 +92,7 @@ export async function getStaticProps({ params }) {
   try {
     const { slug } = params
     const resCategory = await axios.get(`/categories/slug/${slug}`)
-    const category = resCategory.data.result;
+    const category = resCategory.data.result
     const resItems = await axios.get(
       `/items/?size=12&categoryId=${category._id}`
     )
@@ -89,7 +101,7 @@ export async function getStaticProps({ params }) {
     return { props: { response, category } }
   } catch (err) {
     console.log(err)
-    return { notFound: true };
+    return { notFound: true }
   }
 }
 

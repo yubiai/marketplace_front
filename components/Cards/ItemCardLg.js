@@ -4,16 +4,18 @@ import {
   Stack,
   Image,
   Divider,
+  Center,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 
 const ItemCardLg = ({ item }) => {
   return (
-    <Box p={2} cursor="pointer">
+   <Center>
+     <Box p={2} cursor="pointer">
       <Link href={`/item/${item.slug}`}>
         <Box
           role={'group'}
-          maxW={'262px'}
+          maxW={{base: '374px', sm: '374px', md: '262px'}}
           w={'full'}
           maxH={'400px'}
           h={'378px'}
@@ -28,7 +30,7 @@ const ItemCardLg = ({ item }) => {
             alt="Img Item"
             borderTopRadius="lg"
             height={'280px'}
-            width={'262px'}
+            width={{base: '374px', sm: '374px', md: '262px'}}
             objectFit={'cover'}
             src={item.pictures[0]}
           />
@@ -53,6 +55,7 @@ const ItemCardLg = ({ item }) => {
         </Box>
       </Link>
     </Box>
+   </Center>
   )
 }
 
