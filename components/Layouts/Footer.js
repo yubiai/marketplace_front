@@ -43,7 +43,7 @@ const Footer = () => {
       bg={'yb.1'}
       color={'white'}
       position="revert"
-      h={{ base: '150px', sm: 'full' }}
+      h={{ base: '160px', sm: 'full' }}
     >
       <Container
         as={Stack}
@@ -85,25 +85,25 @@ const Footer = () => {
           </Link>
         </Center>
         <Stack direction={'row'} spacing={6}>
-          <Tooltip label="Twitter">
+          <Tooltip label='Search places' bg='red.600' placement='top'>
             <SocialButton
               label={'Twitter'}
               href={'https://twitter.com/YubiaiM'}
             >
-              <FaTwitter fontSize={20} />
+              <FaTwitter fontSize={22} />
             </SocialButton>
           </Tooltip>
           <SocialButton label={'Linktree'} href={'https://linktr.ee/Yubiai'}>
-            <SiLinktree fontSize={20} />
+            <SiLinktree fontSize={22} />
           </SocialButton>
           <SocialButton label={'Telegram'} href={'https://t.me/yubiai'}>
-            <FaTelegramPlane fontSize={25} />
+            <FaTelegramPlane fontSize={22} />
           </SocialButton>
           <SocialButton
             label={'YouTube'}
             href={'https://www.youtube.com/channel/UCbxVCRRIO3xGnZuPywJ_0TA'}
           >
-            <FaYoutube fontSize={25} />
+            <FaYoutube fontSize={22} />
           </SocialButton>
         </Stack>
       </Container>

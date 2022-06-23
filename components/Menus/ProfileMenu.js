@@ -31,7 +31,7 @@ const LinkItems = [
 export default function ProfileMenu({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
-    <Box minH={{base: "full", md: "70vh"}} bg={'gray.100'}>
+    <Box minH={{base: "full", md: "80vh"}} bg={'gray.100'}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
@@ -66,7 +66,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       borderRightColor={'gray.200'}
       w={{ base: 'full', md: 60 }}
       pos="absolute"
-      h="80vh"
+      h="70vh"
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
