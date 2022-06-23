@@ -43,7 +43,7 @@ const Footer = () => {
       bg={'yb.1'}
       color={'white'}
       position="revert"
-      h={{ base: '160px', sm: 'full' }}
+      h={'full'}
     >
       <Container
         as={Stack}
