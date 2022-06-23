@@ -48,7 +48,7 @@ const Favorites = () => {
       <ProfileMenu>
         <Container
           maxW="6xl"
-          h={{ base: data?.items?.length < 2 ? '80vh' : 'full', md: data?.items.length === 0 ? '80vh' : '900px' }}
+          h={{ base: data?.items?.length < 2 ? '80vh' : 'full', md: data?.items.length === 0 ? '80vh' : 'full' }}
           display={'flex'}
           flexDirection={'column'}
         >
