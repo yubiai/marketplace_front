@@ -7,8 +7,7 @@ import {
   Link,
   VisuallyHidden,
   Center,
-  Button,
-  Tooltip,
+  Button
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { FaTelegramPlane, FaTwitter, FaYoutube } from 'react-icons/fa'
@@ -39,12 +38,7 @@ const Footer = () => {
   const router = useRouter()
 
   return (
-    <Box
-      bg={'yb.1'}
-      color={'white'}
-      position="revert"
-      h={'full'}
-    >
+    <Box bg={'yb.1'} color={'white'} position="revert" h={'full'}>
       <Container
         as={Stack}
         maxW={'6xl'}
@@ -86,14 +80,9 @@ const Footer = () => {
           </Link>
         </Center>
         <Stack direction={'row'} spacing={6}>
-          <Tooltip label='Search places' bg='red.600' placement='top'>
-            <SocialButton
-              label={'Twitter'}
-              href={'https://twitter.com/YubiaiM'}
-            >
-              <FaTwitter fontSize={22} />
-            </SocialButton>
-          </Tooltip>
+          <SocialButton label={'Twitter'} href={'https://twitter.com/YubiaiM'}>
+            <FaTwitter fontSize={22} />
+          </SocialButton>
           <SocialButton label={'Linktree'} href={'https://linktr.ee/Yubiai'}>
             <SiLinktree fontSize={22} />
           </SocialButton>
