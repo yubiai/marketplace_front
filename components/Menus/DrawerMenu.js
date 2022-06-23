@@ -188,6 +188,7 @@ const DrawerMenu = () => {
                         w="full"
                         bg="transparent"
                         justifyContent={'left'}
+                        isDisabled
                       >
                         <ListIcon as={BsFillBellFill} />
                         Notifications

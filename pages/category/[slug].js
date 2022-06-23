@@ -58,7 +58,7 @@ const ItemsByCategory = ({ response, category }) => {
           {/*<MdKeyboardArrowRight />
            <Text fontWeight={'bold'}>{global.subCategory}</Text>
  */}        </Flex>
-        <SimpleGrid minChildWidth="250px" spacing="1px" h={{base: 'full', sm: 'full', md: data.items.length == 12 ? 'full': '900px'}}>
+        <SimpleGrid minChildWidth="250px" spacing="1px" w={'full'} h={{base: 'full', sm: 'full', md: data.items.length == 12 ? 'full': '900px'}}>
           {data &&
             data.items.length > 0 &&
             data.items.map((item, i) => {
