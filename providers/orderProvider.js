@@ -20,10 +20,9 @@ const getAccount = async () => {
   return accounts;
 }
 
-const loadOrderData = async (items = [], currencyPriceList = [], ethPrice=false) => {
-  let copyItems = [...items];
-  const seller = copyItems[0].seller;
-  const currencySymbol = ethPrice ? 'ETH' : copyItems[0].currencySymbolPrice || 'ETH';
+const loadOrderData = async (item = {}, currencyPriceList = [], ethPrice=false) => {
+  const seller = item.seller;
+  const currencySymbol = ethPrice ? 'ETH' : item.currencySymbolPrice || 'ETH';
 
   const { eth_address } = seller;
 
@@ -32,19 +31,14 @@ const loadOrderData = async (items = [], currencyPriceList = [], ethPrice=false)
 
   if (ethPrice) {
     const _contract = currencyPriceList.length ? currencyPriceList.find(
-      currencyItem => currencyItem.symbol === copyItems[0].currencySymbolPrice) : {};
+      currencyItem => currencyItem.symbol === item.currencySymbolPrice) : {};
 
-    copyItems = copyItems.map(item => ({
-      ...item,
-      price: item.currencySymbolPrice !== 'ETH' ?
-        parseFromAToBToken(
-          item.price, _contract, currencyContract) :
-        item.price
-    }));
+    item.price = item.currencySymbolPrice !== 'ETH' ? parseFromAToBToken(
+      item.price, _contract, currencyContract) : item.price
   }
 
   const result = parseItemIntoOrderTransaction(
-    copyItems,
+    item,
     eth_address,
     currencyContract
   )
@@ -79,7 +73,8 @@ const setKlerosInstance = (transactionData, dispatch) => {
 
 const loadCurrencyPrices = async (dispatch, global) => {
   const naming = getProtocolNamingFromNetwork();
-  const resp = await priceService.getCurrencyPrices(naming, global && global.profile && global.profile.token);
+  const resp = await priceService.getCurrencyPrices(
+    naming, global && global.profile && global.profile.token);
   const { data } = resp;
   dispatch({
       type: 'SET_CURRENCY_PRICE_LIST',

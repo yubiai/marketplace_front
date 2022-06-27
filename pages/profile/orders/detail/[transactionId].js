@@ -47,12 +47,12 @@ const OrderDetail = () => {
 
   const loadOrder = async () => {
     const response = await orderService.getOrderByTransaction(
-      transactionId, global?.profile?.token)
+      transactionId, global.profile.token)
     const { data } = response
     const orderInfo = data.result
 
     const { transaction } = await loadOrderData(
-      orderInfo.items,
+      orderInfo.item,
       global.currencyPriceList,
       true
     )
@@ -81,20 +81,21 @@ const OrderDetail = () => {
       return
     }
 
-    if (!global.currencyPriceList.length) {
+    if (!global.currencyPriceList.length && (global.profile || {}).token) {
       loadCurrencyPrices(dispatch, global)
       return
     }
 
-    if (!(transactionData || {}).extraData) {
+    if (!(transactionData || {}).extraData && (global.profile || {}).token) {
       loadOrder()
-    } else {
+    } else if((transactionData || {}).extraData) {
       if (!global.klerosEscrowInstance) {
         setKlerosInstance({ ...transactionData }, dispatch)
       }
       return
     }
-  }, [transactionId, transactionData, global.currencyPriceList])
+  }, [global.profile, transactionId, transactionData, global.currencyPriceList])
+
 
   useEffect(() => {
     const checkAndUpdateDisputeStatus = async () => {
@@ -118,14 +119,15 @@ const OrderDetail = () => {
     }
 
     if (!global.arbitratorInstance) {
-      setArbitratorInstance(getCurrentWallet(true), dispatch)
+      const wallet = getCurrentWallet(true);
+      if (wallet) {
+        setArbitratorInstance(wallet, dispatch)
+      }
       return
     } else {
       checkAndUpdateDisputeStatus()
     }
   }, [global.arbitratorInstance, orderDetail])
-
-  console.log(orderDetail)
 
   return (
     <>
@@ -155,8 +157,8 @@ const OrderDetail = () => {
             size={'xl'}
             src={`${
               orderDetail &&
-              orderDetail.items &&
-              orderDetail?.items[0]?.pictures[0]
+              orderDetail.item &&
+              orderDetail?.item?.pictures[0]
             }`}
             alt={'Avatar Alt'}
             mb={4}
@@ -180,13 +182,14 @@ const OrderDetail = () => {
             Order ID: {orderDetail?._id}
           </Text>
           <Box>
-            {(orderDetail.items || []).map((item, index) => (
-              <Box padding="1rem" key={`order-item-${index}`}>
-                <Text noOfLines={3}>{item.title}</Text>
-                <Text>Price: {item.price || 0}</Text>
-                {item.currencySymbolPrice || 'ETH'}
+            {
+              orderDetail.item && 
+              <Box padding="1rem">
+                <Text noOfLines={3}>{orderDetail.item.title}</Text>
+                <Text>Price: {orderDetail.item.price || 0}</Text>
+                {orderDetail.item.currencySymbolPrice || 'ETH'}
               </Box>
-            ))}
+            }
           </Box>
           <Text marginBottom="1rem" fontWeight={'bold'}>
             Transaction hash:{' '}

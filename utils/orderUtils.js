@@ -41,26 +41,26 @@ const totalAmountOrder = (orders = []) => {
 };
 
 const parseItemIntoOrderTransaction = (
-    items = [],
+    item = {},
     recipient,
     currencyContract='',
     timeout=DEFAULT_TIMEOUT
 ) => {
-    const generatedDescription = items.map(item => item.title).join(',')
-    const compiledItemIds = items.map(item => item._id).join(',#')
+    const generatedDescription = item.title
+    const compiledItemIds = item._id
 
     const now = new Date()
     const month = now.getMonth() + 1
     const day = now.getDate() + 1
     const date = `${now.getFullYear()}-${month < 10 ? `0${month}` : month }-${day < 10 ? `0${day}` : day }`
 
-    const generatedTitle = `Order for items: ${compiledItemIds}, Date ${date}`
+    const generatedTitle = `Order for item: ${compiledItemIds}, Date ${date}`
 
-    const totalOrderValue = totalAmountOrder(items)
+    const totalOrderValue = item.price
 
     return {
         orderInfo: {
-            orders: [...items]
+            item
         },
         transaction: {
             title: generatedTitle,

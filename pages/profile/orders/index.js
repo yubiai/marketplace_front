@@ -67,11 +67,11 @@ const Orders = () => {
           <Flex alignItems={'center'} mt="1em">
             <Text fontWeight={'bold'}>Orders</Text>
           </Flex>
-          {data &&
-            data.items.length > 0 &&
-            data.items.map((order, i) => {
-              return <OrderCard order={order} key={i} />
-            })}
+          {
+            data &&
+            data.item &&
+            <OrderCard order={data.item} />
+          }
           <Paginations data={data ? data : null} />
         </Container>
       </ProfileMenu>
