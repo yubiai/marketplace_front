@@ -86,7 +86,7 @@ const SidebarContent = ({ onClose, subcategories, ...rest }) => {
       borderRightColor={'gray.200'}
       w={{ base: 'full', md: 60 }}
       pos="absolute"
-      h="900px"
+      h="800px"
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">

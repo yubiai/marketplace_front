@@ -1,4 +1,4 @@
-import { Flex, SimpleGrid, Text } from '@chakra-ui/react'
+import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
 import SubCategoriesMenu from '../../components/Menus/SubCategoriesMenu'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import ItemCardLg from '../../components/Cards/ItemCardLg'
@@ -16,7 +16,7 @@ const ItemsByCategory = ({ response, category }) => {
   const dispatch = useDispatchGlobal()
 
   const { data, error } = useSWR(
-    `/items/?page=${global.pageIndex}&categoryId=${
+    `/items/?page=${global.pageIndex}&size=8&categoryId=${
       category ? category._id : ''
     }&subcategoryId=${global.subCategory ? global.subCategory : ''}`,
     {
@@ -51,33 +51,39 @@ const ItemsByCategory = ({ response, category }) => {
         <title>Yubiai Marketplace - {category.title}</title>
       </Head>
       <SubCategoriesMenu category={category._id}>
-        <Flex alignItems={'center'}>
-          <Text fontWeight={'bold'}>Categories</Text>
-          <MdKeyboardArrowRight />
-          <Text fontWeight={'bold'}>
-            {capitalize(category && category.title)}
-          </Text>
-          {/*<MdKeyboardArrowRight />
+        <Box h={{base: data &&
+              data.items.length > 1 ? "full" : "80vh", md: data &&
+              data.items.length > 4 ? "full" : "80vh"}}>
+          <Flex>
+            <Text fontWeight={'bold'}>Categories</Text>
+            <MdKeyboardArrowRight />
+            <Text fontWeight={'bold'}>
+              {capitalize(category && category.title)}
+            </Text>
+            {/*<MdKeyboardArrowRight />
            <Text fontWeight={'bold'}>{global.subCategory}</Text>
  */}{' '}
-        </Flex>
-        <SimpleGrid
-          minChildWidth="250px"
-          spacing="1px"
-          w={'full'}
-          h={{
-            base: 'full',
-            sm: 'full',
-            md: data.items.length == 12 ? 'full' : '900px',
-          }}
-        >
-          {data &&
-            data.items.length > 0 &&
-            data.items.map((item, i) => {
-              return <ItemCardLg key={i} item={item} />
-            })}
-        </SimpleGrid>
-        <Paginations data={data} />
+          </Flex>
+          <Grid
+            templateRows={{ base: 'repeat(1, 1fr)', md: 'none' }}
+            templateColumns={{ base: 'none', md: 'repeat(4, 1fr)' }}
+            gap={1}
+          >
+            {data &&
+              data.items.length > 0 &&
+              data.items.map((item, i) => {
+                return (
+                  <>
+                    <GridItem w="100%" h="100%">
+                      <ItemCardLg key={i} item={item} />
+                    </GridItem>
+                  </>
+                )
+              })}
+          </Grid>
+
+          <Paginations data={data} />
+        </Box>
       </SubCategoriesMenu>
     </>
   )
@@ -94,7 +100,7 @@ export async function getStaticProps({ params }) {
     const resCategory = await axios.get(`/categories/slug/${slug}`)
     const category = resCategory.data.result
     const resItems = await axios.get(
-      `/items/?size=12&categoryId=${category._id}`
+      `/items/?size=8&categoryId=${category._id}`
     )
     const response = resItems.data
 

@@ -10,7 +10,6 @@ import Link from 'next/link'
 
 const ItemCardLg = ({ item }) => {
   return (
-   <Center>
      <Box p={2} cursor="pointer">
       <Link href={`/item/${item.slug}`}>
         <Box
@@ -55,7 +54,6 @@ const ItemCardLg = ({ item }) => {
         </Box>
       </Link>
     </Box>
-   </Center>
   )
 }
 

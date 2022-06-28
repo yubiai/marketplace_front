@@ -67,7 +67,7 @@ import {
         <ProfileMenu>
           <Container
             maxW="6xl"
-            h={{ base: 'full', sm: 'full', md: 'full' }}
+            h={{ base: data && data.items && data.items.length > 1 ? 'full' : '70vh', sm: data && data.items && data.items.length > 1 ? 'full' : '85vh', md: 'full' }}
             display={'flex'}
             flexDirection={'column'}
           >
