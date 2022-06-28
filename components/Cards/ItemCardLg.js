@@ -4,7 +4,6 @@ import {
   Stack,
   Image,
   Divider,
-  Center,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 
