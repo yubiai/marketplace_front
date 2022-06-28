@@ -54,7 +54,7 @@ const ItemsByCategory = ({ response, category }) => {
         <Box
           h={{
             base: data && data.items.length > 1 ? 'full' : '80vh',
-            md: data && data.items.length > 4 ? 'full' : '80vh',
+            md: data && data.items.length > 4 ? 'full' : '100vh'
           }}
         >
           <Flex alignItems={'center'}>
