@@ -51,10 +51,13 @@ const ItemsByCategory = ({ response, category }) => {
         <title>Yubiai Marketplace - {category.title}</title>
       </Head>
       <SubCategoriesMenu category={category._id}>
-        <Box h={{base: data &&
-              data.items.length > 1 ? "full" : "80vh", md: data &&
-              data.items.length > 4 ? "full" : "80vh"}}>
-          <Flex>
+        <Box
+          h={{
+            base: data && data.items.length > 1 ? 'full' : '80vh',
+            md: data && data.items.length > 4 ? 'full' : '80vh',
+          }}
+        >
+          <Flex alignItems={'center'}>
             <Text fontWeight={'bold'}>Categories</Text>
             <MdKeyboardArrowRight />
             <Text fontWeight={'bold'}>
