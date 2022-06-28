@@ -144,8 +144,8 @@ const ItemById = ({ item }) => {
 
   const buyAndCheckoutItem = () => {
     dispatch({
-      type: 'SET_ITEMS_TO_CHECKOUT',
-      payload: [item],
+      type: 'SET_ITEM_TO_CHECKOUT',
+      payload: item,
     })
     router.push('/checkout')
   }

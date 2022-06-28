@@ -32,7 +32,7 @@ const Checkout = () => {
   useEffect(() => {
     const loadOrder = async () => {
       const result = await loadOrderData(
-        [...global.itemsToCheckout],
+        {...global.itemToCheckout},
         global.currencyPriceList
       )
       const { orderInfo, transaction } = result
@@ -45,7 +45,7 @@ const Checkout = () => {
       return
     }
 
-    if (!global.itemsToCheckout.length) {
+    if (!global.itemToCheckout) {
       return
     }
 
@@ -57,15 +57,16 @@ const Checkout = () => {
       }
       return
     }
-  }, [transactionData, global.itemsToCheckout, global.currencyPriceList])
+  }, [transactionData, global.itemToCheckout, global.currencyPriceList])
 
   const createOrder = async (transactionResult = {}) => {
     const currentWalletAccount = await global.klerosEscrowInstance.getAccount()
     const orderResponse = await orderService.createOrder(
       {
         order: {
-          items: [...orderData.orders],
+          itemId: orderData.item._id,
           userBuyer: currentWalletAccount,
+          userSeller: orderData.item.seller._id,
           status: 'ORDER_CREATED',
         },
         transactionInfo: transactionResult,
@@ -77,7 +78,7 @@ const Checkout = () => {
 
     const orderId = result._id
     const buyerId = global.profile._id
-    const sellerId = orderData.orders[0].seller._id
+    const sellerId = orderData.item.seller._id
 
     await channelService.createChannel(
       {
@@ -122,7 +123,7 @@ const Checkout = () => {
             >
               <Avatar
                 size={'xl'}
-                src={orderData.orders && orderData.orders[0].pictures[0]}
+                src={orderData.item && orderData.item.pictures[0]}
                 alt={'Avatar Alt'}
                 mb={4}
                 pos={'relative'}
@@ -142,13 +143,13 @@ const Checkout = () => {
                 Order summary
               </Heading>
               <Text fontWeight={600} color={'gray.500'} mb={4}>
-                Price: {orderData.orders && orderData.orders[0].price}{' '}
-                {(orderData.orders &&
-                  orderData.orders[0].currencySymbolPrice) ||
+                Price: {orderData.item && orderData.item.price}{' '}
+                {(orderData.item &&
+                  orderData.item.currencySymbolPrice) ||
                   'ETH'}
               </Text>
               <Text textAlign={'center'} color={'gray.700'} px={3}>
-                {orderData.orders && orderData.orders[0].title}
+                {orderData.item && orderData.item.title}
               </Text>
 
               <Stack

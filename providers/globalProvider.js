@@ -13,7 +13,7 @@ const initialState = {
   profile: null,
   klerosEscrowInstance: null,
   arbitratorInstance: null,
-  itemsToCheckout: [],
+  itemToCheckout: null,
   currencyPriceList: [],
 }
 
@@ -50,10 +50,10 @@ const reducer = (state, action) => {
         ...state,
         arbitratorInstance: action.payload
       }
-    case 'SET_ITEMS_TO_CHECKOUT':
+    case 'SET_ITEM_TO_CHECKOUT':
       return {
         ...state,
-        itemsToCheckout: [...action.payload],
+        itemToCheckout: {...action.payload},
       }
     case 'SET_CURRENCY_PRICE_LIST':
       return {
