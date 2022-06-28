@@ -294,6 +294,14 @@ const NewPublish = () => {
                       {currency.symbol}
                     </option>
                   ))}
+                  <option
+                      key={"Ubi"}
+                      value={""}
+                      id="currency"
+                      disabled
+                    >
+                      UBI (Coming Soon!)
+                    </option>
                 </Select>
               </Box>
             )}
