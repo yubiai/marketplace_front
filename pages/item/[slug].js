@@ -217,8 +217,8 @@ const ItemById = ({ item }) => {
             borderRadius={'5px'}
           >
             <Flex justifyContent={'space-between'}>
-              <Text color="#323232" fontSize="14px" fontWeight="300">
-                New
+            <Text color="#323232" fontSize="14px" fontWeight="300">
+                Service
               </Text>
               {owner === false && (
                 <Box>
@@ -256,7 +256,7 @@ const ItemById = ({ item }) => {
             </Box>
             <Text>{item.price} {item.currencySymbolPrice || 'ETH'}</Text>
             <Text>0% addtional for Yubiai Fee</Text>
-            <Text>0.6% additional for UBI Burner Fee</Text>
+            <Text>{item.ubiburningamount || 0.6}% additional for UBI Burner Fee</Text>
             <Flex
               direction={{ base: 'column' }}
               justifyContent="center"

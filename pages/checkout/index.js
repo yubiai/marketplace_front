@@ -7,6 +7,12 @@ import {
   Stack,
   AlertIcon,
   Alert,
+  SliderThumb,
+  SliderFilledTrack,
+  SliderTrack,
+  SliderMark,
+  Slider,
+  Divider,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -29,10 +35,18 @@ const Checkout = () => {
   const [transactionData, setTransactionData] = useState({})
   const [operationInProgress, setOperationInProgress] = useState(false)
 
+  const [sliderValue, setSliderValue] = useState(0)
+
+  const labelStyles = {
+    mt: '2',
+    ml: '-2.5',
+    fontSize: 'sm',
+  }
+
   useEffect(() => {
     const loadOrder = async () => {
       const result = await loadOrderData(
-        {...global.itemToCheckout},
+        { ...global.itemToCheckout },
         global.currencyPriceList
       )
       const { orderInfo, transaction } = result
@@ -144,27 +158,57 @@ const Checkout = () => {
               </Heading>
               <Text fontWeight={600} color={'gray.500'} mb={4}>
                 Price: {orderData.item && orderData.item.price}{' '}
-                {(orderData.item &&
-                  orderData.item.currencySymbolPrice) ||
+                {(orderData.item && orderData.item.currencySymbolPrice) ||
                   'ETH'}
               </Text>
               <Text textAlign={'center'} color={'gray.700'} px={3}>
                 {orderData.item && orderData.item.title}
               </Text>
-
-              <Stack
-                align={'center'}
-                justify={'center'}
-                direction={'row'}
-                mt={6}
-              ></Stack>
-              <Alert status="warning">
+                <Divider mt="1em" />
+              <Text mt="3" fontStyle="italic">
+                Do you want to donate UBIs for the burning? This will favor the
+                token by improving its price.
+              </Text>
+              <Box pt={6} pb={2} mt="1em">
+                <Slider
+                  aria-label="slider-ex-6"
+                  defaultValue={0}
+                  min={0}
+                  max={10}
+                  onChange={(val) => setSliderValue(val)}
+                >
+                  <SliderMark value={0} {...labelStyles}>
+                    0%
+                  </SliderMark>
+                  <SliderMark value={5} {...labelStyles}>
+                    5%
+                  </SliderMark>
+                  <SliderMark value={10} {...labelStyles}>
+                    10%
+                  </SliderMark>
+                  <SliderMark
+                    value={sliderValue}
+                    textAlign="center"
+                    bg="#00abd1"
+                    color="white"
+                    mt="-10"
+                    ml="-5"
+                    w="12"
+                  >
+                    {sliderValue}%
+                  </SliderMark>
+                  <SliderTrack>
+                    <SliderFilledTrack />
+                  </SliderTrack>
+                  <SliderThumb />
+                </Slider>
+              </Box>
+              <Alert status="warning" mt="1em">
                 <AlertIcon />
                 When you click on &apos;Hire service&apos;, your payment will be
                 held and it will be released to the seller when you get the
                 service.{' '}
               </Alert>
-
               <Stack mt={8}>
                 <ButtonCheckout
                   transactionInfo={transactionData}

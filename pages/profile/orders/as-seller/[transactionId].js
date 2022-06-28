@@ -141,7 +141,7 @@ const OrderDetail = () => {
         />
       </Head>
       <Box
-          h={{ base: 'full', sm: 'full', md: 'full', lg: 'full', xl: '80vh' }}
+          h={{ base: 'full', sm: 'full', md: 'full', lg: '90vh' }}
           m="2em"
         >
       {operationInProgress && <Loading styleType={'checkout'} />}

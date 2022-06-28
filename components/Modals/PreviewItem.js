@@ -56,7 +56,7 @@ const PreviewItem = ({ item }) => {
           )}
         </Box>
         <Box>
-          <Flex mt="5px" justifyContent={"center"}>
+          <Flex mt="5px" justifyContent={'center'}>
             {imagesPreview &&
               imagesPreview.length > 0 &&
               imagesPreview.map((image, i) => {
@@ -84,15 +84,16 @@ const PreviewItem = ({ item }) => {
         <Text fontWeight={'bold'}>Title</Text>
         <Text>{itemInfo?.title}</Text>
 
-        <Text fontWeight={'bold'}>Price: </Text>
-        <Text>{itemInfo?.price}</Text>
-
+        <Text fontWeight={'bold'}>Net Price: </Text>
+        <Text>{itemInfo?.price} {itemInfo?.currencySymbolPrice}</Text>
+        <Text fontWeight={'bold'}>UBI Burning Amount: </Text>
+        <Text> {itemInfo?.ubiburningamount} % ({itemInfo?.price * itemInfo?.ubiburningamount / 100} {itemInfo?.currencySymbolPrice})</Text>
+        <Text fontWeight={'bold'}>Total to receive: </Text>
+        <Text>{itemInfo?.price - itemInfo?.price * itemInfo?.ubiburningamount / 100 } {itemInfo?.currencySymbolPrice}</Text>
         <Text fontWeight={'bold'}>Category: </Text>
         <Text>{itemInfo?.category}</Text>
-
         <Text fontWeight={'bold'}>SubCategory: </Text>
         <Text>{itemInfo?.subcategory}</Text>
-
         <Text fontWeight={'bold'}> Description: </Text>
         <Text>{itemInfo?.description}</Text>
       </Box>

@@ -19,6 +19,11 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
+  Slider,
+  SliderFilledTrack,
+  SliderMark,
+  SliderThumb,
+  SliderTrack,
   Spinner,
   Text,
   Textarea,
@@ -64,6 +69,14 @@ const NewPublish = () => {
   const [dataSubmit, setDataSubmit] = useState(null)
   const [itemSuccess, setItemSuccess] = useState(null)
 
+  const [sliderValue, setSliderValue] = useState(2)
+
+  const labelStyles = {
+    mt: '2',
+    ml: '-2.5',
+    fontSize: 'sm',
+  }
+
   // Auth
   const { user, loggedOut } = useUser()
 
@@ -75,7 +88,7 @@ const NewPublish = () => {
 
     if (!global.currencyPriceList.length) {
       loadCurrencyPrices(dispatch, global)
-      return;
+      return
     }
   }, [user, loggedOut, router, global.currencyPriceList])
 
@@ -124,6 +137,7 @@ const NewPublish = () => {
     form.append('category', data.category)
     form.append('subcategory', data.subcategory)
     form.append('currencySymbolPrice', selectedCurrency)
+    form.append('ubiburningamount', sliderValue)
 
     // Get Title category and subcategory
     const categorySelected = categories.find(
@@ -154,10 +168,15 @@ const NewPublish = () => {
     setLoadingSubmit(true)
 
     try {
-      let response = await publishService.newItem(dataSubmit, global.profile.token)
+      let response = await publishService.newItem(
+        dataSubmit,
+        global.profile.token
+      )
       console.log(response, 'result')
 
-      let slugItem = response.data.result.slug ? response.data.result.slug : null;
+      let slugItem = response.data.result.slug
+        ? response.data.result.slug
+        : null
 
       setLoadingSubmit(false)
       onClose()
@@ -267,7 +286,11 @@ const NewPublish = () => {
                   }}
                 >
                   {global.currencyPriceList.map((currency) => (
-                    <option key={currency._id} value={currency.symbol} id="currency">
+                    <option
+                      key={currency._id}
+                      value={currency.symbol}
+                      id="currency"
+                    >
                       {currency.symbol}
                     </option>
                   ))}
@@ -282,7 +305,7 @@ const NewPublish = () => {
               max={999999}
               isRequired
             >
-              <NumberInputField />
+              <NumberInputField placeholder='Ex. 0.002'/> 
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -290,7 +313,46 @@ const NewPublish = () => {
             </NumberInput>
           </Box>
 
-          <Divider />
+          <Box pt={6} pb={2}>
+            <Text>UBI Burning Amount</Text>
+            <Text fontStyle={"italic"}>(Remember that the amount to be burned will be deducted from the final sale price).</Text>
+            <Slider
+              mt="3em"
+              aria-label="slider-ex-6"
+              defaultValue={2}
+              min={0.6}
+              max={10}
+              onChange={(val) => setSliderValue(val)}
+            >
+              <SliderMark value={0.6} {...labelStyles}>
+                0.6%
+              </SliderMark>
+              <SliderMark value={2} {...labelStyles}>
+                <Flex>2% <Text fontStyle={"italic"} ml="5px">(Recommended)</Text></Flex>
+              </SliderMark>
+              <SliderMark value={5} {...labelStyles}>
+                5%
+              </SliderMark>
+              <SliderMark value={10} {...labelStyles}>
+                10%
+              </SliderMark>
+              <SliderMark
+                value={sliderValue}
+                textAlign="center"
+                bg="#00abd1"
+                color="white"
+                mt="-10"
+                ml="-5"
+                w="12"
+              >
+                {sliderValue}%
+              </SliderMark>
+              <SliderTrack>
+                <SliderFilledTrack />
+              </SliderTrack>
+              <SliderThumb />
+            </Slider>
+          </Box>
 
           <Heading mt="1em">Product Images</Heading>
 
