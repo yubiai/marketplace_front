@@ -12,9 +12,11 @@ import UserInfo from '../Infos/UserInfo'
 import { useEffect, useState } from 'react'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
+import { useRouter } from 'next/router'
 
 const UserMenu = () => {
   const dispatch = useDispatchGlobal()
+  const router = useRouter()
 
   const global = useGlobal()
   const [profileLogin, setProfileLogin] = useState(null)
@@ -39,6 +41,7 @@ const UserMenu = () => {
       payload: null,
     })
     localStorage.removeItem('Yubiai');
+    router.push("/")
   }
 
   return (

@@ -32,11 +32,13 @@ import {
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { profileService } from '../../services/profileService'
 import { balanceUbi1, loginMetamask } from '../../utils/ethereum'
+import { useRouter } from 'next/router'
 
 const DrawerMenu = () => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
   const toast = useToast()
+  const router = useRouter()
 
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
@@ -107,6 +109,7 @@ const DrawerMenu = () => {
       payload: null,
     })
     localStorage.removeItem('Yubiai')
+    router.push("/")
   }
 
   return (

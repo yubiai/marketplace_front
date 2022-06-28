@@ -18,6 +18,7 @@ const Search = () => {
 
   const { data: items, isLoading, isError } = useFetch(`/items/search?q=${query}`)
 
+  console.log(items, "data")
   if (isLoading) return <Loading />
 
   if (isError) {
