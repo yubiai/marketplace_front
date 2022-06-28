@@ -66,7 +66,7 @@ const Checkout = () => {
         order: {
           itemId: orderData.item._id,
           userBuyer: currentWalletAccount,
-          userSeller: orderData.item.seller._id,
+          userSeller: orderData.item.seller.eth_address,
           status: 'ORDER_CREATED',
         },
         transactionInfo: transactionResult,
