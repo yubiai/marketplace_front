@@ -166,8 +166,7 @@ const Checkout = () => {
               </Text>
                 <Divider mt="1em" />
               <Text mt="3" fontStyle="italic">
-                Do you want to donate UBIs for the burning? This will favor the
-                token by increasing its price.
+              Set the % on top of the total price that you want to get burned. This will favor the token by increasing its price.
               </Text>
               <Box pt={6} pb={2} mt="1em">
                 <Slider
