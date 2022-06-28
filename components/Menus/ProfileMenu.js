@@ -17,6 +17,7 @@ import {
   FiStar,
   FiSettings,
   FiMenu,
+  FiBattery
 } from 'react-icons/fi'
 import Link from 'next/link'
 
@@ -24,7 +25,8 @@ const LinkItems = [
   { name: 'Profile', icon: FiHome, url: '/profile' },
   { name: 'New Publish', icon: FiSettings, url: '/publish/new' },
   { name: 'Published', icon: FiTrendingUp, url: '/profile/published' },
-  { name: 'Orders', icon: FiCompass, url: '/profile/orders' },
+  { name: 'Sales', icon: FiCompass, url: '/profile/orders/sales' },
+  { name: 'Buys', icon: FiBattery, url: '/profile/orders/buys' },
   { name: 'Favorites', icon: FiStar, url: '/profile/favorites' }
 ]
 

@@ -1,12 +1,11 @@
 import { Stack, Text, Button } from '@chakra-ui/react'
 import moment from 'moment'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FcLock } from 'react-icons/fc'
 
 const OrderCard = ({ order }) => {
   const router = useRouter()
-
+  console.log(order)
   return (
     <Stack p="4" boxShadow="lg" m="4" borderRadius="sm" bg="white">
       <Stack direction="row" alignItems="center">
@@ -19,22 +18,28 @@ const OrderCard = ({ order }) => {
         direction={{ base: 'column', md: 'row' }}
         justifyContent="space-between"
       >
+        <Text
+          fontSize={{ base: 'sm' }}
+          maxW={'4xl'}
+          cursor={'pointer'}
+          _hover={{ color: 'gray.600' }}
+        >
+          ID Order: {order?._id}
+        </Text>
         <Text fontSize={{ base: 'sm' }} textAlign={'left'} maxW={'4xl'}>
           Date:{' '}
           {order.createdAt
             ? moment(order?.createdAt).format('MM/DD/YYYY')
             : moment(order?.dateOrder).format('MM/DD/YYYY')}
         </Text>
-        <Link href={`/item/${order?.items[0]?.slug}`}>
-          <Text
-            fontSize={{ base: 'sm' }}
-            maxW={'4xl'}
-            cursor={'pointer'}
-            _hover={{ color: 'gray.600' }}
-          >
-            Item: {order?.items[0]?.title}
-          </Text>
-        </Link>
+        <Text
+          fontSize={{ base: 'sm' }}
+          maxW={'4xl'}
+          cursor={'pointer'}
+          _hover={{ color: 'gray.600' }}
+        >
+          ID Item: {order?.itemId}
+        </Text>
         <Stack direction={{ base: 'column', md: 'row' }}>
           <Button
             backgroundColor={'#00abd1'}
@@ -44,7 +49,7 @@ const OrderCard = ({ order }) => {
             cursor={'pointer'}
             display={{ base: 'none', md: 'flex' }}
             onClick={() =>
-              router.push('/profile/orders/detail/' + order?.transactionHash)
+              router.push('/profile/orders/as-seller/' + order?.transactionHash)
             }
           >
             Detail
@@ -52,9 +57,10 @@ const OrderCard = ({ order }) => {
         </Stack>
       </Stack>
       <Text fontSize={{ base: 'sm' }} maxW={'4xl'}>
-        Seller: {order?.items[0]?.seller?.first_name}{' '}
-        {order?.items[0]?.seller?.last_name} (Wallet:{' '}
-        {order?.items[0]?.seller?.eth_address})
+        Buyer: {order?.userBuyer}
+      </Text>
+      <Text fontSize={{ base: 'sm' }} maxW={'4xl'}>
+        Seller: {order?.userSeller}
       </Text>
     </Stack>
   )
