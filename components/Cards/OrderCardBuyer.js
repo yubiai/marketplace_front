@@ -3,9 +3,9 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import { FcLock } from 'react-icons/fc'
 
-const OrderCard = ({ order }) => {
+const OrderCardBuyer = ({ order }) => {
   const router = useRouter()
-  console.log(order)
+
   return (
     <Stack p="4" boxShadow="lg" m="4" borderRadius="sm" bg="white">
       <Stack direction="row" alignItems="center">
@@ -49,7 +49,7 @@ const OrderCard = ({ order }) => {
             cursor={'pointer'}
             display={{ base: 'none', md: 'flex' }}
             onClick={() =>
-              router.push('/profile/orders/as-seller/' + order?.transactionHash)
+              router.push('/profile/orders/detail/' + order?.transactionHash)
             }
           >
             Detail
@@ -66,4 +66,4 @@ const OrderCard = ({ order }) => {
   )
 }
 
-export default OrderCard
+export default OrderCardBuyer;

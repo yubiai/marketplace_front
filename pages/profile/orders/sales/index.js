@@ -9,7 +9,7 @@ import {
   import Head from 'next/head'
   import { useRouter } from 'next/router'
   import { useEffect } from 'react'
-  import OrderCard from '../../../../components/Cards/OrderCard'
+  import OrderCardSeller from '../../../../components/Cards/OrderCardSeller'
   import Error from '../../../../components/Infos/Error'
   import Paginations from '../../../../components/Layouts/Paginations'
   import ProfileMenu from '../../../../components/Menus/ProfileMenu'
@@ -46,7 +46,6 @@ import {
       }?page=${global.pageIndex}&size=4`,
       global && global.profile && global.profile.token
     )
-    console.log(isError)
   
     if (isLoading || !user) return <Loading />
   
@@ -99,7 +98,7 @@ import {
               data.items &&
               data.items.length > 0 &&
               data.items.map((item, i) => {
-                return <OrderCard order={item} key={i} />
+                return <OrderCardSeller order={item} key={i} />
               })}
             <Paginations data={data ? data : null} />
           </Container>

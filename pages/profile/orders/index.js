@@ -9,7 +9,7 @@ import {
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import OrderCard from '../../../components/Cards/OrderCard'
+import OrderCardBuyer from '../../../components/Cards/OrderCardBuyer'
 import Error from '../../../components/Infos/Error'
 import Paginations from '../../../components/Layouts/Paginations'
 import ProfileMenu from '../../../components/Menus/ProfileMenu'
@@ -53,7 +53,7 @@ const Orders = () => {
   return (
     <>
       <Head>
-        <title>Yubiai Marketplace - Buys </title>
+        <title>Yubiai Marketplace - Orders </title>
         <meta
           name="keywords"
           content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask"
@@ -68,13 +68,13 @@ const Orders = () => {
         >
           {data.items && data.items.length > 0 && (
             <Flex alignItems={'center'} mt="1em">
-              <Text fontWeight={'bold'}>Buys</Text>
+              <Text fontWeight={'bold'}>Orders</Text>
             </Flex>
           )}
           {data && data.items && data.items.length === 0 && (
             <>
               <Center>
-                <Heading mt="5em">You do not have any buys.</Heading>
+                <Heading mt="5em">You do not have any orders.</Heading>
               </Center>
               <Center>
                 <Button
@@ -93,7 +93,7 @@ const Orders = () => {
             data.items &&
             data.items.length > 0 &&
             data.items.map((item, i) => {
-              return <OrderCard order={item} key={i} />
+              return <OrderCardBuyer order={item} key={i} />
             })}
           <Paginations data={data ? data : null} />
         </Container>
