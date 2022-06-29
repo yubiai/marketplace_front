@@ -8,6 +8,6 @@ export default function useFetch(url, token) {
   return {
     data,
     isLoading: !error && !data,
-    isError: error ? error.data : null,
+    isError: error ? error.data : null
   }
 }

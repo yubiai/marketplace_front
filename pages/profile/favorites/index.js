@@ -8,11 +8,11 @@ import {
   Text,
 } from '@chakra-ui/react'
 import Loading from '../../../components/Spinners/Loading'
+import Error from '../../../components/Infos/Error'
 import Head from 'next/head'
 import ItemCardLg from '../../../components/Cards/ItemCardLg'
 import { useGlobal } from '../../../providers/globalProvider'
 import ProfileMenu from '../../../components/Menus/ProfileMenu'
-import Error from '../../../components/Infos/Error'
 import useFetch from '../../../hooks/data/useFetch'
 import Paginations from '../../../components/Layouts/Paginations'
 import { useRouter } from 'next/router'
