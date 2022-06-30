@@ -10,7 +10,6 @@ import {
   Container,
   Button,
 } from '@chakra-ui/react'
-import UserAlerts from '../Menus/UserAlerts'
 import UserMenu from '../Menus/UserMenu'
 import { useGlobal } from '../../providers/globalProvider'
 import NotificationDrawer from '../Menus/NotificationDrawer'
@@ -143,7 +142,6 @@ const Navbar = () => {
             spacing={2}
           >
             <UserMenu />
-            <UserAlerts />
             <NotificationDrawer />
           </Stack>
         </Flex>

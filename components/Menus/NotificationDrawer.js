@@ -19,7 +19,6 @@ import { BsFillBellFill } from 'react-icons/bs'
 import NotiCard from '../Cards/NotiCard'
 import useFetch from '../../hooks/data/useFetch'
 import { useGlobal } from '../../providers/globalProvider'
-import { mutate } from 'swr'
 
 const NotificationDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -32,14 +31,6 @@ const NotificationDrawer = () => {
     `/noti/${userId}?size=6&seen=false`,
     global && global.profile && global.profile.token
   )
-
-  const actionMutate = () => {
-    console.log('se activo el actionMutate')
-    console.log(global.profile._id, 'sddd')
-    mutate(`/noti/${userId}?size=6&seen=false`, null, false)
-  }
-
-  console.log(data, isLoading, isError, 'DATA NOTI')
 
   if (isLoading && !data) return <Spinner />
 
@@ -84,7 +75,6 @@ const NotificationDrawer = () => {
                       key={i}
                       item={item}
                       onClose={onClose}
-                      actionMutate={actionMutate}
                     />
                   )
                 })}

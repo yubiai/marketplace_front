@@ -6,14 +6,15 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react'
 import moment from 'moment'
+import { useRouter } from 'next/router'
 import { notiService } from '../../services/notiService'
 
-const NotiCard = ({item, onClose, actionMutate}) => {
+const NotiCard = ({item, onClose}) => {
+  const router = useRouter()
 
-  const pushLinkAndSee = async(link) => {
-    console.log(link)
+  const pushLinkAndSee = async() => {
     await notiService.updateSeenNotiById(item._id)
-    actionMutate()
+    router.push(`/${item.path}/${item.reference}`)
     onClose()
   }
 
