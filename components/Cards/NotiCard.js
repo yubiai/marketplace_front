@@ -9,12 +9,13 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import { notiService } from '../../services/notiService'
 
-const NotiCard = ({item, onClose}) => {
+const NotiCard = ({item, onClose, refreshNoti }) => {
   const router = useRouter()
 
   const pushLinkAndSee = async() => {
     await notiService.updateSeenNotiById(item._id)
     router.push(`/${item.path}/${item.reference}`)
+    refreshNoti()
     onClose()
   }
 

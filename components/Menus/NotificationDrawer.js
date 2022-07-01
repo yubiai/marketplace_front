@@ -14,29 +14,47 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { BsFillBellFill } from 'react-icons/bs'
 import NotiCard from '../Cards/NotiCard'
-import useFetch from '../../hooks/data/useFetch'
 import { useGlobal } from '../../providers/globalProvider'
+import { notiService } from '../../services/notiService'
 
 const NotificationDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
   const global = useGlobal()
 
-  const userId = global && global.profile && global.profile._id
+  const [data, setData] = useState(null)
 
-  const { data, isLoading, isError } = useFetch(
-    `/noti/${userId}?size=6&seen=false`,
-    global && global.profile && global.profile.token
-  )
+  const userId = (global && global.profile && global.profile._id) || null
+  const token = (global && global.profile && global.profile.token) || null
 
-  if (isLoading && !data) return <Spinner />
-
-  if (isError) {
-    return <Spinner />
+  const refreshNoti = async () => {
+    console.log('se activo')
+    setData(null)
+    await notiService
+      .getNotiFalseByUserId(userId, token)
+      .then((res) => {
+        console.log(res, 'res')
+        setData(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
+
+  useEffect(() => {
+    const initial = () => {
+      if (userId && token) {
+        console.log('-------Se activo el use effect notification')
+        refreshNoti()
+      }
+    }
+    initial()
+  }, [global.profile])
+
+  if (!data) return <Spinner />
 
   return (
     <>
@@ -75,6 +93,7 @@ const NotificationDrawer = () => {
                       key={i}
                       item={item}
                       onClose={onClose}
+                      refreshNoti={refreshNoti}
                     />
                   )
                 })}

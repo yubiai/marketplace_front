@@ -3,11 +3,12 @@ import fetcher from '../../utils/fetcher'
 
 export default function useFetch(url, token) {
 
-  const { data, error } = useSWR([url, token], fetcher)
+  const { data, error, mutate } = useSWR([url, token], fetcher)
 
   return {
     data,
     isLoading: !error && !data,
-    isError: error ? error.data : null
+    isError: error ? error.data : null,
+    mutate
   }
 }
