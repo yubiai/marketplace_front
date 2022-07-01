@@ -15,7 +15,6 @@ export const AuthProvider = ({ children }) => {
 
   // Pedir notifications
   const callApiNoti = async (userId, token) => {
-    console.log("se activo pasaron lkos 40seg")
     await notiService
       .getNotiFalseByUserId(userId, token)
       .then((res) => {

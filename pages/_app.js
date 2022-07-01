@@ -1,6 +1,7 @@
+export { reportWebVitals } from 'next-axiom';
+
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from '../styles/theme'
-export { reportWebVitals } from 'next-axiom';
 
 import '../styles/globals.css'
 import Footer from '../components/Layouts/Footer'

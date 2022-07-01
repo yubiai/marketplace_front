@@ -25,15 +25,17 @@ const ItemsByCategory = ({ response, category }) => {
   )
 
   useEffect(() => {
-    dispatch({
-      type: 'RESETPAGEINDEX',
-    })
-    dispatch({
-      type: 'SELECTSUBCATEGORY',
-      payload: '',
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    const initial = () => {
+      dispatch({
+        type: 'RESETPAGEINDEX',
+      })
+      dispatch({
+        type: 'SELECTSUBCATEGORY',
+        payload: '',
+      })
+    }
+    initial()
+  }, [dispatch])
 
   const capitalize = (word) => {
     return word && word[0].toUpperCase() + word.slice(1)
@@ -45,6 +47,8 @@ const ItemsByCategory = ({ response, category }) => {
     return <Error error={error?.message} />
   }
 
+  console.log(data, 'dataa')
+
   return (
     <>
       <Head>
@@ -54,7 +58,7 @@ const ItemsByCategory = ({ response, category }) => {
         <Box
           h={{
             base: data && data.items.length > 1 ? 'full' : '80vh',
-            md: data && data.items.length > 4 ? 'full' : '100vh'
+            md: data && data.items.length > 4 ? 'full' : '100vh',
           }}
         >
           <Flex alignItems={'center'}>
@@ -74,15 +78,11 @@ const ItemsByCategory = ({ response, category }) => {
           >
             {data &&
               data.items.length > 0 &&
-              data.items.map((item, i) => {
-                return (
-                  <>
-                    <GridItem w="100%" h="100%">
-                      <ItemCardLg key={i} item={item} />
-                    </GridItem>
-                  </>
-                )
-              })}
+              data.items.map((item, i) => (
+                <GridItem w="100%" h="100%" key={i}>
+                  <ItemCardLg item={item} />
+                </GridItem>
+              ))}
           </Grid>
 
           <Paginations data={data} />

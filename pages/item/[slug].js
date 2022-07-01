@@ -20,6 +20,7 @@ import Loading from '../../components/Spinners/Loading'
 import Head from 'next/head'
 import { useGlobal } from '../../providers/globalProvider'
 import { profileService } from '../../services/profileService'
+import { log } from 'next-axiom';
 
 const ItemById = ({ item }) => {
   const global = useGlobal()
@@ -71,6 +72,7 @@ const ItemById = ({ item }) => {
 
   const addFavorite = async () => {
     console.log('add Favorite')
+    log.info('Add Favorite axion')
     await profileService
       .addFavorite(
         (global && global.profile && global.profile._id) || null,
