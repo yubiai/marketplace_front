@@ -63,7 +63,7 @@ const DrawerMenu = () => {
       }
     }
     verifyLogin()
-  }, [global])
+  }, [global.profile])
 
   const onConnect = async () => {
     const signerAddress = await loginMetamask()

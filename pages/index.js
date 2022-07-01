@@ -59,7 +59,7 @@ const Home = ({ items }) => {
       }
     }
     initItem()
-  }, [global, global.profile])
+  }, [global.profile])
 
 
   if (!items) return <Loading />

@@ -1,12 +1,46 @@
 import axios from 'axios'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { profileService } from '../services/profileService'
 import { loginMetamask } from '../utils/ethereum'
-import { useDispatchGlobal } from './globalProvider'
+import { useDispatchGlobal, useGlobal } from './globalProvider'
 import Cookies from 'js-cookie'
+import { notiService } from '../services/notiService'
+import { useRouter } from 'next/router'
 
 export const AuthProvider = ({ children }) => {
+  const global = useGlobal()
+  const router = useRouter()
   const dispatch = useDispatchGlobal()
+  const [check, setCheck] = useState(0)
+
+  // Pedir notifications
+  const callApiNoti = async (userId, token) => {
+    console.log("se activo pasaron lkos 40seg")
+    await notiService
+      .getNotiFalseByUserId(userId, token)
+      .then((res) => {
+        dispatch({
+          type: 'SET_NOTIFICATIONS',
+          payload: res.data
+        })
+        return
+      })
+      .catch((err) => {
+        console.log(err)
+        return
+      })
+  }
+
+  // Empieza cada tanto tiempo a preguntar si hay nuevas notifications
+  useEffect(() => {
+    if(global.profile && global.profile._id && global.profile.token){
+      const id = setInterval(() => {
+        callApiNoti(global.profile._id, global.profile.token)
+        setCheck(check + 1)
+      }, 40000)
+      return () => clearInterval(id) 
+    }
+  }, [check, global.profile])
 
   useEffect(() => {
     const authToken = async () => {
@@ -24,8 +58,10 @@ export const AuthProvider = ({ children }) => {
         const response = Yubiai
           ? await axios.get('/auth/session/', {
               headers: {
-                Authorization: `Bearer ${Yubiai.token ? Yubiai.token : Ybcookies}`,
-              }
+                Authorization: `Bearer ${
+                  Yubiai.token ? Yubiai.token : Ybcookies
+                }`,
+              },
             })
           : null
 
@@ -42,12 +78,14 @@ export const AuthProvider = ({ children }) => {
             type: 'AUTHPROFILE',
             payload: { ...user.data, token: Yubiai.token },
           })
+          callApiNoti(user.data._id, Yubiai.token);
           return
         } else {
           dispatch({
             type: 'AUTHPROFILE',
             payload: null,
           })
+          router.push("/")
           return
         }
       } catch (err) {
@@ -56,6 +94,7 @@ export const AuthProvider = ({ children }) => {
           payload: null,
         })
         localStorage.removeItem('Yubiai')
+        router.push("/")
         return
       }
     }

@@ -24,7 +24,7 @@ const UserMenu = () => {
 
   useEffect(() => {
     const getProfile = async() => {
-      if (global && global.profile) {
+      if (global.profile) {
         setProfileLogin(global.profile)
         await balanceUbi1(global.profile.eth_address || null)
           .then((res) => {
@@ -33,7 +33,7 @@ const UserMenu = () => {
       }
     }
     getProfile()
-  }, [global])
+  }, [global.profile])
 
   const disconnect = () => {
     dispatch({

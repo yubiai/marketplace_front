@@ -15,6 +15,7 @@ const initialState = {
   arbitratorInstance: null,
   itemToCheckout: null,
   currencyPriceList: [],
+  notificationsList: {}
 }
 
 // Reducers
@@ -84,6 +85,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         subCategory: action.payload,
+      }
+    case 'SET_NOTIFICATIONS':
+      return {
+        ...state,
+        notificationsList: action.payload,
       }
     default:
       throw new Error('Action Fail')
