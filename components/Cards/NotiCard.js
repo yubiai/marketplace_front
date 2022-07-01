@@ -7,15 +7,17 @@ import {
 } from '@chakra-ui/react'
 import moment from 'moment'
 import { useRouter } from 'next/router'
-import { notiService } from '../../services/notiService'
 
-const NotiCard = ({item, onClose, refreshNoti }) => {
+const NotiCard = ({item, onClose }) => {
   const router = useRouter()
 
   const pushLinkAndSee = async() => {
-    await notiService.updateSeenNotiById(item._id)
+/*     await notiService.updateSeenNotiById(item._id)
+    setTimeout(() => {
+      console.log("se activo")
+      refreshNoti()
+    }, 5000); */
     router.push(`/${item.path}/${item.reference}`)
-    refreshNoti()
     onClose()
   }
 

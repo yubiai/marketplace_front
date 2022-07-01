@@ -178,7 +178,7 @@ const OrderDetail = () => {
             }}
           />
           <Heading fontSize={'2xl'} fontFamily={'body'}>
-            Order Detail As Seller
+            Order Detail
           </Heading>
           <Text fontWeight={600} color={'gray.500'} mb={4}>
             Order ID: {orderDetail?._id}
@@ -208,7 +208,7 @@ const OrderDetail = () => {
             <Box marginTop={'24px'}>
               <Box margin={'2rem 0'}>
                 <Button bg="green" color={'white'} onClick={redirectToChat}>
-                  Chat with seller
+                  Chat with buyer
                 </Button>
               </Box>
               {(orderDetail.transaction || {}).transactionIndex &&

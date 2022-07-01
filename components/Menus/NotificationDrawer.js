@@ -10,51 +10,31 @@ import {
   DrawerHeader,
   DrawerOverlay,
   SimpleGrid,
-  Spinner,
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import { BsFillBellFill } from 'react-icons/bs'
 import NotiCard from '../Cards/NotiCard'
-import { useGlobal } from '../../providers/globalProvider'
-import { notiService } from '../../services/notiService'
 
 const NotificationDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
-  const global = useGlobal()
 
-  const [data, setData] = useState(null)
+  console.log("Se activo Drawer noti")
 
-  const userId = (global && global.profile && global.profile._id) || null
-  const token = (global && global.profile && global.profile.token) || null
-
-  const refreshNoti = async () => {
-    console.log('se activo')
-    setData(null)
-    await notiService
-      .getNotiFalseByUserId(userId, token)
-      .then((res) => {
-        console.log(res, 'res')
-        setData(res.data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  useEffect(() => {
-    const initial = () => {
-      if (userId && token) {
-        console.log('-------Se activo el use effect notification')
-        refreshNoti()
+  const data = {
+    items: [
+      {
+        _id: "asdasd",
+        type: "Sale",
+        path: "/",
+        reference: "help",
+        message: "New Sale!",
+        updatedAt: new Date()
       }
-    }
-    initial()
-  }, [global.profile])
-
-  if (!data) return <Spinner />
+    ]
+  }
 
   return (
     <>
@@ -93,7 +73,6 @@ const NotificationDrawer = () => {
                       key={i}
                       item={item}
                       onClose={onClose}
-                      refreshNoti={refreshNoti}
                     />
                   )
                 })}
