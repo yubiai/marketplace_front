@@ -27,13 +27,8 @@ const Orders = () => {
 
   // if logged in, redirect to the home
   useEffect(() => {
-    console.log(user, loggedOut)
     if (loggedOut) {
-      router.replace('/')
-      dispatch({
-        type: 'AUTHPROFILE',
-        payload: null,
-      })
+      router.replace('/logout')
     }
   }, [user, loggedOut, router, dispatch])
 

@@ -40,30 +40,31 @@ const OrderCardBuyer = ({ order }) => {
         >
           ID Item: {order?.itemId}
         </Text>
-        <Stack direction={{ base: 'column', md: 'row' }}>
-          <Button
-            backgroundColor={'#00abd1'}
-            color={'white'}
-            rounded={'full'}
-            ml="1em"
-            cursor={'pointer'}
-            display={{ base: 'none', md: 'flex' }}
-            onClick={() =>
-              router.push('/profile/orders/detail/' + order?.transactionHash)
-            }
-          >
-            Detail
-          </Button>
-        </Stack>
       </Stack>
-      <Text fontSize={{ base: 'sm' }} maxW={'4xl'}>
-        Buyer: {order?.userBuyer}
-      </Text>
-      <Text fontSize={{ base: 'sm' }} maxW={'4xl'}>
-        Seller: {order?.userSeller}
-      </Text>
+      <Stack direction={{ base: 'column', md: 'row' }}>
+        <Text fontSize={{ base: 'sm' }} maxW={'4xl'}>
+          Buyer: {order?.userBuyer} -
+        </Text> 
+        <Text fontSize={{ base: 'sm' }} maxW={'4xl'}>
+          Seller: {order?.userSeller}
+        </Text>
+      </Stack>
+
+      <Stack direction={{ base: 'column', md: 'row' }}>
+        <Button
+          backgroundColor={'#00abd1'}
+          color={'white'}
+          rounded={'full'}
+          cursor={'pointer'}
+          onClick={() =>
+            router.push('/profile/orders/detail/' + order?.transactionHash)
+          }
+        >
+          Detail
+        </Button>
+      </Stack>
     </Stack>
   )
 }
 
-export default OrderCardBuyer;
+export default OrderCardBuyer

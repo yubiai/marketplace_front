@@ -32,11 +32,7 @@ import {
     useEffect(() => {
       console.log(user, loggedOut)
       if (loggedOut) {
-        router.replace('/')
-        dispatch({
-          type: 'AUTHPROFILE',
-          payload: null,
-        })
+        router.replace('/logout')
       }
     }, [user, loggedOut, router, dispatch])
   
@@ -52,8 +48,6 @@ import {
     if (isError) {
       return <Error error={isError?.message} />
     }
-
-    console.log(data)
   
     return (
       <>
