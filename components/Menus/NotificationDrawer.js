@@ -14,6 +14,7 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react'
+import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { BsFillBellFill } from 'react-icons/bs'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
@@ -22,6 +23,7 @@ import NotiCard from '../Cards/NotiCard'
 
 const NotificationDrawer = () => {
   const global = useGlobal()
+  const router = useRouter()
   const dispatch = useDispatchGlobal()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
@@ -60,7 +62,7 @@ const NotificationDrawer = () => {
   if (global && global.profile) {
     return (
       <>
-        <Button ref={btnRef} colorScheme="transparent" onClick={onOpen}>
+        <Button ref={btnRef} colorScheme="transparent" onClick={onOpen} isDisabled={data && data.length === 0}>
           <BsFillBellFill color="white" />
           {data && data.items && data.items.length > 0 && (
             <Box position={'absolute'} top={'-2px'} right={'6px'}>
@@ -82,11 +84,6 @@ const NotificationDrawer = () => {
             <DrawerHeader>Notifications</DrawerHeader>
 
             <DrawerBody>
-              {data && data.length === 0 && (
-                <>
-                  <Text>0 Notifications</Text>
-                </>
-              )}
               <SimpleGrid columns={1} spacing={5}>
                 {data &&
                   data.items &&
@@ -102,9 +99,27 @@ const NotificationDrawer = () => {
                     )
                   })}
               </SimpleGrid>
+              {data && data.length === 0 && (
+                <>
+                  <Text>No notifications.</Text>
+                </>
+              )}
             </DrawerBody>
 
-            <DrawerFooter>
+            <DrawerFooter justifyContent={'space-between'}>
+              <Button
+                backgroundColor={'#00abd1'}
+                color={'white'}
+                rounded={'full'}
+                cursor={'pointer'}
+                display={{ base: 'none', md: 'flex' }}
+                onClick={() => {
+                  router.push('/profile/notifications')
+                  onClose()
+                }}
+              >
+                See more
+              </Button>
               <Button variant="outline" mr={3} onClick={onClose}>
                 Close
               </Button>

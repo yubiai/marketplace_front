@@ -54,8 +54,8 @@ const UserMenu = () => {
           <MenuItem>
             <Link href="/profile">My Info</Link>
           </MenuItem>
-          <Link href="/listing/new">
-            <MenuItem>New Listing</MenuItem>
+          <Link href="/profile/notifications">
+            <MenuItem>Notifications</MenuItem>
           </Link>
           <Link href="/profile/published">
             <MenuItem>Published</MenuItem>

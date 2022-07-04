@@ -17,13 +17,15 @@ import {
   FiStar,
   FiSettings,
   FiMenu,
-  FiBattery
+  FiBattery,
+  FiBell
 } from 'react-icons/fi'
 import Link from 'next/link'
 
 const LinkItems = [
   { name: 'Profile', icon: FiHome, url: '/profile' },
   { name: 'New Listing', icon: FiSettings, url: '/listing/new' },
+  { name: 'Notifications', icon: FiBell, url: '/profile/notifications' },
   { name: 'Published', icon: FiTrendingUp, url: '/profile/published' },
   { name: 'Orders', icon: FiBattery, url: '/profile/orders' },
   { name: 'Sales', icon: FiCompass, url: '/profile/orders/sales' },
@@ -33,7 +35,7 @@ const LinkItems = [
 export default function ProfileMenu({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
-    <Box minH={{base: "full", md: "80vh"}} bg={'gray.100'}>
+    <Box minH={{base: "full", md: "85vh"}} bg={'gray.100'}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
@@ -68,7 +70,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       borderRightColor={'gray.200'}
       w={{ base: 'full', md: 60 }}
       pos="absolute"
-      h="70vh"
+      h="90vh"
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">

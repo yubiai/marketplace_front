@@ -86,11 +86,12 @@ const NewListing = () => {
       router.replace('/logout')
     }
 
-    if (user && !global.currencyPriceList.length) {
+    if (user && !global.currencyPriceList.length && global.profile) {
       loadCurrencyPrices(dispatch, global)
       return
     }
-  }, [user, loggedOut, router, global.currencyPriceList])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, global.currencyPriceList, global.profile])
 
   const { data: categories, isLoading, isError } = useFetch('/categories/')
 

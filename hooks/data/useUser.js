@@ -3,11 +3,11 @@ import fetcher from '../../utils/fetcher'
 
 export default function useUser() {
   const YubiaiLs =
-    typeof window !== 'undefined' ? localStorage.getItem('Yubiai') : null
-  const Yubiai = YubiaiLs ? JSON.parse(YubiaiLs) : null
+    typeof window !== 'undefined' ? localStorage.getItem('Yubiai') : null;
+  const Yubiai = YubiaiLs ? JSON.parse(YubiaiLs) : null;
 
   const { data, error } = useSWR(
-    ['/auth/session', Yubiai && Yubiai.token ? Yubiai.token : null],
+    [Yubiai && Yubiai.token ? '/auth/session' : null, Yubiai && Yubiai.token ? Yubiai.token : null],
     fetcher
   )
 
