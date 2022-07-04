@@ -1,12 +1,5 @@
 import Link from 'next/link'
-import {
-  Box,
-  Flex,
-  Button,
-  Container,
-  Image,
-  Center,
-} from '@chakra-ui/react'
+import { Box, Flex, Button, Container, Image, Center } from '@chakra-ui/react'
 import LanguageChange from '../Menus/LanguageChange'
 import DrawerMenu from '../Menus/DrawerMenu'
 import SearchBar from './SearchBar'
@@ -17,10 +10,7 @@ const Header = () => {
   const global = useGlobal()
 
   return (
-    <Box
-      bg={'yb.1'}
-      px={{ base: 'full', md: 4 }}
-    >
+    <Box bg={'yb.1'} px={{ base: 'full', md: 4 }}>
       <Container maxW="container.xl">
         <Flex
           h={{ base: '100px', md: '12' }}
@@ -33,12 +23,13 @@ const Header = () => {
               bg="transparent"
               p="1.5em"
               _hover={{
-                bg: '#1C538A',
+                boxShadow: '2px 2px 5px black'
               }}
             >
               <Link href={'/'}>
                 <Image
-                  w={'100px'} h={'39.16px'}
+                  w={'100px'}
+                  h={'39.16px'}
                   alt={'Logo'}
                   src={'/static/images/logoyubiai.png'}
                   fallbackSrc={'/static/images/logoyubiai.png'}
@@ -48,16 +39,16 @@ const Header = () => {
           </Box>
 
           {/* Search */}
-          <Center w={{ base: 'full', md: 'md' }} mt={{md: '15px'}}>
+          <Center w={{ base: 'full', md: 'md' }} mt={{ md: '15px' }}>
             <SearchBar />
           </Center>
 
           {/* Language */}
-          <Center mt={'15px'} >
+          <Center mt={'15px'}>
             <LanguageChange />
             {global.meta ? <ButtonConnect /> : ''}
           </Center>
-            <DrawerMenu />
+          <DrawerMenu />
         </Flex>
       </Container>
     </Box>

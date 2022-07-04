@@ -7,7 +7,7 @@ import {
   Link,
   VisuallyHidden,
   Center,
-  Button
+  Button,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { FaTelegramPlane, FaTwitter, FaYoutube } from 'react-icons/fa'
@@ -54,7 +54,7 @@ const Footer = () => {
           p="1.5em"
           onClick={() => router.push('/')}
           _hover={{
-            bg: '#1C538A',
+            boxShadow: '2px 2px 5px black',
           }}
         >
           <Image
@@ -80,7 +80,7 @@ const Footer = () => {
           </Link>
         </Center>
         <Stack direction={'row'} spacing={6}>
-          <SocialButton label={'Twitter'} href={'https://twitter.com/YubiaiM'}>
+          <SocialButton label={'Twitter'} href={'https://twitter.com/YubiaiM'} >
             <FaTwitter fontSize={22} />
           </SocialButton>
           <SocialButton label={'Linktree'} href={'https://linktr.ee/Yubiai'}>
