@@ -43,7 +43,7 @@ const ButtonEscrowDispute = ({
     };
   
     return (
-        <Button bg='red' color={'white'} onClick={startEscrowDispute} m="5px">
+        <Button bg='red' color={'white'} onClick={startEscrowDispute}>
             {asSeller ? 'Pay arbitration fee' : 'Start dispute'}
         </Button>
     );

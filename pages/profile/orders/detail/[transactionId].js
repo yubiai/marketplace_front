@@ -23,7 +23,6 @@ import {
   Box,
   Text,
   Heading,
-  Flex,
   Button,
   Stack,
   useColorModeValue,
@@ -212,17 +211,17 @@ const OrderDetail = () => {
             </Link>
           </Stack>
 
-          <Stack mt={8} direction={'row'} spacing={4}>
-            <Box marginTop={'24px'}>
-              <Box margin={'2rem 0'}>
+          <Stack mt={4} direction={'row'} spacing={2}>
+            <Box marginTop={'24px'} w="full">
+              <Box>
                 <Button bg="green" color={'white'} onClick={redirectToChat}>
                   Chat with seller
                 </Button>
               </Box>
               {(orderDetail.transaction || {}).transactionIndex &&
                 orderDetail.status === 'ORDER_CREATED' && (
-                  <Flex marginTop="auto" justifyContent="space-around">
-                    {transactionData && transactionData.amount && (
+                  <Stack direction={{ base: 'column', md: 'row' }} mt="2em" alignItems={"center"}>
+                   {transactionData && transactionData.amount && (
                       <ButtonPayOrder
                         transactionIndex={
                           (orderDetail.transaction || {}).transactionIndex
@@ -246,7 +245,7 @@ const OrderDetail = () => {
                       stepsPostAction={loadOrder}
                       toggleLoadingStatus={toggleLoadingStatus}
                     />
-                  </Flex>
+                  </Stack>
                 )}
               {transactionData && orderDetail.status === 'ORDER_PAID' && (
                 <Alert status="success">
