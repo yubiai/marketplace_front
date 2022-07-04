@@ -37,11 +37,9 @@ const Profile = () => {
     isLoading,
     isError,
   } = useFetch(
-    `/profiles/${
-      global && global.profile && global.profile.eth_address
-        ? global.profile.eth_address
-        : null
-    }`,
+    global && global.profile && global.profile.eth_address
+      ? `/profiles/${global.profile.eth_address}`
+      : null,
     global && global.profile && global.profile.token
   )
 
@@ -70,7 +68,7 @@ const Profile = () => {
       <ProfileMenu>
         <Box
           maxW="6xl"
-          h={{base: 'full', sm: 'full', md: '80vh'}}
+          h={{ base: 'full', sm: 'full', md: '80vh' }}
           display={'flex'}
           flexDirection={'column'}
           w={{ base: 'full' }}

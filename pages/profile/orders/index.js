@@ -33,13 +33,11 @@ const Orders = () => {
   }, [user, loggedOut, router, dispatch])
 
   const { data, isLoading, isError } = useFetch(
-    `/orders/buyer/${
-      global && global.profile && global.profile.eth_address
-    }?page=${global.pageIndex}&size=4`,
+    global && global.profile && global.profile.eth_address ? `/orders/buyer/${global.profile.eth_address}?page=${global.pageIndex}&size=4` : null,
     global && global.profile && global.profile.token
   )
 
-  if (isLoading || !user) return <Loading />
+  if (isLoading || !data) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />

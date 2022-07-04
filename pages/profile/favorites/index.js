@@ -22,9 +22,7 @@ const Favorites = () => {
   const router = useRouter()
 
   const { data, isLoading, isError } = useFetch(
-    `/profiles/favorites/${
-      (global && global.profile && global.profile._id) || null
-    }?page=${global.pageIndex}&size=8`,
+    global && global.profile && global.profile._id ? `/profiles/favorites/${global.profile._id}?page=${global.pageIndex}&size=8` : null,
     global && global.profile && global.profile.token
   )
 
@@ -33,8 +31,6 @@ const Favorites = () => {
   if (isError) {
     return <Error error={isError?.message} />
   }
-
-  console.log(data, 'data')
 
   return (
     <>

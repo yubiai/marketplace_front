@@ -22,9 +22,7 @@ const Published = () => {
   const router = useRouter()
 
   const { data, isLoading, isError } = useFetch(
-    `/profiles/my_published/${
-      (global && global.profile && global.profile._id) || null
-    }?page=${global.pageIndex}&size=8`,
+    global && global.profile && global.profile._id ? `/profiles/my_published/${global.profile._id}?page=${global.pageIndex}&size=8` : null,
     global?.profile?.token
   )
 

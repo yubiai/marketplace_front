@@ -47,8 +47,6 @@ const ItemsByCategory = ({ response, category }) => {
     return <Error error={error?.message} />
   }
 
-  console.log(data, 'dataa')
-
   return (
     <>
       <Head>
