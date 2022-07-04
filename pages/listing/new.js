@@ -46,7 +46,7 @@ import { publishService } from '../../services/publishService'
 import { getListSubCategory } from '../../utils/itemUtils'
 import { loadCurrencyPrices } from '../../providers/orderProvider'
 
-const NewPublish = () => {
+const NewListing = () => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
   const router = useRouter()
@@ -83,10 +83,10 @@ const NewPublish = () => {
   // if logged in, redirect to the home
   useEffect(() => {
     if (loggedOut) {
-      router.replace('/')
+      router.replace('/logout')
     }
 
-    if (!global.currencyPriceList.length) {
+    if (user && !global.currencyPriceList.length) {
       loadCurrencyPrices(dispatch, global)
       return
     }
@@ -202,10 +202,10 @@ const NewPublish = () => {
   return (
     <>
       <Head>
-        <title>Yubiai Marketplace - New Publish</title>
+        <title>Yubiai Marketplace - New Listing</title>
       </Head>
       <Container maxW="2xl" display={'flex'} flexDirection={'column'}>
-        <Heading mt="1em">New Publish</Heading>
+        <Heading mt="1em">New Listing</Heading>
         <form onSubmit={handleSubmit(onSubmit)}>
           {categories && categories.length > 0 && (
             <Box mb="2em">
@@ -494,4 +494,4 @@ const NewPublish = () => {
   )
 }
 
-export default NewPublish
+export default NewListing

@@ -10,12 +10,11 @@ import {
 import { FaUserCircle } from 'react-icons/fa'
 import UserInfo from '../Infos/UserInfo'
 import { useEffect, useState } from 'react'
-import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
+import { useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
 import { useRouter } from 'next/router'
 
 const UserMenu = () => {
-  const dispatch = useDispatchGlobal()
   const router = useRouter()
 
   const global = useGlobal()
@@ -23,26 +22,16 @@ const UserMenu = () => {
   const [balanceToken, setBalanceToken] = useState(null)
 
   useEffect(() => {
-    const getProfile = async() => {
+    const getProfile = async () => {
       if (global.profile) {
         setProfileLogin(global.profile)
-        await balanceUbi1(global.profile.eth_address || null)
-          .then((res) => {
-            setBalanceToken(res)
-          })
+        await balanceUbi1(global.profile.eth_address || null).then((res) => {
+          setBalanceToken(res)
+        })
       }
     }
     getProfile()
   }, [global.profile])
-
-  const disconnect = () => {
-    dispatch({
-      type: 'AUTHPROFILE',
-      payload: null,
-    })
-    localStorage.removeItem('Yubiai');
-    router.push("/")
-  }
 
   return (
     <Menu mr="1em">
@@ -65,8 +54,8 @@ const UserMenu = () => {
           <MenuItem>
             <Link href="/profile">My Info</Link>
           </MenuItem>
-          <Link href="/publish/new">
-            <MenuItem>New Publish</MenuItem>
+          <Link href="/listing/new">
+            <MenuItem>New Listing</MenuItem>
           </Link>
           <Link href="/profile/published">
             <MenuItem>Published</MenuItem>
@@ -78,7 +67,7 @@ const UserMenu = () => {
             <MenuItem>Sales</MenuItem>
           </Link>
           <MenuItem>
-            <span onClick={() => disconnect()}>Disconnect</span>
+            <span onClick={() => router.push('/logout')}>Disconnect</span>
           </MenuItem>
         </MenuList>
       </Portal>

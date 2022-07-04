@@ -53,6 +53,10 @@ export const AuthProvider = ({ children }) => {
         const Yubiai = YubiaiLs ? JSON.parse(YubiaiLs) : null
 
         const Ybcookies = Cookies.get('Yubiai') ? Cookies.get('Yubiai') : null
+        
+        if(!Yubiai && !Ybcookies){
+          return
+        }
 
         const response = Yubiai
           ? await axios.get('/auth/session/', {

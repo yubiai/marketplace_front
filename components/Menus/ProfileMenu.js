@@ -23,7 +23,7 @@ import Link from 'next/link'
 
 const LinkItems = [
   { name: 'Profile', icon: FiHome, url: '/profile' },
-  { name: 'New Publish', icon: FiSettings, url: '/publish/new' },
+  { name: 'New Listing', icon: FiSettings, url: '/listing/new' },
   { name: 'Published', icon: FiTrendingUp, url: '/profile/published' },
   { name: 'Orders', icon: FiBattery, url: '/profile/orders' },
   { name: 'Sales', icon: FiCompass, url: '/profile/orders/sales' },

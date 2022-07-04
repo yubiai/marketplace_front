@@ -108,7 +108,7 @@ const Navbar = () => {
     },
     {
       label: global && global.profile ? 'Sell' : null,
-      href: '/publish/new',
+      href: '/listing/new',
     },
     {
       label: global && global.profile ? 'Favorites' : null,

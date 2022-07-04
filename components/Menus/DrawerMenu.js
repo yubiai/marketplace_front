@@ -81,14 +81,14 @@ const DrawerMenu = () => {
     }
 
     const result = await profileService.login(signerAddress)
-    const data = result.data.data;
+    const data = result.data.data
     dispatch({
       type: 'AUTHPROFILE',
-      payload: data
+      payload: data,
     })
     const yubiaiLS = {
       token: result.data.token,
-      wallet: data.eth_address
+      wallet: data.eth_address,
     }
 
     localStorage.setItem('Yubiai', JSON.stringify(yubiaiLS))
@@ -100,16 +100,6 @@ const DrawerMenu = () => {
       duration: 5000,
       isClosable: true,
     })
-  }
-
-  const disconnect = () => {
-    console.log('Disconnect')
-    dispatch({
-      type: 'AUTHPROFILE',
-      payload: null,
-    })
-    localStorage.removeItem('Yubiai')
-    router.push("/")
   }
 
   return (
@@ -199,7 +189,7 @@ const DrawerMenu = () => {
                     </Link>
                   </ListItem>
                   <ListItem>
-                    <Link href="/publish/new">
+                    <Link href="/listing/new">
                       <Button
                         onClick={() => onClose()}
                         w="full"
@@ -207,7 +197,7 @@ const DrawerMenu = () => {
                         justifyContent={'left'}
                       >
                         <ListIcon as={MdSell} />
-                        New Publish
+                        New Listing
                       </Button>
                     </Link>
                   </ListItem>
@@ -275,7 +265,7 @@ const DrawerMenu = () => {
 
           <DrawerFooter>
             {statusLogin && (
-              <Button onClick={() => disconnect()}>Disconnect</Button>
+              <Button onClick={() => router.push('/logout')}>Disconnect</Button>
             )}
           </DrawerFooter>
         </DrawerContent>
