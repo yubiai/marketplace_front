@@ -1,4 +1,4 @@
-import Buffer from 'buffer';
+import { Buffer } from 'buffer'
 import { curator } from '../escrow-utils/abis';
 
 // Kovan
@@ -71,16 +71,17 @@ export default class Curator {
         for (const i = 0; i < picts.length; i++) {
             const pict = picts[i];
             const result = await this.upload(pict.name, pict);
-            formValues[ordinalPicts[i]] = result.data;
+            formValues[ordinalPicts[i]] = result;
         }
 
-        form.append('columns', columnsForItem);
-        form.append('values', formValues);
-
-        const response = await fetch(
+        // FIXME: f.path is required!
+        const jsn = JSON.stringify({ columns: columnsForItem, values: formValues });
+        const blob = new Blob([jsn], { type: 'application/json' });
+        const f = new File([ blob ], 'item.json');
+        await fetch(
             'https://api.thegraph.com/ipfs/api/v0/add?wrap-with-directory=true', {
                 method: 'POST',
-                body: form
+                body: f
         })
         if (response && response.data) {
             const uploadResponse = await this.upload('item.json', {
@@ -92,6 +93,9 @@ export default class Curator {
     }
 
     async upload(fileName, bufferOrJSON) {
+        let dataHash = '';
+        let dataPath = '';
+
         if (typeof bufferOrJSON !== 'string' && !Buffer.isBuffer(bufferOrJSON)) {
             bufferOrJSON = JSON.stringify(bufferOrJSON)
     
@@ -107,7 +111,10 @@ export default class Curator {
             });
             const json = await res.json();
             const data = json.data;
-            const url = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${data[1].hash}${data[0].path}`; 
+            dataHash = data[1].hash;
+            dataPath = data[0].path;
+
+            const url = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${dataHash}${dataPath}`; 
             await fetch(url, {
               method: 'GET',
               headers: {
@@ -115,10 +122,10 @@ export default class Curator {
               },
             });
         }
-        return `/ipfs/${data[1].hash}${data[0].path}`;
+        return `/ipfs/${dataHash}${dataPath}`;
     }
 
     async addItem(item) {
-        return this.contract.methods.addItem(item).call();
+            return await this.contract.methods.addItem(item).call();
     }
 }

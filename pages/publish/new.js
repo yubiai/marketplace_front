@@ -31,6 +31,7 @@ import {
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import Link from 'next/link'
+import Web3 from 'web3'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -45,6 +46,12 @@ import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { publishService } from '../../services/publishService'
 import { getListSubCategory } from '../../utils/itemUtils'
 import { loadCurrencyPrices } from '../../providers/orderProvider'
+import Curator from '../../utils/escrow-utils/curator'
+
+const web3 = new Web3(
+  process.env.NEXT_PUBLIC_INFURA_ENDPOINT ||
+  new Web3.providers.HttpProvider('http://localhost:8545')
+);
 
 const NewPublish = () => {
   const global = useGlobal()
@@ -55,6 +62,7 @@ const NewPublish = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   const [selectedCurrency, setSelectedCurrency] = useState('ETH')
+  const [curatorInstance, setCuratorInstance] = useState();
 
   // State SubCategories
   const [subCategories, setSubCategories] = useState([])
@@ -90,7 +98,13 @@ const NewPublish = () => {
       loadCurrencyPrices(dispatch, global)
       return
     }
-  }, [user, loggedOut, router, global.currencyPriceList])
+
+    if (curatorInstance) {
+      return;
+    }
+
+    setCuratorInstance(new Curator(web3, global.profile.eth_address.toLowerCase()))
+  }, [user, loggedOut, router, global.currencyPriceList, curatorInstance])
 
   const { data: categories, isLoading, isError } = useFetch('/categories/')
 
@@ -115,6 +129,28 @@ const NewPublish = () => {
 
   // Form Submit Preview
   const onSubmit = async (data) => {
+    const {
+      img1,
+      img2,
+      img3,
+      title,
+      description,
+      category,
+      subcategory
+    } = data;
+    await curatorInstance.submitItemToCurator({
+      currencySymbolPrice: selectedCurrency,
+      price: priceValue,
+      title,
+      description,
+      seller: global.profile.eth_address.toLowerCase(),
+      maxOrders: 3,
+      slug: '',
+      category,
+      subCategory: subcategory
+    }, [img1, img2, img3].filter(image => image))
+
+    /*
     const form = new FormData()
 
     if (data.img1) {
@@ -161,6 +197,7 @@ const NewPublish = () => {
     setResult(newData)
     // Open Modal
     onOpen()
+    */
   }
 
   // Confirm Submit
