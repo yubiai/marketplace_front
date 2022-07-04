@@ -3,6 +3,8 @@ import Head from 'next/head'
 import Link from 'next/link'
 
 export default function Custom404() {
+
+  // page Error 404
   return (
     <>
       <Head>
