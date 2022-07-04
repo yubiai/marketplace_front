@@ -71,7 +71,6 @@ const ItemById = ({ item }) => {
   }
 
   const addFavorite = async () => {
-    console.log('add Favorite')
     log.info('Add Favorite axion')
     await profileService
       .addFavorite(
