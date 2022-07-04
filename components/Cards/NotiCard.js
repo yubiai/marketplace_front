@@ -39,9 +39,9 @@ const NotiCard = ({ item, onClose, callApiNoti }) => {
 
   return (
     <Stat
-      p="4"
       boxShadow="lg"
       m="4"
+      maxH={"150px"}
       borderRadius="sm"
       bg="white"
       px={{ base: 4, md: 8 }}

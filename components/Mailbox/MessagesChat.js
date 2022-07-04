@@ -1,13 +1,14 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { Avatar, Box, Center, Flex, Text } from '@chakra-ui/react'
 import moment from 'moment'
 
 const MessagesChat = ({ messages, buyer, seller, me }) => {
-  const AlwaysScrollToBottom = () => {
+/* Scroll hacia abajo
+   const AlwaysScrollToBottom = () => {
     const elementRef = useRef()
     useEffect(() => elementRef.current.scrollIntoView())
     return <div ref={elementRef} />
-  }
+  } */
 
   const dates = new Set()
 
@@ -72,7 +73,6 @@ const MessagesChat = ({ messages, buyer, seller, me }) => {
           )
         }
       })}
-      <AlwaysScrollToBottom />
     </Flex>
   )
 }

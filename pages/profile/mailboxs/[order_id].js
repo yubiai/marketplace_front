@@ -33,11 +33,7 @@ const MailBoxs = () => {
   // if logged in, redirect to the home
   useEffect(() => {
     if (loggedOut) {
-      router.replace('/')
-      dispatch({
-        type: 'AUTHPROFILE',
-        payload: null,
-      })
+      router.replace('/logout')
     }
   }, [user, loggedOut, router, dispatch])
 
@@ -46,7 +42,9 @@ const MailBoxs = () => {
     isLoading,
     isError,
   } = useFetch(
-    `/channel/orderid/${order_id}`,
+    global && global.profile && global.profile.token && order_id
+      ? `/channel/orderid/${order_id}`
+      : null,
     global && global.profile && global.profile.token
   )
 
@@ -60,7 +58,6 @@ const MailBoxs = () => {
   }, [channel])
 
   // Saved Channel
-
   const saveMessage = async (message) => {
     await channelService
       .pushMsg(channel._id, message, global.profile.token)
@@ -86,9 +83,6 @@ const MailBoxs = () => {
     setMessages((old) => [...old, newMessage])
     saveMessage(newMessage)
   }
-
-  console.log(channel, 'channel')
-  console.log(messages, 'messages')
 
   if (isLoading || !user) return <Loading />
 

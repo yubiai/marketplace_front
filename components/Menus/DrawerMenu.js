@@ -175,13 +175,12 @@ const DrawerMenu = () => {
                     </Link>
                   </ListItem>
                   <ListItem>
-                    <Link href="/notifications">
+                    <Link href="/profile/notifications">
                       <Button
                         onClick={() => onClose()}
                         w="full"
                         bg="transparent"
                         justifyContent={'left'}
-                        isDisabled
                       >
                         <ListIcon as={BsFillBellFill} />
                         Notifications
