@@ -16,11 +16,8 @@ const NotiCard = ({ item, onClose, callApiNoti }) => {
   const pushLinkAndSee = async () => {
     await notiService
       .updateSeenNotiById(item._id)
-      .then((res) => {
-        console.log(res, 'updateseen')
-      })
       .catch((err) => {
-        console.log(err, 'error updateseen')
+        console.log(err, "error update seen")
       })
 
     if (onClose && callApiNoti) {
