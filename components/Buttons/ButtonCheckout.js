@@ -1,8 +1,12 @@
+import Web3 from 'web3'
+import React, { useEffect, useState } from 'react'
 import { Button, Center, Spinner } from '@chakra-ui/react'
 import { useGlobal } from '../../providers/globalProvider'
+import PaymentProcessor from '../../utils/escrow-utils/paymentProcessor'
 
-const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress }) => {
+const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, currency }) => {
     const global = useGlobal()
+    const [paymentProcessorInstance, setPaymentProcessorInstance] = useState(null)
     const { amount, recipient, timeout, title, description, extraData } = transactionInfo
     const metaEvidence = {
         title,
@@ -14,8 +18,12 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
         try {
             toggleLoadingStatus(true);
             const amountToWei = global.klerosEscrowInstance.web3.utils.toWei(amount.value.toString())
-            const result = await global.klerosEscrowInstance.createTransaction(
-                amountToWei, recipient, timeout, metaEvidence)
+
+            /**
+             * Default Burn Fee: 1%
+             */
+            const result = await paymentProcessorInstance.managePayment(
+                amountToWei, 5, 1, timeout, recipient, metaEvidence);
 
             const {
                 blockHash,
@@ -27,7 +35,10 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                 transactionHash,
                 events
             } = result;
-            const transactionIndex = events.MetaEvidence.returnValues._metaEvidenceID;
+            const metaEvidenceObj = events.MetaEvidence.find(
+                item => item.address === global.klerosEscrowInstance.arbitratorContract) || {};
+            
+            const transactionIndex = (metaEvidenceObj.returnValues || {})._metaEvidenceID;
             await createOrder({
                 blockHash,
                 blockNumber,
@@ -45,6 +56,21 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
         }
     };
 
+    useEffect(() => {
+        if (!paymentProcessorInstance && global.klerosEscrowInstance) {
+            const web3 = new Web3(
+                process.env.NEXT_PUBLIC_INFURA_ENDPOINT ||
+                new Web3.providers.HttpProvider('http://localhost:8545')
+            );
+            setPaymentProcessorInstance(
+                new PaymentProcessor(
+                    web3,
+                    global?.profile?.eth_address.toLowerCase(),
+                    global?.klerosEscrowInstance
+                )
+            )
+        }
+    }, [paymentProcessorInstance, global.klerosEscrowInstance])
   
     return (
        <>
