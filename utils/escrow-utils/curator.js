@@ -1,5 +1,6 @@
 import { Buffer } from 'buffer'
 import { curator } from '../escrow-utils/abis';
+import { createWeb3, createWeb3FromModal } from './web3-provider';
 
 // Kovan
 const CURATOR_CONTRACT = '0x7Fb316EBf3dfa2A8ba6267eDfDaDA1E60F5Fe217';
@@ -23,11 +24,12 @@ const columnsForItem = [
 
 export default class Curator {
     constructor(web3, account) {
-      this.web3 = web3
-      this.initCurator(account);
+      this.initCurator(web3, account);
     }
 
-    initCurator(account) {
+    async initCurator(web3, account) {
+        const _web3 = createWeb3((web3.currentProvider || {}).url || '');
+        this.web3 = await createWeb3FromModal(_web3.modal, _web3.infuraURL);
         this.contract = new this.web3.eth.Contract(
             curator, CURATOR_CONTRACT, { from: account },
         );
@@ -82,14 +84,13 @@ export default class Curator {
             'https://api.thegraph.com/ipfs/api/v0/add?wrap-with-directory=true', {
                 method: 'POST',
                 body: f
-        })
-        if (response && response.data) {
-            const uploadResponse = await this.upload('item.json', {
-                columns: { ... columnsForItem },
-                values: formValues
-            });
-            await this.addItem(uploadResponse);
-        }
+        });
+
+        const uploadResponse = await this.upload('item.json', {
+            columns: { ... columnsForItem },
+            values: formValues
+        });
+        await this.addItem(uploadResponse);
     }
 
     async upload(fileName, bufferOrJSON) {
@@ -126,6 +127,7 @@ export default class Curator {
     }
 
     async addItem(item) {
-            return await this.contract.methods.addItem(item).call();
+        const fixedAmount = 95000000000000000; // Based on the cost of submitting Yubiai item: 0.095ETH
+            return await this.contract.methods.addItem(item).send({ value: fixedAmount });
     }
 }
