@@ -36,8 +36,7 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                 events
             } = result;
             const metaEvidenceObj = events.MetaEvidence.find(
-                item => item.address === global.klerosEscrowInstance.arbitratorContract) || {};
-            
+                item => item.address.toLowerCase() === global.klerosEscrowInstance.arbitratorContract.toLowerCase()) || {};
             const transactionIndex = (metaEvidenceObj.returnValues || {})._metaEvidenceID;
             await createOrder({
                 blockHash,
