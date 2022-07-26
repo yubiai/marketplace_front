@@ -44,7 +44,7 @@ const SearchBar = () => {
           backgroundColor={'white'}
           focusBorderColor={'transparent'}
           size="md"
-          placeholder={`Search in Yubiai Marketplace`}
+          placeholder={`Search in Yubiai`}
           onChange={(e) => setQuery(e.target.value)}
           value={query}
           onKeyPress={(e) => {

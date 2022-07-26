@@ -44,16 +44,16 @@ const ItemById = ({ item }) => {
     })
   }
 
-  const getFavorites = async () => {
-    let favorites
+  const getFavourites = async () => {
+    let favourites
     setOwner(false)
     await profileService
-      .getFavorites((global && global.profile && global.profile._id) || null, null, global?.profile?.token)
+      .getFavourites((global && global.profile && global.profile._id) || null, null, global?.profile?.token)
       .then((res) => {
-        favorites = res.data.items || []
-        if (favorites.length > 0) {
-          for (let i = 0; i < favorites.length; i++) {
-            if (favorites[i]._id === item._id) {
+        favourites = res.data.items || []
+        if (favourites.length > 0) {
+          for (let i = 0; i < favourites.length; i++) {
+            if (favourites[i]._id === item._id) {
               setFavorite(true)
               break
             } else {
@@ -61,7 +61,7 @@ const ItemById = ({ item }) => {
             }
           }
         }
-        if(favorites.length === 0){
+        if(favourites.length === 0){
           setFavorite(false)
         }
       })
@@ -79,10 +79,10 @@ const ItemById = ({ item }) => {
       )
       .then((res) => {
         if (res.status === 200) {
-          getFavorites()
+          getFavourites()
           actionToat(
-            'Favorites',
-            'Item added to favorites successfully.',
+            'Favourites',
+            'Item added to favourites successfully.',
             'success'
           )
           return
@@ -98,10 +98,10 @@ const ItemById = ({ item }) => {
       )
       .then((res) => {
         if (res.status === 200) {
-          getFavorites()
+          getFavourites()
           actionToat(
-            'Favorites',
-            'Item removed from favorites successfully.',
+            'Favourites',
+            'Item removed from favourites successfully.',
             'info'
           )
           return
@@ -115,11 +115,11 @@ const ItemById = ({ item }) => {
     }
   }
 
-  const funcFavorites = () => {
+  const funcFavourites = () => {
     if (item && item.seller && item.seller._id === global.profile._id) {
       setOwner(true)
     } else {
-      getFavorites()
+      getFavourites()
     }
   }
 
@@ -128,7 +128,7 @@ const ItemById = ({ item }) => {
       funcSelectImage()
     }
     if (global && global.profile && item && item._id) {
-      funcFavorites()
+      funcFavourites()
     } else {
       setOwner(null)
     }

@@ -17,12 +17,12 @@ import useFetch from '../../../hooks/data/useFetch'
 import Paginations from '../../../components/Layouts/Paginations'
 import { useRouter } from 'next/router'
 
-const Favorites = () => {
+const Favourites = () => {
   const global = useGlobal()
   const router = useRouter()
 
   const { data, isLoading, isError } = useFetch(
-    global && global.profile && global.profile._id ? `/profiles/favorites/${global.profile._id}?page=${global.pageIndex}&size=8` : null,
+    global && global.profile && global.profile._id ? `/profiles/favourites/${global.profile._id}?page=${global.pageIndex}&size=8` : null,
     global && global.profile && global.profile.token
   )
 
@@ -35,7 +35,7 @@ const Favorites = () => {
   return (
     <>
       <Head>
-        <title>Yubiai Marketplace - Favorites</title>
+        <title>Yubiai Marketplace - Favourites</title>
         <meta
           name="keywords"
           content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask"
@@ -50,14 +50,14 @@ const Favorites = () => {
         >
           <Flex alignItems={'center'} mt="1em">
             {data && data.items && data.items.length > 0 && (
-              <Text fontWeight={'bold'}>Your favorites</Text>
+              <Text fontWeight={'bold'}>Your favourites</Text>
             )}
           </Flex>
           {data && data.items && data.items.length === 0 && (
               <>
                 <Center>
                 <Heading mt="5em">
-                  You do not have any items added to favorites.
+                  You do not have any items added to favourites.
                 </Heading>
                 </Center>
                 <Center>
@@ -88,4 +88,4 @@ const Favorites = () => {
   )
 }
 
-export default Favorites
+export default Favourites

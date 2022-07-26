@@ -111,8 +111,8 @@ const Navbar = () => {
       href: '/listing/new',
     },
     {
-      label: global && global.profile ? 'Favorites' : null,
-      href: '/profile/favorites',
+      label: global && global.profile ? 'Favourites' : null,
+      href: '/profile/favourites',
     },
     {
       label: 'Help',

@@ -201,7 +201,7 @@ const DrawerMenu = () => {
                     </Link>
                   </ListItem>
                   <ListItem>
-                    <Link href="/profile/favorites">
+                    <Link href="/profile/favourites">
                       <Button
                         onClick={() => onClose()}
                         w="full"
@@ -209,7 +209,7 @@ const DrawerMenu = () => {
                         justifyContent={'left'}
                       >
                         <ListIcon as={MdFavorite} />
-                        Favorites
+                        Favourites
                       </Button>
                     </Link>
                   </ListItem>

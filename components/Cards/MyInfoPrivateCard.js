@@ -36,7 +36,7 @@ const MyInfoPrivateCard = ({ dataProfile }) => {
             </Text>
             <Divider />
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              <b>Ubication:</b> {dataProfile.address} - {dataProfile.city} -{' '}
+              <b>Shipping address:</b> {dataProfile.address} - {dataProfile.city} -{' '}
               {dataProfile.country}
             </Text>
             <Divider />
