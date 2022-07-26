@@ -84,7 +84,8 @@ const Home = ({ items }) => {
         <meta property="og:url" content="https://www.yubiai.com/" />
         <meta property="og:type" content="website" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/static/images/logo2.png" />
+        <link rel="shortcut icon" type="image/png" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="Robots" content="all" />
       </Head>
 
