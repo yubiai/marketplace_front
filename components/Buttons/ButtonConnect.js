@@ -59,7 +59,7 @@ const ButtonConnect = () => {
         onClick={() => onConnect()}
         isDisabled={global.profile && global.profile.eth_address}
       >
-        {global.profile && global.profile.eth_address ? global.profile.eth_address.substr(0, 8) : 'Connect'}
+        {global.profile && global.profile.eth_address ? global.profile.eth_address.slice(global.profile.eth_address.length - 8) : 'Connect'}
       </Button>
     </>
   )
