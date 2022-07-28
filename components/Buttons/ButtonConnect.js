@@ -24,16 +24,18 @@ const ButtonConnect = () => {
       return
     }
 
-    const result = await profileService.login(signerAddress)
+    const result = await profileService.login(signerAddress);
     const data = result.data.data;
+    
     dispatch({
       type: 'AUTHPROFILE',
       payload: data
-    })
+    });
+
     const yubiaiLS = {
       token: result.data.token,
       wallet: data.eth_address
-    }
+    };
 
     Cookies.set('Yubiai', result.data.token, { expires: 1, secure: true })
     localStorage.setItem('Yubiai', JSON.stringify(yubiaiLS))
@@ -43,7 +45,7 @@ const ButtonConnect = () => {
       position: 'top-right',
       status: 'success',
       duration: 4000,
-      isClosable: true,
+      isClosable: true
     })
   }
 

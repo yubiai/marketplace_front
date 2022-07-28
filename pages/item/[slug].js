@@ -21,6 +21,7 @@ import Head from 'next/head'
 import { useGlobal } from '../../providers/globalProvider'
 import { profileService } from '../../services/profileService'
 import { log } from 'next-axiom';
+import useUser from '../../hooks/data/useUser'
 
 const ItemById = ({ item }) => {
   const global = useGlobal()
@@ -32,6 +33,8 @@ const ItemById = ({ item }) => {
   const [selectImage, setSelectImage] = useState(null)
   const router = useRouter()
   const dispatch = useDispatchGlobal()
+
+  const { user } = useUser()
 
   const actionToat = (title, description, status) => {
     toast({
@@ -273,7 +276,7 @@ const ItemById = ({ item }) => {
                   fontSize={'16px'}
                   fontWeight={'600'}
                   onClick={buyAndCheckoutItem}
-                  disabled={owner}
+                  disabled={owner || !user}
                 >
                   Buy Now
                 </Button>

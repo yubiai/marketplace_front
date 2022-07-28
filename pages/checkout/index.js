@@ -26,6 +26,8 @@ import {
 } from '../../providers/orderProvider'
 import { orderService } from '../../services/orderService'
 import { channelService } from '../../services/channelService'
+import useUser from '../../hooks/data/useUser'
+import Loading from '../../components/Spinners/Loading'
 
 const Checkout = () => {
   const global = useGlobal()
@@ -34,6 +36,20 @@ const Checkout = () => {
   const [orderData, setOrderData] = useState({})
   const [transactionData, setTransactionData] = useState({})
   const [operationInProgress, setOperationInProgress] = useState(false)
+
+  const { user, loggedOut } = useUser()
+
+  // if logged in, redirect to the home
+  useEffect(() => {
+    if (loggedOut) {
+      router.replace('/')
+      dispatch({
+        type: 'AUTHPROFILE',
+        payload: null,
+      })
+    }
+  }, [user, loggedOut, router, dispatch]);
+
 
   const [sliderValue, setSliderValue] = useState(0)
 
@@ -110,6 +126,8 @@ const Checkout = () => {
   const toggleLoadingStatus = (status) => {
     setOperationInProgress(status)
   }
+
+  if (!user) return <Loading />
 
   return (
     transactionData && (
