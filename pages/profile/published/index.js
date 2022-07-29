@@ -16,17 +16,30 @@ import Error from '../../../components/Infos/Error'
 import Paginations from '../../../components/Layouts/Paginations'
 import useFetch from '../../../hooks/data/useFetch'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import useUser from '../../../hooks/data/useUser'
 
 const Published = () => {
   const global = useGlobal()
   const router = useRouter()
 
+  const { user, loggedOut } = useUser()
+
+  // if logged in, redirect to the home
+  useEffect(() => {
+    if (loggedOut) {
+      router.replace('/logout')
+    }
+  }, [user, loggedOut, router])
+
   const { data, isLoading, isError } = useFetch(
-    global && global.profile && global.profile._id ? `/profiles/my_published/${global.profile._id}?page=${global.pageIndex}&size=8` : null,
+    global && global.profile && global.profile._id
+      ? `/profiles/my_published/${global.profile._id}?page=${global.pageIndex}&size=8`
+      : null,
     global?.profile?.token
   )
 
-  if (isLoading && !data) return <Loading />
+  if (isLoading && !data || !user) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />

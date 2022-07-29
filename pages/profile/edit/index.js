@@ -9,15 +9,25 @@ import Loading from '../../../components/Spinners/Loading'
 import useFetch from '../../../hooks/data/useFetch'
 import { useGlobal } from '../../../providers/globalProvider'
 import { profileService } from '../../../services/profileService'
+import useUser from '../../../hooks/data/useUser'
 
 const ProfileEdit = () => {
   const global = useGlobal()
   const router = useRouter()
   const toast = useToast()
 
+  const { user, loggedOut } = useUser()
+
+  // if logged in, redirect to the home
+  useEffect(() => {
+    if (loggedOut) {
+      router.replace('/logout')
+    }
+  }, [user, loggedOut, router])
+
   // State useForm
   const { handleSubmit, register, reset } = useForm()
-
+  
   const {
     data: dataProfile,
     isLoading,

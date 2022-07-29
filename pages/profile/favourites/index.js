@@ -16,17 +16,28 @@ import ProfileMenu from '../../../components/Menus/ProfileMenu'
 import useFetch from '../../../hooks/data/useFetch'
 import Paginations from '../../../components/Layouts/Paginations'
 import { useRouter } from 'next/router'
+import useUser from '../../../hooks/data/useUser'
+import { useEffect } from 'react'
 
 const Favourites = () => {
   const global = useGlobal()
   const router = useRouter()
+
+  const { user, loggedOut } = useUser()
+
+  // if logged in, redirect to the home
+  useEffect(() => {
+    if (loggedOut) {
+      router.replace('/logout')
+    }
+  }, [user, loggedOut, router])
 
   const { data, isLoading, isError } = useFetch(
     global && global.profile && global.profile._id ? `/profiles/favourites/${global.profile._id}?page=${global.pageIndex}&size=8` : null,
     global && global.profile && global.profile.token
   )
 
-  if (isLoading && !data) return <Loading />
+  if (isLoading && !data || !user) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />

@@ -17,8 +17,8 @@ const Logout = () => {
       localStorage.removeItem('Yubiai')
       Cookies.remove('Yubiai')
       setTimeout(() => {
-        router.push('/')
-      }, 2000)
+        router.back()
+      }, 1000)
     }
     LoadingLogout()
   // eslint-disable-next-line react-hooks/exhaustive-deps
