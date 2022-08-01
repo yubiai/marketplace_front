@@ -2,15 +2,15 @@ import { Box } from '@chakra-ui/react'
 import axios from 'axios'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
-import CarouselCards from '../components/Cards/CarouselCards'
+import CarrouselCards from '../components/Cards/CarrouselCards'
 import Loading from '../components/Spinners/Loading'
 import { useGlobal } from '../providers/globalProvider'
 import { profileService } from '../services/profileService'
 
 const Home = ({ items }) => {
   const global = useGlobal();
-  const [favorites, setFavorites] = useState(null);
-  const [listFavorites, setListFavorites] = useState(null);
+  const [favourites, setFavourites] = useState(null);
+  const [listFavourites, setListFavourites] = useState(null);
   const [listRandom, setListRandom] = useState(null);
 
   const arrayRandom = () => {
@@ -31,30 +31,30 @@ const Home = ({ items }) => {
 
   useEffect(() => {
     const initItem = async () => {
-      setFavorites(null)
+      setFavourites(null)
       if (global && global.profile && global.profile._id) {
         await profileService
-          .getFavorites(global.profile._id, "40", global?.profile?.token)
+          .getFavourites(global.profile._id, "40", global?.profile?.token)
           .then((res) => {
-            const favorites = res.data.items;
-            if (favorites.length > 0) {
-              setListFavorites(favorites)
-              setFavorites(true)
+            const favourites = res.data.items;
+            if (favourites.length > 0) {
+              setListFavourites(favourites)
+              setFavourites(true)
             } 
-            if(favorites.length === 0){
-              setListFavorites([])
-              setFavorites(false)
+            if(favourites.length === 0){
+              setListFavourites([])
+              setFavourites(false)
               arrayRandom()
             }
           })
           .catch((err) => {
             console.log(err)
-            setListFavorites([])
-            setFavorites(false)
+            setListFavourites([])
+            setFavourites(false)
             arrayRandom()
           })
       } else {
-        setFavorites(false)
+        setFavourites(false)
         arrayRandom()
       }
     }
@@ -84,25 +84,26 @@ const Home = ({ items }) => {
         <meta property="og:url" content="https://www.yubiai.com/" />
         <meta property="og:type" content="website" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/static/images/logo2.png" />
+        <link rel="shortcut icon" type="image/png" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="Robots" content="all" />
       </Head>
 
       <main>
         <Box h={{base: "full", sm: "full", md: "full", lg: "full", xl: "100vh"}} m="2em">
-          <CarouselCards
+          <CarrouselCards
             title={'Popular services'}
             items={items}
           />
-          {favorites === null && <Loading />}
-          {favorites === true && (
-            <CarouselCards
-              title={'Your favorites'}
-              items={listFavorites}
+          {favourites === null && <Loading />}
+          {favourites === true && (
+            <CarrouselCards
+              title={'Your favourites'}
+              items={listFavourites}
             />
           )}
-          {favorites === false && (
-            <CarouselCards title={'Last viewed items'} items={listRandom} />
+          {favourites === false && (
+            <CarrouselCards title={'Last viewed items'} items={listRandom} />
           )}
         </Box>
       </main>

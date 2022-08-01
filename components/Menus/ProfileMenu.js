@@ -29,7 +29,7 @@ const LinkItems = [
   { name: 'Published', icon: FiTrendingUp, url: '/profile/published' },
   { name: 'Orders', icon: FiBattery, url: '/profile/orders' },
   { name: 'Sales', icon: FiCompass, url: '/profile/orders/sales' },
-  { name: 'Favorites', icon: FiStar, url: '/profile/favorites' }
+  { name: 'Favourites', icon: FiStar, url: '/profile/favourites' }
 ]
 
 export default function ProfileMenu({ children }) {

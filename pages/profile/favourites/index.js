@@ -16,17 +16,28 @@ import ProfileMenu from '../../../components/Menus/ProfileMenu'
 import useFetch from '../../../hooks/data/useFetch'
 import Paginations from '../../../components/Layouts/Paginations'
 import { useRouter } from 'next/router'
+import useUser from '../../../hooks/data/useUser'
+import { useEffect } from 'react'
 
-const Favorites = () => {
+const Favourites = () => {
   const global = useGlobal()
   const router = useRouter()
 
+  const { user, loggedOut } = useUser()
+
+  // if logged in, redirect to the home
+  useEffect(() => {
+    if (loggedOut) {
+      router.replace('/logout')
+    }
+  }, [user, loggedOut, router])
+
   const { data, isLoading, isError } = useFetch(
-    global && global.profile && global.profile._id ? `/profiles/favorites/${global.profile._id}?page=${global.pageIndex}&size=8` : null,
+    global && global.profile && global.profile._id ? `/profiles/favourites/${global.profile._id}?page=${global.pageIndex}&size=8` : null,
     global && global.profile && global.profile.token
   )
 
-  if (isLoading && !data) return <Loading />
+  if (isLoading && !data || !user) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />
@@ -35,7 +46,7 @@ const Favorites = () => {
   return (
     <>
       <Head>
-        <title>Yubiai Marketplace - Favorites</title>
+        <title>Yubiai Marketplace - Favourites</title>
         <meta
           name="keywords"
           content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask"
@@ -50,14 +61,14 @@ const Favorites = () => {
         >
           <Flex alignItems={'center'} mt="1em">
             {data && data.items && data.items.length > 0 && (
-              <Text fontWeight={'bold'}>Your favorites</Text>
+              <Text fontWeight={'bold'}>Your favourites</Text>
             )}
           </Flex>
           {data && data.items && data.items.length === 0 && (
               <>
                 <Center>
                 <Heading mt="5em">
-                  You do not have any items added to favorites.
+                  You do not have any items added to favourites.
                 </Heading>
                 </Center>
                 <Center>
@@ -88,4 +99,4 @@ const Favorites = () => {
   )
 }
 
-export default Favorites
+export default Favourites

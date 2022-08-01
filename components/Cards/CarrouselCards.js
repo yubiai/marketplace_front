@@ -94,7 +94,7 @@ const settings = {
   ],
 }
 
-const CarouselCards = ({title, items}) => {
+const CarrouselCards = ({title, items}) => {
 
   return (
     <Container display={{base:"contents"}} maxW="full" mt="2em">
@@ -110,4 +110,4 @@ const CarouselCards = ({title, items}) => {
   )
 }
 
-export default CarouselCards;
+export default CarrouselCards;

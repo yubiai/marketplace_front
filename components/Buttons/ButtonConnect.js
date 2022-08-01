@@ -24,26 +24,28 @@ const ButtonConnect = () => {
       return
     }
 
-    const result = await profileService.login(signerAddress)
+    const result = await profileService.login(signerAddress);
     const data = result.data.data;
+    
     dispatch({
       type: 'AUTHPROFILE',
       payload: data
-    })
+    });
+
     const yubiaiLS = {
       token: result.data.token,
       wallet: data.eth_address
-    }
+    };
 
     Cookies.set('Yubiai', result.data.token, { expires: 1, secure: true })
     localStorage.setItem('Yubiai', JSON.stringify(yubiaiLS))
     toast({
-      title: 'Login',
-      description: 'You have successfully logged in, Welcome!',
+      title: 'Welcome, you are successfully logged in.',
+      description: 'Now you are able to start buying & selling on Yubiai.',
       position: 'top-right',
       status: 'success',
-      duration: 5000,
-      isClosable: true,
+      duration: 4000,
+      isClosable: true
     })
   }
 
@@ -59,7 +61,7 @@ const ButtonConnect = () => {
         onClick={() => onConnect()}
         isDisabled={global.profile && global.profile.eth_address}
       >
-        {global.profile && global.profile.eth_address ? global.profile.eth_address.substr(0, 8) : 'Connect'}
+        {global.profile && global.profile.eth_address ? global.profile.eth_address.slice(global.profile.eth_address.length - 8) : 'Connect'}
       </Button>
     </>
   )

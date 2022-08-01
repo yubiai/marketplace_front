@@ -33,22 +33,28 @@ const Paginations = ({ data }) => {
     pages.push(<Page id={i} key={i} />)
   }
 
-  const incrPageIndex = () =>
+  const incrPageIndex = () => {
+    window.scrollTo(0, 0)
     dispatch({
       type: 'INCRPAGEINDEX',
     })
+  }
 
-  const descrPageIndex = () =>
+  const descrPageIndex = () => {
+    window.scrollTo(0, 0)
     dispatch({
       type: 'DECRPAGEINDEX',
     })
+  }
 
   return (
     <>
       {data?.totalPages > 1 ? (
         <>
           <Center>
-            <Tag m={2} fontWeight="bold">Page: {data?.currentPage + 1}</Tag>
+            <Tag m={2} fontWeight="bold">
+              Page: {data?.currentPage + 1}
+            </Tag>
           </Center>
           <Flex alignItems={'center'} justifyContent={{ base: 'center' }}>
             <Button

@@ -213,7 +213,7 @@ const OrderDetail = () => {
 
           <Stack mt={4} direction={'row'} spacing={2}>
             <Box marginTop={'24px'} w="full">
-              <Box>
+              <Box m="2em">
                 <Button bg="green" color={'white'} onClick={redirectToChat}>
                   Chat with seller
                 </Button>

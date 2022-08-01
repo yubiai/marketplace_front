@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
       .then((res) => {
         dispatch({
           type: 'SET_NOTIFICATIONS',
-          payload: res.data
+          payload: res.data,
         })
         return
       })
@@ -32,14 +32,25 @@ export const AuthProvider = ({ children }) => {
 
   // Empieza cada tanto tiempo a preguntar si hay nuevas notifications
   useEffect(() => {
-    if(global.profile && global.profile._id && global.profile.token){
+    if (global.profile && global.profile._id && global.profile.token) {
       const id = setInterval(() => {
         callApiNoti(global.profile._id, global.profile.token)
         setCheck(check + 1)
       }, 40000)
-      return () => clearInterval(id) 
+      return () => clearInterval(id)
     }
   }, [check, global.profile])
+
+  useEffect(() => {
+    const verify = async() => {
+      await window.ethereum.on('accountsChanged', function (accounts) {
+        // Time to reload your interface with accounts[0]!
+        console.log(accounts[0])
+      });
+    }
+    verify()
+  }, [])
+  
 
   useEffect(() => {
     const authToken = async () => {
@@ -53,8 +64,8 @@ export const AuthProvider = ({ children }) => {
         const Yubiai = YubiaiLs ? JSON.parse(YubiaiLs) : null
 
         const Ybcookies = Cookies.get('Yubiai') ? Cookies.get('Yubiai') : null
-        
-        if(!Yubiai && !Ybcookies){
+
+        if (!Yubiai && !Ybcookies) {
           return
         }
 
@@ -81,14 +92,14 @@ export const AuthProvider = ({ children }) => {
             type: 'AUTHPROFILE',
             payload: { ...user.data, token: Yubiai.token },
           })
-          callApiNoti(user.data._id, Yubiai.token);
+          callApiNoti(user.data._id, Yubiai.token)
           return
         } else {
           dispatch({
             type: 'AUTHPROFILE',
             payload: null,
           })
-          router.push("/")
+          router.push('/')
           return
         }
       } catch (err) {
@@ -97,7 +108,7 @@ export const AuthProvider = ({ children }) => {
           payload: null,
         })
         localStorage.removeItem('Yubiai')
-        router.push("/")
+        router.push('/')
         return
       }
     }

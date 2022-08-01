@@ -24,7 +24,7 @@ async function login(walletAddress) {
 }
 
 /**
- * Get Favorites the perfil
+ * Get Favourites the perfil
  * @param {str} id user
  */
 async function getProfile(eth_address) {
@@ -32,7 +32,7 @@ async function getProfile(eth_address) {
 }
 
 /**
- * Get Favorites the perfil
+ * Get Favourites the perfil
  * @param {str} id user
  * @param {str} data
  */
@@ -48,11 +48,11 @@ async function updateProfile(profile, data, token) {
 }
 
 /**
- * Get Favorites the perfil
+ * Get Favourites the perfil
  * @param {str} profile
  */
-async function getFavorites(profile, size, token) {
-  return await axios.get(`/profiles/favorites/${profile}?size=${size || ""}`, token
+async function getFavourites(profile, size, token) {
+  return await axios.get(`/profiles/favourites/${profile}?size=${size || ""}`, token
   ? {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -62,12 +62,12 @@ async function getFavorites(profile, size, token) {
 }
 
 /**
- * Add Favorite to the perfil
+ * Add Favorite the perfil
  * @param {str} profile
  * @param {str} item
  */
 async function addFavorite(profile, item, token) {
-  return await axios.put(`/profiles/favorites/${profile}`, {
+  return await axios.put(`/profiles/favourites/${profile}`, {
     action: 'add',
     item_id: item._id,
   }, token
@@ -85,7 +85,7 @@ async function addFavorite(profile, item, token) {
  * @param {str} item
  */
 async function removeFavorite(profile, item, token) {
-  return await axios.put(`/profiles/favorites/${profile}`, {
+  return await axios.put(`/profiles/favourites/${profile}`, {
     action: 'remove',
     item_id: item._id,
   }, token
@@ -103,7 +103,7 @@ export const profileService = {
   getProfileFromId,
   getProfile,
   updateProfile,
-  getFavorites,
+  getFavourites,
   addFavorite,
   removeFavorite
 }

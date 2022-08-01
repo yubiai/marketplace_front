@@ -51,9 +51,10 @@ const UserMenu = () => {
       <Portal>
         <MenuList>
           <UserInfo profile={profileLogin} balanceToken={balanceToken} />
-          <MenuItem>
-            <Link href="/profile">My Info</Link>
-          </MenuItem>
+
+          <Link href="/profile">
+            <MenuItem>My Info</MenuItem>
+          </Link>
           <Link href="/profile/notifications">
             <MenuItem>Notifications</MenuItem>
           </Link>
@@ -66,9 +67,9 @@ const UserMenu = () => {
           <Link href="/profile/orders/sales">
             <MenuItem>Sales</MenuItem>
           </Link>
-          <MenuItem>
-            <span onClick={() => router.push('/logout')}>Disconnect</span>
-          </MenuItem>
+          <span onClick={() => router.push('/logout')}>
+            <MenuItem>Disconnect </MenuItem>
+          </span>
         </MenuList>
       </Portal>
     </Menu>
