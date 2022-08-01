@@ -46,6 +46,7 @@ export default class KlerosEscrow {
   ) {
     this.web3 = web3
     this.archon = archon
+    this.arbitratorContract = '';
   }
 
   async getAccount() {
@@ -75,6 +76,7 @@ export default class KlerosEscrow {
         ETHNetID = 42;
       }
       court = (currency ? tokenAddresses : ethAddresses)[ETHNetID][court]
+      this.arbitratorContract = court
     }
 
     const account = await this.getAccount()
@@ -88,6 +90,7 @@ export default class KlerosEscrow {
     )
     this.tokenContract = new this.web3.eth.Contract(
       erc20, currency || ETHCurrencyAddress, { from: account });
+    window.klerosContract = this.contract;
   }
 
   async upload(fileName, bufferOrJSON) {
@@ -136,10 +139,15 @@ export default class KlerosEscrow {
     return account === transaction.sender
   }
 
-  async createTransaction(amount, recipient, timeout, metaEvidence) {
+  async prepareSourcesForTransaction(amount, recipient, timeout, metaEvidence, addressToApprove='') {
+    let addressContractToApprove = addressToApprove;
+    if (!addressContractToApprove) {
+      addressContractToApprove = this.contract.options.address;
+    }
+
     if (this.isNotSetDefaultContract()) {
       await this.tokenContract.methods
-        .approve(this.contract.options.address, amount)
+        .approve(addressContractToApprove, amount)
         .send();
     }
 
@@ -182,7 +190,14 @@ export default class KlerosEscrow {
       token: this.tokenContract && {
         address: this.tokenContract.options.address,
       },
-    })
+    });
+
+    return metaEvidenceURI;
+  }
+
+  async createTransaction(amount, recipient, timeout, metaEvidence) {
+    const metaEvidenceURI = await this.prepareSourcesForTransaction(
+      amount, recipient, timeout, metaEvidence);
 
     if (this.isNotSetDefaultContract()) {
       return this.contract.methods

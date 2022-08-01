@@ -276,13 +276,14 @@ const ItemById = ({ item }) => {
                   fontSize={'16px'}
                   fontWeight={'600'}
                   onClick={buyAndCheckoutItem}
-                  disabled={owner || !user}
+                  disabled={owner || !user || item.currencySymbolPrice !== 'ETH'}
                 >
                   Buy Now
                 </Button>
               </Center>
               <Center>
                 {owner && <Text color="red.300">It is your publication</Text>}
+                {item.currencySymbolPrice !== 'ETH' && <Text color="red.300">You will be able to pay with {item.currencySymbolPrice} soon</Text>}
               </Center>
             </Flex>
           </Box>

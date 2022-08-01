@@ -232,6 +232,8 @@ const Checkout = () => {
                   toggleLoadingStatus={toggleLoadingStatus}
                   createOrder={createOrder}
                   operationInProgress={operationInProgress}
+                  currency={(orderData.item || {}).currencySymbolPrice || 'ETH'}
+                  burnFee={sliderValue}
                 />
               </Stack>
             </Box>
