@@ -1,10 +1,7 @@
 import { paymentProcessor } from '../escrow-utils/abis';
 import { createWeb3, createWeb3FromModal } from './web3-provider'
 
-// Kovan
-const PAYMENT_PROCESSOR_CONTRACT = '0x12e2A72991FB9AC9Ff97a10f2E1619ee3b96Fc81';
-// ETH
-// const PAYMENT_PROCESSOR_CONTRACT = '';
+export const PAYMENT_PROCESSOR_CONTRACT = process.env.NEXT_PUBLIC_PAYMENT_PROCESSOR_CONTRACT;
 
 export default class PaymentProcessor {
     constructor(web3, account, klerosEscrowInstance) {
@@ -19,8 +16,12 @@ export default class PaymentProcessor {
         this.contract = new this.web3.eth.Contract(
             paymentProcessor, PAYMENT_PROCESSOR_CONTRACT, { from: account },
         );
+        window.paymentProcessorContract = this.contract;
     }
 
+    /**
+     * TODO: Include scenario for token-based transactions
+     */
     async managePayment(
         amount, paymentId, burnFee, timeoutPayment, receiver, metaEvidence) {
         const metaEvidenceURI = await this.klerosEscrowInstance.prepareSourcesForTransaction(

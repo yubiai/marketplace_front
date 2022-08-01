@@ -4,7 +4,7 @@ import { Button, Center, Spinner } from '@chakra-ui/react'
 import { useGlobal } from '../../providers/globalProvider'
 import PaymentProcessor from '../../utils/escrow-utils/paymentProcessor'
 
-const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, currency }) => {
+const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee }) => {
     const global = useGlobal()
     const [paymentProcessorInstance, setPaymentProcessorInstance] = useState(null)
     const { amount, recipient, timeout, title, description, extraData } = transactionInfo
@@ -17,13 +17,10 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
     const createTransaction = async () => {
         try {
             toggleLoadingStatus(true);
-            const amountToWei = global.klerosEscrowInstance.web3.utils.toWei(amount.value.toString())
+            const amountToWei = global.klerosEscrowInstance.web3.utils.toWei(amount.value.toString());
 
-            /**
-             * Default Burn Fee: 1%
-             */
             const result = await paymentProcessorInstance.managePayment(
-                amountToWei, 5, 1, timeout, recipient, metaEvidence);
+                amountToWei, 5, burnFee, timeout, recipient, metaEvidence);
 
             const {
                 blockHash,
