@@ -1,6 +1,6 @@
 export { reportWebVitals } from 'next-axiom';
 
-import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
+import { ChakraProvider, ColorModeScript, Text } from '@chakra-ui/react'
 import theme from '../styles/theme'
 
 import '../styles/globals.css'
@@ -16,6 +16,7 @@ import { AuthProvider } from '../providers/authProvider'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { SWRConfig } from 'swr'
+import ComingSoon from '../components/comingsoon';
 
 Axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API_URL
 //Axios.defaults.withCredentials = true;
@@ -29,7 +30,13 @@ const fetcher = async (url) => {
   }
 }
 
-function MyApp({ Component, pageProps }) {
+function MyApp(){
+  return(
+    <ComingSoon />
+  )
+}
+
+/* function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
@@ -51,6 +58,6 @@ function MyApp({ Component, pageProps }) {
       </GlobalProvider>
     </ChakraProvider>
   )
-}
+} */
 
 export default MyApp
