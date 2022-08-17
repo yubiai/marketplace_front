@@ -49,6 +49,15 @@ const theme = extendTheme({
       body: {
         bg: "#f1f1f1",
         fontFamily: "OpenSans, sans-serif",
+      },
+      '*::placeholder': {
+        color: 'black',
+      },
+      'p, u': {
+        color: 'black'
+      },
+      'h2, h3, h4, h5': {
+        color: 'black'
       }
     })
   },

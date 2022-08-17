@@ -74,10 +74,10 @@ const SidebarContent = ({ onClose, ...rest }) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="OpenSans, sans-serif" fontWeight="bold">
+        <Text fontSize="2xl" color="black" fontFamily="OpenSans, sans-serif" fontWeight="bold">
           My account
         </Text>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
+        <CloseButton color="black" display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon} url={link.url}>
@@ -101,6 +101,7 @@ const NavItem = ({ icon, url, children, ...rest }) => {
         mx="4"
         borderRadius="lg"
         role="group"
+        color="black"
         cursor="pointer"
         _hover={{
           bg: 'cyan.400',

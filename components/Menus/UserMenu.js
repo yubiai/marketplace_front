@@ -49,7 +49,7 @@ const UserMenu = () => {
         />
       )}
       <Portal>
-        <MenuList>
+        <MenuList color="black">
           <UserInfo profile={profileLogin} balanceToken={balanceToken} />
 
           <Link href="/profile">

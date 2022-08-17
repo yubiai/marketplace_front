@@ -134,6 +134,7 @@ const NavItem = ({ children, ...rest }) => {
       align="center"
       p="4"
       mx="4"
+      color="gray.800"
       borderRadius="lg"
       role="group"
       cursor="pointer"
@@ -143,7 +144,7 @@ const NavItem = ({ children, ...rest }) => {
       }}
       {...rest}
     >
-      <Radio value={children._id}>{children.title}</Radio>
+      <Radio value={children._id} bg="gray.300">{children.title}</Radio>
     </Flex>
   )
 }
