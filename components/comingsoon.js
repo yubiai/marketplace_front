@@ -11,7 +11,7 @@ import {
 const ComingSoon = () => {
 
     return (
-        <Container w={'full'} h={"100vh"} bg="black">
+        <Container w={'full'} h={"100vh"}>
             <Stack
                 textAlign={'center'}
                 align={'center'}
@@ -27,10 +27,10 @@ const ComingSoon = () => {
                         Soon          </Text>
                 </Heading>
                 <Text color={'white'} maxW={'3xl'}>
-                    Demo: <Link color="white" href="https://prepro.yubiai.market/">https://prepro.yubiai.market/</Link>
+                    APP Demo: <Link color="white" href="https://prepro.yubiai.market/">https://prepro.yubiai.market/</Link>
                 </Text>
                 <Box mt="3em">
-                    <Image w={'60%'} src={'/static/images/yubibg.png'}
+                    <Image w={'100%'} src={'/static/ybibg.png'}
                         alt='Yubiai' objectFit='cover' />
                 </Box>
             </Stack>
