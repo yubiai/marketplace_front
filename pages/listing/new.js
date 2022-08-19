@@ -90,7 +90,7 @@ const NewListing = () => {
       loadCurrencyPrices(dispatch, global)
       return
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, global.currencyPriceList, global.profile])
 
   const { data: categories, isLoading, isError } = useFetch('/categories/')
@@ -260,6 +260,7 @@ const NewListing = () => {
           <Text mt="2em">Title</Text>
           <Input
             placeholder="Title"
+            color="gray.700"
             bg="white"
             {...register('title', { required: true, maxLength: 72 })}
             isRequired
@@ -268,6 +269,7 @@ const NewListing = () => {
           <Text mt="2em">Description</Text>
           <Textarea
             placeholder="Description"
+            color="gray.700"
             bg="white"
             {...register('description', { required: true, maxLength: 800 })}
             isRequired
@@ -296,25 +298,26 @@ const NewListing = () => {
                     </option>
                   ))}
                   <option
-                      key={"Ubi"}
-                      value={""}
-                      id="currency"
-                      disabled
-                    >
-                      UBI (Coming Soon!)
-                    </option>
+                    key={"Ubi"}
+                    value={""}
+                    id="currency"
+                    disabled
+                  >
+                    UBI (Coming Soon!)
+                  </option>
                 </Select>
               </Box>
             )}
             <NumberInput
               onChange={(valueString) => setPriceValue(parse(valueString))}
               value={format(priceValue)}
+              color="gray.700"
               bg="white"
               min={0.00001}
               max={999999}
               isRequired
             >
-              <NumberInputField placeholder='Ex. 0.002'/> 
+              <NumberInputField placeholder='Ex. 0.002' />
               <NumberInputStepper>
                 <NumberIncrementStepper />
                 <NumberDecrementStepper />
@@ -322,7 +325,8 @@ const NewListing = () => {
             </NumberInput>
           </Box>
 
-          <Box pt={6} pb={2}>
+          <Box pt={6} pb={2} color="gray.700"
+          >
             <Text>UBI Burning Amount</Text>
             <Text fontStyle={"italic"}>(Remember that the amount to be burned will be deducted from the final sale price).</Text>
             <Slider
@@ -371,7 +375,7 @@ const NewListing = () => {
             and must not be more than 10mb each
           </Text>
 
-          <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }}>
+          <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }} color="gray.700">
             <FileUpload
               name="img1"
               acceptedFileTypes="image/*"
@@ -416,7 +420,7 @@ const NewListing = () => {
           {stateSubmit === 0 && (
             <>
               <ModalOverlay />
-              <ModalContent>
+              <ModalContent color="gray.700">
                 <ModalHeader>Review your listing</ModalHeader>
                 {loadingSubmit === false && <ModalCloseButton />}
                 <ModalBody>
@@ -459,7 +463,7 @@ const NewListing = () => {
           {stateSubmit === 1 && (
             <>
               <ModalOverlay />
-              <ModalContent>
+              <ModalContent color="gray.700">
                 <ModalBody>
                   <SuccessItem />
                 </ModalBody>
@@ -474,7 +478,7 @@ const NewListing = () => {
           {stateSubmit === 2 && (
             <>
               <ModalOverlay />
-              <ModalContent>
+              <ModalContent color="gray.700">
                 <ModalBody>Error de carga</ModalBody>
                 <ModalFooter>
                   <Button
