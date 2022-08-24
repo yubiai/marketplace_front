@@ -118,16 +118,16 @@ const NewListing = () => {
   const onSubmit = async (data) => {
     const form = new FormData()
 
-    if (data.img1) {
-      form.append('file', data.img1)
+    if (data.file1) {
+      form.append('file', data.file1)
     }
 
-    if (data.img2) {
-      form.append('file', data.img2)
+    if (data.file2) {
+      form.append('file', data.file2)
     }
 
-    if (data.img3) {
-      form.append('file', data.img3)
+    if (data.file3) {
+      form.append('file', data.file3)
     }
 
     form.append('title', data.title)
@@ -153,7 +153,7 @@ const NewListing = () => {
     newData = JSON.parse(newData)
     newData = {
       ...newData,
-      pictures: [data.img1, data.img2, data.img3],
+      pictures: [data.file1, data.file2, data.file3],
       category: categorySelected.title,
       subcategory: subcategorySelected.title,
     }
@@ -367,7 +367,7 @@ const NewListing = () => {
             </Slider>
           </Box>
 
-          <Heading mt="1em">Product Images</Heading>
+          <Heading mt="1em">Product Images / Videos / Audios</Heading>
 
           <Text>
             Get noticed by the right buyers with visual examples of your
@@ -377,31 +377,28 @@ const NewListing = () => {
 
           <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }} color="gray.700">
             <FileUpload
-              name="img1"
-              acceptedFileTypes="image/*"
+              name="file1"
               isRequired={true}
-              placeholder="Your photo 1"
+              placeholder="Your File 1"
               control={control}
             >
-              Image 1
+              File
             </FileUpload>
             <FileUpload
-              name="img2"
-              acceptedFileTypes="image/*"
+              name="file2"
               isRequired={false}
-              placeholder="Your photo 2"
+              placeholder="Your File 2"
               control={control}
             >
-              Image 2
+              File
             </FileUpload>
             <FileUpload
-              name="img3"
-              acceptedFileTypes="image/*"
+              name="file3"
               isRequired={false}
-              placeholder="Your photo 3"
+              placeholder="Your File 3"
               control={control}
             >
-              Image 3
+              File
             </FileUpload>
           </Flex>
 
