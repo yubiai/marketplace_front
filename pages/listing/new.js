@@ -118,7 +118,7 @@ const NewListing = () => {
   const onSubmit = async (data) => {
     const form = new FormData()
 
-    if (data.file1) {
+/*     if (data.file1) {
       form.append('file', data.file1)
     }
 
@@ -128,7 +128,7 @@ const NewListing = () => {
 
     if (data.file3) {
       form.append('file', data.file3)
-    }
+    } */
 
     form.append('title', data.title)
     form.append('description', data.description)
@@ -153,7 +153,7 @@ const NewListing = () => {
     newData = JSON.parse(newData)
     newData = {
       ...newData,
-      pictures: [data.file1, data.file2, data.file3],
+      files: [data.file1, data.file2, data.file3],
       category: categorySelected.title,
       subcategory: subcategorySelected.title,
     }
