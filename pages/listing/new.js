@@ -118,17 +118,17 @@ const NewListing = () => {
   const onSubmit = async (data) => {
     const form = new FormData()
 
-/*     if (data.file1) {
-      form.append('file', data.file1)
+    if (data.file1) {
+      form.append('files', data.file1)
     }
 
     if (data.file2) {
-      form.append('file', data.file2)
+      form.append('files', data.file2)
     }
 
     if (data.file3) {
-      form.append('file', data.file3)
-    } */
+      form.append('files', data.file3)
+    }
 
     form.append('title', data.title)
     form.append('description', data.description)
@@ -188,7 +188,7 @@ const NewListing = () => {
         onOpen()
       }, 300)
     } catch (err) {
-      console.log(err)
+      console.log(err, "err")
       setLoadingSubmit(false)
       setStateSubmit(2)
     }
@@ -476,7 +476,7 @@ const NewListing = () => {
             <>
               <ModalOverlay />
               <ModalContent color="gray.700">
-                <ModalBody>Error de carga</ModalBody>
+                <ModalBody>Failed to post</ModalBody>
                 <ModalFooter>
                   <Button
                     onClick={() => {

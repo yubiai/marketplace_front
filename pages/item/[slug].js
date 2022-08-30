@@ -22,15 +22,19 @@ import { useGlobal } from '../../providers/globalProvider'
 import { profileService } from '../../services/profileService'
 import { log } from 'next-axiom';
 import useUser from '../../hooks/data/useUser'
+import ImagePreviewListingCard from '../../components/Cards/ImagePreviewListingCard'
+import PlayerVideo from '../../components/Utils/PlayerVideo'
+import PlayerAudio from '../../components/Utils/PlayerAudio'
 
 const ItemById = ({ item }) => {
+  console.log(item, "itemmm")
   const global = useGlobal()
   const toast = useToast()
 
   const [owner, setOwner] = useState(null)
   const [favorite, setFavorite] = useState(null)
 
-  const [selectImage, setSelectImage] = useState(null)
+  const [selectFile, setSelectFile] = useState(null)
   const router = useRouter()
   const dispatch = useDispatchGlobal()
 
@@ -64,7 +68,7 @@ const ItemById = ({ item }) => {
             }
           }
         }
-        if(favourites.length === 0){
+        if (favourites.length === 0) {
           setFavorite(false)
         }
       })
@@ -113,8 +117,9 @@ const ItemById = ({ item }) => {
   }
 
   const funcSelectImage = () => {
-    if (item && item.pictures && item.pictures.length > 0) {
-      setSelectImage(item.pictures[0])
+    if (item && item.files) {
+      console.log(item.files, "item.files")
+      setSelectFile(item.files[0])
     }
   }
 
@@ -169,44 +174,42 @@ const ItemById = ({ item }) => {
       >
         <Flex width={'full'} direction={{ base: 'column', md: 'row' }} mt="1em">
           <Box width={{ base: '100%', md: '66%' }} m="5px">
-            <Box padding="5px">
-              {selectImage && (
-                <Center>
-                  <Image
-                    alt="Img Item"
-                    rounded={'lg'}
-                    height={'600px'}
-                    width={'full'}
-                    objectFit={'cover'}
-                    src={selectImage}
-                  />
-                </Center>
-              )}
+            <Box padding="5px">              
+            {selectFile && selectFile.mimetype === "image/webp" && (
+              <Center>
+                <Image
+                  alt="Img Item"
+                  rounded={'lg'}
+                  height={'600px'}
+                  width={'full'}
+                  objectFit={'cover'}
+                  src={process.env.NEXT_PUBLIC_LINK_GC + selectFile.filename}
+                />
+              </Center>
+            )
+            }
+              {selectFile && selectFile.mimetype === "video/mp4" && (<PlayerVideo videoSrc={process.env.NEXT_PUBLIC_LINK_GC + selectFile.filename} />)}
+              {selectFile && selectFile.mimetype === "audio/mpeg" && (<PlayerAudio audioSrc={process.env.NEXT_PUBLIC_LINK_GC + selectFile.filename} />)}
             </Box>
             <Box>
               <Divider />
               <Box>
                 <Flex justifyContent={'center'}>
-                  {item &&
-                    item.pictures &&
-                    item.pictures.length > 0 &&
-                    item.pictures.map((image, i) => {
-                      if (image) {
-                        return (
-                          <Center m="0.5em" key={i}>
-                            <Image
-                              alt="Img Item"
-                              rounded={'lg'}
-                              height={'70px'}
-                              width={'100px'}
-                              cursor="pointer"
-                              objectFit={'cover'}
-                              src={image}
-                              onClick={() => setSelectImage(image)}
-                            />
-                          </Center>
-                        )
+                   {item &&
+                    item.files.length > 0 &&
+                    item.files.map((file, i) => {
+                      if (file) {
+                        if (file.mimetype === "image/webp") {
+                          return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={process.env.NEXT_PUBLIC_LINK_GC + file.filename} key={i} />
+                        }
+                        if (file.mimetype === "video/mp4") {
+                          return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/videologo.png'} key={i} />
+                        }
+                        if (file.mimetype === "audio/mpeg") {
+                          return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/audiologo.png'} key={i} />
+                        }
                       }
+
                     })}
                 </Flex>
               </Box>
@@ -221,7 +224,7 @@ const ItemById = ({ item }) => {
             borderRadius={'5px'}
           >
             <Flex justifyContent={'space-between'}>
-            <Text color="#323232" fontSize="14px" fontWeight="300">
+              <Text color="#323232" fontSize="14px" fontWeight="300">
                 Service
               </Text>
               {owner === false && (

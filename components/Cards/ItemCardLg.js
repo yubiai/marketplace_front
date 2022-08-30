@@ -30,7 +30,7 @@ const ItemCardLg = ({ item }) => {
             height={'280px'}
             width={{base: '374px', sm: '374px', md: '262px'}}
             objectFit={'cover'}
-            src={item.pictures[0]}
+            src={process.env.NEXT_PUBLIC_LINK_GC + item.files[0].filename}
           />
           <Stack align={'left'} m="5px">
             <Divider />

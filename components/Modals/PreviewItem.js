@@ -9,8 +9,6 @@ const PreviewItem = ({ item }) => {
 
   useEffect(() => {
     const loadItem = async () => {
-      console.log(item, 'item PreviewItem')
-
       // Set Item Info
       if (item && item.files.length > 0) {
         setSelectFile(item.files[0])
@@ -43,13 +41,13 @@ const PreviewItem = ({ item }) => {
               item.files.map((file, i) => {
                 if (file) {
                   if (file.type === "image/jpeg" || file.type === "image/jpg" || file.type === "image/png") {
-                    return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={false} />
+                    return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={false} key={i} />
                   }
                   if (file.type === "video/mp4") {
-                    return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/videologo.png'} />
+                    return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/videologo.png'} key={i} />
                   }
                   if (file.type === "audio/mpeg") {
-                    return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/audiologo.png'} />
+                    return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/audiologo.png'} key={i} />
                   }
                 }
 

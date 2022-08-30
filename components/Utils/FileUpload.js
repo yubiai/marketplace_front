@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react'
 import { useController } from 'react-hook-form'
 import { useEffect, useRef, useState } from 'react'
-import { MdOutlineImage } from 'react-icons/md'
+import { MdOutlineFileUpload } from 'react-icons/md'
 import PlayerAudio from './PlayerAudio'
 import PlayerVideo from './PlayerVideo'
 import PlayerImage from './PlayerImage'
@@ -41,7 +41,6 @@ export const FileUpload = ({
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    console.log(selectedFile, "selectedFile")
     if (selectedFile && selectedFile.type) {
       if (selectedFile.type === "image/jpeg" || selectedFile.type === "image/jpg" || selectedFile.type === "image/png") {
         setImageSrc(URL.createObjectURL(selectedFile))
@@ -113,8 +112,7 @@ export const FileUpload = ({
                 alignItems="center"
                 justifyContent="center"
               >
-                <MdOutlineImage fontSize="3em" />
-                Browse
+                <MdOutlineFileUpload fontSize="3em" />
               </Box>
               <Text color="red.500"> {error && error}</Text>
             </>

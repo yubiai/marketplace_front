@@ -5,7 +5,6 @@ const PlayerImage = ({ imageSrc }) => {
     return (
         <Image
         alt={imageSrc && imageSrc.name}
-        rounded={'lg'}
         height={'full'}
         width={'full'}
         objectFit={'cover'}

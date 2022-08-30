@@ -25,7 +25,8 @@ const ItemCard = ({ item }) => {
             height={'150px'}
             width={'180px'}
             objectFit={'cover'}
-            src={item.pictures[0]}
+            src={process.env.NEXT_PUBLIC_LINK_GC + item.files[0].filename}
+
           />
           <Stack align={'left'} mt="2px">
             <Divider />
