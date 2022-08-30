@@ -4,7 +4,7 @@ import { Button, Center, Spinner } from '@chakra-ui/react'
 import { useGlobal } from '../../providers/globalProvider'
 import PaymentProcessor from '../../utils/escrow-utils/paymentProcessor'
 
-const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee }) => {
+const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency }) => {
     const global = useGlobal()
     const [paymentProcessorInstance, setPaymentProcessorInstance] = useState(null)
     const { amount, recipient, timeout, title, description, extraData } = transactionInfo
@@ -18,9 +18,24 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
         try {
             toggleLoadingStatus(true);
             const amountToWei = global.klerosEscrowInstance.web3.utils.toWei(amount.value.toString());
+            const senderWallet = await global.klerosEscrowInstance.getAccount();
+            const ETH = global.currencyPriceList.find(currency => currency.symbol === 'ETH');
+            const token = global.currencyPriceList.find(price => price.symbol === currency);
+
+            const transferInfo = {
+                token: (currency !== 'ETH' && token) ? token.token_address : '0x0000000000000000000000000000000000000000',
+                tokenETHRate: token ? Math.round(ETH.price > token.price ? ETH.price / token.price : token.price / ETH.price) : 1,
+                ETHPriceGreaterThanToken: !!(token && ETH.price > token.price)
+            };
+            const transactionData = {
+                sender: senderWallet,
+                timeoutPayment: timeout,
+                receiver: recipient,
+                metaEvidence
+            };
 
             const result = await paymentProcessorInstance.managePayment(
-                amountToWei, 5, burnFee, timeout, recipient, metaEvidence);
+                amountToWei, 5, burnFee, transferInfo, transactionData);
 
             const {
                 blockHash,
@@ -34,6 +49,8 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             } = result;
             const metaEvidenceObj = events.MetaEvidence.find(
                 item => item.address.toLowerCase() === global.klerosEscrowInstance.arbitratorContract.toLowerCase()) || {};
+            const transactionPayedAmount = events.PaymentDone.returnValues.amount;
+
             const transactionIndex = (metaEvidenceObj.returnValues || {})._metaEvidenceID;
             await createOrder({
                 blockHash,
@@ -44,6 +61,7 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                 to,
                 transactionHash,
                 transactionIndex,
+                transactionPayedAmount,
                 networkEnv: process.env.NEXT_PUBLIC_NETWORK || 'mainnet'
             })
         } catch (e) {
