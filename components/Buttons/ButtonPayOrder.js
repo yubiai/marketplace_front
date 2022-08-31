@@ -10,9 +10,7 @@ const ButtonPayOrder = ({ transactionIndex, amount, transactionHash, stepsPostAc
             const parsedTransactionIndex = global.klerosEscrowInstance.web3.utils.toNumber(
                 transactionIndex);
 
-            const amountToWei = global.klerosEscrowInstance.web3.utils.toWei(amount.toString());
-
-            const result = await global.klerosEscrowInstance.pay(parsedTransactionIndex, amountToWei)
+            const result = await global.klerosEscrowInstance.pay(parsedTransactionIndex, amount)
             if (result) {
                 await orderService.updateOrderStatus(
                     transactionHash, 'ORDER_PAID', global?.profile?.token);

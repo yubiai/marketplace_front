@@ -236,978 +236,722 @@ export const erc20 = [
 
 export const escrow = [
   {
-    "constant": true,
-    "inputs": [],
-    "name": "arbitratorExtraData",
-    "outputs": [
-      {
-        "name": "",
-        "type": "bytes"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "disputeIDtoTransactionID",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_disputeID",
-        "type": "uint256"
-      },
-      {
-        "name": "_ruling",
-        "type": "uint256"
-      }
-    ],
-    "name": "rule",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_transactionID",
-        "type": "uint256"
-      }
-    ],
-    "name": "timeOutByReceiver",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "arbitrator",
-    "outputs": [
-      {
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_transactionID",
-        "type": "uint256"
-      }
-    ],
-    "name": "payArbitrationFeeByReceiver",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_transactionID",
-        "type": "uint256"
-      }
-    ],
-    "name": "payArbitrationFeeBySender",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_transactionID",
-        "type": "uint256"
-      }
-    ],
-    "name": "appeal",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "transactions",
-    "outputs": [
-      {
-        "name": "sender",
-        "type": "address"
-      },
-      {
-        "name": "receiver",
-        "type": "address"
-      },
-      {
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "name": "timeoutPayment",
-        "type": "uint256"
-      },
-      {
-        "name": "disputeId",
-        "type": "uint256"
-      },
-      {
-        "name": "senderFee",
-        "type": "uint256"
-      },
-      {
-        "name": "receiverFee",
-        "type": "uint256"
-      },
-      {
-        "name": "lastInteraction",
-        "type": "uint256"
-      },
-      {
-        "name": "status",
-        "type": "uint8"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "getCountTransactions",
-    "outputs": [
-      {
-        "name": "countTransactions",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_transactionID",
-        "type": "uint256"
-      },
-      {
-        "name": "_evidence",
-        "type": "string"
-      }
-    ],
-    "name": "submitEvidence",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "feeTimeout",
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_timeoutPayment",
-        "type": "uint256"
-      },
-      {
-        "name": "_receiver",
-        "type": "address"
-      },
-      {
-        "name": "_metaEvidence",
-        "type": "string"
-      }
-    ],
-    "name": "createTransaction",
-    "outputs": [
-      {
-        "name": "transactionID",
-        "type": "uint256"
-      }
-    ],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_transactionID",
-        "type": "uint256"
-      }
-    ],
-    "name": "executeTransaction",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_transactionID",
-        "type": "uint256"
-      },
-      {
-        "name": "_amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "pay",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_transactionID",
-        "type": "uint256"
-      }
-    ],
-    "name": "timeOutBySender",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "name": "_address",
-        "type": "address"
-      }
-    ],
-    "name": "getTransactionIDsByAddress",
-    "outputs": [
-      {
-        "name": "transactionIDs",
-        "type": "uint256[]"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_transactionID",
-        "type": "uint256"
-      },
-      {
-        "name": "_amountReimbursed",
-        "type": "uint256"
-      }
-    ],
-    "name": "reimburse",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "name": "_arbitrator",
-        "type": "address"
-      },
-      {
-        "name": "_arbitratorExtraData",
-        "type": "bytes"
-      },
-      {
-        "name": "_feeTimeout",
-        "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "_metaEvidenceID",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "name": "_evidence",
-        "type": "string"
-      }
-    ],
-    "name": "MetaEvidence",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "_transactionID",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "name": "_amount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "name": "_party",
-        "type": "address"
-      }
-    ],
-    "name": "Payment",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "_transactionID",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "name": "_party",
-        "type": "uint8"
-      }
-    ],
-    "name": "HasToPayFee",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "_arbitrator",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "name": "_evidenceGroupID",
-        "type": "uint256"
-      },
-      {
-        "indexed": true,
-        "name": "_party",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "name": "_evidence",
-        "type": "string"
-      }
-    ],
-    "name": "Evidence",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "_arbitrator",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "name": "_disputeID",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "name": "_metaEvidenceID",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "name": "_evidenceGroupID",
-        "type": "uint256"
-      }
-    ],
-    "name": "Dispute",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "_arbitrator",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "name": "_disputeID",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "name": "_ruling",
-        "type": "uint256"
-      }
-    ],
-    "name": "Ruling",
-    "type": "event"
-  }
-];
-
-export const tokenEscrow = [
-  {
-    constant: false,
     inputs: [
       {
-        name: "_transactionID",
-        type: "uint256",
+        internalType: "contract Arbitrator",
+        name: "_arbitrator",
+        type: "address"
       },
+      {
+        internalType: "bytes",
+        name: "_arbitratorExtraData",
+        type: "bytes"
+      },
+      {
+        internalType: "uint256",
+        name: "_feeTimeout",
+        type: "uint256"
+      }
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "contract Arbitrator",
+        name: "_arbitrator",
+        type: "address"
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "_disputeID",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_metaEvidenceID",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_evidenceGroupID",
+        type: "uint256"
+      }
+    ],
+    name: "Dispute",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "contract Arbitrator",
+        name: "_arbitrator",
+        type: "address"
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "_evidenceGroupID",
+        type: "uint256"
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "_party",
+        type: "address"
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "_evidence",
+        type: "string"
+      }
+    ],
+    name: "Evidence",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "_transactionID",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        internalType: "enum YubiaiMultipleArbitrableTransaction.Party",
+        name: "_party",
+        type: "uint8"
+      }
+    ],
+    name: "HasToPayFee",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "_metaEvidenceID",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "_evidence",
+        type: "string"
+      }
+    ],
+    name: "MetaEvidence",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "_transactionID",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "_party",
+        type: "address"
+      }
+    ],
+    name: "Payment",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "contract Arbitrator",
+        name: "_arbitrator",
+        type: "address"
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "_disputeID",
+        type: "uint256"
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_ruling",
+        type: "uint256"
+      }
+    ],
+    name: "Ruling",
+    type: "event"
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_transactionID",
+        type: "uint256"
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "_sender",
+        type: "address"
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "_receiver",
+        type: "address"
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256"
+      }
+    ],
+    name: "TransactionCreated",
+    type: "event"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_transactionID",
+        type: "uint256"
+      }
     ],
     name: "appeal",
     outputs: [],
-    payable: true,
     stateMutability: "payable",
-    type: "function",
+    type: "function"
   },
   {
-    constant: false,
-    inputs: [
-      {
-        name: "_amount",
-        type: "uint256",
-      },
-      {
-        name: "_token",
-        type: "address",
-      },
-      {
-        name: "_timeoutPayment",
-        type: "uint256",
-      },
-      {
-        name: "_receiver",
-        type: "address",
-      },
-      {
-        name: "_metaEvidence",
-        type: "string",
-      },
-    ],
-    name: "createTransaction",
-    outputs: [
-      {
-        name: "transactionIndex",
-        type: "uint256",
-      },
-    ],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_transactionID",
-        type: "uint256",
-      },
-    ],
-    name: "executeTransaction",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_transactionID",
-        type: "uint256",
-      },
-      {
-        name: "_amount",
-        type: "uint256",
-      },
-    ],
-    name: "pay",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_transactionID",
-        type: "uint256",
-      },
-    ],
-    name: "payArbitrationFeeByReceiver",
-    outputs: [],
-    payable: true,
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_transactionID",
-        type: "uint256",
-      },
-    ],
-    name: "payArbitrationFeeBySender",
-    outputs: [],
-    payable: true,
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_transactionID",
-        type: "uint256",
-      },
-      {
-        name: "_amountReimbursed",
-        type: "uint256",
-      },
-    ],
-    name: "reimburse",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_disputeID",
-        type: "uint256",
-      },
-      {
-        name: "_ruling",
-        type: "uint256",
-      },
-    ],
-    name: "rule",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_transactionID",
-        type: "uint256",
-      },
-      {
-        name: "_evidence",
-        type: "string",
-      },
-    ],
-    name: "submitEvidence",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_transactionID",
-        type: "uint256",
-      },
-    ],
-    name: "timeOutByReceiver",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_transactionID",
-        type: "uint256",
-      },
-    ],
-    name: "timeOutBySender",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        name: "_arbitrator",
-        type: "address",
-      },
-      {
-        name: "_arbitratorExtraData",
-        type: "bytes",
-      },
-      {
-        name: "_feeTimeout",
-        type: "uint256",
-      },
-    ],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        name: "_transactionID",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        name: "_amount",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        name: "_party",
-        type: "address",
-      },
-    ],
-    name: "Payment",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        name: "_transactionID",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        name: "_party",
-        type: "uint8",
-      },
-    ],
-    name: "HasToPayFee",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        name: "_arbitrator",
-        type: "address",
-      },
-      {
-        indexed: true,
-        name: "_disputeID",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        name: "_ruling",
-        type: "uint256",
-      },
-    ],
-    name: "Ruling",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        name: "_metaEvidenceID",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        name: "_evidence",
-        type: "string",
-      },
-    ],
-    name: "MetaEvidence",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        name: "_arbitrator",
-        type: "address",
-      },
-      {
-        indexed: true,
-        name: "_disputeID",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        name: "_metaEvidenceID",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        name: "_evidenceGroupID",
-        type: "uint256",
-      },
-    ],
-    name: "Dispute",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        name: "_arbitrator",
-        type: "address",
-      },
-      {
-        indexed: true,
-        name: "_evidenceGroupID",
-        type: "uint256",
-      },
-      {
-        indexed: true,
-        name: "_party",
-        type: "address",
-      },
-      {
-        indexed: false,
-        name: "_evidence",
-        type: "string",
-      },
-    ],
-    name: "Evidence",
-    type: "event",
-  },
-  {
-    constant: true,
     inputs: [],
     name: "arbitrator",
     outputs: [
       {
+        internalType: "contract Arbitrator",
         name: "",
-        type: "address",
-      },
+        type: "address"
+      }
     ],
-    payable: false,
     stateMutability: "view",
-    type: "function",
+    type: "function"
   },
   {
-    constant: true,
     inputs: [],
     name: "arbitratorExtraData",
     outputs: [
       {
+        internalType: "bytes",
         name: "",
-        type: "bytes",
-      },
+        type: "bytes"
+      }
     ],
-    payable: false,
     stateMutability: "view",
-    type: "function",
+    type: "function"
   },
   {
-    constant: true,
     inputs: [
       {
-        name: "",
-        type: "uint256",
+        internalType: "uint256",
+        name: "_timeoutPayment",
+        type: "uint256"
       },
+      {
+        internalType: "address payable",
+        name: "_sender",
+        type: "address"
+      },
+      {
+        internalType: "address payable",
+        name: "_receiver",
+        type: "address"
+      },
+      {
+        internalType: "string",
+        name: "_metaEvidence",
+        type: "string"
+      },
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256"
+      },
+      {
+        internalType: "address payable",
+        name: "_adminWallet",
+        type: "address"
+      },
+      {
+        internalType: "uint256",
+        name: "_adminFeeAmount",
+        type: "uint256"
+      },
+      {
+        internalType: "address payable",
+        name: "_burnWallet",
+        type: "address"
+      },
+      {
+        internalType: "uint256",
+        name: "_burnFeeAmount",
+        type: "uint256"
+      }
+    ],
+    name: "createETHTransaction",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "transactionID",
+        type: "uint256"
+      }
+    ],
+    stateMutability: "payable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_timeoutPayment",
+        type: "uint256"
+      },
+      {
+        internalType: "address payable",
+        name: "_sender",
+        type: "address"
+      },
+      {
+        internalType: "address payable",
+        name: "_receiver",
+        type: "address"
+      },
+      {
+        internalType: "string",
+        name: "_metaEvidence",
+        type: "string"
+      },
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256"
+      },
+      {
+        internalType: "address",
+        name: "_tokenAddress",
+        type: "address"
+      },
+      {
+        internalType: "address payable",
+        name: "_adminWallet",
+        type: "address"
+      },
+      {
+        internalType: "uint256",
+        name: "_adminFeeAmount",
+        type: "uint256"
+      },
+      {
+        internalType: "address payable",
+        name: "_burnWallet",
+        type: "address"
+      },
+      {
+        internalType: "uint256",
+        name: "_burnFeeAmount",
+        type: "uint256"
+      }
+    ],
+    name: "createTokenTransaction",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "transactionID",
+        type: "uint256"
+      }
+    ],
+    stateMutability: "payable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256"
+      }
     ],
     name: "disputeIDtoTransactionID",
     outputs: [
       {
+        internalType: "uint256",
         name: "",
-        type: "uint256",
-      },
+        type: "uint256"
+      }
     ],
-    payable: false,
     stateMutability: "view",
-    type: "function",
+    type: "function"
   },
   {
-    constant: true,
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_transactionID",
+        type: "uint256"
+      }
+    ],
+    name: "executeTransaction",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
     inputs: [],
     name: "feeTimeout",
     outputs: [
       {
+        internalType: "uint256",
         name: "",
-        type: "uint256",
-      },
+        type: "uint256"
+      }
     ],
-    payable: false,
     stateMutability: "view",
-    type: "function",
+    type: "function"
   },
   {
-    constant: true,
     inputs: [],
     name: "getCountTransactions",
     outputs: [
       {
+        internalType: "uint256",
         name: "countTransactions",
-        type: "uint256",
-      },
+        type: "uint256"
+      }
     ],
-    payable: false,
     stateMutability: "view",
-    type: "function",
+    type: "function"
   },
   {
-    constant: true,
     inputs: [
       {
+        internalType: "address",
         name: "_address",
-        type: "address",
-      },
+        type: "address"
+      }
     ],
     name: "getTransactionIDsByAddress",
     outputs: [
       {
+        internalType: "uint256[]",
         name: "transactionIDs",
-        type: "uint256[]",
-      },
+        type: "uint256[]"
+      }
     ],
-    payable: false,
     stateMutability: "view",
-    type: "function",
+    type: "function"
   },
   {
-    constant: true,
     inputs: [
       {
-        name: "",
-        type: "uint256",
+        internalType: "uint256",
+        name: "_transactionID",
+        type: "uint256"
       },
+      {
+        internalType: "address payable",
+        name: "destination",
+        type: "address"
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256"
+      },
+      {
+        internalType: "uint256",
+        name: "finalAmount",
+        type: "uint256"
+      },
+      {
+        internalType: "bool",
+        name: "isToken",
+        type: "bool"
+      },
+      {
+        internalType: "string",
+        name: "feeMode",
+        type: "string"
+      },
+      {
+        internalType: "bool",
+        name: "emitPayment",
+        type: "bool"
+      }
+    ],
+    name: "handleTransactionTransfer",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_transactionID",
+        type: "uint256"
+      },
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256"
+      }
+    ],
+    name: "pay",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_transactionID",
+        type: "uint256"
+      }
+    ],
+    name: "payArbitrationFeeByReceiver",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_transactionID",
+        type: "uint256"
+      }
+    ],
+    name: "payArbitrationFeeBySender",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_transactionID",
+        type: "uint256"
+      },
+      {
+        internalType: "uint256",
+        name: "_amountReimbursed",
+        type: "uint256"
+      }
+    ],
+    name: "reimburse",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_disputeID",
+        type: "uint256"
+      },
+      {
+        internalType: "uint256",
+        name: "_ruling",
+        type: "uint256"
+      }
+    ],
+    name: "rule",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_transactionID",
+        type: "uint256"
+      },
+      {
+        internalType: "string",
+        name: "_evidence",
+        type: "string"
+      }
+    ],
+    name: "submitEvidence",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_transactionID",
+        type: "uint256"
+      }
+    ],
+    name: "timeOutByReceiver",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_transactionID",
+        type: "uint256"
+      }
+    ],
+    name: "timeOutBySender",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256"
+      }
     ],
     name: "transactions",
     outputs: [
       {
-        name: "sender",
-        type: "address",
-      },
-      {
-        name: "receiver",
-        type: "address",
-      },
-      {
-        name: "amount",
-        type: "uint256",
-      },
-      {
+        internalType: "address",
         name: "token",
-        type: "address",
+        type: "address"
       },
       {
-        name: "timeoutPayment",
-        type: "uint256",
+        components: [
+          {
+            internalType: "address payable",
+            name: "sender",
+            type: "address"
+          },
+          {
+            internalType: "address payable",
+            name: "receiver",
+            type: "address"
+          },
+          {
+            internalType: "uint256",
+            name: "amount",
+            type: "uint256"
+          },
+          {
+            internalType: "uint256",
+            name: "timeoutPayment",
+            type: "uint256"
+          },
+          {
+            internalType: "uint256",
+            name: "disputeId",
+            type: "uint256"
+          },
+          {
+            internalType: "uint256",
+            name: "senderFee",
+            type: "uint256"
+          },
+          {
+            internalType: "uint256",
+            name: "receiverFee",
+            type: "uint256"
+          },
+          {
+            internalType: "uint256",
+            name: "lastInteraction",
+            type: "uint256"
+          },
+          {
+            internalType: "enum YubiaiMultipleArbitrableTransaction.Status",
+            name: "status",
+            type: "uint8"
+          }
+        ],
+        internalType: "struct YubiaiMultipleArbitrableTransaction.Transaction",
+        name: "_transaction",
+        type: "tuple"
       },
       {
-        name: "disputeId",
-        type: "uint256",
+        components: [
+          {
+            internalType: "address payable",
+            name: "wallet",
+            type: "address"
+          },
+          {
+            internalType: "uint256",
+            name: "fee",
+            type: "uint256"
+          }
+        ],
+        internalType: "struct YubiaiMultipleArbitrableTransaction.WalletFee",
+        name: "adminFee",
+        type: "tuple"
       },
       {
-        name: "senderFee",
-        type: "uint256",
-      },
-      {
-        name: "receiverFee",
-        type: "uint256",
-      },
-      {
-        name: "lastInteraction",
-        type: "uint256",
-      },
-      {
-        name: "status",
-        type: "uint8",
-      },
+        components: [
+          {
+            internalType: "address payable",
+            name: "wallet",
+            type: "address"
+          },
+          {
+            internalType: "uint256",
+            name: "fee",
+            type: "uint256"
+          }
+        ],
+        internalType: "struct YubiaiMultipleArbitrableTransaction.WalletFee",
+        name: "burnFee",
+        type: "tuple"
+      }
     ],
-    payable: false,
     stateMutability: "view",
-    type: "function",
+    type: "function"
   },
+  {
+    stateMutability: "payable",
+    type: "receive"
+  }
 ];
 
 export const arbitrator = [
@@ -2720,19 +2464,51 @@ export const paymentProcessor = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "_timeoutPayment",
-        type: "uint256"
+        components: [
+          {
+            internalType: "address payable",
+            name: "sender",
+            type: "address"
+          },
+          {
+            internalType: "uint256",
+            name: "timeoutPayment",
+            type: "uint256"
+          },
+          {
+            internalType: "address payable",
+            name: "receiver",
+            type: "address"
+          },
+          {
+            internalType: "string",
+            name: "metaEvidence",
+            type: "string"
+          }
+        ],
+        internalType: "struct PaymentProcessor.TransactionData",
+        name: "_transactionData",
+        type: "tuple"
       },
       {
-        internalType: "address payable",
-        name: "_receiver",
+        internalType: "address",
+        name: "_tokenAddress",
         type: "address"
       },
       {
-        internalType: "string",
-        name: "_metaEvidence",
-        type: "string"
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256"
+      },
+      {
+        internalType: "uint256",
+        name: "burnAmount",
+        type: "uint256"
+      },
+      {
+        internalType: "uint256",
+        name: "adminAmount",
+        type: "uint256"
       }
     ],
     name: "createTransaction",
@@ -2747,25 +2523,20 @@ export const paymentProcessor = [
     type: "function"
   },
   {
-    inputs: [
+    inputs: [],
+    name: "getAdminFee",
+    outputs: [
       {
         internalType: "uint256",
-        name: "_transactionID",
+        name: "fee",
         type: "uint256"
       }
     ],
-    name: "executeTransaction",
-    outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function"
   },
   {
     inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256"
-      },
       {
         internalType: "uint256",
         name: "paymentId",
@@ -2777,19 +2548,53 @@ export const paymentProcessor = [
         type: "uint256"
       },
       {
-        internalType: "uint256",
-        name: "_timeoutPayment",
-        type: "uint256"
+        components: [
+          {
+            internalType: "address",
+            name: "token",
+            type: "address"
+          },
+          {
+            internalType: "uint256",
+            name: "tokenETHRate",
+            type: "uint256"
+          },
+          {
+            internalType: "bool",
+            name: "ETHPriceGreaterThanToken",
+            type: "bool"
+          }
+        ],
+        internalType: "struct PaymentProcessor.TransferInfo",
+        name: "_transferInfo",
+        type: "tuple"
       },
       {
-        internalType: "address payable",
-        name: "_receiver",
-        type: "address"
-      },
-      {
-        internalType: "string",
-        name: "_metaEvidence",
-        type: "string"
+        components: [
+          {
+            internalType: "address payable",
+            name: "sender",
+            type: "address"
+          },
+          {
+            internalType: "uint256",
+            name: "timeoutPayment",
+            type: "uint256"
+          },
+          {
+            internalType: "address payable",
+            name: "receiver",
+            type: "address"
+          },
+          {
+            internalType: "string",
+            name: "metaEvidence",
+            type: "string"
+          }
+        ],
+        internalType: "struct PaymentProcessor.TransactionData",
+        name: "_transactionData",
+        type: "tuple"
       }
     ],
     name: "managePayment",
@@ -2804,51 +2609,7 @@ export const paymentProcessor = [
     type: "function"
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_transactionID",
-        type: "uint256"
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256"
-      }
-    ],
-    name: "pay",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function"
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_transactionID",
-        type: "uint256"
-      }
-    ],
-    name: "payArbitrationFeeByReceiver",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function"
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_transactionID",
-        type: "uint256"
-      }
-    ],
-    name: "payArbitrationFeeBySender",
-    outputs: [],
-    stateMutability: "payable",
-    type: "function"
-  },
-  {
     stateMutability: "payable",
     type: "receive"
   }
-];
+]

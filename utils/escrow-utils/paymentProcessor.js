@@ -1,6 +1,7 @@
 import { paymentProcessor } from '../escrow-utils/abis';
 import { createWeb3, createWeb3FromModal } from './web3-provider'
 
+const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
 export const PAYMENT_PROCESSOR_CONTRACT = process.env.NEXT_PUBLIC_PAYMENT_PROCESSOR_CONTRACT;
 
 export default class PaymentProcessor {
@@ -19,21 +20,28 @@ export default class PaymentProcessor {
         window.paymentProcessorContract = this.contract;
     }
 
+    async getAdminFee() {
+        return await this.contract.methods.getAdminFee().call();
+    }
+
     /**
      * TODO: Include scenario for token-based transactions
      */
     async managePayment(
-        amount, paymentId, burnFee, timeoutPayment, receiver, metaEvidence) {
+        amount, paymentId, burnFee, _transferInfo = {}, _transactionData = {}, metaEvidence = '') {
         const metaEvidenceURI = await this.klerosEscrowInstance.prepareSourcesForTransaction(
-            amount, receiver, timeoutPayment, metaEvidence);
+            amount, _transactionData.receiver, _transactionData.timeoutPayment, metaEvidence, _transferInfo.token);
 
-        return await this.contract.methods.managePayment(
-            amount,
+        const managePaymentPromise = await this.contract.methods.managePayment(
             paymentId,
             burnFee,
-            timeoutPayment,
-            receiver,
-            metaEvidenceURI
-        ).send({ value: amount });
+            [_transferInfo.token,_transferInfo.tokenETHRate,_transferInfo.ETHPriceGreaterThanToken],
+            [_transactionData.sender, _transactionData.timeoutPayment, _transactionData.receiver, metaEvidenceURI]
+        )
+        if (_transferInfo.token !== NULL_ADDRESS) {
+            return managePaymentPromise.send();
+        }
+
+        return managePaymentPromise.send({ value: amount });
     }
 }

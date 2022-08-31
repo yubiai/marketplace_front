@@ -215,6 +215,7 @@ const OrderDetail = () => {
                 orderDetail.status === 'ORDER_DISPUTE_RECEIVER_FEE_PENDING' && (
                   <Flex marginTop="auto" justifyContent="space-around">
                     <ButtonEscrowDispute
+                      transaction={{ userBuyer: orderDetail.userBuyer || ''}}
                       transactionIndex={
                         (orderDetail.transaction || {}).transactionIndex
                       }

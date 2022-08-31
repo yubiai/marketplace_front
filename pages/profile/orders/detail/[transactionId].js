@@ -41,6 +41,7 @@ const OrderDetail = () => {
   const { transactionId } = router.query
   const [orderDetail, setOrderDetail] = useState({})
   const [transactionData, setTransactionData] = useState({})
+  const [transactionPayedAmount, setTransactionPayedAmount] = useState('')
   const [operationInProgress, setOperationInProgress] = useState(false)
   const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet'
 
@@ -58,6 +59,7 @@ const OrderDetail = () => {
 
     setOrderDetail(orderInfo)
     setTransactionData(transaction)
+    setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount)
   }
 
   const toggleLoadingStatus = (status) => {
@@ -221,7 +223,7 @@ const OrderDetail = () => {
               {(orderDetail.transaction || {}).transactionIndex &&
                 orderDetail.status === 'ORDER_CREATED' && (
                   <Stack direction={{ base: 'column', md: 'row' }} mt="2em" alignItems={"center"}>
-                   {transactionData && transactionData.amount && (
+                   {transactionData && transactionPayedAmount && (
                       <ButtonPayOrder
                         transactionIndex={
                           (orderDetail.transaction || {}).transactionIndex
@@ -229,12 +231,13 @@ const OrderDetail = () => {
                         transactionHash={
                           (orderDetail.transaction || {}).transactionHash
                         }
-                        amount={(transactionData.amount || {}).value || 0}
+                        amount={transactionPayedAmount || '0'}
                         stepsPostAction={loadOrder}
                         toggleLoadingStatus={toggleLoadingStatus}
                       />
                     )}
                     <ButtonEscrowDispute
+                      transaction={{ userBuyer: orderDetail.userBuyer || ''}}
                       transactionIndex={
                         (orderDetail.transaction || {}).transactionIndex
                       }
