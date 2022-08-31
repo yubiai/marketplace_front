@@ -4,7 +4,14 @@ import { orderService } from '../../services/orderService'
 import { parsePriceToETHAmount } from '../../utils/orderUtils'
 
 const ButtonEscrowDispute = ({
-    transactionIndex, amount, asSeller=false, transactionHash, stepsPostAction, toggleLoadingStatus }) => {
+    transaction,
+    transactionIndex,
+    amount,
+    asSeller=false,
+    transactionHash,
+    stepsPostAction,
+    toggleLoadingStatus
+}) => {
     const global = useGlobal()
     const startEscrowDispute = async () => {
         try {
@@ -17,7 +24,7 @@ const ButtonEscrowDispute = ({
                 amount, ethContract, global.klerosEscrowInstance.web3);
 
             const result = await global.klerosEscrowInstance.payArbitrationFee(
-                transactionIndexParsed, parsedETHPrice);
+                transaction, transactionIndexParsed, parsedETHPrice);
 
             if (result) {
                 const status = asSeller ? 'ORDER_DISPUTE_IN_PROGRESS' : 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
