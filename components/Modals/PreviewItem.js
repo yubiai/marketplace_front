@@ -31,7 +31,7 @@ const PreviewItem = ({ item }) => {
             />
           )
           }
-          {selectFile && selectFile.type === "video/mp4" && (<PlayerVideo videoSrc={URL.createObjectURL(selectFile)} />)}
+          {selectFile && selectFile.type === "video/mp4" && (<PlayerVideo videoSrc={URL.createObjectURL(selectFile)} createObjectURL={true} />)}
           {selectFile && selectFile.type === "audio/mpeg" && (<PlayerAudio audioSrc={URL.createObjectURL(selectFile)} />)}
         </Box>
         <Box>

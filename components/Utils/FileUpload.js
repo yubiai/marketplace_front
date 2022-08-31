@@ -133,7 +133,7 @@ export const FileUpload = ({
             </>
           ) : null}
           {selectedFile && imageSrc && <PlayerImage imageSrc={imageSrc} />}
-          {selectedFile && videoSrc && <PlayerVideo videoSrc={videoSrc} />}
+          {selectedFile && videoSrc && <PlayerVideo videoSrc={videoSrc} createObjectURL={true} />}
           {selectedFile && audioSrc && <PlayerAudio audioSrc={audioSrc} />}
         </Box>
       </InputGroup>
