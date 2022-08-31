@@ -14,8 +14,6 @@ import PlayerAudio from './PlayerAudio'
 import PlayerVideo from './PlayerVideo'
 import PlayerImage from './PlayerImage'
 
-const validFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg'];
-
 export const FileUpload = ({
   name,
   acceptedFileTypes,
@@ -27,18 +25,27 @@ export const FileUpload = ({
   const {
     field: { ref, onChange, value, ...inputProps },
     // eslint-disable-next-line no-unused-vars
-    fieldState: { invalid, isTouched, isDirty },
+    fieldState: {invalid},
+    formState: { errors }
   } = useController({
     name,
     control,
-    rules: { required: isRequired },
+    rules: { required: isRequired}
   })
 
   const [selectedFile, setSelectedFile] = useState(null)
   const [imageSrc, setImageSrc] = useState(null)
   const [videoSrc, setVideoSrc] = useState(null);
   const [audioSrc, setAudioSrc] = useState(null);
-  const [error, setError] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null)
+
+  const clearSrc = () => {
+    setImageSrc(null)
+    setVideoSrc(null)
+    setAudioSrc(null)
+    setSelectedFile(null)
+    setErrorMsg(null)
+  }
 
   useEffect(() => {
     if (selectedFile && selectedFile.type) {
@@ -56,28 +63,37 @@ export const FileUpload = ({
 
   const verifyImage = (file) => {
     console.log(file)
+    clearSrc()
     if (file && file.size && file.type) {
-      const validType = validFileTypes.find((type) => type === file.type);
+      const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      const validImageType = validImageTypes.find((type) => type === file.type);
 
-      if (!validType) {
-        setError('Invalid file type.')
+      const validFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg'];
+      const validFileType = validFileTypes.find((type) => type === file.type);
+
+      if (!validImageType && isRequired === true) {
+        setErrorMsg('Invalid file type.')
         setSelectedFile(null)
         return
       }
 
-      if (file.size > 3e6) {
-        setError('Error upload: limit size.')
+      if (!validFileType && isRequired === false) {
+        setErrorMsg('Invalid file type.')
         setSelectedFile(null)
         return
       }
 
+      if (file.size > 1e7) {
+        setErrorMsg('errorMsg upload: limit size.')
+        setSelectedFile(null)
+        return
+      }
 
       setSelectedFile(file)
       onChange(file)
       return
     }
   }
-
 
   return (
     <FormControl isInvalid={invalid} isRequired={isRequired && isRequired}>
@@ -114,7 +130,7 @@ export const FileUpload = ({
               >
                 <MdOutlineFileUpload fontSize="3em" />
               </Box>
-              <Text color="red.500"> {error && error}</Text>
+              <Text color="red.500"> {errorMsg && errorMsg}</Text>
             </>
           ) : null}
           {selectedFile && imageSrc && <PlayerImage imageSrc={imageSrc} />}
@@ -122,13 +138,13 @@ export const FileUpload = ({
           {selectedFile && audioSrc && <PlayerAudio audioSrc={audioSrc} />}
         </Box>
       </InputGroup>
-      <FormErrorMessage>{invalid}</FormErrorMessage>
+      <Text color="red">{errors && errors.file1 && name === "file1" && "Image Main Rest"}</Text>
     </FormControl>
   )
 }
 
 FileUpload.defaultProps = {
-  acceptedFileTypes: '.jpg, .jpeg, .png, .mp4, .mp3',
+  acceptedFileTypes: '',
   allowMultipleFiles: false,
 }
 
