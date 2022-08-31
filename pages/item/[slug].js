@@ -27,7 +27,6 @@ import PlayerVideo from '../../components/Utils/PlayerVideo'
 import PlayerAudio from '../../components/Utils/PlayerAudio'
 
 const ItemById = ({ item }) => {
-  console.log(item, "itemmm")
   const global = useGlobal()
   const toast = useToast()
 
@@ -118,7 +117,6 @@ const ItemById = ({ item }) => {
 
   const funcSelectImage = () => {
     if (item && item.files) {
-      console.log(item.files, "item.files")
       setSelectFile(item.files[0])
     }
   }
@@ -320,7 +318,7 @@ export async function getStaticProps({ params }) {
     item = res.data.result
     return { props: { item } }
   } catch (err) {
-    console.log(err)
+    console.error(err)
     return {
       notFound: true,
     }

@@ -62,7 +62,6 @@ export const FileUpload = ({
   }, [selectedFile])
 
   const verifyImage = (file) => {
-    console.log(file)
     clearSrc()
     if (file && file.size && file.type) {
       const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];

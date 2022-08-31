@@ -173,7 +173,6 @@ const NewListing = () => {
         dataSubmit,
         global.profile.token
       )
-      console.log(response, 'result')
 
       let slugItem = response.data.result.slug
         ? response.data.result.slug
