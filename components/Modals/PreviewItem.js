@@ -21,18 +21,20 @@ const PreviewItem = ({ item }) => {
   return (
     <Flex width={'full'} direction={{ base: 'column', md: 'row' }}>
       <Box width={'50%'}>
-        <Box height={'400px'} width={'full'}>
+        <Box height={'500px'} width={'full'}>
           {selectFile && (selectFile.type === "image/jpeg" || selectFile.type === "image/jpg" || selectFile.type === "image/png") && (
             <Image
               alt="Img Item"
               rounded={'lg'}
               objectFit={'cover'}
-              src={URL.createObjectURL(selectFile)}
+              h="100%"
+              src={selectFile && URL.createObjectURL(selectFile)}
+              fallbackSrc={'/static/images/audiologo.png'}
             />
           )
           }
           {selectFile && selectFile.type === "video/mp4" && (<PlayerVideo videoSrc={URL.createObjectURL(selectFile)} createObjectURL={true} />)}
-          {selectFile && selectFile.type === "audio/mpeg" && (<PlayerAudio audioSrc={URL.createObjectURL(selectFile)} />)}
+          {selectFile && selectFile.type === "audio/mpeg" && (<PlayerAudio audioSrc={URL.createObjectURL(selectFile)} createObjectURL={true} />)}
         </Box>
         <Box>
           <Flex mt="5px" justifyContent={'center'}>
@@ -67,7 +69,7 @@ const PreviewItem = ({ item }) => {
         <Text>{item?.price - item?.price * item?.ubiburningamount / 100} {item?.currencySymbolPrice}</Text>
         <Text fontWeight={'bold'}>Category: </Text>
         <Text>{item?.category}</Text>
-        <Text fontWeight={'bold'}>SubCategory: </Text>
+        <Text fontWeight={'bold'}>Sub Category: </Text>
         <Text>{item?.subcategory}</Text>
         <Text fontWeight={'bold'}> Description: </Text>
         <Text>{item?.description}</Text>

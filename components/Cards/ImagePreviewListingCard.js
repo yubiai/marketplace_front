@@ -14,7 +14,7 @@ const ImagePreviewListingCard = ({ file, setSelectFile, img }) => {
                 cursor="pointer"
                 objectFit={'cover'}
                 src={img ? img : (file.filename ? url_fleek + file.filename : URL.createObjectURL(file))}
-                fallbackSrc={img ? img : (file.filename ? url_gc + file.filename : <Spinner size='xs' />)}
+                fallbackSrc={img ? img : (file.filename ? url_gc + file.filename : '/static/images/videologo.png')}
                 onClick={() => setSelectFile(file)}
             />
         </Center>

@@ -6,7 +6,7 @@ const PlayerVideo = ({ videoSrc, createObjectURL }) => {
 
     return (
         <>
-            <ReactPlayer url={createObjectURL ? videoSrc : url_fleek + videoSrc} fallback={createObjectURL ? '/static/images/videologo.png' : url_gc + videoSrc} width="100%" height="100%" controls={true} />
+            <ReactPlayer url={createObjectURL ? videoSrc : url_fleek + videoSrc} fallback={createObjectURL ? '/static/images/videologo.png' : url_gc + videoSrc} width="100%" height={createObjectURL ? '100%' : '500px'} controls={true} />
         </>
     )
 }

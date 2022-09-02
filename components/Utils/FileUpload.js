@@ -62,8 +62,9 @@ export const FileUpload = ({
   }, [selectedFile])
 
   const verifyImage = (file) => {
-    clearSrc()
     if (file && file.size && file.type) {
+      clearSrc()
+
       const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
       const validImageType = validImageTypes.find((type) => type === file.type);
 
@@ -71,19 +72,19 @@ export const FileUpload = ({
       const validFileType = validFileTypes.find((type) => type === file.type);
 
       if (!validImageType && isRequired === true) {
-        setErrorMsg('Invalid file type.')
+        setErrorMsg('Error: Invalid file type.')
         setSelectedFile(null)
         return
       }
 
       if (!validFileType && isRequired === false) {
-        setErrorMsg('Invalid file type.')
+        setErrorMsg('Error: Invalid file type.')
         setSelectedFile(null)
         return
       }
 
       if (file.size > 1e7) {
-        setErrorMsg('errorMsg upload: limit size.')
+        setErrorMsg('Error: Limit size.')
         setSelectedFile(null)
         return
       }
@@ -134,7 +135,7 @@ export const FileUpload = ({
           ) : null}
           {selectedFile && imageSrc && <PlayerImage imageSrc={imageSrc} />}
           {selectedFile && videoSrc && <PlayerVideo videoSrc={videoSrc} createObjectURL={true} />}
-          {selectedFile && audioSrc && <PlayerAudio audioSrc={audioSrc} />}
+          {selectedFile && audioSrc && <PlayerAudio audioSrc={audioSrc} createObjectURL={true} />}
         </Box>
       </InputGroup>
       <Text color="red">{errors && errors.file1 && name === "file1" && "Image Main Rest"}</Text>

@@ -175,14 +175,13 @@ const ItemById = ({ item }) => {
         flexDirection={'column'}
       >
         <Flex width={'full'} direction={{ base: 'column', md: 'row' }} mt="1em">
-          <Box width={{ base: '100%', md: '66%' }} m="5px">
-            <Box padding="5px">
+          <Box width={{ base: '100%', md: '66%' }} height={'full'} m="5px">
+            <Box padding="5px" height={'85%'}>
               {selectFile && selectFile.mimetype === "image/webp" && (
                 <Center>
                   <Image
                     alt="Img Item"
                     rounded={'lg'}
-                    height={'600px'}
                     width={'full'}
                     objectFit={'cover'}
                     src={url_fleek + selectFile.filename}
@@ -192,9 +191,9 @@ const ItemById = ({ item }) => {
               )
               }
               {selectFile && selectFile.mimetype === "video/mp4" && (<PlayerVideo videoSrc={selectFile.filename} createObjectURL={false} />)}
-              {selectFile && selectFile.mimetype === "audio/mpeg" && (<PlayerAudio audioSrc={selectFile} />)}
+              {selectFile && selectFile.mimetype === "audio/mpeg" && (<PlayerAudio audioSrc={selectFile.filename} createObjectURL={false} />)}
             </Box>
-            <Box>
+            <Box mt="10px">
               <Divider />
               <Box>
                 <Flex justifyContent={'center'}>
