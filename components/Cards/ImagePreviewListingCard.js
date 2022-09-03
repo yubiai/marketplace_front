@@ -1,4 +1,4 @@
-import { Center, Image, Spinner } from "@chakra-ui/react";
+import { Center, Image } from "@chakra-ui/react";
 
 const ImagePreviewListingCard = ({ file, setSelectFile, img }) => {
     const url_gc = process.env.NEXT_PUBLIC_LINK_GC;
@@ -14,7 +14,7 @@ const ImagePreviewListingCard = ({ file, setSelectFile, img }) => {
                 cursor="pointer"
                 objectFit={'cover'}
                 src={img ? img : (file.filename ? url_fleek + file.filename : URL.createObjectURL(file))}
-                fallbackSrc={img ? img : (file.filename ? url_gc + file.filename : '/static/images/videologo.png')}
+                fallbackSrc={img ? img : (file.filename ? url_gc + file.filename :  URL.createObjectURL(file))}
                 onClick={() => setSelectFile(file)}
             />
         </Center>

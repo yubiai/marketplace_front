@@ -293,7 +293,7 @@ const ItemById = ({ item }) => {
           </Box>
         </Flex>
         <Divider />
-        <Box m="1em">
+        <Box m="1em" h="30vh">
           <Text mt="10px">Course description</Text>
           <Text mt="10px">{item.description}</Text>
         </Box>

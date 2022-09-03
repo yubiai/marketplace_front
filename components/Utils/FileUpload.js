@@ -6,10 +6,14 @@ import {
   FormErrorMessage,
   Box,
   Text,
+  Center,
+  Button,
 } from '@chakra-ui/react'
 import { useController } from 'react-hook-form'
 import { useEffect, useRef, useState } from 'react'
 import { MdOutlineFileUpload } from 'react-icons/md'
+import { FaTrash } from 'react-icons/fa'
+
 import PlayerAudio from './PlayerAudio'
 import PlayerVideo from './PlayerVideo'
 import PlayerImage from './PlayerImage'
@@ -20,17 +24,18 @@ export const FileUpload = ({
   control,
   children,
   isRequired = false,
+  resetField
 }) => {
   const inputRef = useRef()
   const {
     field: { ref, onChange, value, ...inputProps },
     // eslint-disable-next-line no-unused-vars
-    fieldState: {invalid},
+    fieldState: { invalid },
     formState: { errors }
   } = useController({
     name,
     control,
-    rules: { required: isRequired}
+    rules: { required: isRequired }
   })
 
   const [selectedFile, setSelectedFile] = useState(null)
@@ -40,6 +45,7 @@ export const FileUpload = ({
   const [errorMsg, setErrorMsg] = useState(null)
 
   const clearSrc = () => {
+    resetField(name)
     setImageSrc(null)
     setVideoSrc(null)
     setAudioSrc(null)
@@ -97,7 +103,7 @@ export const FileUpload = ({
 
   return (
     <FormControl isInvalid={invalid} isRequired={isRequired && isRequired}>
-      <FormLabel htmlFor="writeUpFile">{children}</FormLabel>
+      <FormLabel htmlFor="writeUpFile" textAlign={"center"} mt="1em" fontWeight='semibold'>{children}</FormLabel>
       <InputGroup>
         <input
           type="file"
@@ -138,6 +144,11 @@ export const FileUpload = ({
           {selectedFile && audioSrc && <PlayerAudio audioSrc={audioSrc} createObjectURL={true} />}
         </Box>
       </InputGroup>
+      <Center>
+        <Button onClick={() => clearSrc()}>
+          <FaTrash fontSize="1em" />
+        </Button>
+      </Center>
       <Text color="red">{errors && errors.file1 && name === "file1" && "Image Main Rest"}</Text>
     </FormControl>
   )

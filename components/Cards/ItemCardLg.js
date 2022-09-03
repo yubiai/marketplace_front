@@ -37,6 +37,7 @@ const ItemCardLg = ({ item }) => {
             <Text
               color={'gray.600'}
               fontSize={'16px'}
+              noOfLines={2}
             >
               {item.title}
             </Text>

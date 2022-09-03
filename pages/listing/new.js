@@ -62,7 +62,7 @@ const NewListing = () => {
   const [subCategories, setSubCategories] = useState([])
 
   // State useForm
-  const { handleSubmit, register, control, formState: { errors } } = useForm()
+  const { handleSubmit, register, control, formState: { errors }, resetField } = useForm()
   const [result, setResult] = useState(null)
 
   // State Submit
@@ -319,19 +319,12 @@ const NewListing = () => {
                     {currency.symbol}
                   </option>
                 ))}
-                <option
-                  key={"Ubi"}
-                  value={""}
-                  id="currency"
-                  disabled
-                >
-                  UBI (Coming Soon!)
-                </option>
+               
               </Select>
             </FormControl>
           )}
           <FormControl isRequired mt="1em">
-            <FormLabel color="black">Mount</FormLabel>
+            <FormLabel color="black">Amount</FormLabel>
             <NumberInput
               onChange={(valueString) => setPriceValue(parse(valueString))}
               value={format(priceValue)}
@@ -409,8 +402,10 @@ const NewListing = () => {
               isRequired={true}
               placeholder="Your File 1"
               control={control}
+              resetField={resetField}
+
             >
-              Image Main
+              Main Image
             </FileUpload>
             <FileUpload
               name="file2"
@@ -418,6 +413,7 @@ const NewListing = () => {
               isRequired={false}
               placeholder="Your File 2"
               control={control}
+              resetField={resetField}
             >
               File
             </FileUpload>
@@ -427,6 +423,8 @@ const NewListing = () => {
               isRequired={false}
               placeholder="Your File 3"
               control={control}
+              resetField={resetField}
+
             >
               File
             </FileUpload>

@@ -1,22 +1,11 @@
 import { Box, Flex, Image, Text } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import ImagePreviewListingCard from '../Cards/ImagePreviewListingCard'
 import PlayerAudio from '../Utils/PlayerAudio'
 import PlayerVideo from '../Utils/PlayerVideo'
 
 const PreviewItem = ({ item }) => {
-  const [selectFile, setSelectFile] = useState(null)
-
-  useEffect(() => {
-    const loadItem = async () => {
-      // Set Item Info
-      if (item && item.files.length > 0) {
-        setSelectFile(item.files[0])
-      }
-    }
-    loadItem()
-  }, [item])
-
+  const [selectFile, setSelectFile] = useState(item && item.files[0])
 
   return (
     <Flex width={'full'} direction={{ base: 'column', md: 'row' }}>
@@ -29,7 +18,7 @@ const PreviewItem = ({ item }) => {
               objectFit={'cover'}
               h="100%"
               src={selectFile && URL.createObjectURL(selectFile)}
-              fallbackSrc={'/static/images/audiologo.png'}
+              fallbackSrc={selectFile && URL.createObjectURL(selectFile)}
             />
           )
           }
@@ -38,22 +27,17 @@ const PreviewItem = ({ item }) => {
         </Box>
         <Box>
           <Flex mt="5px" justifyContent={'center'}>
-            {item &&
-              item.files.length > 0 &&
-              item.files.map((file, i) => {
-                if (file) {
-                  if (file.type === "image/jpeg" || file.type === "image/jpg" || file.type === "image/png") {
-                    return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={false} key={i} />
-                  }
-                  if (file.type === "video/mp4") {
-                    return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/videologo.png'} key={i} />
-                  }
-                  if (file.type === "audio/mpeg") {
-                    return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/audiologo.png'} key={i} />
-                  }
-                }
+            {item && item.files && item.files[0] && (item.files[0].type === "image/jpeg" || item.files[0].type === "image/jpg" || item.files[0].type === "image/png") && (
+              <ImagePreviewListingCard file={item.files[0]} setSelectFile={setSelectFile} img={false} />
+            )}
+            {item && item.files && item.files[0] && (item.files[1].type === "video/mp4") && (
+              <ImagePreviewListingCard file={item.files[1]} setSelectFile={setSelectFile} img={'/static/images/videologo2.png'} />
+            )}
 
-              })}
+            {item && item.files && item.files[2] && (item.files[2].type === "audio/mpeg") && (
+              <ImagePreviewListingCard file={item.files[2]} setSelectFile={setSelectFile} img={'/static/images/audiologo.png'} />
+            )}
+
           </Flex>
         </Box>
       </Box>
