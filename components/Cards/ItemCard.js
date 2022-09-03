@@ -25,8 +25,8 @@ const ItemCard = ({ item }) => {
             height={'150px'}
             width={'180px'}
             objectFit={'cover'}
-            src={process.env.NEXT_PUBLIC_LINK_GC + item.files[0].filename}
-
+            src={item && item.files && item.files[0] ? process.env.NEXT_PUBLIC_LINK_FLEEK + item.files[0].filename : '/static/images/ybminilogo.png'}
+            fallbackSrc={item && item.files && item.files[0] ? process.env.NEXT_PUBLIC_LINK_GC + item.files[0].filename : '/static/images/ybminilogo.png'}
           />
           <Stack align={'left'} mt="2px">
             <Divider />
