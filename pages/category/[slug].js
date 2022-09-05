@@ -46,8 +46,6 @@ const ItemsByCategory = ({ response, category }) => {
     return <Error error={error?.message} />
   }
 
-  console.log(data.items, "data.items")
-
   return (
     <>
       <Head>
@@ -82,11 +80,11 @@ const ItemsByCategory = ({ response, category }) => {
                   <ItemCardLg item={item} />
                 </GridItem>
               ))}
-              {data && data.items.length === 0 && (
-                <Text mt="1em">
-                  There is no item published in this subcategory
-                </Text>
-              )}
+            {data && data.items.length === 0 && (
+              <Text mt="1em">
+                There is no item published in this subcategory
+              </Text>
+            )}
           </Grid>
 
           <Paginations data={data} />
