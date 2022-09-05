@@ -69,7 +69,6 @@ const NewListing = () => {
   const [stateSubmit, setStateSubmit] = useState(0)
   const [loadingSubmit, setLoadingSubmit] = useState(false)
   const [dataSubmit, setDataSubmit] = useState(null)
-  const [itemSuccess, setItemSuccess] = useState(null)
 
   const [sliderValue, setSliderValue] = useState(2)
 
@@ -181,7 +180,6 @@ const NewListing = () => {
 
       setLoadingSubmit(false)
       onClose()
-      setItemSuccess(slugItem)
       setStateSubmit(1)
 
       setTimeout(() => {
@@ -493,7 +491,7 @@ const NewListing = () => {
                   <SuccessItem />
                 </ModalBody>
                 <ModalFooter>
-                  <Link href={itemSuccess ? `/item/${itemSuccess}` : '/'}>
+                  <Link href={'/profile/published'}>
                     <Button>Close</Button>
                   </Link>
                 </ModalFooter>

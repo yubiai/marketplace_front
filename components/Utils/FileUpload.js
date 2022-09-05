@@ -145,7 +145,8 @@ export const FileUpload = ({
         </Box>
       </InputGroup>
       <Center>
-        <Button onClick={() => clearSrc()}>
+        <Button onClick={() => clearSrc()} _hover={{ bg: 'gray.300' }}
+        >
           <FaTrash fontSize="1em" />
         </Button>
       </Center>
