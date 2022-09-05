@@ -63,7 +63,6 @@ const ProfileEdit = () => {
     await profileService
       .updateProfile(global.profile._id, data, global?.profile?.token)
       .then((res) => {
-        console.log(res)
         actionToat("Profile", res.data && res.data.message , "success")
       })
       .catch((err) => {

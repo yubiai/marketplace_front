@@ -3,12 +3,11 @@ import {
   Center,
   Container,
   Flex,
+  Grid,
   Heading,
-  SimpleGrid,
   Text,
 } from '@chakra-ui/react'
 import Head from 'next/head'
-import ItemCardLg from '../../../components/Cards/ItemCardLg'
 import Loading from '../../../components/Spinners/Loading'
 import { useGlobal } from '../../../providers/globalProvider'
 import ProfileMenu from '../../../components/Menus/ProfileMenu'
@@ -18,6 +17,7 @@ import useFetch from '../../../hooks/data/useFetch'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import useUser from '../../../hooks/data/useUser'
+import ItemCardPublish from '../../../components/Cards/ItemCardPublish'
 
 const Published = () => {
   const global = useGlobal()
@@ -87,14 +87,18 @@ const Published = () => {
               </Center>
             </>
           )}
-          <SimpleGrid minChildWidth="250px" spacing="2px">
+          <Grid
+            templateRows={{ base: 'repeat(1, 1fr)', md: 'none' }}
+            templateColumns={{ base: 'none', md: 'repeat(4, 1fr)' }}
+            gap={1}
+          >
             {data &&
               data.items &&
               data.items.length > 0 &&
               data.items.map((item, i) => {
-                return <ItemCardLg key={i} item={item} />
+                return <ItemCardPublish key={i} item={item} />
               })}
-          </SimpleGrid>
+          </Grid>
           <Paginations data={data ? data : null} />
         </Container>
       </ProfileMenu>

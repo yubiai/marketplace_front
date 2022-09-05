@@ -5,12 +5,18 @@ import {
   InputGroup,
   FormErrorMessage,
   Box,
-  Image,
   Text,
+  Center,
+  Button,
 } from '@chakra-ui/react'
 import { useController } from 'react-hook-form'
 import { useEffect, useRef, useState } from 'react'
-import { MdOutlineImage } from 'react-icons/md'
+import { MdOutlineFileUpload } from 'react-icons/md'
+import { FaTrash } from 'react-icons/fa'
+
+import PlayerAudio from './PlayerAudio'
+import PlayerVideo from './PlayerVideo'
+import PlayerImage from './PlayerImage'
 
 export const FileUpload = ({
   name,
@@ -18,42 +24,86 @@ export const FileUpload = ({
   control,
   children,
   isRequired = false,
+  resetField
 }) => {
   const inputRef = useRef()
   const {
     field: { ref, onChange, value, ...inputProps },
     // eslint-disable-next-line no-unused-vars
-    fieldState: { invalid, isTouched, isDirty },
+    fieldState: { invalid },
+    formState: { errors }
   } = useController({
     name,
     control,
-    rules: { required: isRequired },
+    rules: { required: isRequired }
   })
 
-  const [selectedImage, setSelectedImage] = useState(null)
-  const [imageUrl, setImageUrl] = useState(null)
-  const [error, setError] = useState(null)
+  const [selectedFile, setSelectedFile] = useState(null)
+  const [imageSrc, setImageSrc] = useState(null)
+  const [videoSrc, setVideoSrc] = useState(null);
+  const [audioSrc, setAudioSrc] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null)
+
+  const clearSrc = () => {
+    resetField(name)
+    setImageSrc(null)
+    setVideoSrc(null)
+    setAudioSrc(null)
+    setSelectedFile(null)
+    setErrorMsg(null)
+  }
 
   useEffect(() => {
-    if (selectedImage) {
-      setImageUrl(URL.createObjectURL(selectedImage))
+    if (selectedFile && selectedFile.type) {
+      if (selectedFile.type === "image/jpeg" || selectedFile.type === "image/jpg" || selectedFile.type === "image/png") {
+        setImageSrc(URL.createObjectURL(selectedFile))
+      }
+      if (selectedFile.type === "video/mp4") {
+        setVideoSrc(URL.createObjectURL(selectedFile))
+      }
+      if (selectedFile.type === "audio/mpeg") {
+        setAudioSrc(URL.createObjectURL(selectedFile))
+      }
     }
-  }, [selectedImage])
+  }, [selectedFile])
 
   const verifyImage = (file) => {
-    if (file.size > 3e6) {
-      setError('Error upload: limit size.')
-      setSelectedImage(null)
+    if (file && file.size && file.type) {
+      clearSrc()
+
+      const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      const validImageType = validImageTypes.find((type) => type === file.type);
+
+      const validFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg'];
+      const validFileType = validFileTypes.find((type) => type === file.type);
+
+      if (!validImageType && isRequired === true) {
+        setErrorMsg('Error: Invalid file type.')
+        setSelectedFile(null)
+        return
+      }
+
+      if (!validFileType && isRequired === false) {
+        setErrorMsg('Error: Invalid file type.')
+        setSelectedFile(null)
+        return
+      }
+
+      if (file.size > 1e7) {
+        setErrorMsg('Error: Limit size.')
+        setSelectedFile(null)
+        return
+      }
+
+      setSelectedFile(file)
+      onChange(file)
       return
     }
-
-    setSelectedImage(file)
-    onChange(file)
   }
 
   return (
     <FormControl isInvalid={invalid} isRequired={isRequired && isRequired}>
-      <FormLabel htmlFor="writeUpFile">{children}</FormLabel>
+      <FormLabel htmlFor="writeUpFile" textAlign={"center"} mt="1em" fontWeight='semibold'>{children}</FormLabel>
       <InputGroup>
         <input
           type="file"
@@ -75,7 +125,7 @@ export const FileUpload = ({
           cursor="pointer"
           onClick={() => inputRef.current.click()}
         >
-          {!imageUrl || !selectedImage ? (
+          {!selectedFile ? (
             <>
               <Box
                 w="full"
@@ -84,25 +134,23 @@ export const FileUpload = ({
                 alignItems="center"
                 justifyContent="center"
               >
-                <MdOutlineImage fontSize="3em" />
-                Browse
+                <MdOutlineFileUpload fontSize="3em" />
               </Box>
-              <Text color="red.500"> {error && error}</Text>
+              <Text color="red.500"> {errorMsg && errorMsg}</Text>
             </>
           ) : null}
-          {imageUrl && selectedImage && (
-            <Image
-              alt={selectedImage && selectedImage.name}
-              rounded={'lg'}
-              height={'full'}
-              width={'full'}
-              objectFit={'cover'}
-              src={imageUrl}
-            />
-          )}
+          {selectedFile && imageSrc && <PlayerImage imageSrc={imageSrc} />}
+          {selectedFile && videoSrc && <PlayerVideo videoSrc={videoSrc} createObjectURL={true} />}
+          {selectedFile && audioSrc && <PlayerAudio audioSrc={audioSrc} createObjectURL={true} />}
         </Box>
       </InputGroup>
-      <FormErrorMessage>{invalid}</FormErrorMessage>
+      <Center>
+        <Button onClick={() => clearSrc()} _hover={{ bg: 'gray.300' }}
+        >
+          <FaTrash fontSize="1em" />
+        </Button>
+      </Center>
+      <Text color="red">{errors && errors.file1 && name === "file1" && "Image Main Rest"}</Text>
     </FormControl>
   )
 }

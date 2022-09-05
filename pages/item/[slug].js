@@ -22,19 +22,26 @@ import { useGlobal } from '../../providers/globalProvider'
 import { profileService } from '../../services/profileService'
 import { log } from 'next-axiom';
 import useUser from '../../hooks/data/useUser'
+import ImagePreviewListingCard from '../../components/Cards/ImagePreviewListingCard'
+import PlayerVideo from '../../components/Utils/PlayerVideo'
+import PlayerAudio from '../../components/Utils/PlayerAudio'
 
 const ItemById = ({ item }) => {
-  const global = useGlobal()
-  const toast = useToast()
+  const global = useGlobal();
+  const toast = useToast();
 
-  const [owner, setOwner] = useState(null)
-  const [favorite, setFavorite] = useState(null)
+  const url_gc = process.env.NEXT_PUBLIC_LINK_GC;
+  const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
 
-  const [selectImage, setSelectImage] = useState(null)
-  const router = useRouter()
-  const dispatch = useDispatchGlobal()
+  const [owner, setOwner] = useState(null);
+  const [favorite, setFavorite] = useState(null);
 
-  const { user } = useUser()
+  const [selectFile, setSelectFile] = useState(null);
+
+  const router = useRouter();
+  const dispatch = useDispatchGlobal();
+
+  const { user } = useUser();
 
   const actionToat = (title, description, status) => {
     toast({
@@ -64,7 +71,7 @@ const ItemById = ({ item }) => {
             }
           }
         }
-        if(favourites.length === 0){
+        if (favourites.length === 0) {
           setFavorite(false)
         }
       })
@@ -113,8 +120,8 @@ const ItemById = ({ item }) => {
   }
 
   const funcSelectImage = () => {
-    if (item && item.pictures && item.pictures.length > 0) {
-      setSelectImage(item.pictures[0])
+    if (item && item.files) {
+      setSelectFile(item.files[0])
     }
   }
 
@@ -168,45 +175,43 @@ const ItemById = ({ item }) => {
         flexDirection={'column'}
       >
         <Flex width={'full'} direction={{ base: 'column', md: 'row' }} mt="1em">
-          <Box width={{ base: '100%', md: '66%' }} m="5px">
-            <Box padding="5px">
-              {selectImage && (
+          <Box width={{ base: '100%', md: '66%' }} height={'full'} m="5px">
+            <Box padding="5px" height={'85%'}>
+              {selectFile && selectFile.mimetype === "image/webp" && (
                 <Center>
                   <Image
                     alt="Img Item"
                     rounded={'lg'}
-                    height={'600px'}
                     width={'full'}
                     objectFit={'cover'}
-                    src={selectImage}
+                    src={url_fleek + selectFile.filename}
+                    fallbackSrc={url_gc + selectFile.filename}
                   />
                 </Center>
-              )}
+              )
+              }
+              {selectFile && selectFile.mimetype === "video/mp4" && (<PlayerVideo videoSrc={selectFile.filename} createObjectURL={false} />)}
+              {selectFile && selectFile.mimetype === "audio/mpeg" && (<PlayerAudio audioSrc={selectFile.filename} createObjectURL={false} />)}
             </Box>
-            <Box>
+            <Box mt="10px">
               <Divider />
               <Box>
                 <Flex justifyContent={'center'}>
                   {item &&
-                    item.pictures &&
-                    item.pictures.length > 0 &&
-                    item.pictures.map((image, i) => {
-                      if (image) {
-                        return (
-                          <Center m="0.5em" key={i}>
-                            <Image
-                              alt="Img Item"
-                              rounded={'lg'}
-                              height={'70px'}
-                              width={'100px'}
-                              cursor="pointer"
-                              objectFit={'cover'}
-                              src={image}
-                              onClick={() => setSelectImage(image)}
-                            />
-                          </Center>
-                        )
+                    item.files.length > 0 &&
+                    item.files.map((file, i) => {
+                      if (file) {
+                        if (file.mimetype === "image/webp") {
+                          return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={false} key={i} />
+                        }
+                        if (file.mimetype === "video/mp4") {
+                          return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/videologo1.png'} key={i} />
+                        }
+                        if (file.mimetype === "audio/mpeg") {
+                          return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/audiologo.png'} key={i} />
+                        }
                       }
+
                     })}
                 </Flex>
               </Box>
@@ -221,7 +226,7 @@ const ItemById = ({ item }) => {
             borderRadius={'5px'}
           >
             <Flex justifyContent={'space-between'}>
-            <Text color="#323232" fontSize="14px" fontWeight="300">
+              <Text color="#323232" fontSize="14px" fontWeight="300">
                 Service
               </Text>
               {owner === false && (
@@ -276,7 +281,7 @@ const ItemById = ({ item }) => {
                   fontSize={'16px'}
                   fontWeight={'600'}
                   onClick={buyAndCheckoutItem}
-                  disabled={owner || !user}
+                  disabled={owner || !user || item.published === false || item.status !== 2}
                 >
                   Buy Now
                 </Button>
@@ -288,7 +293,7 @@ const ItemById = ({ item }) => {
           </Box>
         </Flex>
         <Divider />
-        <Box m="1em">
+        <Box m="1em" h="30vh">
           <Text mt="10px">Course description</Text>
           <Text mt="10px">{item.description}</Text>
         </Box>
@@ -317,7 +322,7 @@ export async function getStaticProps({ params }) {
     item = res.data.result
     return { props: { item } }
   } catch (err) {
-    console.log(err)
+    console.error(err)
     return {
       notFound: true,
     }

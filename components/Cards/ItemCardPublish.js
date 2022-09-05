@@ -1,17 +1,24 @@
-import { Box, Center, Text, Stack, Image, Divider } from '@chakra-ui/react'
+import {
+  Box,
+  Text,
+  Stack,
+  Image,
+  Divider,
+  Badge,
+} from '@chakra-ui/react'
 import Link from 'next/link'
 
-const ItemCard = ({ item }) => {
+const ItemCardPublish = ({ item }) => {
+
   return (
-    <Center p={1} cursor="pointer">
+    <Box p={2} cursor="pointer">
       <Link href={`/item/${item.slug}`}>
         <Box
           role={'group'}
-          p={2}
-          maxW={'180px'}
+          maxW={{ base: '374px', sm: '374px', md: '262px' }}
           w={'full'}
-          maxH={'260px'}
-          h={'260px'}
+          maxH={'400px'}
+          h={'378px'}
           bg={'white'}
           rounded={'lg'}
           pos={'relative'}
@@ -21,20 +28,26 @@ const ItemCard = ({ item }) => {
         >
           <Image
             alt="Img Item"
-            rounded={'lg'}
-            height={'150px'}
-            width={'180px'}
+            borderTopRadius="lg"
+            height={'280px'}
+            width={{ base: '374px', sm: '374px', md: '262px' }}
             objectFit={'cover'}
             src={item && item.files && item.files[0] ? process.env.NEXT_PUBLIC_LINK_FLEEK + item.files[0].filename : '/static/images/ybminilogo.png'}
             fallbackSrc={item && item.files && item.files[0] ? process.env.NEXT_PUBLIC_LINK_GC + item.files[0].filename : '/static/images/ybminilogo.png'}
           />
-          <Stack align={'left'} mt="2px">
+
+          <Box position={"absolute"} top="0" m="1px">
+            <Badge variant='solid' colorScheme={item.published ? "green" : "red"}>{item.published ? "Published" : "Not published"}</Badge>
+            {item.status === 1 && (
+              <Badge variant='solid' colorScheme="orange" ml="4px">In Review</Badge>
+            )}
+          </Box>
+          <Stack align={'left'} m="5px">
             <Divider />
             <Text
               color={'gray.600'}
-              fontSize={'0.9em'}
+              fontSize={'16px'}
               noOfLines={2}
-              maxH="70px"
             >
               {item.title}
             </Text>
@@ -50,8 +63,8 @@ const ItemCard = ({ item }) => {
           </Stack>
         </Box>
       </Link>
-    </Center>
+    </Box>
   )
 }
 
-export default ItemCard
+export default ItemCardPublish
