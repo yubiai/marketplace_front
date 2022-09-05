@@ -27,17 +27,22 @@ const PreviewItem = ({ item }) => {
         </Box>
         <Box>
           <Flex mt="5px" justifyContent={'center'}>
-            {item && item.files && item.files[0] && (item.files[0].type === "image/jpeg" || item.files[0].type === "image/jpg" || item.files[0].type === "image/png") && (
-              <ImagePreviewListingCard file={item.files[0]} setSelectFile={setSelectFile} img={false} />
-            )}
-            {item && item.files && item.files[0] && (item.files[1].type === "video/mp4") && (
-              <ImagePreviewListingCard file={item.files[1]} setSelectFile={setSelectFile} img={'/static/images/videologo2.png'} />
-            )}
 
-            {item && item.files && item.files[2] && (item.files[2].type === "audio/mpeg") && (
-              <ImagePreviewListingCard file={item.files[2]} setSelectFile={setSelectFile} img={'/static/images/audiologo.png'} />
-            )}
-
+            {item &&
+              item.files.length > 0 &&
+              item.files.map((file, i) => {
+                if (file) {
+                  if (file.type === "image/jpeg" || file.type === "image/jpg" || file.type === "image/png") {
+                    return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={false} key={i} />
+                  }
+                  if (file.type === "video/mp4") {
+                    return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/videologo1.png'} key={i} />
+                  }
+                  if (file.type === "audio/mpeg") {
+                    return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/audiologo.png'} key={i} />
+                  }
+                }
+              })}
           </Flex>
         </Box>
       </Box>

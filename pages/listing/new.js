@@ -169,14 +169,14 @@ const NewListing = () => {
     setLoadingSubmit(true)
 
     try {
-      let response = await publishService.newItem(
+      await publishService.newItem(
         dataSubmit,
         global.profile.token
       )
 
-      let slugItem = response.data.result.slug
+/*       let slugItem = response.data.result.slug
         ? response.data.result.slug
-        : null
+        : null */
 
       setLoadingSubmit(false)
       onClose()

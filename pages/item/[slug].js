@@ -205,7 +205,7 @@ const ItemById = ({ item }) => {
                           return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={false} key={i} />
                         }
                         if (file.mimetype === "video/mp4") {
-                          return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/videologo.png'} key={i} />
+                          return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/videologo1.png'} key={i} />
                         }
                         if (file.mimetype === "audio/mpeg") {
                           return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/audiologo.png'} key={i} />
@@ -281,7 +281,7 @@ const ItemById = ({ item }) => {
                   fontSize={'16px'}
                   fontWeight={'600'}
                   onClick={buyAndCheckoutItem}
-                  disabled={owner || !user}
+                  disabled={owner || !user || item.published === false || item.status !== 2}
                 >
                   Buy Now
                 </Button>

@@ -10,7 +10,6 @@ import {
 import Loading from '../../../components/Spinners/Loading'
 import Error from '../../../components/Infos/Error'
 import Head from 'next/head'
-import ItemCardLg from '../../../components/Cards/ItemCardLg'
 import { useGlobal } from '../../../providers/globalProvider'
 import ProfileMenu from '../../../components/Menus/ProfileMenu'
 import useFetch from '../../../hooks/data/useFetch'
@@ -18,6 +17,7 @@ import Paginations from '../../../components/Layouts/Paginations'
 import { useRouter } from 'next/router'
 import useUser from '../../../hooks/data/useUser'
 import { useEffect } from 'react'
+import ItemCardPublish from '../../../components/Cards/ItemCardPublish'
 
 const Favourites = () => {
   const global = useGlobal()
@@ -89,7 +89,7 @@ const Favourites = () => {
               data.items &&
               data.items.length > 0 &&
               data.items.map((item, i) => {
-                return <ItemCardLg key={i} item={item} />
+                return <ItemCardPublish key={i} item={item} />
               })}
           </SimpleGrid>
           <Paginations data={data ? data : null} />

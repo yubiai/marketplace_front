@@ -16,8 +16,7 @@ const ItemsByCategory = ({ response, category }) => {
   const dispatch = useDispatchGlobal()
 
   const { data, error } = useSWR(
-    `/items/?page=${global.pageIndex}&size=8&categoryId=${
-      category ? category._id : ''
+    `/items/?page=${global.pageIndex}&size=8&categoryId=${category ? category._id : ''
     }&subcategoryId=${global.subCategory ? global.subCategory : ''}`,
     {
       initialData: response,
@@ -46,6 +45,8 @@ const ItemsByCategory = ({ response, category }) => {
   if (error) {
     return <Error error={error?.message} />
   }
+
+  console.log(data.items, "data.items")
 
   return (
     <>
@@ -81,6 +82,11 @@ const ItemsByCategory = ({ response, category }) => {
                   <ItemCardLg item={item} />
                 </GridItem>
               ))}
+              {data && data.items.length === 0 && (
+                <Text mt="1em">
+                  There is no item published in this subcategory
+                </Text>
+              )}
           </Grid>
 
           <Paginations data={data} />
