@@ -8,7 +8,7 @@ export default function Custom500() {
       <Head>
         <title>Yubiai Marketplace - Error 500</title>
       </Head>
-      <Box textAlign="center" py={10} px={6}>
+      <Box textAlign="center" py={10} px={5}>
         <Heading
           display="inline-block"
           as="h2"
