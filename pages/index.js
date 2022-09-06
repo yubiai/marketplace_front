@@ -118,7 +118,7 @@ export async function getStaticProps() {
     if(items.length === 0){
       return { notFound: true };
     }
-    return { props: { items } }
+    return { props: { items }, revalidate: 1800 }
   } catch (err) {
     console.log(err)
     return { notFound: true };
