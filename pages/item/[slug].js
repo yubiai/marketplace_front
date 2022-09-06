@@ -281,7 +281,7 @@ const ItemById = ({ item }) => {
                   fontSize={'16px'}
                   fontWeight={'600'}
                   onClick={buyAndCheckoutItem}
-                  disabled={owner || !user || item.published === false || item.status !== 2}
+                  disabled={owner || !user || item.published === false || item.status != 2}
                 >
                   Buy Now
                 </Button>
