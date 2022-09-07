@@ -27,7 +27,7 @@ const ProfileEdit = () => {
 
   // State useForm
   const { handleSubmit, register, reset } = useForm()
-  
+
   const {
     data: dataProfile,
     isLoading,
@@ -63,7 +63,7 @@ const ProfileEdit = () => {
     await profileService
       .updateProfile(global.profile._id, data, global?.profile?.token)
       .then((res) => {
-        actionToat("Profile", res.data && res.data.message , "success")
+        actionToat("Profile", res.data && res.data.message, "success")
       })
       .catch((err) => {
         console.log(err)
@@ -71,7 +71,7 @@ const ProfileEdit = () => {
       })
   }
 
-  if ( isLoading || !dataProfile ) return <Loading />
+  if (isLoading || !dataProfile) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />
@@ -84,49 +84,61 @@ const ProfileEdit = () => {
       </Head>
       <ProfileMenu>
         <Container maxW="2xl" display={'flex'} flexDirection={'column'}>
-          <Heading mt="1em">Edit My Profile</Heading>
+          <Heading mt="1em">Edit my profile</Heading>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Text mt="2em">Real Name</Text>
             <Input
+              color="black"
               placeholder="Real Name"
+              _placeholder={{ color: 'gray.400' }}
               bg="white"
               {...register('realname', { maxLength: 150 })}
             />
             <Text mt="2em">Address</Text>
             <Input
+              color="black"
               placeholder="Address"
+              _placeholder={{ color: 'gray.400' }}
               bg="white"
               {...register('address', { maxLength: 150 })}
             />
             <Text mt="2em">City</Text>
             <Input
+              color="black"
               placeholder="City"
+              _placeholder={{ color: 'gray.400' }}
               bg="white"
               {...register('city', { maxLength: 150 })}
             />
             <Text mt="2em">Country</Text>
             <Input
+              color="black"
               placeholder="Country"
+              _placeholder={{ color: 'gray.400' }}
               bg="white"
               {...register('country', { maxLength: 150 })}
             />
             <Text mt="2em">Telephone</Text>
             <Input
+              color="black"
               placeholder="Telephone"
+              _placeholder={{ color: 'gray.400' }}
               bg="white"
               {...register('telephone', { maxLength: 150 })}
             />
             <Text mt="2em">Email</Text>
             <Input
+              color="black"
               placeholder="Email"
+              _placeholder={{ color: 'gray.400' }}
               bg="white"
               {...register('email', { maxLength: 150 })}
             />
             <Box float={'right'} m="2em">
-              <Button m="2em" onClick={() => router.push('/profile')}>
+              <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.push('/profile')}>
                 Back
               </Button>
-              <Button bg="#00abd1" color="white" type="submit">
+              <Button bg="#00abd1" color="white" _hover={{ bg: "blue.400", color: "black" }} type="submit">
                 Save
               </Button>
             </Box>

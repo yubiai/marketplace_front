@@ -155,7 +155,7 @@ const Checkout = () => {
             >
               <Avatar
                 size={'xl'}
-                src={orderData.item && orderData.item.pictures[0]}
+                src={`${process.env.NEXT_PUBLIC_LINK_FLEEK && orderData.item && orderData.item.files && orderData.item.files[0] && process.env.NEXT_PUBLIC_LINK_FLEEK + orderData.item.files[0].filename}`}
                 alt={'Avatar Alt'}
                 mb={4}
                 pos={'relative'}
@@ -188,6 +188,7 @@ const Checkout = () => {
               </Text>
               <Box pt={6} pb={2} mt="1em">
                 <Slider
+                  color="black"
                   aria-label="slider-ex-6"
                   defaultValue={0}
                   min={0}
@@ -214,14 +215,14 @@ const Checkout = () => {
                   >
                     {sliderValue}%
                   </SliderMark>
-                  <SliderTrack>
+                  <SliderTrack bg='gray.400'>
                     <SliderFilledTrack />
                   </SliderTrack>
-                  <SliderThumb />
+                  <SliderThumb bg='blue.400' />
                 </Slider>
               </Box>
-              <Alert status="warning" mt="1em">
-                <AlertIcon />
+              <Alert status="warning" mt="1em" color="black" bg="orange.100">
+                <AlertIcon color="orange" />
                 When you click on &apos;Hire service&apos;, your payment will be
                 held and it will be released to the seller when you get the
                 service.{' '}

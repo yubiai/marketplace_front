@@ -8,7 +8,7 @@ const SearchBar = () => {
   const [query, setQuery] = useState("")
 
   const handleSearch = () => {
-    if(query !== ""){
+    if (query !== "") {
       router.push(`/search/${query}`)
     }
   }
@@ -19,13 +19,13 @@ const SearchBar = () => {
 
   useEffect(() => {
     const refreshInit = () => {
-      if(router.route !== "/search/[query]"){
+      if (router.route !== "/search/[query]") {
         setQuery("")
       }
     }
     refreshInit()
   }, [router.route])
-  
+
 
   return (
     <>
@@ -40,11 +40,14 @@ const SearchBar = () => {
           />
         )}
         <Input
+          bg="white"
+          color="black"
           variant="filled"
           backgroundColor={'white'}
           focusBorderColor={'transparent'}
           size="md"
           placeholder={`Search in Yubiai`}
+          _placeholder={{ color: 'gray.400' }}
           onChange={(e) => setQuery(e.target.value)}
           value={query}
           onKeyPress={(e) => {

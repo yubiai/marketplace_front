@@ -49,26 +49,26 @@ const UserMenu = () => {
         />
       )}
       <Portal>
-        <MenuList color="black">
+        <MenuList color="black" bg="white">
           <UserInfo profile={profileLogin} balanceToken={balanceToken} />
 
           <Link href="/profile">
-            <MenuItem>My Info</MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}>My Info</MenuItem>
           </Link>
           <Link href="/profile/notifications">
-            <MenuItem>Notifications</MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}>Notifications</MenuItem>
           </Link>
           <Link href="/profile/published">
-            <MenuItem>Published</MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}>Published</MenuItem>
           </Link>
           <Link href="/profile/orders">
-            <MenuItem>Orders</MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}>Orders</MenuItem>
           </Link>
           <Link href="/profile/orders/sales">
-            <MenuItem>Sales</MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}>Sales</MenuItem>
           </Link>
           <span onClick={() => router.push('/logout')}>
-            <MenuItem>Disconnect </MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}>Disconnect </MenuItem>
           </span>
         </MenuList>
       </Portal>
