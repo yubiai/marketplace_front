@@ -175,15 +175,16 @@ const ItemById = ({ item }) => {
         flexDirection={'column'}
       >
         <Flex width={'full'} direction={{ base: 'column', md: 'row' }} mt="1em">
-          <Box width={{ base: '100%', md: '66%' }} height={'full'} m="5px">
-            <Box padding="5px" height={'85%'}>
+          <Box width={{ base: '100%', md: '66%' }} height={'600px'} m="5px">
+            <Box width={"full"} height={"80%"} overflow='hidden' display={"flex"} alignItems={"center"} justifyContent={"center"}>
               {selectFile && selectFile.mimetype === "image/webp" && (
                 <Center>
                   <Image
                     alt="Img Item"
                     rounded={'lg'}
-                    width={'full'}
-                    objectFit={'cover'}
+                    objectFit={'contain'}
+                    width={"full"}
+                    height={"full"}
                     src={url_fleek + selectFile.filename}
                     fallbackSrc={url_gc + selectFile.filename}
                   />
@@ -192,29 +193,27 @@ const ItemById = ({ item }) => {
               }
               {selectFile && selectFile.mimetype === "video/mp4" && (<PlayerVideo videoSrc={selectFile.filename} createObjectURL={false} />)}
               {selectFile && selectFile.mimetype === "audio/mpeg" && (<PlayerAudio audioSrc={selectFile.filename} createObjectURL={false} />)}
+
             </Box>
             <Box mt="10px">
-              <Divider />
-              <Box>
-                <Flex justifyContent={'center'}>
-                  {item &&
-                    item.files.length > 0 &&
-                    item.files.map((file, i) => {
-                      if (file) {
-                        if (file.mimetype === "image/webp") {
-                          return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={false} key={i} />
-                        }
-                        if (file.mimetype === "video/mp4") {
-                          return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/videologo1.png'} key={i} />
-                        }
-                        if (file.mimetype === "audio/mpeg") {
-                          return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/audiologo.png'} key={i} />
-                        }
+              <Flex justifyContent={'center'}>
+                {item &&
+                  item.files.length > 0 &&
+                  item.files.map((file, i) => {
+                    if (file) {
+                      if (file.mimetype === "image/webp") {
+                        return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={false} key={i} />
                       }
+                      if (file.mimetype === "video/mp4") {
+                        return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/videologo1.png'} key={i} />
+                      }
+                      if (file.mimetype === "audio/mpeg") {
+                        return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/audiologo.png'} key={i} />
+                      }
+                    }
 
-                    })}
-                </Flex>
-              </Box>
+                  })}
+              </Flex>
             </Box>
           </Box>
           <Box

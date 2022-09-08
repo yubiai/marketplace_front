@@ -56,7 +56,7 @@ const PlayerAudio = ({ audioSrc, createObjectURL }) => {
                 <Image
                     alt={'Logo'}
                     w={'100%'}
-                    h={createObjectURL ? '95%' : '480px'}
+                    h={createObjectURL ? '95%' : 'full'}
                     src={'/static/images/audiologo.png'}
                     fallbackSrc={'/static/images/audiologo.png'}
                 />
