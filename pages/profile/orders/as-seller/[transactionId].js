@@ -24,7 +24,6 @@ import {
   Flex,
   Button,
   Center,
-  useColorModeValue,
   Stack,
   Avatar
 } from '@chakra-ui/react'
@@ -149,7 +148,7 @@ const OrderDetail = () => {
         <Box
           maxW={'360px'}
           w={'full'}
-          bg={useColorModeValue('white', 'gray.900')}
+          bg={'white'}
           boxShadow={'2xl'}
           rounded={'lg'}
           p={6}
@@ -159,8 +158,11 @@ const OrderDetail = () => {
             size={'xl'}
             src={`${
               orderDetail &&
+              process.env.NEXT_PUBLIC_LINK_FLEEK &&
               orderDetail.item &&
-              orderDetail?.item?.pictures[0]
+              orderDetail?.item?.files[0] &&
+              process.env.NEXT_PUBLIC_LINK_FLEEK +
+              orderDetail?.item?.files[0].filename
             }`}
             alt={'Avatar Alt'}
             mb={4}
