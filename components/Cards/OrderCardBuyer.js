@@ -2,9 +2,9 @@ import { Stack, Text, Button, Divider, SimpleGrid, Box, Image, Center } from '@c
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import StatusOrder from '../Infos/StatusOrder'
 
 const OrderCardBuyer = ({ order }) => {
-  console.log(order)
   const router = useRouter()
 
   return (
@@ -25,6 +25,7 @@ const OrderCardBuyer = ({ order }) => {
               <Image
                 borderRadius='full'
                 boxSize='90px'
+                objectFit='cover'
                 src={order && order.itemId.files && order.itemId.files[0] && process.env.NEXT_PUBLIC_LINK_FLEEK + order.itemId.files[0].filename}
                 fallbackSrc={order && order.itemId.files && order.itemId.files[0] && process.env.NEXT_PUBLIC_LINK_GC + order.itemId.files[0].filename}
                 alt='Image item the order'
@@ -34,16 +35,20 @@ const OrderCardBuyer = ({ order }) => {
         </Center>
         <Center>
           <Box textAlign={"center"}>
-            <Text>{order.status}</Text>
+        
             <Link href={'/item/' + order?.itemId.slug}><Text cursor={'pointer'} fontWeight={600} _hover={{
               textDecoration: "underline"
             }}
             >{order.itemId.title}</Text></Link>
+            {order && order.status && (
+              StatusOrder(order.status)
+            )}
           </Box>
         </Center>
         <Center>
-          <Box>
-            <Text>Seller: {order.itemId.seller.first_name} {order.itemId.seller.last_name}</Text>
+          <Box display={"flex"}>
+            <Text fontWeight={600}>Seller:</Text>
+            <Text ml="2px">{order.itemId.seller.first_name} {order.itemId.seller.last_name}</Text>
           </Box>
         </Center>
         <Center>

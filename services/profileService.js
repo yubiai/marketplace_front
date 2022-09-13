@@ -13,22 +13,28 @@ async function login(walletAddress) {
 /**
  * Get profile by _id
  */
- async function getProfileFromId(_id, token) {
-    return await axios.get(`/profiles/${_id}`,token
+async function getProfileFromId(_id, token) {
+  return await axios.get(`/profiles/${_id}`, token
     ? {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
     : null)
 }
 
 /**
- * Get Favourites the perfil
+ * Get Profile by eth adress
  * @param {str} id user
  */
-async function getProfile(eth_address) {
-  return await axios.get(`/profiles/${eth_address}`)
+async function getProfile(eth_address, token) {
+  return await axios.get(`/profiles/${eth_address}`, token
+    ? {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    : null)
 }
 
 /**
@@ -38,12 +44,12 @@ async function getProfile(eth_address) {
  */
 async function updateProfile(profile, data, token) {
   return await axios.put(`/profiles/id/${profile}`, data, token
-  ? {
+    ? {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }
-  : null
+    : null
   )
 }
 
@@ -53,12 +59,12 @@ async function updateProfile(profile, data, token) {
  */
 async function getFavourites(profile, size, token) {
   return await axios.get(`/profiles/favourites/${profile}?size=${size || ""}`, token
-  ? {
+    ? {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }
-  : null)
+    : null)
 }
 
 /**
@@ -71,12 +77,12 @@ async function addFavorite(profile, item, token) {
     action: 'add',
     item_id: item._id,
   }, token
-  ? {
+    ? {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }
-  : null)
+    : null)
 }
 
 /**
@@ -89,12 +95,12 @@ async function removeFavorite(profile, item, token) {
     action: 'remove',
     item_id: item._id,
   }, token
-  ? {
+    ? {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }
-  : null)
+    : null)
 }
 
 

@@ -29,14 +29,13 @@ import {
   Stack,
   Center,
   Avatar,
-  Alert,
-  AlertIcon,
   Divider,
   Grid,
   SimpleGrid,
   Flex,
 } from '@chakra-ui/react'
 import useUser from '../../../../hooks/data/useUser'
+import StatusOrder from '../../../../components/Infos/StatusOrder'
 
 const minimumArbitrationFeeUSD = 90
 
@@ -146,9 +145,6 @@ const OrderDetail = () => {
   }, [global.arbitratorInstance, orderDetail])
 
   if (!orderDetail) return <Loading />
-
-  console.log(orderDetail, "orderDetail")
-  console.log(process.env.NEXT_PUBLIC_LINK_FLEEK + orderDetail.item.files[0].filename, "transactionData")
 
   return (
     <>
@@ -310,34 +306,10 @@ const OrderDetail = () => {
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
 
             <Text fontWeight={600} fontSize="2xl">Status</Text>
-            {transactionData && orderDetail.status === 'ORDER_CREATED' && (
-              <Alert status="info">
-                <AlertIcon />
-                <Text color="black" fontWeight={500}>Order created</Text>
-              </Alert>
+
+            {orderDetail && orderDetail.status && (
+              StatusOrder(orderDetail.status)
             )}
-            {transactionData && orderDetail.status === 'ORDER_PAID' && (
-              <Alert status="success">
-                <AlertIcon />
-                <Text color="black" fontWeight={500}>Order paid</Text>
-              </Alert>
-            )}
-            {transactionData &&
-              orderDetail.status === 'ORDER_DISPUTE_RECEIVER_FEE_PENDING' && (
-                <Alert status='warning'>
-                  <AlertIcon />
-                  <Text color="black" fontWeight={500}>Dispute pending to start, waiting for seller to pay the
-                    arbitration fee.</Text>
-                </Alert>
-              )}
-            {transactionData &&
-              orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && (
-                <Alert status='info'>
-                  <AlertIcon />
-                  <Text color="black" fontWeight={500}>Dispute in progress.
-                  </Text>
-                </Alert>
-              )}
 
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
             <Text fontWeight={600} fontSize="2xl">Actions</Text>
