@@ -79,7 +79,8 @@ const NotificationDrawer = () => {
           finalFocusRef={btnRef}
         >
           <DrawerOverlay />
-          <DrawerContent>
+          <DrawerContent bg="white" color="black"
+          >
             <DrawerCloseButton />
             <DrawerHeader>Notifications</DrawerHeader>
 
