@@ -64,6 +64,7 @@ const Notifications = () => {
           }}
           display={'flex'}
           flexDirection={'column'}
+          color="black"
         >
           {data.items && data.items.length > 0 && (
             <Flex alignItems={'center'} mt="1em">

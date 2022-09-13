@@ -148,7 +148,7 @@ const OrderDetail = () => {
   if (!orderDetail) return <Loading />
 
   console.log(orderDetail, "orderDetail")
-  console.log(transactionData, "transactionData")
+  console.log(process.env.NEXT_PUBLIC_LINK_FLEEK + orderDetail.item.files[0].filename, "transactionData")
 
   return (
     <>
