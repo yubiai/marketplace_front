@@ -1,5 +1,6 @@
 import { paymentProcessor } from '../escrow-utils/abis';
 import { createWeb3, createWeb3FromModal } from './web3-provider'
+import { getContractsForNetwork } from '../walletUtils'
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
 export const PAYMENT_PROCESSOR_CONTRACT = process.env.NEXT_PUBLIC_PAYMENT_PROCESSOR_CONTRACT;
@@ -14,8 +15,11 @@ export default class PaymentProcessor {
     async initPaymentProcessor(web3, account) {
         const _web3 = createWeb3((web3.currentProvider || {}).url || '')
         this.web3 = await createWeb3FromModal(_web3.modal, _web3.infuraURL)
+        const networkType = await this.web3.eth.net.getNetworkType();
+        const contracts = getContractsForNetwork(networkType)
+
         this.contract = new this.web3.eth.Contract(
-            paymentProcessor, PAYMENT_PROCESSOR_CONTRACT, { from: account },
+            paymentProcessor, contracts.paymentProcessor, { from: account },
         );
         window.paymentProcessorContract = this.contract;
     }
@@ -24,24 +28,25 @@ export default class PaymentProcessor {
         return await this.contract.methods.getAdminFee().call();
     }
 
-    /**
-     * TODO: Include scenario for token-based transactions
-     */
     async managePayment(
         amount, paymentId, burnFee, _transferInfo = {}, _transactionData = {}, metaEvidence = '') {
         const metaEvidenceURI = await this.klerosEscrowInstance.prepareSourcesForTransaction(
             amount, _transactionData.receiver, _transactionData.timeoutPayment, metaEvidence, _transferInfo.token);
 
-        const managePaymentPromise = await this.contract.methods.managePayment(
-            paymentId,
-            burnFee,
-            [_transferInfo.token,_transferInfo.tokenETHRate,_transferInfo.ETHPriceGreaterThanToken],
-            [_transactionData.sender, _transactionData.timeoutPayment, _transactionData.receiver, metaEvidenceURI]
-        )
         if (_transferInfo.token !== NULL_ADDRESS) {
-            return managePaymentPromise.send();
+            return await this.contract.methods.manageTokenPayment(
+                amount,
+                paymentId,
+                burnFee,
+                [_transferInfo.token, true],
+                [_transactionData.sender, _transactionData.timeoutPayment, _transactionData.receiver, metaEvidenceURI]
+            ).send();
         }
 
-        return managePaymentPromise.send({ value: amount });
+        return await this.contract.methods.manageETHPayment(
+            paymentId,
+            burnFee,
+            [_transactionData.sender, _transactionData.timeoutPayment, _transactionData.receiver, metaEvidenceURI]
+        ).send({ value: amount });
     }
 }
