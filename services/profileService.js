@@ -103,6 +103,20 @@ async function removeFavorite(profile, item, token) {
     : null)
 }
 
+/**
+ * Add Term in the Profile
+ * @param {str} profile
+ * @param {str} term
+ */
+async function addTerms(profile, term, token) {
+  return await axios.put(`/profiles/terms/${profile}`, term, token
+    ? {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    : null)
+}
 
 export const profileService = {
   login,
@@ -111,5 +125,6 @@ export const profileService = {
   updateProfile,
   getFavourites,
   addFavorite,
-  removeFavorite
+  removeFavorite,
+  addTerms
 }
