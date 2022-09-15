@@ -1,5 +1,6 @@
-import { Box, Container, Heading, Text } from '@chakra-ui/react'
+import { Box, Button, Container, Heading, Text } from '@chakra-ui/react'
 import Head from 'next/head'
+import Link from 'next/link'
 
 const Help = () => {
   return (
@@ -24,6 +25,11 @@ const Help = () => {
           <Text>
             Lorem lorem
           </Text>
+          <Link href="/help/terms-and-conditions">
+            <Button bg="blue" color="white">
+              Terms and Conditions
+            </Button>
+          </Link>
         </Box>
       </Container>
     </>
