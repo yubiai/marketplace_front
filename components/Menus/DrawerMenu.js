@@ -12,7 +12,6 @@ import {
   List,
   ListItem,
   ListIcon,
-  useToast,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
@@ -29,15 +28,13 @@ import {
   MdHome,
   MdDesignServices,
 } from 'react-icons/md'
-import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
-import { profileService } from '../../services/profileService'
-import { balanceUbi1, loginMetamask } from '../../utils/ethereum'
+import { useGlobal } from '../../providers/globalProvider'
+import { balanceUbi1 } from '../../utils/ethereum'
 import { useRouter } from 'next/router'
+import ButtonConnect from '../Buttons/ButtonConnect'
 
 const DrawerMenu = () => {
   const global = useGlobal()
-  const dispatch = useDispatchGlobal()
-  const toast = useToast()
   const router = useRouter()
 
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -64,43 +61,6 @@ const DrawerMenu = () => {
     }
     verifyLogin()
   }, [global.profile])
-
-  const onConnect = async () => {
-    const signerAddress = await loginMetamask()
-
-    if (!signerAddress) {
-      toast({
-        title: 'Failed to login.',
-        description: 'Review application',
-        position: 'top-right',
-        status: 'warning',
-        duration: 5000,
-        isClosable: true,
-      })
-      return
-    }
-
-    const result = await profileService.login(signerAddress)
-    const data = result.data.data
-    dispatch({
-      type: 'AUTHPROFILE',
-      payload: data,
-    })
-    const yubiaiLS = {
-      token: result.data.token,
-      wallet: data.eth_address,
-    }
-
-    localStorage.setItem('Yubiai', JSON.stringify(yubiaiLS))
-    toast({
-      title: 'Login',
-      description: 'You have successfully logged in, Welcome!',
-      position: 'top-right',
-      status: 'success',
-      duration: 5000,
-      isClosable: true,
-    })
-  }
 
   return (
     <>
@@ -130,16 +90,9 @@ const DrawerMenu = () => {
                 balanceToken={balanceToken}
               />
             ) : (
-              <Button
-                backgroundColor={'white'}
-                color={'#00abd1'}
-                rounded={'full'}
-                ml="1em"
-                cursor={'pointer'}
-                onClick={() => onConnect()}
-              >
-                Connect
-              </Button>
+              <>
+              <ButtonConnect />
+              </>
             )}
           </DrawerHeader>
           <Divider />

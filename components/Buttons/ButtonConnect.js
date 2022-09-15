@@ -137,7 +137,6 @@ const ButtonConnect = () => {
         rounded={'full'}
         ml="1em"
         cursor={'pointer'}
-        display={{ base: 'none', md: 'flex' }}
         onClick={() => onConnect()}
         isDisabled={global.profile && global.profile.eth_address}
       >

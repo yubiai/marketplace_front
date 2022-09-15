@@ -25,7 +25,7 @@ const Logout = () => {
   }, [])
 
   return (
-    <Box textAlign="center" py={10} px={6} h={{base: 'full', sm: 'full', md: "80vh"}}>
+    <Box textAlign="center" py={10} px={6} h={{base: '100vh', sm: '100vh', md: "80vh"}}>
       <Spinner
         thickness="4px"
         speed="0.65s"
