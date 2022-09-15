@@ -8,7 +8,7 @@ const TermsAndConditions = ({ terms }) => {
     return (
         <>
             <Head>
-                <title>Yubiai Marketplace - Terms And Conditions</title>
+                <title>Yubiai Marketplace - Terms and Conditions</title>
             </Head>
             <Container
                 maxW="6xl"
@@ -18,7 +18,7 @@ const TermsAndConditions = ({ terms }) => {
                 p={4}
             >
                 <Box h="100vh" w="full">
-                    <Heading mt="1em">Terms And Conditions</Heading>
+                    <Heading mt="1em">Terms and Conditions</Heading>
                     <Box
                     >
                         <Text m="1em" fontWeight={600}>Last revision: {moment(terms.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text>

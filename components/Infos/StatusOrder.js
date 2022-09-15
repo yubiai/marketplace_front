@@ -4,7 +4,7 @@ const StatusOrder = (status) => {
 
     if (status === 'ORDER_CREATED') {
         return (
-            <Alert status="info" height={"35px"} borderRadius={"2px"}>
+            <Alert status="info" height={"35px"} borderRadius={"2px"} >
                 <AlertIcon />
                 <Text color="black" fontWeight={500}>Order created</Text>
             </Alert>

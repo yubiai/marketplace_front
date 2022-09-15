@@ -307,9 +307,11 @@ const OrderDetail = () => {
 
             <Text fontWeight={600} fontSize="2xl">Status</Text>
 
+            <Box width={"30%"}>
             {orderDetail && orderDetail.status && (
               StatusOrder(orderDetail.status)
             )}
+            </Box>
 
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
             <Text fontWeight={600} fontSize="2xl">Actions</Text>
@@ -321,32 +323,13 @@ const OrderDetail = () => {
                   orderDetail.status === 'ORDER_CREATED' && (
                     <>
                       <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
-                        <Box bg='orange.200' p="1em">
-                          <Text color="black">
-                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:
-                          </Text>
-                          <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
-                            <ButtonEscrowDispute
-                              transaction={{ userBuyer: orderDetail.userBuyer || '' }}
-                              transactionIndex={
-                                (orderDetail.transaction || {}).transactionIndex
-                              }
-                              transactionHash={
-                                (orderDetail.transaction || {}).transactionHash
-                              }
-                              amount={minimumArbitrationFeeUSD}
-                              stepsPostAction={loadOrder}
-                              toggleLoadingStatus={toggleLoadingStatus}
-                            />
-                          </Box>
-                        </Box>
-                        <Box p="1em">
+                      <Box p="1em">
                           {transactionData && transactionPayedAmount && (
                             <>
                               <Text color="black">
                                 Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:
                               </Text>
-                              <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
+                              <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
                                 <ButtonPayOrder
                                   transactionIndex={
                                     (orderDetail.transaction || {}).transactionIndex
@@ -362,6 +345,26 @@ const OrderDetail = () => {
                             </>
                           )}
                         </Box>
+                        <Box bg='orange.200' p="1em">
+                          <Text color="black">
+                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:
+                          </Text>
+                          <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
+                            <ButtonEscrowDispute
+                              transaction={{ userBuyer: orderDetail.userBuyer || '' }}
+                              transactionIndex={
+                                (orderDetail.transaction || {}).transactionIndex
+                              }
+                              transactionHash={
+                                (orderDetail.transaction || {}).transactionHash
+                              }
+                              amount={minimumArbitrationFeeUSD}
+                              stepsPostAction={loadOrder}
+                              toggleLoadingStatus={toggleLoadingStatus}
+                            />
+                          </Box>
+                        </Box>
+                      
 
                       </SimpleGrid>
 
