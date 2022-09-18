@@ -3,7 +3,7 @@ import { Buffer } from 'buffer'
 
 import Archon from '@kleros/archon'
 
-import { erc20, escrow, tokenEscrow } from './abis'
+import { erc20, escrow } from './abis'
 import { ethereumAddressRegExp } from './parsing'
 import { createWeb3, createWeb3FromModal } from './web3-provider'
 import { getContractsForNetwork } from '../walletUtils'
@@ -58,14 +58,13 @@ export default class KlerosEscrow {
       }
 
       const { yubiaiArbitrable } = getContractsForNetwork(networkType);
-      court = yubiaiArbitrable
-      this.arbitratorContract = court
+      this.arbitratorContract = yubiaiArbitrable
     }
 
     const account = await this.getAccount()
 
     this.contract = new this.web3.eth.Contract(
-      escrow, court, { from: account });
+      escrow, this.arbitratorContract, { from: account });
 
     if (currency) {
       this.tokenContract = new this.web3.eth.Contract(

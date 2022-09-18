@@ -3,7 +3,6 @@ import { createWeb3, createWeb3FromModal } from './web3-provider'
 import { getContractsForNetwork } from '../walletUtils'
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
-export const PAYMENT_PROCESSOR_CONTRACT = process.env.NEXT_PUBLIC_PAYMENT_PROCESSOR_CONTRACT;
 
 export default class PaymentProcessor {
     constructor(web3, account, klerosEscrowInstance) {
