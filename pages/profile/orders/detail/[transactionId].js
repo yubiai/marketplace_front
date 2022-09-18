@@ -47,8 +47,9 @@ const OrderDetail = () => {
   const [orderDetail, setOrderDetail] = useState(null)
   const [transactionData, setTransactionData] = useState({})
   const [transactionPayedAmount, setTransactionPayedAmount] = useState('')
+  const [transactionFeeAmount, setTransactionFeeAmount] = useState('')
+  const [transactionDate, setTransactionDate] = useState('')
   const [operationInProgress, setOperationInProgress] = useState(false)
-  const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet'
 
   const { user, loggedOut } = useUser()
 
@@ -74,6 +75,8 @@ const OrderDetail = () => {
     setOrderDetail(orderInfo)
     setTransactionData(transaction)
     setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount)
+    setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount)
+    setTransactionDate(orderInfo.transaction.transactionDate)
   }
 
   const toggleLoadingStatus = (status) => {
@@ -85,10 +88,14 @@ const OrderDetail = () => {
     router.push(`/profile/mailboxs/${_id}`)
   }
 
-  const getTransactionLink = (transactionHash = '') => {
-    return network === 'kovan'
-      ? `https://kovan.etherscan.io/tx/${transactionHash}`
-      : `https://etherscan.io/tx/${transactionHash}`
+  const getTransactionLink = (transaction = {}, shortLink = false) => {
+    const transactionHash = shortLink ?
+      "0x..." + transaction.transactionHash.slice(transaction.transactionHash.length - 16) :
+      transaction.transactionHash;
+
+    return transaction.networkEnv !== 'main'
+      ? `https://${transaction.networkEnv}.etherscan.io/tx/${transactionHash}`
+      : `https://etherscan.io/tx/${transactionHash}`;
   }
 
   useEffect(() => {
@@ -231,21 +238,34 @@ const OrderDetail = () => {
 
             <Box p="1em" color="black" bg="orange.100" mt="1em">
               <Flex><Text fontWeight={600}>ID: </Text> <Text>0x...{orderDetail && orderDetail.transaction.transactionHash.slice(orderDetail.transaction.transactionHash.length - 16)}</Text></Flex>
-              <Text fontWeight={600}>Status: </Text>
-              <Text fontWeight={600}>Date: </Text>
-              <Text fontWeight={600}>Value: </Text>
-              <Text fontWeight={600}>Fee: </Text>
+              <Text fontWeight={600}>Status: {orderDetail.status.replace("_", " ")}</Text>
+              {
+                transactionDate &&
+                <Text fontWeight={600}>Date: {moment(transactionDate).format('MM/DD/YYYY, h:mm:ss a')}</Text>
+              }
+              {
+                (transactionPayedAmount && global.klerosEscrowInstance) &&
+                <Text fontWeight={600}>
+                  Value: {
+                    `${global.klerosEscrowInstance.web3.utils.fromWei(transactionPayedAmount)}${orderDetail.item.currencySymbolPrice || 'ETH'}`
+                  }
+                </Text>
+              }
+              {
+                (transactionFeeAmount && global.klerosEscrowInstance) &&
+                <Text fontWeight={600}>
+                  Fee: {`${global.klerosEscrowInstance.web3.utils.fromWei(transactionFeeAmount)}ETH`}
+                </Text>
+              }
               <Link
                 href={getTransactionLink(
-                  (orderDetail.transaction || {}).transactionHash
+                  (orderDetail.transaction || {})
                 )}
                 passHref
               >
                 <a target="_blank" rel="noopener noreferrer">
                   <Text color="#00abd1" cursor="pointer" wordBreak={'break-all'}>
-                    {getTransactionLink(
-                      "0x..." + (orderDetail.transaction || {}).transactionHash.slice(orderDetail.transaction.transactionHash.length - 16)
-                    )}
+                    {getTransactionLink(orderDetail.transaction || {}, true)}
                   </Text>
                 </a>
               </Link>

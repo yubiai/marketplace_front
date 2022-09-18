@@ -54,8 +54,11 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                 item => item.address.toLowerCase() === contracts.yubiaiArbitrable.toLowerCase()) || {};
 
             const transactionPayedAmount = events.PaymentDone.returnValues.amount;
+            const transactionFeeAmount = String(amountToWei - transactionPayedAmount);
+            const transactionDate = events.PaymentDone.returnValues.date;
 
             const transactionIndex = (metaEvidenceObj.returnValues || {})._metaEvidenceID;
+
             await createOrder({
                 blockHash,
                 blockNumber,
@@ -66,7 +69,9 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                 transactionHash,
                 transactionIndex,
                 transactionPayedAmount,
-                networkEnv: process.env.NEXT_PUBLIC_NETWORK || 'mainnet'
+                transactionFeeAmount,
+                transactionDate,
+                networkEnv: networkType || 'mainnet'
             })
         } catch (e) {
             console.log('Error creating an Escrow contract: ', e);
