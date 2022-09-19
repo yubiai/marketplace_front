@@ -3,9 +3,10 @@ import { Buffer } from 'buffer'
 
 import Archon from '@kleros/archon'
 
-import { erc20, escrow, tokenEscrow } from './abis'
+import { erc20, escrow } from './abis'
 import { ethereumAddressRegExp } from './parsing'
 import { createWeb3, createWeb3FromModal } from './web3-provider'
+import { getContractsForNetwork } from '../walletUtils'
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -35,7 +36,8 @@ export default class KlerosEscrow {
 
     if (!account) {
       const web3 = createWeb3((this.web3.currentProvider || {}).url || '')
-      this.web3 = await createWeb3FromModal(web3.modal, web3.infuraURL)
+      this.web3 = await createWeb3FromModal(web3.modal, web3.infuraURL);
+      window.web3 = this.web3;
     }
     ;[account] = await this.web3.eth.getAccounts()
 
@@ -45,20 +47,24 @@ export default class KlerosEscrow {
   async setCourtAndCurrency(court = 'general', currency) {
     if (!ethereumAddressRegExp.test(court)) {
       let ETHNetID;
+      let networkType;
       try {
         ETHNetID = await this.web3.eth.net.getId();
+        networkType = await this.web3.eth.net.getNetworkType();
       } catch (e) {
         console.error('Error getting id from ETH net: ', e);
         ETHNetID = 42;
+        networkType = 'main';
       }
-      court = MULTPLE_ARBITRABLE_CONTRACT
-      this.arbitratorContract = court
+
+      const { yubiaiArbitrable } = getContractsForNetwork(networkType);
+      this.arbitratorContract = yubiaiArbitrable
     }
 
     const account = await this.getAccount()
 
     this.contract = new this.web3.eth.Contract(
-      escrow, court, { from: account });
+      escrow, this.arbitratorContract, { from: account });
 
     if (currency) {
       this.tokenContract = new this.web3.eth.Contract(

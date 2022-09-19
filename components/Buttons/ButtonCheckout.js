@@ -2,6 +2,7 @@ import Web3 from 'web3'
 import React, { useEffect, useState } from 'react'
 import { Button, Center, Spinner } from '@chakra-ui/react'
 import { useGlobal } from '../../providers/globalProvider'
+import { getContractsForNetwork } from '../../utils/walletUtils'
 import PaymentProcessor from '../../utils/escrow-utils/paymentProcessor'
 
 const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency }) => {
@@ -19,6 +20,8 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             toggleLoadingStatus(true);
             const amountToWei = global.klerosEscrowInstance.web3.utils.toWei(amount.value.toString());
             const senderWallet = await global.klerosEscrowInstance.getAccount();
+            const networkType = await global.klerosEscrowInstance.web3.eth.net.getNetworkType() || 'main';
+            const contracts = getContractsForNetwork(networkType);
             const ETH = global.currencyPriceList.find(currency => currency.symbol === 'ETH');
             const token = global.currencyPriceList.find(price => price.symbol === currency);
 
@@ -48,10 +51,14 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                 events
             } = result;
             const metaEvidenceObj = events.MetaEvidence.find(
-                item => item.address.toLowerCase() === global.klerosEscrowInstance.arbitratorContract.toLowerCase()) || {};
+                item => item.address.toLowerCase() === contracts.yubiaiArbitrable.toLowerCase()) || {};
+
             const transactionPayedAmount = events.PaymentDone.returnValues.amount;
+            const transactionFeeAmount = String(amountToWei - transactionPayedAmount);
+            const transactionDate = events.PaymentDone.returnValues.date;
 
             const transactionIndex = (metaEvidenceObj.returnValues || {})._metaEvidenceID;
+
             await createOrder({
                 blockHash,
                 blockNumber,
@@ -62,7 +69,9 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                 transactionHash,
                 transactionIndex,
                 transactionPayedAmount,
-                networkEnv: process.env.NEXT_PUBLIC_NETWORK || 'mainnet'
+                transactionFeeAmount,
+                transactionDate,
+                networkEnv: networkType || 'mainnet'
             })
         } catch (e) {
             console.log('Error creating an Escrow contract: ', e);
