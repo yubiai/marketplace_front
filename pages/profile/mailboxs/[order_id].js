@@ -2,14 +2,11 @@ import {
   Box,
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
-  Button,
   Center,
   Container,
   Divider as ChakraDivider,
   Flex,
   Heading,
-  Image,
   Text,
 } from '@chakra-ui/react'
 import Head from 'next/head'

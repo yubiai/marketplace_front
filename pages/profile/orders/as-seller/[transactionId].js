@@ -49,7 +49,7 @@ const OrderDetail = () => {
   const [transactionFeeAmount, setTransactionFeeAmount] = useState('')
   const [transactionDate, setTransactionDate] = useState('')
   const [operationInProgress, setOperationInProgress] = useState(false)
-  const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet'
+  //const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet'
 
   const { user, loggedOut } = useUser()
 
