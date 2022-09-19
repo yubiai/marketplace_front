@@ -121,7 +121,7 @@ const MailBoxs = () => {
         maxW="5xl"
         display={'flex'}
         flexDirection={{ base: 'column', md: 'column', lg: 'row' }}
-        h={{base: 'full', md: '90vh'}}
+        h={{ base: 'full', md: '90vh' }}
       >
         <Box w={{ base: 'full', lg: '70%' }}>
           <Breadcrumb spacing='8px' mt='1em' separator={<ChevronRightIcon color='gray.500' />}>
@@ -181,11 +181,13 @@ const MailBoxs = () => {
                 color="black"
                 mt="5"
               />
+              <Flex>
               <FooterChat
                 inputMessage={inputMessage}
                 setInputMessage={setInputMessage}
                 handleSendMessage={handleSendMessage}
               />
+              </Flex>
             </Flex>
           </Flex>
         </Box>
