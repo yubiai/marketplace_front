@@ -2341,6 +2341,16 @@ export const paymentProcessor = [
         internalType: "address",
         name: "arbitrableAddress",
         type: "address"
+      },
+      {
+        internalType: "address",
+        name: "uniswapAddress",
+        type: "address"
+      },
+      {
+        internalType: "address",
+        name: "wETHAddress",
+        type: "address"
       }
     ],
     stateMutability: "nonpayable",
@@ -2464,6 +2474,32 @@ export const paymentProcessor = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "_arbitrableAddress",
+        type: "address"
+      }
+    ],
+    name: "changeArbitrableAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "address payable",
+        name: "_burnAddress",
+        type: "address"
+      }
+    ],
+    name: "changeBurnAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
         components: [
           {
             internalType: "address payable",
@@ -2550,18 +2586,69 @@ export const paymentProcessor = [
       {
         components: [
           {
+            internalType: "address payable",
+            name: "sender",
+            type: "address"
+          },
+          {
+            internalType: "uint256",
+            name: "timeoutPayment",
+            type: "uint256"
+          },
+          {
+            internalType: "address payable",
+            name: "receiver",
+            type: "address"
+          },
+          {
+            internalType: "string",
+            name: "metaEvidence",
+            type: "string"
+          }
+        ],
+        internalType: "struct PaymentProcessor.TransactionData",
+        name: "_transactionData",
+        type: "tuple"
+      }
+    ],
+    name: "manageETHPayment",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "transactionID",
+        type: "uint256"
+      }
+    ],
+    stateMutability: "payable",
+    type: "function"
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenAmount",
+        type: "uint256"
+      },
+      {
+        internalType: "uint256",
+        name: "paymentId",
+        type: "uint256"
+      },
+      {
+        internalType: "uint256",
+        name: "burnFee",
+        type: "uint256"
+      },
+      {
+        components: [
+          {
             internalType: "address",
             name: "token",
             type: "address"
           },
           {
-            internalType: "uint256",
-            name: "tokenETHRate",
-            type: "uint256"
-          },
-          {
             internalType: "bool",
-            name: "ETHPriceGreaterThanToken",
+            name: "isToken",
             type: "bool"
           }
         ],
@@ -2597,7 +2684,7 @@ export const paymentProcessor = [
         type: "tuple"
       }
     ],
-    name: "managePayment",
+    name: "manageTokenPayment",
     outputs: [
       {
         internalType: "uint256",
@@ -2605,11 +2692,11 @@ export const paymentProcessor = [
         type: "uint256"
       }
     ],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function"
   },
   {
     stateMutability: "payable",
     type: "receive"
   }
-]
+];
