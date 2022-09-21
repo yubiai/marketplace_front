@@ -3,6 +3,7 @@ import axios from 'axios'
 export const channelService = {
   getChannelByOrderId,
   pushMsg,
+  pushMsgWithFiles,
   createChannel
 }
 
@@ -37,4 +38,13 @@ async function pushMsg(orderid, message, token){
       }
     : null
   )
+}
+
+async function pushMsgWithFiles(orderid, payload, token){
+  return await axios.post(`/channel/pushmsgwithfiles/${orderid}`, payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': token ? `Bearer ${token}` : null,
+    },
+  });
 }

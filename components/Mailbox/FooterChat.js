@@ -1,29 +1,69 @@
-import { Flex, Input, Button, Box, Text, VStack, StackDivider } from '@chakra-ui/react'
+import { Flex, Input, Button, Box, Text, VStack, Spinner, Center } from '@chakra-ui/react'
 import { AttachmentIcon } from '@chakra-ui/icons'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 // Form
-import { useForm } from 'react-hook-form'
 import FilePreviewMini from '../Infos/FilePreviewMini'
 
+const acceptedFileTypes = 'image/jpeg, image/jpg, image/png, video/mp4, audio/mpeg, application/pdf'
+const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 
+const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFiles, handleSendMessage, loadingSubmit }) => {
 
-const FooterChat = ({ inputMessage, setInputMessage, handleSendMessage }) => {
-  const { handleSubmit, register, control, formState: { errors }, resetField } = useForm()
   const inputRef = useRef()
+  const [errorMsg, setErrorMsg] = useState(null)
 
-  const [previewFiles, setPreviewFiles] = useState([]);
 
   const verifyFiles = (e) => {
 
-    const tempArr = [];
+    console.log(previewFiles, "previewFiles")
 
-    [...e.target.files].forEach((file, i) => {
+    if (e.target.files && e.target.files.length === 0) {
+      return
+    }
+
+    if (previewFiles.length + e.target.files.length > 10) {
+      console.error('Maximum files per message is 10')
+      setErrorMsg('Maximum files per message is 10')
+      return
+    }
+
+    const tempArr = [
+      ...previewFiles
+    ];
+
+    [...e.target.files].forEach((file) => {
+
+      // Verify Exists
+      const verifyExists = tempArr.filter(e => e.name == file.name && e.size == file.size)
+      if (verifyExists.length > 0) {
+        console.error("The file is already added: " + file.name);
+        return
+      }
+
+      // Verify Type
+      const validFileType = fileTypes.find((type) => type === file.type);
+      if (!validFileType) {
+        console.error('Error: Invalid file type.')
+        setErrorMsg('Error: Invalid file type.')
+        return
+      }
+
+      // Verify Size
+      if (file.size > 5e+7) {
+        console.error('Error: Limit size.')
+        setErrorMsg('Error: Limit size.')
+        return
+      }
+
+      // Add
       tempArr.push({
-        id: i,
-        name: file.name,
-        type: file.type
+        id: file.name.slice(0, 5) + Math.floor(Math.random() * 99999),
+        data: file
       });
+
+      setErrorMsg(null)
+      return
     });
 
     setPreviewFiles(tempArr);
@@ -31,28 +71,42 @@ const FooterChat = ({ inputMessage, setInputMessage, handleSendMessage }) => {
   }
 
   const removeFile = (id) => {
-    console.log(id)
-    const resultado = previewFiles.filter(e => e.id != id);
-    console.log(resultado);
-    setPreviewFiles(resultado);
+    console.log(previewFiles, "previewsds removegfile")
+    console.log(id, "id removegfile")
 
+    const result = previewFiles.filter(e => e.id !== id);
+
+    if (!result) {
+      return
+    }
+
+    setPreviewFiles(result);
+    return;
   }
 
-  const onSubmit = async (data) => {
-    const form = new FormData()
-
-    console.log(data)
-
+  if (loadingSubmit == true) {
+    return (
+      <Box w="100%" mt="1em">
+        <Center>
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="md"
+          />
+        </Center>
+      </Box>
+    )
   }
 
   return (
     <Flex w="100%" mt="5">
-
-      <form onSubmit={handleSubmit(onSubmit)} >
-
+      <form >
         <input
           multiple
           type="file"
+          accept={acceptedFileTypes}
           ref={inputRef}
           name="files"
           onChange={verifyFiles}
@@ -64,11 +118,11 @@ const FooterChat = ({ inputMessage, setInputMessage, handleSendMessage }) => {
         </Button>
       </form>
       <VStack
-        divider={<StackDivider borderColor='gray.200' />}
         spacing={4}
         align='stretch'
         width={"100%"}
       >
+
         <Input
           placeholder="Type Something..."
           border="none"
@@ -84,15 +138,33 @@ const FooterChat = ({ inputMessage, setInputMessage, handleSendMessage }) => {
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
         />
-        <Flex>
+        <Flex overflowY="auto" width={{ base: '200px', md: '450px' }}
+          css={{
+            '&::-webkit-scrollbar': {
+              width: '4px',
+            },
+            '&::-webkit-scrollbar-track': {
+              width: '6px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: 'gray',
+              borderRadius: '24px',
+            },
+          }}>
           {previewFiles && previewFiles.length > 0 && previewFiles.map((file, i) => {
             console.log(file)
             return (
               <FilePreviewMini file={file} key={i} removeFile={removeFile} />
             )
           })}
-
         </Flex>
+
+
+        {errorMsg && (
+          <Box>
+            <Text color="red" size="sm">{errorMsg}</Text>
+          </Box>
+        )}
       </VStack>
       <Button
         bg="black"
@@ -103,7 +175,7 @@ const FooterChat = ({ inputMessage, setInputMessage, handleSendMessage }) => {
           color: 'black',
           border: '1px solid black',
         }}
-        disabled={inputMessage.trim().length <= 0}
+        disabled={inputMessage.trim().length <= 0 && previewFiles.length === 0 || loadingSubmit === true}
         onClick={handleSendMessage}
         type="submit"
       >

@@ -1,14 +1,15 @@
 import React from 'react'
 import { Avatar, Box, Center, Flex, Text } from '@chakra-ui/react'
 import moment from 'moment'
+import FileMini from '../Infos/FileMini'
 
 const MessagesChat = ({ messages, buyer, seller, me }) => {
-/* Scroll hacia abajo
-   const AlwaysScrollToBottom = () => {
-    const elementRef = useRef()
-    useEffect(() => elementRef.current.scrollIntoView())
-    return <div ref={elementRef} />
-  } */
+  /* Scroll hacia abajo
+     const AlwaysScrollToBottom = () => {
+      const elementRef = useRef()
+      useEffect(() => elementRef.current.scrollIntoView())
+      return <div ref={elementRef} />
+    } */
 
   const dates = new Set()
 
@@ -44,7 +45,12 @@ const MessagesChat = ({ messages, buyer, seller, me }) => {
                   my="1"
                   p="3"
                 >
-                  <Box>{item.text}</Box>
+                  {item && item.text && (
+                    <Box>{item.text}</Box>
+                  )}
+                  {item && item.file && (
+                    <FileMini fileName={item.file} />
+                  )}
                   <Box>{moment(item.date).format('h:mm a')}</Box>
                 </Box>
               </Flex>
@@ -66,7 +72,12 @@ const MessagesChat = ({ messages, buyer, seller, me }) => {
                 my="1"
                 p="3"
               >
-                <Box>{item.text}</Box>
+                {item && item.text && (
+                  <Box>{item.text}</Box>
+                )}
+                {item && item.file && (
+                  <FileMini fileName={item.file} />
+                )}
                 <Box>{moment(item.date).format('h:mm a')}</Box>
               </Box>
             </Flex>

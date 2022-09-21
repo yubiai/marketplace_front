@@ -6,16 +6,16 @@ import { SmallCloseIcon } from '@chakra-ui/icons'
 const FilePreviewMini = ({ file, removeFile }) => {
 
     return (
-        <Box m="5px" p="5px" bg="gray.200" w="100px">
-           <Box position="relative" float="right" >
-           <Button bg="transparent" size="5px" onClick={() => removeFile(file.id)}>
-                <SmallCloseIcon />
-            </Button>
-           </Box>
-            <Center> <FaFileImage size={'3em'} /> </Center>
-            <Text fontSize={"sm"}
-            >{file.name.slice(0, 10)}</Text>
-        </Box>
+            <Box m="5px" p="4px" bg="gray.200" minW={"75px"} w={"75px"}>
+                <Button  bg="transparent" float="right" size="10px" onClick={() => removeFile(file.id)}>
+                    <SmallCloseIcon />
+                </Button>
+                <Center> <FaFileImage size={'2.5em'} /> </Center>
+                <Center>
+                    <Text fontSize={"0.7em"}
+                    >{file.data.name.slice(0, 9)}</Text>
+                </Center>
+            </Box>
     )
 }
 

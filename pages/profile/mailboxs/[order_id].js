@@ -37,6 +37,9 @@ const MailBoxs = () => {
 
   const [messages, setMessages] = useState([])
   const [inputMessage, setInputMessage] = useState('')
+  const [previewFiles, setPreviewFiles] = useState([]);
+
+  const [loadingSubmit, setLoadingSubmit] = useState(false)
 
   const { user, loggedOut } = useUser()
 
@@ -76,7 +79,7 @@ const MailBoxs = () => {
     initChannel()
   }, [channel])
 
-  // Saved Channel
+  // Saved Message
   const saveMessage = async (message) => {
     await channelService
       .pushMsg(channel._id, message, global.profile.token)
@@ -88,19 +91,53 @@ const MailBoxs = () => {
       })
   }
 
-  const handleSendMessage = () => {
-    if (!inputMessage.trim().length) {
-      return
-    }
-    const data = inputMessage
+  const saveMessageWithFiles = async (message) => {
+    console.log(message, "message")
+    await channelService
+      .pushMsgWithFiles(channel._id, message, global.profile.token)
+      .then(() => {
+        setPreviewFiles([])
+        setLoadingSubmit(false)
+      })
+      .catch(() => {
+        setPreviewFiles([])
+        setLoadingSubmit(false)
+      })
+  }
 
-    let newMessage = {
-      user: global.profile._id,
-      text: data,
+  const handleSendMessage = async () => {
+    console.log(inputMessage, "inputMessage")
+    console.log(previewFiles, "previewFiles")
+
+    if (inputMessage.trim().length > 0) {
+      const data = inputMessage
+
+      let newMessage = {
+        user: global.profile._id,
+        text: data,
+      }
+
+      setMessages((old) => [...old, newMessage])
+      saveMessage(newMessage)
     }
 
-    setMessages((old) => [...old, newMessage])
-    saveMessage(newMessage)
+    if (previewFiles.length > 0) {
+      console.log(previewFiles, "previewFiles");
+      setLoadingSubmit(true)
+
+      const form = new FormData()
+
+      for (const file of previewFiles) {
+        form.append('files', file.data)
+      }
+
+      form.append('user', global.profile._id);
+
+      saveMessageWithFiles(form)
+    }
+
+    return
+
   }
 
   if (isLoading || !user || !channel) return <Loading />
@@ -182,11 +219,14 @@ const MailBoxs = () => {
                 mt="5"
               />
               <Flex>
-              <FooterChat
-                inputMessage={inputMessage}
-                setInputMessage={setInputMessage}
-                handleSendMessage={handleSendMessage}
-              />
+                <FooterChat
+                  inputMessage={inputMessage}
+                  setInputMessage={setInputMessage}
+                  previewFiles={previewFiles}
+                  setPreviewFiles={setPreviewFiles}
+                  handleSendMessage={handleSendMessage}
+                  loadingSubmit={loadingSubmit}
+                />
               </Flex>
             </Flex>
           </Flex>
