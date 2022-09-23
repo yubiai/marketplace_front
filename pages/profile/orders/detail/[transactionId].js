@@ -343,9 +343,10 @@ const OrderDetail = () => {
               justifyContent="space-between"
               mb="1em">
               <Text fontWeight={600} fontSize="2xl">Evidences</Text>
+              <Link href={`/profile/evidences/new/${transactionId}`}>
               <Button size="sm" bg="green.500" color="white" _hover={{
                     bg: "gray.400"
-                  }}>New</Button>
+                  }}>New</Button></Link>
             </Stack>
 
             <EvidencesList />
