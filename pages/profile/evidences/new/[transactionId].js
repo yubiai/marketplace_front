@@ -1,11 +1,13 @@
 import { AttachmentIcon } from "@chakra-ui/icons";
 import { Box, Button, Container, Divider, Flex, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, Textarea, useDisclosure } from "@chakra-ui/react";
+import moment from "moment";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router"
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import FilePreviewMini from "../../../../components/Infos/FilePreviewMini";
+import SuccessEvidence from "../../../../components/Modals/SuccessEvidence";
 import Loading from "../../../../components/Spinners/Loading";
 import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider"
@@ -21,6 +23,7 @@ const NewEvidence = () => {
     const router = useRouter();
     const { transactionId } = router.query;
     const [orderDetail, setOrderDetail] = useState(null)
+    const [result, setResult] = useState(null)
 
     const { user, loggedOut } = useUser();
 
@@ -58,7 +61,7 @@ const NewEvidence = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     // State useForm
-    const { handleSubmit, register, formState: { errors },  } = useForm()
+    const { handleSubmit, register, formState: { errors }, } = useForm()
 
     // State Submit
     const [stateSubmit, setStateSubmit] = useState(0)
@@ -68,7 +71,7 @@ const NewEvidence = () => {
     // Input Files
     const inputRef = useRef()
     const [previewFiles, setPreviewFiles] = useState([]);
-    const [setErrorMsg] = useState(null)
+    const [errorMsg, setErrorMsg] = useState(null)
 
     const verifyFiles = (e) => {
 
@@ -157,6 +160,11 @@ const NewEvidence = () => {
         console.log(JSON.stringify(Object.fromEntries(form)))
 
         setDataSubmit(form)
+
+        let newData = JSON.stringify(Object.fromEntries(form))
+        newData = JSON.parse(newData)
+        setResult(newData)
+
 
         onOpen()
 
@@ -268,6 +276,7 @@ const NewEvidence = () => {
                             })}
                         </Flex>
                     </Box>
+                    <Text color="red">{errorMsg && errorMsg}</Text>
                     <Box float={'right'} m="2em">
                         <Button bg="#00abd1" color="white" type="submit">
                             Preview & Submit
@@ -284,10 +293,25 @@ const NewEvidence = () => {
                         <>
                             <ModalOverlay />
                             <ModalContent color="gray.700">
-                                <ModalHeader>Review your listing</ModalHeader>
+                                <ModalHeader>Review your evidence</ModalHeader>
                                 {loadingSubmit === false && <ModalCloseButton />}
                                 <ModalBody>
-                                    <Text>Preview</Text>
+                                    {result && (
+                                        <>
+                                            <Text fontWeight={600} fontSize="2xl" mt="1em">Title</Text>
+                                            <Text>{result.title}</Text>
+                                            <Divider />
+                                            <Text fontWeight={600} fontSize="2xl" mt="1em">Description</Text>
+                                            <Text>{result.description}</Text>
+                                            <Divider />
+                                            <Text fontWeight={600} fontSize="2xl" mt="1em">TransactionHash</Text>
+                                            <Text>{result.transactionHash}</Text>
+                                            <Divider />
+                                            <Text fontWeight={600} fontSize="2xl" mt="1em">Order ID</Text>
+                                            <Text>{result.order_id}</Text>
+                                            <Divider />
+                                        </>
+                                    )}
                                 </ModalBody>
 
                                 <ModalFooter>
@@ -328,12 +352,11 @@ const NewEvidence = () => {
                             <ModalOverlay />
                             <ModalContent color="gray.700">
                                 <ModalBody>
-                                    <Text>Todo bien</Text>
+                                    <SuccessEvidence />
+
                                 </ModalBody>
                                 <ModalFooter>
-                                    <Link href={'/profile/published'}>
-                                        <Button>Close</Button>
-                                    </Link>
+                                        <Button onClick={() => router.back()}>Close</Button>
                                 </ModalFooter>
                             </ModalContent>
                         </>

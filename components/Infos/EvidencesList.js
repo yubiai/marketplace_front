@@ -56,7 +56,7 @@ const EvidencesList = ({evidences}) => {
     }
 
     return (
-        <Box overflowY="auto" h="200px" position={"relative"}
+        <Box overflowY="auto" maxH="200px" position={"relative"}
             css={{
                 '&::-webkit-scrollbar': {
                     width: '4px',

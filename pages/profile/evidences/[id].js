@@ -59,7 +59,7 @@ const EvidenceDetail = () => {
             </Head>
             <Container
                 maxW="6xl"
-                h={'full'}
+                h={{base: 'full', md: '80vh'}}
                 display={'flex'}
                 flexDirection={'column'}
             >
