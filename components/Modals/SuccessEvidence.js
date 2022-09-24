@@ -1,5 +1,5 @@
 import { CheckCircleIcon } from '@chakra-ui/icons'
-import { Box, Heading, Text } from '@chakra-ui/react'
+import { Box, Heading } from '@chakra-ui/react'
 
 const SuccessEvidence = () => {
   return (
