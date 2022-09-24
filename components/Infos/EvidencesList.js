@@ -1,8 +1,8 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import EvidenceListCard from "../Cards/EvidenceListCard";
 
 
-const evidences = [
+/* const evidences = [
     {
         status: "Active",
         title: "With Coins",
@@ -45,11 +45,11 @@ const evidences = [
         author: "",
         files: []
     }
-]
+] */
 
-const EvidencesList = () => {
+const EvidencesList = ({evidences}) => {
 
-    if (!evidences && evidences.length === 0) {
+    if (!evidences) {
         return (
             <Text>Empty</Text>
         )

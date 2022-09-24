@@ -1,5 +1,5 @@
 import { AttachmentIcon } from "@chakra-ui/icons";
-import { Box, Button, Container, Divider, Flex, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text, Textarea, useDisclosure } from "@chakra-ui/react";
+import { Box, Button, Container, Divider, Flex, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, Textarea, useDisclosure } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router"
@@ -9,6 +9,7 @@ import FilePreviewMini from "../../../../components/Infos/FilePreviewMini";
 import Loading from "../../../../components/Spinners/Loading";
 import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider"
+import { evidenceService } from "../../../../services/evidenceService";
 import { orderService } from "../../../../services/orderService";
 
 const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg', 'application/pdf'];
@@ -57,8 +58,7 @@ const NewEvidence = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     // State useForm
-    const { handleSubmit, register, control, formState: { errors }, resetField } = useForm()
-    const [result, setResult] = useState(null)
+    const { handleSubmit, register, formState: { errors },  } = useForm()
 
     // State Submit
     const [stateSubmit, setStateSubmit] = useState(0)
@@ -68,7 +68,7 @@ const NewEvidence = () => {
     // Input Files
     const inputRef = useRef()
     const [previewFiles, setPreviewFiles] = useState([]);
-    const [errorMsg, setErrorMsg] = useState(null)
+    const [setErrorMsg] = useState(null)
 
     const verifyFiles = (e) => {
 
@@ -152,13 +152,12 @@ const NewEvidence = () => {
         form.append('order_id', orderDetail._id)
         form.append('transactionHash', orderDetail.transaction.transactionHash)
         form.append('author', global.profile._id)
-        form.append('eth_wallet', global.profile.eth_address)
+        form.append('author_address', global.profile.eth_address)
 
         console.log(JSON.stringify(Object.fromEntries(form)))
 
         setDataSubmit(form)
 
-        console.log(newData)
         onOpen()
 
         return
@@ -169,10 +168,10 @@ const NewEvidence = () => {
         setLoadingSubmit(true)
 
         try {
-            /*             await publishService.newItem(
-                            dataSubmit,
-                            global.profile.token
-                        ) */
+            await evidenceService.newEvidence(orderDetail.transaction.transactionHash,
+                dataSubmit,
+                global.profile.token
+            )
 
             setLoadingSubmit(false)
             onClose()
@@ -263,7 +262,6 @@ const NewEvidence = () => {
                                 },
                             }}>
                             {previewFiles && previewFiles.length > 0 && previewFiles.map((file, i) => {
-                                console.log(file)
                                 return (
                                     <FilePreviewMini file={file} key={i} removeFile={removeFile} />
                                 )

@@ -37,6 +37,7 @@ import {
 import useUser from '../../../../hooks/data/useUser'
 import StatusOrder from '../../../../components/Infos/StatusOrder'
 import EvidencesList from '../../../../components/Infos/EvidencesList'
+import { evidenceService } from '../../../../services/evidenceService'
 
 const minimumArbitrationFeeUSD = 90
 
@@ -80,6 +81,14 @@ const OrderDetail = () => {
     setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount)
     setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount)
     setTransactionDate(orderInfo.transaction.transactionDate)
+    loadEvidences(orderInfo)
+  }
+
+  const loadEvidences = async (orderInfo) => {
+    const response = await evidenceService.getEvidenceByOrderID(orderInfo._id,
+      global.profile.token
+    )
+    setEvidences(response.data)
   }
 
   const toggleLoadingStatus = (status) => {
@@ -344,12 +353,12 @@ const OrderDetail = () => {
               mb="1em">
               <Text fontWeight={600} fontSize="2xl">Evidences</Text>
               <Link href={`/profile/evidences/new/${transactionId}`}>
-              <Button size="sm" bg="green.500" color="white" _hover={{
-                    bg: "gray.400"
-                  }}>New</Button></Link>
+                <Button size="sm" bg="green.500" color="white" _hover={{
+                  bg: "gray.400"
+                }}>New</Button></Link>
             </Stack>
 
-            <EvidencesList />
+            <EvidencesList evidences={evidences} />
 
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
             <Text fontWeight={600} fontSize="2xl">Actions</Text>
