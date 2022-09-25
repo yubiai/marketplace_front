@@ -17,7 +17,7 @@ const Logout = () => {
       localStorage.removeItem('Yubiai')
       Cookies.remove('Yubiai')
       setTimeout(() => {
-        router.back()
+        router.push('/')
       }, 1000)
     }
     LoadingLogout()

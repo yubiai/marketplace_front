@@ -61,22 +61,35 @@ const MailBoxs = () => {
     global && global.profile && global.profile.token
   )
 
-  useEffect(() => {
-    const initChannel = async () => {
-      if (channel) {
-        setMessages(channel.messages);
+  const loadItem = async () => {
+    await itemService.getItemById(channel && channel.order_id && channel.order_id.itemId, global && global.profile?.token)
+      .then((res) => {
+        setItem(res.data)
+      })
+      .catch((err) => {
+        console.error(err)
+      })
+  }
 
-        await itemService.getItemById(channel && channel.order_id && channel.order_id.itemId, global && global.profile?.token)
-          .then((res) => {
-            setItem(res.data)
-          })
-          .catch((err) => {
-            console.error(err)
-          })
+  const refreshMessages = async() => {
+
+    await channelService.getChannelByOrderId(channel && channel.order_id && channel.order_id._id, global && global.profile.token)
+    .then((res) => {
+      if(res.data && res.data.messages && res.data.messages.length > 0){
+        setMessages(res.data.messages);
       }
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+  }
+
+  useEffect(() => {
+    if (channel) {
+      setMessages(channel.messages);
+      loadItem()
 
     }
-    initChannel()
   }, [channel])
 
   // Saved Message
@@ -85,6 +98,7 @@ const MailBoxs = () => {
       .pushMsg(channel._id, message, global.profile.token)
       .then(() => {
         setInputMessage('')
+        refreshMessages()
       })
       .catch(() => {
         setInputMessage('')
@@ -97,7 +111,10 @@ const MailBoxs = () => {
       .pushMsgWithFiles(channel._id, message, global.profile.token)
       .then(() => {
         setPreviewFiles([])
-        setLoadingSubmit(false)
+        setTimeout(() => {
+          setLoadingSubmit(false)
+          refreshMessages()
+        }, 2000);
       })
       .catch(() => {
         setPreviewFiles([])
@@ -106,8 +123,6 @@ const MailBoxs = () => {
   }
 
   const handleSendMessage = async () => {
-    console.log(inputMessage, "inputMessage")
-    console.log(previewFiles, "previewFiles")
 
     if (inputMessage.trim().length > 0) {
       const data = inputMessage
@@ -117,12 +132,12 @@ const MailBoxs = () => {
         text: data,
       }
 
+      setInputMessage('')
       setMessages((old) => [...old, newMessage])
       saveMessage(newMessage)
     }
 
     if (previewFiles.length > 0) {
-      console.log(previewFiles, "previewFiles");
       setLoadingSubmit(true)
 
       const form = new FormData()
@@ -145,8 +160,6 @@ const MailBoxs = () => {
   if (isError) {
     return <Error error={isError?.message} />
   }
-
-  console.log(channel, "channel")
 
   return (
     <>

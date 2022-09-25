@@ -1,10 +1,7 @@
 import { FaFileAudio, FaFileDownload, FaFileImage, FaFilePdf, FaFileVideo } from "react-icons/fa";
 
-
-
 const FileIcon = ({type}) => {
 
-    console.log(type, "type")
     if(type && (type === "image/jpeg" || type === "image/jpg" || type === "image/png")){
         return(
             <FaFileImage size={'2.5em'} />

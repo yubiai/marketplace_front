@@ -22,9 +22,15 @@ export const channelService = {
   : null)
 }
 
-async function getChannelByOrderId(orderid) {
+async function getChannelByOrderId(orderid, token) {
   return await axios.get(
-    `/channel/orderid/${orderid}`
+    `/channel/orderid/${orderid}`,token
+    ? {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    : null
   )
 }
 
