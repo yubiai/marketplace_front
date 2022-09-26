@@ -1,4 +1,7 @@
-import { Box, Divider, Flex, Text } from "@chakra-ui/react";
+import { SmallCloseIcon } from "@chakra-ui/icons";
+import { Badge, Box, Divider, Flex, Stack, Text } from "@chakra-ui/react";
+import moment from "moment";
+import FileIcon from "../Infos/FileIcon";
 import FilePreviewMini from "../Infos/FilePreviewMini";
 
 
@@ -40,7 +43,29 @@ const PreviewEvidence = ({ result, previewFiles, selectedFiles }) => {
             </Flex>
             <Divider />
             <Text fontWeight={600} fontSize="2xl" mt="1em">Files Selected</Text>
-        
+            {selectedFiles.length > 0 && selectedFiles.map((file, i) => {
+                console.log(file)
+                return (
+                    <Stack
+                        key={i}
+                        mt="5px"
+                        direction={{ base: 'column', md: 'row' }}
+                        justifyContent="left">
+                        <Flex>
+                            <FileIcon type={file?.mimetype} />
+                            <Box ml='3'>
+                                <Text fontWeight='bold' fontSize='sm'>
+                                    {file?.filename}
+                                    <Badge ml='1' colorScheme='green'>
+                                        {file?.author.first_name} {file?.author.last_name}
+                                    </Badge>
+                                </Text>
+                                <Text fontSize='sm'>{moment(file?.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
+                            </Box>
+                        </Flex>
+                    </Stack>
+                )
+            })}
             <Divider />
         </Box>
     )

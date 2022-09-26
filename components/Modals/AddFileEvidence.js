@@ -16,50 +16,33 @@ import {
     CheckboxGroup,
 } from "@chakra-ui/react";
 import moment from "moment";
-import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { evidenceService } from "../../services/evidenceService";
 import FileIcon from "../Infos/FileIcon";
 
 
-const AddFileEvidence = ({ order, token, selectedFiles, setSelectedFiles }) => {
+const AddFileEvidence = ({ filesChannel, selectedFiles, setSelectedFiles }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     // State useForm
-    const { handleSubmit, register } = useForm()
+    const { register } = useForm()
 
-    const [filesChannel, setFilesChannel] = useState(null);
+    const handleChange = (elements) => {
+        let files = [];
+        for (let i = 0; i < elements.length; i++) {
+            console.log(elements[i])
+            let result = filesChannel.find((file) => file._id === elements[i])
+            if(result){
+                files.push(result);
+            }
+        }
 
-    const loadFiles = async () => {
-        await evidenceService.getFilevidenceByOrderID(order, token)
-            .then((res) => {
-                setFilesChannel(res.data)
-            })
-            .catch((err) => {
-                console.error(err)
-            })
-    }
-
-    useEffect(() => {
-        loadFiles()
+        setSelectedFiles(files)
         return
-    }, []);
-
-    const handleChange = (e) => {
-        setSelectedFiles(e);
-        return
-    }
-
-    const onSubmitFiles = async (data) => {
-        setSelectedFiles(data.multiple);
-        onClose();
     }
 
     const removeFileSelected = (id) => {
-        console.log(selectedFiles, "previewsds removegfile")
-        console.log(id, "id removegfile")
 
-        const result = selectedFiles.filter(e => e !== id);
+        const result = selectedFiles.filter(e => e._id !== id);
 
         if (!result) {
             return
@@ -97,24 +80,19 @@ const AddFileEvidence = ({ order, token, selectedFiles, setSelectedFiles }) => {
                         </Text>
                         <Text fontSize='sm'>{moment(file?.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
                     </Box>
-                    {file?.remove === true && isOpen === false && (
-                    <Button bg="transparent" float="right" p="1em" size="15px" onClick={() => removeFileSelected(file._id)}>
-                        <SmallCloseIcon />
-                    </Button>
-                )}
+                    {isOpen === false && (
+                        <Button bg="transparent" float="right" p="1em" size="15px" onClick={() => removeFileSelected(file._id)}>
+                            <SmallCloseIcon />
+                        </Button>
+                    )}
                 </Flex>
-               
             </Stack>
         )
-
-
     }
 
     return (
         <>
             <Button mb="1em" mt="1em" onClick={() => {
-                loadFiles()
-                setSelectedFiles([])
                 onOpen()
             }} bg="green.400" color="white">
                 <ChatIcon w={6} h={6} m="4px" /> Add chat files
@@ -128,7 +106,7 @@ const AddFileEvidence = ({ order, token, selectedFiles, setSelectedFiles }) => {
 
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size={"3xl"}>
                 <ModalOverlay />
-                <form id="files-form" onSubmit={handleSubmit(onSubmitFiles)}>
+                <form>
 
                     <ModalContent>
                         <ModalHeader>List files</ModalHeader>

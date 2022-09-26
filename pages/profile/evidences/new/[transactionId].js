@@ -22,6 +22,8 @@ const NewEvidence = () => {
     const dispatch = useDispatchGlobal();
     const router = useRouter();
     const { transactionId } = router.query;
+
+    const [filesChannel, setFilesChannel] = useState(null);
     const [orderDetail, setOrderDetail] = useState(null)
     const [result, setResult] = useState(null)
 
@@ -41,12 +43,24 @@ const NewEvidence = () => {
                 transactionId, global.profile.token)
             const { data } = response;
             setOrderDetail(data.result)
+            loadFilesByOrderID(data.result)
             return
         } catch (err) {
             console.error(err);
             return
         }
 
+    }
+
+    const loadFilesByOrderID = async (order) => {
+        await evidenceService.getFilevidenceByOrderID(order._id, global?.profile?.token)
+            .then((res) => {
+                console.log(res.data)
+                setFilesChannel(res.data)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
     }
 
     useEffect(() => {
@@ -274,7 +288,7 @@ const NewEvidence = () => {
                             })}
                         </Flex>
                         <Divider />
-                        <AddFileEvidence order={orderDetail._id} token={global.profile.token} selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
+                        <AddFileEvidence filesChannel={filesChannel} selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
                     </Box>
                     <Text color="red">{errorMsg && errorMsg}</Text>
                     <Box float={'right'} m="2em">
