@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import FilePreviewMini from "../../../../components/Infos/FilePreviewMini";
 import AddFileEvidence from "../../../../components/Modals/AddFileEvidence";
+import PreviewEvidence from "../../../../components/Modals/PreviewEvidence";
 import SuccessEvidence from "../../../../components/Modals/SuccessEvidence";
 import Loading from "../../../../components/Spinners/Loading";
 import useUser from "../../../../hooks/data/useUser";
@@ -145,10 +146,6 @@ const NewEvidence = () => {
     // Form Submit Preview
     const onSubmit = async (data) => {
         const form = new FormData();
-        console.log(data, "data");
-        console.log(previewFiles, "previewww")
-        console.log(selectedFiles, "selectedFiles")
-
         form.append('title', data.title)
         form.append('description', data.description)
         form.append('order_id', orderDetail._id)
@@ -161,15 +158,14 @@ const NewEvidence = () => {
             form.append('files', file.data)
         }
 
-        console.log(JSON.stringify(Object.fromEntries(form)))
-
         setDataSubmit(form)
-        let newData = JSON.stringify(Object.fromEntries(form))
+        const newData = JSON.stringify(Object.fromEntries(form))
         newData = JSON.parse(newData)
+        console.log(previewFiles, "previewFiles")
+        console.log(newData)
         setResult(newData)
 
         onOpen()
-
         return
     }
 
@@ -301,20 +297,7 @@ const NewEvidence = () => {
                                 {loadingSubmit === false && <ModalCloseButton />}
                                 <ModalBody>
                                     {result && (
-                                        <>
-                                            <Text fontWeight={600} fontSize="2xl" mt="1em">Title</Text>
-                                            <Text>{result.title}</Text>
-                                            <Divider />
-                                            <Text fontWeight={600} fontSize="2xl" mt="1em">Description</Text>
-                                            <Text>{result.description}</Text>
-                                            <Divider />
-                                            <Text fontWeight={600} fontSize="2xl" mt="1em">TransactionHash</Text>
-                                            <Text>{result.transactionHash}</Text>
-                                            <Divider />
-                                            <Text fontWeight={600} fontSize="2xl" mt="1em">Order ID</Text>
-                                            <Text>{result.order_id}</Text>
-                                            <Divider />
-                                        </>
+                                        <PreviewEvidence result={result} previewFiles={previewFiles} selectedFiles={selectedFiles} />
                                     )}
                                 </ModalBody>
 

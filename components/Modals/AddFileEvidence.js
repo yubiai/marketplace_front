@@ -10,7 +10,6 @@ import {
     Text,
     Stack,
     Badge,
-    Avatar,
     Flex,
     Box,
     Checkbox,
@@ -52,8 +51,6 @@ const AddFileEvidence = ({ order, token, selectedFiles, setSelectedFiles }) => {
     }
 
     const onSubmitFiles = async (data) => {
-        console.log(data, "data");
-        console.log(filesChannel, "filesChannel")
         setSelectedFiles(data.multiple);
         onClose();
     }
@@ -72,7 +69,7 @@ const AddFileEvidence = ({ order, token, selectedFiles, setSelectedFiles }) => {
         return;
     }
 
-    const cardFileChannel = (file) => {
+    const cardFileChannel = (file, i) => {
 
         if (!file.author && filesChannel.length > 0) {
             for (let i = 0; i < filesChannel.length; i++) {
@@ -85,6 +82,7 @@ const AddFileEvidence = ({ order, token, selectedFiles, setSelectedFiles }) => {
 
         return (
             <Stack
+                key={i}
                 mt="5px"
                 direction={{ base: 'column', md: 'row' }}
                 justifyContent="left">
@@ -122,9 +120,9 @@ const AddFileEvidence = ({ order, token, selectedFiles, setSelectedFiles }) => {
                 <ChatIcon w={6} h={6} m="4px" /> Add chat files
             </Button>
 
-            {selectedFiles && selectedFiles.length > 0 && selectedFiles.map((file) => {
+            {selectedFiles && selectedFiles.length > 0 && selectedFiles.map((file, i) => {
                 return (
-                    cardFileChannel(file)
+                    cardFileChannel(file, i)
                 )
             })}
 

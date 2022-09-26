@@ -6,9 +6,11 @@ const FilePreviewMini = ({ file, removeFile }) => {
 
     return (
         <Box m="5px" p="4px" bg="gray.200" minW={"75px"} w={"75px"}>
-            <Button bg="transparent" float="right" size="10px" onClick={() => removeFile(file.id)}>
-                <SmallCloseIcon />
-            </Button>
+            {removeFile != false && (
+                <Button bg="transparent" float="right" size="10px" onClick={() => removeFile(file.id)}>
+                    <SmallCloseIcon />
+                </Button>
+            )}
             <Center>
                 <FileIcon type={file.data.type} />
             </Center>
