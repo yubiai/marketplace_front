@@ -1,52 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
 import EvidenceListCard from "../Cards/EvidenceListCard";
 
-
-/* const evidences = [
-    {
-        status: "Active",
-        title: "With Coins",
-        description: "With i dont knowwwwwwwwwwwwwwwwwwwwwwwwww",
-        author: "",
-        files: []
-    },
-    {
-        status: "Active",
-        title: "With File fail",
-        description: "With i dont knowwwwwwwwwwwwwwwwwwwwwwwwww",
-        author: "",
-        files: []
-    },
-    {
-        status: "Active",
-        title: "Rock fail",
-        description: "With i dont knowwwwwwwwwwwwwwwwwwwwwwwwww",
-        author: "",
-        files: []
-    },
-    {
-        status: "Active",
-        title: "Feedback i dont know",
-        description: "With i dont knowwwwwwwwwwwwwwwwwwwwwwwwww",
-        author: "",
-        files: []
-    },
-    {
-        status: "Active",
-        title: "Feedback i dont know",
-        description: "With i dont knowwwwwwwwwwwwwwwwwwwwwwwwww",
-        author: "",
-        files: []
-    },
-    {
-        status: "Active",
-        title: "Feedback i dont know",
-        description: "With i dont knowwwwwwwwwwwwwwwwwwwwwwwwww",
-        author: "",
-        files: []
-    }
-] */
-
 const EvidencesList = ({evidences}) => {
 
     if (!evidences) {
