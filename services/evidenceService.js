@@ -31,6 +31,23 @@ async function newEvidence(transactionId, payload, token) {
 }
 
 /**
+ * Files Evidence by id order
+ * @param {query} Search
+ */
+ async function getFilevidenceByOrderID(id, token) {
+  return await axios.get(
+    `/evidences/files/orderID/${id}`,
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : null
+  )
+}
+
+/**
  * Evidence by id
  * @param {query} Search
  */
@@ -50,5 +67,6 @@ async function newEvidence(transactionId, payload, token) {
 export const evidenceService = {
   newEvidence,
   getEvidenceById,
-  getEvidenceByOrderID
+  getEvidenceByOrderID,
+  getFilevidenceByOrderID
 }

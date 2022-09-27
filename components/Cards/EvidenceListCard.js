@@ -3,7 +3,6 @@ import { Stack, Text, Button, Image, Center, Box } from '@chakra-ui/react';
 import Link from 'next/link';
 
 const EvidenceListCard = ({ evidence }) => {
-    console.log(evidence)
 
     return (
         <Stack p="4" boxShadow="lg" m="4" borderRadius="sm">

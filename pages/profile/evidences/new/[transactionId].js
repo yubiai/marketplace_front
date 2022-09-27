@@ -5,6 +5,8 @@ import { useRouter } from "next/router"
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import FilePreviewMini from "../../../../components/Infos/FilePreviewMini";
+import AddFileEvidence from "../../../../components/Modals/AddFileEvidence";
+import PreviewEvidence from "../../../../components/Modals/PreviewEvidence";
 import SuccessEvidence from "../../../../components/Modals/SuccessEvidence";
 import Loading from "../../../../components/Spinners/Loading";
 import useUser from "../../../../hooks/data/useUser";
@@ -20,6 +22,8 @@ const NewEvidence = () => {
     const dispatch = useDispatchGlobal();
     const router = useRouter();
     const { transactionId } = router.query;
+
+    const [filesChannel, setFilesChannel] = useState(null);
     const [orderDetail, setOrderDetail] = useState(null)
     const [result, setResult] = useState(null)
 
@@ -38,15 +42,24 @@ const NewEvidence = () => {
             const response = await orderService.getOrderByTransaction(
                 transactionId, global.profile.token)
             const { data } = response;
-            console.log(data.result);
-            console.log(global.profile, "global profile")
             setOrderDetail(data.result)
+            loadFilesByOrderID(data.result)
             return
         } catch (err) {
             console.error(err);
             return
         }
 
+    }
+
+    const loadFilesByOrderID = async (order) => {
+        await evidenceService.getFilevidenceByOrderID(order._id, global?.profile?.token)
+            .then((res) => {
+                setFilesChannel(res.data)
+            })
+            .catch((err) => {
+                console.error(err)
+            })
     }
 
     useEffect(() => {
@@ -69,11 +82,10 @@ const NewEvidence = () => {
     // Input Files
     const inputRef = useRef()
     const [previewFiles, setPreviewFiles] = useState([]);
+    const [selectedFiles, setSelectedFiles] = useState([]);
     const [errorMsg, setErrorMsg] = useState(null)
 
     const verifyFiles = (e) => {
-
-        console.log(previewFiles, "previewFiles")
 
         if (e.target.files && e.target.files.length === 0) {
             return
@@ -145,9 +157,6 @@ const NewEvidence = () => {
     // Form Submit Preview
     const onSubmit = async (data) => {
         const form = new FormData();
-        console.log(data, "data");
-        console.log(previewFiles, "previewww")
-
         form.append('title', data.title)
         form.append('description', data.description)
         form.append('order_id', orderDetail._id)
@@ -155,17 +164,25 @@ const NewEvidence = () => {
         form.append('author', global.profile._id)
         form.append('author_address', global.profile.eth_address)
 
-        console.log(JSON.stringify(Object.fromEntries(form)))
+        let filesArray = [];
+
+        for (let file of selectedFiles){
+            filesArray.push(file._id)
+        }
+
+        form.append('selectedfiles', filesArray)
+
+        for (let file of previewFiles) {
+            form.append('files', file.data)
+        }
 
         setDataSubmit(form)
-
         let newData = JSON.stringify(Object.fromEntries(form))
         newData = JSON.parse(newData)
+
         setResult(newData)
 
-
         onOpen()
-
         return
     }
 
@@ -200,9 +217,9 @@ const NewEvidence = () => {
             <Head>
                 <title>Yubiai Marketplace - New Listing</title>
             </Head>
-            <Container maxW="2xl" h={{ base: "80vh", md: "80vh" }} display={'flex'} flexDirection={'column'}>
+            <Container maxW="2xl" h={{base: 'full', md: selectedFiles.length > 0 ? 'full' : '100vh' }} display={'flex'} flexDirection={'column'}>
                 <Heading mt="1em">New Evidence</Heading>
-                <form onSubmit={handleSubmit(onSubmit)}>
+                <form id="hook-form" onSubmit={handleSubmit(onSubmit)}>
                     <Box mt="1em">
                         <Text fontWeight={600}>Order ID</Text>
                         <Text>{orderDetail._id}</Text>
@@ -221,7 +238,7 @@ const NewEvidence = () => {
                                 {...register('title', { required: true, minLength: 15, maxLength: 72 })}
                                 isRequired
                             />
-                            <Text color="red" m="5px">{errors.title?.type === 'required' && "Description is Required"}</Text>
+                            <Text color="red" m="5px">{errors.title?.type === 'required' && "Title is Required"}</Text>
                             <Text color="red" m="5px">{errors.title?.type === 'minLength' && "Minimum required characters are 15"}</Text>
                             <Text color="red" m="5px">{errors.title?.type === 'maxLength' && "Maximum required characters are 72"}</Text>
                         </FormControl>
@@ -249,7 +266,7 @@ const NewEvidence = () => {
                             onChange={verifyFiles}
                             style={{ display: 'none' }}
                         />
-                        <Button onClick={() => inputRef.current.click()} mt="1em"
+                        <Button bg="gray.500" color="white" onClick={() => inputRef.current.click()} mt="1em"
                         >
                             <AttachmentIcon w={6} h={6} m="4px" /> Attach files
                         </Button>
@@ -273,10 +290,12 @@ const NewEvidence = () => {
                                 )
                             })}
                         </Flex>
+                        <Divider />
+                        <AddFileEvidence filesChannel={filesChannel} selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
                     </Box>
                     <Text color="red">{errorMsg && errorMsg}</Text>
                     <Box float={'right'} m="2em">
-                        <Button bg="#00abd1" color="white" type="submit">
+                        <Button bg="#00abd1" color="white" type="submit" form="hook-form">
                             Preview & Submit
                         </Button>
                     </Box>
@@ -295,20 +314,7 @@ const NewEvidence = () => {
                                 {loadingSubmit === false && <ModalCloseButton />}
                                 <ModalBody>
                                     {result && (
-                                        <>
-                                            <Text fontWeight={600} fontSize="2xl" mt="1em">Title</Text>
-                                            <Text>{result.title}</Text>
-                                            <Divider />
-                                            <Text fontWeight={600} fontSize="2xl" mt="1em">Description</Text>
-                                            <Text>{result.description}</Text>
-                                            <Divider />
-                                            <Text fontWeight={600} fontSize="2xl" mt="1em">TransactionHash</Text>
-                                            <Text>{result.transactionHash}</Text>
-                                            <Divider />
-                                            <Text fontWeight={600} fontSize="2xl" mt="1em">Order ID</Text>
-                                            <Text>{result.order_id}</Text>
-                                            <Divider />
-                                        </>
+                                        <PreviewEvidence result={result} previewFiles={previewFiles} selectedFiles={selectedFiles} />
                                     )}
                                 </ModalBody>
 
@@ -328,7 +334,7 @@ const NewEvidence = () => {
                                                 color="white"
                                                 onClick={() => confirmSubmit()}
                                             >
-                                                Submit for review
+                                                Submit
                                             </Button>
                                         </>
                                     )}
@@ -354,7 +360,7 @@ const NewEvidence = () => {
 
                                 </ModalBody>
                                 <ModalFooter>
-                                        <Button onClick={() => router.back()}>Close</Button>
+                                    <Button onClick={() => router.back()}>Close</Button>
                                 </ModalFooter>
                             </ModalContent>
                         </>
