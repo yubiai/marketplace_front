@@ -55,7 +55,6 @@ const NewEvidence = () => {
     const loadFilesByOrderID = async (order) => {
         await evidenceService.getFilevidenceByOrderID(order._id, global?.profile?.token)
             .then((res) => {
-                console.log(res.data)
                 setFilesChannel(res.data)
             })
             .catch((err) => {
@@ -87,8 +86,6 @@ const NewEvidence = () => {
     const [errorMsg, setErrorMsg] = useState(null)
 
     const verifyFiles = (e) => {
-
-        console.log(previewFiles, "previewFiles")
 
         if (e.target.files && e.target.files.length === 0) {
             return
@@ -166,17 +163,23 @@ const NewEvidence = () => {
         form.append('transactionHash', orderDetail.transaction.transactionHash)
         form.append('author', global.profile._id)
         form.append('author_address', global.profile.eth_address)
-        form.append('selectedfiles', selectedFiles)
+
+        let filesArray = [];
+
+        for (let file of selectedFiles){
+            filesArray.push(file._id)
+        }
+
+        form.append('selectedfiles', filesArray)
 
         for (let file of previewFiles) {
             form.append('files', file.data)
         }
 
         setDataSubmit(form)
-        const newData = JSON.stringify(Object.fromEntries(form))
+        let newData = JSON.stringify(Object.fromEntries(form))
         newData = JSON.parse(newData)
-        console.log(previewFiles, "previewFiles")
-        console.log(newData)
+
         setResult(newData)
 
         onOpen()
@@ -214,7 +217,7 @@ const NewEvidence = () => {
             <Head>
                 <title>Yubiai Marketplace - New Listing</title>
             </Head>
-            <Container maxW="2xl" h={'full'} display={'flex'} flexDirection={'column'}>
+            <Container maxW="2xl" h={{base: 'full', md: selectedFiles.length > 0 ? 'full' : '100vh' }} display={'flex'} flexDirection={'column'}>
                 <Heading mt="1em">New Evidence</Heading>
                 <form id="hook-form" onSubmit={handleSubmit(onSubmit)}>
                     <Box mt="1em">
@@ -331,7 +334,7 @@ const NewEvidence = () => {
                                                 color="white"
                                                 onClick={() => confirmSubmit()}
                                             >
-                                                Submit for review
+                                                Submit
                                             </Button>
                                         </>
                                     )}

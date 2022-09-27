@@ -29,7 +29,6 @@ const AddFileEvidence = ({ filesChannel, selectedFiles, setSelectedFiles }) => {
     const handleChange = (elements) => {
         let files = [];
         for (let i = 0; i < elements.length; i++) {
-            console.log(elements[i])
             let result = filesChannel.find((file) => file._id === elements[i])
             if(result){
                 files.push(result);
@@ -68,7 +67,8 @@ const AddFileEvidence = ({ filesChannel, selectedFiles, setSelectedFiles }) => {
                 key={i}
                 mt="5px"
                 direction={{ base: 'column', md: 'row' }}
-                justifyContent="left">
+                justifyContent="left"
+                >
                 <Flex>
                     <FileIcon type={file?.mimetype} />
                     <Box ml='3'>
