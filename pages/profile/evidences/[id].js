@@ -11,6 +11,8 @@ import Loading from "../../../components/Spinners/Loading";
 import FileIcon from "../../../components/Infos/FileIcon";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import Link from "next/link";
+import ViewMsgText from "../../../components/Cards/ViewMsgText";
+import ViewMsgFile from "../../../components/Cards/ViewMsgFile";
 
 
 const EvidenceDetail = () => {
@@ -47,7 +49,6 @@ const EvidenceDetail = () => {
             loadEvidence()
         }
     }, [global && global.profile])
-
 
     if (!user || !evidence) return <Loading />
 
@@ -113,6 +114,26 @@ const EvidenceDetail = () => {
                         <Text fontWeight={600} fontSize="2xl" mt="1em">Order ID</Text>
                         <Text>{evidence.order_id}</Text>
                         <Divider />
+                        {evidence.messages && evidence.messages.length > 0 && (
+                            <>
+                                <Divider />
+                                <Text fontWeight={600} fontSize="2xl" mt="1em">Messages</Text>
+                            </>
+                        )}
+
+                        {evidence.messages.length > 0 && evidence.messages.map((msg, i) => {
+                            return (
+                                <Flex key={i}>
+                                    {msg.text && (
+                                        ViewMsgText(msg)
+                                    )}
+                                    {msg.file && (
+                                        ViewMsgFile(msg)
+                                    )}
+                                </Flex>
+                            )
+                        })}
+
                         {evidence.files && evidence.files.length > 0 && (
                             <>
                                 <Divider />
@@ -125,7 +146,7 @@ const EvidenceDetail = () => {
                                 <Link key={i}
                                     href={process.env.NEXT_PUBLIC_LINK_FLEEK + "evidences/" + file.filename} >
                                     <Stack
-                                        m="1em"
+                                        mt="1em"
                                         direction={{ base: 'column', md: 'row' }}
                                         justifyContent="left"
                                         cursor="pointer"
@@ -143,7 +164,7 @@ const EvidenceDetail = () => {
                                                         {evidence.author.first_name} {evidence.author.last_name}
                                                     </Badge>
                                                 </Text>
-                                                <Text fontSize='10px'>{moment(file?.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
+                                                <Text fontSize='sm'>{moment(file?.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
                                             </Box>
                                         </Flex>
                                     </Stack>
