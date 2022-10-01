@@ -5,12 +5,13 @@ import { useRouter } from "next/router"
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import FilePreviewMini from "../../../../components/Infos/FilePreviewMini";
-import AddFileEvidence from "../../../../components/Modals/AddFileEvidence";
+import AddMessageEvidence from "../../../../components/Modals/AddMessageEvidence";
 import PreviewEvidence from "../../../../components/Modals/PreviewEvidence";
 import SuccessEvidence from "../../../../components/Modals/SuccessEvidence";
 import Loading from "../../../../components/Spinners/Loading";
 import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider"
+import { channelService } from "../../../../services/channelService";
 import { evidenceService } from "../../../../services/evidenceService";
 import { orderService } from "../../../../services/orderService";
 
@@ -23,8 +24,8 @@ const NewEvidence = () => {
     const router = useRouter();
     const { transactionId } = router.query;
 
-    const [filesChannel, setFilesChannel] = useState(null);
     const [orderDetail, setOrderDetail] = useState(null)
+    const [channelDetail, setChannelDetail] = useState(null)
     const [result, setResult] = useState(null)
 
     const { user, loggedOut } = useUser();
@@ -40,10 +41,10 @@ const NewEvidence = () => {
 
         try {
             const response = await orderService.getOrderByTransaction(
-                transactionId, global.profile.token)
+                transactionId, global.profile.token);
             const { data } = response;
             setOrderDetail(data.result)
-            loadFilesByOrderID(data.result)
+            loadMsgsByOrderID(data.result)
             return
         } catch (err) {
             console.error(err);
@@ -52,10 +53,12 @@ const NewEvidence = () => {
 
     }
 
-    const loadFilesByOrderID = async (order) => {
-        await evidenceService.getFilevidenceByOrderID(order._id, global?.profile?.token)
+    const loadMsgsByOrderID = async (order) => {
+        await channelService.getChannelByOrderId(order._id, global?.profile?.token)
             .then((res) => {
-                setFilesChannel(res.data)
+                if (res.data && res.data.messages) {
+                    setChannelDetail(res.data)
+                }
             })
             .catch((err) => {
                 console.error(err)
@@ -82,7 +85,7 @@ const NewEvidence = () => {
     // Input Files
     const inputRef = useRef()
     const [previewFiles, setPreviewFiles] = useState([]);
-    const [selectedFiles, setSelectedFiles] = useState([]);
+    const [selectedMsg, setSelectedMsg] = useState([]);
     const [errorMsg, setErrorMsg] = useState(null)
 
     const verifyFiles = (e) => {
@@ -163,14 +166,15 @@ const NewEvidence = () => {
         form.append('transactionHash', orderDetail.transaction.transactionHash)
         form.append('author', global.profile._id)
         form.append('author_address', global.profile.eth_address)
+        
+        let messages = [];
 
-        let filesArray = [];
-
-        for (let file of selectedFiles){
-            filesArray.push(file._id)
+        for (let msg of selectedMsg) {
+            messages.push(msg._id)
         }
 
-        form.append('selectedfiles', filesArray)
+        form.append('selectedMsgs', messages)
+
 
         for (let file of previewFiles) {
             form.append('files', file.data)
@@ -217,7 +221,7 @@ const NewEvidence = () => {
             <Head>
                 <title>Yubiai Marketplace - New Listing</title>
             </Head>
-            <Container maxW="2xl" h={{base: 'full', md: selectedFiles.length > 0 ? 'full' : '100vh' }} display={'flex'} flexDirection={'column'}>
+            <Container maxW="2xl" h={{ base: 'full', md: selectedMsg.length > 0 ? 'full' : '100vh' }} display={'flex'} flexDirection={'column'}>
                 <Heading mt="1em">New Evidence</Heading>
                 <form id="hook-form" onSubmit={handleSubmit(onSubmit)}>
                     <Box mt="1em">
@@ -291,7 +295,7 @@ const NewEvidence = () => {
                             })}
                         </Flex>
                         <Divider />
-                        <AddFileEvidence filesChannel={filesChannel} selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
+                        <AddMessageEvidence channelDetail={channelDetail} selectedMsg={selectedMsg} setSelectedMsg={setSelectedMsg} />
                     </Box>
                     <Text color="red">{errorMsg && errorMsg}</Text>
                     <Box float={'right'} m="2em">
@@ -314,7 +318,7 @@ const NewEvidence = () => {
                                 {loadingSubmit === false && <ModalCloseButton />}
                                 <ModalBody>
                                     {result && (
-                                        <PreviewEvidence result={result} previewFiles={previewFiles} selectedFiles={selectedFiles} />
+                                        <PreviewEvidence result={result} previewFiles={previewFiles} selectedMsg={selectedMsg} />
                                     )}
                                 </ModalBody>
 

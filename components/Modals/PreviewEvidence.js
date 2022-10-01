@@ -1,10 +1,9 @@
-import { Badge, Box, Divider, Flex, Stack, Text } from "@chakra-ui/react";
-import moment from "moment";
-import FileIcon from "../Infos/FileIcon";
+import { Box, Divider, Flex, Text } from "@chakra-ui/react";
+import ViewMsgFile from "../Cards/ViewMsgFile";
+import ViewMsgText from "../Cards/ViewMsgText";
 import FilePreviewMini from "../Infos/FilePreviewMini";
 
-
-const PreviewEvidence = ({ result, previewFiles, selectedFiles }) => {
+const PreviewEvidence = ({ result, previewFiles, selectedMsg }) => {
 
     return (
         <Box>
@@ -46,32 +45,22 @@ const PreviewEvidence = ({ result, previewFiles, selectedFiles }) => {
                     )
                 })}
             </Flex>
-            {selectedFiles && selectedFiles.length > 0 && (
+            {selectedMsg && selectedMsg.length > 0 && (
                 <>
                     <Divider />
-                    <Text fontWeight={600} fontSize="2xl" mt="1em">Channel selected files</Text>
+                    <Text fontWeight={600} fontSize="2xl" mt="1em">Messages</Text>
                 </>
             )}
-            {selectedFiles.length > 0 && selectedFiles.map((file, i) => {
+            {selectedMsg && selectedMsg.length > 0 && selectedMsg.map((msg, i) => {
                 return (
-                    <Stack
-                        key={i}
-                        mt="5px"
-                        direction={{ base: 'column', md: 'row' }}
-                        justifyContent="left">
-                        <Flex>
-                            <FileIcon type={file?.mimetype} />
-                            <Box ml='3'>
-                                <Text fontWeight='bold' fontSize='sm'>
-                                    {file?.filename}
-                                    <Badge ml='1' colorScheme='green'>
-                                        {file?.author.first_name} {file?.author.last_name}
-                                    </Badge>
-                                </Text>
-                                <Text fontSize='sm'>{moment(file?.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
-                            </Box>
-                        </Flex>
-                    </Stack>
+                    <Flex key={i}>
+                        {msg.text && (
+                            ViewMsgText(msg)
+                        )}
+                        {msg.file && (
+                            ViewMsgFile(msg)
+                        )}
+                    </Flex>
                 )
             })}
             <Divider />
