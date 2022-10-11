@@ -1,3 +1,4 @@
+import Web3 from 'web3'
 import {
   Box,
   Text,
@@ -13,29 +14,31 @@ import {
   SliderMark,
   Slider,
   Divider,
-} from '@chakra-ui/react'
-import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
-import Head from 'next/head'
-import ButtonCheckout from '../../components/Buttons/ButtonCheckout'
-import { useGlobal, useDispatchGlobal } from '../../providers/globalProvider'
+} from '@chakra-ui/react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import Head from 'next/head';
+import ButtonCheckout from '../../components/Buttons/ButtonCheckout';
+import { useGlobal, useDispatchGlobal } from '../../providers/globalProvider';
 import {
   loadCurrencyPrices,
   loadOrderData,
   setKlerosInstance,
-} from '../../providers/orderProvider'
-import { orderService } from '../../services/orderService'
-import { channelService } from '../../services/channelService'
-import useUser from '../../hooks/data/useUser'
-import Loading from '../../components/Spinners/Loading'
+} from '../../providers/orderProvider';
+import { orderService } from '../../services/orderService';
+import { channelService } from '../../services/channelService';
+import useUser from '../../hooks/data/useUser';
+import Loading from '../../components/Spinners/Loading';
+import YubiaiPaymentArbitrable from '../../utils/escrow-utils/yubiaiPaymentArbitrable';
 
 const Checkout = () => {
-  const global = useGlobal()
-  const dispatch = useDispatchGlobal()
-  const router = useRouter()
-  const [orderData, setOrderData] = useState({})
-  const [transactionData, setTransactionData] = useState({})
-  const [operationInProgress, setOperationInProgress] = useState(false)
+  const global = useGlobal();
+  const dispatch = useDispatchGlobal();
+  const router = useRouter();
+  const [orderData, setOrderData] = useState({});
+  const [transactionData, setTransactionData] = useState({});
+  const [operationInProgress, setOperationInProgress] = useState(false);
+  const [yubiaiPaymentArbitrableInstance, setYubiaiPaymentArbitrableInstance] = useState(null);
 
   const { user, loggedOut } = useUser()
 
@@ -70,24 +73,45 @@ const Checkout = () => {
       setTransactionData(transaction)
     }
 
-    if (!global.currencyPriceList.length) {
-      loadCurrencyPrices(dispatch, global)
-      return
+    const loadCurrencies = async () => {
+      const networkType = await yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
+      loadCurrencyPrices(dispatch, global, networkType);
+    }
+
+    const setContractInstance = async () => {
+      const web3 = new Web3(
+        process.env.NEXT_PUBLIC_INFURA_ENDPOINT ||
+        new Web3.providers.HttpProvider('http://localhost:8545')
+      );
+      const yubiaiArbitrableInstance = new YubiaiPaymentArbitrable(
+        web3, global?.profile?.eth_address.toLowerCase());
+      await yubiaiArbitrableInstance.initContract();
+      setYubiaiPaymentArbitrableInstance(yubiaiArbitrableInstance);
+    }
+
+    if (!yubiaiPaymentArbitrableInstance) {
+      setContractInstance();
+      return;
+    }
+
+    if (!global.currencyPriceList.length && (yubiaiPaymentArbitrableInstance || {}).web3) {
+      loadCurrencies();
+      return;
     }
 
     if (!global.itemToCheckout) {
-      return
+      return;
     }
 
     if (!transactionData.extraData) {
-      loadOrder()
+      loadOrder();
     } else {
       if (!global.klerosEscrowInstance) {
-        setKlerosInstance({ ...transactionData }, dispatch)
+        setKlerosInstance({ ...transactionData }, dispatch);
       }
-      return
+      return;
     }
-  }, [transactionData, global.itemToCheckout, global.currencyPriceList])
+  }, [transactionData, global.itemToCheckout, global.currencyPriceList, yubiaiPaymentArbitrableInstance])
 
   const createOrder = async (transactionResult = {}) => {
     const currentWalletAccount = await global.klerosEscrowInstance.getAccount()
@@ -235,6 +259,7 @@ const Checkout = () => {
                   operationInProgress={operationInProgress}
                   currency={(orderData.item || {}).currencySymbolPrice || 'ETH'}
                   burnFee={sliderValue}
+                  yubiaiPaymentArbitrableInstance={yubiaiPaymentArbitrableInstance}
                 />
               </Stack>
             </Box>

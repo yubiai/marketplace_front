@@ -8,13 +8,11 @@ const getContractsForNetwork = (networkType) => {
     switch (networkType) {
         case 'goerli':
             return {
-                paymentProcessor: process.env.NEXT_PUBLIC_GOERLI_PAYMENT_PROCESSOR_CONTRACT,
-                yubiaiArbitrable: process.env.NEXT_PUBLIC_GOERLI_MULTPLE_ARBITRABLE_CONTRACT
+                yubiaiArbitrable: process.env.NEXT_PUBLIC_GOERLI_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT
             };
         case 'main':
             return {
-                paymentProcessor: process.env.NEXT_PUBLIC_MAIN_PAYMENT_PROCESSOR_CONTRACT,
-                yubiaiArbitrable: process.env.NEXT_PUBLIC_MAIN_MULTPLE_ARBITRABLE_CONTRACT
+                yubiaiArbitrable: process.env.NEXT_PUBLIC_MAIN_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT
             };
         case 'rinkeby':
         case 'ropsten':
@@ -22,7 +20,6 @@ const getContractsForNetwork = (networkType) => {
         case 'private':
         default:
             return {
-                paymentProcessor: '',
                 yubiaiArbitrable: ''
             };
     }

@@ -71,8 +71,8 @@ const setKlerosInstance = (transactionData, dispatch) => {
   })
 }
 
-const loadCurrencyPrices = async (dispatch, global) => {
-  const naming = getProtocolNamingFromNetwork();
+const loadCurrencyPrices = async (dispatch, global, networkType) => {
+  const naming = getProtocolNamingFromNetwork(networkType);
   const resp = await priceService.getCurrencyPrices(
     naming, global && global.profile && global.profile.token);
   const { data } = resp;
