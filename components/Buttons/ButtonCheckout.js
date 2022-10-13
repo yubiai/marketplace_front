@@ -1,18 +1,13 @@
-import { Button, Center, Spinner } from '@chakra-ui/react'
-import { useGlobal } from '../../providers/globalProvider'
+import { Button, Center, Spinner } from '@chakra-ui/react';
+import { useGlobal } from '../../providers/globalProvider';
 
 const TIME_FOR_SERVICE = 259200;
 const TIME_FOR_CLAIM = 259200;
 const TERMS_URL_DEFAULT = "https://forum.kleros.io/tos";
 
 const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, yubiaiPaymentArbitrableInstance }) => {
-    const global = useGlobal()
-    const { amount, recipient, timeout, title, description, extraData } = transactionInfo
-    const metaEvidence = {
-        title,
-        description,
-        extraData
-    };
+    const global = useGlobal();
+    const { amount, recipient } = transactionInfo;
 
     const createTransaction = async () => {
         try {
