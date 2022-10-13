@@ -28,12 +28,15 @@ import {
   Avatar,
   Container,
   Divider,
-  Grid
+  Grid,
+  Stack
 } from '@chakra-ui/react'
 import useUser from '../../../../hooks/data/useUser'
 import Link from 'next/link'
 import { profileService } from '../../../../services/profileService'
 import StatusOrder from '../../../../components/Infos/StatusOrder'
+import EvidencesList from '../../../../components/Infos/EvidencesList'
+import { evidenceService } from '../../../../services/evidenceService'
 
 const minimumArbitrationFeeUSD = 90
 
@@ -49,7 +52,9 @@ const OrderDetail = () => {
   const [transactionFeeAmount, setTransactionFeeAmount] = useState('')
   const [transactionDate, setTransactionDate] = useState('')
   const [operationInProgress, setOperationInProgress] = useState(false)
-  const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet'
+  //const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet'
+
+  const [evidences, setEvidences] = useState(null);
 
   const { user, loggedOut } = useUser()
 
@@ -81,6 +86,13 @@ const OrderDetail = () => {
     return transaction.networkEnv !== 'main'
       ? `https://${transaction.networkEnv}.etherscan.io/tx/${transactionHash}`
       : `https://etherscan.io/tx/${transactionHash}`;
+  }
+
+  const loadEvidences = async (orderInfo) => {
+    const response = await evidenceService.getEvidenceByOrderID(orderInfo._id,
+      global.profile.token
+    )
+    setEvidences(response.data)
   }
 
   const loadOrder = async () => {
@@ -116,6 +128,7 @@ const OrderDetail = () => {
     setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount)
     setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount)
     setTransactionDate(orderInfo.transaction.transactionDate)
+    loadEvidences(orderInfo)
   }
 
   const toggleLoadingStatus = (status) => {
@@ -348,6 +361,23 @@ const OrderDetail = () => {
             {orderDetail && orderDetail.status && (
               StatusOrder(orderDetail.status)
             )}
+
+            <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+
+            <Stack
+              direction={{ base: 'column', md: 'row' }}
+              justifyContent="space-between"
+              mb="1em">
+              <Text fontWeight={600} fontSize="2xl">Evidences</Text>
+              <Link href={`/profile/evidences/new/${transactionId}`}>
+                <Button size="sm" bg="green.500" color="white" _hover={{
+                  bg: "gray.400"
+                }}>New</Button></Link>
+            </Stack>
+
+            <EvidencesList evidences={evidences} />
+
+            <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
 
             {(orderDetail.transaction || {}).transactionIndex &&
               orderDetail.status === 'ORDER_DISPUTE_RECEIVER_FEE_PENDING' && (

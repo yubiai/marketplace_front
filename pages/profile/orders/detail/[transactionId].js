@@ -36,6 +36,8 @@ import {
 } from '@chakra-ui/react'
 import useUser from '../../../../hooks/data/useUser'
 import StatusOrder from '../../../../components/Infos/StatusOrder'
+import EvidencesList from '../../../../components/Infos/EvidencesList'
+import { evidenceService } from '../../../../services/evidenceService'
 
 const minimumArbitrationFeeUSD = 90
 
@@ -50,6 +52,8 @@ const OrderDetail = () => {
   const [transactionFeeAmount, setTransactionFeeAmount] = useState('')
   const [transactionDate, setTransactionDate] = useState('')
   const [operationInProgress, setOperationInProgress] = useState(false)
+
+  const [evidences, setEvidences] = useState(null);
 
   const { user, loggedOut } = useUser()
 
@@ -77,6 +81,14 @@ const OrderDetail = () => {
     setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount)
     setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount)
     setTransactionDate(orderInfo.transaction.transactionDate)
+    loadEvidences(orderInfo)
+  }
+
+  const loadEvidences = async (orderInfo) => {
+    const response = await evidenceService.getEvidenceByOrderID(orderInfo._id,
+      global.profile.token
+    )
+    setEvidences(response.data)
   }
 
   const toggleLoadingStatus = (status) => {
@@ -327,9 +339,26 @@ const OrderDetail = () => {
 
             <Text fontWeight={600} fontSize="2xl">Status</Text>
 
-            {orderDetail && orderDetail.status && (
-              StatusOrder(orderDetail.status)
-            )}
+            <Box width={{ base: "100%", md: "30%" }}>
+              {orderDetail && orderDetail.status && (
+                StatusOrder(orderDetail.status)
+              )}
+            </Box>
+
+            <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+
+            <Stack
+              direction={{ base: 'column', md: 'row' }}
+              justifyContent="space-between"
+              mb="1em">
+              <Text fontWeight={600} fontSize="2xl">Evidences</Text>
+              <Link href={`/profile/evidences/new/${transactionId}`}>
+                <Button size="sm" bg="green.500" color="white" _hover={{
+                  bg: "gray.400"
+                }}>New</Button></Link>
+            </Stack>
+
+            <EvidencesList evidences={evidences} />
 
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
             <Text fontWeight={600} fontSize="2xl">Actions</Text>
@@ -341,32 +370,13 @@ const OrderDetail = () => {
                   orderDetail.status === 'ORDER_CREATED' && (
                     <>
                       <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
-                        <Box bg='orange.200' p="1em">
-                          <Text color="black">
-                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:
-                          </Text>
-                          <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
-                            <ButtonEscrowDispute
-                              transaction={{ userBuyer: orderDetail.userBuyer || '' }}
-                              transactionIndex={
-                                (orderDetail.transaction || {}).transactionIndex
-                              }
-                              transactionHash={
-                                (orderDetail.transaction || {}).transactionHash
-                              }
-                              amount={minimumArbitrationFeeUSD}
-                              stepsPostAction={loadOrder}
-                              toggleLoadingStatus={toggleLoadingStatus}
-                            />
-                          </Box>
-                        </Box>
                         <Box p="1em">
                           {transactionData && transactionPayedAmount && (
                             <>
                               <Text color="black">
                                 Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:
                               </Text>
-                              <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
+                              <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
                                 <ButtonPayOrder
                                   transactionIndex={
                                     (orderDetail.transaction || {}).transactionIndex
@@ -382,6 +392,26 @@ const OrderDetail = () => {
                             </>
                           )}
                         </Box>
+                        <Box bg='orange.200' p="1em">
+                          <Text color="black">
+                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:
+                          </Text>
+                          <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
+                            <ButtonEscrowDispute
+                              transaction={{ userBuyer: orderDetail.userBuyer || '' }}
+                              transactionIndex={
+                                (orderDetail.transaction || {}).transactionIndex
+                              }
+                              transactionHash={
+                                (orderDetail.transaction || {}).transactionHash
+                              }
+                              amount={minimumArbitrationFeeUSD}
+                              stepsPostAction={loadOrder}
+                              toggleLoadingStatus={toggleLoadingStatus}
+                            />
+                          </Box>
+                        </Box>
+
 
                       </SimpleGrid>
 

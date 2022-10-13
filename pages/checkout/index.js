@@ -4,6 +4,7 @@ import {
   Text,
   Heading,
   Center,
+  Button,
   Avatar,
   Stack,
   AlertIcon,
@@ -14,12 +15,20 @@ import {
   SliderMark,
   Slider,
   Divider,
-} from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import Head from 'next/head';
-import ButtonCheckout from '../../components/Buttons/ButtonCheckout';
-import { useGlobal, useDispatchGlobal } from '../../providers/globalProvider';
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+} from '@chakra-ui/react'
+import { useRouter } from 'next/router'
+import { useEffect, useState, useRef } from 'react'
+import Head from 'next/head'
+import ButtonCheckout from '../../components/Buttons/ButtonCheckout'
+import { useGlobal, useDispatchGlobal } from '../../providers/globalProvider'
 import {
   loadCurrencyPrices,
   loadOrderData,
@@ -42,6 +51,10 @@ const Checkout = () => {
 
   const { user, loggedOut } = useUser()
 
+  // Modal
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const btnRef = useRef(null)
+
   // if logged in, redirect to the home
   useEffect(() => {
     if (loggedOut) {
@@ -63,6 +76,7 @@ const Checkout = () => {
   }
 
   useEffect(() => {
+    onOpen()
     const loadOrder = async () => {
       const result = await loadOrderData(
         { ...global.itemToCheckout },
@@ -151,6 +165,14 @@ const Checkout = () => {
     setOperationInProgress(status)
   }
 
+  // Overlay Modal
+  const OverlayOne = () => (
+    <ModalOverlay
+      bg='blackAlpha.700'
+      backdropFilter='blur(10px) hue-rotate(90deg)'
+    />
+  )
+
   if (!user) return <Loading />
 
   return (
@@ -206,9 +228,9 @@ const Checkout = () => {
               <Text textAlign={'center'} color={'gray.700'} px={3}>
                 {orderData.item && orderData.item.title}
               </Text>
-                <Divider mt="1em" />
+              <Divider mt="1em" />
               <Text mt="3" fontStyle="italic">
-              Set the % on top of the total price that you want to get burned. This will favor the token by increasing its price.
+                Set the % on top of the total price that you want to get burned. This will favor the token by increasing its price.
               </Text>
               <Box pt={6} pb={2} mt="1em">
                 <Slider
@@ -265,6 +287,27 @@ const Checkout = () => {
             </Box>
           </Center>
         </Box>
+        <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'inside'} size={"xl"}>
+          <OverlayOne />
+          <ModalContent bg="white" color="black">
+            <ModalHeader>Terms Checkout</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              <Text>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Text>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button onClick={() => {
+                router.push("/")
+                onClose()
+              }}>Reject</Button>
+
+              <Button colorScheme='blue' mr={3} onClick={() => onClose()}>
+                Accept
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </>
     )
   )

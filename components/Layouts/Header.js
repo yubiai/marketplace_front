@@ -44,7 +44,9 @@ const Header = () => {
           </Center>
 
           {/* Language */}
-          <Center mt={'15px'}>
+          <Center 
+          mt={'15px'} 
+          display={{ base: 'none', md: 'flex' }}>
             <LanguageChange />
             {global.meta ? <ButtonConnect /> : ''}
           </Center>

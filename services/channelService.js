@@ -3,6 +3,7 @@ import axios from 'axios'
 export const channelService = {
   getChannelByOrderId,
   pushMsg,
+  pushMsgWithFiles,
   createChannel
 }
 
@@ -21,9 +22,15 @@ export const channelService = {
   : null)
 }
 
-async function getChannelByOrderId(orderid) {
+async function getChannelByOrderId(orderid, token) {
   return await axios.get(
-    `/channel/orderid/${orderid}`
+    `/channel/orderid/${orderid}`,token
+    ? {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    : null
   )
 }
 
@@ -37,4 +44,13 @@ async function pushMsg(orderid, message, token){
       }
     : null
   )
+}
+
+async function pushMsgWithFiles(orderid, payload, token){
+  return await axios.post(`/channel/pushmsgwithfiles/${orderid}`, payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': token ? `Bearer ${token}` : null,
+    },
+  });
 }

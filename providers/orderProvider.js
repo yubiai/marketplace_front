@@ -63,7 +63,7 @@ const setArbitratorInstance = (account, dispatch) => {
 const setKlerosInstance = (transactionData, dispatch) => {
   const klerosEscrowRef = new KlerosEscrow(web3);
   klerosEscrowRef.setCourtAndCurrency(
-    'general', (transactionData.amount || {}).currency.token_address)
+    'general', (transactionData.amount || {}).currency?.token_address)
 
   dispatch({
     type: 'SET_KLEROS_ESCROW_INSTANCE',

@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'next/router'
 import { FaTelegramPlane, FaTwitter, FaYoutube } from 'react-icons/fa'
 import { SiLinktree } from 'react-icons/si'
+import ButtonTermaConditions from '../Buttons/ButtonTermaconditions'
 
 const SocialButton = ({ children, label, href }) => {
   return (
@@ -78,6 +79,7 @@ const Footer = () => {
           <Link mr={'1em'} href="https://court.kleros.io/" isExternal>
             Kleros
           </Link>
+          <ButtonTermaConditions />
         </Center>
         <Stack direction={'row'} spacing={6}>
           <SocialButton label={'Twitter'} href={'https://twitter.com/YubiaiM'} >
