@@ -118,6 +118,7 @@ const DrawerMenu = () => {
                     <Link href="/profile">
                       <Button
                         onClick={() => onClose()}
+                        className="step-usermenu"
                         w="full"
                         bg="transparent"
                         justifyContent={'left'}
@@ -131,6 +132,7 @@ const DrawerMenu = () => {
                     <Link href="/profile/notifications">
                       <Button
                         onClick={() => onClose()}
+                        className='step-notifications'
                         w="full"
                         bg="transparent"
                         justifyContent={'left'}
@@ -143,6 +145,7 @@ const DrawerMenu = () => {
                   <ListItem>
                     <Link href="/listing/new">
                       <Button
+                        className='step-sell'
                         onClick={() => onClose()}
                         w="full"
                         bg="transparent"
@@ -157,6 +160,7 @@ const DrawerMenu = () => {
                     <Link href="/profile/favourites">
                       <Button
                         onClick={() => onClose()}
+                        className="step-favourites"
                         w="full"
                         bg="transparent"
                         justifyContent={'left'}
@@ -173,6 +177,7 @@ const DrawerMenu = () => {
                 <Link href="/help">
                   <Button
                     onClick={() => onClose()}
+                    className="step-help"
                     w="full"
                     bg="transparent"
                     justifyContent={'left'}
@@ -184,6 +189,7 @@ const DrawerMenu = () => {
               </ListItem>
               <ListItem>
                 <Button
+                  className='step-category'
                   onClick={() => onCategory()}
                   w="full"
                   bg="transparent"

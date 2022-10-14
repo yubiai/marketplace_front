@@ -62,7 +62,8 @@ const NotificationDrawer = () => {
   if (global && global.profile) {
     return (
       <>
-        <Button ref={btnRef} colorScheme="transparent" onClick={onOpen} isDisabled={data && data.length === 0}>
+        <Button ref={btnRef} colorScheme="transparent" className='step-notifications'
+          onClick={onOpen} isDisabled={data && data.length === 0}>
           <BsFillBellFill color="white" />
           {data && data.items && data.items.length > 0 && (
             <Box position={'absolute'} top={'-2px'} right={'6px'}>

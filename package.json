@@ -14,6 +14,7 @@
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@kleros/archon": "^0.10.4",
+    "@reactour/tour": "^3.1.6",
     "@walletconnect/web3-provider": "^1.6.2",
     "authereum": "0.0.4-beta.186",
     "axios": "^0.27.2",

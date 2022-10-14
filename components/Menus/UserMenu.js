@@ -37,6 +37,7 @@ const UserMenu = () => {
     <Menu mr="1em">
       {global && global.profile && profileLogin && (
         <MenuButton
+          className='step-usermenu'
           as={IconButton}
           mr="10px"
           aria-label="Options"

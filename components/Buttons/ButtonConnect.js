@@ -17,6 +17,7 @@ import Cookies from 'js-cookie'
 import { termService } from '../../services/termService'
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/router'
+import { useTour } from "@reactour/tour";
 
 const ButtonConnect = () => {
   const router = useRouter();
@@ -31,6 +32,7 @@ const ButtonConnect = () => {
   const [profileData, setProfileData] = useState(null);
   const [tokenData, setTokenData] = useState(null);
 
+  const { setIsOpen } = useTour();
   const authGlobalAndCookies = (profile, token) => {
 
     dispatch({
@@ -93,6 +95,11 @@ const ButtonConnect = () => {
       .then((res) => {
         if (res) {
           authGlobalAndCookies(profile, token)
+          if(profile?.permission === 1){
+            setTimeout(() => {
+              setIsOpen(true)
+            }, 500);
+          }
           return
         } else {
           setProfileData(profile)

@@ -16,6 +16,7 @@ import { AuthProvider } from '../providers/authProvider'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { SWRConfig } from 'swr'
+import TourGuideProvider from '../providers/tourProvider';
 
 Axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API_URL
 //Axios.defaults.withCredentials = true;
@@ -41,11 +42,13 @@ function MyApp({ Component, pageProps }) {
           }}
         >
           <AuthProvider>
-            <Header />
-            <Navbar />
-            <MetaAlert />
-            <Component {...pageProps} />
-            <Footer />
+            <TourGuideProvider>
+              <Header />
+              <Navbar />
+              <MetaAlert />
+              <Component {...pageProps} />
+              <Footer />
+            </TourGuideProvider>
           </AuthProvider>
         </SWRConfig>
       </GlobalProvider>
