@@ -1,44 +1,23 @@
-import Web3 from 'web3'
-import React, { useEffect, useState } from 'react'
-import { Button, Center, Spinner } from '@chakra-ui/react'
-import { useGlobal } from '../../providers/globalProvider'
-import { getContractsForNetwork } from '../../utils/walletUtils'
-import PaymentProcessor from '../../utils/escrow-utils/paymentProcessor'
+import { Button, Center, Spinner } from '@chakra-ui/react';
+import { useGlobal } from '../../providers/globalProvider';
 
-const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency }) => {
-    const global = useGlobal()
-    const [paymentProcessorInstance, setPaymentProcessorInstance] = useState(null)
-    const { amount, recipient, timeout, title, description, extraData } = transactionInfo
-    const metaEvidence = {
-        title,
-        description,
-        extraData
-    };
+const TIME_FOR_SERVICE = 259200;
+const TIME_FOR_CLAIM = 259200;
+const TERMS_URL_DEFAULT = "https://forum.kleros.io/tos";
+
+const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, yubiaiPaymentArbitrableInstance }) => {
+    const global = useGlobal();
+    const { amount, recipient } = transactionInfo;
 
     const createTransaction = async () => {
         try {
             toggleLoadingStatus(true);
-            const amountToWei = global.klerosEscrowInstance.web3.utils.toWei(amount.value.toString());
-            const senderWallet = await global.klerosEscrowInstance.getAccount();
-            const networkType = await global.klerosEscrowInstance.web3.eth.net.getNetworkType() || 'main';
-            const contracts = getContractsForNetwork(networkType);
-            const ETH = global.currencyPriceList.find(currency => currency.symbol === 'ETH');
+            const amountToWei = yubiaiPaymentArbitrableInstance.web3.utils.toWei(amount.value.toString());
+            const senderWallet = await yubiaiPaymentArbitrableInstance.getAccount();
+            const networkType = await yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType() || 'main';
             const token = global.currencyPriceList.find(price => price.symbol === currency);
-
-            const transferInfo = {
-                token: (currency !== 'ETH' && token) ? token.token_address : '0x0000000000000000000000000000000000000000',
-                tokenETHRate: token ? Math.round(ETH.price > token.price ? ETH.price / token.price : token.price / ETH.price) : 1,
-                ETHPriceGreaterThanToken: !!(token && ETH.price > token.price)
-            };
-            const transactionData = {
-                sender: senderWallet,
-                timeoutPayment: timeout,
-                receiver: recipient,
-                metaEvidence
-            };
-
-            const result = await paymentProcessorInstance.managePayment(
-                amountToWei, 5, burnFee, transferInfo, transactionData);
+            const result = await yubiaiPaymentArbitrableInstance.createDeal(
+                token.token_address, burnFee, TIME_FOR_SERVICE, TIME_FOR_CLAIM, senderWallet, recipient, String(amountToWei), TERMS_URL_DEFAULT);
 
             const {
                 blockHash,
@@ -50,14 +29,17 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                 transactionHash,
                 events
             } = result;
-            const metaEvidenceObj = events.MetaEvidence.find(
-                item => item.address.toLowerCase() === contracts.yubiaiArbitrable.toLowerCase()) || {};
 
-            const transactionPayedAmount = events.PaymentDone.returnValues.amount;
-            const transactionFeeAmount = String(amountToWei - transactionPayedAmount);
-            const transactionDate = events.PaymentDone.returnValues.date;
+            const { dealId, deal } = events.DealCreated.returnValues;
 
-            const transactionIndex = (metaEvidenceObj.returnValues || {})._metaEvidenceID;
+            const transactionPayedAmount = deal.amount;
+            const parsedTransactionPayedAmountInETH = parseFloat(yubiaiPaymentArbitrableInstance.web3.utils.fromWei(
+                transactionPayedAmount), 10);
+            const finalCalculationForFee = parsedTransactionPayedAmountInETH - (
+                parsedTransactionPayedAmountInETH / 100 * (parseInt(deal.extraBurnFee, 10) / 100)
+            );
+
+            const transactionFeeAmount = yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(finalCalculationForFee));
 
             await createOrder({
                 blockHash,
@@ -67,10 +49,10 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                 from,
                 to,
                 transactionHash,
-                transactionIndex,
+                transactionIndex: dealId,
                 transactionPayedAmount,
                 transactionFeeAmount,
-                transactionDate,
+                transactionDate: Math.round((new Date()).getTime() / 100),
                 networkEnv: networkType || 'mainnet'
             })
         } catch (e) {
@@ -78,22 +60,6 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             toggleLoadingStatus(false);
         }
     };
-
-    useEffect(() => {
-        if (!paymentProcessorInstance && global.klerosEscrowInstance) {
-            const web3 = new Web3(
-                process.env.NEXT_PUBLIC_INFURA_ENDPOINT ||
-                new Web3.providers.HttpProvider('http://localhost:8545')
-            );
-            setPaymentProcessorInstance(
-                new PaymentProcessor(
-                    web3,
-                    global?.profile?.eth_address.toLowerCase(),
-                    global?.klerosEscrowInstance
-                )
-            )
-        }
-    }, [paymentProcessorInstance, global.klerosEscrowInstance])
   
     return (
        <>
