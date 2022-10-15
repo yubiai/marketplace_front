@@ -28,8 +28,8 @@ const parsePriceToETHAmount = (priceInUSD, ethData, web3Instance) => {
 }
 
 const parseFromAToBToken = (basePrice, tokenA, tokenB) => {
-    const priceA = tokenA.price;
-    const priceB = tokenB.price;
+    const priceA = tokenA?.price;
+    const priceB = tokenB?.price;
 
     const rateValue = (basePrice * priceA) / priceB;
     return rateValue
