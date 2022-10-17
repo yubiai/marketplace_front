@@ -9,8 +9,7 @@ import {
   PopoverContent,
   Container,
   Button,
-  Show,
-  useMediaQuery
+  Show
 } from '@chakra-ui/react'
 import UserMenu from '../Menus/UserMenu'
 import { useGlobal } from '../../providers/globalProvider'
@@ -24,8 +23,6 @@ const Navbar = () => {
     const linkHoverColor = 'white'
     const popoverContentBgColor = 'white'
 
-    const [isLargerThanmd] = useMediaQuery('(min-width: 768px)')
-
     return (
       <>
         <Stack direction={'row'} spacing={4}>
@@ -36,7 +33,7 @@ const Navbar = () => {
                   <Popover trigger={'hover'} placement={'bottom-start'}>
                     <PopoverTrigger>
                       <Button
-                        className={navItem.guide && isLargerThanmd ? navItem.guide : ''}
+                        className={navItem.guide}
                         p={2}
                         fontSize={'16px'}
                         bg="er"

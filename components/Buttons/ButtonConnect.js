@@ -14,7 +14,8 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Text
+  Text,
+  useMediaQuery
 } from '@chakra-ui/react'
 
 import { loginMetamask } from '../../utils/ethereum'
@@ -38,6 +39,7 @@ const ButtonConnect = () => {
 
   const { setIsOpen } = useTour();
   const authGlobalAndCookies = (profile, token) => {
+
 
     dispatch({
       type: 'AUTHPROFILE',
@@ -140,11 +142,13 @@ const ButtonConnect = () => {
     onClose();
   }
 
+  const [isLargerThanmd] = useMediaQuery('(min-width: 768px)')
+
   return (
     <>
       <Joyride
         steps={stepsJoyride}
-        run={!global.profile}
+        run={!global.profile && isLargerThanmd}
       />
       <Button
         className={'step-connect'}
