@@ -1,3 +1,9 @@
+import Cookies from 'js-cookie'
+import Joyride from 'react-joyride';
+import { useState, useRef } from 'react'
+import { useRouter } from 'next/router'
+import { useTour } from "@reactour/tour";
+
 import {
   Button, useToast,
   Modal,
@@ -10,14 +16,12 @@ import {
   useDisclosure,
   Text
 } from '@chakra-ui/react'
+
 import { loginMetamask } from '../../utils/ethereum'
 import { profileService } from '../../services/profileService'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
-import Cookies from 'js-cookie'
 import { termService } from '../../services/termService'
-import { useState, useRef } from 'react'
-import { useRouter } from 'next/router'
-import { useTour } from "@reactour/tour";
+import { stepsJoyride } from '../../utils/tourGuideUtils'
 
 const ButtonConnect = () => {
   const router = useRouter();
@@ -95,7 +99,7 @@ const ButtonConnect = () => {
       .then((res) => {
         if (res) {
           authGlobalAndCookies(profile, token)
-          if(profile?.permission === 1){
+          if (profile?.permission === 1) {
             setTimeout(() => {
               setIsOpen(true)
             }, 500);
@@ -138,7 +142,12 @@ const ButtonConnect = () => {
 
   return (
     <>
+      <Joyride
+        steps={stepsJoyride}
+        run={!global.profile}
+      />
       <Button
+        className={'step-connect'}
         backgroundColor={'white'}
         color={'#00abd1'}
         rounded={'full'}

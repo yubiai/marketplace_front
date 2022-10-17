@@ -27,14 +27,14 @@ const stepsTour = [
   }
 ]
 
-const stepsLogout = [
+const stepsJoyride = [
   {
-    selector: '.step-connect',
-    content: 'Connect and let the game begin',
-  },
+    target: '.step-connect',
+    content: 'Connect with your wallet and start earning crypto or hiring with your cryptos',
+  }
 ]
 
 export {
   stepsTour,
-  stepsLogout
+  stepsJoyride
 }
