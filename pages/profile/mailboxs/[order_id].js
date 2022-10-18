@@ -243,6 +243,7 @@ const MailBoxs = () => {
               </Flex>
             </Flex>
           </Flex>
+          <Text fontStyle={"italic"} color="red" mt="1em" >Please be careful of the sensitive information you share. Yubiai is not responsible for the information shared to third parties.</Text>
         </Box>
         <Box w={{ base: 'full', lg: '30%' }} p="1em">
 

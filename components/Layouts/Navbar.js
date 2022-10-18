@@ -36,7 +36,7 @@ const Navbar = () => {
                         className={navItem.guide}
                         p={2}
                         fontSize={'16px'}
-                        bg="er"
+                        bg="transparent"
                         fontWeight={500}
                         color={linkColor}
                         _hover={{

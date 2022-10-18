@@ -246,7 +246,9 @@ const ItemById = ({ item }) => {
             <Text fontSize="20px" fontWeight="600">
               {item.title}
             </Text>
-            <InfoUserModal user={item.seller} />
+            {global.profile && (
+              <InfoUserModal user={item.seller} />
+            )}            
             <Box
               display={'flex'}
               flexDirection={'row'}

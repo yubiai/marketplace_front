@@ -17,7 +17,7 @@ const translateStatusIdToNamingInTransaction = (statusId = 0) => {
 }
 
 const getProtocolNamingFromNetwork = (network) => {
-    const capitalNameNetwork = network.charAt(0).toUpperCase() + network.slice(1);
+    const capitalNameNetwork = network?.charAt(0).toUpperCase() + network?.slice(1);
     return network !== 'Main' ? `${capitalNameNetwork} ERC20` : 'ERC20';
 }
 

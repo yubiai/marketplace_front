@@ -58,7 +58,7 @@ const ButtonConnect = () => {
       description: 'Now you are able to start buying & selling on Yubiai.',
       position: 'top-right',
       status: 'success',
-      duration: 4000,
+      duration: 2000,
       isClosable: true
     })
     return
@@ -100,12 +100,7 @@ const ButtonConnect = () => {
     await verifyTerms
       .then((res) => {
         if (res) {
-          authGlobalAndCookies(profile, token)
-          if (profile?.permission === 1) {
-            setTimeout(() => {
-              setIsOpen(true)
-            }, 500);
-          }
+          authGlobalAndCookies(profile, token);
           return
         } else {
           setProfileData(profile)
@@ -119,6 +114,16 @@ const ButtonConnect = () => {
         console.error(err);
         return
       })
+
+    // JoyTour Initial
+    if (profile?.permission === 1) {
+      setTimeout(() => {
+        setIsOpen(true)
+        return
+      }, 500);
+    }
+
+    return
   }
 
   // Overlay Modal
