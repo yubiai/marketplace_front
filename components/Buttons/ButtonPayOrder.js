@@ -1,16 +1,18 @@
+import React from 'react';
 import { Button } from '@chakra-ui/react';
 import { useGlobal } from '../../providers/globalProvider';
 import { orderService } from '../../services/orderService';
 
-const ButtonPayOrder = ({ transactionIndex, amount, transactionHash, stepsPostAction, toggleLoadingStatus }) => {
+const ButtonPayOrder = ({ transactionIndex, transactionHash, stepsPostAction, toggleLoadingStatus, yubiaiPaymentArbitrableInstance }) => {
     const global = useGlobal()
+
     const payOrder = async () => {
         try {
             toggleLoadingStatus(true)
-            const parsedTransactionIndex = global.klerosEscrowInstance.web3.utils.toNumber(
+            const parsedTransactionIndex = yubiaiPaymentArbitrableInstance.web3.utils.toNumber(
                 transactionIndex);
 
-            const result = await global.klerosEscrowInstance.pay(parsedTransactionIndex, amount)
+            const result = await yubiaiPaymentArbitrableInstance.payDeal(parsedTransactionIndex)
             if (result) {
                 await orderService.updateOrderStatus(
                     transactionHash, 'ORDER_PAID', global?.profile?.token);

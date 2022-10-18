@@ -19,7 +19,6 @@ export default class YubiaiPaymentArbitrable {
       this.contract = new this.web3.eth.Contract(
           yubiaiArbitrable, this.contractAddress, { from: this.account },
       );
-      window.contract = this.contract;
     }
 
     async getAccount() {
@@ -71,33 +70,34 @@ export default class YubiaiPaymentArbitrable {
      * 1st user case: Create deal
      */
     async createDeal(token, extraBurnFee, timeForService, timeForClaim, buyer, seller, amount, termsUrl) {
-        if (token) {
-            const tokenContract = new this.web3.eth.Contract(erc20, token, { from: buyer });
-            await tokenContract.methods.approve(this.contractAddress, amount).send();
-        }
+      if (token) {
+        const tokenContract = new this.web3.eth.Contract(erc20, token, { from: buyer });
+        await tokenContract.methods.approve(this.contractAddress, amount).send();
+      }
 
-        return await this.contract.methods.createDeal([
-          amount,
-          buyer,
-          0,
-          extraBurnFee * 100,
-          0,
-          0,
-          seller,
-          Math.floor((new Date()).getTime() / 1000),
-          timeForService,
-          timeForClaim,
-          token,
-          0,
-          0
-        ], termsUrl).send();
+      return await this.contract.methods.createDeal([
+        amount,
+        buyer,
+        0,
+        extraBurnFee * 100,
+        0,
+        0,
+        seller,
+        Math.floor((new Date()).getTime() / 1000),
+        timeForService,
+        timeForClaim,
+        token,
+        0,
+        0
+      ], termsUrl).send();
     }
 
     /**
      * 2nd user case: Accept deal and pay
      */
     async payDeal(dealId) {
-        return await this.contract.methods.closeDeal(dealId).call();
+      const currentAccount = await this.getAccount();
+      return await this.contract.methods.closeDeal(dealId).send({ from: currentAccount });
     }
 
     /**

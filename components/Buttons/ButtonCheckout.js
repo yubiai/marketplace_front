@@ -40,21 +40,36 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             );
 
             const transactionFeeAmount = yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(finalCalculationForFee));
+            const {
+                claimCount,
+                createdAt,
+                currentClaim,
+                state,
+                timeForService,
+                timeForClaim
+            } = deal;
 
             await createOrder({
-                blockHash,
-                blockNumber,
-                cumulativeGasUsed,
-                effectiveGasPrice,
                 from,
                 to,
-                transactionHash,
+                transactionMeta: {
+                    transactionHash,
+                    blockHash,
+                    blockNumber,
+                    cumulativeGasUsed,
+                    effectiveGasPrice,
+                },
+                transactionState: parseInt(state, 10),
+                claimCount: parseInt(claimCount, 10),
+                timeForService: parseInt(timeForService, 10),
+                timeForClaim: parseInt(timeForClaim, 10),
+                currentClaim: parseInt(currentClaim, 10),
                 transactionIndex: dealId,
                 transactionPayedAmount,
                 transactionFeeAmount,
-                transactionDate: Math.round((new Date()).getTime() / 100),
+                transactionDate: createdAt,
                 networkEnv: networkType || 'mainnet'
-            })
+            });
         } catch (e) {
             console.log('Error creating an Escrow contract: ', e);
             toggleLoadingStatus(false);

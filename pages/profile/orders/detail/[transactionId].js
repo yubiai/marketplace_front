@@ -1,24 +1,22 @@
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import Head from 'next/head'
-import { orderService } from '../../../../services/orderService'
+import Web3 from 'web3';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Head from 'next/head';
+import { orderService } from '../../../../services/orderService';
 import {
   useGlobal,
   useDispatchGlobal,
-} from '../../../../providers/globalProvider'
-import { getCurrentWallet } from '../../../../utils/walletUtils'
-import { translateStatusIdToNamingInTransaction } from '../../../../utils/orderUtils'
+} from '../../../../providers/globalProvider';
+import YubiaiPaymentArbitrable from '../../../../utils/escrow-utils/yubiaiPaymentArbitrable';
 import {
   loadCurrencyPrices,
   loadOrderData,
-  setKlerosInstance,
-  setArbitratorInstance,
-} from '../../../../providers/orderProvider'
-import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder'
-import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'
-import Link from 'next/link'
-import Loading from '../../../../components/Spinners/Loading'
-import moment from 'moment'
+} from '../../../../providers/orderProvider';
+import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder';
+import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute';
+import Link from 'next/link';
+import Loading from '../../../../components/Spinners/Loading';
+import moment from 'moment';
 
 import {
   Container,
@@ -33,13 +31,11 @@ import {
   Grid,
   SimpleGrid,
   Flex,
-} from '@chakra-ui/react'
-import useUser from '../../../../hooks/data/useUser'
-import StatusOrder from '../../../../components/Infos/StatusOrder'
-import EvidencesList from '../../../../components/Infos/EvidencesList'
-import { evidenceService } from '../../../../services/evidenceService'
-
-const minimumArbitrationFeeUSD = 90
+} from '@chakra-ui/react';
+import useUser from '../../../../hooks/data/useUser';
+import StatusOrder from '../../../../components/Infos/StatusOrder';
+import EvidencesList from '../../../../components/Infos/EvidencesList';
+import { evidenceService } from '../../../../services/evidenceService';
 
 const OrderDetail = () => {
   const router = useRouter()
@@ -48,10 +44,12 @@ const OrderDetail = () => {
   const { transactionId } = router.query
   const [orderDetail, setOrderDetail] = useState(null)
   const [transactionData, setTransactionData] = useState({})
+  const [transactionMeta, setTransactionMeta] = useState(null)
   const [transactionPayedAmount, setTransactionPayedAmount] = useState('')
   const [transactionFeeAmount, setTransactionFeeAmount] = useState('')
   const [transactionDate, setTransactionDate] = useState('')
   const [operationInProgress, setOperationInProgress] = useState(false)
+  const [yubiaiPaymentArbitrableInstance, setYubiaiPaymentArbitrableInstance] = useState(null)
 
   const [evidences, setEvidences] = useState(null);
 
@@ -81,6 +79,7 @@ const OrderDetail = () => {
     setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount)
     setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount)
     setTransactionDate(orderInfo.transaction.transactionDate)
+    setTransactionMeta(orderInfo.transaction.transactionMeta)
     loadEvidences(orderInfo)
   }
 
@@ -100,10 +99,10 @@ const OrderDetail = () => {
     router.push(`/profile/mailboxs/${_id}`)
   }
 
-  const getTransactionLink = (transaction = {}, shortLink = false) => {
+  const getTransactionLink = (transaction = {}, transactionMeta = {}, shortLink = false) => {
     const transactionHash = shortLink ?
-      "0x..." + transaction.transactionHash.slice(transaction.transactionHash.length - 16) :
-      transaction.transactionHash;
+      "0x..." + transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16) :
+      transactionMeta.transactionHash;
 
     return transaction.networkEnv !== 'main'
       ? `https://${transaction.networkEnv}.etherscan.io/tx/${transactionHash}`
@@ -115,55 +114,38 @@ const OrderDetail = () => {
       return
     }
 
-    if (!global.currencyPriceList.length && (global.profile || {}).token) {
-      loadCurrencyPrices(dispatch, global)
-      return
+    const loadCurrencies = async () => {
+      const networkType = await yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
+      loadCurrencyPrices(dispatch, global, networkType);
+    }
+
+    const setContractInstance = async () => {
+      const web3 = new Web3(
+        process.env.NEXT_PUBLIC_INFURA_ENDPOINT ||
+        new Web3.providers.HttpProvider('http://localhost:8545')
+      );
+      const yubiaiArbitrableInstance = new YubiaiPaymentArbitrable(
+        web3, global?.profile?.eth_address.toLowerCase());
+      await yubiaiArbitrableInstance.initContract();
+      setYubiaiPaymentArbitrableInstance(yubiaiArbitrableInstance);
+    }
+
+    if (!yubiaiPaymentArbitrableInstance) {
+      setContractInstance();
+      return;
+    }
+
+    if (!global.currencyPriceList.length && (global.profile || {}).token && (yubiaiPaymentArbitrableInstance || {}).web3) {
+      loadCurrencies();
+      return;
     }
 
     if (!(transactionData || {}).extraData && (global.profile || {}).token) {
-      loadOrder()
-    } else if ((transactionData || {}).extraData) {
-      if (!global.klerosEscrowInstance) {
-        setKlerosInstance({ ...transactionData }, dispatch)
-      }
-      return
+      loadOrder();
     }
-  }, [global.profile, transactionId, transactionData, global.currencyPriceList])
+  }, [global.profile, transactionId, transactionData, global.currencyPriceList, yubiaiPaymentArbitrableInstance])
 
-
-  useEffect(() => {
-    const checkAndUpdateDisputeStatus = async () => {
-      const disputeId = (orderDetail && orderDetail.transaction || {}).disputeId
-      if (disputeId) {
-        const disputeStatus = await global.arbitratorInstance.disputeStatus(
-          disputeId
-        )
-        const disputeStatusParsed =
-          translateStatusIdToNamingInTransaction(disputeStatus)
-
-        if (orderDetail.status !== disputeStatusParsed) {
-          const transactionId = (orderDetail.transaction || {}).transactionHash
-          await orderService.updateOrderStatus(
-            transactionId,
-            disputeStatusParsed,
-            global?.profile?.token
-          )
-        }
-      }
-    }
-
-    if (!global.arbitratorInstance) {
-      const wallet = getCurrentWallet(true);
-      if (wallet) {
-        setArbitratorInstance(wallet, dispatch)
-      }
-      return
-    } else {
-      checkAndUpdateDisputeStatus()
-    }
-  }, [global.arbitratorInstance, orderDetail])
-
-  if (!orderDetail) return <Loading />
+  if (!orderDetail) return <Loading />;
 
   return (
     <>
@@ -249,35 +231,33 @@ const OrderDetail = () => {
             <Text fontWeight={600} fontSize="2xl">Transaction details</Text>
 
             <Box p="1em" color="black" bg="orange.100" mt="1em">
-              <Flex><Text fontWeight={600}>ID: </Text> <Text>0x...{orderDetail && orderDetail.transaction.transactionHash.slice(orderDetail.transaction.transactionHash.length - 16)}</Text></Flex>
+              <Flex><Text fontWeight={600}>ID: </Text> <Text>0x...{transactionMeta && transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16)}</Text></Flex>
               <Text fontWeight={600}>Status: {orderDetail.status.replace("_", " ")}</Text>
               {
                 transactionDate &&
                 <Text fontWeight={600}>Date: {moment(transactionDate).format('MM/DD/YYYY, h:mm:ss a')}</Text>
               }
               {
-                (transactionPayedAmount && global.klerosEscrowInstance) &&
+                (transactionPayedAmount && yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
                   Value: {
-                    `${global.klerosEscrowInstance.web3.utils.fromWei(transactionPayedAmount)}${orderDetail.item.currencySymbolPrice || 'ETH'}`
+                    `${yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)}${orderDetail.item.currencySymbolPrice || 'ETH'}`
                   }
                 </Text>
               }
               {
-                (transactionFeeAmount && global.klerosEscrowInstance) &&
+                (transactionFeeAmount && yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
-                  Fee: {`${global.klerosEscrowInstance.web3.utils.fromWei(transactionFeeAmount)}ETH`}
+                  Fee: {`${yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount)}`}
                 </Text>
               }
               <Link
-                href={getTransactionLink(
-                  (orderDetail.transaction || {})
-                )}
+                href={getTransactionLink((orderDetail.transaction || {}), transactionMeta)}
                 passHref
               >
                 <a target="_blank" rel="noopener noreferrer">
                   <Text color="#00abd1" cursor="pointer" wordBreak={'break-all'}>
-                    {getTransactionLink(orderDetail.transaction || {}, true)}
+                    {getTransactionLink((orderDetail.transaction || {}), transactionMeta, true)}
                   </Text>
                 </a>
               </Link>
@@ -381,12 +361,11 @@ const OrderDetail = () => {
                                   transactionIndex={
                                     (orderDetail.transaction || {}).transactionIndex
                                   }
-                                  transactionHash={
-                                    (orderDetail.transaction || {}).transactionHash
-                                  }
+                                  transactionHash={transactionMeta.transactionHash}
                                   amount={transactionPayedAmount || '0'}
                                   stepsPostAction={loadOrder}
                                   toggleLoadingStatus={toggleLoadingStatus}
+                                  yubiaiPaymentArbitrableInstance={yubiaiPaymentArbitrableInstance}
                                 />
                               </Box>
                             </>
@@ -402,12 +381,10 @@ const OrderDetail = () => {
                               transactionIndex={
                                 (orderDetail.transaction || {}).transactionIndex
                               }
-                              transactionHash={
-                                (orderDetail.transaction || {}).transactionHash
-                              }
-                              amount={minimumArbitrationFeeUSD}
+                              transactionHash={transactionMeta.transactionHash}
                               stepsPostAction={loadOrder}
                               toggleLoadingStatus={toggleLoadingStatus}
+                              yubiaiPaymentArbitrableInstance={yubiaiPaymentArbitrableInstance}
                             />
                           </Box>
                         </Box>
