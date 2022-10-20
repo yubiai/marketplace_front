@@ -171,7 +171,7 @@ const MailBoxs = () => {
         maxW="5xl"
         display={'flex'}
         flexDirection={{ base: 'column', md: 'column', lg: 'row' }}
-        h={{ base: 'full', md: '90vh' }}
+        h={{ base: 'full', md: 'full' }}
       >
         <Box w={{ base: 'full', lg: '70%' }}>
           <Breadcrumb spacing='8px' mt='1em' separator={<ChevronRightIcon color='gray.500' />}>
@@ -193,7 +193,7 @@ const MailBoxs = () => {
               <Text>Mailbox the order # {channel.order_id._id}</Text>
             </BreadcrumbItem>
           </Breadcrumb>
-          <Flex w="100%" h="600px" justify="center" align="center" bg="white" mt="1em">
+          <Flex w="100%" h="700px" justify="center" align="center" bg="white" mt="1em">
             <Flex w="80%" h="90%" flexDir="column">
               {global && global.profile && (
                 <HeaderChat
