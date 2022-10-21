@@ -118,6 +118,21 @@ async function addTerms(profile, term, token) {
     : null)
 }
 
+/**
+ * Add Tour Accepted in the Profile
+ * @param {str} profile
+ */
+ async function tourAccepted(profile, token) {
+  return await axios.put(`/profiles/touraccepted/${profile}`, null, token
+    ? {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    : null)
+}
+
+
 export const profileService = {
   login,
   getProfileFromId,
@@ -126,5 +141,6 @@ export const profileService = {
   getFavourites,
   addFavorite,
   removeFavorite,
-  addTerms
+  addTerms,
+  tourAccepted
 }

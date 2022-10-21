@@ -9,6 +9,7 @@ import {
   PopoverContent,
   Container,
   Button,
+  Show
 } from '@chakra-ui/react'
 import UserMenu from '../Menus/UserMenu'
 import { useGlobal } from '../../providers/globalProvider'
@@ -32,9 +33,10 @@ const Navbar = () => {
                   <Popover trigger={'hover'} placement={'bottom-start'}>
                     <PopoverTrigger>
                       <Button
+                        className={navItem.guide}
                         p={2}
                         fontSize={'16px'}
-                        bg="er"
+                        bg="transparent"
                         fontWeight={500}
                         color={linkColor}
                         _hover={{
@@ -99,6 +101,7 @@ const Navbar = () => {
     {
       label: 'Categories',
       href: '/category/services',
+      guide: 'step-category',
       children: [
         {
           label: 'Services',
@@ -109,28 +112,31 @@ const Navbar = () => {
     {
       label: global && global.profile ? 'Sell' : null,
       href: '/listing/new',
+      guide: 'step-sell'
     },
     {
       label: global && global.profile ? 'Favourites' : null,
       href: '/profile/favourites',
+      guide: 'step-favourites'
     },
     {
       label: 'Help',
       href: '/help',
+      guide: 'step-help'
     },
   ]
 
   return (
+    <Show above='md'>
     <Box
       bg={'yb.1'}
       px={4}
       boxShadow={'0px 5px 4px 0px #00000029'}
-      display={{ base: 'none', md: 'flex' }}
     >
       <Container maxW="container.xl">
         <Flex color={'black'} minH={'60px'} align={'center'}>
           <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'center' }}>
-            <Flex display={{ base: 'none', md: 'flex' }}>
+            <Flex>
               <DesktopNav />
             </Flex>
           </Flex>
@@ -147,6 +153,7 @@ const Navbar = () => {
         </Flex>
       </Container>
     </Box>
+    </Show>
   )
 }
 

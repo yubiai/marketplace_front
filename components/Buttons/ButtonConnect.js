@@ -1,3 +1,9 @@
+import Cookies from 'js-cookie'
+import Joyride from 'react-joyride';
+import { useState, useRef } from 'react'
+import { useRouter } from 'next/router'
+import { useTour } from "@reactour/tour";
+
 import {
   Button, useToast,
   Modal,
@@ -8,15 +14,15 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Text
+  Text,
+  useMediaQuery
 } from '@chakra-ui/react'
+
 import { loginMetamask } from '../../utils/ethereum'
 import { profileService } from '../../services/profileService'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
-import Cookies from 'js-cookie'
 import { termService } from '../../services/termService'
-import { useState, useRef } from 'react'
-import { useRouter } from 'next/router'
+import { stepsJoyride } from '../../utils/tourGuideUtils'
 
 const ButtonConnect = () => {
   const router = useRouter();
@@ -31,7 +37,9 @@ const ButtonConnect = () => {
   const [profileData, setProfileData] = useState(null);
   const [tokenData, setTokenData] = useState(null);
 
+  const { setIsOpen } = useTour();
   const authGlobalAndCookies = (profile, token) => {
+
 
     dispatch({
       type: 'AUTHPROFILE',
@@ -50,7 +58,7 @@ const ButtonConnect = () => {
       description: 'Now you are able to start buying & selling on Yubiai.',
       position: 'top-right',
       status: 'success',
-      duration: 4000,
+      duration: 2000,
       isClosable: true
     })
     return
@@ -92,7 +100,14 @@ const ButtonConnect = () => {
     await verifyTerms
       .then((res) => {
         if (res) {
-          authGlobalAndCookies(profile, token)
+          authGlobalAndCookies(profile, token);
+          // JoyTour Initial
+          if (profile?.permission === 1) {
+            setTimeout(() => {
+              setIsOpen(true)
+              return
+            }, 500);
+          }
           return
         } else {
           setProfileData(profile)
@@ -106,6 +121,8 @@ const ButtonConnect = () => {
         console.error(err);
         return
       })
+
+    return
   }
 
   // Overlay Modal
@@ -118,9 +135,21 @@ const ButtonConnect = () => {
 
   // Confirm
   const confirmTerms = async () => {
-    await profileService.addTerms(profileData._id, term, tokenData)
-    authGlobalAndCookies(profileData, tokenData);
-    onClose();
+    try{
+      await profileService.addTerms(profileData._id, term, tokenData)
+      authGlobalAndCookies(profileData, tokenData);
+      onClose();
+      // JoyTour Initial
+      if (profileData.permission === 1) {
+        setTimeout(() => {
+          setIsOpen(true)
+          return
+        }, 500);
+      }
+    } catch(err){
+      console.log(err);
+      return
+    }
   }
 
   // Reject
@@ -129,9 +158,16 @@ const ButtonConnect = () => {
     onClose();
   }
 
+  const [isLargerThanmd] = useMediaQuery('(min-width: 768px)')
+
   return (
     <>
+      <Joyride
+        steps={stepsJoyride}
+        run={!global.profile && isLargerThanmd}
+      />
       <Button
+        className={'step-connect'}
         backgroundColor={'white'}
         color={'#00abd1'}
         rounded={'full'}
