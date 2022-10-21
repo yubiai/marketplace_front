@@ -101,6 +101,13 @@ const ButtonConnect = () => {
       .then((res) => {
         if (res) {
           authGlobalAndCookies(profile, token);
+          // JoyTour Initial
+          if (profile?.permission === 1) {
+            setTimeout(() => {
+              setIsOpen(true)
+              return
+            }, 500);
+          }
           return
         } else {
           setProfileData(profile)
@@ -115,14 +122,6 @@ const ButtonConnect = () => {
         return
       })
 
-    // JoyTour Initial
-    if (profile?.permission === 1) {
-      setTimeout(() => {
-        setIsOpen(true)
-        return
-      }, 500);
-    }
-
     return
   }
 
@@ -136,9 +135,21 @@ const ButtonConnect = () => {
 
   // Confirm
   const confirmTerms = async () => {
-    await profileService.addTerms(profileData._id, term, tokenData)
-    authGlobalAndCookies(profileData, tokenData);
-    onClose();
+    try{
+      await profileService.addTerms(profileData._id, term, tokenData)
+      authGlobalAndCookies(profileData, tokenData);
+      onClose();
+      // JoyTour Initial
+      if (profileData.permission === 1) {
+        setTimeout(() => {
+          setIsOpen(true)
+          return
+        }, 500);
+      }
+    } catch(err){
+      console.log(err);
+      return
+    }
   }
 
   // Reject

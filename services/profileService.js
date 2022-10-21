@@ -141,5 +141,6 @@ export const profileService = {
   getFavourites,
   addFavorite,
   removeFavorite,
+  addTerms,
   tourAccepted
 }
