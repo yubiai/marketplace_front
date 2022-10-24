@@ -14,7 +14,6 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Text,
   useMediaQuery
 } from '@chakra-ui/react'
 
