@@ -23,6 +23,7 @@ import { profileService } from '../../services/profileService'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { termService } from '../../services/termService'
 import { stepsJoyride } from '../../utils/tourGuideUtils'
+import RichTextReadOnly from '../Utils/richTextReadOnly';
 
 const ButtonConnect = () => {
   const router = useRouter();
@@ -135,7 +136,7 @@ const ButtonConnect = () => {
 
   // Confirm
   const confirmTerms = async () => {
-    try{
+    try {
       await profileService.addTerms(profileData._id, term, tokenData)
       authGlobalAndCookies(profileData, tokenData);
       onClose();
@@ -146,7 +147,7 @@ const ButtonConnect = () => {
           return
         }, 500);
       }
-    } catch(err){
+    } catch (err) {
       console.log(err);
       return
     }
@@ -178,17 +179,17 @@ const ButtonConnect = () => {
       >
         {global.profile && global.profile.eth_address ? global.profile.eth_address.slice(global.profile.eth_address.length - 8) : 'Connect'}
       </Button>
-      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'inside'} size={"xl"}>
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'inside'} size={"6xl"}>
         <OverlayOne />
         <ModalContent bg="white" color="black">
           <ModalHeader>Terms and Conditions</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <Text>{term && term.text}</Text>
+            <RichTextReadOnly text={term && term.text} />
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={() => rejectTerms()}>Reject</Button>
+            <Button onClick={() => rejectTerms()} mr="1em">Reject</Button>
 
             <Button colorScheme='blue' mr={3} onClick={() => confirmTerms()}>
               Accept
