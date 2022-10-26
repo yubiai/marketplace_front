@@ -158,7 +158,7 @@ const Checkout = () => {
     )
 
     toggleLoadingStatus(false)
-    router.push(`/profile/orders/detail/${transactionResult.transactionHash}`)
+    router.push(`/profile/orders/detail/${transactionResult.transactionMeta.transactionHash}`)
   }
 
   const toggleLoadingStatus = (status) => {

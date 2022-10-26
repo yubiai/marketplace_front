@@ -3,6 +3,8 @@ import { createWeb3, createWeb3FromModal } from './web3-provider';
 import { erc20, yubiaiArbitrable } from './abis';
 import { getContractsForNetwork } from '../walletUtils';
 
+const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
+
 export default class YubiaiPaymentArbitrable {
     constructor(web3Obj, account) {
       this.web3Obj = web3Obj;
@@ -73,9 +75,25 @@ export default class YubiaiPaymentArbitrable {
       if (token) {
         const tokenContract = new this.web3.eth.Contract(erc20, token, { from: buyer });
         await tokenContract.methods.approve(this.contractAddress, amount).send();
+
+        return await this.contract.methods.createDeal([
+          amount,
+          buyer,
+          0,
+          extraBurnFee * 100,
+          0,
+          0,
+          seller,
+          Math.floor((new Date()).getTime() / 1000),
+          timeForService,
+          timeForClaim,
+          token,
+          0,
+          0
+        ], termsUrl).send();
       }
 
-      return await this.contract.methods.createDeal([
+      return await this.contract.methods.createDealWithValue([
         amount,
         buyer,
         0,
@@ -86,10 +104,10 @@ export default class YubiaiPaymentArbitrable {
         Math.floor((new Date()).getTime() / 1000),
         timeForService,
         timeForClaim,
-        token,
+        token || NULL_ADDRESS,
         0,
         0
-      ], termsUrl).send();
+      ], termsUrl).send({ value: amount });
     }
 
     /**
