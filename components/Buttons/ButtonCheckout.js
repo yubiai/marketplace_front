@@ -15,7 +15,7 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             const amountToWei = yubiaiPaymentArbitrableInstance.web3.utils.toWei(amount.value.toString());
             const senderWallet = await yubiaiPaymentArbitrableInstance.getAccount();
             const networkType = await yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType() || 'main';
-            const token = global.currencyPriceList.find(price => price.symbol === currency);
+            const token = currency !== 'ETH' ? global.currencyPriceList.find(price => price.symbol === currency) : { tpken_address: null };
             const result = await yubiaiPaymentArbitrableInstance.createDeal(
                 token.token_address, burnFee, TIME_FOR_SERVICE, TIME_FOR_CLAIM, senderWallet, recipient, String(amountToWei), TERMS_URL_DEFAULT);
 
@@ -40,21 +40,36 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             );
 
             const transactionFeeAmount = yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(finalCalculationForFee));
+            const {
+                claimCount,
+                createdAt,
+                currentClaim,
+                state,
+                timeForService,
+                timeForClaim
+            } = deal;
 
             await createOrder({
-                blockHash,
-                blockNumber,
-                cumulativeGasUsed,
-                effectiveGasPrice,
                 from,
                 to,
-                transactionHash,
+                transactionMeta: {
+                    transactionHash,
+                    blockHash,
+                    blockNumber,
+                    cumulativeGasUsed,
+                    effectiveGasPrice,
+                },
+                transactionState: parseInt(state, 10),
+                claimCount: parseInt(claimCount, 10),
+                timeForService: parseInt(timeForService, 10),
+                timeForClaim: parseInt(timeForClaim, 10),
+                currentClaim: parseInt(currentClaim, 10),
                 transactionIndex: dealId,
                 transactionPayedAmount,
                 transactionFeeAmount,
-                transactionDate: Math.round((new Date()).getTime() / 100),
+                transactionDate: createdAt,
                 networkEnv: networkType || 'mainnet'
-            })
+            });
         } catch (e) {
             console.log('Error creating an Escrow contract: ', e);
             toggleLoadingStatus(false);

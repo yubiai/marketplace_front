@@ -3,6 +3,8 @@ import { createWeb3, createWeb3FromModal } from './web3-provider';
 import { erc20, yubiaiArbitrable } from './abis';
 import { getContractsForNetwork } from '../walletUtils';
 
+const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
+
 export default class YubiaiPaymentArbitrable {
     constructor(web3Obj, account) {
       this.web3Obj = web3Obj;
@@ -19,7 +21,6 @@ export default class YubiaiPaymentArbitrable {
       this.contract = new this.web3.eth.Contract(
           yubiaiArbitrable, this.contractAddress, { from: this.account },
       );
-      window.contract = this.contract;
     }
 
     async getAccount() {
@@ -71,10 +72,9 @@ export default class YubiaiPaymentArbitrable {
      * 1st user case: Create deal
      */
     async createDeal(token, extraBurnFee, timeForService, timeForClaim, buyer, seller, amount, termsUrl) {
-        if (token) {
-            const tokenContract = new this.web3.eth.Contract(erc20, token, { from: buyer });
-            await tokenContract.methods.approve(this.contractAddress, amount).send();
-        }
+      if (token) {
+        const tokenContract = new this.web3.eth.Contract(erc20, token, { from: buyer });
+        await tokenContract.methods.approve(this.contractAddress, amount).send();
 
         return await this.contract.methods.createDeal([
           amount,
@@ -91,13 +91,31 @@ export default class YubiaiPaymentArbitrable {
           0,
           0
         ], termsUrl).send();
+      }
+
+      return await this.contract.methods.createDealWithValue([
+        amount,
+        buyer,
+        0,
+        extraBurnFee * 100,
+        0,
+        0,
+        seller,
+        Math.floor((new Date()).getTime() / 1000),
+        timeForService,
+        timeForClaim,
+        token || NULL_ADDRESS,
+        0,
+        0
+      ], termsUrl).send({ value: amount });
     }
 
     /**
      * 2nd user case: Accept deal and pay
      */
     async payDeal(dealId) {
-        return await this.contract.methods.closeDeal(dealId).call();
+      const currentAccount = await this.getAccount();
+      return await this.contract.methods.closeDeal(dealId).send({ from: currentAccount });
     }
 
     /**

@@ -1,22 +1,20 @@
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { orderService } from '../../../../services/orderService'
+import Web3 from 'web3';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { orderService } from '../../../../services/orderService';
 import {
   useGlobal,
   useDispatchGlobal,
-} from '../../../../providers/globalProvider'
-import { getCurrentWallet } from '../../../../utils/walletUtils'
-import { translateStatusIdToNamingInTransaction } from '../../../../utils/orderUtils'
+} from '../../../../providers/globalProvider';
+import YubiaiPaymentArbitrable from '../../../../utils/escrow-utils/yubiaiPaymentArbitrable';
 import {
   loadCurrencyPrices,
   loadOrderData,
-  setKlerosInstance,
-  setArbitratorInstance,
-} from '../../../../providers/orderProvider'
-import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute'
-import Loading from '../../../../components/Spinners/Loading'
-import Head from 'next/head'
-import moment from 'moment'
+} from '../../../../providers/orderProvider';
+import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute';
+import Loading from '../../../../components/Spinners/Loading';
+import Head from 'next/head';
+import moment from 'moment';
 
 import {
   Box,
@@ -30,29 +28,28 @@ import {
   Divider,
   Grid,
   Stack
-} from '@chakra-ui/react'
-import useUser from '../../../../hooks/data/useUser'
-import Link from 'next/link'
-import { profileService } from '../../../../services/profileService'
-import StatusOrder from '../../../../components/Infos/StatusOrder'
-import EvidencesList from '../../../../components/Infos/EvidencesList'
-import { evidenceService } from '../../../../services/evidenceService'
-
-const minimumArbitrationFeeUSD = 90
+} from '@chakra-ui/react';
+import useUser from '../../../../hooks/data/useUser';
+import Link from 'next/link';
+import { profileService } from '../../../../services/profileService';
+import StatusOrder from '../../../../components/Infos/StatusOrder';
+import EvidencesList from '../../../../components/Infos/EvidencesList';
+import { evidenceService } from '../../../../services/evidenceService';
 
 const OrderDetail = () => {
-  const router = useRouter()
-  const global = useGlobal()
-  const dispatch = useDispatchGlobal()
-  const { transactionId } = router.query
-  const [orderDetail, setOrderDetail] = useState(null)
-  const [buyerInfo, setBuyerInfo] = useState(null)
-  const [transactionData, setTransactionData] = useState({})
-  const [transactionPayedAmount, setTransactionPayedAmount] = useState('')
-  const [transactionFeeAmount, setTransactionFeeAmount] = useState('')
-  const [transactionDate, setTransactionDate] = useState('')
-  const [operationInProgress, setOperationInProgress] = useState(false)
-  //const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet'
+  const router = useRouter();
+  const global = useGlobal();
+  const dispatch = useDispatchGlobal();
+  const { transactionId } = router.query;
+  const [orderDetail, setOrderDetail] = useState(null);
+  const [buyerInfo, setBuyerInfo] = useState(null);
+  const [transactionData, setTransactionData] = useState({});
+  const [transactionMeta, setTransactionMeta] = useState(null);
+  const [transactionPayedAmount, setTransactionPayedAmount] = useState('');
+  const [transactionFeeAmount, setTransactionFeeAmount] = useState('');
+  const [transactionDate, setTransactionDate] = useState('');
+  const [operationInProgress, setOperationInProgress] = useState(false);
+  const [yubiaiPaymentArbitrableInstance, setYubiaiPaymentArbitrableInstance] = useState(null);
 
   const [evidences, setEvidences] = useState(null);
 
@@ -78,10 +75,10 @@ const OrderDetail = () => {
     router.push(`/profile/mailboxs/${_id}`)
   }
 
-  const getTransactionLink = (transaction = {}, shortLink = false) => {
+  const getTransactionLink = (transaction = {}, transactionMeta = {}, shortLink = false) => {
     const transactionHash = shortLink ?
-      "0x..." + transaction.transactionHash.slice(transaction.transactionHash.length - 16) :
-      transaction.transactionHash;
+      "0x..." + transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16) :
+      transactionMeta.transactionHash;
 
     return transaction.networkEnv !== 'main'
       ? `https://${transaction.networkEnv}.etherscan.io/tx/${transactionHash}`
@@ -89,105 +86,91 @@ const OrderDetail = () => {
   }
 
   const loadEvidences = async (orderInfo) => {
-    const response = await evidenceService.getEvidenceByOrderID(orderInfo._id,
+    const response = await evidenceService.getEvidenceByOrderID(
+      orderInfo._id,
       global.profile.token
-    )
-    setEvidences(response.data)
+    );
+    setEvidences(response.data);
   }
 
   const loadOrder = async () => {
     const response = await orderService.getOrderByTransaction(
-      transactionId, global.profile.token)
-    const { data } = response
-    const orderInfo = data.result
+      transactionId, global.profile.token);
+    const { data } = response;
+    const orderInfo = data.result;
 
-    const wallet = (global.profile || {}).eth_address.toLowerCase()
+    const wallet = (global.profile || {}).eth_address.toLowerCase();
 
     if (redirectIfCurrentWalletIsNotSeller(orderInfo, wallet)) {
-      return
+      return;
     }
 
     const { transaction } = await loadOrderData(
       orderInfo.item,
       global.currencyPriceList,
       true
-    )
+    );
 
     if (orderInfo && orderInfo.userBuyer) {
       await profileService.getProfile(orderInfo.userBuyer, global.profile.token)
         .then((res) => {
-          setBuyerInfo(res.data)
+          setBuyerInfo(res.data);
         })
         .catch((err) => {
-          console.error(err)
-        })
+          console.error(err);
+        });
     }
 
-    setOrderDetail(orderInfo)
-    setTransactionData(transaction)
-    setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount)
-    setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount)
-    setTransactionDate(orderInfo.transaction.transactionDate)
-    loadEvidences(orderInfo)
+    setOrderDetail(orderInfo);
+    setTransactionData(transaction);
+    setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount);
+    setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount);
+    setTransactionDate(orderInfo.transaction.transactionDate);
+    setTransactionMeta(orderInfo.transaction.transactionMeta)
+    loadEvidences(orderInfo);
   }
 
   const toggleLoadingStatus = (status) => {
-    setOperationInProgress(status)
+    setOperationInProgress(status);
   }
 
   useEffect(() => {
     if (!transactionId) {
-      return
+      return;
     }
 
-    if (!global.currencyPriceList.length && (global.profile || {}).token) {
-      loadCurrencyPrices(dispatch, global)
+    const loadCurrencies = async () => {
+      const networkType = await yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
+      loadCurrencyPrices(dispatch, global, networkType);
+    }
+
+    const setContractInstance = async () => {
+      const web3 = new Web3(
+        process.env.NEXT_PUBLIC_INFURA_ENDPOINT ||
+        new Web3.providers.HttpProvider('http://localhost:8545')
+      );
+      const yubiaiArbitrableInstance = new YubiaiPaymentArbitrable(
+        web3, global?.profile?.eth_address.toLowerCase());
+      await yubiaiArbitrableInstance.initContract();
+      setYubiaiPaymentArbitrableInstance(yubiaiArbitrableInstance);
+    }
+
+    if (!yubiaiPaymentArbitrableInstance) {
+      setContractInstance();
+      return;
+    }
+
+    if (!global.currencyPriceList.length && (global.profile || {}).token && yubiaiPaymentArbitrableInstance) {
+      loadCurrencies();
       return
     }
 
     if (!(transactionData || {}).extraData && (global.profile || {}).token) {
-      loadOrder()
-    } else {
-      if (!global.klerosEscrowInstance) {
-        setKlerosInstance({ ...transactionData }, dispatch)
-      }
-      return
+      loadOrder();
     }
-  }, [global.profile, transactionId, transactionData, global.currencyPriceList])
+  }, [global.profile, transactionId, transactionData, global.currencyPriceList, yubiaiPaymentArbitrableInstance])
 
-  useEffect(() => {
-    const checkAndUpdateDisputeStatus = async () => {
-      const disputeId = (orderDetail && orderDetail.transaction || {}).disputeId
-      if (disputeId) {
-        const disputeStatus = await global.arbitratorInstance.disputeStatus(
-          disputeId
-        )
-        const disputeStatusParsed =
-          translateStatusIdToNamingInTransaction(disputeStatus)
-
-        if (orderDetail.status !== disputeStatusParsed) {
-          const transactionId = (orderDetail.transaction || {}).transactionHash
-          await orderService.updateOrderStatus(
-            transactionId,
-            disputeStatusParsed,
-            global?.profile?.token
-          )
-        }
-      }
-    }
-
-    if (!global.arbitratorInstance) {
-      const wallet = getCurrentWallet(true);
-      if (wallet) {
-        setArbitratorInstance(wallet, dispatch)
-      }
-      return
-    } else {
-      checkAndUpdateDisputeStatus()
-    }
-  }, [global.arbitratorInstance, orderDetail])
-
-  if (!orderDetail) return <Loading />
+  if (!orderDetail) return <Loading />;
 
   return (
     <>
@@ -278,26 +261,26 @@ const OrderDetail = () => {
                 <Text fontWeight={600}>Date: {moment(transactionDate).format('MM/DD/YYYY, h:mm:ss a')}</Text>
               }
               {
-                (transactionPayedAmount && global.klerosEscrowInstance) &&
+                (transactionPayedAmount && yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
                   Value: {
-                    `${global.klerosEscrowInstance.web3.utils.fromWei(transactionPayedAmount)}${orderDetail.item.currencySymbolPrice || 'ETH'}`
+                    `${yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)}${orderDetail.item.currencySymbolPrice || 'ETH'}`
                   }
                 </Text>
               }
               {
-                (transactionFeeAmount && global.klerosEscrowInstance) &&
+                (transactionFeeAmount && yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
-                  Fee: {`${global.klerosEscrowInstance.web3.utils.fromWei(transactionFeeAmount)}ETH`}
+                  Fee: {`${yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount)}ETH`}
                 </Text>
               }
               <Link
-                href={getTransactionLink(orderDetail.transaction || {})}
+                href={getTransactionLink((orderDetail.transaction || {}), transactionMeta)}
                 passHref
               >
                 <a target="_blank" rel="noopener noreferrer">
                   <Text color="#00abd1" cursor="pointer" wordBreak={'break-all'}>
-                    {getTransactionLink(orderDetail.transaction || {}, true)}
+                    {getTransactionLink((orderDetail.transaction || {}), transactionMeta, true)}
                   </Text>
                 </a>
               </Link>
@@ -393,10 +376,10 @@ const OrderDetail = () => {
                       transactionHash={
                         (orderDetail.transaction || {}).transactionHash
                       }
-                      amount={minimumArbitrationFeeUSD}
                       asSeller={true}
                       stepsPostAction={loadOrder}
                       toggleLoadingStatus={toggleLoadingStatus}
+                      yubiaiPaymentArbitrableInstance={yubiaiPaymentArbitrableInstance}
                     />
                   </Flex>
                 </>
