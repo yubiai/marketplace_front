@@ -101,8 +101,8 @@ const OrderDetail = () => {
 
   const getTransactionLink = (transaction = {}, transactionMeta = {}, shortLink = false) => {
     const transactionHash = shortLink ?
-      "0x..." + transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16) :
-      transactionMeta.transactionHash;
+      "0x..." + transactionMeta?.transactionHash?.slice(transactionMeta?.transactionHash.length - 16) :
+      transactionMeta?.transactionHash;
 
     return transaction.networkEnv !== 'main'
       ? `https://${transaction.networkEnv}.etherscan.io/tx/${transactionHash}`
@@ -361,7 +361,7 @@ const OrderDetail = () => {
                                   transactionIndex={
                                     (orderDetail.transaction || {}).transactionIndex
                                   }
-                                  transactionHash={transactionMeta.transactionHash}
+                                  transactionHash={transactionMeta?.transactionHash}
                                   amount={transactionPayedAmount || '0'}
                                   stepsPostAction={loadOrder}
                                   toggleLoadingStatus={toggleLoadingStatus}
@@ -381,7 +381,7 @@ const OrderDetail = () => {
                               transactionIndex={
                                 (orderDetail.transaction || {}).transactionIndex
                               }
-                              transactionHash={transactionMeta.transactionHash}
+                              transactionHash={transactionMeta?.transactionHash}
                               stepsPostAction={loadOrder}
                               toggleLoadingStatus={toggleLoadingStatus}
                               yubiaiPaymentArbitrableInstance={yubiaiPaymentArbitrableInstance}
