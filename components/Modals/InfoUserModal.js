@@ -46,21 +46,24 @@ const InfoUserModal = ({ user }) => {
                   width={'150px'}
                   objectFit={'cover'}
                   src={user.photo}
-                  fallbackSrc={user.photo}
+                  fallbackSrc={"/static/images/userdefault.png"}
                 />
               </Center>
-              <Text mt="1em">Wallet: {user.eth_address}</Text>
+              <Text mt="1em">Wallet</Text>
+              <Text fontSize={"14px"}>{user.eth_address}</Text>
               <Center mt="1em">
-                <Link
-                  href={
-                    'https://app.proofofhumanity.id/profile/' + user.eth_address
-                  }
-                  isExternal
-                >
-                  <Button bg="#00ABD1" color="white">
-                    My PoH Profile
-                  </Button>
-                </Link>
+                {user && user.permission !== 6 && (
+                  <Link
+                    href={
+                      'https://app.proofofhumanity.id/profile/' + user.eth_address
+                    }
+                    isExternal
+                  >
+                    <Button bg="#00ABD1" color="white">
+                      My PoH Profile
+                    </Button>
+                  </Link>
+                )}
               </Center>
             </Box>
           </ModalBody>
