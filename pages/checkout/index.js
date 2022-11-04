@@ -76,7 +76,7 @@ const Checkout = () => {
   }
 
   useEffect(() => {
-    onOpen()
+
     const loadOrder = async () => {
       const result = await loadOrderData(
         { ...global.itemToCheckout },
@@ -118,6 +118,7 @@ const Checkout = () => {
     }
 
     if (!transactionData.extraData) {
+      onOpen()
       loadOrder();
     } else {
       if (!global.klerosEscrowInstance) {
