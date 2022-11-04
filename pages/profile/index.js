@@ -37,8 +37,8 @@ const Profile = () => {
     isLoading,
     isError,
   } = useFetch(
-    global && global.profile && global.profile.eth_address
-      ? `/profiles/${global.profile.eth_address}`
+    global && global.profile && global.profile._id
+      ? `/profiles/id/${global.profile._id}`
       : null,
     global && global.profile && global.profile.token
   )
@@ -75,6 +75,11 @@ const Profile = () => {
         >
           <Text fontWeight={'bold'}>My Info</Text>
           <Text fontWeight={'bold'}>Proof of humanity information</Text>
+          {profile && profile.permission === 6 && (
+            <>
+              <Text color="red.800" fontWeight={'bold'}>User Test</Text>
+            </>
+          )}
           <MyInfoPohCard dataProfile={profile} balance={balanceToken} />
           <Text fontWeight={'bold'}>Personal Info</Text>
           <MyInfoPrivateCard dataProfile={profile} />

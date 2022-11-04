@@ -37,6 +37,7 @@ const MyInfoPohCard = ({ dataProfile, balance }) => {
                 boxSize="100%"
                 borderRadius={'10px'}
                 src={dataProfile.photo}
+                fallbackSrc={"/static/images/userdefault.png"}
               />
             </Flex>
             <Stack
@@ -58,7 +59,8 @@ const MyInfoPohCard = ({ dataProfile, balance }) => {
               </Text>
             </Stack>
             <Flex flex={0.2} justifyContent="center" alignItems="center">
-              <Link
+              {dataProfile && dataProfile.permission !== 6 && (
+                <Link
                 href={
                   'https://app.proofofhumanity.id/profile/' +
                   dataProfile.eth_address
@@ -74,6 +76,7 @@ const MyInfoPohCard = ({ dataProfile, balance }) => {
                   </Button>
                 </a>
               </Link>
+              )}
             </Flex>
           </Stack>
         </Center>
