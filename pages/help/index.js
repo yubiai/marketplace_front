@@ -64,8 +64,10 @@ const Help = () => {
             <Text>Terms and Conditions</Text>
           </Heading>
           <Link href="/help/terms-and-conditions">
-            <Button bg="gray.700" color="white" mt="5px">
-            See details
+            <Button backgroundColor={'#00abd1'}
+              color={'white'}
+              rounded={'full'} mt="5px">
+              See details
             </Button>
           </Link>
         </Box>
