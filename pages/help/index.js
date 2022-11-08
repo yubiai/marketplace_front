@@ -1,4 +1,4 @@
-import { Box, Button, Container, Flex, Heading, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Container, Heading, Stack, Text } from '@chakra-ui/react'
 import Head from 'next/head'
 import Link from 'next/link'
 import BuyerFaqCard from '../../components/Cards/buyerFaqCard'
