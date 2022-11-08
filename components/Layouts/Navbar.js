@@ -14,9 +14,12 @@ import {
 import UserMenu from '../Menus/UserMenu'
 import { useGlobal } from '../../providers/globalProvider'
 import NotificationDrawer from '../Menus/NotificationDrawer'
+import { useRouter } from 'next/router'
 
 const Navbar = () => {
   const global = useGlobal()
+  const router = useRouter();
+
 
   const DesktopNav = () => {
     const linkColor = 'white'
@@ -39,14 +42,13 @@ const Navbar = () => {
                         bg="transparent"
                         fontWeight={500}
                         color={linkColor}
+                        onClick={() => router.push(navItem.href ? navItem.href : '/')}
                         _hover={{
                           textDecoration: 'none',
                           color: linkHoverColor,
                         }}
                       >
-                        <Link href={`${navItem.href ? navItem.href : '/'}`}>
-                          {navItem.label}
-                        </Link>
+                        {navItem.label}
                       </Button>
                     </PopoverTrigger>
 
@@ -128,31 +130,31 @@ const Navbar = () => {
 
   return (
     <Show above='md'>
-    <Box
-      bg={'yb.1'}
-      px={4}
-      boxShadow={'0px 5px 4px 0px #00000029'}
-    >
-      <Container maxW="container.xl">
-        <Flex color={'black'} minH={'60px'} align={'center'}>
-          <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'center' }}>
-            <Flex>
-              <DesktopNav />
+      <Box
+        bg={'yb.1'}
+        px={4}
+        boxShadow={'0px 5px 4px 0px #00000029'}
+      >
+        <Container maxW="container.xl">
+          <Flex color={'black'} minH={'60px'} align={'center'}>
+            <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'center' }}>
+              <Flex>
+                <DesktopNav />
+              </Flex>
             </Flex>
-          </Flex>
 
-          <Stack
-            flex={{ base: 1, md: 0 }}
-            justify={'center'}
-            direction={'row'}
-            spacing={2}
-          >
-            <UserMenu />
-            <NotificationDrawer />
-          </Stack>
-        </Flex>
-      </Container>
-    </Box>
+            <Stack
+              flex={{ base: 1, md: 0 }}
+              justify={'center'}
+              direction={'row'}
+              spacing={2}
+            >
+              <UserMenu />
+              <NotificationDrawer />
+            </Stack>
+          </Flex>
+        </Container>
+      </Box>
     </Show>
   )
 }

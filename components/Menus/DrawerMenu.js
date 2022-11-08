@@ -23,8 +23,8 @@ import {
   MdSell,
   MdFavorite,
   MdHelp,
-  MdKeyboardArrowDown,
-  MdKeyboardArrowUp,
+  MdArrowUpward,
+  MdArrowDownward,
   MdHome,
   MdDesignServices,
 } from 'react-icons/md'
@@ -91,7 +91,7 @@ const DrawerMenu = () => {
               />
             ) : (
               <>
-              <ButtonConnect />
+                <ButtonConnect />
               </>
             )}
           </DrawerHeader>
@@ -112,6 +112,37 @@ const DrawerMenu = () => {
                   </Button>
                 </Link>
               </ListItem>
+              <ListItem>
+                <Button
+                  className='step-category'
+                  onClick={() => onCategory()}
+                  w="full"
+                  bg="transparent"
+                  justifyContent={'left'}
+                >
+                  <ListIcon
+                    as={listCategory ? MdArrowUpward : MdArrowDownward}
+                  />
+                  Categories
+                </Button>
+              </ListItem>
+              {listCategory && (
+                <>
+                  <ListItem>
+                    <Link href="/category/services">
+                      <Button
+                        onClick={() => onClose()}
+                        w="full"
+                        bg="transparent"
+                        justifyContent={'left'}
+                      >
+                        <ListIcon as={MdDesignServices} />
+                        Services
+                      </Button>
+                    </Link>
+                  </ListItem>
+                </>
+              )}
               {global && global.profile && (
                 <>
                   <ListItem>
@@ -187,37 +218,6 @@ const DrawerMenu = () => {
                   </Button>
                 </Link>
               </ListItem>
-              <ListItem>
-                <Button
-                  className='step-category'
-                  onClick={() => onCategory()}
-                  w="full"
-                  bg="transparent"
-                  justifyContent={'left'}
-                >
-                  <ListIcon
-                    as={listCategory ? MdKeyboardArrowUp : MdKeyboardArrowDown}
-                  />
-                  Categories
-                </Button>
-              </ListItem>
-              {listCategory && (
-                <>
-                  <ListItem>
-                    <Link href="/category/services">
-                      <Button
-                        onClick={() => onClose()}
-                        w="full"
-                        bg="transparent"
-                        justifyContent={'left'}
-                      >
-                        <ListIcon as={MdDesignServices} />
-                        Services
-                      </Button>
-                    </Link>
-                  </ListItem>
-                </>
-              )}
             </List>
           </DrawerBody>
 
