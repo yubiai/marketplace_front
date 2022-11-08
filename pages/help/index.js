@@ -1,4 +1,4 @@
-import { Box, Button, Container, Heading, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Container, Flex, Heading, Stack, Text } from '@chakra-ui/react'
 import Head from 'next/head'
 import Link from 'next/link'
 import BuyerFaqCard from '../../components/Cards/buyerFaqCard'
@@ -18,6 +18,8 @@ const Help = () => {
         p={4}
       >
         <Heading mt="1em">Help</Heading>
+        <Text ml="2px" mt="1em" color="black">For any support/suggestions please reach us at <Link href="mailto:contact@yubiai.market"><Button padding="0px" bg="transparent" h="0px" color="#00abd1">contact@yubiai.market</Button></Link></Text>
+
         <Box
           padding={"1.5em"}
           borderRadius={"5px"}
@@ -66,7 +68,9 @@ const Help = () => {
           <Link href="/help/terms-and-conditions">
             <Button backgroundColor={'#00abd1'}
               color={'white'}
-              rounded={'full'} mt="5px">
+              rounded={'full'} mt="5px" _hover={{
+                bg: "blue.300"
+              }}>
               See details
             </Button>
           </Link>
