@@ -40,8 +40,8 @@ const Home = ({ items }) => {
             if (favourites.length > 0) {
               setListFavourites(favourites)
               setFavourites(true)
-            } 
-            if(favourites.length === 0){
+            }
+            if (favourites.length === 0) {
               setListFavourites([])
               setFavourites(false)
               arrayRandom()
@@ -59,7 +59,7 @@ const Home = ({ items }) => {
       }
     }
     initItem()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [global.profile])
 
 
@@ -90,7 +90,7 @@ const Home = ({ items }) => {
       </Head>
 
       <main>
-        <Box h={{base: "full", sm: "full", md: "full", lg: "full", xl: "100vh"}} m="2em">
+        <Box h={{ base: "full", sm: "full", md: "full", lg: "full", xl: "100vh" }} m="2em">
           <CarrouselCards
             title={'Popular services'}
             items={items}
@@ -115,7 +115,7 @@ export async function getStaticProps() {
   try {
     const res = await axios.get('/items/?size=30&categoryId=628be6c99659a661e05f9e2f')
     const items = res.data.items;
-    if(items.length === 0){
+    if (items.length === 0) {
       return { notFound: true };
     }
     return { props: { items }, revalidate: 1800 }

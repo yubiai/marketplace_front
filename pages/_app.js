@@ -34,6 +34,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      
       <GlobalProvider>
         <SWRConfig
           value={{
