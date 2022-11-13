@@ -2,7 +2,7 @@ import { Stack, Text, Button, Divider, SimpleGrid, Box, Image, Center } from '@c
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import StatusOrder from '../Infos/StatusOrder'
+import { StatusOrder } from '../Infos/StatusOrder'
 
 const OrderCardBuyer = ({ order }) => {
   const router = useRouter()
