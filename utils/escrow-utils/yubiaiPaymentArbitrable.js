@@ -34,7 +34,6 @@ export default class YubiaiPaymentArbitrable {
       if (!account) {
         const web3 = createWeb3((this.web3.currentProvider || {}).url || '')
         this.web3 = await createWeb3FromModal(web3.modal, web3.infuraURL);
-        window.web3 = this.web3;
       }
       ;[account] = await this.web3.eth.getAccounts()
   
@@ -122,14 +121,27 @@ export default class YubiaiPaymentArbitrable {
      * 3rd user case: Deal not accepted and requesting a refund
      */
     async makeClaim(dealId, amount, evidenceURI) {
-        return await this.contract.methods.makeClaim(dealId, amount, evidenceURI).send();
+    return await this.contract.methods.makeClaim(dealId, amount, evidenceURI).send({ value: amount });
     }
 
     async acceptClaim(claimId) {
-        return await this.contract.methods.acceptClaim(claimId).send();
+    const currentAccount = await this.getAccount();
+    return await this.contract.methods.acceptClaim(claimId).send({ from: currentAccount });
     }
 
     async challengeClaim(claimId) {
         return await this.contract.methods.challengeClaim(claimId).send();
     }
+
+  async isOver(transactionId) {
+    return await this.contract.methods.isOver(transactionId).call();
+  }
+
+  async getDealInfo(dealId) {
+    return await this.contract.methods.deals(dealId).call();
+  }
+
+  async getClaimInfo(claimId) {
+    return await this.contract.methods.claims(claimId).call();
+  }
 }
