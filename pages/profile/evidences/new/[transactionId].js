@@ -1,4 +1,3 @@
-import Web3 from 'web3';
 import { AttachmentIcon } from "@chakra-ui/icons";
 import { Box, Button, Container, Divider, Flex, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, Textarea, useDisclosure } from "@chakra-ui/react";
 import Head from "next/head";
@@ -11,11 +10,11 @@ import PreviewEvidence from "../../../../components/Modals/PreviewEvidence";
 import SuccessEvidence from "../../../../components/Modals/SuccessEvidence";
 import Loading from "../../../../components/Spinners/Loading";
 import useUser from "../../../../hooks/data/useUser";
-import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider"
+import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider";
+import { setYubiaiInstance } from "../../../../providers/orderProvider";
 import { channelService } from "../../../../services/channelService";
 import { evidenceService } from "../../../../services/evidenceService";
 import { orderService } from "../../../../services/orderService";
-import YubiaiPaymentArbitrable from '../../../../utils/escrow-utils/yubiaiPaymentArbitrable';
 
 const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 
@@ -25,12 +24,9 @@ const NewEvidence = () => {
   const router = useRouter();
   const { transactionId } = router.query;
 
-  const [orderDetail, setOrderDetail] = useState(null)
-  const [channelDetail, setChannelDetail] = useState(null)
-  const [result, setResult] = useState(null)
-
-  const [yubiaiPaymentArbitrableInstance, setYubiaiPaymentArbitrableInstance] = useState(null);
-
+  const [orderDetail, setOrderDetail] = useState(null);
+  const [channelDetail, setChannelDetail] = useState(null);
+  const [result, setResult] = useState(null);
   const { user, loggedOut } = useUser();
 
   // if logged in, redirect to the home
@@ -64,30 +60,19 @@ const NewEvidence = () => {
       })
       .catch((err) => {
         console.error(err)
-      })
+      });
   }
 
   useEffect(() => {
-    const setContractInstance = async () => {
-      const web3 = new Web3(
-        process.env.NEXT_PUBLIC_INFURA_ENDPOINT ||
-        new Web3.providers.HttpProvider('http://localhost:8545')
-      );
-      const yubiaiArbitrableInstance = new YubiaiPaymentArbitrable(
-        web3, global?.profile?.eth_address.toLowerCase());
-      await yubiaiArbitrableInstance.initContract();
-      setYubiaiPaymentArbitrableInstance(yubiaiArbitrableInstance);
-    }
-
     if (global.profile) {
       loadOrder();
 
-      if (!yubiaiPaymentArbitrableInstance) {
-        setContractInstance();
+      if (!global.yubiaiPaymentArbitrableInstance) {
+        setYubiaiInstance(dispatch);
         return;
       }
     }
-  }, [global.profile, yubiaiPaymentArbitrableInstance]);
+  }, [global.profile, global.yubiaiPaymentArbitrableInstance]);
 
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -101,10 +86,10 @@ const NewEvidence = () => {
   const [dataSubmit, setDataSubmit] = useState(null)
 
   // Input Files
-  const inputRef = useRef()
+  const inputRef = useRef();
   const [previewFiles, setPreviewFiles] = useState([]);
   const [selectedMsg, setSelectedMsg] = useState([]);
-  const [errorMsg, setErrorMsg] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const verifyFiles = (e) => {
     if (e.target.files && e.target.files.length === 0) {
@@ -212,7 +197,8 @@ const NewEvidence = () => {
     setLoadingSubmit(true)
 
     try {
-      const response = await evidenceService.newEvidence(orderDetail.transaction.transactionMeta.transactionHash,
+      const response = await evidenceService.newEvidence(
+        orderDetail.transaction.transactionMeta.transactionHash,
         dataSubmit,
         global.profile.token
       );
@@ -228,17 +214,8 @@ const NewEvidence = () => {
         orderDetail.transaction.transactionMeta.transactionHash
       );
 
-      /*
-      setLoadingSubmit(false);
-      onClose();
-      setStateSubmit(1);
-
-      setTimeout(() => {
-        onOpen();
-      }, 300);
-      */
     } catch (err) {
-      console.log(err, "err")
+      console.log(err, "err");
       setLoadingSubmit(false);
       setStateSubmit(2);
     }
@@ -246,15 +223,14 @@ const NewEvidence = () => {
 
   const manageClaim = async (dealId, amount, evidenceURI, transactionHash) => {
     try {
-      // toggleLoadingStatus(true);
-      const result = await yubiaiPaymentArbitrableInstance.makeClaim(dealId, amount, evidenceURI);
+      const result = await global.yubiaiPaymentArbitrableInstance.makeClaim(dealId, amount, evidenceURI);
 
       if (result) {
         const status = 'ORDER_DISPUTE_IN_PROGRESS';
         await orderService.updateOrderStatus(transactionHash, status, global?.profile?.token);
       }
     } catch (e) {
-      console.log('Error creating an Escrow contract: ', e);
+      console.log('Error creating a claim for a deal: ', e);
     }
   };
 

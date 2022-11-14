@@ -11,7 +11,7 @@ const initialState = {
   subCategory: '',
   meta: false,
   profile: null,
-  klerosEscrowInstance: null,
+  yubiaiPaymentArbitrableInstance: null,
   arbitratorInstance: null,
   itemToCheckout: null,
   currencyPriceList: [],
@@ -41,10 +41,10 @@ const reducer = (state, action) => {
         ...state,
         meta: action.payload,
       }
-    case 'SET_KLEROS_ESCROW_INSTANCE':
+    case 'SET_YUBIAI_ARBITRABLE_INSTANCE':
       return {
         ...state,
-        klerosEscrowInstance: action.payload,
+        yubiaiPaymentArbitrableInstance: action.payload,
       }
     case 'SET_ARBITRATOR_INSTANCE':
       return {

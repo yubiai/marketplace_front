@@ -1,4 +1,3 @@
-import Web3 from 'web3';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -7,10 +6,10 @@ import {
   useGlobal,
   useDispatchGlobal,
 } from '../../../../providers/globalProvider';
-import YubiaiPaymentArbitrable from '../../../../utils/escrow-utils/yubiaiPaymentArbitrable';
 import {
   loadCurrencyPrices,
   loadOrderData,
+  setYubiaiInstance
 } from '../../../../providers/orderProvider';
 import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder';
 import ButtonStartClaim from '../../../../components/Buttons/ButtonStartClaim';
@@ -60,7 +59,6 @@ const OrderDetail = () => {
    * Auxiliar status and instances
    */
   const [operationInProgress, setOperationInProgress] = useState(false);
-  const [yubiaiPaymentArbitrableInstance, setYubiaiPaymentArbitrableInstance] = useState(null);
   const [isOver, setIsOver] = useState(false);
   const [isDealEnabledToClaim, setIsDealEnabledToClaim] = useState(false);
 
@@ -120,26 +118,15 @@ const OrderDetail = () => {
     };
 
     const loadCurrencies = async () => {
-      const networkType = await yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
+      const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
       loadCurrencyPrices(dispatch, global, networkType);
     };
 
-    const setContractInstance = async () => {
-      const web3 = new Web3(
-        process.env.NEXT_PUBLIC_INFURA_ENDPOINT ||
-        new Web3.providers.HttpProvider('http://localhost:8545')
-      );
-      const yubiaiArbitrableInstance = new YubiaiPaymentArbitrable(
-        web3, global?.profile?.eth_address.toLowerCase());
-      await yubiaiArbitrableInstance.initContract();
-      setYubiaiPaymentArbitrableInstance(yubiaiArbitrableInstance);
-    };
-
     const setIsOverDeal = async transaction => {
-      setIsOver(await yubiaiPaymentArbitrableInstance.isOver(transaction.transactionIndex));
+      setIsOver(await global.yubiaiPaymentArbitrableInstance.isOver(transaction.transactionIndex));
     }
 
-    if (transactionData && yubiaiPaymentArbitrableInstance) {
+    if (transactionData && global.yubiaiPaymentArbitrableInstance) {
       const currentTimeStamp = Math.round((new Date).getTime() / 1000);
       if ((orderDetail || {}).transaction) {
         // Change to: <=
@@ -149,12 +136,12 @@ const OrderDetail = () => {
       }
     }
 
-    if (!yubiaiPaymentArbitrableInstance) {
-      setContractInstance();
+    if (!global.yubiaiPaymentArbitrableInstance) {
+      setYubiaiInstance();
       return;
     };
 
-    if (!global.currencyPriceList.length && (global.profile || {}).token && (yubiaiPaymentArbitrableInstance || {}).web3) {
+    if (!global.currencyPriceList.length && (global.profile || {}).token && (global.yubiaiPaymentArbitrableInstance || {}).web3) {
       loadCurrencies();
       return;
     }
@@ -162,7 +149,7 @@ const OrderDetail = () => {
     if (!(transactionData || {}).extraData && (global.profile || {}).token) {
       loadOrder();
     }
-  }, [global.profile, transactionId, transactionData, global.currencyPriceList, yubiaiPaymentArbitrableInstance])
+  }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance])
 
   if (!orderDetail) return <Loading />;
   return (
@@ -256,17 +243,17 @@ const OrderDetail = () => {
                 <Text fontWeight={600}>Date: {moment(transactionDate).format('MM/DD/YYYY, h:mm:ss a')}</Text>
               }
               {
-                (transactionPayedAmount && yubiaiPaymentArbitrableInstance) &&
+                (transactionPayedAmount && global.yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
                   Value: {
-                    `${yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)}${orderDetail.item.currencySymbolPrice || 'ETH'}`
+                    `${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)}${orderDetail.item.currencySymbolPrice || 'ETH'}`
                   }
                 </Text>
               }
               {
-                (transactionFeeAmount && yubiaiPaymentArbitrableInstance) &&
+                (transactionFeeAmount && global.yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
-                  Fee: {`${yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount)}`}
+                  Fee: {`${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount)}`}
                 </Text>
               }
               <Link
@@ -374,7 +361,7 @@ const OrderDetail = () => {
                                   amount={transactionPayedAmount || '0'}
                                   stepsPostAction={loadOrder}
                                   toggleLoadingStatus={toggleLoadingStatus}
-                                  yubiaiPaymentArbitrableInstance={yubiaiPaymentArbitrableInstance}
+                                  yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
                                 />
                               </Box>
                             </>
