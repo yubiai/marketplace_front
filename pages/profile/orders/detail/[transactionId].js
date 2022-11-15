@@ -33,8 +33,6 @@ import {
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
 import { StatusOrder } from '../../../../components/Infos/StatusOrder';
-import EvidencesList from '../../../../components/Infos/EvidencesList';
-import { evidenceService } from '../../../../services/evidenceService';
 
 const OrderDetail = () => {
   /**
@@ -115,12 +113,12 @@ const OrderDetail = () => {
   useEffect(() => {
     if (!transactionId) {
       return;
-    };
+    }
 
     const loadCurrencies = async () => {
       const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
       loadCurrencyPrices(dispatch, global, networkType);
-    };
+    }
 
     const setIsOverDeal = async transaction => {
       setIsOver(await global.yubiaiPaymentArbitrableInstance.isOver(transaction.transactionIndex));
@@ -139,7 +137,7 @@ const OrderDetail = () => {
     if (!global.yubiaiPaymentArbitrableInstance) {
       setYubiaiInstance();
       return;
-    };
+    }
 
     if (!global.currencyPriceList.length && (global.profile || {}).token && (global.yubiaiPaymentArbitrableInstance || {}).web3) {
       loadCurrencies();
@@ -331,7 +329,7 @@ const OrderDetail = () => {
             </Box>
 
             {
-              orderDetail.status !== 'ORDER_PAID' && 
+              orderDetail.status !== 'ORDER_PAID' &&
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
@@ -368,12 +366,12 @@ const OrderDetail = () => {
                           )}
                         </Box>
                         {
-                          isDealEnabledToClaim && 
+                          isDealEnabledToClaim &&
                           <Box bg='orange.200' p="1em">
                             <Text color="black">
                               {
                                 !isOver &&
-                                "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:" 
+                                "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:"
                               }
                               {
                                 isOver &&
@@ -383,7 +381,7 @@ const OrderDetail = () => {
                             {
                               !isOver &&
                               <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
-                              <ButtonStartClaim transactionMeta={transactionMeta} />
+                                <ButtonStartClaim transactionMeta={transactionMeta} />
                               </Box>
                             }
                           </Box>

@@ -28,7 +28,7 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
     };
 
     const acceptClaim = async () => {
-        const { claimId } = transactionInfo;
+        const { claimId, transactionHash } = transactionInfo;
 
         try {
             toggleLoadingStatus(true);
