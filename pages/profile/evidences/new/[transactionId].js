@@ -1,5 +1,31 @@
 import { AttachmentIcon } from "@chakra-ui/icons";
-import { Box, Button, Container, Divider, Flex, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, Textarea, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Slider,
+  SliderMark,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
+  Spinner,
+  Text,
+  Textarea,
+  useDisclosure
+} from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -18,6 +44,12 @@ import { orderService } from "../../../../services/orderService";
 
 const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 
+const labelStyles = {
+  mt: '2',
+  ml: '-2.5',
+  fontSize: 'sm',
+}
+
 const NewEvidence = () => {
   const global = useGlobal();
   const dispatch = useDispatchGlobal();
@@ -29,21 +61,29 @@ const NewEvidence = () => {
   const [result, setResult] = useState(null);
   const { user, loggedOut } = useUser();
 
+  const [valueToClaim, setValueToClaim] = useState(0);
+  const [marksToClaim, setMarksToClaim] = useState([]);
+
   // if logged in, redirect to the home
   useEffect(() => {
     if (loggedOut) {
       router.replace('/logout')
     }
-  }, [user, loggedOut, router, dispatch])
+  }, [user, loggedOut, router, dispatch]);
+
+  const parseWeiToTokenAmount = weiAmount => (
+    (global.yubiaiPaymentArbitrableInstance || {}).web3 && parseFloat(global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(String(weiAmount)), 10) || 0);
 
   const loadOrder = async () => {
     try {
       const response = await orderService.getOrderByTransaction(
         transactionId, global.profile.token);
       const { data } = response;
-      setOrderDetail(data.result)
-      loadMsgsByOrderID(data.result)
-      return
+      setOrderDetail(data.result);
+      loadMsgsByOrderID(data.result);
+      const payedAmount = parseInt(data.result.transaction.transactionPayedAmount, 10) || 0;
+      setMarksToClaim(generateMarksFromAmount(payedAmount));
+      return;
     } catch (err) {
       console.error(err);
       return
@@ -64,7 +104,7 @@ const NewEvidence = () => {
   }
 
   useEffect(() => {
-    if (global.profile) {
+    if (global.profile && !orderDetail) {
       loadOrder();
 
       if (!global.yubiaiPaymentArbitrableInstance) {
@@ -78,18 +118,27 @@ const NewEvidence = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   // State useForm
-  const { handleSubmit, register, formState: { errors }, } = useForm()
+  const { handleSubmit, register, formState: { errors }, } = useForm();
 
   // State Submit
-  const [stateSubmit, setStateSubmit] = useState(0)
-  const [loadingSubmit, setLoadingSubmit] = useState(false)
-  const [dataSubmit, setDataSubmit] = useState(null)
+  const [stateSubmit, setStateSubmit] = useState(0);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [dataSubmit, setDataSubmit] = useState(null);
 
   // Input Files
   const inputRef = useRef();
   const [previewFiles, setPreviewFiles] = useState([]);
   const [selectedMsg, setSelectedMsg] = useState([]);
   const [errorMsg, setErrorMsg] = useState(null);
+
+  const generateMarksFromAmount = baseAmount => {
+    const minAmount = (baseAmount || 0) / 10;
+    const finalArray = [minAmount];
+    for (let i = minAmount; i <= baseAmount; i += minAmount) {
+      finalArray.push(i);
+    }
+    return finalArray;
+  }
 
   const verifyFiles = (e) => {
     if (e.target.files && e.target.files.length === 0) {
@@ -194,8 +243,7 @@ const NewEvidence = () => {
 
   // Confirm Submit
   const confirmSubmit = async () => {
-    setLoadingSubmit(true)
-
+    setLoadingSubmit(true);
     try {
       const response = await evidenceService.newEvidence(
         orderDetail.transaction.transactionMeta.transactionHash,
@@ -209,11 +257,10 @@ const NewEvidence = () => {
 
       manageClaim(
         orderDetail.transaction.transactionIndex,
-        orderDetail.transaction.transactionPayedAmount,
+        String(valueToClaim),
         filePath,
         orderDetail.transaction.transactionMeta.transactionHash
       );
-
     } catch (err) {
       console.log(err, "err");
       setLoadingSubmit(false);
@@ -279,6 +326,32 @@ const NewEvidence = () => {
               <Text color="red" m="5px">{errors.description?.type === 'required' && "Description is Required"}</Text>
               <Text color="red" m="5px">{errors.description?.type === 'minLength' && "Minimum required characters are 100"}</Text>
               <Text color="red" m="5px">{errors.description?.type === 'maxLength' && "Maximum required characters are 800"}</Text>
+            </FormControl>
+            <FormControl>
+              <FormLabel color="black">Amount to claim</FormLabel>
+              {
+                orderDetail && orderDetail.item && 
+                <p>{parseWeiToTokenAmount(valueToClaim)}{orderDetail.item.currencySymbolPrice}</p>
+              }
+              <Slider
+                mt="3em"
+                aria-label="slider-ex-6"
+                defaultValue={0}
+                style={{ margin: "10px 0" }}
+                min={0}
+                max={parseInt(orderDetail.transaction.transactionPayedAmount, 10)}
+                onChange={(val) => setValueToClaim(val)}
+              >
+                <SliderMark {...labelStyles} value={0}>0</SliderMark>
+                {
+                  (marksToClaim && marksToClaim.length) && marksToClaim.map(
+                    (wei, index) => <SliderMark {...labelStyles} value={wei} key={`slider-mark-amount-${index}`}>{parseWeiToTokenAmount(wei)}</SliderMark>)
+                }
+                <SliderTrack>
+                  <SliderFilledTrack />
+                </SliderTrack>
+                <SliderThumb />
+              </Slider>
             </FormControl>
             <Divider />
             <input
