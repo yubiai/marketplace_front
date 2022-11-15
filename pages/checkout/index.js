@@ -74,7 +74,6 @@ const Checkout = () => {
   };
 
   useEffect(() => {
-    onOpen();
     const loadOrder = async () => {
       const result = await loadOrderData(
         { ...global.itemToCheckout },
@@ -105,6 +104,7 @@ const Checkout = () => {
     }
 
     if (!transactionData.extraData) {
+      onOpen()
       loadOrder();
     }
   }, [transactionData, global.itemToCheckout, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance])

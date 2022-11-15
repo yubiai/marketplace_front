@@ -33,7 +33,7 @@ const ProfileEdit = () => {
     isLoading,
     isError,
   } = useFetch(
-    global && global.profile && global.profile.eth_address ? `/profiles/${global.profile.eth_address}` : null,
+    global && global.profile && global.profile._id ? `/profiles/id/${global.profile._id}` : null,
     global && global.profile && global.profile.token
   )
 

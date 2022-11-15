@@ -1,10 +1,10 @@
 import { Center, Flex, Image, Text, Stack, HStack, Box } from '@chakra-ui/react'
 
 
-const UserInfo = ({profile, balanceToken}) => {
+const UserInfo = ({ profile, balanceToken }) => {
 
 
-  if (profile){
+  if (profile) {
     return (
       <HStack spacing="1em">
         <Box w="33%" h="60px">
@@ -16,7 +16,7 @@ const UserInfo = ({profile, balanceToken}) => {
               width={'3em'}
               objectFit={'cover'}
               src={profile.photo}
-              fallbackSrc={profile.photo}
+              fallbackSrc={"/static/images/userdefault.png"}
             />
           </Center>
         </Box>
@@ -24,17 +24,27 @@ const UserInfo = ({profile, balanceToken}) => {
           <Stack spacing={2}>
             <Text fontSize={'15px'}>{profile && profile.first_name + (" ") + profile.last_name} </Text>
             <Flex>
-              <Image
-                alt={'Logo'}
-                width="0.8em"
-                borderRadius="2xl"
-                objectFit={'cover'}
-                src={'/static/images/logoubi.png'}
-                fallbackSrc={'/static/images/logoubi.png'}
-              />
-              <Text fontSize={'10px'} fontWeight="bold">
-                {balanceToken} UBI dripped
-              </Text>
+
+              {profile.permission === 6 ? (
+                <Text color="red.800" fontSize={'10px'} fontWeight="bold">
+                  User Test
+                </Text>
+              ) : (
+                <>
+                  <Image
+                    alt={'Logo'}
+                    width="0.8em"
+                    borderRadius="2xl"
+                    objectFit={'cover'}
+                    src={'/static/images/logoubi.png'}
+                    fallbackSrc={'/static/images/logoubi.png'}
+                  />
+                  <Text fontSize={'10px'} fontWeight="bold">
+                    {balanceToken} UBI dripped
+                  </Text>
+                </>
+              )}
+
             </Flex>
           </Stack>
         </Box>
