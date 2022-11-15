@@ -25,7 +25,7 @@ import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import { itemService } from '../../../services/itemService'
 import ItemCard from '../../../components/Cards/ItemCard'
-import StatusOrder from '../../../components/Infos/StatusOrder'
+import { StatusOrder } from '../../../components/Infos/StatusOrder'
 
 const MailBoxs = () => {
   const global = useGlobal()

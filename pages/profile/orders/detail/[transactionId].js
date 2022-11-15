@@ -1,4 +1,3 @@
-import Web3 from 'web3';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -7,13 +6,13 @@ import {
   useGlobal,
   useDispatchGlobal,
 } from '../../../../providers/globalProvider';
-import YubiaiPaymentArbitrable from '../../../../utils/escrow-utils/yubiaiPaymentArbitrable';
 import {
   loadCurrencyPrices,
   loadOrderData,
+  setYubiaiInstance
 } from '../../../../providers/orderProvider';
 import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder';
-import ButtonEscrowDispute from '../../../../components/Buttons/ButtonEscrowDispute';
+import ButtonStartClaim from '../../../../components/Buttons/ButtonStartClaim';
 import Link from 'next/link';
 import Loading from '../../../../components/Spinners/Loading';
 import moment from 'moment';
@@ -33,71 +32,75 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
-import StatusOrder from '../../../../components/Infos/StatusOrder';
+import { StatusOrder } from '../../../../components/Infos/StatusOrder';
 import EvidencesList from '../../../../components/Infos/EvidencesList';
 import { evidenceService } from '../../../../services/evidenceService';
 
 const OrderDetail = () => {
-  const router = useRouter()
-  const global = useGlobal()
-  const dispatch = useDispatchGlobal()
-  const { transactionId } = router.query
-  const [orderDetail, setOrderDetail] = useState(null)
-  const [transactionData, setTransactionData] = useState({})
-  const [transactionMeta, setTransactionMeta] = useState(null)
-  const [transactionPayedAmount, setTransactionPayedAmount] = useState('')
-  const [transactionFeeAmount, setTransactionFeeAmount] = useState('')
-  const [transactionDate, setTransactionDate] = useState('')
-  const [operationInProgress, setOperationInProgress] = useState(false)
-  const [yubiaiPaymentArbitrableInstance, setYubiaiPaymentArbitrableInstance] = useState(null)
+  /**
+   * External dependencies
+   */
+  const router = useRouter();
+  const global = useGlobal();
+  const dispatch = useDispatchGlobal();
+  const { transactionId } = router.query;
 
-  const [evidences, setEvidences] = useState(null);
+  /**
+   * Order and transaction info
+   */
+  const [orderDetail, setOrderDetail] = useState(null);
+  const [transactionData, setTransactionData] = useState({});
+  const [transactionMeta, setTransactionMeta] = useState(null);
+  const [transactionPayedAmount, setTransactionPayedAmount] = useState('');
+  const [transactionFeeAmount, setTransactionFeeAmount] = useState('');
+  const [transactionDate, setTransactionDate] = useState('');
 
-  const { user, loggedOut } = useUser()
+  /**
+   * Auxiliar status and instances
+   */
+  const [operationInProgress, setOperationInProgress] = useState(false);
+  const [isOver, setIsOver] = useState(false);
+  const [isDealEnabledToClaim, setIsDealEnabledToClaim] = useState(false);
+
+  /**
+   * If isOver:
+   * - Add message, transaction cannot be claimed
+   */
+
+  const { user, loggedOut } = useUser();
 
   // if logged in, redirect to the home
   useEffect(() => {
     if (loggedOut) {
-      router.replace('/logout')
+      router.replace('/logout');
     }
-  }, [user, loggedOut, router, dispatch])
+  }, [user, loggedOut, router, dispatch]);
 
   const loadOrder = async () => {
     const response = await orderService.getOrderByTransaction(
-      transactionId, global.profile.token)
-    const { data } = response
-    const orderInfo = data.result
+      transactionId, global.profile.token);
+    const { data } = response;
+    const orderInfo = data.result;
 
     const { transaction } = await loadOrderData(
-      orderInfo.item,
-      global.currencyPriceList,
-      true
-    )
+      orderInfo.item, global.currencyPriceList, true);
 
-    setOrderDetail(orderInfo)
-    setTransactionData(transaction)
-    setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount)
-    setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount)
-    setTransactionDate(orderInfo.transaction.transactionDate)
-    setTransactionMeta(orderInfo.transaction.transactionMeta)
-    loadEvidences(orderInfo)
-  }
-
-  const loadEvidences = async (orderInfo) => {
-    const response = await evidenceService.getEvidenceByOrderID(orderInfo._id,
-      global.profile.token
-    )
-    setEvidences(response.data)
-  }
+    setOrderDetail(orderInfo);
+    setTransactionData(transaction);
+    setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount);
+    setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount);
+    setTransactionDate(orderInfo.transaction.transactionDate);
+    setTransactionMeta(orderInfo.transaction.transactionMeta);
+  };
 
   const toggleLoadingStatus = (status) => {
     setOperationInProgress(status)
-  }
+  };
 
   const redirectToChat = () => {
     const { _id } = orderDetail
     router.push(`/profile/mailboxs/${_id}`)
-  }
+  };
 
   const getTransactionLink = (transaction = {}, transactionMeta = {}, shortLink = false) => {
     const transactionHash = shortLink ?
@@ -107,35 +110,38 @@ const OrderDetail = () => {
     return transaction.networkEnv !== 'main'
       ? `https://${transaction.networkEnv}.etherscan.io/tx/${transactionHash}`
       : `https://etherscan.io/tx/${transactionHash}`;
-  }
+  };
 
   useEffect(() => {
     if (!transactionId) {
-      return
-    }
+      return;
+    };
 
     const loadCurrencies = async () => {
-      const networkType = await yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
+      const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
       loadCurrencyPrices(dispatch, global, networkType);
+    };
+
+    const setIsOverDeal = async transaction => {
+      setIsOver(await global.yubiaiPaymentArbitrableInstance.isOver(transaction.transactionIndex));
     }
 
-    const setContractInstance = async () => {
-      const web3 = new Web3(
-        process.env.NEXT_PUBLIC_INFURA_ENDPOINT ||
-        new Web3.providers.HttpProvider('http://localhost:8545')
-      );
-      const yubiaiArbitrableInstance = new YubiaiPaymentArbitrable(
-        web3, global?.profile?.eth_address.toLowerCase());
-      await yubiaiArbitrableInstance.initContract();
-      setYubiaiPaymentArbitrableInstance(yubiaiArbitrableInstance);
+    if (transactionData && global.yubiaiPaymentArbitrableInstance) {
+      const currentTimeStamp = Math.round((new Date).getTime() / 1000);
+      if ((orderDetail || {}).transaction) {
+        // Change to: <=
+        setIsDealEnabledToClaim(
+          currentTimeStamp > (orderDetail.transaction || {}).transactionDate + (orderDetail.transaction || {}).timeForClaim);
+        setIsOverDeal((orderDetail || {}).transaction);
+      }
     }
 
-    if (!yubiaiPaymentArbitrableInstance) {
-      setContractInstance();
+    if (!global.yubiaiPaymentArbitrableInstance) {
+      setYubiaiInstance();
       return;
-    }
+    };
 
-    if (!global.currencyPriceList.length && (global.profile || {}).token && (yubiaiPaymentArbitrableInstance || {}).web3) {
+    if (!global.currencyPriceList.length && (global.profile || {}).token && (global.yubiaiPaymentArbitrableInstance || {}).web3) {
       loadCurrencies();
       return;
     }
@@ -143,10 +149,9 @@ const OrderDetail = () => {
     if (!(transactionData || {}).extraData && (global.profile || {}).token) {
       loadOrder();
     }
-  }, [global.profile, transactionId, transactionData, global.currencyPriceList, yubiaiPaymentArbitrableInstance])
+  }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance])
 
   if (!orderDetail) return <Loading />;
-
   return (
     <>
       <Head>
@@ -238,17 +243,17 @@ const OrderDetail = () => {
                 <Text fontWeight={600}>Date: {moment(transactionDate).format('MM/DD/YYYY, h:mm:ss a')}</Text>
               }
               {
-                (transactionPayedAmount && yubiaiPaymentArbitrableInstance) &&
+                (transactionPayedAmount && global.yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
                   Value: {
-                    `${yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)}${orderDetail.item.currencySymbolPrice || 'ETH'}`
+                    `${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)}${orderDetail.item.currencySymbolPrice || 'ETH'}`
                   }
                 </Text>
               }
               {
-                (transactionFeeAmount && yubiaiPaymentArbitrableInstance) &&
+                (transactionFeeAmount && global.yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
-                  Fee: {`${yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount)}`}
+                  Fee: {`${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount)}`}
                 </Text>
               }
               <Link
@@ -325,23 +330,14 @@ const OrderDetail = () => {
               )}
             </Box>
 
-            <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-
-            <Stack
-              direction={{ base: 'column', md: 'row' }}
-              justifyContent="space-between"
-              mb="1em">
-              <Text fontWeight={600} fontSize="2xl">Evidences</Text>
-              <Link href={`/profile/evidences/new/${transactionId}`}>
-                <Button size="sm" bg="green.500" color="white" _hover={{
-                  bg: "gray.400"
-                }}>New</Button></Link>
-            </Stack>
-
-            <EvidencesList evidences={evidences} />
-
-            <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-            <Text fontWeight={600} fontSize="2xl">Actions</Text>
+            {
+              orderDetail.status !== 'ORDER_PAID' && 
+              <>
+                <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+                <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+                <Text fontWeight={600} fontSize="2xl">Actions</Text>
+              </>
+            }
 
             <Stack mt={4} direction={'row'} spacing={2}>
               <Box w="full">
@@ -358,38 +354,40 @@ const OrderDetail = () => {
                               </Text>
                               <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
                                 <ButtonPayOrder
-                                  transactionIndex={
-                                    (orderDetail.transaction || {}).transactionIndex
-                                  }
-                                  transactionHash={transactionMeta?.transactionHash}
+                                  transactionInfo={{
+                                    transactionIndex: (orderDetail.transaction || {}).transactionIndex,
+                                    transactionHash: transactionMeta.transactionHash
+                                  }}
                                   amount={transactionPayedAmount || '0'}
                                   stepsPostAction={loadOrder}
                                   toggleLoadingStatus={toggleLoadingStatus}
-                                  yubiaiPaymentArbitrableInstance={yubiaiPaymentArbitrableInstance}
+                                  yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
                                 />
                               </Box>
                             </>
                           )}
                         </Box>
-                        <Box bg='orange.200' p="1em">
-                          <Text color="black">
-                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:
-                          </Text>
-                          <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
-                            <ButtonEscrowDispute
-                              transaction={{ userBuyer: orderDetail.userBuyer || '' }}
-                              transactionIndex={
-                                (orderDetail.transaction || {}).transactionIndex
+                        {
+                          isDealEnabledToClaim && 
+                          <Box bg='orange.200' p="1em">
+                            <Text color="black">
+                              {
+                                !isOver &&
+                                "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:" 
                               }
-                              transactionHash={transactionMeta?.transactionHash}
-                              stepsPostAction={loadOrder}
-                              toggleLoadingStatus={toggleLoadingStatus}
-                              yubiaiPaymentArbitrableInstance={yubiaiPaymentArbitrableInstance}
-                            />
+                              {
+                                isOver &&
+                                "You cannot claim this order because the status of this transaction is over."
+                              }
+                            </Text>
+                            {
+                              !isOver &&
+                              <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
+                              <ButtonStartClaim transactionMeta={transactionMeta} />
+                              </Box>
+                            }
                           </Box>
-                        </Box>
-
-
+                        }
                       </SimpleGrid>
 
                     </>

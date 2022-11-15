@@ -87,8 +87,13 @@ const NewListing = () => {
       router.replace('/logout')
     }
 
-    if (user && !global.currencyPriceList.length && global.profile) {
-      loadCurrencyPrices(dispatch, global)
+    const loadCurrencies = async () => {
+      const networkType = await global.klerosEscrowInstance.web3.eth.net.getNetworkType();
+      loadCurrencyPrices(dispatch, global, networkType);
+    }
+
+    if (user && !global.currencyPriceList.length && global.profile && global.klerosEscrowInstance) {
+      loadCurrencies();
       return
     }
   }, [user, global.currencyPriceList, global.profile, loggedOut])

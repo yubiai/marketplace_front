@@ -3,7 +3,7 @@ import ViewMsgFile from "../Cards/ViewMsgFile";
 import ViewMsgText from "../Cards/ViewMsgText";
 import FilePreviewMini from "../Infos/FilePreviewMini";
 
-const PreviewEvidence = ({ result, previewFiles, selectedMsg }) => {
+const PreviewEvidence = ({ result, transactionHash, previewFiles, selectedMsg }) => {
 
     return (
         <Box>
@@ -14,7 +14,7 @@ const PreviewEvidence = ({ result, previewFiles, selectedMsg }) => {
             <Text>{result.description}</Text>
             <Divider />
             <Text fontWeight={600} fontSize="2xl" mt="1em">TransactionHash</Text>
-            <Text>{result.transactionHash}</Text>
+            <Text>{transactionHash}</Text>
             <Divider />
             <Text fontWeight={600} fontSize="2xl" mt="1em">Order ID</Text>
             <Text>{result.order_id}</Text>
