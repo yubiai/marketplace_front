@@ -135,7 +135,7 @@ const OrderDetail = () => {
     }
 
     if (!global.yubiaiPaymentArbitrableInstance) {
-      setYubiaiInstance();
+      setYubiaiInstance(dispatch);
       return;
     }
 

@@ -343,7 +343,8 @@ const OrderDetail = () => {
                               <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
                                 <ButtonPayOrder
                                   transactionInfo={{
-                                    claimId: (deal || {}).currentClaim
+                                    claimId: (deal || {}).currentClaim,
+                                    transactionHash: transactionMeta.transactionHash
                                   }}
                                   amount={transactionPayedAmount || '0'}
                                   stepsPostAction={loadOrder}
