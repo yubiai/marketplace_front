@@ -110,7 +110,7 @@ const OrderDetail = () => {
   useEffect(() => {
     if (!transactionId) {
       return;
-    };
+    }
 
     const loadCurrencies = async () => {
       const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
@@ -135,7 +135,7 @@ const OrderDetail = () => {
     if (!global.yubiaiPaymentArbitrableInstance) {
       setYubiaiInstance(dispatch);
       return;
-    };
+    }
 
     if (!global.currencyPriceList.length && (global.profile || {}).token && (global.yubiaiPaymentArbitrableInstance || {}).web3) {
       loadCurrencies();
@@ -343,7 +343,8 @@ const OrderDetail = () => {
                               <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
                                 <ButtonPayOrder
                                   transactionInfo={{
-                                    claimId: (deal || {}).currentClaim
+                                    claimId: (deal || {}).currentClaim,
+                                    transactionHash: transactionMeta.transactionHash
                                   }}
                                   amount={transactionPayedAmount || '0'}
                                   stepsPostAction={loadOrder}

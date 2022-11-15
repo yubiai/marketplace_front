@@ -33,8 +33,6 @@ import {
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
 import { StatusOrder } from '../../../../components/Infos/StatusOrder';
-import EvidencesList from '../../../../components/Infos/EvidencesList';
-import { evidenceService } from '../../../../services/evidenceService';
 
 const OrderDetail = () => {
   /**
@@ -115,7 +113,7 @@ const OrderDetail = () => {
   useEffect(() => {
     if (!transactionId) {
       return;
-    };
+    }
 
     const loadCurrencies = async () => {
       const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
@@ -137,9 +135,9 @@ const OrderDetail = () => {
     }
 
     if (!global.yubiaiPaymentArbitrableInstance) {
-      setYubiaiInstance();
+      setYubiaiInstance(dispatch);
       return;
-    };
+    }
 
     if (!global.currencyPriceList.length && (global.profile || {}).token && (global.yubiaiPaymentArbitrableInstance || {}).web3) {
       loadCurrencies();
