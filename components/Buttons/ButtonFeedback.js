@@ -66,7 +66,7 @@ const ButtonFeedback = () => {
                         <Portal>
                             <PopoverContent>
                                 <PopoverHeader fontWeight='semibold'>Reach out to us with any questions, suggestions or bugs.
-                                    We're available on all weekdays and usually reply within one working day.</PopoverHeader>
+                                    We re available on all weekdays and usually reply within one working day.</PopoverHeader>
                                 <PopoverCloseButton />
                                 <PopoverBody>
                                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -86,7 +86,7 @@ const ButtonFeedback = () => {
                                                 {...register('email', {
                                                     required: true,
                                                     pattern:
-                                                        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                                        /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@(([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
                                                 })} />
                                             <Text color="red.300">{errors && errors.email && "Bad email format"}</Text>
 
