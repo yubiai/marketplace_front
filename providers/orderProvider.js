@@ -1,12 +1,11 @@
-import KlerosEscrow from '../utils/escrow-utils/kleros-escrow'
-import Web3 from 'web3'
-
-import { priceService } from '../services/priceService'
+import Web3 from 'web3';
+import YubiaiPaymentArbitrable from '../utils/escrow-utils/yubiaiPaymentArbitrable';
+import { priceService } from '../services/priceService';
 import {
   getProtocolNamingFromNetwork,
   parseItemIntoOrderTransaction,
   parseFromAToBToken
-} from '../utils/orderUtils'
+} from '../utils/orderUtils';
 import Arbitrator from '../utils/escrow-utils/arbitrator';
 
 
@@ -60,14 +59,14 @@ const setArbitratorInstance = (account, dispatch) => {
   })
 }
 
-const setKlerosInstance = (transactionData, dispatch) => {
-  const klerosEscrowRef = new KlerosEscrow(web3);
-  klerosEscrowRef.setCourtAndCurrency(
-    'general', (transactionData.amount || {}).currency?.token_address)
+const setYubiaiInstance = async dispatch => {
+  const yubiaiArbitrableInstance = new YubiaiPaymentArbitrable(
+    web3, global?.profile?.eth_address.toLowerCase());
+  await yubiaiArbitrableInstance.initContract();
 
   dispatch({
-    type: 'SET_KLEROS_ESCROW_INSTANCE',
-    payload: klerosEscrowRef,
+    type: 'SET_YUBIAI_ARBITRABLE_INSTANCE',
+    payload: yubiaiArbitrableInstance,
   })
 }
 
@@ -83,7 +82,7 @@ const loadCurrencyPrices = async (dispatch, global, networkType) => {
 }
 
 export {
-  setKlerosInstance,
+  setYubiaiInstance,
   loadCurrencyPrices,
   loadOrderData,
   getAccount,

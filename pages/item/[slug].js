@@ -142,15 +142,6 @@ const ItemById = ({ item }) => {
     } else {
       setOwner(null)
     }
-
-    if (!global.klerosEscrowInstance) {
-      return;
-    } else {
-      dispatch({
-        type: 'SET_KLEROS_ESCROW_INSTANCE',
-        payload: null,
-      })
-    }
   }, [item, global])
 
   const buyAndCheckoutItem = () => {
