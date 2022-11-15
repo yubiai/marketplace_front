@@ -127,9 +127,8 @@ const OrderDetail = () => {
     if (transactionData && global.yubiaiPaymentArbitrableInstance) {
       const currentTimeStamp = Math.round((new Date).getTime() / 1000);
       if ((orderDetail || {}).transaction) {
-        // Change to: <=
         setIsDealEnabledToClaim(
-          currentTimeStamp > (orderDetail.transaction || {}).transactionDate + (orderDetail.transaction || {}).timeForClaim);
+          currentTimeStamp <= (orderDetail.transaction || {}).transactionDate + (orderDetail.transaction || {}).timeForClaim);
         setIsOverDeal((orderDetail || {}).transaction);
       }
     }

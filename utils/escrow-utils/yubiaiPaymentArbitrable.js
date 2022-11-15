@@ -121,10 +121,10 @@ export default class YubiaiPaymentArbitrable {
     /**
      * 3rd user case: Deal not accepted and requesting a refund
      */
-  async makeClaim(dealId, amount, evidenceURI) {
+  async makeClaim(dealId, amount, evidenceURI, feeAmount) {
     const currentAccount = await this.getAccount();
     return await this.contract.methods.makeClaim(
-      dealId, amount, evidenceURI).send({ value: amount, from: currentAccount });
+      dealId, amount, evidenceURI).send({ value: feeAmount, from: currentAccount });
   }
 
   async acceptClaim(claimId) {

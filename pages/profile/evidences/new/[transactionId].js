@@ -48,7 +48,10 @@ const labelStyles = {
   mt: '2',
   ml: '-2.5',
   fontSize: 'sm',
-}
+};
+
+// FIXME: Implement fee amount from configuration
+const fixedFeeAmount = 0.025;
 
 const NewEvidence = () => {
   const global = useGlobal();
@@ -270,11 +273,14 @@ const NewEvidence = () => {
 
   const manageClaim = async (dealId, amount, evidenceURI, transactionHash) => {
     try {
-      const result = await global.yubiaiPaymentArbitrableInstance.makeClaim(dealId, amount, evidenceURI);
+      const parsedFeeAmount = global.yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(fixedFeeAmount));
+      const result = await global.yubiaiPaymentArbitrableInstance.makeClaim(
+        dealId, amount, evidenceURI, parsedFeeAmount);
 
       if (result) {
         const status = 'ORDER_DISPUTE_IN_PROGRESS';
         await orderService.updateOrderStatus(transactionHash, status, global?.profile?.token);
+        router.replace(`/profile/orders/detail/${transactionHash}`);
       }
     } catch (e) {
       console.log('Error creating a claim for a deal: ', e);
