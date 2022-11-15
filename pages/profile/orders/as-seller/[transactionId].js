@@ -124,8 +124,9 @@ const OrderDetail = () => {
       const { timeForChallenge } = await global.yubiaiPaymentArbitrableInstance.contract.methods.settings().call();
       const claim = await global.yubiaiPaymentArbitrableInstance.getClaimInfo(_deal.currentClaim);
       const currentTS = Math.floor((new Date()).getTime() / 1000);
-
-      setIsLateToChallenge(currentTS < claim.createdAt + timeForChallenge);
+      const limitClaimTime = Math.floor(
+        (parseInt(claim.createdAt, 10) + parseInt(timeForChallenge, 10)) / 1000);
+      setIsLateToChallenge(currentTS < limitClaimTime);
     }
 
     if ((orderDetail || {}).transaction && global.yubiaiPaymentArbitrableInstance) {
@@ -324,14 +325,19 @@ const OrderDetail = () => {
               {(deal || {}).state && StatusOrderByState(deal.state)}
             </Box>
 
-            <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-            <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-            <Text fontWeight={600} fontSize="2xl">Actions</Text>
+            {
+              orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && 
+              <>
+                <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+                <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+                <Text fontWeight={600} fontSize="2xl">Actions</Text>
+              </>
+            }
 
             <Stack mt={4} direction={'row'} spacing={2}>
               <Box w="full">
                 {(orderDetail.transaction || {}).transactionIndex &&
-                  orderDetail.status === 'ORDER_CREATED' && (
+                  orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && (
                     <>
                       <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
                         <Box p="1em">
@@ -343,7 +349,8 @@ const OrderDetail = () => {
                               <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
                                 <ButtonPayOrder
                                   transactionInfo={{
-                                    claimId: (deal || {}).currentClaim
+                                    claimId: (deal || {}).currentClaim,
+                                    transactionHash: transactionMeta.transactionHash
                                   }}
                                   amount={transactionPayedAmount || '0'}
                                   stepsPostAction={loadOrder}
