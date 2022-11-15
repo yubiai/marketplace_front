@@ -9,9 +9,11 @@ const loginMetamask = async () => {
   }
 
   try {
+
     let signerAddress = await window.ethereum.request({
       method: 'eth_requestAccounts',
-    })
+    });
+
     return signerAddress[0]
   } catch (error) {
     if (error.code === 4001) {
@@ -23,10 +25,33 @@ const loginMetamask = async () => {
   }
 }
 
+// Verify Metamask
+const verifyNetwork = async () => {
+
+  const networkVersion = window.ethereum.networkVersion;
+
+  if (networkVersion == 1 || networkVersion == 5 || networkVersion == 100) {
+    console.log("entroo")
+    return true
+  }
+
+  try {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: '0x1' }],
+    })
+  
+    return true;
+  } catch (err){
+    console.log(err);
+    return false;
+  }
+}
+
 // Balance Ubi Token ver 1
 const balanceUbi1 = (wallet) => {
   let balance = new Promise((resolve, reject) => {
-     etherscanService
+    etherscanService
       .getBalanceUbi(wallet && wallet.toLowerCase())
       .then((res) => {
         let oldBalance = res.data.result
@@ -65,4 +90,4 @@ const balanceUbi2 = async (wallet) => {
   }
 }
 
-export { loginMetamask, balanceUbi1, balanceUbi2 }
+export { loginMetamask, verifyNetwork, balanceUbi1, balanceUbi2 }

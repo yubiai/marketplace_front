@@ -17,7 +17,7 @@ import {
   useMediaQuery
 } from '@chakra-ui/react'
 
-import { loginMetamask } from '../../utils/ethereum'
+import { loginMetamask, verifyNetwork } from '../../utils/ethereum'
 import { profileService } from '../../services/profileService'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { termService } from '../../services/termService'
@@ -65,6 +65,22 @@ const ButtonConnect = () => {
   }
 
   const onConnect = async () => {
+
+    const confirmNetwork = await verifyNetwork();
+
+    if(!confirmNetwork){
+      console.log("Error the network");
+      toast({
+        title: 'Failed to login.',
+        description: 'Fail Network, change network in metamask.',
+        position: 'top-right',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      })
+      return
+    }
+
     const signerAddress = await loginMetamask()
 
     // Check with metamask

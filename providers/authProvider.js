@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { profileService } from '../services/profileService'
-import { loginMetamask } from '../utils/ethereum'
+import { loginMetamask, verifyNetwork } from '../utils/ethereum'
 import { useDispatchGlobal, useGlobal } from './globalProvider'
 import Cookies from 'js-cookie'
 import { notiService } from '../services/notiService'
@@ -55,7 +55,15 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const authToken = async () => {
       try {
-        await loginMetamask()
+        const confirmNetwork = await verifyNetwork();
+
+        if(!confirmNetwork){
+          console.log("Error the network");
+          router.push('/logout')
+          return
+        }
+
+        await loginMetamask();
 
         const YubiaiLs =
           typeof window !== 'undefined' && localStorage.getItem('Yubiai')

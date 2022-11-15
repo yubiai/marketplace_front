@@ -41,13 +41,13 @@ const Header = () => {
           {/* Search */}
           <Center w={{ base: 'full', md: 'md' }} mt={{ md: '15px' }}>
             <SearchBar />
+            <LanguageChange />
           </Center>
 
           {/* Language */}
           <Center 
           mt={'15px'} 
           display={{ base: 'none', md: 'flex' }}>
-            <LanguageChange />
             {global.meta ? <ButtonConnect /> : ''}
           </Center>
           <DrawerMenu />
