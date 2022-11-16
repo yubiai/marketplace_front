@@ -12,7 +12,7 @@ import {
   setYubiaiInstance,
 } from '../../../../providers/orderProvider';
 import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder';
-import ButtonStartClaim from '../../../../components/Buttons/ButtonStartClaim';
+import ButtonChallengeClaim from '../../../../components/Buttons/ButtonChallengeClaim';
 import Link from 'next/link';
 import Loading from '../../../../components/Spinners/Loading';
 import moment from 'moment';
@@ -232,7 +232,7 @@ const OrderDetail = () => {
 
             <Text fontWeight={600} fontSize="2xl">Transaction details</Text>
 
-            <Box p="1em" color="black" bg="orange.100" mt="1em">
+            <Box p="1em" color="black" bg="orange.100" mt="1em" mb="1em">
               <Flex><Text fontWeight={600}>ID: </Text> <Text>0x...{transactionMeta && transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16)}</Text></Flex>
               <Text fontWeight={600}>Status: {orderDetail.status.replace("_", " ")}</Text>
               {
@@ -265,60 +265,6 @@ const OrderDetail = () => {
               </Link>
             </Box>
 
-
-            <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-            <Text fontWeight={600} fontSize="2xl">Seller</Text>
-            <Grid
-              templateRows={{ base: 'repeat(1, 1fr)', md: 'none' }}
-              templateColumns={{ base: 'none', md: 'repeat(3, 1fr)' }}
-              gap={1}
-              mt="1em"
-            >
-
-              <Center>
-                <Avatar
-                  size={'xl'}
-                  src={orderDetail && orderDetail.item.seller.photo}
-                  alt={'Avatar Alt'}
-                  mb={4}
-                  pos={'relative'}
-                />
-              </Center>
-              <Center textAlign={"center"}>
-                <Box>
-                  <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.seller.first_name} ${orderDetail && orderDetail.item.seller.last_name}`}</Text>
-                  <Text>Eth Address: {orderDetail && orderDetail.item.seller.eth_address.slice(orderDetail.item.seller.eth_address.length - 8)}</Text>
-                  <Link
-                    href={
-                      'https://app.proofofhumanity.id/profile/' +
-                      orderDetail && orderDetail.item.seller.eth_address
-                    }
-
-                    passHref
-                  >
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Text color="black" as='u' fontStyle={"italic"} _hover={{
-                        color: "gray.400"
-                      }}>View poh profile</Text>
-                    </a>
-                  </Link>
-                </Box>
-              </Center>
-
-              <Center mt={{ base: '1em', md: '0px' }}>
-                <Button backgroundColor={'green.500'}
-                  color={'white'}
-                  rounded={'full'}
-                  _hover={{
-                    bg: "gray.400"
-                  }} onClick={redirectToChat}>Send Message</Button>
-              </Center>
-            </Grid>
-            <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-
             <Text fontWeight={600} fontSize="2xl">Status</Text>
 
             <Box width={{ base: "100%" }}>
@@ -328,7 +274,6 @@ const OrderDetail = () => {
             {
               orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && 
               <>
-                <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">Actions</Text>
               </>
@@ -378,7 +323,15 @@ const OrderDetail = () => {
                             {
                               !isLateToChallenge &&
                               <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
-                                <ButtonStartClaim isSeller={true} transactionMeta={transactionMeta} />
+                                <ButtonChallengeClaim
+                                  transactionInfo={{
+                                    claimId: (deal || {}).currentClaim,
+                                    transactionHash: transactionMeta.transactionHash
+                                  }}
+                                  stepsPostAction={loadOrder}
+                                  toggleLoadingStatus={toggleLoadingStatus}
+                                  yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                                />
                               </Box>
                             }
                           </Box>
