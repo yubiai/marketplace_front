@@ -290,10 +290,9 @@ const OrderDetail = () => {
                   <Text>Eth Address: {orderDetail && orderDetail.item.seller.eth_address.slice(orderDetail.item.seller.eth_address.length - 8)}</Text>
                   <Link
                     href={
-                      'https://app.proofofhumanity.id/profile/' +
-                      orderDetail && orderDetail.item.seller.eth_address
+                      `https://app.proofofhumanity.id/profile/${orderDetail && orderDetail.item.seller.eth_address}`
+                      
                     }
-
                     passHref
                   >
                     <a
