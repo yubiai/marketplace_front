@@ -32,6 +32,7 @@ import { useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
 import { useRouter } from 'next/router'
 import ButtonConnect from '../Buttons/ButtonConnect'
+import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
 
 const DrawerMenu = () => {
   const global = useGlobal()
@@ -92,6 +93,7 @@ const DrawerMenu = () => {
             ) : (
               <>
                 <ButtonConnect />
+                <ButtonSwitchNetwork />
               </>
             )}
           </DrawerHeader>

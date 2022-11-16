@@ -70,7 +70,7 @@ const ButtonConnect = () => {
       console.log("Error the network");
       toast({
         title: 'Failed to login.',
-        description: 'Fail Network, change network in metamask.',
+        description: 'Failed network, please change your network on metamask',
         position: 'top-right',
         status: 'warning',
         duration: 5000,
@@ -109,7 +109,7 @@ const ButtonConnect = () => {
           })
           dispatch({
             type: 'AUTHERROR',
-            payload: 'To connect it is necessary to be registered in Proof of Humanity and be validated.'
+            payload: 'To connect it is necessary to be registered in Proof of Humanity and have your status as registered.'
           });
           return
         }
