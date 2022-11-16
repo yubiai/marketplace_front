@@ -4,7 +4,8 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
-    Button
+    Button,
+    Spinner
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -35,6 +36,8 @@ const ButtonSwitchNetwork = () => {
     const router = useRouter();
 
     const [netWork, setNetwork] = useState(null);
+
+    const [loading, setLoading] = useState(false);
 
     const getNetwork = (id) => {
 
@@ -74,6 +77,7 @@ const ButtonSwitchNetwork = () => {
 
 
     useEffect(() => {
+        setLoading(true)
         setTimeout(() => {
             if (window.ethereum && window.ethereum.networkVersion) {
                 console.log("se activo el get network")
@@ -81,6 +85,7 @@ const ButtonSwitchNetwork = () => {
                 console.log(networkVersion, "networkVersion")
                 const data = getNetwork(networkVersion)
                 setNetwork(data)
+                setLoading(false)
                 return
             }
         }, 1000);
@@ -101,14 +106,25 @@ const ButtonSwitchNetwork = () => {
 
     return (
         <Menu>
-            <MenuButton backgroundColor={'white'}
-                color={'#00abd1'}
-                rounded={'full'}
-                ml="1em"
-                disabled={!listChains || listChains.length === 0}
-                cursor={'pointer'} as={Button} rightIcon={<ChevronDownIcon />}>
-                {netWork && netWork.title ? netWork.title : "Network not allowed"}
-            </MenuButton>
+            {loading ? (
+                <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="md"
+              />
+            ) : (
+                <MenuButton backgroundColor={'white'}
+                    color={'#00abd1'}
+                    rounded={'full'}
+                    ml="1em"
+                    disabled={!listChains || listChains.length === 0}
+                    cursor={'pointer'} as={Button} rightIcon={<ChevronDownIcon />}>
+                    {netWork && netWork.title ? netWork.title : "Network not allowed"}
+                </MenuButton>
+            )}
+
             <MenuList>
                 {listChains && listChains.length > 0 && listChains.map((chain, i) => {
                     if (!netWork) {

@@ -57,7 +57,13 @@ const NotificationDrawer = () => {
       })
   }
 
-  if (!data) return <Spinner />
+  if (!data) return <Spinner
+    thickness="4px"
+    speed="0.65s"
+    emptyColor="gray.200"
+    color="blue.500"
+    size="md"
+  />
 
   if (global && global.profile) {
     return (

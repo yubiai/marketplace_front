@@ -81,7 +81,13 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
        <>
         {operationInProgress && (
         <Center >
-            <Spinner />
+            <Spinner
+                thickness="4px"
+                speed="0.65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="md"
+              />
         </Center>
         )}
         <Button bg='#00abd1' color={'white'} onClick={createTransaction} isDisabled={operationInProgress && operationInProgress}>Hire service</Button>
