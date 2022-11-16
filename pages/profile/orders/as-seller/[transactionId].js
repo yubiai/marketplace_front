@@ -67,7 +67,7 @@ const OrderDetail = () => {
   // if logged in, redirect to the home
   useEffect(() => {
     if (loggedOut) {
-      //router.replace('/logout');
+      router.replace('/logout');
     }
   }, [user, loggedOut, router, dispatch]);
 

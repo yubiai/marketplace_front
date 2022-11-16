@@ -11,6 +11,7 @@ const initialState = {
   subCategory: '',
   meta: false,
   profile: null,
+  autherror: null,
   yubiaiPaymentArbitrableInstance: null,
   arbitratorInstance: null,
   itemToCheckout: null,
@@ -25,6 +26,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         profile: action.payload,
+      }
+    case 'AUTHERROR':
+      return {
+        ...state,
+        autherror: action.payload,
       }
     case 'REFRESHPRICES':
       return {
@@ -54,7 +60,7 @@ const reducer = (state, action) => {
     case 'SET_ITEM_TO_CHECKOUT':
       return {
         ...state,
-        itemToCheckout: {...action.payload},
+        itemToCheckout: { ...action.payload },
       }
     case 'SET_CURRENCY_PRICE_LIST':
       return {

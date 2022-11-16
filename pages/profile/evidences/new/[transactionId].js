@@ -294,7 +294,7 @@ const NewEvidence = () => {
       <Head>
         <title>Yubiai Marketplace - New Listing</title>
       </Head>
-      <Container maxW="2xl" h={{ base: 'full', md: selectedMsg.length > 0 ? 'full' : '100vh' }} display={'flex'} flexDirection={'column'}>
+      <Container maxW="2xl" h={'full'} display={'flex'} flexDirection={'column'}>
         <Heading mt="1em">Claim transaction</Heading>
         <form id="hook-form" onSubmit={handleSubmit(onSubmit)}>
           <Box mt="1em">

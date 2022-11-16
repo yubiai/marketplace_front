@@ -1,7 +1,6 @@
 import Cookies from 'js-cookie'
 import Joyride from 'react-joyride';
 import { useState, useRef } from 'react'
-import { useRouter } from 'next/router'
 import { useTour } from "@reactour/tour";
 
 import {
@@ -25,7 +24,6 @@ import { stepsJoyride } from '../../utils/tourGuideUtils'
 import RichTextReadOnly from '../Utils/richTextReadOnly';
 
 const ButtonConnect = () => {
-  const router = useRouter();
   const toast = useToast();
   const dispatch = useDispatchGlobal();
   const global = useGlobal();
@@ -68,7 +66,7 @@ const ButtonConnect = () => {
 
     const confirmNetwork = await verifyNetwork();
 
-    if(!confirmNetwork){
+    if (!confirmNetwork) {
       console.log("Error the network");
       toast({
         title: 'Failed to login.',
@@ -97,7 +95,35 @@ const ButtonConnect = () => {
     }
 
     // Login
-    const res = await profileService.login(signerAddress);
+    const res = await profileService.login(signerAddress)
+      .catch((err) => {
+        if (err && err.response && err.response.data && err.response.data.error) {
+          console.log(err)
+          toast({
+            title: 'Failed to login.',
+            description: err.response.data && err.response.data.error ? err.response.data.error : "Failed",
+            position: 'top-right',
+            status: 'warning',
+            duration: 5000,
+            isClosable: true,
+          })
+          dispatch({
+            type: 'AUTHERROR',
+            payload: 'To connect it is necessary to be registered in Proof of Humanity and be validated.'
+          });
+          return
+        }
+      })
+
+    if(!res){
+      return
+    }
+
+    dispatch({
+      type: 'AUTHERROR',
+      payload: null
+    });
+
     const token = res.data.token;
     const profile = res.data.data;
 
@@ -134,7 +160,7 @@ const ButtonConnect = () => {
         }
       })
       .catch((err) => {
-        console.error(err);
+        console.error(err, "ee");
         return
       })
 
@@ -170,8 +196,16 @@ const ButtonConnect = () => {
 
   // Reject
   const rejectTerms = () => {
-    router.push('/logout');
+    toast({
+      title: 'Failed to login.',
+      description: 'In order to connect you must accept the terms and conditions.',
+      position: 'top-right',
+      status: 'warning',
+      duration: 5000,
+      isClosable: true,
+    })
     onClose();
+    return
   }
 
   const [isLargerThanmd] = useMediaQuery('(min-width: 768px)')
