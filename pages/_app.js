@@ -17,6 +17,7 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { SWRConfig } from 'swr'
 import TourGuideProvider from '../providers/tourProvider';
+import MetaErrorAlert from '../components/Alerts/metaErrorAlert';
 
 Axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API_URL
 //Axios.defaults.withCredentials = true;
@@ -47,6 +48,7 @@ function MyApp({ Component, pageProps }) {
               <Header />
               <Navbar />
               <MetaAlert />
+              <MetaErrorAlert />
               <Component {...pageProps} />
               <Footer />
             </TourGuideProvider>

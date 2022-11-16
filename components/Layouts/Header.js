@@ -5,6 +5,7 @@ import DrawerMenu from '../Menus/DrawerMenu'
 import SearchBar from './SearchBar'
 import ButtonConnect from '../Buttons/ButtonConnect'
 import { useGlobal } from '../../providers/globalProvider'
+import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
 
 const Header = () => {
   const global = useGlobal()
@@ -48,6 +49,7 @@ const Header = () => {
           <Center 
           mt={'15px'} 
           display={{ base: 'none', md: 'flex' }}>
+            <ButtonSwitchNetwork />
             {global.meta ? <ButtonConnect /> : ''}
           </Center>
           <DrawerMenu />

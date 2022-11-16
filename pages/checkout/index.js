@@ -56,11 +56,7 @@ const Checkout = () => {
   // if logged in, redirect to the home
   useEffect(() => {
     if (loggedOut) {
-      router.replace('/')
-      dispatch({
-        type: 'AUTHPROFILE',
-        payload: null,
-      })
+      router.replace('/logout')
     }
   }, [user, loggedOut, router, dispatch]);
 

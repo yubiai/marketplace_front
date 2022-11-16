@@ -55,15 +55,12 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const authToken = async () => {
       try {
-        const confirmNetwork = await verifyNetwork();
+        const signerAddress = await loginMetamask()
 
-        if(!confirmNetwork){
-          console.log("Error the network");
-          router.push('/logout')
+        // Check with metamask
+        if (!signerAddress) {
           return
         }
-
-        await loginMetamask();
 
         const YubiaiLs =
           typeof window !== 'undefined' && localStorage.getItem('Yubiai')
@@ -74,8 +71,10 @@ export const AuthProvider = ({ children }) => {
         const Ybcookies = Cookies.get('Yubiai') ? Cookies.get('Yubiai') : null
 
         if (!Yubiai && !Ybcookies) {
-          return
+          throw "No Token"
         }
+
+        const verifyNetWorkChainID = await verifyNetwork();
 
         const response = Yubiai
           ? await axios.get('/auth/session/', {
@@ -96,6 +95,9 @@ export const AuthProvider = ({ children }) => {
             : null
 
         if (user && user.status === 200) {
+          if(!verifyNetWorkChainID){
+            router.push('/logout')
+          }
           dispatch({
             type: 'AUTHPROFILE',
             payload: { ...user.data, token: Yubiai.token },
@@ -103,20 +105,11 @@ export const AuthProvider = ({ children }) => {
           callApiNoti(user.data._id, Yubiai.token)
           return
         } else {
-          dispatch({
-            type: 'AUTHPROFILE',
-            payload: null,
-          })
-          router.push('/')
+          router.push('/logout')
           return
         }
       } catch (err) {
-        dispatch({
-          type: 'AUTHPROFILE',
-          payload: null,
-        })
-        localStorage.removeItem('Yubiai')
-        router.push('/')
+        console.error(err, "Error Auth")
         return
       }
     }
