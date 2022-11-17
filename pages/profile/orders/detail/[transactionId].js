@@ -30,9 +30,12 @@ import {
   Grid,
   SimpleGrid,
   Flex,
+  Breadcrumb,
+  BreadcrumbItem,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
 import { StatusOrder } from '../../../../components/Infos/StatusOrder';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 
 const OrderDetail = () => {
   /**
@@ -164,6 +167,26 @@ const OrderDetail = () => {
         display={'flex'}
         flexDirection={'column'}
       >
+        <Breadcrumb spacing='8px' mt='1em' separator={<ChevronRightIcon color='gray.500' />}>
+          <BreadcrumbItem>
+            <Link href="/" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}>Home</Text></Link>
+          </BreadcrumbItem>
+
+          <BreadcrumbItem>
+            <Link href="/profile/orders/" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}>Orders</Text></Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem isCurrentPage>
+              <Text>Order Detail</Text>
+            </BreadcrumbItem>
+        </Breadcrumb>
         <Center py={6}>
           {operationInProgress && <Loading styleType={'checkout'} />}
           <Box
@@ -291,7 +314,7 @@ const OrderDetail = () => {
                   <Link
                     href={
                       `https://app.proofofhumanity.id/profile/${orderDetail && orderDetail.item.seller.eth_address}`
-                      
+
                     }
                     passHref
                   >

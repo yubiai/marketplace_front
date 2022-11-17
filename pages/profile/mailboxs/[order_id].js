@@ -184,6 +184,14 @@ const MailBoxs = () => {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
+            <Link href="/profile/orders/" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}>Orders</Text></Link>
+          </BreadcrumbItem>
+
+            <BreadcrumbItem>
               <Link href={`/profile/orders/detail/${channel.order_id.transactionHash}`}><Text color="#00abd1" cursor={'pointer'} _hover={{
                 textDecoration: "underline"
               }}>Order detail</Text></Link>

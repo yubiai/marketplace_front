@@ -30,9 +30,12 @@ import {
   Grid,
   SimpleGrid,
   Flex,
+  Breadcrumb,
+  BreadcrumbItem,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
 import { StatusOrderByState } from '../../../../components/Infos/StatusOrder';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 
 const CLAIMED_STATUS = "2";
 
@@ -92,10 +95,10 @@ const OrderDetail = () => {
     setOperationInProgress(status)
   };
 
-/*   const redirectToChat = () => {
-    const { _id } = orderDetail
-    router.push(`/profile/mailboxs/${_id}`)
-  }; */
+  /*   const redirectToChat = () => {
+      const { _id } = orderDetail
+      router.push(`/profile/mailboxs/${_id}`)
+    }; */
 
   const getTransactionLink = (transaction = {}, transactionMeta = {}, shortLink = false) => {
     const transactionHash = shortLink ?
@@ -164,6 +167,26 @@ const OrderDetail = () => {
         display={'flex'}
         flexDirection={'column'}
       >
+        <Breadcrumb spacing='8px' mt='1em' separator={<ChevronRightIcon color='gray.500' />}>
+          <BreadcrumbItem>
+            <Link href="/" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}>Home</Text></Link>
+          </BreadcrumbItem>
+
+          <BreadcrumbItem>
+            <Link href="/profile/orders/" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}>Orders</Text></Link>
+          </BreadcrumbItem>
+          <BreadcrumbItem isCurrentPage>
+            <Text>Sale Detail</Text>
+          </BreadcrumbItem>
+        </Breadcrumb>
         <Center py={6}>
           {operationInProgress && <Loading styleType={'checkout'} />}
           <Box
@@ -272,7 +295,7 @@ const OrderDetail = () => {
             </Box>
 
             {
-              orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && 
+              orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' &&
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">Actions</Text>
@@ -308,12 +331,12 @@ const OrderDetail = () => {
                           )}
                         </Box>
                         {
-                          (deal || {}).state === CLAIMED_STATUS && 
+                          (deal || {}).state === CLAIMED_STATUS &&
                           <Box bg='orange.200' p="1em">
                             <Text color="black">
                               {
                                 !isLateToChallenge &&
-                                "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:" 
+                                "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:"
                               }
                               {
                                 isLateToChallenge &&

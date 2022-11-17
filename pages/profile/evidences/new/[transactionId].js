@@ -1,4 +1,4 @@
-import { AttachmentIcon } from "@chakra-ui/icons";
+import { AttachmentIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -24,9 +24,12 @@ import {
   Spinner,
   Text,
   Textarea,
-  useDisclosure
+  useDisclosure,
+  Breadcrumb,
+  BreadcrumbItem
 } from "@chakra-ui/react";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -295,6 +298,33 @@ const NewEvidence = () => {
         <title>Yubiai Marketplace - New Listing</title>
       </Head>
       <Container maxW="2xl" h={'full'} display={'flex'} flexDirection={'column'}>
+        <Breadcrumb spacing='8px' mt='1em' separator={<ChevronRightIcon color='gray.500' />}>
+          <BreadcrumbItem>
+            <Link href="/" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}>Home</Text></Link>
+          </BreadcrumbItem>
+
+          <BreadcrumbItem>
+            <Link href="/profile/orders/" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}>Orders</Text></Link>
+          </BreadcrumbItem>
+
+          <BreadcrumbItem>
+            <Link href={`/profile/orders/detail/${orderDetail.transaction.transactionMeta.transactionHash}`}><Text color="#00abd1" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}>Order detail</Text></Link>
+          </BreadcrumbItem>
+
+          <BreadcrumbItem isCurrentPage>
+            <Text>New Evidence </Text>
+          </BreadcrumbItem>
+        </Breadcrumb>
         <Heading mt="1em">Claim transaction</Heading>
         <form id="hook-form" onSubmit={handleSubmit(onSubmit)}>
           <Box mt="1em">
@@ -336,7 +366,7 @@ const NewEvidence = () => {
             <FormControl>
               <FormLabel color="black">Amount to claim</FormLabel>
               {
-                orderDetail && orderDetail.item && 
+                orderDetail && orderDetail.item &&
                 <p>{parseWeiToTokenAmount(valueToClaim)}{orderDetail.item.currencySymbolPrice}</p>
               }
               <Slider
@@ -418,9 +448,9 @@ const NewEvidence = () => {
                 <ModalBody>
                   {result && orderDetail && (
                     <PreviewEvidence result={result}
-                                     transactionHash={orderDetail.transaction.transactionMeta.transactionHash}
-                                     previewFiles={previewFiles}
-                                     selectedMsg={selectedMsg} />
+                      transactionHash={orderDetail.transaction.transactionMeta.transactionHash}
+                      previewFiles={previewFiles}
+                      selectedMsg={selectedMsg} />
                   )}
                 </ModalBody>
 
