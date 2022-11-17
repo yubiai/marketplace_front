@@ -5,7 +5,8 @@ import {
     MenuList,
     MenuItem,
     Button,
-    Spinner
+    Spinner,
+    Box
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -32,7 +33,7 @@ const listChains = [
     }
 ];
 
-const ButtonSwitchNetwork = () => {
+const ButtonSwitchNetwork = ({ bg, color }) => {
     const router = useRouter();
 
     const [netWork, setNetwork] = useState(null);
@@ -107,18 +108,21 @@ const ButtonSwitchNetwork = () => {
     return (
         <Menu>
             {loading ? (
-                <Spinner
-                thickness="4px"
-                speed="0.65s"
-                emptyColor="gray.200"
-                color="blue.500"
-                size="md"
-              />
+                <Box w="100%" textAlign={"center"} mt="10px">
+                    <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                        size="md"
+                    />
+                </Box>
             ) : (
-                <MenuButton backgroundColor={'white'}
-                    color={'#00abd1'}
+                <MenuButton backgroundColor={bg}
+                    color={color}
                     rounded={'full'}
-                    ml="1em"
+                    w="90%"
+                    mr="5px"
                     disabled={!listChains || listChains.length === 0}
                     cursor={'pointer'} as={Button} rightIcon={<ChevronDownIcon />}>
                     {netWork && netWork.title ? netWork.title : "Network not allowed"}

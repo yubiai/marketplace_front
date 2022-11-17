@@ -49,7 +49,7 @@ const Header = () => {
           <Center 
           mt={'15px'} 
           display={{ base: 'none', md: 'flex' }}>
-            <ButtonSwitchNetwork />
+            <ButtonSwitchNetwork bg={"white"} color={'#00abd1'} />
             {global.meta ? <ButtonConnect /> : ''}
           </Center>
           <DrawerMenu />

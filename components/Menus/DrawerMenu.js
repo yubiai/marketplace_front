@@ -12,6 +12,7 @@ import {
   List,
   ListItem,
   ListIcon,
+  Box,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
@@ -85,6 +86,7 @@ const DrawerMenu = () => {
           <DrawerCloseButton />
 
           <DrawerHeader bg="yb.1">
+
             {statusLogin ? (
               <UserInfo
                 profile={global && global.profile}
@@ -93,14 +95,20 @@ const DrawerMenu = () => {
             ) : (
               <>
                 <ButtonConnect />
-                <ButtonSwitchNetwork />
               </>
             )}
+
           </DrawerHeader>
           <Divider />
 
           <DrawerBody>
             <List spacing={3}>
+              <ListItem>
+                <Box>
+                  <ButtonSwitchNetwork bg={'#00abd1'} color={'white'} />
+                </Box>
+              </ListItem>
+              <Divider />
               <ListItem>
                 <Link href="/">
                   <Button
