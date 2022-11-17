@@ -92,10 +92,10 @@ const OrderDetail = () => {
     setOperationInProgress(status)
   };
 
-  const redirectToChat = () => {
+/*   const redirectToChat = () => {
     const { _id } = orderDetail
     router.push(`/profile/mailboxs/${_id}`)
-  };
+  }; */
 
   const getTransactionLink = (transaction = {}, transactionMeta = {}, shortLink = false) => {
     const transactionHash = shortLink ?
