@@ -221,12 +221,12 @@ const ButtonConnect = () => {
         backgroundColor={'white'}
         color={'#00abd1'}
         rounded={'full'}
-        ml="1em"
+        w="90%"
         cursor={'pointer'}
         onClick={() => onConnect()}
         isDisabled={global.profile && global.profile.eth_address}
       >
-        {global.profile && global.profile.eth_address ? global.profile.eth_address.slice(global.profile.eth_address.length - 8) : 'Connect'}
+        {global.profile && global.profile.eth_address ? global.profile.eth_address.slice(0, 5) + "..." + global.profile.eth_address.slice(global.profile.eth_address.length - 4) : 'Connect'}
       </Button>
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'inside'} size={"6xl"}>
         <OverlayOne />
