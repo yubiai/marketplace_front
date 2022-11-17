@@ -132,9 +132,9 @@ export default class YubiaiPaymentArbitrable {
     return await this.contract.methods.acceptClaim(claimId).send({ from: currentAccount });
   }
 
-  async challengeClaim(claimId) {
+  async challengeClaim(claimId, feeAmount) {
     const currentAccount = await this.getAccount();
-    return await this.contract.methods.challengeClaim(claimId).send({ from: currentAccount });
+    return await this.contract.methods.challengeClaim(claimId).send({ value: feeAmount, from: currentAccount });
   }
 
   async isOver(transactionId) {
