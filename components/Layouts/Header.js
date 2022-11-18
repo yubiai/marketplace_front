@@ -48,7 +48,8 @@ const Header = () => {
           {/* Language */}
           <Center 
           mt={'15px'} 
-          display={{ base: 'none', md: 'flex' }}>
+          display={{ base: 'none', md: 'flex' }}
+          width="330px">
             <ButtonSwitchNetwork bg={"white"} color={'#00abd1'} />
             {global.meta ? <ButtonConnect /> : ''}
           </Center>

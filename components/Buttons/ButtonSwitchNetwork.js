@@ -121,11 +121,11 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
                 <MenuButton backgroundColor={bg}
                     color={color}
                     rounded={'full'}
-                    w="90%"
                     mr="5px"
+                    w="100%"
                     disabled={!listChains || listChains.length === 0}
                     cursor={'pointer'} as={Button} rightIcon={<ChevronDownIcon />}>
-                    {netWork && netWork.title ? netWork.title : "Network not allowed"}
+                    {netWork && netWork.title ? netWork.title : "Wrong Network"}
                 </MenuButton>
             )}
 
