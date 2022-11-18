@@ -1,8 +1,9 @@
 import {
+  Breadcrumb,
+  BreadcrumbItem,
   Button,
   Center,
   Container,
-  Flex,
   Grid,
   Heading,
   Text,
@@ -18,6 +19,8 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import useUser from '../../../hooks/data/useUser'
 import ItemCardPublish from '../../../components/Cards/ItemCardPublish'
+import { ChevronRightIcon } from '@chakra-ui/icons'
+import Link from 'next/link'
 
 const Published = () => {
   const global = useGlobal()
@@ -64,11 +67,20 @@ const Published = () => {
           display={'flex'}
           flexDirection={'column'}
         >
-          <Flex alignItems={'center'} mt="1em">
-            {data && data.items && data.items.length > 0 && (
-              <Text fontWeight={'bold'}>Your published</Text>
-            )}
-          </Flex>
+          <Breadcrumb spacing='8px' mt='1em' mb='1em' separator={<ChevronRightIcon color='gray.500' />}>
+            <BreadcrumbItem>
+              <Link href="/" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}>Home</Text></Link>
+            </BreadcrumbItem>
+
+            <BreadcrumbItem>
+              <Text>Your published</Text>
+            </BreadcrumbItem>
+          </Breadcrumb>
+
           {data && data.items && data.items.length === 0 && (
             <>
               <Center>

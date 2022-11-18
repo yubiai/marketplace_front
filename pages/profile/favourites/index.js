@@ -1,10 +1,11 @@
 import {
+  Breadcrumb,
+  BreadcrumbItem,
   Button,
   Center,
   Container,
-  Flex,
+  Grid,
   Heading,
-  SimpleGrid,
   Text,
 } from '@chakra-ui/react'
 import Loading from '../../../components/Spinners/Loading'
@@ -18,6 +19,8 @@ import { useRouter } from 'next/router'
 import useUser from '../../../hooks/data/useUser'
 import { useEffect } from 'react'
 import ItemCardPublish from '../../../components/Cards/ItemCardPublish'
+import { ChevronRightIcon } from '@chakra-ui/icons'
+import Link from 'next/link'
 
 const Favourites = () => {
   const global = useGlobal()
@@ -59,11 +62,20 @@ const Favourites = () => {
           display={'flex'}
           flexDirection={'column'}
         >
-          <Flex alignItems={'center'} mt="1em">
-            {data && data.items && data.items.length > 0 && (
-              <Text fontWeight={'bold'}>Your favourites</Text>
-            )}
-          </Flex>
+          <Breadcrumb spacing='8px' mt='1em' mb='1em' separator={<ChevronRightIcon color='gray.500' />}>
+            <BreadcrumbItem>
+              <Link href="/" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}>Home</Text></Link>
+            </BreadcrumbItem>
+
+            <BreadcrumbItem>
+              <Text>Your favourites</Text>
+            </BreadcrumbItem>
+          </Breadcrumb>
+
           {data && data.items && data.items.length === 0 && (
               <>
                 <Center>
@@ -84,14 +96,18 @@ const Favourites = () => {
                 </Center>
               </>
             )}
-          <SimpleGrid minChildWidth="250px" spacing="2px">
+          <Grid
+            templateRows={{ base: 'repeat(1, 1fr)', md: 'none' }}
+            templateColumns={{ base: 'none', md: 'repeat(4, 1fr)' }}
+            gap={1}
+          >
             {data &&
               data.items &&
               data.items.length > 0 &&
               data.items.map((item, i) => {
                 return <ItemCardPublish key={i} item={item} />
               })}
-          </SimpleGrid>
+          </Grid>
           <Paginations data={data ? data : null} />
         </Container>
       </ProfileMenu>

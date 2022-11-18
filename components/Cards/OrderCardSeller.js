@@ -8,7 +8,7 @@ const OrderCardSeller = ({ order }) => {
   const router = useRouter()
 
   return (
-    <Stack p="4" boxShadow="lg" m="4" borderRadius="sm" bg="white">
+    <Stack p="4" boxShadow="lg" m="0.5px" borderRadius="sm" bg="white">
 
       <Stack direction={{ base: "column", md: "row" }} alignItems="left">
         <Text fontWeight="semibold">

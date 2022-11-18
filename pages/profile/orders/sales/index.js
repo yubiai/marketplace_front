@@ -1,12 +1,15 @@
+import { ChevronRightIcon } from '@chakra-ui/icons'
 import {
+  Breadcrumb,
+  BreadcrumbItem,
   Button,
   Center,
   Container,
-  Flex,
   Heading,
   Text,
 } from '@chakra-ui/react'
 import Head from 'next/head'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import OrderCardSeller from '../../../../components/Cards/OrderCardSeller'
@@ -68,11 +71,19 @@ const Sales = () => {
           display={'flex'}
           flexDirection={'column'}
         >
-          {data && data.items && data.items.length > 0 && (
-            <Flex alignItems={'center'} mt="1em">
-              <Text fontWeight={'bold'}>Sales</Text>
-            </Flex>
-          )}
+          <Breadcrumb spacing='8px' mt='1em' mb='1em' separator={<ChevronRightIcon color='gray.500' />}>
+            <BreadcrumbItem>
+              <Link href="/" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}>Home</Text></Link>
+            </BreadcrumbItem>
+
+            <BreadcrumbItem>
+              <Text>Sales</Text>
+            </BreadcrumbItem>
+          </Breadcrumb>
           {data && data.items && data.items.length === 0 && (
             <>
               <Center>
