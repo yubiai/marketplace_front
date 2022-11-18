@@ -81,9 +81,7 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
         setLoading(true)
         setTimeout(() => {
             if (window.ethereum && window.ethereum.networkVersion) {
-                console.log("se activo el get network")
                 const networkVersion = window.ethereum.networkVersion;
-                console.log(networkVersion, "networkVersion")
                 const data = getNetwork(networkVersion)
                 setNetwork(data)
                 setLoading(false)
