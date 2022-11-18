@@ -1,4 +1,4 @@
-import { Box, Button, Container, Heading, Input, Text, useToast } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, Button, Container, Heading, Input, Text, useToast } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
@@ -10,6 +10,8 @@ import useFetch from '../../../hooks/data/useFetch'
 import { useGlobal } from '../../../providers/globalProvider'
 import { profileService } from '../../../services/profileService'
 import useUser from '../../../hooks/data/useUser'
+import Link from 'next/link'
+import { ChevronRightIcon } from '@chakra-ui/icons'
 
 const ProfileEdit = () => {
   const global = useGlobal()
@@ -63,7 +65,8 @@ const ProfileEdit = () => {
     await profileService
       .updateProfile(global.profile._id, data, global?.profile?.token)
       .then((res) => {
-        actionToat("Profile", res.data && res.data.message, "success")
+        actionToat("Profile", res.data && res.data.message, "success");
+        router.push("/profile")
       })
       .catch((err) => {
         console.log(err)
@@ -84,6 +87,26 @@ const ProfileEdit = () => {
       </Head>
       <ProfileMenu>
         <Container maxW="2xl" display={'flex'} flexDirection={'column'}>
+          <Breadcrumb spacing='8px' mt='1em' separator={<ChevronRightIcon color='gray.500' />}>
+            <BreadcrumbItem>
+              <Link href="/" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}>Home</Text></Link>
+            </BreadcrumbItem>
+
+            <BreadcrumbItem>
+              <Link href="/profile" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}>Profile</Text></Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem isCurrentPage>
+              <Text>Edit</Text>
+            </BreadcrumbItem>
+          </Breadcrumb>
           <Heading mt="1em">Edit my profile</Heading>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Text mt="2em">Real Name</Text>

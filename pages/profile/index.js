@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, Text } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import MyInfoPohCard from '../../components/Cards/MyInfoPohCard'
@@ -11,6 +11,8 @@ import useFetch from '../../hooks/data/useFetch'
 import Error from '../../components/Infos/Error'
 import useUser from '../../hooks/data/useUser'
 import { useRouter } from 'next/router'
+import { ChevronRightIcon } from '@chakra-ui/icons'
+import Link from 'next/link'
 
 const Profile = () => {
   const global = useGlobal()
@@ -73,7 +75,19 @@ const Profile = () => {
           flexDirection={'column'}
           w={{ base: 'full' }}
         >
-          <Text fontWeight={'bold'}>My Info</Text>
+          <Breadcrumb spacing='8px' mt='1em' mb='1em' separator={<ChevronRightIcon color='gray.500' />}>
+            <BreadcrumbItem>
+              <Link href="/" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}>Home</Text></Link>
+            </BreadcrumbItem>
+
+            <BreadcrumbItem>
+              <Text>My Info</Text>
+            </BreadcrumbItem>
+          </Breadcrumb>
           <Text fontWeight={'bold'}>Proof of humanity information</Text>
           {profile && profile.permission === 6 && (
             <>
