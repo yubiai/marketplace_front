@@ -402,7 +402,7 @@ const OrderDetail = () => {
                             {
                               !isOver &&
                               <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
-                                <ButtonStartClaim transactionMeta={transactionMeta} />
+                                <ButtonStartClaim transactionMeta={transactionMeta} token={global.profile.token} />
                               </Box>
                             }
                           </Box>
