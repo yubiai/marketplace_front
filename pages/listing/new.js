@@ -46,7 +46,7 @@ import useUser from '../../hooks/data/useUser'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { publishService } from '../../services/publishService'
 import { getListSubCategory } from '../../utils/itemUtils'
-import { loadCurrencyPrices } from '../../providers/orderProvider'
+import { loadCurrencyPrices, setYubiaiInstance } from '../../providers/orderProvider'
 
 const NewListing = () => {
   const global = useGlobal()
@@ -88,15 +88,21 @@ const NewListing = () => {
     }
 
     const loadCurrencies = async () => {
-      const networkType = await global.klerosEscrowInstance.web3.eth.net.getNetworkType();
+      const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
       loadCurrencyPrices(dispatch, global, networkType);
     }
 
-    if (user && !global.currencyPriceList.length && global.profile && global.klerosEscrowInstance) {
+    if (!global.yubiaiPaymentArbitrableInstance) {
+      setYubiaiInstance(dispatch);
+      return;
+    } 
+
+    if (user && !global.currencyPriceList.length && global.profile && global.yubiaiPaymentArbitrableInstance) {
       loadCurrencies();
       return
     }
-  }, [user, global.currencyPriceList, global.profile, loggedOut])
+
+  }, [user, global.yubiaiPaymentArbitrableInstance, global.currencyPriceList, global.profile, loggedOut])
 
   const { data: categories, isLoading, isError } = useFetch('/categories/')
 
