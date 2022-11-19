@@ -82,7 +82,7 @@ const ButtonStartClaim = ({ transactionMeta, token }) => {
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'inside'} size={"6xl"}>
                 <OverlayOne />
                 <ModalContent bg="white" color="black">
-                    <ModalHeader>Dispute Policy
+                    <ModalHeader>Yubiai Service Policy 
                     <Text fontStyle={"italic"}>Update At: {moment(disputePolicy && disputePolicy.updateAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
 
                     </ModalHeader>
