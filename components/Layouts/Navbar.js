@@ -13,8 +13,8 @@ import {
 } from '@chakra-ui/react'
 import UserMenu from '../Menus/UserMenu'
 import { useGlobal } from '../../providers/globalProvider'
-import NotificationDrawer from '../Menus/NotificationDrawer'
 import { useRouter } from 'next/router'
+import NotificationTwo from '../Menus/NotificationTwo'
 
 const Navbar = () => {
   const global = useGlobal()
@@ -150,7 +150,7 @@ const Navbar = () => {
               spacing={2}
             >
               <UserMenu />
-              <NotificationDrawer />
+              <NotificationTwo />
             </Stack>
           </Flex>
         </Container>
