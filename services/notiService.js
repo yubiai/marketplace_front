@@ -2,7 +2,7 @@ import axios from 'axios'
 
 async function getNotiFalseByUserId(userId, token) {
   return await axios.get(
-    `/noti/${userId}?size=6`,
+    `/noti/${userId}?size=4`,
     token
       ? {
           headers: {
