@@ -22,22 +22,22 @@ import { useEffect, useRef, useState } from 'react'
 import { BsFillBellFill } from 'react-icons/bs'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { notiService } from '../../services/notiService'
-import NotiTwoCard from '../Cards/NotiTwoCard'
+import NotiCard from '../Cards/NotiCard'
 
-const NotificationTwo = () => {
+const Notification = () => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
   const { onOpen } = useDisclosure()
   const initRef = useRef()
-  const [data, setData] = useState([])
+  const [notis, setNotis] = useState([])
 
   useEffect(() => {
     const init = () => {
-      setData(null)
-      if (global.notificationsList.totalItems > 0) {
-        setData(global.notificationsList)
+      setNotis(null)
+      if (global.notificationsList && global.notificationsList.length > 0) {
+        setNotis(global.notificationsList)
       } else {
-        setData([])
+        setNotis([])
       }
     }
     init()
@@ -45,11 +45,11 @@ const NotificationTwo = () => {
 
   const callApiNoti = async () => {
     await notiService
-      .getNotiFalseByUserId(global.profile._id, global.profile.token)
+      .getNotisSeenFalseById(global.profile._id, global.profile.token)
       .then((res) => {
         dispatch({
           type: 'SET_NOTIFICATIONS',
-          payload: res.data,
+          payload: res.notis,
         })
         return
       })
@@ -59,7 +59,7 @@ const NotificationTwo = () => {
       })
   }
 
-  if (!data) return <Spinner
+  if (!notis) return <Spinner
     thickness="4px"
     speed="0.65s"
     emptyColor="gray.200"
@@ -71,17 +71,16 @@ const NotificationTwo = () => {
     return (
       <>
         <Popover closeOnBlur={false} placement='bottom' initialFocusRef={initRef}>
-          {({ isOpen, onClose }) => (
+          {({ onClose }) => (
             <>
               <PopoverTrigger>
                 <Button colorScheme="transparent" className='step-notifications'
-                  onClick={onOpen} isDisabled={data && data.length === 0}>
+                  onClick={onOpen} isDisabled={notis && notis.length === 0}>
                   <BsFillBellFill color="white" />
-                  {data && data.items && data.items.length > 0 && (
+                  {notis && notis && notis.length > 0 && (
                     <Box position={'absolute'} top={'-2px'} right={'6px'}>
                       <Badge colorScheme="green" fontSize="10px">
-                        {isOpen ? "New" : "Empety"}
-                      </Badge>
+                        New                  </Badge>
                     </Box>
                   )}
                 </Button>
@@ -92,9 +91,9 @@ const NotificationTwo = () => {
                   <PopoverCloseButton />
                   <PopoverBody>
                     <Stack divider={<StackDivider />} spacing='4'>
-                      {data && data.items && data.items.length > 0 && data.items.map((item, i) => {
+                      {notis && notis && notis.length > 0 && notis.map((item, i) => {
                         return (
-                          <NotiTwoCard
+                          <NotiCard
                             key={i}
                             item={item}
                             onClose={onClose}
@@ -126,4 +125,4 @@ const NotificationTwo = () => {
   }
 }
 
-export default NotificationTwo;
+export default Notification;

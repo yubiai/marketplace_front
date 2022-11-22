@@ -19,7 +19,7 @@ function SampleNextArrow(props) {
       position={'absolute'}
       top={'40%'}
       right={'0%'}
-      zIndex={'99'}
+      zIndex={'95'}
     >
       <MdKeyboardArrowRight  />
     </Button>
