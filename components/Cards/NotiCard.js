@@ -1,14 +1,14 @@
 import {
-  Stat,
-  StatHelpText,
-  StatLabel,
-  StatNumber,
-  useColorModeValue,
+  Box,
+  Flex,
+  Heading,
+  Text,
 } from '@chakra-ui/react'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import { notiService } from '../../services/notiService'
 import { parseNoti } from '../../utils/notiUtils'
+import { FaRegCommentDots, FaRegComment } from 'react-icons/fa'
 
 const NotiCard = ({ item, onClose, callApiNoti }) => {
   const router = useRouter()
@@ -28,37 +28,33 @@ const NotiCard = ({ item, onClose, callApiNoti }) => {
     }
 
     router.push(
-      `/${parseNoti(item.type).path ? parseNoti(item.type).path : null}/${
-        item.reference
+      `/${parseNoti(item.type).path ? parseNoti(item.type).path : null}/${item.reference
       }`
     )
   }
 
   return (
-    <Stat
-      boxShadow="lg"
-      m="4"
-      maxH={"150px"}
-      borderRadius="sm"
-      bg="white"
-      px={{ base: 4, md: 8 }}
-      py={'5'}
-      border={item.seen ? null : '1px solid'}
-      borderColor={useColorModeValue('gray.800', 'gray.500')}
-      onClick={() => pushLinkAndSee('/')}
-      cursor={'pointer'}
-    >
-      <StatLabel fontWeight={'medium'} isTruncated>
-        {item.type}
-      </StatLabel>
-      <StatNumber fontSize={'2xl'} fontWeight={'medium'}>
-        {parseNoti(item.type).message ? parseNoti(item.type).message : null}
-      </StatNumber>
-      <StatHelpText>
-        {moment(item.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}
-      </StatHelpText>
-    </Stat>
+    <>
+      <Flex onClick={() => pushLinkAndSee('/')} p="5px" w="full"  _hover={{
+        bg: "gray.100", color: "#00abd1"
+      }}
+        cursor={'pointer'}>
+        <Box mr="5px">
+          {item.seen ? <FaRegComment />
+            : <FaRegCommentDots />
+          }
+        </Box>
+        <Box>
+          <Heading size='xs' textTransform='uppercase'>
+            {parseNoti(item.type).message ? parseNoti(item.type).message : "No Data"}
+          </Heading>
+          <Text pt='2' fontSize='sm'>
+            {moment(item.updatedAt).format('DD MMMM, YYYY h:mm:ss a')}
+          </Text>
+        </Box>
+      </Flex>
+    </>
   )
 }
 
-export default NotiCard
+export default NotiCard;

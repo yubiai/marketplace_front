@@ -5,13 +5,18 @@ import {
   Button,
   Center,
   Container,
+  Flex,
   Heading,
+  Spacer,
+  Stack,
+  StackDivider,
   Text,
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import ButtonMarkAllAsRead from '../../../components/Buttons/ButtonMarkAllAsRead'
 import NotiCard from '../../../components/Cards/NotiCard'
 import Error from '../../../components/Infos/Error'
 import Paginations from '../../../components/Layouts/Paginations'
@@ -37,7 +42,7 @@ const Notifications = () => {
 
   const { data, isLoading, isError } = useFetch(
     global && global.profile && global.profile._id
-      ? `/noti/${global.profile._id}?page=${global.pageIndex}&size=8`
+      ? `/noti/${global.profile._id}?page=${global.pageIndex}&size=10`
       : null,
     global && global.profile && global.profile.token
   )
@@ -82,31 +87,57 @@ const Notifications = () => {
               <Text>Notifications</Text>
             </BreadcrumbItem>
           </Breadcrumb>
-          {data && data.items && data.items.length === 0 && (
-            <>
-              <Center>
-                <Heading mt="5em">You do not have any notifications.</Heading>
-              </Center>
-              <Center>
-                <Button
-                  backgroundColor={'#00abd1'}
-                  color={'white'}
-                  rounded={'full'}
-                  m="1em"
-                  onClick={() => router.push('/')}
-                >
-                  Back
-                </Button>
-              </Center>
-            </>
-          )}
-          {data &&
-            data.items &&
-            data.items.length > 0 &&
-            data.items.map((item, i) => {
-              return <NotiCard key={i} item={item} />
-            })}
-          <Paginations data={data ? data : null} />
+          <Center py={6}>
+
+            <Stack
+              borderWidth="1px"
+              borderRadius="lg"
+              width={'full'}
+              height={'full'}
+              direction={{ base: 'column', md: 'row' }}
+              bg={'white'}
+              boxShadow={'2xl'}
+              padding={4}
+            >
+
+              {data && data.items && data.items.length === 0 && (
+                <>
+                  <Center>
+                    <Heading mt="5em">You do not have any notifications.</Heading>
+                  </Center>
+                  <Center>
+                    <Button
+                      backgroundColor={'#00abd1'}
+                      color={'white'}
+                      rounded={'full'}
+                      m="1em"
+                      onClick={() => router.push('/')}
+                    >
+                      Back
+                    </Button>
+                  </Center>
+                </>
+              )}
+              <Stack divider={<StackDivider />} spacing='4' width={"100%"}>
+                <Flex display={"flex"}>
+                  <Heading size="md" mt="10px">Notifications</Heading>
+                  <Spacer />
+                  <ButtonMarkAllAsRead />
+                </Flex>
+                {data &&
+                  data.items &&
+                  data.items.length > 0 &&
+                  data.items.map((item, i) => {
+                    return (
+                      <div key={i}>
+                        <NotiCard item={item} />
+                      </div>
+                    )
+                  })}
+              </Stack>
+              <Paginations data={data ? data : null} />
+            </Stack>
+          </Center>
         </Container>
       </ProfileMenu>
     </>

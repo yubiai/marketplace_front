@@ -14,7 +14,7 @@ import {
 import UserMenu from '../Menus/UserMenu'
 import { useGlobal } from '../../providers/globalProvider'
 import { useRouter } from 'next/router'
-import NotificationTwo from '../Menus/NotificationTwo'
+import Notification from '../Menus/Notification'
 
 const Navbar = () => {
   const global = useGlobal()
@@ -150,7 +150,7 @@ const Navbar = () => {
               spacing={2}
             >
               <UserMenu />
-              <NotificationTwo />
+              <Notification />
             </Stack>
           </Flex>
         </Container>

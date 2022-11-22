@@ -43,7 +43,7 @@ const NotificationDrawer = () => {
 
   const callApiNoti = async () => {
     await notiService
-      .getNotiFalseByUserId(global.profile._id, global.profile.token)
+      .getNotisByUserId(global.profile._id, global.profile.token)
       .then((res) => {
         dispatch({
           type: 'SET_NOTIFICATIONS',
