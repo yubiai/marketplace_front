@@ -71,6 +71,7 @@ const DrawerMenu = () => {
         color="white"
         bg="transparent"
         onClick={onOpen}
+        p={0}
         display={{ base: 'flex', md: 'none' }}
       >
         <FiMoreVertical fontSize={'2em'} />
