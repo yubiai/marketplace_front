@@ -24,8 +24,6 @@ const Home = ({ items }) => {
         newList.sort(() => Math.random() - 0.5)
       }
 
-      console.log(newList)
-      console.log(listFavourites, "listFavourites")
       shuffleArray()
       setListRandom(newList)
     }

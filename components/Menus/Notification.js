@@ -15,7 +15,6 @@ import {
   Stack,
   StackDivider,
   Text,
-  useDisclosure,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
@@ -28,7 +27,6 @@ import NotiCard from '../Cards/NotiCard'
 const Notification = () => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
-  const { onOpen } = useDisclosure()
   const initRef = useRef()
   const [notis, setNotis] = useState([])
 
@@ -71,12 +69,12 @@ const Notification = () => {
   if (global && global.profile) {
     return (
       <>
-        <Popover closeOnBlur={false} placement='bottom' initialFocusRef={initRef}>
+        <Popover closeOnBlur={true} placement='bottom' initialFocusRef={initRef}>
           {({ onClose }) => (
             <>
               <PopoverTrigger>
                 <Button colorScheme="transparent" className='step-notifications'
-                  onClick={onOpen} isDisabled={notis && notis.length === 0}>
+                   isDisabled={notis && notis.length === 0}>
                   <BsFillBellFill color="white" />
                   {notis && notis && notis.length > 0 && (
                     <Box position={'absolute'} top={'-2px'} right={'6px'}>
