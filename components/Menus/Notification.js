@@ -22,12 +22,13 @@ import { useEffect, useRef, useState } from 'react'
 import { BsFillBellFill } from 'react-icons/bs'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { notiService } from '../../services/notiService'
+import ButtonMarkAllAsRead from '../Buttons/ButtonMarkAllAsRead'
 import NotiCard from '../Cards/NotiCard'
 
 const Notification = () => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
-  const { onOpen } = useDisclosure()
+  const { onOpen, onClose } = useDisclosure()
   const initRef = useRef()
   const [notis, setNotis] = useState([])
 
@@ -87,10 +88,14 @@ const Notification = () => {
               </PopoverTrigger>
               <Portal>
                 <PopoverContent>
-                  <PopoverHeader fontWeight={"semibold"}>Notifications</PopoverHeader>
-                  <PopoverCloseButton />
+                  <PopoverHeader fontWeight={"semibold"}>
+                    Notifications
+                    <ButtonMarkAllAsRead onClosePopover={onClose} />
+                    <PopoverCloseButton />
+                  </PopoverHeader>
                   <PopoverBody>
-                    <Stack divider={<StackDivider />} spacing='4'>
+
+                    <Stack divider={<StackDivider />} spacing=''>
                       {notis && notis && notis.length > 0 && notis.map((item, i) => {
                         return (
                           <NotiCard
@@ -102,7 +107,6 @@ const Notification = () => {
                         )
                       })}
                     </Stack>
-
                   </PopoverBody>
                   <PopoverFooter>
                     <Flex>
@@ -112,7 +116,9 @@ const Notification = () => {
                         <Link href="/profile/notifications">
                           View All
                         </Link>
+
                       </Text>
+
                     </Flex>
                   </PopoverFooter>
                 </PopoverContent>

@@ -15,11 +15,9 @@ export const AuthProvider = ({ children }) => {
 
   // Pedir notifications
   const callApiNoti = async (userId, token) => {
-    console.log("arranco")
     await notiService
       .getNotisSeenFalseById(userId, token)
       .then((res) => {
-        console.log(res.data)
         dispatch({
           type: 'SET_NOTIFICATIONS',
           payload: res.data,

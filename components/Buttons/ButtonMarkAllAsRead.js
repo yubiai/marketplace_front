@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useDispatchGlobal, useGlobal } from "../../providers/globalProvider";
 import { notiService } from "../../services/notiService";
 
-const ButtonMarkAllAsRead = () => {
+const ButtonMarkAllAsRead = ({ onClosePopover }) => {
     const global = useGlobal();
     const router = useRouter();
     const dispatch = useDispatchGlobal();
@@ -48,21 +48,24 @@ const ButtonMarkAllAsRead = () => {
     const markAllRead = async () => {
 
         try {
-            const result = await notiService.updateNotisAllSeenFalseByUserId(global.profile._id, global.profile.token);
-            console.log(result);
+            await notiService.updateNotisAllSeenFalseByUserId(global.profile._id, global.profile.token);
             dispatch({
                 type: 'SET_NOTIFICATIONS',
                 payload: {}
             })
-            getNotiSeenFalse()
-            SetLoading(false)
-            onClose()
-            router.push("/profile")
+            getNotiSeenFalse();
+            SetLoading(false);
+            onClosePopover();
+            onClose();
+            setTimeout(() => {
+                router.push("/profile")
+            }, 1000);
             return
         } catch (err) {
             console.error(err);
-            SetLoading(false)
-            onClose()
+            onClosePopover();
+            onClose();
+            SetLoading(false);
             return
         }
     };
@@ -81,9 +84,10 @@ const ButtonMarkAllAsRead = () => {
                 float="right"
                 backgroundColor={'#00abd1'}
                 color={'white'}
+                size={'sm'}
+                mr={'2em'}
                 rounded={'full'}
                 cursor={'pointer'} onClick={() => { onOpen() }}
-                disabled={!notiFalse}
             >Mark all as read</Button>
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size={"md"}>
                 <OverlayOne />
