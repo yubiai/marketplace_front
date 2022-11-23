@@ -53,8 +53,6 @@ const Notifications = () => {
     return <Error error={isError?.message} />
   }
 
-  console.log(data, "data")
-
   return (
     <>
       <Head>
@@ -137,9 +135,11 @@ const Notifications = () => {
                     )
                   })}
               </Stack>
-              <Paginations data={data ? data : null} />
             </Stack>
+
           </Center>
+          <Paginations data={data ? data : null} />
+
         </Container>
       </ProfileMenu>
     </>
