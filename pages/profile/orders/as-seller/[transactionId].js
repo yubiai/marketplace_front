@@ -278,7 +278,7 @@ const OrderDetail = () => {
               }
               <Link
                 href={getTransactionLink((orderDetail.transaction || {}), transactionMeta)}
-                passHref
+                passHref legacyBehavior
               >
                 <a target="_blank" rel="noopener noreferrer">
                   <Text color="#00abd1" cursor="pointer" wordBreak={'break-all'}>

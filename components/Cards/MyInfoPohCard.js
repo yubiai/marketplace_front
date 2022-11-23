@@ -6,8 +6,8 @@ import {
   Image,
   Stack,
   Text,
+  Link
 } from '@chakra-ui/react'
-import Link from 'next/link'
 const MyInfoPohCard = ({ dataProfile, balance }) => {
   if (!dataProfile)
     return (
@@ -61,21 +61,16 @@ const MyInfoPohCard = ({ dataProfile, balance }) => {
             <Flex flex={0.2} justifyContent="center" alignItems="center">
               {dataProfile && dataProfile.permission !== 6 && (
                 <Link
-                href={
-                  'https://app.proofofhumanity.id/profile/' +
-                  dataProfile.eth_address
-                }
-                passHref
-              >
-                <a
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href={
+                    'https://app.proofofhumanity.id/profile/' +
+                    dataProfile.eth_address
+                  }
+                  isExternal
                 >
                   <Button bg="#00ABD1" color="white">
                     My PoH Profile
                   </Button>
-                </a>
-              </Link>
+                </Link>
               )}
             </Flex>
           </Stack>
