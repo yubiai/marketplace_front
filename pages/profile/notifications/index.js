@@ -53,6 +53,8 @@ const Notifications = () => {
     return <Error error={isError?.message} />
   }
 
+  console.log(data, "data")
+
   return (
     <>
       <Head>
@@ -66,8 +68,8 @@ const Notifications = () => {
         <Container
           maxW="6xl"
           h={{
-            base: data && data.items && data.items.length > 1 ? 'full' : '70vh',
-            sm: data && data.items && data.items.length > 1 ? 'full' : '85vh',
+            base: data && data.items && data.items.length > 6 ? 'full' : '70vh',
+            sm: data && data.items && data.items.length > 6 ? 'full' : '85vh',
             md: 'full',
           }}
           display={'flex'}
@@ -120,7 +122,7 @@ const Notifications = () => {
               )}
               <Stack divider={<StackDivider />} spacing='4' width={"100%"}>
                 <Flex display={"flex"}>
-                  <Heading size="md" mt="10px">Notifications</Heading>
+                  <Heading size="md">Notifications</Heading>
                   <Spacer />
                   <ButtonMarkAllAsRead />
                 </Flex>
