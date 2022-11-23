@@ -58,8 +58,6 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
     useEffect(() => {
         if (window.ethereum) {
             window.ethereum.on("chainChanged", async (chainid) => {
-                console.log("chainChanged")
-
                 if (chainid == 0x1 || chainid == 0x5 || chainid == 0x64) {
                     return window.location.reload();
                 }
@@ -70,7 +68,6 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
                 }, 500);
             });
             window.ethereum.on("accountsChanged", () => {
-                console.log("accountsChanged")
                 router.push('/logout');
             });
         }
