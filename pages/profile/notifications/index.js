@@ -53,8 +53,6 @@ const Notifications = () => {
     return <Error error={isError?.message} />
   }
 
-  console.log(data)
-
   return (
     <>
       <Head>
@@ -89,58 +87,60 @@ const Notifications = () => {
               <Text>Notifications</Text>
             </BreadcrumbItem>
           </Breadcrumb>
-          <Center py={6}>
+          {data && data.items && data.items.length === 0 && (
+            <>
+              <Center>
+                <Heading mt="5em">You do not have any notifications.</Heading>
+              </Center>
+              <Center>
+                <Button
+                  backgroundColor={'#00abd1'}
+                  color={'white'}
+                  rounded={'full'}
+                  m="1em"
+                  onClick={() => router.push('/')}
+                >
+                  Back
+                </Button>
+              </Center>
+            </>
+          )}
+          {data && data.items && data.items.length > 0 && (
+            <>
+              <Center py={6}>
+                <Stack
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  width={'full'}
+                  height={'full'}
+                  direction={{ base: 'column', md: 'row' }}
+                  bg={'white'}
+                  boxShadow={'2xl'}
+                  padding={4}
+                >
+                  <Stack divider={<StackDivider />} spacing='4' width={"100%"}>
+                    <Flex display={"flex"}>
+                      <Heading size="md">Notifications</Heading>
+                      <Spacer />
+                      <ButtonMarkAllAsRead />
+                    </Flex>
+                    {data &&
+                      data.items &&
+                      data.items.length > 0 &&
+                      data.items.map((item, i) => {
+                        return (
+                          <div key={i}>
+                            <NotiCard item={item} />
+                          </div>
+                        )
+                      })}
+                  </Stack>
+                </Stack>
 
-            <Stack
-              borderWidth="1px"
-              borderRadius="lg"
-              width={'full'}
-              height={'full'}
-              direction={{ base: 'column', md: 'row' }}
-              bg={'white'}
-              boxShadow={'2xl'}
-              padding={4}
-            >
-
-              {data && data.items && data.items.length === 0 && (
-                <>
-                  <Center>
-                    <Heading mt="5em">You do not have any notifications.</Heading>
-                  </Center>
-                  <Center>
-                    <Button
-                      backgroundColor={'#00abd1'}
-                      color={'white'}
-                      rounded={'full'}
-                      m="1em"
-                      onClick={() => router.push('/')}
-                    >
-                      Back
-                    </Button>
-                  </Center>
-                </>
-              )}
-              <Stack divider={<StackDivider />} spacing='4' width={"100%"}>
-                <Flex display={"flex"}>
-                  <Heading size="md">Notifications</Heading>
-                  <Spacer />
-                  <ButtonMarkAllAsRead />
-                </Flex>
-                {data &&
-                  data.items &&
-                  data.items.length > 0 &&
-                  data.items.map((item, i) => {
-                    return (
-                      <div key={i}>
-                        <NotiCard item={item} />
-                      </div>
-                    )
-                  })}
-              </Stack>
-            </Stack>
-
-          </Center>
-          <Paginations data={data ? data : null} />
+              </Center>
+              <Paginations data={data ? data : null} />
+            </>
+          )}
 
         </Container>
       </ProfileMenu>

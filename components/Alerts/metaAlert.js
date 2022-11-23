@@ -1,6 +1,5 @@
-import { Alert, AlertIcon, Button, Center } from '@chakra-ui/react'
+import { Alert, AlertIcon, Button, Center, Link } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
 import { useDispatchGlobal } from '../../providers/globalProvider'
 
 const MetaAlert = () => {
@@ -31,7 +30,7 @@ const MetaAlert = () => {
             <AlertIcon />
             You do not have MetaMask installed, please install MetaMask and import your ProofOfHumanity wallet so you can connect.
             <Button ml="1em">
-              <Link href="https://metamask.io/download/">Download</Link>
+              <Link href="https://metamask.io/download/" isExternal>Download</Link>
             </Button>
           </Center>
         </Alert>
