@@ -41,6 +41,8 @@ const ItemById = ({ item }) => {
   const router = useRouter();
   const dispatch = useDispatchGlobal();
 
+  const title = item && item.title ? `Yubiai Marketplace - ${item.title}` : "Yubiai Marketplace - Item";
+
   const { user } = useUser();
 
   const actionToat = (title, description, status) => {
@@ -157,7 +159,7 @@ const ItemById = ({ item }) => {
   return (
     <>
       <Head>
-        <title>Yubiai Marketplace - {item.title}</title>
+        <title>{title}</title>
       </Head>
       <Container
         maxW="6xl"
