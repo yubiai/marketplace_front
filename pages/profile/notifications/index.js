@@ -53,6 +53,8 @@ const Notifications = () => {
     return <Error error={isError?.message} />
   }
 
+  console.log(data)
+
   return (
     <>
       <Head>
