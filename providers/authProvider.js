@@ -39,18 +39,7 @@ export const AuthProvider = ({ children }) => {
       }, 40000)
       return () => clearInterval(id)
     }
-  }, [check, global.profile])
-
-  useEffect(() => {
-    const verify = async() => {
-      await window.ethereum.on('accountsChanged', function (accounts) {
-        // Time to reload your interface with accounts[0]!
-        console.log(accounts[0])
-      });
-    }
-    verify()
-  }, [])
-  
+  }, [check, global.profile]);
 
   useEffect(() => {
     const authToken = async () => {

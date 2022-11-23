@@ -19,7 +19,7 @@ function SampleNextArrow(props) {
       position={'absolute'}
       top={'40%'}
       right={'0%'}
-      zIndex={'95'}
+      zIndex={'8'}
     >
       <MdKeyboardArrowRight  />
     </Button>
@@ -41,7 +41,7 @@ function SamplePrevArrow(props) {
       height={'45px'}
       position={'absolute'}
       top={'40%'}
-      zIndex={'99'}
+      zIndex={'8'}
     >
       <MdKeyboardArrowLeft />
     </Button>
