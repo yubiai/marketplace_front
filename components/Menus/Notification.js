@@ -34,7 +34,8 @@ const Notification = () => {
     const init = () => {
       setNotis(null)
       if (global.notificationsList && global.notificationsList.length > 0) {
-        setNotis(global.notificationsList)
+        const listSlice = global.notificationsList.slice(0, 4);
+        setNotis(listSlice)
       } else {
         setNotis([])
       }

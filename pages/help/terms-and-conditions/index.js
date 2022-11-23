@@ -3,8 +3,13 @@ import Head from "next/head";
 import axios from 'axios'
 import moment from 'moment'
 import RichTextReadOnly from "../../../components/Utils/richTextReadOnly";
+import Loading from "../../../components/Spinners/Loading";
 
 const TermsAndConditions = ({ terms }) => {
+
+    if(!terms) return (
+        <Loading />
+    )
 
     return (
         <>
@@ -16,7 +21,7 @@ const TermsAndConditions = ({ terms }) => {
             </Head>
             <Container
                 maxW="6xl"
-                h={{ base: 'full', md: "100vh" }}
+                h={terms && terms.text ? 'full' : "100vh"}
                 display={'flex'}
                 flexDirection={'column'}
                 p={4}
@@ -30,10 +35,12 @@ const TermsAndConditions = ({ terms }) => {
                     color="black"
                     mt="1em"
                 >
-                    <Text m="1em" fontWeight={600}>Last revision: {moment(terms.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text>
-                    <Text m="1em">
-                        <RichTextReadOnly text={terms && terms.text} />
-                    </Text>
+                    {terms && terms.text && (
+                        <>
+                            <Text mb="1em" fontWeight={600}>Last revision: {moment(terms.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</Text>
+                            <RichTextReadOnly text={terms && terms.text} />
+                        </>
+                    )}
                 </Box>
             </Container>
         </>

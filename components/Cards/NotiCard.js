@@ -45,7 +45,7 @@ const NotiCard = ({ item, onClose, callApiNoti }) => {
           }
         </Box>
         <Box>
-          <Heading size='xs' textTransform='uppercase'>
+          <Heading size='xs'>
             {parseNoti(item.type).message ? parseNoti(item.type).message : "No Data"}
           </Heading>
           <Text pt='2' fontSize='sm'>
