@@ -49,7 +49,7 @@ const NotiCard = ({ item, onClose, callApiNoti }) => {
             {parseNoti(item.type).message ? parseNoti(item.type).message : "No Data"}
           </Heading>
           <Text pt='2' fontSize='sm'>
-            {moment(item.updatedAt).format('DD MMMM, YYYY h:mm:ss a')}
+            {moment(item.createdAt).format('DD MMMM, YYYY h:mm:ss a')}
           </Text>
         </Box>
       </Flex>
