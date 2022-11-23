@@ -35,7 +35,7 @@ const MessagesChat = ({ messages, buyer, seller, me }) => {
             <div key={index}>
               {dates.has(dateNum) ? null : renderDate(item.date, dateNum)}
 
-              <Flex key={index} w="100%" justify="flex-end">
+              <Flex w="100%" justify="flex-end">
                 <Box
                   bg="black"
                   color="white"
@@ -57,7 +57,7 @@ const MessagesChat = ({ messages, buyer, seller, me }) => {
           )
         } else {
           return (
-            <>
+            <div key={index}>
               {dates.has(dateNum) ? null : renderDate(item.date, dateNum)}
               <Flex key={index} w="100%">
                 <Avatar
@@ -82,7 +82,7 @@ const MessagesChat = ({ messages, buyer, seller, me }) => {
                   <Box>{moment(item.date).format('h:mm a')}</Box>
                 </Box>
               </Flex>
-            </>
+            </div>
           )
         }
       })}

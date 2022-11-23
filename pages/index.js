@@ -53,6 +53,9 @@ const Home = ({ items }) => {
         setListFavourites(null);
         arrayRandom();
       }
+    } else {
+      setListFavourites(null);
+      arrayRandom();
     }
   }
 
