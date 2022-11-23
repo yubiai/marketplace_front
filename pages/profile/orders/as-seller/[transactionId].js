@@ -95,10 +95,10 @@ const OrderDetail = () => {
     setOperationInProgress(status)
   };
 
-  /*   const redirectToChat = () => {
-      const { _id } = orderDetail
-      router.push(`/profile/mailboxs/${_id}`)
-    }; */
+  const redirectToChat = () => {
+    const { _id } = orderDetail
+    router.push(`/profile/mailboxs/${_id}`)
+  };
 
   const getTransactionLink = (transaction = {}, transactionMeta = {}, shortLink = false) => {
     const transactionHash = shortLink ?
@@ -287,6 +287,58 @@ const OrderDetail = () => {
                 </a>
               </Link>
             </Box>
+
+            <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+            <Text fontWeight={600} fontSize="2xl">Buyer</Text>
+            <Grid
+              templateRows={{ base: 'repeat(1, 1fr)', md: 'none' }}
+              templateColumns={{ base: 'none', md: 'repeat(3, 1fr)' }}
+              gap={1}
+              mt="1em"
+            >
+
+              <Center>
+                <Avatar
+                  size={'xl'}
+                  src={orderDetail && orderDetail.item.buyer.photo}
+                  alt={'Avatar Alt'}
+                  mb={4}
+                  pos={'relative'}
+                />
+              </Center>
+              <Center textAlign={"center"}>
+                <Box>
+                  <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.buyer.first_name} ${orderDetail && orderDetail.item.buyer.last_name}`}</Text>
+                  <Text>Eth Address: {orderDetail && orderDetail.item.buyer.eth_address.slice(orderDetail.item.buyer.eth_address.length - 8)}</Text>
+                  <Link
+                    href={
+                      `https://app.proofofhumanity.id/profile/${orderDetail && orderDetail.item.buyer.eth_address}`
+
+                    }
+                    passHref
+                  >
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Text color="black" as='u' fontStyle={"italic"} _hover={{
+                        color: "gray.400"
+                      }}>View poh profile</Text>
+                    </a>
+                  </Link>
+                </Box>
+              </Center>
+
+              <Center mt={{ base: '1em', md: '0px' }}>
+                <Button backgroundColor={'green.500'}
+                  color={'white'}
+                  rounded={'full'}
+                  _hover={{
+                    bg: "gray.400"
+                  }} onClick={redirectToChat}>Send Message</Button>
+              </Center>
+            </Grid>
+            <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
 
             <Text fontWeight={600} fontSize="2xl">Status</Text>
 
