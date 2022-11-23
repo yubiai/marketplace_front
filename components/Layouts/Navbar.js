@@ -149,8 +149,8 @@ const Navbar = () => {
               direction={'row'}
               spacing={2}
             >
-              <UserMenu />
-              <Notification />
+              <UserMenu  />
+              <Notification  />
             </Stack>
           </Flex>
         </Container>
