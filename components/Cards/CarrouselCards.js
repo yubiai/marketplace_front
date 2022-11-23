@@ -100,7 +100,7 @@ const CarrouselCards = ({title, items}) => {
     <Container display={{base:"contents"}} maxW="full" mt="2em">
       <Text color={"#727272"} fontSize="19px">{title}</Text>
       <Slider {...settings} >
-         {items.map((item, i) => {
+         {items && items.length > 0 && items.map((item, i) => {
            return(
             <ItemCard item={item} key={i}/>
            )

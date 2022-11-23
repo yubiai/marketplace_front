@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Box, Spinner } from '@chakra-ui/react'
 import axios from 'axios'
 import Head from 'next/head'
 import { useEffect, useState } from 'react'
@@ -9,9 +9,9 @@ import { profileService } from '../services/profileService'
 
 const Home = ({ items }) => {
   const global = useGlobal();
-  const [favourites, setFavourites] = useState(null);
   const [listFavourites, setListFavourites] = useState(null);
   const [listRandom, setListRandom] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const arrayRandom = () => {
     if (items) {
@@ -24,44 +24,43 @@ const Home = ({ items }) => {
         newList.sort(() => Math.random() - 0.5)
       }
 
+      console.log(newList)
+      console.log(listFavourites, "listFavourites")
       shuffleArray()
       setListRandom(newList)
     }
   }
 
-  useEffect(() => {
-    const initItem = async () => {
-      setFavourites(null)
-      if (global && global.profile && global.profile._id) {
-        await profileService
-          .getFavourites(global.profile._id, "40", global?.profile?.token)
-          .then((res) => {
-            const favourites = res.data.items;
-            if (favourites.length > 0) {
-              setListFavourites(favourites)
-              setFavourites(true)
-            }
-            if (favourites.length === 0) {
-              setListFavourites([])
-              setFavourites(false)
-              arrayRandom()
-            }
-          })
-          .catch((err) => {
-            console.log(err)
-            setListFavourites([])
-            setFavourites(false)
-            arrayRandom()
-          })
-      } else {
-        setFavourites(false)
+  const initFavourites = async () => {
+    setListFavourites(null)
+    if (global && global.profile && global.profile._id) {
+      try {
+        setLoading(true)
+        const result = await profileService.getFavourites(global.profile._id, "30", global?.profile?.token);
+        const favourites = result.data.items;
+
+        if (favourites.length > 0) {
+          setListFavourites(favourites)
+          setLoading(false)
+          return
+        }
+
+        setListFavourites(null)
         arrayRandom()
+        setLoading(false)
+        return
+      } catch (err) {
+        console.error(err);
+        setLoading(false)
+        setListFavourites(null);
+        arrayRandom();
       }
     }
-    initItem()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [global.profile])
+  }
 
+  useEffect(() => {
+    initFavourites()
+  }, [global.profile])
 
   if (!items) return <Loading />
 
@@ -95,14 +94,23 @@ const Home = ({ items }) => {
             title={'Popular services'}
             items={items}
           />
-          {favourites === null && <Loading />}
-          {favourites === true && (
+          {loading && (
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              m="2em"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="md"
+            />
+          )}
+          {listFavourites && listFavourites.length > 0 && (
             <CarrouselCards
               title={'Your favourites'}
               items={listFavourites}
             />
           )}
-          {favourites === false && (
+          {!listFavourites && listRandom && listRandom.length > 0 && (
             <CarrouselCards title={'Last viewed items'} items={listRandom} />
           )}
         </Box>
