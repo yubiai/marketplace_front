@@ -9,14 +9,12 @@ import {
     ModalOverlay,
     Spinner,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatchGlobal, useGlobal } from "../../providers/globalProvider";
 import { notiService } from "../../services/notiService";
 
 const ButtonMarkAllAsRead = ({ onClosePopover }) => {
     const global = useGlobal();
-    const router = useRouter();
     const dispatch = useDispatchGlobal();
     const [notiFalse, SetNotiFalse] = useState(false);
     const [loading, SetLoading] = useState(false);
@@ -55,15 +53,12 @@ const ButtonMarkAllAsRead = ({ onClosePopover }) => {
             })
             getNotiSeenFalse();
             SetLoading(false);
-            onClosePopover();
+            onClosePopover && onClosePopover();
             onClose();
-            setTimeout(() => {
-                router.push("/profile")
-            }, 1000);
             return
         } catch (err) {
             console.error(err);
-            onClosePopover();
+            onClosePopover && onClosePopover();
             onClose();
             SetLoading(false);
             return
@@ -86,7 +81,7 @@ const ButtonMarkAllAsRead = ({ onClosePopover }) => {
                 color={'white'}
                 size={'sm'}
                 mr={'2em'}
-                rounded={'full'}
+                rounded={'full'} disabled={!notiFalse}
                 cursor={'pointer'} onClick={() => { onOpen() }}
             >Mark all as read</Button>
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size={"md"}>

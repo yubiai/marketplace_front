@@ -28,7 +28,7 @@ import NotiCard from '../Cards/NotiCard'
 const Notification = () => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
-  const { onOpen, onClose } = useDisclosure()
+  const { onOpen } = useDisclosure()
   const initRef = useRef()
   const [notis, setNotis] = useState([])
 
