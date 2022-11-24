@@ -2,18 +2,20 @@ import Cookies from 'js-cookie'
 import { useTour } from "@reactour/tour";
 
 import {
-  Button, useToast,
+  Button, ButtonGroup, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, useDisclosure, useToast,
   //useMediaQuery
 } from '@chakra-ui/react'
 
 import { loginMetamask, verifyNetwork } from '../../utils/ethereum'
 import { profileService } from '../../services/profileService'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
+import { useEffect } from 'react';
 
 const ButtonConnect = () => {
   const toast = useToast();
   const dispatch = useDispatchGlobal();
   const global = useGlobal();
+  const { isOpen, onToggle, onClose } = useDisclosure()
 
   const { setIsOpen } = useTour();
   const authGlobalAndCookies = (profile, token) => {
@@ -40,6 +42,13 @@ const ButtonConnect = () => {
     })
     return
   }
+
+  useEffect(() => {
+    if(!global.profile){
+      onToggle()
+    }
+    return
+  }, []);
 
   const onConnect = async () => {
 
@@ -124,18 +133,37 @@ const ButtonConnect = () => {
 
   return (
     <>
-      <Button
-        className={'step-connect'}
-        backgroundColor={'white'}
-        color={'#00abd1'}
-        rounded={'full'}
-        w="90%"
-        cursor={'pointer'}
-        onClick={() => onConnect()}
-        isDisabled={global.profile && global.profile.eth_address}
+
+      <Popover
+        returnFocusOnClose={false}
+        isOpen={isOpen}
+        onClose={onClose}
+        placement='bottom'
+        closeOnBlur={false}
       >
-        {global.profile && global.profile.eth_address ? global.profile.eth_address.slice(0, 5) + "..." + global.profile.eth_address.slice(global.profile.eth_address.length - 4) : 'Connect'}
-      </Button>
+        <PopoverTrigger>
+          <Button
+            className={'step-connect'}
+            backgroundColor={'white'}
+            color={'#00abd1'}
+            rounded={'full'}
+            w="90%"
+            cursor={'pointer'}
+            onClick={() => onConnect()}
+            isDisabled={global.profile && global.profile.eth_address}
+          >
+            {global.profile && global.profile.eth_address ? global.profile.eth_address.slice(0, 5) + "..." + global.profile.eth_address.slice(global.profile.eth_address.length - 4) : 'Connect'}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent>
+
+          <PopoverArrow />
+          <PopoverCloseButton />
+          <PopoverBody>
+          Connect with your wallet and start earning crypto or hiring with your cryptos
+          </PopoverBody>
+        </PopoverContent>
+      </Popover>
     </>
   )
 }

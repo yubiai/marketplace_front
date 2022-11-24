@@ -15,8 +15,8 @@ function SampleNextArrow(props) {
       boxShadow={'0px 3px 6px #00000029'}
       position={'absolute'}
       top={'40%'}
-      paddingRight={'1px'}
-      paddingLeft={'1px'}
+      paddingRight={'0px'}
+      paddingLeft={'0px'}
       right={'0%'}
       zIndex={'8'}
     >
@@ -35,8 +35,8 @@ function SamplePrevArrow(props) {
       color="#00ABD1"
       borderRadius={'54px'}
       boxShadow={'0px 3px 6px #00000029'}
-      paddingRight={'1px'}
-      paddingLeft={'1px'}
+      paddingRight={'0px'}
+      paddingLeft={'0px'}
       position={'absolute'}
       top={'40%'}
       zIndex={'8'}
