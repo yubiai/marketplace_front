@@ -107,7 +107,7 @@ const Notifications = () => {
           )}
           {data && data.items && data.items.length > 0 && (
             <>
-              <Center py={6}>
+              <Center py={1}>
                 <Stack
                   borderWidth="1px"
                   borderRadius="lg"

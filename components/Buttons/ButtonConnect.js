@@ -1,21 +1,20 @@
 import Cookies from 'js-cookie'
-import Joyride from 'react-joyride';
 import { useTour } from "@reactour/tour";
 
 import {
   Button, useToast,
-  useMediaQuery
+  //useMediaQuery
 } from '@chakra-ui/react'
 
 import { loginMetamask, verifyNetwork } from '../../utils/ethereum'
 import { profileService } from '../../services/profileService'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
-import { stepsJoyride } from '../../utils/tourGuideUtils'
 
 const ButtonConnect = () => {
   const toast = useToast();
   const dispatch = useDispatchGlobal();
   const global = useGlobal();
+  const { isOpen, onToggle, onClose } = useDisclosure()
 
   const { setIsOpen } = useTour();
   const authGlobalAndCookies = (profile, token) => {
@@ -122,14 +121,10 @@ const ButtonConnect = () => {
     return
   }
 
-  const [isLargerThanmd] = useMediaQuery('(min-width: 768px)')
+  //const [isLargerThanmd] = useMediaQuery('(min-width: 768px)')
 
   return (
     <>
-      <Joyride
-        steps={stepsJoyride}
-        run={!global.profile && isLargerThanmd}
-      />
       <Button
         className={'step-connect'}
         backgroundColor={'white'}

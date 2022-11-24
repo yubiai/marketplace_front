@@ -13,15 +13,14 @@ function SampleNextArrow(props) {
       color="#00ABD1"
       borderRadius={'54px'}
       boxShadow={'0px 3px 6px #00000029'}
-      fontSize={'2em'}
-      width={'2em'}
-      height={'2em'}
       position={'absolute'}
       top={'40%'}
+      paddingRight={'1px'}
+      paddingLeft={'1px'}
       right={'0%'}
       zIndex={'8'}
     >
-      <MdKeyboardArrowRight fontSize={"2em"}  />
+      <MdKeyboardArrowRight fontSize={'2.6em'} />
     </Button>
   )
 }
@@ -34,16 +33,15 @@ function SamplePrevArrow(props) {
       onClick={onClick}
       bg="white"
       color="#00ABD1"
-      borderRadius={'40px'}
-      fontSize={'2em'}
+      borderRadius={'54px'}
       boxShadow={'0px 3px 6px #00000029'}
-      width={'2em'}
-      height={'2em'}
+      paddingRight={'1px'}
+      paddingLeft={'1px'}
       position={'absolute'}
       top={'40%'}
       zIndex={'8'}
     >
-      <MdKeyboardArrowLeft />
+      <MdKeyboardArrowLeft fontSize={'2.6em'} />
     </Button>
   )
 }
@@ -94,17 +92,17 @@ const settings = {
   ],
 }
 
-const CarrouselCards = ({title, items}) => {
+const CarrouselCards = ({ title, items }) => {
 
   return (
-    <Container display={{base:"contents"}} maxW="full" mt="2em">
+    <Container display={{ base: "contents" }} maxW="full" mt="2em">
       <Text color={"#727272"} fontSize="19px">{title}</Text>
       <Slider {...settings} >
-         {items && items.length > 0 && items.map((item, i) => {
-           return(
-            <ItemCard item={item} key={i}/>
-           )
-         })}
+        {items && items.length > 0 && items.map((item, i) => {
+          return (
+            <ItemCard item={item} key={i} />
+          )
+        })}
       </Slider>
     </Container>
   )
