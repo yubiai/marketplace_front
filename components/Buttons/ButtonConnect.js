@@ -14,7 +14,6 @@ const ButtonConnect = () => {
   const toast = useToast();
   const dispatch = useDispatchGlobal();
   const global = useGlobal();
-  const { isOpen, onToggle, onClose } = useDisclosure()
 
   const { setIsOpen } = useTour();
   const authGlobalAndCookies = (profile, token) => {
