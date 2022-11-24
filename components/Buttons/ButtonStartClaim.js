@@ -75,15 +75,15 @@ const ButtonStartClaim = ({ transactionMeta, token }) => {
             <Button
                 size="md" bg="green.500" color="white" _hover={{ bg: "gray.400" }}
                 borderRadius="0.375rem" height="40px" width="120px"
-                textAlign="center" fontWeight="bold"
-                display="flex" justifyContent="center" alignItems="center" onClick={() => onModalDisputePolicy()}>
+                fontWeight="bold"
+                onClick={() => onModalDisputePolicy()}>
                 Start claim
             </Button>
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'inside'} size={"6xl"}>
                 <OverlayOne />
                 <ModalContent bg="white" color="black">
-                    <ModalHeader>Yubiai Service Policy 
-                    <Text fontStyle={"italic"}>Update At: {moment(disputePolicy && disputePolicy.updateAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
+                    <ModalHeader>Yubiai Service Policy
+                        <Text fontStyle={"italic"}>Update At: {moment(disputePolicy && disputePolicy.updateAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
 
                     </ModalHeader>
                     <ModalCloseButton />

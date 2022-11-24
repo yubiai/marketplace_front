@@ -257,7 +257,7 @@ const ItemById = ({ item }) => {
                 0 Opinions
               </Text>
             </Box>
-            <Text>{item.price} {item.currencySymbolPrice || 'ETH'}</Text>
+            <Text>{item.price} {item.currencySymbolPrice}</Text>
             <Text>0% additional for Yubiai Fee</Text>
             <Text>{item.ubiburningamount || 0.6}% additional for UBI Burner Fee</Text>
             <Flex

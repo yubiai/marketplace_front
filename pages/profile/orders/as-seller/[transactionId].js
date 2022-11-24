@@ -235,7 +235,7 @@ const OrderDetail = () => {
                   orderDetail.item &&
                   <Box>
                     <Text noOfLines={3} fontWeight={600}>{orderDetail.item.title}</Text>
-                    <Text>Price: {orderDetail.item.price || 0} {orderDetail.item.currencySymbolPrice || 'ETH'}</Text>
+                    <Text>Price: {orderDetail.item.price || 0} {orderDetail.item.currencySymbolPrice}</Text>
                   </Box>
                 }
               </Center>

@@ -6,7 +6,7 @@ const UserInfo = ({ profile, balanceToken }) => {
 
   if (profile) {
     return (
-      <HStack spacing="1em">
+      <HStack>
         <Box w="33%" h="60px">
           <Center>
             <Image
@@ -14,6 +14,7 @@ const UserInfo = ({ profile, balanceToken }) => {
               borderRadius="2xl"
               marginTop={'6px'}
               width={'3em'}
+              height={'2.8em'}
               objectFit={'cover'}
               src={profile.photo}
               fallbackSrc={"/static/images/userdefault.png"}
@@ -21,7 +22,7 @@ const UserInfo = ({ profile, balanceToken }) => {
           </Center>
         </Box>
         <Box w="66%" h="60px" p="5px">
-          <Stack spacing={2}>
+          <Stack spacing={1}>
             <Text fontSize={'15px'}>{profile && profile.first_name + (" ") + profile.last_name} </Text>
             <Flex>
 

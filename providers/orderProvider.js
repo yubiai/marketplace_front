@@ -21,7 +21,7 @@ const getAccount = async () => {
 
 const loadOrderData = async (item = {}, currencyPriceList = [], ethPrice=false) => {
   const seller = item.seller;
-  const currencySymbol = ethPrice ? 'ETH' : item.currencySymbolPrice || 'ETH';
+  const currencySymbol = ethPrice ? 'ETH' : item.currencySymbolPrice;
 
   const { eth_address } = seller;
 

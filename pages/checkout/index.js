@@ -356,7 +356,7 @@ const Checkout = () => {
                       toggleLoadingStatus={toggleLoadingStatus}
                       createOrder={createOrder}
                       operationInProgress={operationInProgress}
-                      currency={(orderData.item || {}).currencySymbolPrice || 'ETH'}
+                      currency={(orderData.item || {}).currencySymbolPrice}
                       burnFee={sliderValue}
                       yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
                     />

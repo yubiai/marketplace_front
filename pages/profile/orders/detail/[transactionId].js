@@ -184,8 +184,8 @@ const OrderDetail = () => {
             }}>Orders</Text></Link>
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
-              <Text>Order Detail</Text>
-            </BreadcrumbItem>
+            <Text>Order Detail</Text>
+          </BreadcrumbItem>
         </Breadcrumb>
         <Center py={6}>
           {operationInProgress && <Loading styleType={'checkout'} />}
@@ -235,7 +235,7 @@ const OrderDetail = () => {
                   orderDetail.item &&
                   <Box>
                     <Text noOfLines={3} fontWeight={600}>{orderDetail.item.title}</Text>
-                    <Text>Price: {orderDetail.item.price || 0} {orderDetail.item.currencySymbolPrice || 'ETH'}</Text>
+                    <Text>Price: {orderDetail.item.price || 0} {orderDetail.item.currencySymbolPrice}</Text>
                   </Box>
                 }
               </Center>
@@ -368,8 +368,8 @@ const OrderDetail = () => {
                         <Box p="1em">
                           {transactionData && transactionPayedAmount && (
                             <>
-                              <Text color="black">
-                              Always confirm that you have received the buyer’s service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.
+                              <Text color="black" >
+                                Always confirm that you have received the buyer’s service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.
                               </Text>
                               <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
                                 <ButtonPayOrder
@@ -387,25 +387,27 @@ const OrderDetail = () => {
                           )}
                         </Box>
                         {
-                          isDealEnabledToClaim &&
-                          <Box bg='orange.200' p="1em">
-                            <Text color="black">
+                          isDealEnabledToClaim && (
+                            <Box bg='orange.200' p="1em">
+                              <Text color="black">
+                                {
+                                  !isOver &&
+                                  "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case."
+                                }
+                                {
+                                  isOver &&
+                                  "You cannot claim this order because the status of this transaction is over."
+                                }
+                              </Text>
                               {
                                 !isOver &&
-                                "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case."
+                                <Box mt="2.5em" textAlign={{ base: "center", md: "left" }} >
+                                  <ButtonStartClaim transactionMeta={transactionMeta} token={global.profile.token} />
+                                </Box>
                               }
-                              {
-                                isOver &&
-                                "You cannot claim this order because the status of this transaction is over."
-                              }
-                            </Text>
-                            {
-                              !isOver &&
-                              <Box mt="2.5em" textAlign={{ base: "center", md: "right" }}>
-                                <ButtonStartClaim transactionMeta={transactionMeta} token={global.profile.token} />
-                              </Box>
-                            }
-                          </Box>
+                            </Box>
+                          )
+
                         }
                       </SimpleGrid>
 
