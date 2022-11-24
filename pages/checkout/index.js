@@ -20,8 +20,9 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
   useDisclosure,
+  useToast,
+  Spinner,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState, useRef } from 'react';
@@ -36,16 +37,24 @@ import {
 } from '../../providers/orderProvider';
 import { orderService } from '../../services/orderService';
 import { channelService } from '../../services/channelService';
+import { termService } from '../../services/termService';
+
 import useUser from '../../hooks/data/useUser';
 import Loading from '../../components/Spinners/Loading';
+import RichTextReadOnly from '../../components/Utils/richTextReadOnly';
+import { profileService } from '../../services/profileService';
 
 const Checkout = () => {
   const global = useGlobal();
+  const toast = useToast();
   const dispatch = useDispatchGlobal();
   const router = useRouter();
   const [orderData, setOrderData] = useState({});
   const [transactionData, setTransactionData] = useState({});
   const [operationInProgress, setOperationInProgress] = useState(false);
+  const [term, setTerm] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [loadingTerm, setLoadingTerm] = useState(false);
 
   const { user, loggedOut } = useUser()
 
@@ -68,6 +77,82 @@ const Checkout = () => {
     ml: '-2.5',
     fontSize: 'sm',
   };
+
+  const verifyTyC = async () => {
+
+    try {
+      setLoading(true)
+      // Get Last Terms
+      const lastTerms = await termService.getTermsLast(global.profile && global.profile.token);
+      // Get Profile Info
+      const profileInfo = await profileService.getProfileFromId(global.profile._id, global.profile.token)
+
+      if (!lastTerms) {
+        router.back();
+        return
+      }
+
+      if (!profileInfo) {
+        router.back();
+        return
+      }
+
+      // Check if in the profile you agree with this term
+      const verifyTermProfile = profileInfo.data && profileInfo.data.terms.find((term) => term && term.idTerm == lastTerms.data._id);
+
+      if (!verifyTermProfile) {
+        setTerm(lastTerms.data)
+        onOpen()
+        return
+      }
+
+      setLoading(false)
+      return
+    } catch (err) {
+      console.error(err);
+      router.back();
+      return
+    }
+  }
+
+  // Confirm TyC
+  const confirmTerms = async () => {
+    try {
+      setLoadingTerm(true)
+      await profileService.addTerms(global.profile._id, term, global.profile.token);
+      toast({
+        title: 'Terms and conditions',
+        description: 'You have accepted the terms and conditions.',
+        position: 'top-right',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      })
+      setLoading(false)
+      onClose();
+      setLoadingTerm(false)
+    } catch (err) {
+      console.error(err);
+      router.back();
+      return
+    }
+  }
+
+  // Reject TyC
+  const rejectTerms = () => {
+    setLoadingTerm(true)
+    router.back();
+    toast({
+      title: 'Failed to checkout.',
+      description: 'In order to initiate the transaction you must accept the terms and conditions.',
+      position: 'top-right',
+      status: 'warning',
+      duration: 5000,
+      isClosable: true,
+    })
+    onClose();
+    return
+  }
 
   useEffect(() => {
     const loadOrder = async () => {
@@ -100,7 +185,7 @@ const Checkout = () => {
     }
 
     if (!transactionData.extraData) {
-      onOpen()
+      verifyTyC()
       loadOrder();
     }
   }, [transactionData, global.itemToCheckout, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance])
@@ -207,82 +292,109 @@ const Checkout = () => {
                 {orderData.item && orderData.item.title}
               </Text>
               <Divider mt="1em" />
-              <Text mt="3" fontStyle="italic">
-                Set the % on top of the total price that you want to get burned. This will favor the token by increasing its price.
-              </Text>
-              <Box pt={6} pb={2} mt="1em">
-                <Slider
-                  color="black"
-                  aria-label="slider-ex-6"
-                  defaultValue={0}
-                  min={0}
-                  max={10}
-                  onChange={(val) => setSliderValue(val)}
-                >
-                  <SliderMark value={0} {...labelStyles}>
-                    0%
-                  </SliderMark>
-                  <SliderMark value={5} {...labelStyles}>
-                    5%
-                  </SliderMark>
-                  <SliderMark value={10} {...labelStyles}>
-                    10%
-                  </SliderMark>
-                  <SliderMark
-                    value={sliderValue}
-                    textAlign="center"
-                    bg="#00abd1"
-                    color="white"
-                    mt="-10"
-                    ml="-5"
-                    w="12"
-                  >
-                    {sliderValue}%
-                  </SliderMark>
-                  <SliderTrack bg='gray.400'>
-                    <SliderFilledTrack />
-                  </SliderTrack>
-                  <SliderThumb bg='blue.400' />
-                </Slider>
-              </Box>
-              <Alert status="warning" mt="1em" color="black" bg="orange.100">
-                <AlertIcon color="orange" />
-                When you click on &apos;Hire service&apos;, your payment will be
-                held and it will be released to the seller when you get the
-                service.{' '}
-              </Alert>
-              <Stack mt={8}>
-                <ButtonCheckout
-                  transactionInfo={transactionData}
-                  toggleLoadingStatus={toggleLoadingStatus}
-                  createOrder={createOrder}
-                  operationInProgress={operationInProgress}
-                  currency={(orderData.item || {}).currencySymbolPrice || 'ETH'}
-                  burnFee={sliderValue}
-                  yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                />
-              </Stack>
+
+              {loading && (
+                <Center mt="2em">
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="md"
+                  />
+                </Center>
+              )}
+              {!loading && (
+                <>
+                  <Text mt="3" fontStyle="italic">
+                    Set the % on top of the total price that you want to get burned. This will favor the token by increasing its price.
+                  </Text>
+                  <Box pt={6} pb={2} mt="1em">
+                    <Slider
+                      color="black"
+                      aria-label="slider-ex-6"
+                      defaultValue={0}
+                      min={0}
+                      max={10}
+                      onChange={(val) => setSliderValue(val)}
+                    >
+                      <SliderMark value={0} {...labelStyles}>
+                        0%
+                      </SliderMark>
+                      <SliderMark value={5} {...labelStyles}>
+                        5%
+                      </SliderMark>
+                      <SliderMark value={10} {...labelStyles}>
+                        10%
+                      </SliderMark>
+                      <SliderMark
+                        value={sliderValue}
+                        textAlign="center"
+                        bg="#00abd1"
+                        color="white"
+                        mt="-10"
+                        ml="-5"
+                        w="12"
+                      >
+                        {sliderValue}%
+                      </SliderMark>
+                      <SliderTrack bg='gray.400'>
+                        <SliderFilledTrack />
+                      </SliderTrack>
+                      <SliderThumb bg='blue.400' />
+                    </Slider>
+                  </Box>
+                  <Alert status="warning" mt="1em" color="black" bg="orange.100">
+                    <AlertIcon color="orange" />
+                    When you click on &apos;Hire service&apos;, your payment will be
+                    held and it will be released to the seller when you get the
+                    service.{' '}
+                  </Alert>
+                  <Stack mt={8}>
+                    <ButtonCheckout
+                      transactionInfo={transactionData}
+                      toggleLoadingStatus={toggleLoadingStatus}
+                      createOrder={createOrder}
+                      operationInProgress={operationInProgress}
+                      currency={(orderData.item || {}).currencySymbolPrice || 'ETH'}
+                      burnFee={sliderValue}
+                      yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                    />
+                  </Stack>
+                </>
+              )}
             </Box>
           </Center>
         </Box>
-        <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'inside'} size={"xl"}>
+        <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'inside'} size={"6xl"}>
           <OverlayOne />
           <ModalContent bg="white" color="black">
-            <ModalHeader>Terms Checkout</ModalHeader>
-            <ModalCloseButton />
+            <ModalHeader>Terms and Conditions</ModalHeader>
             <ModalBody pb={6}>
-              <Text>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Text>
+              <RichTextReadOnly text={term && term.text} />
             </ModalBody>
 
             <ModalFooter>
-              <Button onClick={() => {
-                router.push("/")
-                onClose()
-              }}>Reject</Button>
+              {!loadingTerm && (
+                <>
+                  <Button onClick={() => rejectTerms()} mr="1em">Reject</Button>
 
-              <Button colorScheme='blue' mr={3} onClick={() => onClose()}>
-                Accept
-              </Button>
+                  <Button colorScheme='blue' mr={3} onClick={() => confirmTerms()}>
+                    Accept
+                  </Button>
+                </>
+              )}
+              {loadingTerm && (
+                <Center mt="2em">
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="md"
+                  />
+                </Center>
+              )}
             </ModalFooter>
           </ModalContent>
         </Modal>

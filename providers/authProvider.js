@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
 
         const user =
           response && response.data && response.data.walletAddress
-            ? await profileService.getProfileFromId(
+            ? await profileService.getProfile(
                 response.data.walletAddress,
                 Yubiai.token
               )

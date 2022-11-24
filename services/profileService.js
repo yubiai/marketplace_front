@@ -14,7 +14,7 @@ async function login(walletAddress) {
  * Get profile by _id
  */
 async function getProfileFromId(_id, token) {
-  return await axios.get(`/profiles/${_id}`, token
+  return await axios.get(`/profiles/id/${_id}`, token
     ? {
       headers: {
         Authorization: `Bearer ${token}`,
