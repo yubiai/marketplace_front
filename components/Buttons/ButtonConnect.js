@@ -2,7 +2,7 @@ import Cookies from 'js-cookie'
 import { useTour } from "@reactour/tour";
 
 import {
-  Button, ButtonGroup, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverFooter, PopoverHeader, PopoverTrigger, useDisclosure, useToast,
+  Button, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverTrigger, useDisclosure, useToast,
   //useMediaQuery
 } from '@chakra-ui/react'
 
