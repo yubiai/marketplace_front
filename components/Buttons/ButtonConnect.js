@@ -44,11 +44,9 @@ const ButtonConnect = () => {
   }
 
   useEffect(() => {
-    if(!global.profile){
-      onToggle()
-    }
+    onToggle()
     return
-  }, []);
+  }, [global.profile]);
 
   const onConnect = async () => {
 
@@ -133,37 +131,51 @@ const ButtonConnect = () => {
 
   return (
     <>
+      {global && global.profile && (
+        <Button
+          className={'step-connect'}
+          backgroundColor={'white'}
+          color={'#00abd1'}
+          rounded={'full'}
+          w="90%"
+          cursor={'pointer'}
+          isDisabled={global.profile && global.profile.eth_address}
+        >
+          {global.profile.eth_address.slice(0, 5) + "..." + global.profile.eth_address.slice(global.profile.eth_address.length - 4)}
+        </Button>
+      )}
+      {!global.profile && (
+        <Popover
+          returnFocusOnClose={false}
+          isOpen={isOpen}
+          onClose={onClose}
+          placement='bottom'
+          closeOnBlur={false}
+        >
+          <PopoverTrigger>
+            <Button
+              className={'step-connect'}
+              backgroundColor={'white'}
+              color={'#00abd1'}
+              rounded={'full'}
+              w="90%"
+              cursor={'pointer'}
+              onClick={() => onConnect()}
+              isDisabled={global.profile && global.profile.eth_address}
+            >
+              Connect
+            </Button>
 
-      <Popover
-        returnFocusOnClose={false}
-        isOpen={isOpen}
-        onClose={onClose}
-        placement='bottom'
-        closeOnBlur={false}
-      >
-        <PopoverTrigger>
-          <Button
-            className={'step-connect'}
-            backgroundColor={'white'}
-            color={'#00abd1'}
-            rounded={'full'}
-            w="90%"
-            cursor={'pointer'}
-            onClick={() => onConnect()}
-            isDisabled={global.profile && global.profile.eth_address}
-          >
-            {global.profile && global.profile.eth_address ? global.profile.eth_address.slice(0, 5) + "..." + global.profile.eth_address.slice(global.profile.eth_address.length - 4) : 'Connect'}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent>
-
-          <PopoverArrow />
-          <PopoverCloseButton />
-          <PopoverBody>
-          Connect with your wallet and start earning crypto or hiring with your cryptos
-          </PopoverBody>
-        </PopoverContent>
-      </Popover>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverCloseButton />
+            <PopoverBody>
+              Connect with your wallet and start earning crypto or hiring with your cryptos
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      )}
     </>
   )
 }
