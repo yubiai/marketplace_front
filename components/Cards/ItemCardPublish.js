@@ -73,7 +73,7 @@ const ItemCardPublish = ({ item }) => {
         </Box>
       </Link>
       <Menu>
-        <MenuButton as={Button} w="full" backgroundColor={'#00abd1'} _hover={{
+        <MenuButton as={Button} w={{ base: '374px', sm: '374px', md: '262px' }} backgroundColor={'#00abd1'} _hover={{
           bg: "blue.300"
         }}
           color={'white'} rightIcon={<ChevronDownIcon />}>
