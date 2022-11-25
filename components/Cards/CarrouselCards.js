@@ -17,7 +17,7 @@ function SampleNextArrow(props) {
       paddingRight={'0px'}
       paddingLeft={'0px'}
       top={'40%'}
-      right={'3px'}
+      right={{base: '0px', sm: '-20px', md: '-20px', lg: '15px'}}
       zIndex={'8'}
     >
       <MdKeyboardArrowRight fontSize={'2.6em'} />
@@ -39,7 +39,7 @@ function SamplePrevArrow(props) {
       paddingRight={'0px'}
       paddingLeft={'0px'}
       top={'40%'}
-      left={'3px'}
+      left={{base: '0px', sm: '-20px', md: '-20px', lg: '15px'}}
       zIndex={'8'}
     >
       <MdKeyboardArrowLeft fontSize={'2.6em'} />
