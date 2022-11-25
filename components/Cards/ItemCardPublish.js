@@ -1,3 +1,4 @@
+import { ChevronDownIcon } from '@chakra-ui/icons'
 import {
   Box,
   Text,
@@ -5,6 +6,11 @@ import {
   Image,
   Divider,
   Badge,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 
@@ -41,6 +47,9 @@ const ItemCardPublish = ({ item }) => {
             {item.status === 1 && (
               <Badge variant='solid' colorScheme="orange" ml="4px">In Review</Badge>
             )}
+            <Box textAlign={"right"}>
+
+            </Box>
           </Box>
           <Stack align={'left'} m="5px">
             <Divider />
@@ -63,6 +72,19 @@ const ItemCardPublish = ({ item }) => {
           </Stack>
         </Box>
       </Link>
+      <Menu>
+        <MenuButton as={Button} w="full" backgroundColor={'#00abd1'} _hover={{
+          bg: "blue.300"
+        }}
+          color={'white'} rightIcon={<ChevronDownIcon />}>
+          Actions
+        </MenuButton>
+        <MenuList>
+          <MenuItem>Unpublish</MenuItem>
+          <MenuItem>Publish</MenuItem>
+          <MenuItem>Edit</MenuItem>
+        </MenuList>
+      </Menu>
     </Box>
   )
 }
