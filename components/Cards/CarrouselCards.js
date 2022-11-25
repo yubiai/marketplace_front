@@ -9,15 +9,15 @@ function SampleNextArrow(props) {
   return (
     <Button
       onClick={onClick}
+      position={'absolute'}
       bg="white"
       color="#00ABD1"
       borderRadius={'54px'}
       boxShadow={'0px 3px 6px #00000029'}
-      position={'absolute'}
-      top={'40%'}
       paddingRight={'0px'}
       paddingLeft={'0px'}
-      right={'0%'}
+      top={'40%'}
+      right={'3px'}
       zIndex={'8'}
     >
       <MdKeyboardArrowRight fontSize={'2.6em'} />
@@ -31,14 +31,15 @@ function SamplePrevArrow(props) {
   return (
     <Button
       onClick={onClick}
+      position={'absolute'}
       bg="white"
       color="#00ABD1"
       borderRadius={'54px'}
       boxShadow={'0px 3px 6px #00000029'}
       paddingRight={'0px'}
       paddingLeft={'0px'}
-      position={'absolute'}
       top={'40%'}
+      left={'3px'}
       zIndex={'8'}
     >
       <MdKeyboardArrowLeft fontSize={'2.6em'} />

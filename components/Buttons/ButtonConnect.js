@@ -167,7 +167,7 @@ const ButtonConnect = () => {
             </Button>
 
           </PopoverTrigger>
-          <PopoverContent>
+          <PopoverContent width={{base: '250px', md: 'full'}} pr={{base: '0px', md: '1.5em'}}>
             <PopoverArrow />
             <PopoverCloseButton />
             <PopoverBody>
