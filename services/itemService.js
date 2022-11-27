@@ -2,7 +2,8 @@ import axios from 'axios'
 
 export const itemService = {
   search,
-  getItemById
+  getItemById,
+  purgeItem
 }
 
 /**
@@ -24,10 +25,23 @@ async function getItemById(id, token) {
     `/items/item/id/${id}`,
     token
       ? {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
       : null
   )
+}
+
+/**
+ * Purge Item
+ * @param {query} Search
+ */
+async function purgeItem(slug, token) {
+  return await fetch(`/api/revalidatepupurge?path=${slug}`, {
+    mode: 'cors',
+    headers: {
+      Authorization: `Bearer ${token ? token : null}`,
+    }
+  });
 }

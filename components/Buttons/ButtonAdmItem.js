@@ -1,31 +1,32 @@
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { itemService } from "../../services/itemService";
 import { publishService } from "../../services/publishService";
 
 const ButtonAdmItem = ({ item, token, mutate, loading, setLoading }) => {
     console.log(item)
 
     const ReviewItem = async () => {
-        console.log("publish")
         //To review
         setLoading(true)
         await publishService.updateStatusItem(item._id, {
-            status: 1
-        }, token)
-        await mutate()
-        setLoading(false)
+            status: 2
+        }, token);
+        await mutate();
+        await itemService.purgeItem(item.slug, token);
+        setLoading(false);
         return
     }
 
     const UnpublishItem = async () => {
-        console.log("Unpublish")
         //To unpublish
         setLoading(true)
         await publishService.updateStatusItem(item._id, {
             status: 3
         }, token);
         await mutate();
-        setLoading(false)
+        await itemService.purgeItem(item.slug, token);
+        setLoading(false);
         return
     }
 
@@ -43,7 +44,6 @@ const ButtonAdmItem = ({ item, token, mutate, loading, setLoading }) => {
                 Actions
             </MenuButton>
             <MenuList>
-
                 {item.status == 2 && item.published == true && (
                     <MenuItem onClick={() => UnpublishItem()}>Unpublish</MenuItem>
 

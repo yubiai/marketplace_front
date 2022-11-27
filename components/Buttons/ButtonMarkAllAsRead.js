@@ -105,7 +105,6 @@ const ButtonMarkAllAsRead = ({ onClosePopover }) => {
                         <>
                             <ModalFooter>
                                 <Button onClick={() => onClose()} mr="1em">Cancel</Button>
-
                                 <Button colorScheme='blue' mr={3} onClick={() => markAllRead()}>
                                     Accept
                                 </Button>
