@@ -30,11 +30,6 @@ const ButtonAdmItem = ({ item, token, mutate, loading, setLoading }) => {
         return
     }
 
-    const EditItem = () => {
-        console.log("Edit Item")
-        return
-    }
-
     return (
         <Menu>
             <MenuButton as={Button} w={{ base: '374px', sm: '374px', md: '262px' }} disabled={loading || item.status == 1} backgroundColor={'#00abd1'} _hover={{
