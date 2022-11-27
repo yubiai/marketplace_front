@@ -3,16 +3,13 @@ import { Button } from '@chakra-ui/react';
 import { useGlobal } from '../../providers/globalProvider';
 import { orderService } from '../../services/orderService';
 
-// FIXME: Implement fee amount from configuration
-const fixedFeeAmount = 0.025;
-
 const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus, yubiaiPaymentArbitrableInstance }) => {
     const global = useGlobal();
 
 
     const challengeClaim = async () => {
         const { claimId, transactionHash } = transactionInfo;
-        const parsedFeeAmount = yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(fixedFeeAmount));
+        const parsedFeeAmount = yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(process.env.NEXT_PUBLIC_FEE_ARBITRATION));
 
         try {
             toggleLoadingStatus(true);

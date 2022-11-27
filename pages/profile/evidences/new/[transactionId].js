@@ -53,9 +53,6 @@ const labelStyles = {
   fontSize: 'sm',
 };
 
-// FIXME: Implement fee amount from configuration
-const fixedFeeAmount = 0.025;
-
 const NewEvidence = () => {
   const global = useGlobal();
   const dispatch = useDispatchGlobal();
@@ -276,7 +273,7 @@ const NewEvidence = () => {
 
   const manageClaim = async (dealId, amount, evidenceURI, transactionHash) => {
     try {
-      const parsedFeeAmount = global.yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(fixedFeeAmount));
+      const parsedFeeAmount = global.yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(process.env.NEXT_PUBLIC_FEE_ARBITRATION));
       const result = await global.yubiaiPaymentArbitrableInstance.makeClaim(
         dealId, amount, evidenceURI, parsedFeeAmount);
 
