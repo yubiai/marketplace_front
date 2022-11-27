@@ -34,10 +34,8 @@ import {
   BreadcrumbItem,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
-import { StatusOrderByState } from '../../../../components/Infos/StatusOrder';
+import { StatusOrderByState, CLAIMED_STATUS, statusDescMap } from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
-
-const CLAIMED_STATUS = "2";
 
 const OrderDetail = () => {
   /**
@@ -87,7 +85,7 @@ const OrderDetail = () => {
     setTransactionData(transaction);
     setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount);
     setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount);
-    setTransactionDate(orderInfo.transaction.transactionDate);
+    setTransactionDate(orderInfo.transaction.transactionDate * 1000);
     setTransactionMeta(orderInfo.transaction.transactionMeta);
   };
 
@@ -121,14 +119,13 @@ const OrderDetail = () => {
     };
 
     const setDealInfo = async transaction => {
-      const _deal = await global.yubiaiPaymentArbitrableInstance.getDealInfo(transaction.transactionIndex)
-      setDeal(_deal);
-
-      const { timeForChallenge } = await global.yubiaiPaymentArbitrableInstance.contract.methods.settings().call();
-      const claim = await global.yubiaiPaymentArbitrableInstance.getClaimInfo(_deal.currentClaim);
+      const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(transaction.transactionIndex);
+      const { timeForChallenge } = await global.yubiaiPaymentArbitrableInstance.contract.methods.settings().call();      
       const currentTS = Math.floor((new Date()).getTime() / 1000);
       const limitClaimTime = Math.floor(
-        (parseInt(claim.createdAt, 10) + parseInt(timeForChallenge, 10)) / 1000);
+        (parseInt(fullStatus.claimCreatedAt, 10) + parseInt(timeForChallenge, 10)) / 1000);
+
+      setDeal(fullStatus);
       setIsLateToChallenge(currentTS < limitClaimTime);
     }
 
@@ -257,10 +254,16 @@ const OrderDetail = () => {
 
             <Box p="1em" color="black" bg="orange.100" mt="1em" mb="1em">
               <Flex><Text fontWeight={600}>ID: </Text> <Text>0x...{transactionMeta && transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16)}</Text></Flex>
-              <Text fontWeight={600}>Status: {orderDetail.status.replace("_", " ")}</Text>
+              <Text fontWeight={600}>Status: {(deal || {}).dealStatus && statusDescMap(
+                  deal.dealStatus,
+                  deal.claimStatus,
+                  deal.claimCount,
+                  deal.maxClaimsAllowed,
+                  deal.disputeId
+                )}</Text>
               {
                 transactionDate &&
-                <Text fontWeight={600}>Date: {moment(transactionDate).format('MM/DD/YYYY, h:mm:ss a')}</Text>
+                <Text fontWeight={600}>Date: {moment(transactionDate).format('DD/MM/YYYY, h:mm:ss a')}</Text>
               }
               {
                 (transactionPayedAmount && global.yubiaiPaymentArbitrableInstance) &&
@@ -343,11 +346,17 @@ const OrderDetail = () => {
             <Text fontWeight={600} fontSize="2xl">Status</Text>
 
             <Box width={{ base: "100%" }}>
-              {(deal || {}).state && StatusOrderByState(deal.state)}
+              {(deal || {}).dealStatus && StatusOrderByState(
+                deal.dealStatus,
+                deal.claimStatus,
+                deal.claimCount,
+                deal.maxClaimsAllowed,
+                deal.disputeId
+              )}
             </Box>
 
             {
-              orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' &&
+              (deal || {}).dealStatus === CLAIMED_STATUS &&
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">Actions</Text>
@@ -356,61 +365,53 @@ const OrderDetail = () => {
 
             <Stack mt={4} direction={'row'} spacing={2}>
               <Box w="full">
-                {(orderDetail.transaction || {}).transactionIndex &&
-                  orderDetail.status === 'ORDER_DISPUTE_IN_PROGRESS' && (
+                {(deal || {}).dealStatus === CLAIMED_STATUS && (
                     <>
                       <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
                         <Box p="1em">
-                          {(deal || {}).state === CLAIMED_STATUS && (
-                            <>
-                              <Text color="black">
-                                Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:
-                              </Text>
-                              <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
-                                <ButtonPayOrder
-                                  transactionInfo={{
-                                    claimId: (deal || {}).currentClaim,
-                                    transactionHash: transactionMeta.transactionHash
-                                  }}
-                                  amount={transactionPayedAmount || '0'}
-                                  stepsPostAction={loadOrder}
-                                  toggleLoadingStatus={toggleLoadingStatus}
-                                  yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                                  isSeller={true}
-                                />
-                              </Box>
-                            </>
-                          )}
+                          <Text color="black">
+                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:
+                          </Text>
+                          <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
+                            <ButtonPayOrder
+                              transactionInfo={{
+                                claimId: (deal || {}).claimID,
+                                transactionHash: transactionMeta.transactionHash
+                              }}
+                              amount={transactionPayedAmount || '0'}
+                              stepsPostAction={loadOrder}
+                              toggleLoadingStatus={toggleLoadingStatus}
+                              yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                              isSeller={true}
+                            />
+                          </Box>
                         </Box>
-                        {
-                          (deal || {}).state === CLAIMED_STATUS &&
-                          <Box bg='orange.200' p="1em">
-                            <Text color="black">
-                              {
-                                !isLateToChallenge &&
-                                "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:"
-                              }
-                              {
-                                isLateToChallenge &&
-                                "You cannot challenge the claim of the order because the status of this transaction has expired."
-                              }
-                            </Text>
+                        <Box bg='orange.200' p="1em">
+                          <Text color="black">
                             {
                               !isLateToChallenge &&
-                              <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
-                                <ButtonChallengeClaim
-                                  transactionInfo={{
-                                    claimId: (deal || {}).currentClaim,
-                                    transactionHash: transactionMeta.transactionHash
-                                  }}
-                                  stepsPostAction={loadOrder}
-                                  toggleLoadingStatus={toggleLoadingStatus}
-                                  yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                                />
-                              </Box>
+                              "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:"
                             }
-                          </Box>
-                        }
+                            {
+                              isLateToChallenge &&
+                              "You cannot challenge the claim of the order because the status of this transaction has expired."
+                            }
+                          </Text>
+                          {
+                            !isLateToChallenge &&
+                            <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
+                              <ButtonChallengeClaim
+                                transactionInfo={{
+                                  claimId: (deal || {}).claimID,
+                                  transactionHash: transactionMeta.transactionHash
+                                }}
+                                stepsPostAction={loadOrder}
+                                toggleLoadingStatus={toggleLoadingStatus}
+                                yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                              />
+                            </Box>
+                          }
+                        </Box>
                       </SimpleGrid>
 
                     </>

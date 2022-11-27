@@ -18,6 +18,7 @@ import HeaderChat from '../../../components/Mailbox/HeaderChat'
 import Loading from '../../../components/Spinners/Loading'
 import useFetch from '../../../hooks/data/useFetch'
 import { useDispatchGlobal, useGlobal } from '../../../providers/globalProvider'
+import { setYubiaiInstance } from '../../../providers/orderProvider'
 import { channelService } from '../../../services/channelService'
 import useUser from '../../../hooks/data/useUser'
 import Error from '../../../components/Infos/Error'
@@ -25,7 +26,8 @@ import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import { itemService } from '../../../services/itemService'
 import ItemCard from '../../../components/Cards/ItemCard'
-import { StatusOrder } from '../../../components/Infos/StatusOrder'
+import { StatusOrderByState } from '../../../components/Infos/StatusOrder'
+import { orderService } from '../../../services/orderService'
 
 const MailBoxs = () => {
   const global = useGlobal()
@@ -33,13 +35,14 @@ const MailBoxs = () => {
   const router = useRouter()
   const { order_id } = router.query
 
-  const [item, setItem] = useState(null)
+  const [item, setItem] = useState(null);
 
   const [messages, setMessages] = useState([])
   const [inputMessage, setInputMessage] = useState('')
   const [previewFiles, setPreviewFiles] = useState([]);
 
-  const [loadingSubmit, setLoadingSubmit] = useState(false)
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
+  const [deal, setDeal] = useState(null);
 
   const { user, loggedOut } = useUser()
 
@@ -68,11 +71,15 @@ const MailBoxs = () => {
       })
       .catch((err) => {
         console.error(err)
-      })
+      });
+
+    const result = await orderService.getOrderByOrderId(order_id, global.profile?.token);
+    const data = result.data.result;
+    const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(data.transaction.transactionIndex);
+    setDeal(fullStatus);
   }
 
   const refreshMessages = async() => {
-
     await channelService.getChannelByOrderId(channel && channel.order_id && channel.order_id._id, global && global.profile.token)
     .then((res) => {
       if(res.data && res.data.messages && res.data.messages.length > 0){
@@ -85,12 +92,16 @@ const MailBoxs = () => {
   }
 
   useEffect(() => {
+    if (!global.yubiaiPaymentArbitrableInstance) {
+      setYubiaiInstance(dispatch);
+      return;
+    }
+
     if (channel) {
       setMessages(channel.messages);
-      loadItem()
-
+      loadItem();
     }
-  }, [channel])
+  }, [channel, global.profile, global.yubiaiPaymentArbitrableInstance])
 
   // Saved Message
   const saveMessage = async (message) => {
@@ -262,7 +273,7 @@ const MailBoxs = () => {
 
           )}
           <Center mt="1em"> {channel.order_id && channel.order_id.status && (
-            StatusOrder(channel.order_id.status)
+            StatusOrderByState((deal || {}).dealStatus)
           )}</Center>
 
         </Box>

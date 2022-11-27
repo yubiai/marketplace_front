@@ -55,7 +55,7 @@ const AddMessageEvidence = ({ channelDetail, selectedMsg, setSelectedMsg }) => {
             <Button mb="1em" mt="1em" onClick={() => {
                 onOpen()
             }} bg="green.400" color="white">
-                <ChatIcon w={6} h={6} m="4px" /> Add Messages
+                <ChatIcon w={6} h={6} m="4px" /> Add Messages*
             </Button>
 
             {selectedMsg && selectedMsg.length > 0 && selectedMsg.map((msg, i) => {

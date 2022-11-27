@@ -98,7 +98,7 @@ const Orders = () => {
             data.items &&
             data.items.length > 0 &&
             data.items.map((item, i) => {
-              return <OrderCardBuyer order={item} key={i} />
+              return <OrderCardBuyer yubiaiPaymentInstance={global.yubiaiPaymentArbitrableInstance} order={item} key={i} />
             })}
           <Paginations data={data ? data : null} />
         </Container>
