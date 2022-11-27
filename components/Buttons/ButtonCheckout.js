@@ -1,11 +1,6 @@
 import { Button, Center, Spinner } from '@chakra-ui/react';
 import { useGlobal } from '../../providers/globalProvider';
 
-// FIXME: Retrieve time setup from backend as configuration for transaction
-const TIME_FOR_SERVICE = 0;
-const TIME_FOR_CLAIM = 2592000;
-const TERMS_URL_DEFAULT = "https://forum.kleros.io/tos";
-
 const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, yubiaiPaymentArbitrableInstance }) => {
     const global = useGlobal();
     const { amount, recipient } = transactionInfo;

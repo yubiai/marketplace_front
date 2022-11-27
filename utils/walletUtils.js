@@ -25,7 +25,11 @@ const listChains = [
 const getCurrentNetwork = () => {
   const getNetwork = (id) => listChains.find(chain => chain.id === id);
 
-  if (window.ethereum && window.ethereum.networkVersion) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  if (window && window.ethereum && window.ethereum.networkVersion) {
     const networkVersion = window.ethereum.networkVersion;
     const data = getNetwork(parseInt(networkVersion, 10));
     return data;

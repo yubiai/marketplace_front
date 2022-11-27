@@ -96,7 +96,7 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
     }
 }
 
-export const StatusOrderByStateShort = (dealStatus, claimResult, claimCount = 0, claimLimit = 0, disputeId = '') => {
+export const StatusOrderByStateShort = (dealStatus, claimResult, claimCount = 0, disputeId = '') => {
     switch(dealStatus) {
         case "1":
             return (

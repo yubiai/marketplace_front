@@ -49,12 +49,17 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
         </Center>
         <Center>
           <Box textAlign={"center"}>
-        
+
             <Link href={'/item/' + order?.itemId.slug}><Text cursor={'pointer'} fontWeight={600} _hover={{
               textDecoration: "underline"
             }}
             >{order.itemId.title}</Text></Link>
-            {(deal || {}).dealStatus && StatusOrderByStateShort((deal || {}).dealStatus)}
+            {(deal || {}).dealStatus && StatusOrderByStateShort(
+              deal.dealStatus,
+              deal.claimStatus,
+              deal.claimCount,
+              deal.disputeId
+            )}
           </Box>
         </Center>
         <Center>
