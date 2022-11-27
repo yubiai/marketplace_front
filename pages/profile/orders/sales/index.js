@@ -23,6 +23,7 @@ import {
   useDispatchGlobal,
   useGlobal,
 } from '../../../../providers/globalProvider'
+import { setYubiaiInstance } from '../../../../providers/orderProvider'
 
 const Sales = () => {
   const global = useGlobal()
@@ -37,6 +38,12 @@ const Sales = () => {
       router.replace('/logout')
     }
   }, [user, loggedOut, router, dispatch])
+
+  useEffect(() => {
+    if (!global.yubiaiPaymentArbitrableInstance) {
+      setYubiaiInstance(dispatch);
+    }
+  }, [global.yubiaiPaymentArbitrableInstance]);
 
   const { data, isLoading, isError } = useFetch(
     global && global.profile && global.profile.eth_address
@@ -106,7 +113,7 @@ const Sales = () => {
             data.items &&
             data.items.length > 0 &&
             data.items.map((item, i) => {
-              return <OrderCardSeller order={item} key={i} />
+              return <OrderCardSeller yubiaiPaymentInstance={global.yubiaiPaymentArbitrableInstance} order={item} key={i} />
             })}
           <Paginations data={data ? data : null} />
         </Container>

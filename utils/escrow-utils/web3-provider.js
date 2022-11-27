@@ -10,6 +10,9 @@ import {
 
 import Web3 from "web3";
 import Web3Modal from "web3modal";
+import { getCurrentNetwork } from '../walletUtils';
+
+const network = (getCurrentNetwork() || {}).aliasTitle || 'mainnet';
 
 const deriveAccount = async function (message, create = true) {
   const [account] = await this.eth.getAccounts();
@@ -107,7 +110,7 @@ export default function Web3Provider({
         if (onNetworkChange) onNetworkChange(web3.ETHNet);
       }
 
-      if (networkIdToName[ETHNetID] !== process.env.NEXT_PUBLIC_NETWORK) return;
+      if (networkIdToName[ETHNetID] !== network) return;
 
       if (contracts !== web3._contracts) {
         const [account] = await web3.eth.getAccounts();

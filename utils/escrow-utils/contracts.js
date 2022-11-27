@@ -2,6 +2,7 @@ import ProofOfHumanity from './subgraph/abis/proof-of-humanity.json';
 import KlerosLiquid from './subgraph/abis/kleros-liquid.json';
 import TransactionBatcher from './subgraph/abis/transaction-batcher.json';
 import UBI from './subgraph/abis/ubi.json';
+import { getCurrentNetwork } from '../walletUtils';
 import {
   UBIAddress,
   address,
@@ -9,8 +10,7 @@ import {
   transactionBatcherAddress,
 } from './subgraph/config';
 
-const network = process.env.NEXT_PUBLIC_NETWORK || 'mainnet';
-
+const network = (getCurrentNetwork() || {}).aliasTitle || 'mainnet';
 
 export const contracts = [
     {

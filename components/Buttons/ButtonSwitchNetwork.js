@@ -11,27 +11,7 @@ import {
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie'
-
-const listChains = [
-    {
-        id: 1,
-        chainID: "0x1",
-        title: "Ethereum",
-        currency: "ETH"
-    },
-    {
-        id: 5,
-        chainID: "0x5",
-        title: "Görli",
-        currency: "ETH"
-    },
-    {
-        id: 100,
-        chainID: "0x64",
-        title: "Gnosis",
-        currency: "xDAI"
-    }
-];
+import { listChains } from '../../utils/walletUtils';
 
 const ButtonSwitchNetwork = ({ bg, color }) => {
     const router = useRouter();

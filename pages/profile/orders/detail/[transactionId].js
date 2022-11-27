@@ -34,7 +34,7 @@ import {
   BreadcrumbItem,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
-import { StatusOrder } from '../../../../components/Infos/StatusOrder';
+import { StatusOrderByState, ONGOING_STATUS, statusDescMap } from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 
 const OrderDetail = () => {
@@ -55,18 +55,13 @@ const OrderDetail = () => {
   const [transactionPayedAmount, setTransactionPayedAmount] = useState('');
   const [transactionFeeAmount, setTransactionFeeAmount] = useState('');
   const [transactionDate, setTransactionDate] = useState('');
+  const [deal, setDeal] = useState(null);
 
   /**
    * Auxiliar status and instances
    */
   const [operationInProgress, setOperationInProgress] = useState(false);
-  const [isOver, setIsOver] = useState(false);
   const [isDealEnabledToClaim, setIsDealEnabledToClaim] = useState(false);
-
-  /**
-   * If isOver:
-   * - Add message, transaction cannot be claimed
-   */
 
   const { user, loggedOut } = useUser();
 
@@ -90,12 +85,20 @@ const OrderDetail = () => {
     setTransactionData(transaction);
     setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount);
     setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount);
-    setTransactionDate(orderInfo.transaction.transactionDate);
+    setTransactionDate(orderInfo.transaction.transactionDate * 1000);
     setTransactionMeta(orderInfo.transaction.transactionMeta);
   };
 
-  const toggleLoadingStatus = (status) => {
-    setOperationInProgress(status)
+  const setDealInfo = async transaction => {
+    const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(transaction.transactionIndex);
+    const currentTS = Math.floor((new Date()).getTime() / 1000);
+    setDeal(fullStatus);
+    setIsDealEnabledToClaim(
+      currentTS <= (orderDetail.transaction || {}).transactionDate + (orderDetail.transaction || {}).timeForClaim);
+  }
+
+  const toggleLoadingStatus = status => {
+    setOperationInProgress(status);
   };
 
   const redirectToChat = () => {
@@ -123,17 +126,8 @@ const OrderDetail = () => {
       loadCurrencyPrices(dispatch, global, networkType);
     }
 
-    const setIsOverDeal = async transaction => {
-      setIsOver(await global.yubiaiPaymentArbitrableInstance.isOver(transaction.transactionIndex));
-    }
-
-    if (transactionData && global.yubiaiPaymentArbitrableInstance) {
-      const currentTimeStamp = Math.round((new Date).getTime() / 1000);
-      if ((orderDetail || {}).transaction) {
-        setIsDealEnabledToClaim(
-          currentTimeStamp <= (orderDetail.transaction || {}).transactionDate + (orderDetail.transaction || {}).timeForClaim);
-        setIsOverDeal((orderDetail || {}).transaction);
-      }
+    if ((orderDetail || {}).transaction && global.yubiaiPaymentArbitrableInstance) {
+      setDealInfo((orderDetail || {}).transaction);
     }
 
     if (!global.yubiaiPaymentArbitrableInstance) {
@@ -149,7 +143,7 @@ const OrderDetail = () => {
     if (!(transactionData || {}).extraData && (global.profile || {}).token) {
       loadOrder();
     }
-  }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance])
+  }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance]);
 
   if (!orderDetail) return <Loading />;
   return (
@@ -177,11 +171,9 @@ const OrderDetail = () => {
           </BreadcrumbItem>
 
           <BreadcrumbItem>
-            <Link href="/profile/orders/" cursor={'pointer'} _hover={{
-              textDecoration: "underline"
-            }}><Text color="#00abd1" cursor={'pointer'} _hover={{
-              textDecoration: "underline"
-            }}>Orders</Text></Link>
+            <Link href="/profile/orders/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
+              <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Orders</Text>
+            </Link>
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
             <Text>Order Detail</Text>
@@ -200,7 +192,7 @@ const OrderDetail = () => {
               Order Detail
             </Heading>
             <Text fontWeight={600} fontSize={'0.8em'} color={'gray.500'} mt="5px">
-              {moment(orderDetail && orderDetail?.dateOrder).format('MM/DD/YYYY, h:mm:ss a')} | # {orderDetail?._id}
+              {moment(orderDetail && orderDetail?.dateOrder).format('DD/MM/YYYY, h:mm:ss a')} | # {orderDetail?._id}
             </Text>
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
             <Text fontWeight={600} fontSize="2xl">Item</Text>
@@ -257,7 +249,13 @@ const OrderDetail = () => {
 
             <Box p="1em" color="black" bg="orange.100" mt="1em">
               <Flex><Text fontWeight={600}>ID: </Text> <Text>0x...{transactionMeta && transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16)}</Text></Flex>
-              <Text fontWeight={600}>Status: {orderDetail.status.replace("_", " ")}</Text>
+              <Text fontWeight={600}>Status: {(deal || {}).dealStatus && statusDescMap(
+                deal.dealStatus,
+                deal.claimStatus,
+                deal.claimCount,
+                deal.maxClaimsAllowed,
+                deal.disputeId
+              )}</Text>
               {
                 transactionDate &&
                 <Text fontWeight={600}>Date: {moment(transactionDate).format('MM/DD/YYYY, h:mm:ss a')}</Text>
@@ -287,8 +285,6 @@ const OrderDetail = () => {
                 </a>
               </Link>
             </Box>
-
-
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
             <Text fontWeight={600} fontSize="2xl">Seller</Text>
             <Grid
@@ -297,7 +293,6 @@ const OrderDetail = () => {
               gap={1}
               mt="1em"
             >
-
               <Center>
                 <Avatar
                   size={'xl'}
@@ -312,19 +307,11 @@ const OrderDetail = () => {
                   <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.seller.first_name} ${orderDetail && orderDetail.item.seller.last_name}`}</Text>
                   <Text>Eth Address: {orderDetail && orderDetail.item.seller.eth_address.slice(orderDetail.item.seller.eth_address.length - 8)}</Text>
                   <Link
-                    href={
-                      `https://app.proofofhumanity.id/profile/${orderDetail && orderDetail.item.seller.eth_address}`
-
-                    }
+                    href={`https://app.proofofhumanity.id/profile/${orderDetail && orderDetail.item.seller.eth_address}`}
                     passHref legacyBehavior
                   >
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Text color="black" as='u' fontStyle={"italic"} _hover={{
-                        color: "gray.400"
-                      }}>View poh profile</Text>
+                    <a target="_blank" rel="noopener noreferrer">
+                      <Text color="black" as='u' fontStyle={"italic"} _hover={{ color: "gray.400" }}>View poh profile</Text>
                     </a>
                   </Link>
                 </Box>
@@ -344,77 +331,69 @@ const OrderDetail = () => {
             <Text fontWeight={600} fontSize="2xl">Status</Text>
 
             <Box width={{ base: "100%", md: "30%" }}>
-              {orderDetail && orderDetail.status && (
-                StatusOrder(orderDetail.status)
+              {(deal || {}).dealStatus && StatusOrderByState(
+                deal.dealStatus,
+                deal.claimStatus,
+                deal.claimCount,
+                deal.maxClaimsAllowed,
+                deal.disputeId
               )}
             </Box>
-
             {
-              orderDetail.status !== 'ORDER_PAID' &&
-              <>
-                <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+              (deal || {}).dealStatus === ONGOING_STATUS &&
+              <Box>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">Actions</Text>
-              </>
-            }
-
-            <Stack mt={4} direction={'row'} spacing={2}>
-              <Box w="full">
-
-                {(orderDetail.transaction || {}).transactionIndex &&
-                  orderDetail.status === 'ORDER_CREATED' && (
-                    <>
-                      <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
-                        <Box p="1em">
-                          {transactionData && transactionPayedAmount && (
-                            <>
-                              <Text color="black" >
-                                Always confirm that you have received the buyer’s service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.
-                              </Text>
-                              <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
-                                <ButtonPayOrder
-                                  transactionInfo={{
-                                    transactionIndex: (orderDetail.transaction || {}).transactionIndex,
-                                    transactionHash: transactionMeta.transactionHash
-                                  }}
-                                  amount={transactionPayedAmount || '0'}
-                                  stepsPostAction={loadOrder}
-                                  toggleLoadingStatus={toggleLoadingStatus}
-                                  yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                                />
-                              </Box>
-                            </>
-                          )}
-                        </Box>
-                        {
-                          isDealEnabledToClaim && (
-                            <Box bg='orange.200' p="1em">
-                              <Text color="black">
-                                {
-                                  !isOver &&
-                                  "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case."
-                                }
-                                {
-                                  isOver &&
-                                  "You cannot claim this order because the status of this transaction is over."
-                                }
-                              </Text>
-                              {
-                                !isOver &&
-                                <Box mt="2.5em" textAlign={{ base: "center", md: "left" }} >
-                                  <ButtonStartClaim transactionMeta={transactionMeta} token={global.profile.token} />
-                                </Box>
-                              }
+                <Stack mt={4} direction={'row'} spacing={2}>
+                  <Box w="full">
+                    <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
+                      <Box p="1em">
+                        {transactionData && transactionPayedAmount && (
+                          <>
+                            <Text color="black">
+                              Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:
+                            </Text>
+                            <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
+                              <ButtonPayOrder
+                                transactionInfo={{
+                                  transactionIndex: (orderDetail.transaction || {}).transactionIndex,
+                                  transactionHash: transactionMeta.transactionHash
+                                }}
+                                amount={transactionPayedAmount || '0'}
+                                stepsPostAction={loadOrder}
+                                toggleLoadingStatus={toggleLoadingStatus}
+                                yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                              />
                             </Box>
-                          )
-
-                        }
-                      </SimpleGrid>
-
-                    </>
-                  )}
+                          </>
+                        )}
+                      </Box>
+                      {
+                        isDealEnabledToClaim &&
+                        <Box bg='orange.200' p="1em">
+                          <Text color="black">
+                            {
+                              !(deal || {}).isOver &&
+                              "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:"
+                            }
+                            {
+                              (deal || {}).isOver &&
+                              "You cannot claim this order because the status of this transaction is over."
+                            }
+                          </Text>
+                          {
+                            !(deal || {}).isOver &&
+                            <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
+                              <ButtonStartClaim transactionMeta={transactionMeta} token={global.profile.token} />
+                            </Box>
+                          }
+                        </Box>
+                      }
+                    </SimpleGrid>
+                  </Box>
+                </Stack>
               </Box>
-            </Stack>
+            }
           </Box>
         </Center>
       </Container>

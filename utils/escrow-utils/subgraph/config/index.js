@@ -1,9 +1,10 @@
 import kovan from "./kovan";
 import mainnet from "./mainnet";
+import { getCurrentNetwork } from '../../../walletUtils';
 
 const configs = { kovan, mainnet };
 
-export const network = process.env.NEXT_PUBLIC_NETWORK || "mainnet";
+const network = (getCurrentNetwork() || {}).aliasTitle || 'mainnet';
 
 export const {
   address,

@@ -19,7 +19,7 @@ export default class YubiaiPaymentArbitrable {
     const contracts = getContractsForNetwork(networkType);
     this.contractAddress = contracts.yubiaiArbitrable;
     this.contract = new this.web3.eth.Contract(
-        yubiaiArbitrable, this.contractAddress, { from: this.account },
+      yubiaiArbitrable, this.contractAddress, { from: this.account },
     );
   }
 
@@ -37,39 +37,36 @@ export default class YubiaiPaymentArbitrable {
     }
     ;[account] = await this.web3.eth.getAccounts()
 
-    return account
+    return account;
   }
 
   async upload(fileName, bufferOrJSON) {
-      if (typeof bufferOrJSON !== 'string' && !Buffer.isBuffer(bufferOrJSON)) {
-        bufferOrJSON = JSON.stringify(bufferOrJSON)
-  
-        const res = await fetch(`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/add`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            fileName,
-            buffer: Buffer.from(bufferOrJSON),
-          }),
-        });
-        const json = await res.json();
-        const data = json.data;
-        const url = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${data[1].hash}${data[0].path}`; 
-        await fetch(url, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        });
-      }
-      return `/ipfs/${data[1].hash}${data[0].path}`;
+    if (typeof bufferOrJSON !== 'string' && !Buffer.isBuffer(bufferOrJSON)) {
+      bufferOrJSON = JSON.stringify(bufferOrJSON)
+
+      const res = await fetch(`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/add`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fileName,
+          buffer: Buffer.from(bufferOrJSON),
+        }),
+      });
+      const json = await res.json();
+      const data = json.data;
+      const url = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${data[1].hash}${data[0].path}`; 
+      await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+    }
+    return `/ipfs/${data[1].hash}${data[0].path}`;
   }
 
-  /**
-   * 1st user case: Create deal
-   */
   async createDeal(token, extraBurnFee, timeForService, timeForClaim, buyer, seller, amount, termsUrl) {
     const currentAccount = await this.getAccount();
     if (token) {
@@ -110,17 +107,11 @@ export default class YubiaiPaymentArbitrable {
     ], termsUrl).send({ value: amount, from: currentAccount });
   }
 
-  /**
-   * 2nd user case: Accept deal and pay
-   */
   async payDeal(dealId) {
     const currentAccount = await this.getAccount();
     return await this.contract.methods.closeDeal(dealId).send({ from: currentAccount });
   }
 
-    /**
-     * 3rd user case: Deal not accepted and requesting a refund
-     */
   async makeClaim(dealId, amount, evidenceURI, feeAmount) {
     const currentAccount = await this.getAccount();
     return await this.contract.methods.makeClaim(
@@ -137,6 +128,10 @@ export default class YubiaiPaymentArbitrable {
     return await this.contract.methods.challengeClaim(claimId).send({ value: feeAmount, from: currentAccount });
   }
 
+  async getSettings() {
+    return await this.contract.methods.settings().call();
+  }
+
   async isOver(transactionId) {
     return await this.contract.methods.isOver(transactionId).call();
   }
@@ -147,5 +142,33 @@ export default class YubiaiPaymentArbitrable {
 
   async getClaimInfo(claimId) {
     return await this.contract.methods.claims(claimId).call();
+  }
+
+  async getDisputeIDFromClaimId(claimId) {
+    return await this.contract.methods.externalIDtoLocalID(claimId).call();
+  }
+
+  async getFullStatusOfDeal(dealId) {
+    const settings = await this.getSettings();
+    const dealInfo = await this.getDealInfo(dealId);
+    const isOver = await this.isOver(dealId);
+    let claimInfo;
+    let disputeId;
+
+    if (dealInfo.currentClaim) {
+      claimInfo = await this.getClaimInfo(dealInfo.currentClaim);
+      disputeId = await this.getDisputeIDFromClaimId(dealInfo.currentClaim);
+    }
+
+    return {
+      dealStatus: dealInfo.state,
+      claimID: dealInfo.currentClaim,
+      claimStatus: (claimInfo || {}).ruling,
+      claimCreatedAt: parseInt((claimInfo || {}).createdAt, 10),
+      claimCount: parseInt(dealInfo.claimCount, 10),
+      maxClaimsAllowed: parseInt(settings.maxClaims, 10),
+      disputeId: parseInt(disputeId, 10),
+      isOver
+    }
   }
 }

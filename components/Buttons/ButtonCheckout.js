@@ -1,11 +1,6 @@
 import { Button, Center, Spinner } from '@chakra-ui/react';
 import { useGlobal } from '../../providers/globalProvider';
 
-// FIXME: Retrieve time setup from backend as configuration for transaction
-const TIME_FOR_SERVICE = 0;
-const TIME_FOR_CLAIM = 2592000;
-const TERMS_URL_DEFAULT = "https://forum.kleros.io/tos";
-
 const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, yubiaiPaymentArbitrableInstance }) => {
     const global = useGlobal();
     const { amount, recipient } = transactionInfo;
@@ -18,7 +13,15 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             const networkType = await yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType() || 'main';
             const token = currency !== 'ETH' ? global.currencyPriceList.find(price => price.symbol === currency) : { tpken_address: null };
             const result = await yubiaiPaymentArbitrableInstance.createDeal(
-                token.token_address, burnFee, TIME_FOR_SERVICE, TIME_FOR_CLAIM, senderWallet, recipient, String(amountToWei), TERMS_URL_DEFAULT);
+                token.token_address,
+                burnFee,
+                process.env.NEXT_PUBLIC_TIME_FOR_SERVICE,
+                process.env.NEXT_PUBLIC_TIME_FOR_CLAIM,
+                senderWallet,
+                recipient,
+                String(amountToWei),
+                process.env.NEXT_PUBLIC_TERMS_URL_DEFAULT
+            );
 
             const {
                 blockHash,

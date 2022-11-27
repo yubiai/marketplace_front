@@ -1,11 +1,23 @@
+import React, { useEffect, useState } from 'react';
 import { Stack, Text, Button, Divider, SimpleGrid, Box, Image, Center } from '@chakra-ui/react'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { StatusOrder } from '../Infos/StatusOrder';
+import { StatusOrderByStateShort } from '../Infos/StatusOrder';
 
-const OrderCardSeller = ({ order }) => {
-  const router = useRouter()
+const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
+  const router = useRouter();
+  const [deal, setDeal] = useState(null);
+  useEffect(() => {
+    const setDealInfo = async _order => {
+      const fullStatus = await yubiaiPaymentInstance.getFullStatusOfDeal(_order.transaction.transactionIndex);
+      setDeal(fullStatus);
+    }
+
+    if (!deal && yubiaiPaymentInstance) {
+      setDealInfo(order);
+    }
+  }, [deal, yubiaiPaymentInstance]);
 
   return (
     <Stack p="4" boxShadow="lg" m="0.5px" borderRadius="lg" bg="white">
@@ -35,12 +47,14 @@ const OrderCardSeller = ({ order }) => {
         </Center>
         <Center>
           <Box textAlign={"left"}>
-            <Link href={'/item/' + order?.itemId.slug}><Text cursor={'pointer'} fontWeight={600} _hover={{
-              textDecoration: "underline"
-            }}
-            >{order.itemId.title}</Text></Link>
-            {order && order.status && (
-              StatusOrder(order.status)
+            <Link href={'/item/' + order?.itemId.slug}>
+              <Text cursor={'pointer'} fontWeight={600} _hover={{textDecoration: "underline"}}>{order.itemId.title}</Text>
+            </Link>
+            {(deal || {}).dealStatus && StatusOrderByStateShort(
+              deal.dealStatus,
+              deal.claimStatus,
+              deal.claimCount,
+              deal.disputeId
             )}
           </Box>
         </Center>
