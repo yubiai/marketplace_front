@@ -35,7 +35,7 @@ const Published = () => {
     }
   }, [user, loggedOut, router])
 
-  const { data, isLoading, isError } = useFetch(
+  const { data, isLoading, isError, mutate } = useFetch(
     global && global.profile && global.profile._id
       ? `/profiles/my_published/${global.profile._id}?page=${global.pageIndex}&size=8`
       : null,
@@ -108,7 +108,7 @@ const Published = () => {
               data.items &&
               data.items.length > 0 &&
               data.items.map((item, i) => {
-                return <ItemCardPublish key={i} item={item} />
+                return <ItemCardPublish key={i} item={item} token={global?.profile?.token} mutate={mutate} />
               })}
           </Grid>
           <Paginations data={data ? data : null} />

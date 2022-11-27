@@ -1,4 +1,3 @@
-import { ChevronDownIcon } from '@chakra-ui/icons'
 import {
   Box,
   Text,
@@ -6,15 +5,14 @@ import {
   Image,
   Divider,
   Badge,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  Button,
+  Spinner
 } from '@chakra-ui/react'
 import Link from 'next/link'
+import { useState } from 'react';
+import ButtonAdmItem from '../Buttons/ButtonAdmItem'
 
-const ItemCardPublish = ({ item }) => {
+const ItemCardPublish = ({ item, token, mutate }) => {
+  const [loading, setLoading] = useState(false);
 
   return (
     <Box p={2} cursor="pointer">
@@ -43,13 +41,24 @@ const ItemCardPublish = ({ item }) => {
           />
 
           <Box position={"absolute"} top="0" m="1px">
-            <Badge variant='solid' colorScheme={item.published ? "green" : "red"}>{item.published ? "Published" : "Not published"}</Badge>
-            {item.status === 1 && (
-              <Badge variant='solid' colorScheme="orange" ml="4px">In Review</Badge>
+            {loading ? (
+              <>
+                <Spinner
+                  thickness="4px"
+                  speed="0.65s"
+                  emptyColor="gray.200"
+                  color="blue.500"
+                  size="md"
+                />
+              </>
+            ) : (
+              <>
+                <Badge variant='solid' colorScheme={item.published ? "green" : "red"}>{item.published ? "Published" : "Not published"}</Badge>
+                {item.status === 1 && (
+                  <Badge variant='solid' colorScheme="orange" ml="4px">In Review</Badge>
+                )}
+              </>
             )}
-            <Box textAlign={"right"}>
-
-            </Box>
           </Box>
           <Stack align={'left'} m="5px">
             <Divider />
@@ -72,19 +81,7 @@ const ItemCardPublish = ({ item }) => {
           </Stack>
         </Box>
       </Link>
-      <Menu>
-        <MenuButton as={Button} w={{ base: '374px', sm: '374px', md: '262px' }} backgroundColor={'#00abd1'} _hover={{
-          bg: "blue.300"
-        }}
-          color={'white'} rightIcon={<ChevronDownIcon />}>
-          Actions
-        </MenuButton>
-        <MenuList>
-          <MenuItem>Unpublish</MenuItem>
-          <MenuItem>Publish</MenuItem>
-          <MenuItem>Edit</MenuItem>
-        </MenuList>
-      </Menu>
+      <ButtonAdmItem item={item} token={token} mutate={mutate} loading={loading} setLoading={setLoading} />
     </Box>
   )
 }

@@ -13,6 +13,23 @@ async function newItem(payload, token) {
   })
 }
 
+/**
+ * Update Status
+ * @param {str} id
+ * @param {str} status
+ */
+ async function updateStatusItem(id, data, token) {
+  return await axios.put(`/publish/status/${id}`, data, token
+    ? {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    : null
+  )
+}
+
 export const publishService = {
   newItem,
+  updateStatusItem
 }
