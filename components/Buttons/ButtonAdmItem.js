@@ -4,13 +4,12 @@ import { itemService } from "../../services/itemService";
 import { publishService } from "../../services/publishService";
 
 const ButtonAdmItem = ({ item, token, mutate, loading, setLoading }) => {
-    console.log(item)
 
     const ReviewItem = async () => {
         //To review
         setLoading(true)
         await publishService.updateStatusItem(item._id, {
-            status: 2
+            status: 1
         }, token);
         await mutate();
         await itemService.purgeItem(item.slug, token);
