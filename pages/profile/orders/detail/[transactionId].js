@@ -351,7 +351,7 @@ const OrderDetail = () => {
                         {transactionData && transactionPayedAmount && (
                           <>
                             <Text color="black">
-                              Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:
+                            Always confirm that you have received the buyer’s service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.
                             </Text>
                             <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
                               <ButtonPayOrder
@@ -373,8 +373,7 @@ const OrderDetail = () => {
                         <Box bg='orange.200' p="1em">
                           <Text color="black">
                             {
-                              !(deal || {}).isOver &&
-                              "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:"
+                              !(deal || {}).isOver && "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case."
                             }
                             {
                               (deal || {}).isOver &&
