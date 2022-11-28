@@ -169,6 +169,11 @@ const OrderDetail = () => {
               textDecoration: "underline"
             }}>Home</Text></Link>
           </BreadcrumbItem>
+          <BreadcrumbItem>
+            <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
+              <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+            </Link>
+          </BreadcrumbItem>
 
           <BreadcrumbItem>
             <Link href="/profile/orders/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
@@ -176,7 +181,7 @@ const OrderDetail = () => {
             </Link>
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
-            <Text>Order Detail</Text>
+            <Text>Detail</Text>
           </BreadcrumbItem>
         </Breadcrumb>
         <Center py={6}>

@@ -88,6 +88,12 @@ const Sales = () => {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
+              <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
+                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+              </Link>
+            </BreadcrumbItem>
+
+            <BreadcrumbItem>
               <Text>Sales</Text>
             </BreadcrumbItem>
           </Breadcrumb>

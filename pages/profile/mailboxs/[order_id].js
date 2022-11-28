@@ -79,16 +79,16 @@ const MailBoxs = () => {
     setDeal(fullStatus);
   }
 
-  const refreshMessages = async() => {
+  const refreshMessages = async () => {
     await channelService.getChannelByOrderId(channel && channel.order_id && channel.order_id._id, global && global.profile.token)
-    .then((res) => {
-      if(res.data && res.data.messages && res.data.messages.length > 0){
-        setMessages(res.data.messages);
-      }
-    })
-    .catch((err) => {
-      console.error(err)
-    })
+      .then((res) => {
+        if (res.data && res.data.messages && res.data.messages.length > 0) {
+          setMessages(res.data.messages);
+        }
+      })
+      .catch((err) => {
+        console.error(err)
+      })
   }
 
   useEffect(() => {
@@ -195,17 +195,29 @@ const MailBoxs = () => {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-            <Link href="/profile/orders/" cursor={'pointer'} _hover={{
-              textDecoration: "underline"
-            }}><Text color="#00abd1" cursor={'pointer'} _hover={{
-              textDecoration: "underline"
-            }}>Orders</Text></Link>
-          </BreadcrumbItem>
+              <Link href="/profile" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}>Profile</Text></Link>
+            </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <Link href={`/profile/orders/detail/${channel.order_id.transactionHash}`}><Text color="#00abd1" cursor={'pointer'} _hover={{
-                textDecoration: "underline"
-              }}>Order detail</Text></Link>
+              <Link href={global &&
+                      global.profile &&
+                      global.profile._id !== channel.buyer._id ? "/profile/orders/sales/" : "/profile/orders/"} cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
+                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{global &&
+                      global.profile &&
+                      global.profile._id !== channel.buyer._id ? "Sales" : "Orders"}</Text>
+              </Link>
+            </BreadcrumbItem>
+
+            <BreadcrumbItem>
+              <Link href={global &&
+                      global.profile &&
+                      global.profile._id !== channel.buyer._id ? `/profile/orders/as-seller/${channel.order_id.transactionHash}` : `/profile/orders/detail/${channel.order_id.transactionHash}`} cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
+                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Detail</Text>
+              </Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem isCurrentPage>

@@ -172,16 +172,23 @@ const OrderDetail = () => {
               textDecoration: "underline"
             }}>Home</Text></Link>
           </BreadcrumbItem>
-
           <BreadcrumbItem>
-            <Link href="/profile/orders/" cursor={'pointer'} _hover={{
+            <Link href="/profile/" cursor={'pointer'} _hover={{
               textDecoration: "underline"
             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
               textDecoration: "underline"
-            }}>Orders</Text></Link>
+            }}>Profile</Text></Link>
+          </BreadcrumbItem>
+
+          <BreadcrumbItem>
+            <Link href="/profile/orders/sales" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}>Sales</Text></Link>
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
-            <Text>Sale Detail</Text>
+            <Text>Detail</Text>
           </BreadcrumbItem>
         </Breadcrumb>
         <Center py={6}>
@@ -318,7 +325,7 @@ const OrderDetail = () => {
                       `https://app.proofofhumanity.id/profile/${orderDetail && orderDetail.item.buyer.eth_address}`
 
                     }
-                    passHref
+                    passHref legacyBehavior
                   >
                     <a
                       target="_blank"
