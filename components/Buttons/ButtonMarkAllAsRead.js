@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { useDispatchGlobal, useGlobal } from "../../providers/globalProvider";
 import { notiService } from "../../services/notiService";
 
-const ButtonMarkAllAsRead = ({ onClosePopover }) => {
+const ButtonMarkAllAsRead = ({ onClosePopover, mutate }) => {
     const global = useGlobal();
     const dispatch = useDispatchGlobal();
     const [notiFalse, SetNotiFalse] = useState(false);
@@ -30,6 +30,8 @@ const ButtonMarkAllAsRead = ({ onClosePopover }) => {
             if (!result.data || result.data.length === 0) {
                 SetNotiFalse(false)
             }
+
+            mutate()
 
             return
         } catch (err) {

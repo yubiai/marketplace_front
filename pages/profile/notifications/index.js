@@ -40,7 +40,7 @@ const Notifications = () => {
     }
   }, [user, loggedOut, router, dispatch])
 
-  const { data, isLoading, isError } = useFetch(
+  const { data, isLoading, isError, mutate } = useFetch(
     global && global.profile && global.profile._id
       ? `/noti/${global.profile._id}?page=${global.pageIndex}&size=10`
       : null,
@@ -128,7 +128,7 @@ const Notifications = () => {
                     <Flex display={"flex"}>
                       <Heading size="md">Notifications</Heading>
                       <Spacer />
-                      <ButtonMarkAllAsRead />
+                      <ButtonMarkAllAsRead onClosePopover={null} mutate={mutate} />
                     </Flex>
                     {data &&
                       data.items &&
