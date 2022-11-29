@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
     Button, useToast,
     Modal,
@@ -22,6 +22,10 @@ const ButtonStartClaim = ({ transactionMeta, token }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = useRef(null);
     const [disputePolicy, setDisputePolicy] = useState(null);
+
+    useEffect(() => {
+        console.log(btnRef);
+    }, [btnRef])
 
     // Overlay Modal
     const OverlayOne = () => (
@@ -79,7 +83,7 @@ const ButtonStartClaim = ({ transactionMeta, token }) => {
                 onClick={() => onModalDisputePolicy()}>
                 Start claim
             </Button>
-            <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'inside'} size={"6xl"}>
+            <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'outside'} size={"6xl"}>
                 <OverlayOne />
                 <ModalContent bg="white" color="black">
                     <ModalHeader>Yubiai Service Policy

@@ -71,11 +71,11 @@ const ButtonConnect = () => {
     if (!signerAddress) {
       toast({
         title: 'Failed to login.',
-        description: 'Review application',
+        description: 'Please, check your wallet application.',
         position: 'top-right',
         status: 'warning',
         duration: 5000,
-        isClosable: true,
+        isClosable: true
       })
       return
     }
