@@ -1,4 +1,4 @@
-import { Button, Center, Divider, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Center, Divider, Stack, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
 const MyInfoPrivateCard = ({ dataProfile }) => {
@@ -52,7 +52,9 @@ const MyInfoPrivateCard = ({ dataProfile }) => {
               {dataProfile && dataProfile.email ? dataProfile.email : 'Empty'}
             </Text>
             <Divider />
+            <Box textAlign={"center"}>
             <Button bg="#00ABD1" color="white" w="10em" onClick={() => router.push("/profile/edit")}>Edit Profile</Button>
+            </Box>
           </Stack>
         </Stack>
       </Center>

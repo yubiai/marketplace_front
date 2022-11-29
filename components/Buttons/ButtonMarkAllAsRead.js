@@ -20,7 +20,6 @@ const ButtonMarkAllAsRead = ({ onClosePopover, mutate }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
 
     const markAllRead = async () => {
-
         try {
             await notiService.updateNotisAllSeenFalseByUserId(global.profile._id, global.profile.token);
             await mutate()

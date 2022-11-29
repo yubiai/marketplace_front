@@ -40,6 +40,7 @@ const Notifications = () => {
     }
   }, [user, loggedOut, router, dispatch])
 
+  // Fetch Notis All
   const { data: notis, isLoading, isError, mutate } = useFetch(
     global && global.profile && global.profile._id
       ? `/noti/${global.profile._id}?page=${global.pageIndex}&size=10`
@@ -47,6 +48,7 @@ const Notifications = () => {
     global && global.profile && global.profile.token
   )
 
+  // Verify Notis Seen False
   useEffect(() => {
     async function initial() {
       const verify = notis && notis.items && notis.items.length > 0 && notis.items.find((noti) => noti.seen === false ? true : false)
@@ -59,6 +61,7 @@ const Notifications = () => {
     initial();
   }, [notis, mutate]);
 
+  // Active mutate with action global
   useEffect(() => {
     async function initialMutate() {
       await mutate();

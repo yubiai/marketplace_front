@@ -242,7 +242,7 @@ const ItemById = ({ item }) => {
             {global.profile && (
               <InfoUserModal user={item.seller} />
             )}            
-            <Box
+            {/* <Box
               display={'flex'}
               flexDirection={'row'}
               mt="5px"
@@ -256,15 +256,15 @@ const ItemById = ({ item }) => {
               <Text color="#323232" fontSize="14px" fontWeight="300">
                 0 Opinions
               </Text>
-            </Box>
-            <Text>{item.price} {item.currencySymbolPrice}</Text>
+            </Box> */}
+            <Text mt="1em">{item.price} {item.currencySymbolPrice}</Text>
             <Text>0% additional for Yubiai Fee</Text>
             <Text>{item.ubiburningamount || 0.6}% additional for UBI Burner Fee</Text>
             <Flex
               direction={{ base: 'column' }}
               justifyContent="center"
               w="full"
-              h="300px"
+              h={{base: "full", md: "300px"}}
             >
               <Center>
                 <Button

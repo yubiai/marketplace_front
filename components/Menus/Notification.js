@@ -37,7 +37,6 @@ const Notification = () => {
 
   useEffect(() => {
     async function initial() {
-      console.log("aaaaa")
       await mutate();
     }
     initial();

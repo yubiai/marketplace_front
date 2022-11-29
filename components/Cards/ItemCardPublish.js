@@ -19,7 +19,7 @@ const ItemCardPublish = ({ item, token, mutate }) => {
       <Link href={`/item/${item.slug}`}>
         <Box
           role={'group'}
-          maxW={{ base: '374px', sm: '374px', md: '262px' }}
+          maxW={{ base: '330px', sm: '374px', md: '262px' }}
           w={'full'}
           maxH={'400px'}
           h={'378px'}
@@ -34,7 +34,6 @@ const ItemCardPublish = ({ item, token, mutate }) => {
             alt="Img Item"
             borderTopRadius="lg"
             height={'280px'}
-            width={{ base: '374px', sm: '374px', md: '262px' }}
             objectFit={'cover'}
             src={item && item.files && item.files[0] ? process.env.NEXT_PUBLIC_LINK_FLEEK + item.files[0].filename : '/static/images/ybminilogo.png'}
             fallbackSrc={item && item.files && item.files[0] ? process.env.NEXT_PUBLIC_LINK_GC + item.files[0].filename : '/static/images/ybminilogo.png'}

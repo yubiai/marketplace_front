@@ -249,7 +249,7 @@ const Checkout = () => {
           />
         </Head>
         <Box
-          h={{ base: 'full', sm: 'full', md: 'full', lg: 'full', xl: '100vh' }}
+          h={{ base: '100vh', sm: 'full', md: 'full', lg: 'full', xl: '100vh' }}
           m="2em"
         >
           <Center py={6}>

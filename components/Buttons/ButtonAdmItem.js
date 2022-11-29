@@ -31,7 +31,7 @@ const ButtonAdmItem = ({ item, token, mutate, loading, setLoading }) => {
 
     return (
         <Menu>
-            <MenuButton as={Button} w={{ base: '374px', sm: '374px', md: '262px' }} disabled={loading || item.status == 1} backgroundColor={'#00abd1'} _hover={{
+            <MenuButton as={Button} w={{ base: 'full', sm: '374px', md: '262px' }} disabled={loading || item.status == 1} backgroundColor={'#00abd1'} _hover={{
                 bg: "blue.300"
             }}
                 color={'white'} rightIcon={<ChevronDownIcon />}>
