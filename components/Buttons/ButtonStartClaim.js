@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
     Button, useToast,
     Modal,
@@ -9,23 +9,22 @@ import {
     ModalBody,
     ModalCloseButton,
     useDisclosure,
-    Text
+    Text,
+    Spinner,
+    Center
 } from '@chakra-ui/react';
 import { dpolicyService } from '../../services/dpolicyService';
 import RichTextReadOnly from '../Utils/richTextReadOnly';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 
-const ButtonStartClaim = ({ transactionMeta, token }) => {
+const ButtonStartClaim = ({ transactionMeta, profile }) => {
     const toast = useToast();
     const router = useRouter();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = useRef(null);
     const [disputePolicy, setDisputePolicy] = useState(null);
-
-    useEffect(() => {
-        console.log(btnRef);
-    }, [btnRef])
+    const [loading, setLoading] = useState(false);
 
     // Overlay Modal
     const OverlayOne = () => (
@@ -37,22 +36,52 @@ const ButtonStartClaim = ({ transactionMeta, token }) => {
 
     // On Modal Dispute Policy
     const onModalDisputePolicy = async () => {
-        const lastDPolicy = await dpolicyService.getDPolicyLast(token);
 
-        if (!lastDPolicy.data) {
+        try {
+            // Check if the user accepted the last dispute policy for this order.
+            const resultVerify = await dpolicyService.verifyAcceptDPolicy({
+                user_id: profile._id,
+                transactionHash: transactionMeta.transactionHash
+            }, profile.token)
+
+            if(resultVerify.status === 200 && resultVerify.data && resultVerify.data.accept === true){
+                router.push(`/profile/evidences/new/${transactionMeta.transactionHash}`);
+                return
+            }
+
+            // If you don't search for the latest dispute policy and open the modal
+            const lastDPolicy = await dpolicyService.getDPolicyLast(profile.token);
+
+            if (!lastDPolicy.data) {
+                toast({
+                    title: 'Failed Start Claim',
+                    description: 'The dispute policy is not available, please try again later.',
+                    position: 'top-right',
+                    status: 'warning',
+                    duration: 5000,
+                    isClosable: true,
+                })
+            }
+
+            setDisputePolicy(lastDPolicy.data);
+            onOpen();
+            return
+
+        } catch (err) {
+            console.error(err);
             toast({
                 title: 'Failed Start Claim',
-                description: 'The dispute policy is not available, please try again later.',
+                description: 'verification error.',
                 position: 'top-right',
                 status: 'warning',
                 duration: 5000,
                 isClosable: true,
             })
+            router.push("/")
+            return
         }
 
-        setDisputePolicy(lastDPolicy.data);
-        onOpen();
-        return
+
     }
 
     // Reject Policy Dispute
@@ -69,9 +98,48 @@ const ButtonStartClaim = ({ transactionMeta, token }) => {
         return
     }
 
-    // Confirm Policy Dispute
-    const confirmDPolicy = () => {
-        router.push(`/profile/evidences/new/${transactionMeta.transactionHash}`)
+    // Confirm Policy Dispute in Profile
+    const confirmDPolicy = async () => {
+
+        if (!disputePolicy._id || !profile._id || !transactionMeta.transactionHash || !profile.token) {
+            toast({
+                title: 'Failed Start Claim',
+                description: 'Data missing.',
+                position: 'top-right',
+                status: 'warning',
+                duration: 5000,
+                isClosable: true,
+            })
+            onClose()
+            return
+        }
+
+        const data = {
+            idDisputepolicy: disputePolicy._id,
+            user_id: profile._id,
+            transactionHash: transactionMeta.transactionHash,
+        }
+
+        try {
+            setLoading(true)
+            await dpolicyService.acceptDPolicyByTransactionHash(data, profile.token);
+            router.push(`/profile/evidences/new/${transactionMeta.transactionHash}`);
+            return
+        } catch (err) {
+            console.error(err)
+            toast({
+                title: 'Failed Start Claim',
+                description: 'Failed to accept the Dispute Policy.',
+                position: 'top-right',
+                status: 'warning',
+                duration: 5000,
+                isClosable: true,
+            })
+            onClose();
+            setLoading(false);
+            return
+        }
+
     }
 
     return (
@@ -95,13 +163,21 @@ const ButtonStartClaim = ({ transactionMeta, token }) => {
                         <RichTextReadOnly text={disputePolicy && disputePolicy.text} />
                     </ModalBody>
 
-                    <ModalFooter>
+                    {loading ? (<Center m="1em">
+                        <Spinner
+                            thickness="4px"
+                            speed="0.65s"
+                            emptyColor="gray.200"
+                            color="blue.500"
+                            size="md"
+                        />
+                    </Center>) : (<ModalFooter>
                         <Button onClick={() => rejectTerms()} mr="1em">Reject</Button>
 
                         <Button colorScheme='blue' mr={3} onClick={() => confirmDPolicy()}>
                             Accept
                         </Button>
-                    </ModalFooter>
+                    </ModalFooter>)}
                 </ModalContent>
             </Modal>
         </>

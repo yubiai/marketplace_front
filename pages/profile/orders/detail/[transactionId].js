@@ -388,7 +388,7 @@ const OrderDetail = () => {
                           {
                             !(deal || {}).isOver &&
                             <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
-                              <ButtonStartClaim transactionMeta={transactionMeta} token={global.profile.token} />
+                              <ButtonStartClaim transactionMeta={transactionMeta} profile={global.profile} />
                             </Box>
                           }
                         </Box>

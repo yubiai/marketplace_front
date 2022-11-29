@@ -42,6 +42,7 @@ import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider";
 import { setYubiaiInstance } from "../../../../providers/orderProvider";
 import { channelService } from "../../../../services/channelService";
+import { dpolicyService } from "../../../../services/dpolicyService";
 import { evidenceService } from "../../../../services/evidenceService";
 import { orderService } from "../../../../services/orderService";
 
@@ -107,14 +108,32 @@ const NewEvidence = () => {
   }
 
   useEffect(() => {
-    if (global.profile && !orderDetail) {
-      loadOrder();
 
-      if (!global.yubiaiPaymentArbitrableInstance) {
-        setYubiaiInstance(dispatch);
-        return;
+    async function initial() {
+      if (global.profile && !orderDetail) {
+        try {
+          await dpolicyService.verifyAcceptDPolicy({
+            user_id: global.profile._id,
+            transactionHash: transactionId
+          }, global.profile.token)
+
+          loadOrder();
+
+          if (!global.yubiaiPaymentArbitrableInstance) {
+            setYubiaiInstance(dispatch);
+            return;
+          }
+          return
+        } catch (err) {
+          console.error(err);
+          router.back();
+          return
+        }
       }
     }
+
+    initial();
+
   }, [global.profile, global.yubiaiPaymentArbitrableInstance]);
 
   //Modal

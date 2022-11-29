@@ -13,6 +13,34 @@ async function getDPolicyLast(token) {
   )
 }
 
+async function acceptDPolicyByTransactionHash(payload, token) {
+  return await axios.post(
+    `/disputespolicy/accept/`, payload, 
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : null
+  )
+}
+
+async function verifyAcceptDPolicy(payload, token) {
+  return await axios.put(
+    `/disputespolicy/verify/`, payload, 
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : null
+  )
+}
+
 export const dpolicyService = {
-  getDPolicyLast
+  getDPolicyLast,
+  acceptDPolicyByTransactionHash,
+  verifyAcceptDPolicy
 }
