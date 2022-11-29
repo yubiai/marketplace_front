@@ -48,23 +48,29 @@ const Notifications = () => {
   )
 
   useEffect(() => {
-    console.log("Arranco")
-    const verify = notis && notis.items && notis.items.length > 0 && notis.items.find((noti) => noti.seen === false ? true : false)
-    console.log(verify);
-    if(verify){
-      setNotisSeenFalse(true);
-    } else {
-      setNotisSeenFalse(false);
+    async function initial() {
+      const verify = notis && notis.items && notis.items.length > 0 && notis.items.find((noti) => noti.seen === false ? true : false)
+      if (verify) {
+        setNotisSeenFalse(true);
+      } else {
+        setNotisSeenFalse(false);
+      }
     }
-  }, [notis, mutate])
+    initial();
+  }, [notis, mutate]);
+
+  useEffect(() => {
+    async function initialMutate() {
+      await mutate();
+    }
+    initialMutate();
+  }, [global.notificationsActive])
 
   if (isLoading || !user || !notis) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />
   }
-
-  //<ButtonMarkAllAsRead onClosePopover={null} mutate={mutate} />
 
   return (
     <>

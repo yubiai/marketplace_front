@@ -20,8 +20,7 @@ const NotiCard = ({ item, onClose, mutate }) => {
         console.log(err, "error update seen")
       })
 
-    const resmutate = await mutate();
-    console.log(resmutate, "resmutate")
+    await mutate();
     onClose && onClose()
 
     router.push(

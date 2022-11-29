@@ -10,28 +10,30 @@ import {
     Spinner,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { useGlobal } from "../../providers/globalProvider";
+import { useDispatchGlobal, useGlobal } from "../../providers/globalProvider";
 import { notiService } from "../../services/notiService";
 
 const ButtonMarkAllAsRead = ({ onClosePopover, mutate }) => {
     const global = useGlobal();
+    const dispatch = useDispatchGlobal()
     const [loading, SetLoading] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure()
- 
+
     const markAllRead = async () => {
 
         try {
             await notiService.updateNotisAllSeenFalseByUserId(global.profile._id, global.profile.token);
-            const res = await mutate()
-            console.log(res, "ressssssssssssssssss2")
+            await mutate()
             SetLoading(false);
             onClosePopover && onClosePopover();
+            dispatch({
+                type: 'ACTIVE_NOTIFICATIONS'
+            })
             onClose();
             return
         } catch (err) {
             console.error(err);
-            const res = await mutate()
-            console.log(res, "resssssssssssssssss2")
+            await mutate()
             onClosePopover && onClosePopover();
             onClose();
             SetLoading(false);

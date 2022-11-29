@@ -95,7 +95,7 @@ const reducer = (state, action) => {
     case 'ACTIVE_NOTIFICATIONS':
       return {
         ...state,
-        notificationsList: action.payload,
+        notificationsActive: !initialState.notificationsActive,
       }
     default:
       throw new Error('Action Fail')

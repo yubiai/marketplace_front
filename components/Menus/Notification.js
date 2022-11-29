@@ -17,11 +17,12 @@ import {
   Text,
 } from '@chakra-ui/react'
 import Link from 'next/link'
-import { useRef  } from 'react'
+import { useEffect, useRef } from 'react'
 import { BsFillBellFill } from 'react-icons/bs'
 import { useGlobal } from '../../providers/globalProvider'
 import NotiCard from '../Cards/NotiCard'
 import useFetch from '../../hooks/data/useFetch'
+import ButtonMarkAllAsRead from '../Buttons/ButtonMarkAllAsRead'
 
 const Notification = () => {
   const global = useGlobal();
@@ -34,6 +35,14 @@ const Notification = () => {
     global && global.profile && global.profile.token
   );
 
+  useEffect(() => {
+    async function initial() {
+      console.log("aaaaa")
+      await mutate();
+    }
+    initial();
+  }, [global.notificationsActive])
+
   if (isLoading || isError) return (
     <Spinner
       thickness="4px"
@@ -44,14 +53,12 @@ const Notification = () => {
     />
   );
 
-  console.log(notis, "Buscando notis sin leer")
-
   if (global && global.profile) {
     return (
       <>
         <Popover closeOnBlur={true} placement='bottom' initialFocusRef={initRef}>
           {({ onClose }) => {
-            if(!notis){
+            if (!notis) {
               onClose();
             }
             return (
@@ -72,11 +79,11 @@ const Notification = () => {
                   <PopoverContent>
                     <PopoverHeader fontWeight={"semibold"}>
                       Notifications
-                      {/* <ButtonMarkAllAsRead onClosePopover={onClose} mutate={mutate} /> */}
+                      <ButtonMarkAllAsRead onClosePopover={onClose} mutate={mutate} />
                       <PopoverCloseButton />
                     </PopoverHeader>
                     <PopoverBody>
-  
+
                       <Stack divider={<StackDivider />} spacing=''>
                         {notis && notis && notis.length > 0 && notis.map((item, i) => {
                           return (
@@ -98,9 +105,9 @@ const Notification = () => {
                           <Link href="/profile/notifications">
                             View All
                           </Link>
-  
+
                         </Text>
-  
+
                       </Flex>
                     </PopoverFooter>
                   </PopoverContent>
