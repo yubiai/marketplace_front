@@ -129,7 +129,7 @@ export async function getStaticProps() {
     }
     return { props: { items }, revalidate: 1800 }
   } catch (err) {
-    console.log(err)
+    console.error(err)
     return { notFound: true };
   }
 }

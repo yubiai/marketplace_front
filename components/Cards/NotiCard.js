@@ -10,7 +10,7 @@ import { notiService } from '../../services/notiService'
 import { parseNoti } from '../../utils/notiUtils'
 import { FaRegCommentDots, FaRegComment } from 'react-icons/fa'
 
-const NotiCard = ({ item, onClose, callApiNoti }) => {
+const NotiCard = ({ item, onClose, mutate }) => {
   const router = useRouter()
 
   const pushLinkAndSee = async () => {
@@ -20,22 +20,20 @@ const NotiCard = ({ item, onClose, callApiNoti }) => {
         console.log(err, "error update seen")
       })
 
-    if (onClose && callApiNoti) {
-      setTimeout(() => {
-        callApiNoti()
-      }, 5000)
-      onClose()
-    }
+    const resmutate = await mutate();
+    console.log(resmutate, "resmutate")
+    onClose && onClose()
 
     router.push(
       `/${parseNoti(item.type).path ? parseNoti(item.type).path : null}/${item.reference
       }`
     )
-  }
+    return
+  };
 
   return (
     <>
-      <Flex onClick={() => pushLinkAndSee('/')} p="5px" w="full"  _hover={{
+      <Flex onClick={() => pushLinkAndSee()} p="5px" w="full" _hover={{
         bg: "gray.100", color: "#00abd1"
       }}
         cursor={'pointer'}>

@@ -9,57 +9,29 @@ import {
     ModalOverlay,
     Spinner,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { useDispatchGlobal, useGlobal } from "../../providers/globalProvider";
+import { useState } from "react";
+import { useGlobal } from "../../providers/globalProvider";
 import { notiService } from "../../services/notiService";
 
 const ButtonMarkAllAsRead = ({ onClosePopover, mutate }) => {
     const global = useGlobal();
-    const dispatch = useDispatchGlobal();
-    const [notiFalse, SetNotiFalse] = useState(false);
     const [loading, SetLoading] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure()
-
-    const getNotiSeenFalse = async () => {
-        try {
-            const result = await notiService.getNotisSeenFalseById(global.profile._id, global.profile.token);
-            if (result.data.length > 0) {
-                SetNotiFalse(true)
-            }
-
-            if (!result.data || result.data.length === 0) {
-                SetNotiFalse(false)
-            }
-
-            mutate()
-
-            return
-        } catch (err) {
-            console.error(err);
-            return
-        }
-    };
-
-    useEffect(() => {
-        getNotiSeenFalse()
-        return
-    }, [global.notificationsList])
-
+ 
     const markAllRead = async () => {
 
         try {
             await notiService.updateNotisAllSeenFalseByUserId(global.profile._id, global.profile.token);
-            dispatch({
-                type: 'SET_NOTIFICATIONS',
-                payload: {}
-            })
-            getNotiSeenFalse();
+            const res = await mutate()
+            console.log(res, "ressssssssssssssssss2")
             SetLoading(false);
             onClosePopover && onClosePopover();
             onClose();
             return
         } catch (err) {
             console.error(err);
+            const res = await mutate()
+            console.log(res, "resssssssssssssssss2")
             onClosePopover && onClosePopover();
             onClose();
             SetLoading(false);
@@ -83,7 +55,7 @@ const ButtonMarkAllAsRead = ({ onClosePopover, mutate }) => {
                 color={'white'}
                 size={'sm'}
                 mr={'2em'}
-                rounded={'full'} disabled={!notiFalse}
+                rounded={'full'}
                 cursor={'pointer'} onClick={() => { onOpen() }}
             >Mark all as read</Button>
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size={"md"}>

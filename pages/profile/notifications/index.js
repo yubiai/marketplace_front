@@ -15,7 +15,7 @@ import {
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import ButtonMarkAllAsRead from '../../../components/Buttons/ButtonMarkAllAsRead'
 import NotiCard from '../../../components/Cards/NotiCard'
 import Error from '../../../components/Infos/Error'
@@ -30,7 +30,7 @@ const Notifications = () => {
   const global = useGlobal()
   const router = useRouter()
   const dispatch = useDispatchGlobal()
-
+  const [notisSeenFalse, setNotisSeenFalse] = useState(false);
   const { user, loggedOut } = useUser()
 
   // if logged in, redirect to the home
@@ -40,18 +40,31 @@ const Notifications = () => {
     }
   }, [user, loggedOut, router, dispatch])
 
-  const { data, isLoading, isError, mutate } = useFetch(
+  const { data: notis, isLoading, isError, mutate } = useFetch(
     global && global.profile && global.profile._id
       ? `/noti/${global.profile._id}?page=${global.pageIndex}&size=10`
       : null,
     global && global.profile && global.profile.token
   )
 
-  if (isLoading || !user || !data) return <Loading />
+  useEffect(() => {
+    console.log("Arranco")
+    const verify = notis && notis.items && notis.items.length > 0 && notis.items.find((noti) => noti.seen === false ? true : false)
+    console.log(verify);
+    if(verify){
+      setNotisSeenFalse(true);
+    } else {
+      setNotisSeenFalse(false);
+    }
+  }, [notis, mutate])
+
+  if (isLoading || !user || !notis) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />
   }
+
+  //<ButtonMarkAllAsRead onClosePopover={null} mutate={mutate} />
 
   return (
     <>
@@ -66,8 +79,8 @@ const Notifications = () => {
         <Container
           maxW="6xl"
           h={{
-            base: data && data.items && data.items.length > 6 ? 'full' : '70vh',
-            sm: data && data.items && data.items.length > 6 ? 'full' : '85vh',
+            base: notis && notis.items && notis.items.length > 6 ? 'full' : '70vh',
+            sm: notis && notis.items && notis.items.length > 6 ? 'full' : '85vh',
             md: 'full',
           }}
           display={'flex'}
@@ -84,16 +97,16 @@ const Notifications = () => {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-            <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-              <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
-            </Link>
-          </BreadcrumbItem>
+              <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
+                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+              </Link>
+            </BreadcrumbItem>
 
             <BreadcrumbItem>
               <Text>Notifications</Text>
             </BreadcrumbItem>
           </Breadcrumb>
-          {data && data.items && data.items.length === 0 && (
+          {notis && notis.items && notis.items.length === 0 && (
             <>
               <Center>
                 <Heading mt="5em">You do not have any notifications.</Heading>
@@ -111,7 +124,7 @@ const Notifications = () => {
               </Center>
             </>
           )}
-          {data && data.items && data.items.length > 0 && (
+          {notis && notis.items && notis.items.length > 0 && (
             <>
               <Center py={1}>
                 <Stack
@@ -128,15 +141,15 @@ const Notifications = () => {
                     <Flex display={"flex"}>
                       <Heading size="md">Notifications</Heading>
                       <Spacer />
-                      <ButtonMarkAllAsRead onClosePopover={null} mutate={mutate} />
+                      {notisSeenFalse && <ButtonMarkAllAsRead onClosePopover={null} mutate={mutate} />}
                     </Flex>
-                    {data &&
-                      data.items &&
-                      data.items.length > 0 &&
-                      data.items.map((item, i) => {
+                    {notis &&
+                      notis.items &&
+                      notis.items.length > 0 &&
+                      notis.items.map((item, i) => {
                         return (
                           <div key={i}>
-                            <NotiCard item={item} />
+                            <NotiCard item={item} onClose={null} mutate={mutate} />
                           </div>
                         )
                       })}
@@ -144,7 +157,7 @@ const Notifications = () => {
                 </Stack>
 
               </Center>
-              <Paginations data={data ? data : null} />
+              <Paginations data={notis ? notis : null} />
             </>
           )}
 

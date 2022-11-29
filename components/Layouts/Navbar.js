@@ -85,6 +85,7 @@ const Navbar = () => {
           role={'group'}
           display={'block'}
           rounded={'md'}
+          width={'full'}
           _hover={{ bg: 'blue.50' }}
         >
           <Stack direction={'row'} align={'center'}>
@@ -149,8 +150,14 @@ const Navbar = () => {
               direction={'row'}
               spacing={2}
             >
-              <UserMenu  />
-              <Notification  />
+
+              {global && global.profile ? (
+                <>
+                  <UserMenu />
+                  <Notification />
+                </>
+              ) : null}
+              
             </Stack>
           </Flex>
         </Container>

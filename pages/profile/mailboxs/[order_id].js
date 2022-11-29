@@ -2,11 +2,9 @@ import {
   Box,
   Breadcrumb,
   BreadcrumbItem,
-  Center,
   Container,
   Divider as ChakraDivider,
   Flex,
-  Heading,
   Text,
 } from '@chakra-ui/react'
 import Head from 'next/head'
@@ -24,10 +22,6 @@ import useUser from '../../../hooks/data/useUser'
 import Error from '../../../components/Infos/Error'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
-import { itemService } from '../../../services/itemService'
-import ItemCard from '../../../components/Cards/ItemCard'
-import { StatusOrderByState } from '../../../components/Infos/StatusOrder'
-import { orderService } from '../../../services/orderService'
 
 const MailBoxs = () => {
   const global = useGlobal()
@@ -35,14 +29,12 @@ const MailBoxs = () => {
   const router = useRouter()
   const { order_id } = router.query
 
-  const [item, setItem] = useState(null);
-
   const [messages, setMessages] = useState([])
   const [inputMessage, setInputMessage] = useState('')
   const [previewFiles, setPreviewFiles] = useState([]);
 
   const [loadingSubmit, setLoadingSubmit] = useState(false);
-  const [deal, setDeal] = useState(null);
+  //const [deal, setDeal] = useState(null);
 
   const { user, loggedOut } = useUser()
 
@@ -64,20 +56,12 @@ const MailBoxs = () => {
     global && global.profile && global.profile.token
   )
 
-  const loadItem = async () => {
-    await itemService.getItemById(channel && channel.order_id && channel.order_id.itemId, global && global.profile?.token)
-      .then((res) => {
-        setItem(res.data)
-      })
-      .catch((err) => {
-        console.error(err)
-      });
-
+ /*  const loadItem = async () => {
     const result = await orderService.getOrderByOrderId(order_id, global.profile?.token);
     const data = result.data.result;
-    const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(data.transaction.transactionIndex);
-    setDeal(fullStatus);
-  }
+     const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(data.transaction.transactionIndex);
+    setDeal(fullStatus); 
+  } */
 
   const refreshMessages = async () => {
     await channelService.getChannelByOrderId(channel && channel.order_id && channel.order_id._id, global && global.profile.token)
@@ -99,7 +83,7 @@ const MailBoxs = () => {
 
     if (channel) {
       setMessages(channel.messages);
-      loadItem();
+      //loadItem();
     }
   }, [channel, global.profile, global.yubiaiPaymentArbitrableInstance])
 
@@ -276,7 +260,7 @@ const MailBoxs = () => {
           </Flex>
           <Text fontStyle={"italic"} color="red" mt="1em" >Please be careful of the sensitive information you share. Yubiai is not responsible for the information shared to third parties.</Text>
         </Box>
-        <Box w={{ base: 'full', lg: '30%' }} p="1em">
+{/*         <Box w={{ base: 'full', lg: '30%' }} p="1em">
 
           <Center><Heading size="md">Item</Heading></Center>
 
@@ -288,7 +272,7 @@ const MailBoxs = () => {
             StatusOrderByState((deal || {}).dealStatus)
           )}</Center>
 
-        </Box>
+        </Box> */}
       </Container>
     </>
   )

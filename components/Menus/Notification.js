@@ -17,116 +17,102 @@ import {
   Text,
 } from '@chakra-ui/react'
 import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import { useRef  } from 'react'
 import { BsFillBellFill } from 'react-icons/bs'
-import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
-import { notiService } from '../../services/notiService'
-import ButtonMarkAllAsRead from '../Buttons/ButtonMarkAllAsRead'
+import { useGlobal } from '../../providers/globalProvider'
 import NotiCard from '../Cards/NotiCard'
+import useFetch from '../../hooks/data/useFetch'
 
 const Notification = () => {
-  const global = useGlobal()
-  const dispatch = useDispatchGlobal()
-  const initRef = useRef()
-  const [notis, setNotis] = useState([])
+  const global = useGlobal();
+  const initRef = useRef();
 
-  useEffect(() => {
-    const init = () => {
-      setNotis(null)
-      if (global.notificationsList && global.notificationsList.length > 0) {
-        const listSlice = global.notificationsList.slice(0, 4);
-        setNotis(listSlice)
-      } else {
-        setNotis([])
-      }
-    }
-    init()
-  }, [global.notificationsList])
+  const { data: notis, isLoading, isError, mutate } = useFetch(
+    global && global.profile && global.profile._id
+      ? `/noti/seen/false/${global.profile._id}?limit=4`
+      : null,
+    global && global.profile && global.profile.token
+  );
 
-  const callApiNoti = async () => {
-    await notiService
-      .getNotisSeenFalseById(global.profile._id, global.profile.token)
-      .then((res) => {
-        dispatch({
-          type: 'SET_NOTIFICATIONS',
-          payload: res.notis,
-        })
-        return
-      })
-      .catch((err) => {
-        console.log(err)
-        return
-      })
-  }
+  if (isLoading || isError) return (
+    <Spinner
+      thickness="4px"
+      speed="0.65s"
+      emptyColor="gray.200"
+      color="blue.500"
+      size="md"
+    />
+  );
 
-  if (!notis) return <Spinner
-    thickness="4px"
-    speed="0.65s"
-    emptyColor="gray.200"
-    color="blue.500"
-    size="md"
-  />
+  console.log(notis, "Buscando notis sin leer")
 
   if (global && global.profile) {
     return (
       <>
         <Popover closeOnBlur={true} placement='bottom' initialFocusRef={initRef}>
-          {({ onClose }) => (
-            <>
-              <PopoverTrigger>
-                <Button colorScheme="transparent" className='step-notifications'
-                   isDisabled={notis && notis.length === 0}>
-                  <BsFillBellFill color="white" />
-                  {notis && notis && notis.length > 0 && (
-                    <Box position={'absolute'} top={'-2px'} right={'6px'}>
-                      <Badge colorScheme="green" fontSize="10px">
-                        New                  </Badge>
-                    </Box>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <Portal>
-                <PopoverContent>
-                  <PopoverHeader fontWeight={"semibold"}>
-                    Notifications
-                    <ButtonMarkAllAsRead onClosePopover={onClose} />
-                    <PopoverCloseButton />
-                  </PopoverHeader>
-                  <PopoverBody>
-
-                    <Stack divider={<StackDivider />} spacing=''>
-                      {notis && notis && notis.length > 0 && notis.map((item, i) => {
-                        return (
-                          <NotiCard
-                            key={i}
-                            item={item}
-                            onClose={onClose}
-                            callApiNoti={callApiNoti}
-                          />
-                        )
-                      })}
-                    </Stack>
-                  </PopoverBody>
-                  <PopoverFooter>
-                    <Flex>
-                      <Text mt="10px" color="#00abd1" as="u" onClick={() => onClose()} _hover={{
-                        color: "blue.400"
-                      }}>
-                        <Link href="/profile/notifications">
-                          View All
-                        </Link>
-
-                      </Text>
-
-                    </Flex>
-                  </PopoverFooter>
-                </PopoverContent>
-              </Portal>
-            </>
-          )}
+          {({ onClose }) => {
+            if(!notis){
+              onClose();
+            }
+            return (
+              <>
+                <PopoverTrigger>
+                  <Button colorScheme="transparent" className='step-notifications'
+                    isDisabled={notis && notis.length === 0}>
+                    <BsFillBellFill color="white" />
+                    {notis && notis && notis.length > 0 && (
+                      <Box position={'absolute'} top={'-2px'} right={'6px'}>
+                        <Badge colorScheme="green" fontSize="10px">
+                          New                  </Badge>
+                      </Box>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <Portal>
+                  <PopoverContent>
+                    <PopoverHeader fontWeight={"semibold"}>
+                      Notifications
+                      {/* <ButtonMarkAllAsRead onClosePopover={onClose} mutate={mutate} /> */}
+                      <PopoverCloseButton />
+                    </PopoverHeader>
+                    <PopoverBody>
+  
+                      <Stack divider={<StackDivider />} spacing=''>
+                        {notis && notis && notis.length > 0 && notis.map((item, i) => {
+                          return (
+                            <NotiCard
+                              key={i}
+                              item={item}
+                              onClose={onClose}
+                              mutate={mutate}
+                            />
+                          )
+                        })}
+                      </Stack>
+                    </PopoverBody>
+                    <PopoverFooter>
+                      <Flex>
+                        <Text mt="10px" color="#00abd1" as="u" onClick={() => onClose()} _hover={{
+                          color: "blue.400"
+                        }}>
+                          <Link href="/profile/notifications">
+                            View All
+                          </Link>
+  
+                        </Text>
+  
+                      </Flex>
+                    </PopoverFooter>
+                  </PopoverContent>
+                </Portal>
+              </>
+            )
+          }}
         </Popover>
       </>
     )
+  } else {
+    return null;
   }
 }
 

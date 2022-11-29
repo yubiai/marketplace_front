@@ -16,7 +16,7 @@ const initialState = {
   arbitratorInstance: null,
   itemToCheckout: null,
   currencyPriceList: [],
-  notificationsList: {}
+  notificationsActive: false
 }
 
 // Reducers
@@ -92,7 +92,7 @@ const reducer = (state, action) => {
         ...state,
         subCategory: action.payload,
       }
-    case 'SET_NOTIFICATIONS':
+    case 'ACTIVE_NOTIFICATIONS':
       return {
         ...state,
         notificationsList: action.payload,
