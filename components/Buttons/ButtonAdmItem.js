@@ -44,8 +44,8 @@ const ButtonAdmItem = ({ item, token, mutate, loading, setLoading }) => {
                 )}
                 {item.status == 3 && item.published == false && (
                     <>
-                        {/*                         <MenuItem onClick={() => EditItem()}>Edit</MenuItem>
- */}                        <MenuItem onClick={() => ReviewItem()}>Send for review</MenuItem>
+                        {/*<MenuItem onClick={() => EditItem()}>Edit</MenuItem>*/}
+                        <MenuItem onClick={() => ReviewItem()}>Send for review</MenuItem>
                     </>
                 )}
             </MenuList>

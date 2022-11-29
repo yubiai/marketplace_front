@@ -26,7 +26,7 @@ const LinkItems = [
   { name: 'Profile', icon: FiHome, url: '/profile' },
   { name: 'New Listing', icon: FiSettings, url: '/listing/new' },
   { name: 'Notifications', icon: FiBell, url: '/profile/notifications' },
-  { name: 'Published', icon: FiTrendingUp, url: '/profile/published' },
+  { name: 'Listings', icon: FiTrendingUp, url: '/profile/listings' },
   { name: 'Orders', icon: FiBattery, url: '/profile/orders' },
   { name: 'Sales', icon: FiCompass, url: '/profile/orders/sales' },
   { name: 'Favourites', icon: FiStar, url: '/profile/favourites' }

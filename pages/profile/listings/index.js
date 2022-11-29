@@ -22,7 +22,7 @@ import ItemCardPublish from '../../../components/Cards/ItemCardPublish'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 
-const Published = () => {
+const Listings = () => {
   const global = useGlobal()
   const router = useRouter()
 
@@ -51,7 +51,7 @@ const Published = () => {
   return (
     <>
       <Head>
-        <title>Yubiai Marketplace - Published</title>
+        <title>Yubiai Marketplace - Listings</title>
         <meta
           name="keywords"
           content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask"
@@ -83,14 +83,14 @@ const Published = () => {
           </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <Text>Your published</Text>
+              <Text>Your Listings</Text>
             </BreadcrumbItem>
           </Breadcrumb>
 
           {data && data.items && data.items.length === 0 && (
             <>
               <Center>
-                <Heading mt="5em">You do not have any items published.</Heading>
+                <Heading mt="5em">You do not have any items listings.</Heading>
               </Center>
               <Center>
                 <Button
@@ -124,4 +124,4 @@ const Published = () => {
   )
 }
 
-export default Published
+export default Listings

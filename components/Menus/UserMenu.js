@@ -59,8 +59,8 @@ const UserMenu = () => {
           <Link href="/profile/notifications">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}>Notifications</MenuItem>
           </Link>
-          <Link href="/profile/published">
-            <MenuItem color="black" _focus={{ bg: "gray.200" }}>Published</MenuItem>
+          <Link href="/profile/listings">
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}>Listings</MenuItem>
           </Link>
           <Link href="/profile/orders">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}>Orders</MenuItem>

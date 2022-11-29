@@ -1,5 +1,7 @@
 import {
   Box,
+  Breadcrumb,
+  BreadcrumbItem,
   Button,
   Container,
   Divider,
@@ -47,6 +49,7 @@ import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { publishService } from '../../services/publishService'
 import { getListSubCategory } from '../../utils/itemUtils'
 import { loadCurrencyPrices, setYubiaiInstance } from '../../providers/orderProvider'
+import { ChevronRightIcon } from '@chakra-ui/icons'
 
 const NewListing = () => {
   const global = useGlobal()
@@ -95,7 +98,7 @@ const NewListing = () => {
     if (!global.yubiaiPaymentArbitrableInstance) {
       setYubiaiInstance(dispatch);
       return;
-    } 
+    }
 
     if (user && !global.currencyPriceList.length && global.profile && global.yubiaiPaymentArbitrableInstance) {
       loadCurrencies();
@@ -185,9 +188,9 @@ const NewListing = () => {
         global.profile.token
       )
 
-/*       let slugItem = response.data.result.slug
-        ? response.data.result.slug
-        : null */
+      /*       let slugItem = response.data.result.slug
+              ? response.data.result.slug
+              : null */
 
       setLoadingSubmit(false)
       onClose()
@@ -215,7 +218,26 @@ const NewListing = () => {
         <title>Yubiai Marketplace - New Listing</title>
       </Head>
       <Container maxW="2xl" display={'flex'} flexDirection={'column'}>
-        <Heading mt="1em">New Listing</Heading>
+        <Breadcrumb spacing='8px' mt='1em' separator={<ChevronRightIcon color='gray.500' />}>
+          <BreadcrumbItem>
+            <Link href="/" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+              textDecoration: "underline"
+            }}>Home</Text></Link>
+          </BreadcrumbItem>
+
+          <BreadcrumbItem>
+            <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
+              <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+            </Link>
+          </BreadcrumbItem>
+
+          <BreadcrumbItem>
+            <Text>Listing</Text>
+          </BreadcrumbItem>
+        </Breadcrumb>
+        <Heading mt="5px">New Listing</Heading>
         <form onSubmit={handleSubmit(onSubmit)}>
           {categories && categories.length > 0 && (
             <Box mt="1em">
@@ -328,7 +350,7 @@ const NewListing = () => {
                     {currency.symbol}
                   </option>
                 ))}
-               
+
               </Select>
             </FormControl>
           )}
@@ -502,7 +524,7 @@ const NewListing = () => {
                   <SuccessItem />
                 </ModalBody>
                 <ModalFooter>
-                  <Link href={'/profile/published'}>
+                  <Link href={'/profile/listings'}>
                     <Button>Close</Button>
                   </Link>
                 </ModalFooter>
