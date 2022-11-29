@@ -375,11 +375,11 @@ const OrderDetail = () => {
                 {(deal || {}).dealStatus === CLAIMED_STATUS && (
                     <>
                       <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
-                        <Box p="1em">
+                        <Box p="1em" position="relative" minHeight="170px">
                           <Text color="black">
-                            Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:
+                            If you agree with the claim made by the buyer, you can choose to make a refund according to the amount required.
                           </Text>
-                          <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
+                          <Box position="absolute" bottom="1em" width="100%" textAlign={{ base: "center", md: "left" }}>
                             <ButtonPayOrder
                               transactionInfo={{
                                 claimId: (deal || {}).claimID,
@@ -397,7 +397,7 @@ const OrderDetail = () => {
                           <Text color="black">
                             {
                               !isLateToChallenge &&
-                              "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought:"
+                              "If you think there is nothing wrong with the service provided, you can dispute the buyer's claim. Participating in the arbitration will have an extra cost (<amount of cost>), and the status of that decision will be taken and communicated in the next few days by a decentralized jury external to Yubiai."
                             }
                             {
                               isLateToChallenge &&

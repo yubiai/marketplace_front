@@ -167,6 +167,8 @@ export default class YubiaiPaymentArbitrable {
       claimCreatedAt: parseInt((claimInfo || {}).createdAt, 10),
       claimCount: parseInt(dealInfo.claimCount, 10),
       maxClaimsAllowed: parseInt(settings.maxClaims, 10),
+      timeForService: parseInt(dealInfo.timeForService, 10),
+      timeForClaim: parseInt(dealInfo.timeForClaim, 10),
       disputeId: parseInt(disputeId, 10),
       isOver
     }

@@ -34,7 +34,11 @@ import {
   BreadcrumbItem,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
-import { StatusOrderByState, ONGOING_STATUS, statusDescMap } from '../../../../components/Infos/StatusOrder';
+import {
+  StatusOrderByState,
+  ONGOING_STATUS,
+  statusDescMap,
+} from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 
 const OrderDetail = () => {
@@ -94,7 +98,7 @@ const OrderDetail = () => {
     const currentTS = Math.floor((new Date()).getTime() / 1000);
     setDeal(fullStatus);
     setIsDealEnabledToClaim(
-      currentTS <= (orderDetail.transaction || {}).transactionDate + (orderDetail.transaction || {}).timeForClaim);
+      currentTS <= fullStatus.claimCreatedAt + fullStatus.timeForClaim);
   }
 
   const toggleLoadingStatus = status => {

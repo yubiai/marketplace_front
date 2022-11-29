@@ -1,6 +1,8 @@
 import { Button, Center, Spinner } from '@chakra-ui/react';
 import { useGlobal } from '../../providers/globalProvider';
 
+const WEI_DECIMAL_PLACES = 18;
+
 const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, yubiaiPaymentArbitrableInstance }) => {
     const global = useGlobal();
     const { amount, recipient } = transactionInfo;
@@ -11,7 +13,7 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             const amountToWei = yubiaiPaymentArbitrableInstance.web3.utils.toWei(amount.value.toString());
             const senderWallet = await yubiaiPaymentArbitrableInstance.getAccount();
             const networkType = await yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType() || 'main';
-            const token = currency !== 'ETH' ? global.currencyPriceList.find(price => price.symbol === currency) : { tpken_address: null };
+            const token = currency !== 'ETH' ? global.currencyPriceList.find(price => price.symbol === currency) : { token_address: null };
             const result = await yubiaiPaymentArbitrableInstance.createDeal(
                 token.token_address,
                 burnFee,
@@ -43,7 +45,7 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                 parsedTransactionPayedAmountInETH / 100 * (parseInt(deal.extraBurnFee, 10) / 100)
             );
 
-            const transactionFeeAmount = yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(finalCalculationForFee));
+            const transactionFeeAmount = yubiaiPaymentArbitrableInstance.web3.utils.toWei(finalCalculationForFee.toFixed(WEI_DECIMAL_PLACES));
             const {
                 claimCount,
                 createdAt,
