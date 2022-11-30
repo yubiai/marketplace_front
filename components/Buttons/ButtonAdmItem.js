@@ -1,10 +1,13 @@
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { itemService } from "../../services/itemService";
 import { publishService } from "../../services/publishService";
 
 const ButtonAdmItem = ({ item, token, mutate, loading, setLoading }) => {
 
+    const router = useRouter()
+    
     const ReviewItem = async () => {
         //To review
         setLoading(true)
@@ -44,7 +47,7 @@ const ButtonAdmItem = ({ item, token, mutate, loading, setLoading }) => {
                 )}
                 {item.status == 3 && item.published == false && (
                     <>
-                        {/*<MenuItem onClick={() => EditItem()}>Edit</MenuItem>*/}
+                        <MenuItem onClick={() => router.push(`/profile/listings/edit/${item._id}`)}>Edit listing</MenuItem>
                         <MenuItem onClick={() => ReviewItem()}>Send for review</MenuItem>
                     </>
                 )}

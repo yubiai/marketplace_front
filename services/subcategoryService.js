@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 export const subcategoryService = {
-  getSubCategories
+  getSubCategories,
+  getSubCategoryById
 }
 
 /**
@@ -12,5 +13,16 @@ export const subcategoryService = {
 async function getSubCategories(categoryId) {
   return await axios.get(
     `/subcategories/${categoryId}`
+  )
+}
+
+/**
+ * Get Sub Category By ID
+ * @param {str} data
+ */
+
+ async function getSubCategoryById(id) {
+  return await axios.get(
+    `/subcategories/id/${id}`
   )
 }
