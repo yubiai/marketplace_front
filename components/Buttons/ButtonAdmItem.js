@@ -47,7 +47,7 @@ const ButtonAdmItem = ({ item, token, mutate, loading, setLoading }) => {
                 )}
                 {item.status == 3 && item.published == false && (
                     <>
-                        <MenuItem onClick={() => router.push(`/profile/listings/edit/${item._id}`)}>Edit listing</MenuItem>
+                        <MenuItem onClick={() => router.push(`/profile/listings/`)} isDisabled={true}>Edit listing</MenuItem>
                         <MenuItem onClick={() => ReviewItem()}>Send for review</MenuItem>
                     </>
                 )}

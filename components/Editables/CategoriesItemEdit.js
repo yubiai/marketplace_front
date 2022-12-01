@@ -1,4 +1,4 @@
-import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons";
+import { CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { Box, Button, ButtonGroup, Divider, Flex, FormControl, FormLabel, IconButton, Select, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";

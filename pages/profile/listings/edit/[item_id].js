@@ -7,12 +7,15 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import CategoriesItemEdit from "../../../../components/Editables/CategoriesItemEdit";
 import DescriptionItemEdit from "../../../../components/Editables/DescriptionItemEdit";
+import FilesItemEdit from "../../../../components/Editables/FilesItemEdit";
+import PriceItemEdit from "../../../../components/Editables/PriceItemEdit";
 import TitleItemEdit from "../../../../components/Editables/TitleItemEdit";
 import ProfileMenu from "../../../../components/Menus/ProfileMenu";
 import Loading from "../../../../components/Spinners/Loading";
 import useFetch from "../../../../hooks/data/useFetch";
 import useUser from "../../../../hooks/data/useUser";
 import { useGlobal } from "../../../../providers/globalProvider";
+import Error from '../../../../components/Infos/Error';
 
 const EditItem = () => {
     const global = useGlobal()
@@ -127,6 +130,8 @@ const EditItem = () => {
                                     <TitleItemEdit data={item.title} />
                                     <DescriptionItemEdit data={item.description} />
                                     <CategoriesItemEdit dataCategory={item.category} dataSubCategory={item.subcategory} />
+                                    <PriceItemEdit dataCurrencySymbolPrice={item.currencySymbolPrice} dataPrice={item.price} dataUbiBurningamount={item.ubiburningamount} />
+                                    <FilesItemEdit />
                                 </Box>
                             </Stack>
                         </Stack>

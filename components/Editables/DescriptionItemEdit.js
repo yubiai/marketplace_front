@@ -1,10 +1,8 @@
 import { CheckIcon, CloseIcon, EditIcon } from '@chakra-ui/icons'
 import {
     Editable,
-    EditableInput,
     EditablePreview,
     useEditableControls,
-    Input,
     Flex,
     IconButton,
     ButtonGroup,
