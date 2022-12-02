@@ -131,7 +131,7 @@ const EditItem = () => {
                                     <DescriptionItemEdit data={item.description} />
                                     <CategoriesItemEdit dataCategory={item.category} dataSubCategory={item.subcategory} />
                                     <PriceItemEdit dataCurrencySymbolPrice={item.currencySymbolPrice} dataPrice={item.price} dataUbiBurningamount={item.ubiburningamount} />
-                                    <FilesItemEdit />
+                                    <FilesItemEdit files={item.files} />
                                 </Box>
                             </Stack>
                         </Stack>

@@ -17,6 +17,8 @@ import { FaTrash } from 'react-icons/fa'
 import PlayerAudio from './PlayerAudio'
 import PlayerVideo from './PlayerVideo'
 import PlayerImage from './PlayerImage'
+import PlayerVideoEditItem from './PlayerVideoEditItem'
+import PlayerAudioEditItem from './PlayerAudioEditItem'
 
 export const FileUpload = ({
   name,
@@ -24,7 +26,8 @@ export const FileUpload = ({
   control,
   children,
   isRequired = false,
-  resetField
+  resetField,
+  fileExist
 }) => {
   const inputRef = useRef()
   const {
@@ -55,7 +58,7 @@ export const FileUpload = ({
 
   useEffect(() => {
     if (selectedFile && selectedFile.type) {
-      if (selectedFile.type === "image/jpeg" || selectedFile.type === "image/jpg" || selectedFile.type === "image/png") {
+      if (selectedFile.type === "image/jpeg" || selectedFile.type === "image/jpg" || selectedFile.type === "image/png" || selectedFile.type === "image/webp") {
         setImageSrc(URL.createObjectURL(selectedFile))
       }
       if (selectedFile.type === "video/mp4") {
@@ -65,16 +68,32 @@ export const FileUpload = ({
         setAudioSrc(URL.createObjectURL(selectedFile))
       }
     }
-  }, [selectedFile])
+  }, [selectedFile]);
+
+  useEffect(() => {
+    console.log(fileExist)
+    if (fileExist) {
+      if (fileExist.mimetype === "image/jpeg" || fileExist.mimetype === "image/jpg" || fileExist.mimetype === "image/png" || fileExist.mimetype === "image/webp") {
+        setImageSrc(fileExist)
+      }
+      if (fileExist.mimetype === "video/mp4") {
+        setVideoSrc(fileExist)
+      }
+      if (fileExist.mimetype === "audio/mpeg") {
+        setAudioSrc(fileExist)
+      }
+    }
+    return
+  }, [fileExist])
 
   const verifyImage = (file) => {
     if (file && file.size && file.type) {
       clearSrc()
 
-      const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
       const validImageType = validImageTypes.find((type) => type === file.type);
 
-      const validFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg'];
+      const validFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'video/mp4', 'audio/mpeg'];
       const validFileType = validFileTypes.find((type) => type === file.type);
 
       if (!validImageType && isRequired === true) {
@@ -134,7 +153,13 @@ export const FileUpload = ({
                 alignItems="center"
                 justifyContent="center"
               >
-                <MdOutlineFileUpload fontSize="3em" />
+                {fileExist ? (
+                  <>
+                    {imageSrc && <PlayerImage imageSrc={imageSrc} />}
+                    {videoSrc && <PlayerVideoEditItem videoSrc={videoSrc} />}
+                    {audioSrc && <PlayerAudioEditItem audioSrc={audioSrc} />}
+                  </>
+                ) : (<MdOutlineFileUpload fontSize="3em" />)}
               </Box>
               <Text color="red.500"> {errorMsg && errorMsg}</Text>
             </>

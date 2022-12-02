@@ -429,7 +429,7 @@ const NewListing = () => {
           <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }} color="gray.700">
             <FileUpload
               name="file1"
-              acceptedFileTypes="image/png, image/jpeg, image/jpg"
+              acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp"
               isRequired={true}
               placeholder="Your File 1"
               control={control}
@@ -440,7 +440,7 @@ const NewListing = () => {
             </FileUpload>
             <FileUpload
               name="file2"
-              acceptedFileTypes="image/png, image/jpeg, image/jpg, video/mp4, audio/mpeg"
+              acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp, video/mp4, audio/mpeg"
               isRequired={false}
               placeholder="Your File 2"
               control={control}
@@ -450,7 +450,7 @@ const NewListing = () => {
             </FileUpload>
             <FileUpload
               name="file3"
-              acceptedFileTypes="image/png, image/jpeg, image/jpg, video/mp4, audio/mpeg"
+              acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp, video/mp4, audio/mpeg"
               isRequired={false}
               placeholder="Your File 3"
               control={control}

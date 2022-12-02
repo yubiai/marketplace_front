@@ -1,17 +1,24 @@
 import { CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { ButtonGroup, Flex, IconButton, Spinner, Text } from "@chakra-ui/react";
+import { Button, ButtonGroup, Flex, IconButton, Spinner, Text } from "@chakra-ui/react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import FileUpload from "../Utils/FileUpload";
 
-const FilesItemEdit = () => {
+const FilesItemEdit = ({files}) => {
+    const { handleSubmit, control, resetField } = useForm()
+
     const [actionEdit, setActionEdit] = useState(false);
     const [loading, setLoading] = useState(false);
-
 
     const onEdit = async () => {
         setActionEdit(true)
         setLoading(true)
         setLoading(false)
         return
+    }
+
+    const onSubmit = async (data) => {
+        console.log(data)
     }
 
     return (
@@ -40,7 +47,46 @@ const FilesItemEdit = () => {
             )}
             {actionEdit && (
                 <>
-                hola
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }} width={'full'} color="gray.700">
+                            <FileUpload
+                                name="file1"
+                                acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp"
+                                isRequired={true}
+                                placeholder="Your File 1"
+                                control={control}
+                                resetField={resetField}
+                                fileExist={files && files[0]}
+                            >
+                                Main Image
+                            </FileUpload>
+                            <FileUpload
+                                name="file2"
+                                acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp, video/mp4, audio/mpeg"
+                                isRequired={false}
+                                placeholder="Your File 2"
+                                control={control}
+                                resetField={resetField}
+                                fileExist={files && files[1]}
+                            >
+                                File
+                            </FileUpload>
+                            <FileUpload
+                                name="file3"
+                                acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp, video/mp4, audio/mpeg"
+                                isRequired={false}
+                                placeholder="Your File 3"
+                                control={control}
+                                resetField={resetField}
+                                fileExist={files && files[2]}
+                            >
+                                File
+                            </FileUpload>
+                        </Flex>
+                        <Button float="right" mt="3em" bg="#00abd1" color="white" type="submit">
+                                Update
+                            </Button>
+                    </form>
                 </>
             )}
         </>
