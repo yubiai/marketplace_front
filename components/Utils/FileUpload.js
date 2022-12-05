@@ -3,7 +3,6 @@ import {
   FormControl,
   FormLabel,
   InputGroup,
-  FormErrorMessage,
   Box,
   Text,
   Center,
@@ -12,13 +11,11 @@ import {
 import { useController } from 'react-hook-form'
 import { useEffect, useRef, useState } from 'react'
 import { MdOutlineFileUpload } from 'react-icons/md'
-import { FaTrash } from 'react-icons/fa'
+import { FaTrash, FaWindowClose } from 'react-icons/fa'
 
 import PlayerAudio from './PlayerAudio'
 import PlayerVideo from './PlayerVideo'
 import PlayerImage from './PlayerImage'
-import PlayerVideoEditItem from './PlayerVideoEditItem'
-import PlayerAudioEditItem from './PlayerAudioEditItem'
 
 export const FileUpload = ({
   name,
@@ -27,14 +24,14 @@ export const FileUpload = ({
   children,
   isRequired = false,
   resetField,
-  fileExist
+  getValues
 }) => {
   const inputRef = useRef()
   const {
     field: { ref, onChange, value, ...inputProps },
     // eslint-disable-next-line no-unused-vars
     fieldState: { invalid },
-    formState: { errors }
+    formState: { errors, isDirty }
   } = useController({
     name,
     control,
@@ -45,7 +42,7 @@ export const FileUpload = ({
   const [imageSrc, setImageSrc] = useState(null)
   const [videoSrc, setVideoSrc] = useState(null);
   const [audioSrc, setAudioSrc] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const clearSrc = () => {
     resetField(name)
@@ -69,22 +66,6 @@ export const FileUpload = ({
       }
     }
   }, [selectedFile]);
-
-  useEffect(() => {
-    console.log(fileExist)
-    if (fileExist) {
-      if (fileExist.mimetype === "image/jpeg" || fileExist.mimetype === "image/jpg" || fileExist.mimetype === "image/png" || fileExist.mimetype === "image/webp") {
-        setImageSrc(fileExist)
-      }
-      if (fileExist.mimetype === "video/mp4") {
-        setVideoSrc(fileExist)
-      }
-      if (fileExist.mimetype === "audio/mpeg") {
-        setAudioSrc(fileExist)
-      }
-    }
-    return
-  }, [fileExist])
 
   const verifyImage = (file) => {
     if (file && file.size && file.type) {
@@ -122,7 +103,9 @@ export const FileUpload = ({
 
   return (
     <FormControl isInvalid={invalid} isRequired={isRequired && isRequired}>
-      <FormLabel htmlFor="writeUpFile" textAlign={"center"} mt="1em" fontWeight='semibold'>{children}</FormLabel>
+      <FormLabel htmlFor="writeUpFile" textAlign={"center"} mt="1em" fontWeight='semibold'>
+        {children}
+      </FormLabel>
       <InputGroup>
         <input
           type="file"
@@ -153,13 +136,7 @@ export const FileUpload = ({
                 alignItems="center"
                 justifyContent="center"
               >
-                {fileExist ? (
-                  <>
-                    {imageSrc && <PlayerImage imageSrc={imageSrc} />}
-                    {videoSrc && <PlayerVideoEditItem videoSrc={videoSrc} />}
-                    {audioSrc && <PlayerAudioEditItem audioSrc={audioSrc} />}
-                  </>
-                ) : (<MdOutlineFileUpload fontSize="3em" />)}
+                <MdOutlineFileUpload fontSize="3em" />
               </Box>
               <Text color="red.500"> {errorMsg && errorMsg}</Text>
             </>
@@ -170,8 +147,9 @@ export const FileUpload = ({
         </Box>
       </InputGroup>
       <Center>
-        <Button onClick={() => clearSrc()} _hover={{ bg: 'gray.300' }}
-        >
+        <Button onClick={() => {
+          clearSrc()
+        }} bg="red.400" color="white" disabled={!getValues(name)} _hover={{ bg: 'gray.300' }}>
           <FaTrash fontSize="1em" />
         </Button>
       </Center>

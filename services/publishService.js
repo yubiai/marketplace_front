@@ -29,7 +29,22 @@ async function newItem(payload, token) {
   )
 }
 
+
+/**
+ * Update Item Files
+ * @param {str} data
+ */
+ async function updateItemFiles(id, payload, token) {
+  return await axios.put(`/publish/edititemfiles/${id}`, payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': token ? `Bearer ${token}` : null,
+    },
+  })
+}
+
 export const publishService = {
   newItem,
-  updateStatusItem
+  updateStatusItem,
+  updateItemFiles
 }

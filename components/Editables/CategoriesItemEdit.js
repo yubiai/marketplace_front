@@ -2,10 +2,11 @@ import { CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { Box, Button, ButtonGroup, Divider, Flex, FormControl, FormLabel, IconButton, Select, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { itemService } from "../../services/itemService";
 import { getListCategory, getListSubCategory } from "../../utils/itemUtils";
 
 
-const CategoriesItemEdit = ({ dataCategory, dataSubCategory }) => {
+const CategoriesItemEdit = ({ item, token, mutate }) => {
 
     // State useForm
     const { handleSubmit, register, reset } = useForm()
@@ -38,14 +39,28 @@ const CategoriesItemEdit = ({ dataCategory, dataSubCategory }) => {
     }
 
     const onSubmit = async (data) => {
-        console.log("on submit", data)
-        reset()
-        setActionEdit(false);
+        console.log("on submit", data);
+
+        try {
+            const newData = {
+                category: data.category,
+                subcategory: data.subcategory
+            }
+            await itemService.updateItemById(item._id, newData, token)
+            mutate();
+            reset()
+            setActionEdit(false);
+            return
+        } catch (err){
+            console.error(err);
+            reset()
+            setActionEdit(false);
+        }
     }
 
     return (
         <>
-            <Flex mt="1em">
+            <Flex mt="10px">
                 <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>Category - Sub category</Text>
                 <Flex justifyContent='left' m="5px">
                     {actionEdit && (
@@ -58,72 +73,72 @@ const CategoriesItemEdit = ({ dataCategory, dataSubCategory }) => {
 
                 </Flex>
             </Flex>
-            {!actionEdit && (<Text>{dataCategory.title}  {" - " + dataSubCategory.title}</Text>)}
+            {!actionEdit && (<Text>{item.category.title}  {" - " + item.subcategory.title}</Text>)}
 
             {actionEdit && (
                 <>
                     <Box h="full">
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        {categories && categories.length > 0 && (
-                            <Box mt="1em">
-                                <FormControl isRequired>
-                                    <FormLabel color="black"> Category</FormLabel>
-                                    <Select
-                                        bg="white"
-                                        color="black"
-                                        name="category"
-                                        id="category"
-                                        placeholder="Select Category"
-                                        _placeholder={{ color: 'gray.400' }}
-                                        isRequired={true}
-                                        {...register('category', {
-                                            required: true,
-                                            onChange: (e) => {
-                                                getSubCategories(e.target.value)
-                                            },
-                                        })}
-                                    >
-                                        {categories.map((category) => (
-                                            <option key={category._id} value={category._id} id="category">
-                                                {category.title}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                            </Box>
-                        )}
-                        {subCategories && subCategories.length > 0 && (
-                            <Box mt="1em">
-                                <FormControl isRequired>
-                                    <FormLabel color="black">Sub Category</FormLabel>
-                                    <Select
-                                        bg="white"
-                                        color="black"
-                                        name="subcategory"
-                                        id="subcategory"
-                                        placeholder="Select Sub Category"
-                                        _placeholder={{ color: 'gray.400' }}
-                                        isRequired={true}
-                                        {...register('subcategory', { required: true })}
-                                    >
-                                        {subCategories.map((subcategory) => (
-                                            <option
-                                                key={subcategory._id}
-                                                value={subcategory._id}
-                                                id="subcategory"
-                                            >
-                                                {subcategory.title}
-                                            </option>
-                                        ))}
-                                    </Select>
-                                </FormControl>
-                                <Divider />
-                            </Box>
-                        )}
-                        <Button mt="1em" bg="#00abd1" color="white" type="submit">
-                            Update
-                        </Button>
-                    </form>
+                        <form onSubmit={handleSubmit(onSubmit)}>
+                            {categories && categories.length > 0 && (
+                                <Box mt="1em">
+                                    <FormControl isRequired>
+                                        <FormLabel color="black"> Category</FormLabel>
+                                        <Select
+                                            bg="white"
+                                            color="black"
+                                            name="category"
+                                            id="category"
+                                            placeholder="Select Category"
+                                            _placeholder={{ color: 'gray.400' }}
+                                            isRequired={true}
+                                            {...register('category', {
+                                                required: true,
+                                                onChange: (e) => {
+                                                    getSubCategories(e.target.value)
+                                                },
+                                            })}
+                                        >
+                                            {categories.map((category) => (
+                                                <option key={category._id} value={category._id} id="category">
+                                                    {category.title}
+                                                </option>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                </Box>
+                            )}
+                            {subCategories && subCategories.length > 0 && (
+                                <Box mt="1em">
+                                    <FormControl isRequired>
+                                        <FormLabel color="black">Sub Category</FormLabel>
+                                        <Select
+                                            bg="white"
+                                            color="black"
+                                            name="subcategory"
+                                            id="subcategory"
+                                            placeholder="Select Sub Category"
+                                            _placeholder={{ color: 'gray.400' }}
+                                            isRequired={true}
+                                            {...register('subcategory', { required: true })}
+                                        >
+                                            {subCategories.map((subcategory) => (
+                                                <option
+                                                    key={subcategory._id}
+                                                    value={subcategory._id}
+                                                    id="subcategory"
+                                                >
+                                                    {subcategory.title}
+                                                </option>
+                                            ))}
+                                        </Select>
+                                    </FormControl>
+                                    <Divider />
+                                </Box>
+                            )}
+                            <Button mt="1em" bg="#00abd1" color="white" type="submit">
+                                Update
+                            </Button>
+                        </form>
                     </Box>
                 </>
             )}

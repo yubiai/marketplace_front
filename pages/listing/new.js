@@ -65,7 +65,7 @@ const NewListing = () => {
   const [subCategories, setSubCategories] = useState([])
 
   // State useForm
-  const { handleSubmit, register, control, formState: { errors }, resetField } = useForm()
+  const { handleSubmit, register, getValues, control, formState: { errors }, resetField } = useForm()
   const [result, setResult] = useState(null)
 
   // State Submit
@@ -434,7 +434,7 @@ const NewListing = () => {
               placeholder="Your File 1"
               control={control}
               resetField={resetField}
-
+              getValues={getValues}
             >
               Main Image
             </FileUpload>
@@ -445,6 +445,7 @@ const NewListing = () => {
               placeholder="Your File 2"
               control={control}
               resetField={resetField}
+              getValues={getValues}
             >
               File
             </FileUpload>
@@ -455,7 +456,7 @@ const NewListing = () => {
               placeholder="Your File 3"
               control={control}
               resetField={resetField}
-
+              getValues={getValues}
             >
               File
             </FileUpload>

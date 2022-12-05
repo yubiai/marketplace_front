@@ -3,7 +3,8 @@ import axios from 'axios'
 export const itemService = {
   search,
   getItemById,
-  purgeItem
+  purgeItem,
+  updateItemById
 }
 
 /**
@@ -23,6 +24,23 @@ async function search(query) {
 async function getItemById(id, token) {
   return await axios.get(
     `/items/item/id/${id}`,
+    token
+      ? {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      : null
+  )
+}
+
+/**
+ * Update Item by Id
+ * @param {query} Search
+ */
+ async function updateItemById(id, data, token) {
+  return await axios.put(
+    `/items/item/id/${id}`, data,
     token
       ? {
         headers: {

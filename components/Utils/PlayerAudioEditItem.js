@@ -52,7 +52,7 @@ const PlayerAudioEditItem = ({ audioSrc }) => {
                 <Image
                     alt={'Logo'}
                     w={'100%'}
-                    h={'90%'}
+                    h={'94%'}
                     src={'/static/images/audiologo.png'}
                     fallbackSrc={'/static/images/audiologo.png'}
                 />
