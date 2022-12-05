@@ -1,5 +1,5 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Box, Breadcrumb, BreadcrumbItem, Button, Center, Container, Flex, Heading, Spacer, Spinner, Stack, StackDivider, Text } from "@chakra-ui/react";
+import { Box, Breadcrumb, BreadcrumbItem, Center, Container, Divider, Heading, Spinner, Stack, StackDivider, Text } from "@chakra-ui/react";
 import moment from "moment";
 import Head from "next/head";
 import Link from "next/link";
@@ -35,6 +35,7 @@ const EditItem = () => {
         data: item,
         isLoading,
         isError,
+        mutate
     } = useFetch(
         global && global.profile && global.profile.token && item_id
             ? `/items/item/id/${item_id}`
@@ -47,7 +48,6 @@ const EditItem = () => {
     if (isError) {
         return <Error error={isError?.message} />
     }
-
     console.log(item)
 
     return (
@@ -104,7 +104,7 @@ const EditItem = () => {
                         </Center>
                     )}
 
-                    {item && (
+                    {item && user && (item.seller == user.id) ? (
                         <Stack
                             borderWidth="1px"
                             borderRadius="lg"
@@ -116,25 +116,24 @@ const EditItem = () => {
                             padding={4}
                         >
                             <Stack divider={<StackDivider />} spacing='4' width={"100%"}>
-                                <Flex display={"flex"}>
-                                    <Heading size="md">Edit Item</Heading>
-                                    <Spacer />
-                                    <Button>Example</Button>
-                                </Flex>
+                                <Heading size="md">Edit Item</Heading>
                             </Stack>
+                            <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                             <Stack>
                                 <Box>
                                     <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em">CreatedAt: {moment(item.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
                                     <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em" mb="1em">UpdatedAt: {moment(item.updatedAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
 
-                                    <TitleItemEdit data={item.title} />
-                                    <DescriptionItemEdit data={item.description} />
-                                    <CategoriesItemEdit dataCategory={item.category} dataSubCategory={item.subcategory} />
-                                    <PriceItemEdit dataCurrencySymbolPrice={item.currencySymbolPrice} dataPrice={item.price} dataUbiBurningamount={item.ubiburningamount} />
-                                    <FilesItemEdit />
+                                    <TitleItemEdit item={item} token={global.profile.token} mutate={mutate} />
+                                    <DescriptionItemEdit item={item} token={global.profile.token} mutate={mutate} />
+                                    <CategoriesItemEdit item={item} token={global.profile.token} mutate={mutate} />
+                                    <PriceItemEdit item={item} token={global.profile.token} mutate={mutate} />
+                                    <FilesItemEdit item={item} token={global.profile.token} mutate={mutate} />
                                 </Box>
                             </Stack>
                         </Stack>
+                    ) : (
+                        <Error error={"This item is not your property."} />
                     )}
 
                 </Container>

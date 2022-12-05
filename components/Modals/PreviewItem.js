@@ -11,7 +11,7 @@ const PreviewItem = ({ item }) => {
     <Flex width={'full'} direction={{ base: 'column', md: 'row' }}>
       <Box width={'50%'}>
         <Box height={'500px'} width={'full'}>
-          {selectFile && (selectFile.type === "image/jpeg" || selectFile.type === "image/jpg" || selectFile.type === "image/png") && (
+          {selectFile && (selectFile.type === "image/jpeg" || selectFile.type === "image/jpg" || selectFile.type === "image/png" || selectFile.type === "image/webp") && (
             <Image
               alt="Img Item"
               rounded={'lg'}
@@ -32,7 +32,7 @@ const PreviewItem = ({ item }) => {
               item.files.length > 0 &&
               item.files.map((file, i) => {
                 if (file) {
-                  if (file.type === "image/jpeg" || file.type === "image/jpg" || file.type === "image/png") {
+                  if (file.type === "image/jpeg" || file.type === "image/jpg" || file.type === "image/png" || file.type === "image/webp") {
                     return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={false} key={i} />
                   }
                   if (file.type === "video/mp4") {

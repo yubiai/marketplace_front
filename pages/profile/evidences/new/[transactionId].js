@@ -46,7 +46,7 @@ import { dpolicyService } from "../../../../services/dpolicyService";
 import { evidenceService } from "../../../../services/evidenceService";
 import { orderService } from "../../../../services/orderService";
 
-const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg', 'application/pdf'];
+const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 
 const labelStyles = {
   mt: '2',

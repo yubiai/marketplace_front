@@ -3,7 +3,6 @@ import {
   FormControl,
   FormLabel,
   InputGroup,
-  FormErrorMessage,
   Box,
   Text,
   Center,
@@ -12,7 +11,7 @@ import {
 import { useController } from 'react-hook-form'
 import { useEffect, useRef, useState } from 'react'
 import { MdOutlineFileUpload } from 'react-icons/md'
-import { FaTrash } from 'react-icons/fa'
+import { FaTrash, FaWindowClose } from 'react-icons/fa'
 
 import PlayerAudio from './PlayerAudio'
 import PlayerVideo from './PlayerVideo'
@@ -24,14 +23,15 @@ export const FileUpload = ({
   control,
   children,
   isRequired = false,
-  resetField
+  resetField,
+  getValues
 }) => {
   const inputRef = useRef()
   const {
     field: { ref, onChange, value, ...inputProps },
     // eslint-disable-next-line no-unused-vars
     fieldState: { invalid },
-    formState: { errors }
+    formState: { errors, isDirty }
   } = useController({
     name,
     control,
@@ -42,7 +42,7 @@ export const FileUpload = ({
   const [imageSrc, setImageSrc] = useState(null)
   const [videoSrc, setVideoSrc] = useState(null);
   const [audioSrc, setAudioSrc] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null)
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const clearSrc = () => {
     resetField(name)
@@ -55,7 +55,7 @@ export const FileUpload = ({
 
   useEffect(() => {
     if (selectedFile && selectedFile.type) {
-      if (selectedFile.type === "image/jpeg" || selectedFile.type === "image/jpg" || selectedFile.type === "image/png") {
+      if (selectedFile.type === "image/jpeg" || selectedFile.type === "image/jpg" || selectedFile.type === "image/png" || selectedFile.type === "image/webp") {
         setImageSrc(URL.createObjectURL(selectedFile))
       }
       if (selectedFile.type === "video/mp4") {
@@ -65,16 +65,16 @@ export const FileUpload = ({
         setAudioSrc(URL.createObjectURL(selectedFile))
       }
     }
-  }, [selectedFile])
+  }, [selectedFile]);
 
   const verifyImage = (file) => {
     if (file && file.size && file.type) {
       clearSrc()
 
-      const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+      const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
       const validImageType = validImageTypes.find((type) => type === file.type);
 
-      const validFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg'];
+      const validFileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'video/mp4', 'audio/mpeg'];
       const validFileType = validFileTypes.find((type) => type === file.type);
 
       if (!validImageType && isRequired === true) {
@@ -103,7 +103,9 @@ export const FileUpload = ({
 
   return (
     <FormControl isInvalid={invalid} isRequired={isRequired && isRequired}>
-      <FormLabel htmlFor="writeUpFile" textAlign={"center"} mt="1em" fontWeight='semibold'>{children}</FormLabel>
+      <FormLabel htmlFor="writeUpFile" textAlign={"center"} mt="1em" fontWeight='semibold'>
+        {children}
+      </FormLabel>
       <InputGroup>
         <input
           type="file"
@@ -145,8 +147,9 @@ export const FileUpload = ({
         </Box>
       </InputGroup>
       <Center>
-        <Button onClick={() => clearSrc()} _hover={{ bg: 'gray.300' }}
-        >
+        <Button onClick={() => {
+          clearSrc()
+        }} bg="red.400" color="white" disabled={!getValues(name)} _hover={{ bg: 'gray.300' }}>
           <FaTrash fontSize="1em" />
         </Button>
       </Center>

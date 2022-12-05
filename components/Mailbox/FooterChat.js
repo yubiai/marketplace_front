@@ -5,8 +5,8 @@ import { useRef, useState } from 'react'
 // Form
 import FilePreviewMini from '../Infos/FilePreviewMini'
 
-const acceptedFileTypes = 'image/jpeg, image/jpg, image/png, video/mp4, audio/mpeg, application/pdf'
-const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg', 'application/pdf'];
+const acceptedFileTypes = 'image/jpeg, image/jpg, image/png, image/webp, video/mp4, audio/mpeg, application/pdf'
+const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 
 const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFiles, handleSendMessage, loadingSubmit }) => {
 

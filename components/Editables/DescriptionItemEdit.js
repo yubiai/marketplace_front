@@ -9,11 +9,18 @@ import {
     EditableTextarea,
     Text,
 } from '@chakra-ui/react'
+import { itemService } from '../../services/itemService'
 
-const DescriptionItemEdit = ({ data }) => {
+const DescriptionItemEdit = ({ item, token, mutate }) => {
 
-    function UpdateDescriptionItem(value) {
-        console.log(value)
+    async function UpdateDescriptionItem(value) {
+        if(value !== item.description){
+            console.log("No es igual updateee")
+            await itemService.updateItemById(item._id, {
+                description: value
+            }, token)
+            mutate();
+        }
     }
 
     function EditableControls() {
@@ -40,19 +47,18 @@ const DescriptionItemEdit = ({ data }) => {
         <>
             <Editable
                 textAlign='left'
-                defaultValue={data}
+                defaultValue={item && item.description}
                 fontSize='1em'
                 isPreviewFocusable={false}
                 onSubmit={(value) => {
                     UpdateDescriptionItem(value)
                 }}
             >
-                <Flex mt="1em">
+                <Flex>
                     <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>Description</Text>
-
                     <EditableControls />
                 </Flex>
-                <Flex mt="1em">
+                <Flex>
                     <EditablePreview />
                     <EditableTextarea />
                 </Flex>

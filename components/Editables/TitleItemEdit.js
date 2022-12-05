@@ -10,11 +10,19 @@ import {
     ButtonGroup,
     Text,
 } from '@chakra-ui/react'
+import { itemService } from '../../services/itemService'
 
-const TitleItemEdit = ({ data }) => {
+const TitleItemEdit = ({ item, token, mutate }) => {
 
-    function UpdateTitleItem(value) {
-        console.log(value)
+    async function UpdateTitleItem(value) {
+       
+        if(value !== item.title){
+            console.log("No es igual updateee")
+            await itemService.updateItemById(item._id, {
+                title: value
+            }, token)
+            mutate();
+        }
     }
 
     function EditableControls() {
@@ -41,7 +49,7 @@ const TitleItemEdit = ({ data }) => {
         <>
             <Editable
                 textAlign='left'
-                defaultValue={data}
+                defaultValue={item.title}
                 fontSize='1em'
                 isPreviewFocusable={false}
                 onSubmit={(value) => {

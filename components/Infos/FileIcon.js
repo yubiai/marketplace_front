@@ -2,7 +2,7 @@ import { FaFileAudio, FaFileDownload, FaFileImage, FaFilePdf, FaFileVideo } from
 
 const FileIcon = ({type}) => {
 
-    if(type && (type === "image/jpeg" || type === "image/jpg" || type === "image/png")){
+    if(type && (type === "image/jpeg" || type === "image/jpg" || type === "image/png" || type === "image/webp")){
         return(
             <FaFileImage size={'2.5em'} />
         )
