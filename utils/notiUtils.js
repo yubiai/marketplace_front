@@ -8,6 +8,10 @@ const parseNoti = (type) => {
       path = 'profile/orders/as-seller'
       message = 'New Sale!'
       break
+    case 'Publish':
+      path = 'item'
+      message = 'Your Item was accepted and published.'
+      break
     case 'ORDER_PAID':
       path = 'profile/orders/as-seller'
       message = 'Order Paid'
