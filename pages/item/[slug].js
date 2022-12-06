@@ -156,6 +156,7 @@ const ItemById = ({ item }) => {
   }
 
   if (!item) return <Loading />
+  console.log(user, "user", item.status, "item.status", owner, "owner" )
 
   return (
     <>
