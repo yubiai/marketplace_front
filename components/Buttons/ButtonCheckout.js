@@ -75,6 +75,7 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                     blockNumber,
                     cumulativeGasUsed,
                     effectiveGasPrice,
+                    contractAddressURI: `${blockExplorer}/address/${yubiaiContract.yubiaiArbitrable}`
                 },
                 transactionState: parseInt(state, 10),
                 claimCount: parseInt(claimCount, 10),
@@ -85,7 +86,6 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                 transactionPayedAmount,
                 transactionFeeAmount,
                 transactionDate: createdAt,
-                contractAddressURI: `${blockExplorer}/address/${yubiaiContract.yubiaiArbitrable}`,
                 networkEnv: networkType || 'mainnet'
             });
         } catch (e) {

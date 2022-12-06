@@ -25,6 +25,7 @@ import useUser from '../../hooks/data/useUser'
 import ImagePreviewListingCard from '../../components/Cards/ImagePreviewListingCard'
 import PlayerVideo from '../../components/Utils/PlayerVideo'
 import PlayerAudio from '../../components/Utils/PlayerAudio'
+//import Questions from '../../components/Layouts/Questions'
 
 const ItemById = ({ item }) => {
   const global = useGlobal();
@@ -241,7 +242,7 @@ const ItemById = ({ item }) => {
             </Text>
             {global.profile && (
               <InfoUserModal user={item.seller} />
-            )}            
+            )}
             {/* <Box
               display={'flex'}
               flexDirection={'row'}
@@ -264,7 +265,7 @@ const ItemById = ({ item }) => {
               direction={{ base: 'column' }}
               justifyContent="center"
               w="full"
-              h={{base: "full", md: "300px"}}
+              h={{ base: "full", md: "300px" }}
             >
               <Center>
                 <Button
@@ -288,9 +289,13 @@ const ItemById = ({ item }) => {
         </Flex>
         <Divider />
         <Box m="1em" h="30vh">
-          <Text mt="10px">Course description</Text>
+          <Text mt="10px" fontWeight={"semibold"}>Description</Text>
           <Text mt="10px">{item.description}</Text>
         </Box>
+        {/* <Divider mt="2em" />
+        <Box m="1em">
+          <Questions item={item._id} />
+        </Box> */}
       </Container>
     </>
   )
