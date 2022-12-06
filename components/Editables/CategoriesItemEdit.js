@@ -1,5 +1,5 @@
 import { CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { Box, Button, ButtonGroup, Divider, Flex, FormControl, FormLabel, IconButton, Select, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Divider, Flex, FormControl, FormLabel, IconButton, Select, Text, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { itemService } from "../../services/itemService";
@@ -7,6 +7,7 @@ import { getListCategory, getListSubCategory } from "../../utils/itemUtils";
 
 
 const CategoriesItemEdit = ({ item, token, mutate }) => {
+    const toast = useToast();
 
     // State useForm
     const { handleSubmit, register, reset } = useForm()
@@ -44,9 +45,17 @@ const CategoriesItemEdit = ({ item, token, mutate }) => {
                 category: data.category,
                 subcategory: data.subcategory
             }
-            await itemService.updateItemById(item._id, newData, token)
+            await itemService.updateItemById(item._id, newData, token);
+            toast({
+                title: 'Edit Item',
+                description: 'Data Saved successfully.',
+                position: 'top-right',
+                status: 'success',
+                duration: 3000,
+                isClosable: true
+              });
             mutate();
-            reset()
+            reset();
             setActionEdit(false);
             return
         } catch (err){

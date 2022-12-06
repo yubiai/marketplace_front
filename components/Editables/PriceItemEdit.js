@@ -1,5 +1,5 @@
 import { CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { Box, Button, ButtonGroup, Flex, FormControl, FormLabel, IconButton, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, FormControl, FormLabel, IconButton, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack, Spinner, Text, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatchGlobal, useGlobal } from "../../providers/globalProvider";
@@ -10,6 +10,8 @@ import { itemService } from "../../services/itemService";
 const PriceItemEdit = ({ item, token, mutate }) => {
     const global = useGlobal();
     const dispatch = useDispatchGlobal();
+    const toast = useToast();
+
     const [loading, setLoading] = useState(false);
 
     const [actionEdit, setActionEdit] = useState(false);
@@ -68,6 +70,14 @@ const PriceItemEdit = ({ item, token, mutate }) => {
             ubiburningamount: sliderValue
         }
         await itemService.updateItemById(item._id, newData, token);
+        toast({
+            title: 'Edit Item',
+            description: 'Data Saved successfully.',
+            position: 'top-right',
+            status: 'success',
+            duration: 3000,
+            isClosable: true
+          });
         mutate()
         setPriceValue('');
         setSelectedCurrency('ETH');

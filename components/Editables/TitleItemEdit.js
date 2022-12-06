@@ -9,19 +9,35 @@ import {
     IconButton,
     ButtonGroup,
     Text,
+    useToast,
 } from '@chakra-ui/react'
 import { itemService } from '../../services/itemService'
 
 const TitleItemEdit = ({ item, token, mutate }) => {
+    const toast = useToast();
 
     async function UpdateTitleItem(value) {
        
         if(value !== item.title){
+
             await itemService.updateItemById(item._id, {
                 title: value
-            }, token)
+            }, token);
+
+            await itemService.purgeItem(item.slug, token);
+
+            toast({
+                title: 'Edit Item',
+                description: 'Data Saved successfully.',
+                position: 'top-right',
+                status: 'success',
+                duration: 3000,
+                isClosable: true
+              });
             mutate();
+            return
         }
+        return
     }
 
     function EditableControls() {
@@ -30,7 +46,7 @@ const TitleItemEdit = ({ item, token, mutate }) => {
             getSubmitButtonProps,
             getCancelButtonProps,
             getEditButtonProps,
-        } = useEditableControls()
+        } = useEditableControls();
 
         return isEditing ? (
             <ButtonGroup m="10px" justifyContent='center' size='sm'>

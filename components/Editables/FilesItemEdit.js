@@ -1,5 +1,5 @@
 import { CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { Box, Button, ButtonGroup, Center, Flex, IconButton, Spacer, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Center, Flex, IconButton, Spacer, Spinner, Text, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaRegEdit, FaTrash, FaWindowClose } from "react-icons/fa";
@@ -11,6 +11,8 @@ import PlayerImage from "../Utils/PlayerImage";
 import PlayerVideoEditItem from "../Utils/PlayerVideoEditItem";
 
 const FilesItemEdit = ({ item, token, mutate }) => {
+    const toast = useToast();
+
     const { handleSubmit, getValues, setValue, control, resetField, reset } = useForm()
 
     const [actionEdit, setActionEdit] = useState(false);
@@ -86,7 +88,15 @@ const FilesItemEdit = ({ item, token, mutate }) => {
             )
             setError(null);
             mutate();
-            onCloseEdit()
+            onCloseEdit();
+            toast({
+                title: 'Edit Item',
+                description: 'Data Saved successfully.',
+                position: 'top-right',
+                status: 'success',
+                duration: 3000,
+                isClosable: true
+              });
             setLoading(false);
             return
         } catch (err) {
@@ -106,12 +116,21 @@ const FilesItemEdit = ({ item, token, mutate }) => {
             await itemService.deleteFileById(item._id, {
                 file_id: file._id
             }, token);
+            
             mutate();
             onCloseEdit();
             setLoading(false);
         } catch(err){
             console.error(err);
             mutate();
+            toast({
+                title: 'Edit Item',
+                description: 'Data Saved successfully.',
+                position: 'top-right',
+                status: 'success',
+                duration: 3000,
+                isClosable: true
+              });
             onCloseEdit();
             setLoading(false);
             setError("Error deleting file.")
