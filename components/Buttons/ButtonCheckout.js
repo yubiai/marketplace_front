@@ -1,5 +1,10 @@
 import { Button, Center, Spinner } from '@chakra-ui/react';
 import { useGlobal } from '../../providers/globalProvider';
+import {
+    getCurrentNetwork,
+    getBlockExplorerForNetwork,
+    getContractsForNetwork
+} from '../../utils/walletUtils';
 
 const WEI_DECIMAL_PLACES = 18;
 
@@ -12,8 +17,14 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             toggleLoadingStatus(true);
             const amountToWei = yubiaiPaymentArbitrableInstance.web3.utils.toWei(amount.value.toString());
             const senderWallet = await yubiaiPaymentArbitrableInstance.getAccount();
-            const networkType = await yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType() || 'main';
-            const token = currency !== 'ETH' ? global.currencyPriceList.find(price => price.symbol === currency) : { token_address: null };
+
+            const networkTypeObj = getCurrentNetwork() || {};
+            const networkType = (networkTypeObj.aliasTitle) || 'mainnet';
+            const networkBaseToken = (networkTypeObj.currency) || 'ETH';
+            const blockExplorer = getBlockExplorerForNetwork(networkType);
+            const yubiaiContract = getContractsForNetwork(networkType);
+
+            const token = currency !== networkBaseToken ? global.currencyPriceList.find(price => price.symbol === currency) : { token_address: null };
             const result = await yubiaiPaymentArbitrableInstance.createDeal(
                 token.token_address,
                 burnFee,
@@ -74,6 +85,7 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                 transactionPayedAmount,
                 transactionFeeAmount,
                 transactionDate: createdAt,
+                contractAddressURI: `${blockExplorer}/address/${yubiaiContract.yubiaiArbitrable}`,
                 networkEnv: networkType || 'mainnet'
             });
         } catch (e) {

@@ -43,6 +43,25 @@ const getCurrentWallet = (lowerCase = false) => {
   return lowerCase ? wallet.toLowerCase() : wallet;
 }
 
+const getBlockExplorerForNetwork = (networkType) => {
+  switch (networkType) {
+    case 'goerli':
+      return 'https://goerli.etherscan.io';
+    case 'mainnet':
+      return 'https://etherscan.io';
+    case 'kovan':
+      return 'https://kovan.etherscan.io';
+    case 'chiado':
+      return 'https://blockscout.chiadochain.net';
+    case 'gnosis':
+      return 'https://blockscout.com';
+    case 'bsc':
+      return 'https://bscscan.com';
+    default:
+      return '';
+  }
+}
+
 const getContractsForNetwork = (networkType) => {
   switch (networkType) {
     case 'goerli':
@@ -50,7 +69,7 @@ const getContractsForNetwork = (networkType) => {
         yubiaiArbitrable: process.env.NEXT_PUBLIC_GOERLI_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
         yubiaiArbitrator: process.env.NEXT_PUBLIC_GOERLI_ARBITRATOR
       };
-    case 'main':
+    case 'mainnet':
       return {
         yubiaiArbitrable: process.env.NEXT_PUBLIC_MAIN_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
         yubiaiArbitrator: process.env.NEXT_PUBLIC_MAIN_ARBITRATOR
@@ -71,5 +90,6 @@ export {
   getCurrentWallet,
   getContractsForNetwork,
   listChains,
+  getBlockExplorerForNetwork,
   getCurrentNetwork,
 }
