@@ -103,7 +103,7 @@ const OrderDetail = () => {
       "0x..." + transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16) :
       transactionMeta.transactionHash;
 
-    return transaction.networkEnv !== 'main'
+    return transaction.networkEnv !== 'mainnet'
       ? `https://${transaction.networkEnv}.etherscan.io/tx/${transactionHash}`
       : `https://etherscan.io/tx/${transactionHash}`;
   };
