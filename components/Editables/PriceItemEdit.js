@@ -62,7 +62,6 @@ const PriceItemEdit = ({ item, token, mutate }) => {
     }, [global.yubiaiPaymentArbitrableInstance])
 
     const onSubmit = async () => {
-        console.log("on submit", selectedCurrency, priceValue, sliderValue)
         const newData = {
             currencySymbolPrice: selectedCurrency,
             price: priceValue,

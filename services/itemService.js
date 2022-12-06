@@ -4,7 +4,8 @@ export const itemService = {
   search,
   getItemById,
   purgeItem,
-  updateItemById
+  updateItemById,
+  deleteFileById
 }
 
 /**
@@ -41,6 +42,23 @@ async function getItemById(id, token) {
  async function updateItemById(id, data, token) {
   return await axios.put(
     `/items/item/id/${id}`, data,
+    token
+      ? {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+      : null
+  )
+}
+
+/**
+ * Update Item delete file by id
+ * @param {query} Search
+ */
+ async function deleteFileById(id, data, token) {
+  return await axios.put(
+    `/items/item/deletefile/${id}`, data,
     token
       ? {
         headers: {

@@ -1,8 +1,9 @@
 import { CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { Box, Button, ButtonGroup, Center, Flex, IconButton, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Center, Flex, IconButton, Spacer, Spinner, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaRegEdit, FaWindowClose } from "react-icons/fa";
+import { FaRegEdit, FaTrash, FaWindowClose } from "react-icons/fa";
+import { itemService } from "../../services/itemService";
 import { publishService } from "../../services/publishService";
 import FileUpload from "../Utils/FileUpload";
 import PlayerAudioEditItem from "../Utils/PlayerAudioEditItem";
@@ -10,7 +11,7 @@ import PlayerImage from "../Utils/PlayerImage";
 import PlayerVideoEditItem from "../Utils/PlayerVideoEditItem";
 
 const FilesItemEdit = ({ item, token, mutate }) => {
-    const { handleSubmit, getValues, control, resetField, reset, formState: { isDirty } } = useForm()
+    const { handleSubmit, getValues, setValue, control, resetField, reset } = useForm()
 
     const [actionEdit, setActionEdit] = useState(false);
 
@@ -67,7 +68,7 @@ const FilesItemEdit = ({ item, token, mutate }) => {
             if (data.file2) {
                 form.append('files', data.file2)
                 form.append('filespos', data.file2.name)
-            }  else {
+            } else {
                 form.append('filespos', false)
             }
 
@@ -96,6 +97,25 @@ const FilesItemEdit = ({ item, token, mutate }) => {
             return
         }
 
+    }
+
+    const onDeleteFile = async (file) => {
+        setError(null);
+        setLoading(true);
+        try{
+            await itemService.deleteFileById(item._id, {
+                file_id: file._id
+            }, token);
+            mutate();
+            onCloseEdit();
+            setLoading(false);
+        } catch(err){
+            console.error(err);
+            mutate();
+            onCloseEdit();
+            setLoading(false);
+            setError("Error deleting file.")
+        }
     }
 
     return (
@@ -160,7 +180,7 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                                             Main Image {editItem0 && item.files && item.files[0] && (
                                                 <Button position="absolute" top="0" right="15" float="right" onClick={() => {
                                                     setEditItem0(false)
-                                                    reset()
+                                                    setValue("file1", "")
                                                 }}><FaWindowClose /></Button>
                                             )}
                                         </FileUpload>
@@ -174,12 +194,19 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                                             <Text fontWeight='semibold'>File 2</Text>
                                         </Center>
                                         {activeTypeFile(item.files[1])}
-                                        <Center mt="10px">
-                                            <Button backgroundColor={'#00abd1'}
-                                                color={'white'} onClick={() => {
-                                                    setEditItem1(true)
-                                                }}><FaRegEdit /></Button>
-                                        </Center>
+                                        <Flex mt="10px">
+                                            <Center>
+                                                <Button backgroundColor={'#00abd1'}
+                                                    color={'white'} onClick={() => {
+                                                        setEditItem1(true)
+                                                    }}><FaRegEdit /></Button>
+                                            </Center>
+                                            <Spacer />
+                                            <Button bg="red.400" color="white" onClick={() => {
+                                                onDeleteFile(item.files[1])
+                                            }}><FaTrash fontSize="1em" />
+                                            </Button>
+                                        </Flex>
                                     </>
                                 )}
                                 {editItem1 || item.files && !item.files[1] ? (
@@ -196,7 +223,7 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                                             File 2 {editItem1 && item.files && item.files[1] && (
                                                 <Button position="absolute" top="0" right="15" float="right" onClick={() => {
                                                     setEditItem1(false)
-                                                    reset()
+                                                    setValue("file2", "")
                                                 }}><FaWindowClose /></Button>
                                             )}
                                         </FileUpload>
@@ -209,13 +236,21 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                                         <Center>
                                             <Text fontWeight='semibold'>File 3</Text>
                                         </Center>
+
                                         {activeTypeFile(item.files[2])}
-                                        <Center mt="10px">
-                                            <Button backgroundColor={'#00abd1'}
-                                                color={'white'} onClick={() => {
-                                                    setEditItem2(true)
-                                                }}><FaRegEdit /></Button>
-                                        </Center>
+                                        <Flex mt="10px">
+                                            <Center>
+                                                <Button backgroundColor={'#00abd1'}
+                                                    color={'white'} onClick={() => {
+                                                        setEditItem2(true)
+                                                    }}><FaRegEdit /></Button>
+                                            </Center>
+                                            <Spacer />
+                                            <Button bg="red.400" color="white" onClick={() => {
+                                                onDeleteFile(item.files[2])
+                                            }}><FaTrash fontSize="1em" />
+                                            </Button>
+                                        </Flex>
                                     </>
                                 )}
                                 {editItem2 || item.files && !item.files[2] ? (
@@ -229,10 +264,11 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                                             resetField={resetField}
                                             getValues={getValues}
                                         >
-                                            File 3 {editItem2 && item.files && item.files[2] && (
+                                            File 3
+                                            {editItem2 && item.files && item.files[2] && (
                                                 <Button position="absolute" top="0" right="15" float="right" onClick={() => {
                                                     setEditItem2(false)
-                                                    reset()
+                                                    setValue("file3", "")
                                                 }}><FaWindowClose /></Button>
                                             )}
                                         </FileUpload>
@@ -240,7 +276,7 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                                 ) : null}
                             </Box>
                         </Flex>
-                        <Button float="right" mt="5em" bg="#00abd1" color="white" type="submit" disabled={!isDirty}>
+                        <Button float="right" mt="5em" bg="#00abd1" color="white" type="submit" disabled={!getValues("file1") && !getValues("file2") && !getValues("file3")}>
                             Update
                         </Button>
                     </form>
