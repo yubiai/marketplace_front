@@ -39,8 +39,6 @@ const CategoriesItemEdit = ({ item, token, mutate }) => {
     }
 
     const onSubmit = async (data) => {
-        console.log("on submit", data);
-
         try {
             const newData = {
                 category: data.category,

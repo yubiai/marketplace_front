@@ -15,7 +15,6 @@ const DescriptionItemEdit = ({ item, token, mutate }) => {
 
     async function UpdateDescriptionItem(value) {
         if(value !== item.description){
-            console.log("No es igual updateee")
             await itemService.updateItemById(item._id, {
                 description: value
             }, token)

@@ -48,7 +48,6 @@ const EditItem = () => {
     if (isError) {
         return <Error error={isError?.message} />
     }
-    console.log(item)
 
     return (
         <>

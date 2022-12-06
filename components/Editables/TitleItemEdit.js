@@ -17,7 +17,6 @@ const TitleItemEdit = ({ item, token, mutate }) => {
     async function UpdateTitleItem(value) {
        
         if(value !== item.title){
-            console.log("No es igual updateee")
             await itemService.updateItemById(item._id, {
                 title: value
             }, token)
