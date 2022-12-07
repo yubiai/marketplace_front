@@ -16,7 +16,7 @@ import {
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { FiMoreVertical } from 'react-icons/fi'
+import { FiBookOpen, FiMoreVertical } from 'react-icons/fi'
 import UserInfo from '../Infos/UserInfo'
 import { FaUserCircle } from 'react-icons/fa'
 import { BsFillBellFill } from 'react-icons/bs'
@@ -195,6 +195,20 @@ const DrawerMenu = () => {
                       >
                         <ListIcon as={MdSell} />
                         New Listing
+                      </Button>
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                    <Link href="/profile/questions">
+                      <Button
+                        onClick={() => onClose()}
+                        className="step-favourites"
+                        w="full"
+                        bg="transparent"
+                        justifyContent={'left'}
+                      >
+                        <ListIcon as={FiBookOpen} />
+                        Questions
                       </Button>
                     </Link>
                   </ListItem>

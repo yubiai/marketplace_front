@@ -62,6 +62,9 @@ const UserMenu = () => {
           <Link href="/profile/listings">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}>Listings</MenuItem>
           </Link>
+          <Link href="/profile/questions">
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}>Questions</MenuItem>
+          </Link>
           <Link href="/profile/orders">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}>Orders</MenuItem>
           </Link>

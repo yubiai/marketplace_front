@@ -18,7 +18,8 @@ import {
   FiSettings,
   FiMenu,
   FiBattery,
-  FiBell
+  FiBell,
+  FiBookOpen
 } from 'react-icons/fi'
 import Link from 'next/link'
 
@@ -29,7 +30,8 @@ const LinkItems = [
   { name: 'Listings', icon: FiTrendingUp, url: '/profile/listings' },
   { name: 'Orders', icon: FiBattery, url: '/profile/orders' },
   { name: 'Sales', icon: FiCompass, url: '/profile/orders/sales' },
-  { name: 'Favourites', icon: FiStar, url: '/profile/favourites' }
+  { name: 'Favourites', icon: FiStar, url: '/profile/favourites' },
+  { name: 'Questions', icon: FiBookOpen, url: '/profile/questions' }
 ]
 
 export default function ProfileMenu({ children }) {
