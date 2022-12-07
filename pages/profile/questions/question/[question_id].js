@@ -36,7 +36,6 @@ const QuestionById = () => {
     const verifyUser = (resQuestion) => {
 
         if (global.profile._id === resQuestion.buyer) {
-            console.log("es buyer")
             setIsBuyer(true)
             setQuestion(resQuestion)
             setLoading(false)
@@ -44,7 +43,6 @@ const QuestionById = () => {
         }
 
         if (global.profile._id === resQuestion.seller) {
-            console.log("es seller")
             setIsSeller(true)
             setQuestion(resQuestion)
             setLoading(false)
@@ -62,7 +60,6 @@ const QuestionById = () => {
 
     const getQuestion = async () => {
         if (question_id && global.profile && global.profile.token) {
-            console.log(question_id)
             setLoading(true)
             const result = await questionService.getQuestionById(question_id, global.profile.token)
             const resQuestion = result && result.data ? result.data : null;
@@ -79,8 +76,6 @@ const QuestionById = () => {
         getQuestion()
         return
     }, [question_id, global.profile, router]);
-
-    console.log(question)
 
     return (
         <>

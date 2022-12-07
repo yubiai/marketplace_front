@@ -40,6 +40,14 @@ const parseNoti = (type) => {
       path = 'profile/mailboxs'
       message = 'New Message!'
       break
+    case 'NewQuestion':
+      path = 'profile/questions/question'
+      message = 'New Question!'
+      break
+    case 'NewAnswer':
+      path = 'profile/questions/question'
+      message = 'New Answer!'
+      break
     default:
       return null
   }
