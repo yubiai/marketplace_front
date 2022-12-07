@@ -25,7 +25,7 @@ import useUser from '../../hooks/data/useUser'
 import ImagePreviewListingCard from '../../components/Cards/ImagePreviewListingCard'
 import PlayerVideo from '../../components/Utils/PlayerVideo'
 import PlayerAudio from '../../components/Utils/PlayerAudio'
-//import Questions from '../../components/Layouts/Questions'
+import Questions from '../../components/Layouts/Questions'
 
 const ItemById = ({ item }) => {
   const global = useGlobal();
@@ -292,10 +292,10 @@ const ItemById = ({ item }) => {
           <Text mt="10px" fontWeight={"semibold"}>Description</Text>
           <Text mt="10px">{item.description}</Text>
         </Box>
-        {/* <Divider mt="2em" />
+        <Divider mt="2em" />
         <Box m="1em">
-          <Questions item={item._id} />
-        </Box> */}
+          <Questions item={item} profile_id={global?.profile?._id} token={global?.profile?.token} />
+        </Box>
       </Container>
     </>
   )
