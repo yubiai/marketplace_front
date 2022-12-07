@@ -81,6 +81,7 @@ const Questions = ({ item, profile_id, token }) => {
                 duration: 3000,
                 isClosable: true
             })
+            getQuestionsCount()
             setViewQuestions(false)
             setLoading(false)
         } catch (err) {
@@ -93,6 +94,7 @@ const Questions = ({ item, profile_id, token }) => {
                 duration: 3000,
                 isClosable: true
             })
+            getQuestionsCount()
             setViewQuestions(false)
             setLoading(false)
             return

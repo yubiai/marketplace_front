@@ -7,8 +7,6 @@ import ButtonNewAnswer from '../Buttons/ButtonNewAnswer';
 
 const QuestionCardListSeller = ({ question, token }) => {
 
-    console.log(question)
-
     return (
         <>
             <Stack bg="white" p="2" boxShadow="lg" m="2" borderRadius="lg">

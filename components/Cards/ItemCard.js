@@ -2,6 +2,7 @@ import { Box, Center, Text, Stack, Image, Divider } from '@chakra-ui/react'
 import Link from 'next/link'
 
 const ItemCard = ({ item }) => {
+
   return (
     <Center p={1} cursor="pointer">
       <Link href={`/item/${item.slug}`}>

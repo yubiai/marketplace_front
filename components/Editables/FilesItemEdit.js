@@ -96,7 +96,7 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                 status: 'success',
                 duration: 3000,
                 isClosable: true
-              });
+            });
             setLoading(false);
             return
         } catch (err) {
@@ -112,15 +112,22 @@ const FilesItemEdit = ({ item, token, mutate }) => {
     const onDeleteFile = async (file) => {
         setError(null);
         setLoading(true);
-        try{
+        try {
             await itemService.deleteFileById(item._id, {
                 file_id: file._id
             }, token);
-            
+            toast({
+                title: 'Edit Item',
+                description: 'Data Saved successfully.',
+                position: 'top-right',
+                status: 'success',
+                duration: 3000,
+                isClosable: true
+            });
             mutate();
             onCloseEdit();
             setLoading(false);
-        } catch(err){
+        } catch (err) {
             console.error(err);
             mutate();
             toast({
@@ -130,7 +137,7 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                 status: 'success',
                 duration: 3000,
                 isClosable: true
-              });
+            });
             onCloseEdit();
             setLoading(false);
             setError("Error deleting file.")
