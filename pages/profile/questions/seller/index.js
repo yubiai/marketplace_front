@@ -30,7 +30,7 @@ const QuestionsSeller = () => {
 
     const { data, isLoading, isError } = useFetch(
         global && global.profile && global.profile._id
-            ? `/questions/seller/${global.profile._id}?page=${global.pageIndex}&size=2`
+            ? `/questions/seller/${global.profile._id}?page=${global.pageIndex}&size=4`
             : null,
         global?.profile?.token
     )
@@ -40,8 +40,6 @@ const QuestionsSeller = () => {
     if (isError) {
         return <Error error={isError?.message} />
     }
-
-    console.log(data)
 
     return (
         <>

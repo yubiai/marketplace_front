@@ -9,7 +9,7 @@ const QuestionCard = ({ question }) => {
         <>
             <Stack bg="white" p="2" boxShadow="lg" m="1" borderRadius="lg">
                 <Text fontWeight="semibold">{question.question}</Text>
-                {question.response && (
+                {question.answer && (
                     <>
                         <Divider />
                         <Flex h={"full"} width={"full"}>
@@ -17,7 +17,7 @@ const QuestionCard = ({ question }) => {
                                 <FaAngleDoubleRight />
                             </Box>
                             <Text ml="1em" fontSize={{ base: 'sm' }} maxW={'90%'}>
-                                {question.response} - {moment(question.dateresponse).format('DD/MM/YY')
+                                {question.answer} - {moment(question.dateresponse).format('DD/MM/YY')
                                 }
                             </Text>
                         </Flex>

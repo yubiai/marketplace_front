@@ -16,7 +16,6 @@ const ButtonNewAnswer = ({ question, token }) => {
 
     // New Question
     const onSubmit = async (data) => {
-        console.log(data)
         setLoading(true);
         const newAnswer = {
             answer: data.answer

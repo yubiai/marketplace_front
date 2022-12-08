@@ -1,8 +1,7 @@
-import { Box, Center, Text, Stack, Image, Divider } from '@chakra-ui/react'
+import { Box, Center, Text, Stack, Image, Divider, Badge } from '@chakra-ui/react'
 import Link from 'next/link'
 
 const ItemCard = ({ item }) => {
-
   return (
     <Center p={1} cursor="pointer">
       <Link href={`/item/${item.slug}`}>
@@ -20,6 +19,12 @@ const ItemCard = ({ item }) => {
             bg: 'gray.300',
           }}
         >
+          {item.seller && (
+            <Box position={"absolute"} ml="3px">
+              <Badge colorScheme='blue' fontSize={"10px"}
+              >{item.seller.first_name} {item.seller.last_name}</Badge>
+            </Box>
+          )}
           <Image
             alt="Img Item"
             rounded={'lg'}

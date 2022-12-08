@@ -30,7 +30,7 @@ const QuestionsBuyer = () => {
 
     const { data, isLoading, isError } = useFetch(
         global && global.profile && global.profile._id
-            ? `/questions/buyer/${global.profile._id}?page=${global.pageIndex}&size=2`
+            ? `/questions/buyer/${global.profile._id}?page=${global.pageIndex}&size=4`
             : null,
         global?.profile?.token
     )

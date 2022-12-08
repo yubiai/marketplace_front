@@ -25,7 +25,9 @@ const Home = ({ items }) => {
       }
 
       shuffleArray()
-      setListRandom(newList)
+      setTimeout(() => {
+        setListRandom(newList)
+      }, 3000);
     }
   }
 
@@ -96,14 +98,16 @@ const Home = ({ items }) => {
             items={items}
           />
           {loading && (
-            <Spinner
-              thickness="4px"
-              speed="0.65s"
-              m="2em"
-              emptyColor="gray.200"
-              color="blue.500"
-              size="md"
-            />
+            <Box h="60vh">
+              <Spinner
+                thickness="4px"
+                speed="0.65s"
+                m="2em"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="md"
+              />
+            </Box>
           )}
           {listFavourites && listFavourites.length > 0 && (
             <CarrouselCards
