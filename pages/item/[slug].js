@@ -21,7 +21,6 @@ import Head from 'next/head'
 import { useGlobal } from '../../providers/globalProvider'
 import { profileService } from '../../services/profileService'
 import { log } from 'next-axiom';
-import useUser from '../../hooks/data/useUser'
 import ImagePreviewListingCard from '../../components/Cards/ImagePreviewListingCard'
 import PlayerVideo from '../../components/Utils/PlayerVideo'
 import PlayerAudio from '../../components/Utils/PlayerAudio'
