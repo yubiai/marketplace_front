@@ -44,8 +44,6 @@ const ItemById = ({ item }) => {
 
   const title = item && item.title ? `Yubiai Marketplace - ${item.title}` : "Yubiai Marketplace - Item";
 
-  const { user } = useUser();
-
   const actionToat = (title, description, status) => {
     toast({
       title,
@@ -276,7 +274,7 @@ const ItemById = ({ item }) => {
                   fontSize={'16px'}
                   fontWeight={'600'}
                   onClick={buyAndCheckoutItem}
-                  disabled={owner || !user || item.published === false || item.status != 2}
+                  disabled={owner || item.published === false || item.status != 2}
                 >
                   Buy Now
                 </Button>
