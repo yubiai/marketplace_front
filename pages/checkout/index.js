@@ -366,7 +366,7 @@ const Checkout = () => {
             </Box>
           </Center>
         </Box>
-        <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'inside'} size={"6xl"}>
+        <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'outside'} size={"6xl"}>
           <OverlayOne />
           <ModalContent bg="white" color="black">
             <ModalHeader>Terms and Conditions</ModalHeader>
