@@ -4,8 +4,9 @@ import { FaAngleDoubleRight } from 'react-icons/fa'
 import moment from 'moment';
 import Link from 'next/link';
 import ButtonNewQuestion from '../Buttons/ButtonNewQuestion';
+import ButtonNewReportQA from '../Buttons/ButtonNewReportQA';
 
-const QuestionCardListBuyer = ({ question, token }) => {
+const QuestionCardListBuyer = ({ question, profile_id, token }) => {
 
     return (
         <>
@@ -24,13 +25,14 @@ const QuestionCardListBuyer = ({ question, token }) => {
                 {question.answer && (
                     <>
                         <Divider />
-                        <Flex h={"full"} width={"full"} p="1em" bg={"gray.200"}>
+                        <Flex h={"full"} width={"full"} p="1em" padding="5px" bg={"gray.200"}>
                             <Box mt="2px">
                                 <FaAngleDoubleRight />
                             </Box>
-                            <Text ml="1em" fontSize={{ base: 'sm' }} maxW={'90%'}>
+                            <Text ml="1em" fontSize={{ base: 'sm' }} maxW={'90%'} noOfLines={2}>
                                 {question.answer} - {moment(question.dateanswer).format('DD/MM/YY')}
                             </Text>
+                            <ButtonNewReportQA reference={question._id} type={"Answer"} userId={profile_id} owner={false} token={token} />
                         </Flex>
                     </>
                 )}

@@ -80,7 +80,7 @@ const QuestionsSeller = () => {
                         {data && data.items && data.items.length > 0 && data.items.map((question, i) => {
                             return(
                                 <span key={i}>
-                                    <QuestionCardListSeller question={question} token={global?.profile?.token} />
+                                    <QuestionCardListSeller question={question} profile_id={global?.profile?._id} token={global?.profile?.token} />
                                 </span>
                             )
                         })}

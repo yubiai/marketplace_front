@@ -25,6 +25,7 @@ import ImagePreviewListingCard from '../../components/Cards/ImagePreviewListingC
 import PlayerVideo from '../../components/Utils/PlayerVideo'
 import PlayerAudio from '../../components/Utils/PlayerAudio'
 import Questions from '../../components/Layouts/Questions'
+import ButtonNewReport from '../../components/Buttons/ButtonNewReport'
 
 const ItemById = ({ item }) => {
   const global = useGlobal();
@@ -284,6 +285,7 @@ const ItemById = ({ item }) => {
             </Flex>
           </Box>
         </Flex>
+        <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} />
         <Divider />
         <Box m="1em" h="30vh">
           <Text mt="10px" fontWeight={"semibold"}>Description</Text>
