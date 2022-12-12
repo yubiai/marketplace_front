@@ -158,7 +158,7 @@ const Questions = ({ item, profile_id, token }) => {
 
                             return (
                                 <Box key={i}>
-                                    <QuestionCard question={question} />
+                                    <QuestionCard question={question} profile_id={profile_id} token={token} />
                                 </Box>
                             )
                         })}

@@ -80,7 +80,7 @@ const QuestionsBuyer = () => {
                         {data && data.items && data.items.length > 0 && data.items.map((question, i) => {
                             return(
                                 <span key={i}>
-                                    <QuestionCardListBuyer question={question} token={global?.profile?.token} />
+                                    <QuestionCardListBuyer question={question} profile_id={global?.profile?._id} token={global?.profile?.token} />
                                 </span>
                             )
                         })}

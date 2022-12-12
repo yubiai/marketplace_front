@@ -4,8 +4,9 @@ import { FaAngleDoubleRight } from 'react-icons/fa'
 import moment from 'moment';
 import Link from 'next/link';
 import ButtonNewAnswer from '../Buttons/ButtonNewAnswer';
+import ButtonNewReportQA from '../Buttons/ButtonNewReportQA';
 
-const QuestionCardListSeller = ({ question, token }) => {
+const QuestionCardListSeller = ({ question, profile_id, token }) => {
 
     return (
         <>
@@ -18,7 +19,10 @@ const QuestionCardListSeller = ({ question, token }) => {
                     <Text ml="1em">{question.itemId.price} {question.itemId.currencySymbolPrice}</Text>
                 </Flex>
                 <Divider />
-                <Text fontWeight="medium">{question.question}</Text>
+                <Flex>
+                    <Text fontWeight="medium">{question.question}</Text>
+                    <ButtonNewReportQA reference={question._id} type={"Question"} userId={profile_id} owner={false} token={token} />
+                </Flex>
                 <Divider />
                 {question.answer ? (
                     <>
