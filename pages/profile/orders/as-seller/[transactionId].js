@@ -120,7 +120,7 @@ const OrderDetail = () => {
 
     const setDealInfo = async transaction => {
       const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(transaction.transactionIndex);
-      const { timeForChallenge } = await global.yubiaiPaymentArbitrableInstance.contract.methods.settings().call();      
+      const { timeForChallenge } = await global.yubiaiPaymentArbitrableInstance.contract.methods.settings().call();
       const currentTS = Math.floor((new Date()).getTime() / 1000);
       const limitClaimTime = Math.floor(
         (parseInt(fullStatus.claimCreatedAt, 10) + parseInt(timeForChallenge, 10)) / 1000);
@@ -234,15 +234,16 @@ const OrderDetail = () => {
                   }}
                 />
               </Center>
-              <Center textAlign={"center"}>
-                {
-                  orderDetail.item &&
-                  <Box>
-                    <Text noOfLines={3} fontWeight={600}>{orderDetail.item.title}</Text>
-                    <Text>Price: {orderDetail.item.price || 0} {orderDetail.item.currencySymbolPrice}</Text>
-                  </Box>
-                }
-              </Center>
+              {
+                orderDetail.item && (
+                  <Center textAlign={"center"} noOfLines={4}>
+                    <Box width={"full"} >
+                      <Text fontWeight={600}>{orderDetail.item.title}</Text>
+                      <Text>Price: {orderDetail.item.price || 0} {orderDetail.item.currencySymbolPrice}</Text>
+                    </Box>
+                  </Center>
+                )
+              }
 
               <Center mt={{ base: '1em', md: '0px' }}>
                 <Link href={`/item/${orderDetail && orderDetail.item && orderDetail.item.slug}`}>
@@ -262,12 +263,12 @@ const OrderDetail = () => {
             <Box p="1em" color="black" bg="orange.100" mt="1em" mb="1em">
               <Flex><Text fontWeight={600}>ID: </Text> <Text>0x...{transactionMeta && transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16)}</Text></Flex>
               <Text fontWeight={600}>Status: {(deal || {}).dealStatus && statusDescMap(
-                  deal.dealStatus,
-                  deal.claimStatus,
-                  deal.claimCount,
-                  deal.maxClaimsAllowed,
-                  deal.disputeId
-                )}</Text>
+                deal.dealStatus,
+                deal.claimStatus,
+                deal.claimCount,
+                deal.maxClaimsAllowed,
+                deal.disputeId
+              )}</Text>
               {
                 transactionDate &&
                 <Text fontWeight={600}>Date: {moment(transactionDate).format('DD/MM/YYYY, h:mm:ss a')}</Text>
@@ -373,56 +374,56 @@ const OrderDetail = () => {
             <Stack mt={4} direction={'row'} spacing={2}>
               <Box w="full">
                 {(deal || {}).dealStatus === CLAIMED_STATUS && (
-                    <>
-                      <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
-                        <Box p="1em" position="relative" minHeight="170px">
-                          <Text color="black">
-                            If you agree with the claim made by the buyer, you can choose to make a refund according to the amount required.
-                          </Text>
-                          <Box position="absolute" bottom="1em" width="100%" textAlign={{ base: "center", md: "left" }}>
-                            <ButtonPayOrder
+                  <>
+                    <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
+                      <Box p="1em" position="relative" minHeight="170px">
+                        <Text color="black">
+                          If you agree with the claim made by the buyer, you can choose to make a refund according to the amount required.
+                        </Text>
+                        <Box position="absolute" bottom="1em" width="100%" textAlign={{ base: "center", md: "left" }}>
+                          <ButtonPayOrder
+                            transactionInfo={{
+                              claimId: (deal || {}).claimID,
+                              transactionHash: transactionMeta.transactionHash
+                            }}
+                            amount={transactionPayedAmount || '0'}
+                            stepsPostAction={loadOrder}
+                            toggleLoadingStatus={toggleLoadingStatus}
+                            yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                            isSeller={true}
+                          />
+                        </Box>
+                      </Box>
+                      <Box bg='orange.200' p="1em">
+                        <Text color="black">
+                          {
+                            !isLateToChallenge &&
+                            "If you think there is nothing wrong with the service provided, you can dispute the buyer's claim. Participating in the arbitration will have an extra cost (<amount of cost>), and the status of that decision will be taken and communicated in the next few days by a decentralized jury external to Yubiai."
+                          }
+                          {
+                            isLateToChallenge &&
+                            "You cannot challenge the claim of the order because the status of this transaction has expired."
+                          }
+                        </Text>
+                        {
+                          !isLateToChallenge &&
+                          <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
+                            <ButtonChallengeClaim
                               transactionInfo={{
                                 claimId: (deal || {}).claimID,
                                 transactionHash: transactionMeta.transactionHash
                               }}
-                              amount={transactionPayedAmount || '0'}
                               stepsPostAction={loadOrder}
                               toggleLoadingStatus={toggleLoadingStatus}
                               yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                              isSeller={true}
                             />
                           </Box>
-                        </Box>
-                        <Box bg='orange.200' p="1em">
-                          <Text color="black">
-                            {
-                              !isLateToChallenge &&
-                              "If you think there is nothing wrong with the service provided, you can dispute the buyer's claim. Participating in the arbitration will have an extra cost (<amount of cost>), and the status of that decision will be taken and communicated in the next few days by a decentralized jury external to Yubiai."
-                            }
-                            {
-                              isLateToChallenge &&
-                              "You cannot challenge the claim of the order because the status of this transaction has expired."
-                            }
-                          </Text>
-                          {
-                            !isLateToChallenge &&
-                            <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
-                              <ButtonChallengeClaim
-                                transactionInfo={{
-                                  claimId: (deal || {}).claimID,
-                                  transactionHash: transactionMeta.transactionHash
-                                }}
-                                stepsPostAction={loadOrder}
-                                toggleLoadingStatus={toggleLoadingStatus}
-                                yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                              />
-                            </Box>
-                          }
-                        </Box>
-                      </SimpleGrid>
+                        }
+                      </Box>
+                    </SimpleGrid>
 
-                    </>
-                  )}
+                  </>
+                )}
               </Box>
             </Stack>
           </Box>

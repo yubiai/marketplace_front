@@ -1,3 +1,4 @@
+import { WarningTwoIcon } from "@chakra-ui/icons";
 import {
     Button, useDisclosure, Modal,
     ModalOverlay,
@@ -13,11 +14,11 @@ import {
     Textarea,
     useToast,
     Spinner,
-    Box
+    Box,
+    Tooltip
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaMinusCircle } from "react-icons/fa";
 import { reportService } from "../../services/reportService";
 
 const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
@@ -26,7 +27,7 @@ const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
     const [loading, setLoading] = useState(false);
     const toast = useToast();
 
-    const onSubmit = async(data) => {
+    const onSubmit = async (data) => {
 
         setLoading(true);
         const newData = {
@@ -51,7 +52,7 @@ const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
                 isClosable: true
             });
             return;
-        } catch(err){
+        } catch (err) {
             console.error(err);
             toast({
                 title: 'Report',
@@ -69,17 +70,22 @@ const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
         <>
             {userId && token && !owner && !loading ? (
                 <Box>
-                    <Button
-                    mb="1em"
-                    backgroundColor={'red.400'}
-                    color={'white'}
-                    rounded={'full'}
-                    cursor={'pointer'}
-                    onClick={() => onOpen()}
-                    float={"right"}
-                >
-                    <FaMinusCircle />
-                </Button>
+                    <Tooltip label="Report" aria-label='Report' placement='top' bg={"#00abd1"} color={"white"}>
+                        <Button
+                            mb="1em"
+                            backgroundColor={'red.400'}
+                            color={'white'}
+                            rounded={'full'}
+                            cursor={'pointer'}
+                            onClick={() => onOpen()}
+                            float={"right"}
+                            _hover={{
+                                backgroundColor: 'red.200'
+                            }}
+                        >
+                            <WarningTwoIcon />
+                        </Button>
+                    </Tooltip>
                 </Box>
             ) : null}
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>

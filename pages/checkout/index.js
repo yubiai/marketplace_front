@@ -53,7 +53,7 @@ const Checkout = () => {
   const [transactionData, setTransactionData] = useState({});
   const [operationInProgress, setOperationInProgress] = useState(false);
   const [term, setTerm] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [loadingTerm, setLoadingTerm] = useState(false);
 
   const { user, loggedOut } = useUser()
@@ -81,7 +81,6 @@ const Checkout = () => {
   const verifyTyC = async () => {
 
     try {
-      setLoading(true)
       // Get Last Terms
       const lastTerms = await termService.getTermsLast(global.profile && global.profile.token);
       // Get Profile Info

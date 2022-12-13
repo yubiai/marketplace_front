@@ -1,5 +1,5 @@
 import { Flex, Input, Button, Box, Text, VStack, Spinner, Center } from '@chakra-ui/react'
-import { AttachmentIcon } from '@chakra-ui/icons'
+import { AttachmentIcon, ChevronRightIcon } from '@chakra-ui/icons'
 import { useRef, useState } from 'react'
 
 // Form
@@ -112,13 +112,15 @@ const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFil
           onChange={verifyFiles}
           style={{ display: 'none' }}
         />
-        <Button onClick={() => inputRef.current.click()}
+        <Button backgroundColor={'#00abd1'}
+          color={'white'}
+          rounded={'full'} onClick={() => inputRef.current.click()}
         >
-          <AttachmentIcon w={6} h={6} />
+          <AttachmentIcon w={4} h={4} />
         </Button>
       </form>
       <VStack
-        spacing={4}
+        spacing={5}
         align='stretch'
         width={"100%"}
       >
@@ -167,19 +169,18 @@ const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFil
         )}
       </VStack>
       <Button
-        bg="black"
-        color="white"
-        borderRadius="none"
+        backgroundColor={'#00abd1'}
+        color={'white'}
+        rounded={'full'}
         _hover={{
-          bg: 'white',
-          color: 'black',
-          border: '1px solid black',
+          bg: 'blue.300',
+          color: 'white'
         }}
         disabled={inputMessage.trim().length <= 0 && previewFiles.length === 0 || loadingSubmit === true}
         onClick={handleSendMessage}
         type="submit"
       >
-        Send
+        <ChevronRightIcon />
       </Button>
     </Flex>
   )
