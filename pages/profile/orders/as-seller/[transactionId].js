@@ -32,6 +32,7 @@ import {
   Flex,
   Breadcrumb,
   BreadcrumbItem,
+  useToast,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
 import { StatusOrderByState, CLAIMED_STATUS, statusDescMap } from '../../../../components/Infos/StatusOrder';
@@ -44,6 +45,7 @@ const OrderDetail = () => {
   const router = useRouter();
   const global = useGlobal();
   const dispatch = useDispatchGlobal();
+  const toast = useToast();
   const { transactionId } = router.query;
 
   /**
@@ -77,6 +79,23 @@ const OrderDetail = () => {
       transactionId, global.profile.token);
     const { data } = response;
     const orderInfo = data.result;
+
+    // Check if it is the buyer if not outside
+    const userEthAddress = global && global.profile && global.profile.eth_address.toUpperCase();
+    const userSeller = orderInfo && orderInfo.userSeller && orderInfo.userSeller.toUpperCase();
+
+    if (userEthAddress != userSeller) {
+      console.error('Not authorized or the order does not exist.')
+      toast({
+        title: 'Order',
+        description: 'Not authorized or the order does not exist.',
+        position: 'top-right',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+      return router.replace('/logout');
+    }
 
     const { transaction } = await loadOrderData(
       orderInfo.item, global.currencyPriceList, true);

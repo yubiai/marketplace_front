@@ -32,6 +32,7 @@ import {
   Flex,
   Breadcrumb,
   BreadcrumbItem,
+  useToast,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
 import {
@@ -48,6 +49,7 @@ const OrderDetail = () => {
   const router = useRouter();
   const global = useGlobal();
   const dispatch = useDispatchGlobal();
+  const toast = useToast();
   const { transactionId } = router.query;
 
   /**
@@ -81,6 +83,23 @@ const OrderDetail = () => {
       transactionId, global.profile.token);
     const { data } = response;
     const orderInfo = data.result;
+
+    // Check if it is the buyer if not outside
+    const userEthAddress = global && global.profile && global.profile.eth_address.toUpperCase();
+    const userBuyer = orderInfo && orderInfo.userBuyer && orderInfo.userBuyer.toUpperCase();
+
+    if (userEthAddress != userBuyer) {
+      console.error('Not authorized or the order does not exist.')
+      toast({
+        title: 'Order',
+        description: 'Not authorized or the order does not exist.',
+        position: 'top-right',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+      return router.replace('/logout');
+    }
 
     const { transaction } = await loadOrderData(
       orderInfo.item, global.currencyPriceList, true);
@@ -360,7 +379,7 @@ const OrderDetail = () => {
                         {transactionData && transactionPayedAmount && (
                           <>
                             <Text color="black">
-                            Always confirm that you have received the seller is service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.
+                              Always confirm that you have received the seller is service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.
                             </Text>
                             <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
                               <ButtonPayOrder
