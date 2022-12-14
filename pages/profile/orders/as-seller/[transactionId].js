@@ -148,6 +148,13 @@ const OrderDetail = () => {
     }
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance])
 
+  const [markDone, setMarkDone] = useState(false);
+  const onMarkDone = () => {
+    console.log("Mark Job as Done")
+    setMarkDone(true)
+    return
+  }
+
   if (!orderDetail) return <Loading />;
   return (
     <>
@@ -363,6 +370,24 @@ const OrderDetail = () => {
               )}
             </Box>
 
+            {
+              (deal || {}).dealStatus !== CLAIMED_STATUS &&
+              <>
+                <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+                <Text fontWeight={600} fontSize="2xl">Actions</Text>
+                <Button
+                  mt="1em"
+                  backgroundColor={'#00abd1'}
+                  color={'white'}
+                  rounded={'full'}
+                  cursor={'pointer'}
+                  onClick={() => onMarkDone()}
+                  isDisabled={markDone}
+                >
+                  Mark job as done
+                </Button>
+              </>
+            }
             {
               (deal || {}).dealStatus === CLAIMED_STATUS &&
               <>
