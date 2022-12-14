@@ -27,15 +27,16 @@ const Home = ({ items }) => {
       shuffleArray()
       setTimeout(() => {
         setListRandom(newList)
+        setLoading(false)
       }, 3000);
     }
   }
 
   const initFavourites = async () => {
+    setLoading(true)
     setListFavourites(null)
     if (global && global.profile && global.profile._id) {
       try {
-        setLoading(true)
         const result = await profileService.getFavourites(global.profile._id, "30", global?.profile?.token);
         const favourites = result.data.items;
 

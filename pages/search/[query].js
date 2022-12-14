@@ -1,7 +1,7 @@
 import {
   Container,
   Flex,
-  SimpleGrid,
+  Grid,
   Text,
 } from '@chakra-ui/react'
 import Loading from '../../components/Spinners/Loading'
@@ -16,13 +16,15 @@ const Search = () => {
   const router = useRouter()
   const { query } = router.query
 
-  const { data: items, isLoading, isError } = useFetch(`/items/search?q=${query}`)
+  const { data, isLoading, isError } = useFetch(`/items/search?q=${query}`)
 
-  if (isError || !items) {
+  if (isError) {
     return <Error error={isError?.message} />
   }
 
   if (isLoading) return <Loading />
+
+  if (!data) return <Error error={"No result"} />
 
   return (
     <>
@@ -35,23 +37,26 @@ const Search = () => {
       </Head>
       <Container
         maxW="6xl"
-        h={{ base: 'full', sm: 'full', md: 'full', lg: '100vh', xl: '100vh' }}
+        h={{
+          base: data && data.length > 1 ? 'full' : '80vh',
+          md: data && data.length > 4 ? 'full' : '100vh'
+        }}
         display={'flex'}
         flexDirection={'column'}
       >
         <Flex alignItems={'center'} mt="1em">
-          {items && items.length > 0 && (
+          {data && data.length > 0 && (
             <Text fontWeight={'bold'}>Search results</Text>
           )}
         </Flex>
-        <SimpleGrid minChildWidth="250px" spacing="2px">
-        {items && items.length === 0 && <Warm message="Not Result." />}
-          {items &&
-            items.length > 0 &&
-            items.map((item, i) => {
-              return <ItemCardLg key={i} item={item} />
-            })}
-        </SimpleGrid>
+        <Grid
+          templateRows={{ base: 'repeat(1, 1fr)', md: 'none' }}
+          templateColumns={{ base: 'none', md: 'repeat(4, 1fr)' }}
+          gap={1}
+        >        
+        {data && data.length === 0 && <Warm message="Not Result." />}
+        {data && data.length > 0 && data.map((item, i) => { return <ItemCardLg key={i} item={item} /> })}
+        </Grid>
       </Container>
     </>
   )

@@ -5,16 +5,28 @@ import { useEffect, useState } from 'react'
 
 const SearchBar = () => {
   const router = useRouter()
-  const [query, setQuery] = useState("")
+  const [query, setQuery] = useState("");
+
+  const onSearch = (search) => {
+    let verifyChart = search.trim();
+    if (verifyChart[0] === "#" || verifyChart[0] === "%" || verifyChart[0] === "&" || verifyChart[0] === "?") {
+      verifyChart = verifyChart.substring(1)
+      setQuery(verifyChart);
+      return
+    }
+    setQuery(search);
+    return
+  }
 
   const handleSearch = () => {
     if (query !== "") {
-      router.push(`/search/${query}`)
+      router.push(`/search/${query.trim()}`)
     }
   }
 
   const clearQuery = () => {
     setQuery("")
+    router.push("/")
   }
 
   useEffect(() => {
@@ -48,7 +60,7 @@ const SearchBar = () => {
           size="md"
           placeholder={`Search in Yubiai`}
           _placeholder={{ color: 'gray.400' }}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={(e) => onSearch(e.target.value)}
           value={query}
           onKeyPress={(e) => {
             if (e.key === 'Enter') {
