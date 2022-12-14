@@ -360,7 +360,7 @@ const OrderDetail = () => {
                         {transactionData && transactionPayedAmount && (
                           <>
                             <Text color="black">
-                            Always confirm that you have received the buyer’s service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.
+                            Always confirm that you have received the seller is service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.
                             </Text>
                             <Box mt="1em" textAlign={{ base: "center", md: "left" }}>
                               <ButtonPayOrder

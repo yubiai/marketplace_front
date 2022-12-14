@@ -23,7 +23,7 @@ const UserInfo = ({ profile, balanceToken }) => {
         </Box>
         <Box w="66%" h="60px" p="5px">
           <Stack spacing={1}>
-            <Text fontSize={'15px'}>{profile && profile.first_name + (" ") + profile.last_name} </Text>
+            <Text fontSize={'15px'} fontWeight="semibold">{profile && profile.first_name + (" ") + profile.last_name} </Text>
             <Flex>
 
               {profile.permission === 6 ? (

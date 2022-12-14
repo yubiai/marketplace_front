@@ -13,10 +13,11 @@ import {
   ListItem,
   ListIcon,
   Box,
+  Text,
 } from '@chakra-ui/react'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { FiBookOpen, FiMoreVertical } from 'react-icons/fi'
+import { FiMoreVertical } from 'react-icons/fi'
 import UserInfo from '../Infos/UserInfo'
 import { FaUserCircle } from 'react-icons/fa'
 import { BsFillBellFill } from 'react-icons/bs'
@@ -28,6 +29,10 @@ import {
   MdArrowDownward,
   MdHome,
   MdDesignServices,
+  MdShoppingBasket,
+  MdShoppingBag,
+  MdForum,
+  MdOutlinePowerSettingsNew
 } from 'react-icons/md'
 import { useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
@@ -207,8 +212,36 @@ const DrawerMenu = () => {
                         bg="transparent"
                         justifyContent={'left'}
                       >
-                        <ListIcon as={FiBookOpen} />
+                        <ListIcon as={MdForum} />
                         Questions
+                      </Button>
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                    <Link href="/profile/orders">
+                      <Button
+                        onClick={() => onClose()}
+                        className="step-favourites"
+                        w="full"
+                        bg="transparent"
+                        justifyContent={'left'}
+                      >
+                        <ListIcon as={MdShoppingBag} />
+                        Orders
+                      </Button>
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                    <Link href="/profile/sales">
+                      <Button
+                        onClick={() => onClose()}
+                        className="step-favourites"
+                        w="full"
+                        bg="transparent"
+                        justifyContent={'left'}
+                      >
+                        <ListIcon as={MdShoppingBasket} />
+                        Sales
                       </Button>
                     </Link>
                   </ListItem>
@@ -248,7 +281,7 @@ const DrawerMenu = () => {
 
           <DrawerFooter>
             {statusLogin && (
-              <Button onClick={() => router.push('/logout')}>Disconnect</Button>
+              <Button onClick={() => router.push('/logout')}><MdOutlinePowerSettingsNew /> <Text fontWeight={"bold"} ml="5px">Disconnect</Text></Button>
             )}
           </DrawerFooter>
         </DrawerContent>

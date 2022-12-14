@@ -23,10 +23,12 @@ import { useGlobal } from '../../providers/globalProvider'
 import NotiCard from '../Cards/NotiCard'
 import useFetch from '../../hooks/data/useFetch'
 import ButtonMarkAllAsRead from '../Buttons/ButtonMarkAllAsRead'
+import { useRouter } from 'next/router'
 
 const Notification = () => {
   const global = useGlobal();
   const initRef = useRef();
+  const router = useRouter();
 
   const { data: notis, isLoading, isError, mutate } = useFetch(
     global && global.profile && global.profile._id
@@ -62,18 +64,27 @@ const Notification = () => {
             }
             return (
               <>
-                <PopoverTrigger>
-                  <Button colorScheme="transparent" className='step-notifications'
-                    isDisabled={notis && notis.length === 0}>
-                    <BsFillBellFill color="white" />
-                    {notis && notis && notis.length > 0 && (
+                {notis && notis && notis.length > 0 && (
+                  <PopoverTrigger>
+                    <Button colorScheme="transparent" className='step-notifications'
+                      _hover={{ bg: '#1C538A', color: 'gray.200' }}
+                      _expanded={{ bg: 'blue.400' }}
+                      _focus={{ boxShadow: 'outline' }}>
+                      <BsFillBellFill color="white" />
                       <Box position={'absolute'} top={'-2px'} right={'6px'}>
                         <Badge colorScheme="green" fontSize="10px">
                           New                  </Badge>
                       </Box>
-                    )}
+                    </Button>
+                  </PopoverTrigger>
+                )}
+                {!notis || notis.length === 0 && (
+                  <Button onClick={() => router.push("/profile/notifications")} colorScheme="transparent" className='step-notifications'
+                    _hover={{ bg: '#1C538A', color: 'gray.200' }}
+                    _focus={{ boxShadow: 'outline' }}>
+                    <BsFillBellFill color="white" />
                   </Button>
-                </PopoverTrigger>
+                )}
                 <Portal>
                   <PopoverContent>
                     <PopoverHeader fontWeight={"semibold"}>
