@@ -74,11 +74,11 @@ const ProfileEdit = () => {
       })
   }
 
-  if (isLoading || !dataProfile) return <Loading />
-
   if (isError) {
     return <Error error={isError?.message} />
   }
+
+  if (isLoading || !dataProfile) return <Loading />
 
   return (
     <>
@@ -161,7 +161,7 @@ const ProfileEdit = () => {
               <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.push('/profile')}>
                 Back
               </Button>
-              <Button bg="#00abd1" color="white" _hover={{ bg: "blue.400", color: "black" }} type="submit">
+              <Button bg="#00abd1" color="white" _hover={{ bg: "blue.300" }} type="submit">
                 Save
               </Button>
             </Box>

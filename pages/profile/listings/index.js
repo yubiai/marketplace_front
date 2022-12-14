@@ -42,11 +42,11 @@ const Listings = () => {
     global?.profile?.token
   )
 
-  if (isLoading && !data || !user) return <Loading />
-
   if (isError) {
     return <Error error={isError?.message} />
   }
+
+  if (isLoading && !data || !user) return <Loading />
 
   return (
     <>

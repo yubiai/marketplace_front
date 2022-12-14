@@ -16,7 +16,6 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import InfoUserModal from '../../components/Modals/InfoUserModal'
 import { useDispatchGlobal } from '../../providers/globalProvider'
-import Loading from '../../components/Spinners/Loading'
 import Head from 'next/head'
 import { useGlobal } from '../../providers/globalProvider'
 import { profileService } from '../../services/profileService'
@@ -26,6 +25,7 @@ import PlayerVideo from '../../components/Utils/PlayerVideo'
 import PlayerAudio from '../../components/Utils/PlayerAudio'
 import Questions from '../../components/Layouts/Questions'
 import ButtonNewReport from '../../components/Buttons/ButtonNewReport'
+import Error from '../../components/Infos/Error'
 
 const ItemById = ({ item }) => {
   const global = useGlobal();
@@ -153,7 +153,7 @@ const ItemById = ({ item }) => {
     router.push('/checkout')
   }
 
-  if (!item) return <Loading />
+  if (!item) return <Error error={"Error getting data."} />
 
   return (
     <>

@@ -206,11 +206,11 @@ const NewListing = () => {
     }
   }
 
-  if (isLoading || !user) return <Loading />
-
   if (isError) {
     return <Error error={isError?.message} />
   }
+
+  if (isLoading || !user) return <Loading />
 
   return (
     <>

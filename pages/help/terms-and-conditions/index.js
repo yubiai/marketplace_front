@@ -3,13 +3,11 @@ import Head from "next/head";
 import axios from 'axios'
 import moment from 'moment'
 import RichTextReadOnly from "../../../components/Utils/richTextReadOnly";
-import Loading from "../../../components/Spinners/Loading";
+import Error from '../../../components/Infos/Error'
 
 const TermsAndConditions = ({ terms }) => {
 
-    if(!terms) return (
-        <Loading />
-    )
+    if(!terms) return <Error error={"Error getting term."} />
 
     return (
         <>

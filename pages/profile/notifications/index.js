@@ -69,11 +69,11 @@ const Notifications = () => {
     initialMutate();
   }, [global.notificationsActive])
 
-  if (isLoading || !user || !notis) return <Loading />
-
   if (isError) {
     return <Error error={isError?.message} />
   }
+
+  if (isLoading || !user || !notis) return <Loading />
 
   return (
     <>

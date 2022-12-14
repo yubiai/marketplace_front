@@ -18,12 +18,11 @@ const Search = () => {
 
   const { data: items, isLoading, isError } = useFetch(`/items/search?q=${query}`)
 
-  if (isLoading) return <Loading />
-
-  if (isError) {
+  if (isError || !items) {
     return <Error error={isError?.message} />
   }
 
+  if (isLoading) return <Loading />
 
   return (
     <>

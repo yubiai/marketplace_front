@@ -35,11 +35,11 @@ const QuestionsSeller = () => {
         global?.profile?.token
     )
 
-    if (isLoading || !data) return <Loading />
-
     if (isError) {
         return <Error error={isError?.message} />
     }
+
+    if (isLoading || !data) return <Loading />
 
     return (
         <>

@@ -53,7 +53,9 @@ const MyInfoPrivateCard = ({ dataProfile }) => {
             </Text>
             <Divider />
             <Box textAlign={"center"}>
-            <Button bg="#00ABD1" color="white" w="10em" onClick={() => router.push("/profile/edit")}>Edit Profile</Button>
+              <Button bg="#00ABD1" color="white" w="10em" _hover={{
+                bg: "blue.300"
+              }} onClick={() => router.push("/profile/edit")}>Edit Profile</Button>
             </Box>
           </Stack>
         </Stack>

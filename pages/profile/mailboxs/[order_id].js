@@ -150,11 +150,11 @@ const MailBoxs = () => {
 
   }
 
-  if (isLoading || !user ) return <Loading />
-
-  if (isError || !channel) {
+  if (isError) {
     return <Error error={isError?.message} />
   }
+
+  if (isLoading || !user ) return <Loading />
 
   return (
     <>

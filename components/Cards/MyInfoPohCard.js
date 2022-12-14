@@ -67,7 +67,9 @@ const MyInfoPohCard = ({ dataProfile, balance }) => {
                   }
                   isExternal
                 >
-                  <Button bg="#00ABD1" color="white">
+                  <Button bg="#00ABD1" color="white" _hover={{
+                    bg: "blue.300"
+                  }}>
                     My PoH Profile
                   </Button>
                 </Link>
