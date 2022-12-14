@@ -32,7 +32,8 @@ import {
   MdShoppingBasket,
   MdShoppingBag,
   MdForum,
-  MdOutlinePowerSettingsNew
+  MdOutlinePowerSettingsNew,
+  MdArticle
 } from 'react-icons/md'
 import { useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
@@ -200,6 +201,20 @@ const DrawerMenu = () => {
                       >
                         <ListIcon as={MdSell} />
                         New Listing
+                      </Button>
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                    <Link href="/profile/listings">
+                      <Button
+                        className='step-sell'
+                        onClick={() => onClose()}
+                        w="full"
+                        bg="transparent"
+                        justifyContent={'left'}
+                      >
+                        <ListIcon as={MdArticle} />
+                        Listings
                       </Button>
                     </Link>
                   </ListItem>

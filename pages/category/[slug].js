@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, GridItem, Text } from '@chakra-ui/react'
+import { Box, Button, Center, Flex, Grid, Heading, Text } from '@chakra-ui/react'
 import SubCategoriesMenu from '../../components/Menus/SubCategoriesMenu'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import ItemCardLg from '../../components/Cards/ItemCardLg'
@@ -6,16 +6,18 @@ import axios from 'axios'
 import Loading from '../../components/Spinners/Loading'
 import Head from 'next/head'
 import Paginations from '../../components/Layouts/Paginations'
-import useSWR from 'swr'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import Error from '../../components/Infos/Error'
 import { useEffect } from 'react'
+import useFetch from '../../hooks/data/useFetch'
+import { useRouter } from 'next/router'
 
 const ItemsByCategory = ({ response, category }) => {
-  const global = useGlobal()
-  const dispatch = useDispatchGlobal()
+  const global = useGlobal();
+  const dispatch = useDispatchGlobal();
+  const router = useRouter();
 
-  const { data, error } = useSWR(
+  const { data, isLoading, isError } = useFetch(
     `/items/?page=${global.pageIndex}&size=8&categoryId=${category ? category._id : ''
     }&subcategoryId=${global.subCategory ? global.subCategory : ''}`,
     {
@@ -40,23 +42,26 @@ const ItemsByCategory = ({ response, category }) => {
     return word && word[0].toUpperCase() + word.slice(1)
   }
 
-  if (!data || !category) return <Loading />
-
-  if (error) {
-    return <Error error={error?.message} />
+  if (isError) {
+    return <Error error={"Error getting data."} />
   }
+
+  if (!data || isLoading) return <Loading />
 
   return (
     <>
       <Head>
-        <title>Yubiai Marketplace - {category.title}</title>
+        <title>Yubiai Marketplace - {category && category.title}</title>
       </Head>
-      <SubCategoriesMenu category={category._id}>
+      <SubCategoriesMenu category={category && category._id}>
         <Box
+          maxW="6xl"
           h={{
-            base: data && data.items.length > 1 ? 'full' : '80vh',
-            md: data && data.items.length > 4 ? 'full' : '100vh',
+            base: data && data.items && data.items.length > 1 ? 'full' : '80vh',
+            md: data && data.items && data.items.length > 4 ? 'full' : '100vh'
           }}
+          display={'flex'}
+          flexDirection={'column'}
         >
           <Flex alignItems={'center'}>
             <Text fontWeight={'bold'}>Categories</Text>
@@ -66,8 +71,26 @@ const ItemsByCategory = ({ response, category }) => {
             </Text>
             {/*<MdKeyboardArrowRight />
            <Text fontWeight={'bold'}>{global.subCategory}</Text>
- */}{' '}
+            */}{' '}
           </Flex>
+          {data && data.items.length === 0 && (
+            <>
+              <Center>
+                <Heading mt="5em">There is no item published in this subcategory.</Heading>
+              </Center>
+              <Center>
+                <Button
+                  backgroundColor={'#00abd1'}
+                  color={'white'}
+                  rounded={'full'}
+                  m="1em"
+                  onClick={() => router.push('/')}
+                >
+                  Back
+                </Button>
+              </Center>
+            </>
+          )}
           <Grid
             templateRows={{ base: 'repeat(1, 1fr)', md: 'none' }}
             templateColumns={{ base: 'none', md: 'repeat(4, 1fr)' }}
@@ -75,19 +98,14 @@ const ItemsByCategory = ({ response, category }) => {
           >
             {data &&
               data.items.length > 0 &&
-              data.items.map((item, i) => (
-                <GridItem w="100%" h="100%" key={i}>
-                  <ItemCardLg item={item} />
-                </GridItem>
-              ))}
-            {data && data.items.length === 0 && (
-              <Text mt="1em">
-                There is no item published in this subcategory
-              </Text>
-            )}
+              data.items.map((item, i) => {
+                return (
+                  <ItemCardLg key={i} item={item} />
+                )
+              })}
           </Grid>
 
-          <Paginations data={data} />
+          <Paginations data={data ? data : null} />
         </Box>
       </SubCategoriesMenu>
     </>

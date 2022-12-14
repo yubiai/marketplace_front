@@ -11,33 +11,28 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-  FiMenu,
-  FiBattery,
-  FiBell,
-  FiBookOpen
+  FiMenu
 } from 'react-icons/fi'
 import Link from 'next/link'
+import { FaUserCircle } from 'react-icons/fa'
+import { BsFillBellFill } from 'react-icons/bs'
+import { MdArticle, MdFavorite, MdForum, MdSell, MdShoppingBag, MdShoppingBasket } from 'react-icons/md'
 
 const LinkItems = [
-  { name: 'Profile', icon: FiHome, url: '/profile' },
-  { name: 'New Listing', icon: FiSettings, url: '/listing/new' },
-  { name: 'Notifications', icon: FiBell, url: '/profile/notifications' },
-  { name: 'Listings', icon: FiTrendingUp, url: '/profile/listings' },
-  { name: 'Orders', icon: FiBattery, url: '/profile/orders' },
-  { name: 'Sales', icon: FiCompass, url: '/profile/orders/sales' },
-  { name: 'Favourites', icon: FiStar, url: '/profile/favourites' },
-  { name: 'Questions', icon: FiBookOpen, url: '/profile/questions' }
+  { name: 'Profile', icon: FaUserCircle, url: '/profile' },
+  { name: 'Notifications', icon: BsFillBellFill, url: '/profile/notifications' },
+  { name: 'New Listing', icon: MdSell, url: '/listing/new' },
+  { name: 'Listings', icon: MdArticle, url: '/profile/listings' },
+  { name: 'Questions', icon: MdForum, url: '/profile/questions' },
+  { name: 'Orders', icon: MdShoppingBag, url: '/profile/orders' },
+  { name: 'Sales', icon: MdShoppingBasket, url: '/profile/orders/sales' },
+  { name: 'Favourites', icon: MdFavorite, url: '/profile/favourites' },
 ]
 
 export default function ProfileMenu({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
-    <Box minH={{base: "full", md: "85vh"}} bg={'gray.100'}>
+    <Box minH={{ base: "full", md: "85vh" }} bg={'gray.100'}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
@@ -77,7 +72,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" color="black" fontFamily="OpenSans, sans-serif" fontWeight="bold">
-          My account
+          Menu
         </Text>
         <CloseButton color="black" display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
@@ -148,7 +143,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       />
 
       <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
-        My account
+        Menu
       </Text>
     </Flex>
   )

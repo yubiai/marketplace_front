@@ -15,7 +15,7 @@ import { useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
 import { useRouter } from 'next/router'
 import { BsFillBellFill } from 'react-icons/bs'
-import { MdFavorite, MdForum, MdHelp, MdOutlinePowerSettingsNew, MdSell, MdShoppingBag, MdShoppingBasket } from 'react-icons/md'
+import { MdArticle, MdFavorite, MdForum, MdHelp, MdOutlinePowerSettingsNew, MdSell, MdShoppingBag, MdShoppingBasket } from 'react-icons/md'
 
 const UserMenu = () => {
   const router = useRouter()
@@ -63,8 +63,11 @@ const UserMenu = () => {
           <Link href="/profile/notifications">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}><BsFillBellFill /> <Text fontWeight={"bold"} ml="5px">Notifications</Text></MenuItem>
           </Link>
-          <Link href="/profile/listings">
+          <Link href="/listing/new">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdSell /> <Text fontWeight={"bold"} ml="5px">New Listing</Text></MenuItem>
+          </Link>
+          <Link href="/profile/listings">
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdArticle /> <Text fontWeight={"bold"} ml="5px">Listings</Text></MenuItem>
           </Link>
           <Link href="/profile/questions">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdForum /> <Text fontWeight={"bold"} ml="5px">Questions</Text></MenuItem>
