@@ -232,6 +232,18 @@ const NewEvidence = () => {
   // Submit
   // Form Submit Preview
   const onSubmit = async (data) => {
+    if (!previewFiles.length) {
+      console.error('Dispute file is required');
+      setErrorMsg('Dispute file is required');
+      return;
+    }
+
+    if (!selectedMsg.length) {
+      console.error('Message is required');
+      setErrorMsg('Message is required');
+      return;
+    }
+
     const form = new FormData();
     form.append('title', data.title)
     form.append('description', data.description)
@@ -417,7 +429,7 @@ const NewEvidence = () => {
             />
             <Button bg="gray.500" color="white" onClick={() => inputRef.current.click()} mt="1em"
             >
-              <AttachmentIcon w={6} h={6} m="4px" /> Attach files
+              <AttachmentIcon w={6} h={6} m="4px" /> Attach files*
             </Button>
             <Divider />
             <Flex overflowY="auto" width={"full"} mt="1em"
@@ -445,7 +457,7 @@ const NewEvidence = () => {
           <Text color="red">{errorMsg && errorMsg}</Text>
           <Box float={'right'} m="2em">
             <Button bg="#00abd1" color="white" type="submit" form="hook-form">
-              Preview & Submit
+              Preview &amp; Submit
             </Button>
           </Box>
         </form>
