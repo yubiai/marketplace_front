@@ -39,11 +39,14 @@ const ButtonYB = {
 
 const config = {
   initialColorMode: "light",
-  useSystemColorMode: false,
+  useSystemColorMode: false
 };
 
 const theme = extendTheme({
   config,
+  fontWeights: {
+    medium: 400,
+  },
   styles: {
     global: () => ({
       body: {

@@ -58,34 +58,34 @@ const UserMenu = () => {
 
           <Link href="/profile">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}>
-            <FaUserCircle /> <Text fontWeight={"bold"} ml="5px">Profile</Text></MenuItem>
+            <FaUserCircle /> <Text fontWeight={"medium"} ml="5px">Profile</Text></MenuItem>
           </Link>
           <Link href="/profile/notifications">
-            <MenuItem color="black" _focus={{ bg: "gray.200" }}><BsFillBellFill /> <Text fontWeight={"bold"} ml="5px">Notifications</Text></MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}><BsFillBellFill /> <Text fontWeight={"medium"} ml="5px">Notifications</Text></MenuItem>
           </Link>
           <Link href="/listing/new">
-            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdSell /> <Text fontWeight={"bold"} ml="5px">New Listing</Text></MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdSell /> <Text fontWeight={"medium"} ml="5px">New Listing</Text></MenuItem>
           </Link>
           <Link href="/profile/listings">
-            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdArticle /> <Text fontWeight={"bold"} ml="5px">Listings</Text></MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdArticle /> <Text fontWeight={"medium"} ml="5px">Listings</Text></MenuItem>
           </Link>
           <Link href="/profile/questions">
-            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdForum /> <Text fontWeight={"bold"} ml="5px">Questions</Text></MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdForum /> <Text fontWeight={"medium"} ml="5px">Questions</Text></MenuItem>
           </Link>
           <Link href="/profile/orders">
-            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdShoppingBag /> <Text fontWeight={"bold"} ml="5px">Orders</Text></MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdShoppingBag /> <Text fontWeight={"medium"} ml="5px">Orders</Text></MenuItem>
           </Link>
           <Link href="/profile/orders/sales">
-            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdShoppingBasket /> <Text fontWeight={"bold"} ml="5px">Sales</Text></MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdShoppingBasket /> <Text fontWeight={"medium"} ml="5px">Sales</Text></MenuItem>
           </Link>
           <Link href="/profile/favourites">
-            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdFavorite /> <Text fontWeight={"bold"} ml="5px">Favourites</Text></MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdFavorite /> <Text fontWeight={"medium"} ml="5px">Favourites</Text></MenuItem>
           </Link>
           <Link href="/help">
-            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdHelp /> <Text fontWeight={"bold"} ml="5px">Help</Text></MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdHelp /> <Text fontWeight={"medium"} ml="5px">Help</Text></MenuItem>
           </Link>
           <span onClick={() => router.push('/logout')}>
-            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdOutlinePowerSettingsNew /> <Text fontWeight={"bold"} ml="5px">Disconnect</Text></MenuItem>
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdOutlinePowerSettingsNew /> <Text fontWeight={"medium"} ml="5px">Disconnect</Text></MenuItem>
           </span>
         </MenuList>
       </Portal>
