@@ -162,6 +162,7 @@ export default class YubiaiPaymentArbitrable {
 
     return {
       dealStatus: dealInfo.state,
+      dealCreatedAt: parseInt((dealInfo || {}).createdAt, 10),
       claimID: dealInfo.currentClaim,
       claimStatus: (claimInfo || {}).ruling,
       claimCreatedAt: parseInt((claimInfo || {}).createdAt, 10),

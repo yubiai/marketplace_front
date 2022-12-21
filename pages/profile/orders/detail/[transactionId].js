@@ -117,7 +117,7 @@ const OrderDetail = () => {
     const currentTS = Math.floor((new Date()).getTime() / 1000);
     setDeal(fullStatus);
     setIsDealEnabledToClaim(
-      currentTS >= fullStatus.claimCreatedAt + fullStatus.timeForClaim);
+      currentTS >= fullStatus.dealCreatedAt + fullStatus.timeForService);
   }
 
   const toggleLoadingStatus = status => {
