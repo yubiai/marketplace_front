@@ -102,6 +102,9 @@ const Questions = ({ item, profile_id, token }) => {
         return
     }
 
+    console.log(questions, "questions")
+    console.log(profile_id, "Profile_id")
+
     return (
         <>
             {!profile_id || item && item.seller && item.seller._id !== profile_id && (

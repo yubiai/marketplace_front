@@ -48,6 +48,10 @@ const parseNoti = (type) => {
       path = 'profile/questions/question'
       message = 'New Answer!'
       break
+    case 'ActionQuestion':
+      path = 'profile/questions/question'
+      message = 'Question status change.'
+      break
     default:
       return null
   }

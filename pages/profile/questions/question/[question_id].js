@@ -1,5 +1,5 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Box, Breadcrumb, BreadcrumbItem, Container, Divider, Flex, Heading, Spinner, Stack, Text } from "@chakra-ui/react";
+import { Box, Breadcrumb, BreadcrumbItem, Container, Divider, Flex, Heading, Spacer, Spinner, Stack, Text } from "@chakra-ui/react";
 import moment from "moment";
 import Head from "next/head";
 import Link from "next/link";
@@ -8,10 +8,12 @@ import { useEffect, useState } from "react";
 import { FaAngleDoubleRight } from "react-icons/fa";
 import ButtonNewAnswer from "../../../../components/Buttons/ButtonNewAnswer";
 import ButtonNewQuestion from "../../../../components/Buttons/ButtonNewQuestion";
+import Error from "../../../../components/Infos/Error";
 import ProfileMenu from "../../../../components/Menus/ProfileMenu";
 import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider";
 import { questionService } from "../../../../services/questionService";
+import questionUtils from "../../../../utils/questionUtils";
 
 const QuestionById = () => {
     const global = useGlobal();
@@ -21,6 +23,7 @@ const QuestionById = () => {
     const [loading, setLoading] = useState(false);
     const { question_id } = router.query;
     const [question, setQuestion] = useState(null);
+    const [error, setError] = useState(false);
     const [isBuyer, setIsBuyer] = useState(false);
     const [isSeller, setIsSeller] = useState(false);
 
@@ -59,23 +62,37 @@ const QuestionById = () => {
     }
 
     const getQuestion = async () => {
-        if (question_id && global.profile && global.profile.token) {
+        try {
             setLoading(true)
             const result = await questionService.getQuestionById(question_id, global.profile.token)
             const resQuestion = result && result.data ? result.data : null;
-            if (resQuestion) {
-                verifyUser(resQuestion)
+            verifyUser(resQuestion)
+            return
+        } catch (err) {
+            setLoading(true)
+            if(err.response && err.response.data){
+                setError(err.response.data)
+            } else {
+                setError({
+                    message: "Error getting question"
+                })
             }
             return
         }
-        return
     }
 
     useEffect(() => {
-        setLoading(false)
-        getQuestion()
+        setLoading(false);
+        setError(false);
+        if (question_id && global.profile && global.profile.token) {
+            getQuestion()
+        }
         return
     }, [question_id, global.profile, router]);
+
+    if (error) {
+        return <Error error={error?.message} />
+    }
 
     return (
         <>
@@ -130,6 +147,19 @@ const QuestionById = () => {
                                     <Text mr="5px">Item:</Text>
                                     <Link href={`/item/${question.itemId.slug}`}>{question.itemId.title}</Link>
                                     <Text ml="1em">{question.itemId.price} {question.itemId.currencySymbolPrice}</Text>
+                                    <Spacer />
+                                    {question.status === 2 && (
+                                        <Text color={"blue.400"}>Status: {questionUtils.statusNumber(question.status)}</Text>
+                                    )}
+                                    {question.status === 3 && (
+                                        <Text color={"orange.400"}>Status: {questionUtils.statusNumber(question.status)}</Text>
+                                    )}
+                                    {question.status === 6 && (
+                                        <Text color={"red.400"}>Status: {questionUtils.statusNumber(question.status)}</Text>
+                                    )}
+                                    {question.status !== 2 && question.status !== 3 && question.status !== 6 && (
+                                        <Text color={"orange.800"}>Status: {questionUtils.statusNumber(question.status)}</Text>
+                                    )}
                                 </Flex>
                                 <Divider />
                                 <Text fontWeight="medium">{question.question}</Text>
