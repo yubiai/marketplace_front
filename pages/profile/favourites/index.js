@@ -21,6 +21,7 @@ import { useEffect } from 'react'
 import ItemCardPublish from '../../../components/Cards/ItemCardPublish'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
+import ItemCardLg from '../../../components/Cards/ItemCardLg'
 
 const Favourites = () => {
   const global = useGlobal()
@@ -111,7 +112,7 @@ const Favourites = () => {
               data.items &&
               data.items.length > 0 &&
               data.items.map((item, i) => {
-                return <ItemCardPublish key={i} item={item} />
+                return <ItemCardLg key={i} item={item} />
               })}
           </Grid>
           <Paginations data={data ? data : null} />

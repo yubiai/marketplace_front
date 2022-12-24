@@ -57,9 +57,9 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
             );
         case "2":
             return (
-                <Alert status='warning' height={"35px"} borderRadius={"2px"}>
+                <Alert status='warning' height={"100%"} borderRadius={"2px"}>
                     <AlertIcon />
-                    <Text color="black" fontWeight={500}>The buyer has claimed a refund for this order. Please choice an option.</Text>
+                    <Text color="black" fontWeight={500}>The buyer has claimed a refund for this order. Please choose an option.</Text>
                 </Alert>
             );
         case "3":
