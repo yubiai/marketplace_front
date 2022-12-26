@@ -50,21 +50,21 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
     switch(dealStatus) {
         case "1":
             return (
-                <Alert status="info" height={"35px"} borderRadius={"2px"} >
+                <Alert status="info" height={"35px"} borderRadius={"3px"} >
                     <AlertIcon />
                     <Text color="black" fontWeight={500}>Order created</Text>
                 </Alert>
             );
         case "2":
             return (
-                <Alert status='warning' height={"100%"} borderRadius={"2px"}>
+                <Alert status='warning' height={"100%"} borderRadius={"3px"}>
                     <AlertIcon />
                     <Text color="black" fontWeight={500}>The buyer has claimed a refund for this order. Please choose an option.</Text>
                 </Alert>
             );
         case "3":
             return (
-                <Alert status='info' height={"35px"} borderRadius={"2px"}>
+                <Alert status='info' height={"35px"} borderRadius={"3px"}>
                     <AlertIcon />
                     <Text color="black" fontWeight={500}>Dispute in progress.</Text>
                 </Alert>
@@ -73,7 +73,7 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
             if (claimCount && disputeId && claimResult !== CLAIM_RESULT_ACCEPTED) {
                 const claimLimitReaches = claimCount === claimLimit;
                 return (
-                    <Alert status="error" height={"35px"} borderRadius={"2px"}>
+                    <Alert status="error" height={"35px"} borderRadius={"3px"}>
                         <AlertIcon />
                         <Text color="black" fontWeight={500}>
                             Claim rejected. {
@@ -86,7 +86,7 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
                 );
             }
             return (
-                <Alert status="success" height={"35px"} borderRadius={"2px"}>
+                <Alert status="success" height={"35px"} borderRadius={"3px"}>
                     <AlertIcon />
                     <Text color="black" fontWeight={500}>Order paid</Text>
                 </Alert>
@@ -100,21 +100,21 @@ export const StatusOrderByStateShort = (dealStatus, claimResult, claimCount = 0,
     switch(dealStatus) {
         case "1":
             return (
-                <Alert status="info" height={"35px"} borderRadius={"2px"} >
+                <Alert status="info" height={"35px"} borderRadius={"3px"} >
                     <AlertIcon />
                     <Text color="black" fontWeight={500}>Order created</Text>
                 </Alert>
             );
         case "2":
             return (
-                <Alert status='warning' height={"35px"} borderRadius={"2px"}>
+                <Alert status='warning' height={"35px"} borderRadius={"3px"}>
                     <AlertIcon />
                     <Text color="black" fontWeight={500}>Order claimed</Text>
                 </Alert>
             );
         case "3":
             return (
-                <Alert status='info' height={"35px"} borderRadius={"2px"}>
+                <Alert status='info' height={"35px"} borderRadius={"3px"}>
                     <AlertIcon />
                     <Text color="black" fontWeight={500}>In dispute</Text>
                 </Alert>
@@ -122,7 +122,7 @@ export const StatusOrderByStateShort = (dealStatus, claimResult, claimCount = 0,
         case "4":
             if (claimCount && disputeId && claimResult !== CLAIM_RESULT_ACCEPTED) {
                 return (
-                    <Alert status="error" height={"35px"} borderRadius={"2px"}>
+                    <Alert status="error" height={"35px"} borderRadius={"3px"}>
                         <AlertIcon />
                         <Text color="black" fontWeight={500}>
                             Claim rejected
