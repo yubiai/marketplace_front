@@ -27,7 +27,12 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
           {order.createdAt
             ? moment(order?.createdAt).format('DD MMMM, YYYY h:mm:ss a')
             : moment(order?.dateOrder).format('DD MMMM, YYYY h:mm:ss a')}</Text>
-
+        {(deal || {}).dealStatus && StatusOrderByStateShort(
+          deal.dealStatus,
+          deal.claimStatus,
+          deal.claimCount,
+          deal.disputeId
+        )}
       </Stack>
       <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
       <SimpleGrid columns={{ base: '1', sm: '1', md: '2', lg: '3' }} spacing={5} color="black">
@@ -49,12 +54,7 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
           <Link href={'/item/' + order?.itemId.slug}>
             <Text align={"center"} cursor={'pointer'} fontWeight={600} _hover={{ textDecoration: "underline" }}>{order.itemId.title}</Text>
           </Link>
-          {(deal || {}).dealStatus && StatusOrderByStateShort(
-            deal.dealStatus,
-            deal.claimStatus,
-            deal.claimCount,
-            deal.disputeId
-          )}
+
         </Box>
         <Center>
           <Box>
