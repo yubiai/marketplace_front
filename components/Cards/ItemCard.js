@@ -19,12 +19,12 @@ const ItemCard = ({ item }) => {
             bg: 'gray.300',
           }}
         >
-          {item.seller && (
+          {/* {item.seller && (
             <Box position={"absolute"} ml="3px">
               <Badge colorScheme='blue' fontSize={"10px"}
               >{item.seller.first_name} {item.seller.last_name}</Badge>
             </Box>
-          )}
+          )} */}
           <Image
             alt="Img Item"
             rounded={'lg'}
@@ -34,17 +34,24 @@ const ItemCard = ({ item }) => {
             src={item && item.files && item.files.length && item.files[0] && item.files[0].filename ? process.env.NEXT_PUBLIC_LINK_FLEEK + item.files[0].filename : '/static/images/ybminilogo.png'}
             fallbackSrc={item && item.files && item.files.length && item.files[0] && item.files[0].filename ? process.env.NEXT_PUBLIC_LINK_GC + item.files[0].filename : '/static/images/ybminilogo.png'}
           />
-          <Stack align={'left'} mt="2px">
+          
+          <Stack align={'left'}>
             <Divider />
             <Text
               color={'gray.600'}
               fontSize={'0.9em'}
               noOfLines={2}
-              maxH="70px"
+              maxH="60px"
             >
               {item.title}
             </Text>
-            <Stack direction={'row'} position="absolute" bottom="1">
+            {item.seller && (
+            <Box position="absolute" bottom="5" left="1">
+              <Badge color={"blue.800"} bg="white" fontSize={"10px"}
+              >{item.seller.first_name} {item.seller.last_name}</Badge>
+            </Box>
+          )} 
+            <Stack direction={'row'} position="absolute" bottom="0">
               <Text fontWeight={800} fontSize={'1ems'}>
                 {item.price}
               </Text>
