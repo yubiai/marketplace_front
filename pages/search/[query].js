@@ -44,6 +44,8 @@ const Search = () => {
         display={'flex'}
         flexDirection={'column'}
       >
+                {data && data.length === 0 && <Warm message="Not Result." />}
+
         <Flex alignItems={'center'} mt="1em">
           {data && data.length > 0 && (
             <Text fontWeight={'bold'}>Search results</Text>
@@ -54,7 +56,6 @@ const Search = () => {
           templateColumns={{ base: 'none', md: 'repeat(4, 1fr)' }}
           gap={1}
         >        
-        {data && data.length === 0 && <Warm message="Not Result." />}
         {data && data.length > 0 && data.map((item, i) => { return <ItemCardLg key={i} item={item} /> })}
         </Grid>
       </Container>
