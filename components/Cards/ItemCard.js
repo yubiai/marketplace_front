@@ -19,12 +19,6 @@ const ItemCard = ({ item }) => {
             bg: 'gray.300',
           }}
         >
-          {/* {item.seller && (
-            <Box position={"absolute"} ml="3px">
-              <Badge colorScheme='blue' fontSize={"10px"}
-              >{item.seller.first_name} {item.seller.last_name}</Badge>
-            </Box>
-          )} */}
           <Image
             alt="Img Item"
             rounded={'lg'}
