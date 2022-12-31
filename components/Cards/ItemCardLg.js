@@ -26,12 +26,12 @@ const ItemCardLg = ({ item }) => {
             bg: 'gray.300',
           }}
         >
-          {item.seller && (
+          {/* {item.seller && (
             <Box position={"absolute"} ml="3px">
               <Badge colorScheme='blue' fontSize={"10px"}
               >{item.seller.first_name} {item.seller.last_name}</Badge>
             </Box>
-          )}
+          )} */}
           <Image
             alt="Img Item"
             borderTopRadius="lg"
@@ -45,12 +45,18 @@ const ItemCardLg = ({ item }) => {
             <Divider />
             <Text
               color={'gray.600'}
-              fontSize={'16px'}
+              fontSize={'0.9em'}
               noOfLines={2}
             >
               {item.title}
             </Text>
-            <Stack direction={'row'} position="absolute" bottom="1">
+            {item.seller && (
+              <Box position="absolute" bottom="5" left="0.5">
+                <Badge color={"blue.800"} bg="white" fontSize={"10px"}
+                >{item.seller.first_name} {item.seller.last_name}</Badge>
+              </Box>
+            )}
+            <Stack direction={'row'} position="absolute" bottom="0" left="1">
               <Text fontWeight={800} fontSize={'1ems'}>
                 {item.price}
               </Text>
