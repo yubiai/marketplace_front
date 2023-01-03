@@ -308,7 +308,7 @@ const NewListing = () => {
               {...register('title', { required: true, minLength: 15, maxLength: 72 })}
               isRequired
             />
-            <Text color="red" m="5px">{errors.title?.type === 'required' && "Description is Required"}</Text>
+            <Text color="red" m="5px">{errors.title?.type === 'required' && "Title is required"}</Text>
             <Text color="red" m="5px">{errors.title?.type === 'minLength' && "Minimum required characters are 15"}</Text>
             <Text color="red" m="5px">{errors.title?.type === 'maxLength' && "Maximum required characters are 72"}</Text>
           </FormControl>

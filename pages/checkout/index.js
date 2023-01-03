@@ -305,8 +305,11 @@ const Checkout = () => {
               )}
               {!loading && (
                 <>
+                  <Center>
+                    <Text mt="1em" fontStyle={"normal"} fontWeight={"bold"}>UBI Burning</Text>
+                  </Center>
                   <Text mt="3" fontStyle="italic">
-                    Set the % on top of the total price that you want to get burned. This will favor the token by increasing its price.
+                    Set the % on top of the total price that you want to get burned UBI. This will favor the token (UBI) by increasing its price.
                   </Text>
                   <Box pt={6} pb={2} mt="1em">
                     <Slider
