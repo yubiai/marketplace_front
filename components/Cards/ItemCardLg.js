@@ -57,7 +57,7 @@ const ItemCardLg = ({ item }) => {
               </Box>
             )}
             <Stack direction={'row'} position="absolute" bottom="0" left="1">
-              <Text fontWeight={800} fontSize={'1ems'}>
+             <Text fontWeight={800} fontSize={'1ems'}>
                 {item.price}
               </Text>
               <Text>{item.currencySymbolPrice || 'ETH'}</Text>
