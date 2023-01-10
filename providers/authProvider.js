@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { useEffect } from 'react'
 import { profileService } from '../services/profileService'
-import { loginMetamask, verifyNetwork } from '../utils/ethereum'
-import { useDispatchGlobal, useGlobal } from './globalProvider'
+import { useDispatchGlobal } from './globalProvider'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
+import { ethers } from 'ethers'
+import { connectWallet, verifyNetwork } from '../utils/connectWeb3'
 
 export const AuthProvider = ({ children }) => {
   const router = useRouter()
@@ -13,11 +14,13 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const authToken = async () => {
       try {
-        const signerAddress = await loginMetamask()
+        const provider = new ethers.providers.Web3Provider(window && window.location ? window.ethereum : "null");
+
+        const walletVerify = await connectWallet(provider)
 
         // Check with metamask
-        if (!signerAddress) {
-          return
+        if (!walletVerify) {
+          throw "No Wallet"
         }
 
         const YubiaiLs =

@@ -11,6 +11,23 @@ async function login(walletAddress) {
 }
 
 /**
+ * Nonce
+ */
+async function nonce() {
+  return await axios.get(`/auth/nonce`);
+}
+
+/**
+ * Verify Signature
+ */
+async function verifySignature(message, signature) {
+  return await axios.post(`/auth/verifysignature`, {
+    message, signature
+  });
+}
+
+
+/**
  * Get profile by _id
  */
 async function getProfileFromId(_id, token) {
@@ -135,6 +152,8 @@ async function addTerms(profile, term, token) {
 
 export const profileService = {
   login,
+  nonce,
+  verifySignature,
   getProfileFromId,
   getProfile,
   updateProfile,
