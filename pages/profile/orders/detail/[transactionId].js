@@ -207,8 +207,8 @@ const OrderDetail = () => {
             <Text>Detail</Text>
           </BreadcrumbItem>
         </Breadcrumb>
+        {operationInProgress && <Loading styleType={'checkout'} />}
         <Center py={6}>
-          {operationInProgress && <Loading styleType={'checkout'} />}
           <Box
             w={"80%"}
             bg={'white'}
