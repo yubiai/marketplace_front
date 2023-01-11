@@ -406,7 +406,7 @@ const OrderDetail = () => {
                   Mark job as done
                 </Button>
                 <Box width={{base: "100%", md: "50%"}}>
-                <Text mt="1em" fontStyle={"italic"}>Job done?, submit your work, this will unlock the - Mark Job as done - and notify the buyer to release the payment.</Text>
+                <Text mt="1em" fontStyle={"italic"}>Job done?, submit your work, this will unlock the  * Mark Job as done * and notify the buyer to release the payment.</Text>
 
                 </Box>
               </>
