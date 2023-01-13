@@ -35,7 +35,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
-import { StatusOrderByState, CLAIMED_STATUS, statusDescMap } from '../../../../components/Infos/StatusOrder';
+import { StatusOrderByState, CLAIMED_STATUS, statusDescMap, FINISHED_STATUS } from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 
 const OrderDetail = () => {
@@ -390,7 +390,7 @@ const OrderDetail = () => {
             </Box>
 
             {
-              (deal || {}).dealStatus !== CLAIMED_STATUS &&
+              (deal || {}).dealStatus !== CLAIMED_STATUS && (deal || {}).dealStatus !== FINISHED_STATUS &&
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">Actions</Text>
