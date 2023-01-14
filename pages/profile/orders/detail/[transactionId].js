@@ -250,15 +250,16 @@ const OrderDetail = () => {
                   }}
                 />
               </Center>
-              <Center textAlign={"center"}>
-                {
-                  orderDetail.item &&
+              {
+                orderDetail.item &&
+                <Center noOfLines={3} textAlign={"center"} >
                   <Box>
-                    <Text noOfLines={3} fontWeight={600}>{orderDetail.item.title}</Text>
+                    <Text fontWeight={600}>{orderDetail.item.title}</Text>
                     <Text>Price: {orderDetail.item.price || 0} {orderDetail.item.currencySymbolPrice}</Text>
                   </Box>
-                }
-              </Center>
+                </Center>
+
+              }
 
               <Center mt={{ base: '1em', md: '0px' }}>
                 <Link href={`/item/${orderDetail && orderDetail.item && orderDetail.item.slug}`}>
@@ -375,52 +376,52 @@ const OrderDetail = () => {
                 <Stack mt={4} direction={'row'} spacing={2}>
                   <Box w="full">
                     <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
-                      <Box p="1em" style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                      <Box p="1em" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                         {transactionData && transactionPayedAmount && (
                           <>
                             <div>
-                            <Text color="black">
-                              Always confirm that you have received the seller is service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.
-                            </Text>
+                              <Text color="black">
+                                Always confirm that you have received the seller is service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.
+                              </Text>
                             </div>
                             <div>
-                            <Box mt={{base: "1em", md: "0px"}} textAlign={{base: "center", md: "right"}}>
-                              <ButtonPayOrder
-                                transactionInfo={{
-                                  transactionIndex: (orderDetail.transaction || {}).transactionIndex,
-                                  transactionHash: transactionMeta.transactionHash
-                                }}
-                                amount={transactionPayedAmount || '0'}
-                                stepsPostAction={loadOrder}
-                                toggleLoadingStatus={toggleLoadingStatus}
-                                yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                              />
-                            </Box>
+                              <Box mt={{ base: "1em", md: "0px" }} textAlign={{ base: "center", md: "right" }}>
+                                <ButtonPayOrder
+                                  transactionInfo={{
+                                    transactionIndex: (orderDetail.transaction || {}).transactionIndex,
+                                    transactionHash: transactionMeta.transactionHash
+                                  }}
+                                  amount={transactionPayedAmount || '0'}
+                                  stepsPostAction={loadOrder}
+                                  toggleLoadingStatus={toggleLoadingStatus}
+                                  yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                                />
+                              </Box>
                             </div>
                           </>
                         )}
                       </Box>
                       {
                         isDealEnabledToClaim &&
-                        <Box bg='orange.200' p="1em" style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                        <Box bg='orange.200' p="1em" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                           <div>
-                          <Text color="black">
-                            {
-                              !(deal || {}).isOver && "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case."
-                            }
-                            {
-                              (deal || {}).isOver &&
-                              "You cannot claim this order because the status of this transaction is over."
-                            }
-                          </Text>
+                            <Text color="black">
+                              {
+                                !(deal || {}).isOver && "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case."
+                              }
+                              {
+                                (deal || {}).isOver &&
+                                "You cannot claim this order because the status of this transaction is over."
+                              }
+                            </Text>
                           </div>
                           <div>
-                          {
-                            !(deal || {}).isOver &&
-                            <Box mt={{base: "1em", md: "0px"}} textAlign={{base: "center", md: "right"}}>
-                              <ButtonStartClaim transactionMeta={transactionMeta} profile={global.profile} />
-                            </Box>
-                          }
+                            {
+                              !(deal || {}).isOver &&
+                              <Box mt={{ base: "1em", md: "0px" }} textAlign={{ base: "center", md: "right" }}>
+                                <ButtonStartClaim transactionMeta={transactionMeta} profile={global.profile} />
+                              </Box>
+                            }
                           </div>
                         </Box>
                       }
