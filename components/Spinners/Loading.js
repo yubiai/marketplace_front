@@ -25,7 +25,7 @@ const Loading = ({ styleType }) => {
   const spinnerStyleImp = spinnerStyles[styleType];
 
   return (
-    <Container style={myStyles || null} maxW='100%' h='88%'>
+    <Container style={myStyles || null} maxW='100%' h='90vh'>
       <Center mt="5em" style={spinnerStyleImp || null}>
         <Spinner
           thickness="4px"
