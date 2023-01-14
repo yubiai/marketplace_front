@@ -45,18 +45,14 @@ const Sales = () => {
     }
   }, [global.yubiaiPaymentArbitrableInstance]);
 
-  const { data, isLoading, isError } = useFetch(
+  const { data, isLoading } = useFetch(
     global && global.profile && global.profile.eth_address
       ? `/orders/seller/${global.profile.eth_address}?page=${global.pageIndex}&size=4`
       : null,
     global && global.profile && global.profile.token
   )
 
-  if (isLoading || !user) return <Loading />
-
-  if (isError) {
-    return <Error error={isError?.message} />
-  }
+  if (isLoading || !data) return <Loading />
 
   return (
     <>
