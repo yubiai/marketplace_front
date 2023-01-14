@@ -50,7 +50,7 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
 
           </Box>
         </Center>
-        <Box noOfLines={4}>
+        <Box mt="1em">
           <Link href={'/item/' + order?.itemId.slug}>
             <Text align={"center"} cursor={'pointer'} noOfLines={2}
               fontWeight={600} _hover={{ textDecoration: "underline" }}>{order.itemId.title}</Text>
