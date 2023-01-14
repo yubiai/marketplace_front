@@ -247,7 +247,7 @@ const DrawerMenu = () => {
                     </Link>
                   </ListItem>
                   <ListItem>
-                    <Link href="/profile/sales">
+                    <Link href="/profile/orders/sales">
                       <Button
                         onClick={() => onClose()}
                         className="step-favourites"

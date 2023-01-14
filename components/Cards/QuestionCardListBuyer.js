@@ -17,19 +17,19 @@ const QuestionCardListBuyer = ({ question, profile_id, token }) => {
                 }}>
                     <Text mr="5px">Item:</Text>
                     <Link href={`/item/${question.itemId.slug}`}>{question.itemId.title}</Link>
-                    <Text ml="1em">{question.itemId.price} {question.itemId.currencySymbolPrice}</Text>
-                    <Spacer />
+                    {/*                     <Text ml="1em">{question.itemId.price} {question.itemId.currencySymbolPrice}</Text>
+ */}                    <Spacer />
                     {question.status === 2 && (
-                        <Text color={"blue.400"}>Status: {questionUtils.statusNumber(question.status)}</Text>
+                        <Text color={"blue.400"}>{questionUtils.statusNumber(question.status)}</Text>
                     )}
                     {question.status === 3 && (
-                        <Text color={"orange.400"}>Status: {questionUtils.statusNumber(question.status)}</Text>
+                        <Text color={"orange.400"}>{questionUtils.statusNumber(question.status)}</Text>
                     )}
                     {question.status === 6 && (
-                        <Text color={"red.400"}>Status: {questionUtils.statusNumber(question.status)}</Text>
+                        <Text color={"red.400"}>{questionUtils.statusNumber(question.status)}</Text>
                     )}
                     {question.status !== 2 && question.status !== 3 && question.status !== 6 && (
-                        <Text color={"orange.800"}>Status: {questionUtils.statusNumber(question.status)}</Text>
+                        <Text color={"orange.800"}>{questionUtils.statusNumber(question.status)}</Text>
                     )}
                 </Flex>
                 <Divider />
@@ -43,7 +43,7 @@ const QuestionCardListBuyer = ({ question, profile_id, token }) => {
                             <Box mt="2px">
                                 <FaAngleDoubleRight />
                             </Box>
-                            <Text ml="1em" fontSize={{ base: 'sm' }} maxW={'90%'} noOfLines={2}>
+                            <Text ml="1em" fontSize={{ base: 'sm' }} maxW={'90%'} noOfLines={3}>
                                 {question.answer} - {moment(question.dateanswer).format('DD/MM/YY')}
                             </Text>
                             <ButtonNewReportQA reference={question._id} type={"Answer"} userId={profile_id} owner={false} token={token} />
