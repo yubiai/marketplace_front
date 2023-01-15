@@ -10,6 +10,7 @@ import {
     ButtonGroup,
     Text,
     useToast,
+    Box,
 } from '@chakra-ui/react'
 import { itemService } from '../../services/itemService'
 
@@ -17,8 +18,8 @@ const TitleItemEdit = ({ item, token, mutate }) => {
     const toast = useToast();
 
     async function UpdateTitleItem(value) {
-       
-        if(value !== item.title){
+
+        if (value !== item.title) {
 
             await itemService.updateItemById(item._id, {
                 title: value
@@ -33,7 +34,7 @@ const TitleItemEdit = ({ item, token, mutate }) => {
                 status: 'success',
                 duration: 3000,
                 isClosable: true
-              });
+            });
             mutate();
             return
         }
@@ -76,7 +77,9 @@ const TitleItemEdit = ({ item, token, mutate }) => {
                     <EditableControls />
                 </Flex>
                 <Flex>
-                    <EditablePreview />
+                    <Box width={"100%"}>
+                        <EditablePreview />
+                    </Box>
                     <Input as={EditableInput} />
                 </Flex>
             </Editable>

@@ -9,6 +9,7 @@ import {
     EditableTextarea,
     Text,
     useToast,
+    Box,
 } from '@chakra-ui/react'
 import { itemService } from '../../services/itemService'
 
@@ -16,7 +17,7 @@ const DescriptionItemEdit = ({ item, token, mutate }) => {
     const toast = useToast();
 
     async function UpdateDescriptionItem(value) {
-        if(value !== item.description){
+        if (value !== item.description) {
             await itemService.updateItemById(item._id, {
                 description: value
             }, token)
@@ -27,7 +28,7 @@ const DescriptionItemEdit = ({ item, token, mutate }) => {
                 status: 'success',
                 duration: 3000,
                 isClosable: true
-              });
+            });
             mutate();
         }
     }
@@ -68,7 +69,10 @@ const DescriptionItemEdit = ({ item, token, mutate }) => {
                     <EditableControls />
                 </Flex>
                 <Flex>
-                    <EditablePreview />
+                    <Box width={"100%"}>
+                        <EditablePreview />
+
+                    </Box>
                     <EditableTextarea />
                 </Flex>
 
