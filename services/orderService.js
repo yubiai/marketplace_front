@@ -48,6 +48,20 @@ async function updateOrderStatus(transactionId, status, token) {
   )
 }
 
+async function updateOrderCompletedBySeller(transactionId, payload, token) {
+  return await axios.put(
+    `/orders/completedbyseller/${transactionId}`, payload,
+    token
+    ? {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    : null
+  )
+}
+
+
 async function setDisputeOnOrderTransaction(transactionId, disputeId, token) {
   return await axios.post(
     `/orders/${transactionId}/set-dispute`, { disputeId },
@@ -75,6 +89,7 @@ export const orderService = {
   getOrderByTransaction,
   createOrder,
   updateOrderStatus,
+  updateOrderCompletedBySeller,
   setDisputeOnOrderTransaction,
   getOrdersBySeller,
   getOrderByOrderId,

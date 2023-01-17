@@ -35,7 +35,7 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
-import { StatusOrderByState, CLAIMED_STATUS, statusDescMap, FINISHED_STATUS } from '../../../../components/Infos/StatusOrder';
+import { StatusOrderByState, CLAIMED_STATUS, statusDescMap } from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 
 const OrderDetail = () => {
@@ -167,14 +167,44 @@ const OrderDetail = () => {
     }
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance])
 
-  const [markDone, setMarkDone] = useState(false);
-  const onMarkDone = () => {
-    console.log("Mark Job as Done")
-    setMarkDone(true)
-    return
+  const onMarkDone = async () => {
+    console.log("Mark Job as Done");
+
+    try {
+      await orderService.updateOrderCompletedBySeller(
+        transactionId, {
+        orderCompletedBySeller: true
+      }, global.profile.token);
+
+      loadOrder();
+
+      toast({
+        title: 'Order',
+        description: 'Successfully changed the status.',
+        position: 'top-right',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      })
+      return
+
+    } catch (err) {
+      console.error(err);
+      toast({
+        title: 'Order',
+        description: 'Error changing order status.',
+        position: 'top-right',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      })
+      return
+    }
   }
 
   if (!orderDetail) return <Loading />;
+
+  console.log(orderDetail)
   return (
     <>
       <Head>
@@ -379,18 +409,34 @@ const OrderDetail = () => {
 
             <Text fontWeight={600} fontSize="2xl">Status</Text>
 
-            <Box width={{ base: "100%" }}>
-              {(deal || {}).dealStatus && StatusOrderByState(
-                deal.dealStatus,
-                deal.claimStatus,
-                deal.claimCount,
-                deal.maxClaimsAllowed,
-                deal.disputeId
-              )}
-            </Box>
+            {
+              orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller ? (
+                <>
+                  <Box width={{ base: "100%", sm: "30%" }}>
+                    <Box bg="blue.500" rounded={'full'}>
+                      <Text color="black" fontWeight={"semibold"} fontStyle="italic" pl="15px" pr="15px">Work ready and has already been notified.</Text>
+                    </Box>
+                  </Box>
+                </>
+              ) : (
+                <>
+                  <Box width={{ base: "100%", sm: "30%" }}>
+                    {(deal || {}).dealStatus && StatusOrderByState(
+                      deal.dealStatus,
+                      deal.claimStatus,
+                      deal.claimCount,
+                      deal.maxClaimsAllowed,
+                      deal.disputeId
+                    )}
+                  </Box>
+                </>
+              )
+            }
+
+
 
             {
-              (deal || {}).dealStatus !== CLAIMED_STATUS && (deal || {}).dealStatus !== FINISHED_STATUS &&
+              orderDetail.status == "ORDER_CREATED" && !orderDetail.orderCompletedBySeller &&
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">Actions</Text>
@@ -401,13 +447,12 @@ const OrderDetail = () => {
                   rounded={'full'}
                   cursor={'pointer'}
                   onClick={() => onMarkDone()}
-                  isDisabled={markDone}
+                  isDisabled={orderDetail && orderDetail.orderCompletedBySeller}
                 >
                   Mark job as done
                 </Button>
-                <Box width={{base: "100%", md: "50%"}}>
-                <Text mt="1em" fontStyle={"italic"}>Job done?, submit your work, this will unlock the  * Mark Job as done * and notify the buyer to release the payment.</Text>
-
+                <Box width={{ base: "100%", md: "50%" }}>
+                  <Text mt="1em" fontStyle={"italic"}>Job done?, submit your work, this will unlock the  * Mark Job as done * and notify the buyer to release the payment.</Text>
                 </Box>
               </>
             }

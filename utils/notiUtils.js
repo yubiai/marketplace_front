@@ -36,6 +36,10 @@ const parseNoti = (type) => {
       path = 'profile/orders/as-seller'
       message = 'Order dispute appealable.'
       break
+    case 'ORDER_COMPLETED_BY_SELLER':
+      path = 'profile/orders/detail'
+      message = 'Order completed by seller!'
+      break
     case 'Channel':
       path = 'profile/mailboxs'
       message = 'New Message!'
@@ -53,6 +57,8 @@ const parseNoti = (type) => {
       message = 'Question status change.'
       break
     default:
+      path = 'profile'
+      message = 'New Notification N/A'
       return null
   }
 
