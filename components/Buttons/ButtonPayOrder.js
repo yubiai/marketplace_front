@@ -45,7 +45,7 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
     }
   
     return (
-        <Button bg='#00abd1' color={'white'} onClick={
+        <Button bg='#00abd1' w={{base: "100%", md: "200px"}} color={'white'} onClick={
             () => {
                 isSeller ? acceptClaim() : payOrder()
             }

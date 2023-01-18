@@ -436,15 +436,15 @@ const OrderDetail = () => {
                 </>
               ) : (
                 <>
-                  <Box width={{ base: "100%", sm: "30%" }}>
-                    {(deal || {}).dealStatus && StatusOrderByState(
-                      deal.dealStatus,
-                      deal.claimStatus,
-                      deal.claimCount,
-                      deal.maxClaimsAllowed,
-                      deal.disputeId
-                    )}
-                  </Box>
+
+                  {(deal || {}).dealStatus && StatusOrderByState(
+                    deal.dealStatus,
+                    deal.claimStatus,
+                    deal.claimCount,
+                    deal.maxClaimsAllowed,
+                    deal.disputeId
+                  )}
+
                 </>
               )
             }
@@ -515,11 +515,14 @@ const OrderDetail = () => {
                 {(deal || {}).dealStatus === CLAIMED_STATUS && (
                   <>
                     <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
-                      <Box p="1em" position="relative" minHeight="170px">
+                      <Box p="1em" position="relative" minHeight="170px" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <div>
                         <Text color="black">
                           If you agree with the claim made by the buyer, you can choose to make a refund according to the amount required.
                         </Text>
-                        <Box position="absolute" bottom="1em" width="100%" textAlign={{ base: "center", md: "left" }}>
+                        </div>
+                        <div>
+                        <Box mt="2em" width="100%" textAlign={{ base: "center", md: "left" }}>
                           <ButtonPayOrder
                             transactionInfo={{
                               claimId: (deal || {}).claimID,
@@ -532,8 +535,10 @@ const OrderDetail = () => {
                             isSeller={true}
                           />
                         </Box>
+                        </div>
                       </Box>
-                      <Box bg='orange.200' p="1em">
+                      <Box bg='orange.200' p="1em" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <div>
                         <Text color="black">
                           {
                             !isLateToChallenge &&
@@ -544,6 +549,8 @@ const OrderDetail = () => {
                             "You cannot challenge the claim of the order because the status of this transaction has expired."
                           }
                         </Text>
+                        </div>
+                        <div>
                         {
                           !isLateToChallenge &&
                           <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
@@ -558,6 +565,7 @@ const OrderDetail = () => {
                             />
                           </Box>
                         }
+                        </div>
                       </Box>
                     </SimpleGrid>
 

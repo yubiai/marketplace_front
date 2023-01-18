@@ -26,7 +26,7 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
     }
   
     return (
-        <Button bg='#00abd1' color={'white'} width="200px" onClick={() => challengeClaim()}>
+        <Button bg='red.400' color={'white'} w={{base: "100%", md: "200px"}} onClick={() => challengeClaim()}>
           Challenge claim
         </Button>
     );

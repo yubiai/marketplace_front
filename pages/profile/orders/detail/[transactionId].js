@@ -39,6 +39,7 @@ import {
   StatusOrderByState,
   ONGOING_STATUS,
   statusDescMap,
+  StatusOrder,
 } from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 
@@ -358,24 +359,34 @@ const OrderDetail = () => {
             <Text fontWeight={600} fontSize="2xl">Status</Text>
 
             {
-              orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller ? (
+              orderDetail.status == "ORDER_DISPUTE_IN_PROGRESS" && (
+                <>
+                  {StatusOrder("ORDER_DISPUTE_IN_PROGRESS")}
+                </>
+              )
+            }
+
+            {
+              orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller && (
                 <>
                   <Box width={"100%"}>
-                    <Box bg="blue.500" rounded={{base: "5px"}} p="1em">
+                    <Box bg="blue.500" rounded={{ base: "5px" }} p="1em">
                       <Text color="white" fontStyle="italic" pl="15px" pr="15px">Before releasing the payment, please confirm that you have received the work and have checked that the job provided has met all the requirements that you mentioned on the chat. If the job done by the seller has not met your requirements, do not confirm and let the seller know on the chat.</Text>
                     </Box>
                   </Box>
                 </>
-              ) : (<Box width={{ base: "100%", sm: "30%" }}>
-                {(deal || {}).dealStatus && StatusOrderByState(
-                  deal.dealStatus,
-                  deal.claimStatus,
-                  deal.claimCount,
-                  deal.maxClaimsAllowed,
-                  deal.disputeId
-                )}
-              </Box>)
+              )
             }
+
+            { orderDetail.status !== "ORDER_DISPUTE_IN_PROGRESS" && orderDetail.status == "ORDER_CREATED" && !orderDetail.orderCompletedBySeller && (
+              (deal || {}).dealStatus && StatusOrderByState(
+                deal.dealStatus,
+                deal.claimStatus,
+                deal.claimCount,
+                deal.maxClaimsAllowed,
+                deal.disputeId
+              )
+          )}
 
 
             {
