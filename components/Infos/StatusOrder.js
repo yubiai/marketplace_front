@@ -45,7 +45,7 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
     switch (dealStatus) {
         case "1":
             return (
-                <Box bg="blue.300" rounded={"5px"}>
+                <Box bg="blue.300" rounded={"5px"} w="100%">
                     <Text color="black" fontStyle="italic" pl="15px" pr="15px">Order created</Text>
                 </Box>
             );
@@ -57,7 +57,7 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
             );
         case "3":
             return (
-                <Box bg="purple.300" rounded={"5px"}>
+                <Box bg="purple.300" rounded={"5px"} w="100%">
                     <Text color="black" fontStyle="italic" pl="15px" pr="15px">Dispute in progress.</Text>
                 </Box>
             );
@@ -65,7 +65,7 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
             if (claimCount && disputeId && claimResult !== CLAIM_RESULT_ACCEPTED) {
                 const claimLimitReaches = claimCount === claimLimit;
                 return (
-                    <Box bg="purple.300" rounded={"5px"}>
+                    <Box bg="purple.300" rounded={"5px"} w="100%">
                         <Text color="black" fontStyle="italic" pl="15px" pr="15px">Claim rejected. {
                             claimLimitReaches
                                 ? 'You reaches the limit of claims you can do to the seller.'
@@ -75,7 +75,7 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
                 );
             }
             return (
-                <Box bg="green.400" rounded={"5px"}>
+                <Box bg="green.400" rounded={"5px"} w="100%">
                     <Text color="black" fontStyle="italic" pl="15px" pr="15px">Order paid</Text>
                 </Box>
             );
