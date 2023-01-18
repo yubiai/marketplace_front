@@ -33,6 +33,15 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   useToast,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Spinner,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
 import { StatusOrderByState, CLAIMED_STATUS, statusDescMap } from '../../../../components/Infos/StatusOrder';
@@ -47,6 +56,8 @@ const OrderDetail = () => {
   const dispatch = useDispatchGlobal();
   const toast = useToast();
   const { transactionId } = router.query;
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [loadingMarkDone, setLoadingMarkDone] = useState(false);
 
   /**
    * Order and transaction info
@@ -168,8 +179,7 @@ const OrderDetail = () => {
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance])
 
   const onMarkDone = async () => {
-    console.log("Mark Job as Done");
-
+    setLoadingMarkDone(true)
     try {
       await orderService.updateOrderCompletedBySeller(
         transactionId, {
@@ -186,6 +196,11 @@ const OrderDetail = () => {
         duration: 5000,
         isClosable: true,
       })
+
+      setTimeout(() => {
+        setLoadingMarkDone(false)
+        onClose()
+      }, 2000);
       return
 
     } catch (err) {
@@ -198,13 +213,16 @@ const OrderDetail = () => {
         duration: 5000,
         isClosable: true,
       })
+      setTimeout(() => {
+        setLoadingMarkDone(false)
+        onClose()
+      }, 2000);
       return
     }
   }
 
   if (!orderDetail) return <Loading />;
 
-  console.log(orderDetail)
   return (
     <>
       <Head>
@@ -444,11 +462,41 @@ const OrderDetail = () => {
                   color={'white'}
                   rounded={'full'}
                   cursor={'pointer'}
-                  onClick={() => onMarkDone()}
+                  onClick={onOpen}
                   isDisabled={orderDetail && orderDetail.orderCompletedBySeller}
                 >
                   Mark job as done
                 </Button>
+                <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+                  <ModalOverlay />
+                  <ModalContent>
+                    <ModalHeader>Order Status</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody pb={6}>
+                      Are you sure you want to mark the job as completed?
+                    </ModalBody>
+
+                    <ModalFooter>
+                      {!loadingMarkDone ? (
+                        <>
+                          <Button backgroundColor={'#00abd1'} onClick={() => onMarkDone()}
+                            color={'white'} mr={3}>
+                            Yes, Mark job as done
+                          </Button>
+                          <Button onClick={onClose}>Cancel</Button>
+                        </>
+                      ) : (
+                        <Spinner
+                          thickness="4px"
+                          speed="0.65s"
+                          emptyColor="gray.200"
+                          color="blue.500"
+                          size="md"
+                        />
+                      )}
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>
                 <Box width={{ base: "100%", md: "50%" }}>
                   <Text mt="1em" fontStyle={"italic"}>Job done?, submit your work, this will unlock the  * Mark Job as done * and notify the buyer to release the payment.</Text>
                 </Box>
