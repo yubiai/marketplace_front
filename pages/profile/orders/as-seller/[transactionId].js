@@ -305,8 +305,7 @@ const OrderDetail = () => {
                 <Link href={`/item/${orderDetail && orderDetail.item && orderDetail.item.slug}`}>
                   <Button backgroundColor={'#00abd1'}
                     color={'white'}
-                    rounded={'full'}
-                    _hover={{
+                    rounded={"5px"} _hover={{
                       bg: "gray.400"
                     }}>See Item</Button>
                 </Link>
@@ -399,8 +398,7 @@ const OrderDetail = () => {
               <Center mt={{ base: '1em', md: '0px' }}>
                 <Button backgroundColor={'green.500'}
                   color={'white'}
-                  rounded={'full'}
-                  _hover={{
+                  rounded={"5px"} _hover={{
                     bg: "gray.400"
                   }} onClick={redirectToChat}>Send Message</Button>
               </Center>
@@ -412,9 +410,9 @@ const OrderDetail = () => {
             {
               orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller ? (
                 <>
-                  <Box width={{ base: "100%", sm: "30%" }}>
-                    <Box bg="blue.500" rounded={'full'}>
-                      <Text color="black" fontWeight={"semibold"} fontStyle="italic" pl="15px" pr="15px">Work ready and has already been notified.</Text>
+                  <Box width={{ base: "100%", sm: "50%" }}>
+                    <Box bg="blue.500" rounded={"5px"} p="5px">
+                      <Text color="white" fontStyle="italic" pl="15px" pr="15px">Work ready and has already been notified.</Text>
                     </Box>
                   </Box>
                 </>

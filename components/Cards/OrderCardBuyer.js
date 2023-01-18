@@ -29,12 +29,24 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
           {order.createdAt
             ? moment(order?.createdAt).format('DD MMMM, YYYY h:mm:ss a')
             : moment(order?.dateOrder).format('DD MMMM, YYYY h:mm:ss a')}</Text>
-        {(deal || {}).dealStatus && StatusOrderByStateShort(
-          deal.dealStatus,
-          deal.claimStatus,
-          deal.claimCount,
-          deal.disputeId
-        )}
+
+        {order?.status == "ORDER_CREATED" && order?.orderCompletedBySeller ? (<>
+          <Box bg="green.600" rounded={"5px"}>
+            <Text color="white" fontStyle="italic" pl="15px" pr="15px">Seller notified that work completed</Text>
+          </Box>
+        </>) :
+          (
+            <>
+              {(deal || {}).dealStatus && StatusOrderByStateShort(
+                deal.dealStatus,
+                deal.claimStatus,
+                deal.claimCount,
+                deal.disputeId
+              )}
+            </>
+          )}
+
+
       </Stack>
       <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
       <SimpleGrid columns={{ base: '1', sm: '1', md: '2', lg: '3', xl: '4' }} spacing={5} color="black">
@@ -54,7 +66,7 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
         </Center>
         <Center noOfLines={3} mt="1em">
           <Box textAlign={"center"} p="5px">
-            <Link href={'/item/' + order?.itemId.slug}><Text cursor={'pointer'} 
+            <Link href={'/item/' + order?.itemId.slug}><Text cursor={'pointer'}
               fontWeight={600} _hover={{
                 textDecoration: "underline"
               }}
@@ -72,7 +84,6 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
             <Button
               backgroundColor={'#00abd1'}
               color={'white'}
-              rounded={'full'}
               cursor={'pointer'}
               _hover={{
                 bg: "gray.400"

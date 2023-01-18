@@ -357,15 +357,19 @@ const NewListing = () => {
           <FormControl isRequired mt="1em">
             <FormLabel color="black">Amount</FormLabel>
             <NumberInput
-              onChange={(valueString) => setPriceValue(parse(valueString))}
+              onChange={(valueString) => {
+                setPriceValue(parse(valueString))
+                return
+              }}
               value={format(priceValue)}
               color="gray.700"
               bg="white"
               min={0.00001}
               max={999999}
+              precision={5}
               isRequired
             >
-              <NumberInputField placeholder='0.001' _placeholder={{ color: 'gray.400' }}
+              <NumberInputField placeholder='0.00001' _placeholder={{ color: 'gray.400' }}
               />
               <NumberInputStepper>
                 <NumberIncrementStepper />

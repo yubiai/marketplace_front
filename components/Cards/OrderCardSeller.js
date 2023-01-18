@@ -64,7 +64,6 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
             <Button
               backgroundColor={'#00abd1'}
               color={'white'}
-              rounded={'full'}
               cursor={'pointer'}
               _hover={{
                 bg: "gray.400"

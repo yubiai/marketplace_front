@@ -265,7 +265,6 @@ const OrderDetail = () => {
                 <Link href={`/item/${orderDetail && orderDetail.item && orderDetail.item.slug}`}>
                   <Button backgroundColor={'#00abd1'}
                     color={'white'}
-                    rounded={'full'}
                     _hover={{
                       bg: "gray.400"
                     }}>See Item</Button>
@@ -349,7 +348,6 @@ const OrderDetail = () => {
               <Center mt={{ base: '1em', md: '0px' }}>
                 <Button backgroundColor={'green.500'}
                   color={'white'}
-                  rounded={'full'}
                   _hover={{
                     bg: "gray.400"
                   }} onClick={redirectToChat}>Send Message</Button>
@@ -363,8 +361,8 @@ const OrderDetail = () => {
               orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller ? (
                 <>
                   <Box width={"100%"}>
-                    <Box bg="blue.500" rounded={{base: "5px", md: "full"}} p="1em">
-                      <Text color="black" fontWeight={"semibold"} fontStyle="italic" pl="15px" pr="15px">Before releasing the payment, please confirm that you have received the work and have checked that the job provided has met all the requirements that you mentioned on the chat. If the job done by the seller has not met your requirements, do not confirm and let the seller know on the chat.</Text>
+                    <Box bg="blue.500" rounded={{base: "5px"}} p="1em">
+                      <Text color="white" fontStyle="italic" pl="15px" pr="15px">Before releasing the payment, please confirm that you have received the work and have checked that the job provided has met all the requirements that you mentioned on the chat. If the job done by the seller has not met your requirements, do not confirm and let the seller know on the chat.</Text>
                     </Box>
                   </Box>
                 </>
