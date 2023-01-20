@@ -21,7 +21,7 @@ const parseNoti = (type) => {
       message = 'Order dispute receiver fee pending.'
       break
     case 'ORDER_DISPUTE_IN_PROGRESS':
-      path = 'profile/orders/detail'
+      path = 'profile/orders/as-seller'
       message = 'Order dispute in progress.'
       break
     case 'ORDER_DISPUTE_FINISHED_SELLER':

@@ -378,7 +378,7 @@ const OrderDetail = () => {
               )
             }
 
-            { orderDetail.status !== "ORDER_DISPUTE_IN_PROGRESS" && orderDetail.status == "ORDER_CREATED" && !orderDetail.orderCompletedBySeller && (
+            { orderDetail.status !== "ORDER_DISPUTE_IN_PROGRESS" && !orderDetail.orderCompletedBySeller && (
               (deal || {}).dealStatus && StatusOrderByState(
                 deal.dealStatus,
                 deal.claimStatus,
@@ -387,7 +387,6 @@ const OrderDetail = () => {
                 deal.disputeId
               )
           )}
-
 
             {
               (deal || {}).dealStatus === ONGOING_STATUS &&
