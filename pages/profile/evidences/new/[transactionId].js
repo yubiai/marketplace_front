@@ -455,6 +455,11 @@ const NewEvidence = () => {
             <AddMessageEvidence channelDetail={channelDetail} selectedMsg={selectedMsg} setSelectedMsg={setSelectedMsg} />
           </Box>
           <Text color="red">{errorMsg && errorMsg}</Text>
+          <Box float={'left'} mt="2em">
+            <Button onClick={() => router.back()} bg="orange.500" color="white">
+              Back
+            </Button>
+          </Box>
           <Box float={'right'} m="2em">
             <Button bg="#00abd1" color="white" type="submit" form="hook-form">
               Preview &amp; Submit

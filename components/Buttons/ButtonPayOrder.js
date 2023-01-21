@@ -34,7 +34,7 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
             toggleLoadingStatus(true);
             const result = await yubiaiPaymentArbitrableInstance.acceptClaim(claimId);
             if (result) {
-                await orderService.updateOrderStatus(transactionHash, 'ORDER_PAID', global?.profile?.token);
+                await orderService.updateOrderStatus(transactionHash, 'ORDER_REFUNDED', global?.profile?.token);
                 stepsPostAction();
                 toggleLoadingStatus(false);
             }

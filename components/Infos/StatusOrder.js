@@ -13,26 +13,32 @@ export const StatusOrder = (status) => {
     switch (status) {
         case "ORDER_CREATED":
             return (
-                <Box bg="blue.300" rounded={"5px"} w={{base: "100%", md: "30%"}}>
+                <Box bg="blue.300" rounded={"5px"} w={{ base: "100%", md: "30%" }}>
                     <Text color="black" fontStyle="italic" pl="15px" pr="15px">Order created</Text>
                 </Box>
             );
         case "ORDER_PAID":
             return (
-                <Box bg="green.400" rounded={"5px"} w={{base: "100%", md: "30%"}}>
+                <Box bg="green.400" rounded={"5px"} w={{ base: "100%", md: "30%" }}>
                     <Text color="black" fontStyle="italic" pl="15px" pr="15px">Order paid</Text>
+                </Box>
+            );
+        case "ORDER_REFUNDED":
+            return (
+                <Box bg="green.400" rounded={"5px"} w={{ base: "100%", md: "30%" }}>
+                    <Text color="black" fontStyle="italic" pl="15px" pr="15px">Order refunded</Text>
                 </Box>
             );
         case "ORDER_DISPUTE_RECEIVER_FEE_PENDING":
             return (
-                <Box bg="purple.300" rounded={"5px"} p="5px" w={{base: "100%", md: "30%"}}>
+                <Box bg="purple.300" rounded={"5px"} p="5px" w={{ base: "100%", md: "30%" }}>
                     <Text color="black" fontStyle="italic" pl="15px" pr="15px">Dispute pending to start, waiting for seller to pay the
                         arbitration fee.</Text>
                 </Box>
             );
         case "ORDER_DISPUTE_IN_PROGRESS":
             return (
-                <Box bg="purple.300" rounded={"5px"} w={{base: "100%", md: "30%"}}>
+                <Box bg="purple.300" rounded={"5px"} w={{ base: "100%", md: "30%" }}>
                     <Text color="black" fontStyle="italic" pl="15px" pr="15px">Dispute in progress.</Text>
                 </Box>
             );
@@ -45,19 +51,19 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
     switch (dealStatus) {
         case "1":
             return (
-                <Box bg="blue.300" rounded={"5px"} w={{base: "100%", md: "30%"}}>
+                <Box bg="blue.300" rounded={"5px"} w={{ base: "100%", md: "30%" }}>
                     <Text color="black" fontStyle="italic" pl="15px" pr="15px">Order created</Text>
                 </Box>
             );
         case "2":
             return (
-                <Box bg="pink.300" rounded={"5px"} p="5px" w={{base: "100%", md: "80%"}}>
+                <Box bg="pink.300" rounded={"5px"} p="5px" w={{ base: "100%", md: "80%" }}>
                     <Text color="black" fontStyle="italic" pl="15px" pr="15px">The buyer has claimed a refund for this order. Please choose an option.</Text>
                 </Box>
             );
         case "3":
             return (
-                <Box bg="purple.300" rounded={"5px"} w={{base: "100%", md: "30%"}}>
+                <Box bg="purple.300" rounded={"5px"} w={{ base: "100%", md: "30%" }}>
                     <Text color="black" fontStyle="italic" pl="15px" pr="15px">Dispute in progress.</Text>
                 </Box>
             );
@@ -65,7 +71,7 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
             if (claimCount && disputeId && claimResult !== CLAIM_RESULT_ACCEPTED) {
                 const claimLimitReaches = claimCount === claimLimit;
                 return (
-                    <Box bg="purple.300" rounded={"5px"} w={{base: "100%", md: "30%"}}>
+                    <Box bg="purple.300" rounded={"5px"} w={{ base: "100%", md: "30%" }}>
                         <Text color="black" fontStyle="italic" pl="15px" pr="15px">Claim rejected. {
                             claimLimitReaches
                                 ? 'You reaches the limit of claims you can do to the seller.'
@@ -75,8 +81,8 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
                 );
             }
             return (
-                <Box bg="green.400" rounded={"5px"} w={{base: "100%", md: "30%"}}>
-                    <Text color="black" fontStyle="italic" pl="15px" pr="15px">Order paidddd</Text>
+                <Box bg="green.400" rounded={"5px"} w={{ base: "100%", md: "30%" }}>
+                    <Text color="black" fontStyle="italic" pl="15px" pr="15px">Order paid</Text>
                 </Box>
             );
         default:

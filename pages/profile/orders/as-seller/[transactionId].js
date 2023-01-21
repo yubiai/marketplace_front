@@ -44,7 +44,7 @@ import {
   Spinner,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
-import { StatusOrderByState, CLAIMED_STATUS, statusDescMap } from '../../../../components/Infos/StatusOrder';
+import { StatusOrderByState, CLAIMED_STATUS, statusDescMap, StatusOrder } from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
 
@@ -128,7 +128,7 @@ const OrderDetail = () => {
     if (verifyMessages.data) {
       setVerifyMessages(true)
     }
-    
+
   }
 
   const toggleLoadingStatus = (status) => {
@@ -437,7 +437,14 @@ const OrderDetail = () => {
 
             <Text fontWeight={600} fontSize="2xl">Status</Text>
             {
-              orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller ? (
+              orderDetail.status == "ORDER_REFUNDED" && (
+                <>
+                  {StatusOrder("ORDER_REFUNDED")}
+                </>
+              )
+            }
+            {
+              orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller && (
                 <>
                   <Box width={{ base: "100%", md: "50%" }}>
                     <Box bg="blue.500" rounded={"5px"} p="5px">
@@ -445,7 +452,10 @@ const OrderDetail = () => {
                     </Box>
                   </Box>
                 </>
-              ) : (
+              )}
+
+            {
+              orderDetail.status != "ORDER_CREATED" && !orderDetail.orderCompletedBySeller && (
                 <>
                   {(deal || {}).dealStatus && StatusOrderByState(
                     deal.dealStatus,
@@ -464,7 +474,6 @@ const OrderDetail = () => {
                 <Text fontWeight={"semibold"}>Actions will be available when there is a message interaction.</Text>
               </>
             )}
-
 
             {/* Actions Mark Job as Done */}
             {
