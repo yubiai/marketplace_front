@@ -42,6 +42,7 @@ import {
   StatusOrder,
 } from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
+import { channelService } from '../../../../services/channelService';
 
 const OrderDetail = () => {
   /**
@@ -69,6 +70,8 @@ const OrderDetail = () => {
    */
   const [operationInProgress, setOperationInProgress] = useState(false);
   const [isDealEnabledToClaim, setIsDealEnabledToClaim] = useState(false);
+
+  const [verifyMessages, setVerifyMessages] = useState(false);
 
   const { user, loggedOut } = useUser();
 
@@ -111,7 +114,16 @@ const OrderDetail = () => {
     setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount);
     setTransactionDate(orderInfo.transaction.transactionDate * 1000);
     setTransactionMeta(orderInfo.transaction.transactionMeta);
-  };
+
+    // Verifica si hay menssages entre los users, para activar las opciones.
+    const verifyMessages = await channelService.getMessagesByOrderId(
+      orderInfo._id, global.profile.token);
+
+    if (verifyMessages && verifyMessages.data) {
+      setVerifyMessages(true)
+    }
+
+  }
 
   const setDealInfo = async transaction => {
     const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(transaction.transactionIndex);
@@ -371,14 +383,14 @@ const OrderDetail = () => {
                 <>
                   <Box width={"100%"}>
                     <Box bg="blue.500" rounded={{ base: "5px" }} p="1em">
-                      <Text color="white" fontStyle="italic" pl="15px" pr="15px">Before releasing the payment, please confirm that you have received the work and have checked that the job provided has met all the requirements that you mentioned on the chat. If the job done by the seller has not met your requirements, do not confirm and let the seller know on the chat.</Text>
+                      <Text color="white" fontStyle="italic" pl="15px" pr="15px">Please confirm that you have received the work and have verified that it satisfies all of the conditions you specified during the chat before releasing the payment. Do not confirm and inform the vendor on the chat if the work they completed did not meet your expectations.</Text>
                     </Box>
                   </Box>
                 </>
               )
             }
 
-            { orderDetail.status !== "ORDER_DISPUTE_IN_PROGRESS" && !orderDetail.orderCompletedBySeller && (
+            {orderDetail.status !== "ORDER_DISPUTE_IN_PROGRESS" && !orderDetail.orderCompletedBySeller && (
               (deal || {}).dealStatus && StatusOrderByState(
                 deal.dealStatus,
                 deal.claimStatus,
@@ -386,69 +398,74 @@ const OrderDetail = () => {
                 deal.maxClaimsAllowed,
                 deal.disputeId
               )
-          )}
+            )}
 
             {
-              (deal || {}).dealStatus === ONGOING_STATUS &&
-              <Box>
-                <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-                <Text fontWeight={600} fontSize="2xl">Actions</Text>
-                <Stack mt={4} direction={'row'} spacing={2}>
-                  <Box w="full">
-                    <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
-                      <Box p="1em" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        {transactionData && transactionPayedAmount && (
-                          <>
+              (deal || {}).dealStatus === ONGOING_STATUS && verifyMessages ?
+                (<Box>
+                  <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+                  <Text fontWeight={600} fontSize="2xl">Actions</Text>
+                  <Stack mt={4} direction={'row'} spacing={2}>
+                    <Box w="full">
+                      <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
+                        <Box p="1em" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                          {transactionData && transactionPayedAmount && (
+                            <>
+                              <div>
+                                <Text color="black">
+                                  Always confirm that you have received the seller is service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.
+                                </Text>
+                              </div>
+                              <div>
+                                <Box mt={{ base: "1em", md: "0px" }} textAlign={{ base: "center", md: "right" }}>
+                                  <ButtonPayOrder
+                                    transactionInfo={{
+                                      transactionIndex: (orderDetail.transaction || {}).transactionIndex,
+                                      transactionHash: transactionMeta.transactionHash
+                                    }}
+                                    amount={transactionPayedAmount || '0'}
+                                    stepsPostAction={loadOrder}
+                                    toggleLoadingStatus={toggleLoadingStatus}
+                                    yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                                  />
+                                </Box>
+                              </div>
+                            </>
+                          )}
+                        </Box>
+                        {
+                          isDealEnabledToClaim &&
+                          <Box bg='orange.200' p="1em" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                             <div>
                               <Text color="black">
-                                Always confirm that you have received the seller is service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.
+                                {
+                                  !(deal || {}).isOver && "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case."
+                                }
+                                {
+                                  (deal || {}).isOver &&
+                                  "You cannot claim this order because the status of this transaction is over."
+                                }
                               </Text>
                             </div>
                             <div>
-                              <Box mt={{ base: "1em", md: "0px" }} textAlign={{ base: "center", md: "right" }}>
-                                <ButtonPayOrder
-                                  transactionInfo={{
-                                    transactionIndex: (orderDetail.transaction || {}).transactionIndex,
-                                    transactionHash: transactionMeta.transactionHash
-                                  }}
-                                  amount={transactionPayedAmount || '0'}
-                                  stepsPostAction={loadOrder}
-                                  toggleLoadingStatus={toggleLoadingStatus}
-                                  yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                                />
-                              </Box>
+                              {
+                                !(deal || {}).isOver &&
+                                <Box mt={{ base: "1em", md: "0px" }} textAlign={{ base: "center", md: "right" }}>
+                                  <ButtonStartClaim transactionMeta={transactionMeta} profile={global.profile} />
+                                </Box>
+                              }
                             </div>
-                          </>
-                        )}
-                      </Box>
-                      {
-                        isDealEnabledToClaim &&
-                        <Box bg='orange.200' p="1em" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                          <div>
-                            <Text color="black">
-                              {
-                                !(deal || {}).isOver && "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case."
-                              }
-                              {
-                                (deal || {}).isOver &&
-                                "You cannot claim this order because the status of this transaction is over."
-                              }
-                            </Text>
-                          </div>
-                          <div>
-                            {
-                              !(deal || {}).isOver &&
-                              <Box mt={{ base: "1em", md: "0px" }} textAlign={{ base: "center", md: "right" }}>
-                                <ButtonStartClaim transactionMeta={transactionMeta} profile={global.profile} />
-                              </Box>
-                            }
-                          </div>
-                        </Box>
-                      }
-                    </SimpleGrid>
-                  </Box>
-                </Stack>
-              </Box>
+                          </Box>
+                        }
+                      </SimpleGrid>
+                    </Box>
+                  </Stack>
+                </Box>) : (
+                  <>
+                    <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+                    <Text fontWeight={"semibold"}>Actions will be available when there is a message interaction.</Text>
+                  </>
+                )
             }
           </Box>
         </Center>

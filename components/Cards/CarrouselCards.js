@@ -97,7 +97,7 @@ const CarrouselCards = ({ title, items }) => {
 
   return (
     <Container display={{ base: "contents" }} maxW="full" mt="2em">
-      <Text color={"#727272"} fontSize="19px">{title}</Text>
+      <Text color={"#727272"} fontSize="19px" mt="2em">{title}</Text>
       <Slider {...settings} >
         {items && items.length > 0 && items.map((item, i) => {
           return (

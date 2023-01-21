@@ -46,6 +46,7 @@ import {
 import useUser from '../../../../hooks/data/useUser';
 import { StatusOrderByState, CLAIMED_STATUS, statusDescMap } from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
+import { channelService } from '../../../../services/channelService';
 
 const OrderDetail = () => {
   /**
@@ -75,6 +76,8 @@ const OrderDetail = () => {
    * Auxiliar status and instances
    */
   const [operationInProgress, setOperationInProgress] = useState(false);
+
+  const [verifyMessages, setVerifyMessages] = useState(false);
 
   const { user, loggedOut } = useUser();
 
@@ -117,7 +120,16 @@ const OrderDetail = () => {
     setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount);
     setTransactionDate(orderInfo.transaction.transactionDate * 1000);
     setTransactionMeta(orderInfo.transaction.transactionMeta);
-  };
+
+    // Verifica si hay menssages entre los users, para activar las opciones.
+    const verifyMessages = await channelService.getMessagesByOrderId(
+      orderInfo._id, global.profile.token);
+
+    if (verifyMessages.data) {
+      setVerifyMessages(true)
+    }
+    
+  }
 
   const toggleLoadingStatus = (status) => {
     setOperationInProgress(status)
@@ -424,7 +436,6 @@ const OrderDetail = () => {
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
 
             <Text fontWeight={600} fontSize="2xl">Status</Text>
-
             {
               orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller ? (
                 <>
@@ -436,7 +447,6 @@ const OrderDetail = () => {
                 </>
               ) : (
                 <>
-
                   {(deal || {}).dealStatus && StatusOrderByState(
                     deal.dealStatus,
                     deal.claimStatus,
@@ -444,15 +454,21 @@ const OrderDetail = () => {
                     deal.maxClaimsAllowed,
                     deal.disputeId
                   )}
-
                 </>
               )
             }
 
+            {!verifyMessages && (
+              <>
+                <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+                <Text fontWeight={"semibold"}>Actions will be available when there is a message interaction.</Text>
+              </>
+            )}
 
 
+            {/* Actions Mark Job as Done */}
             {
-              orderDetail.status == "ORDER_CREATED" && !orderDetail.orderCompletedBySeller &&
+              orderDetail.status == "ORDER_CREATED" && !orderDetail.orderCompletedBySeller && verifyMessages &&
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">Actions</Text>
@@ -502,69 +518,65 @@ const OrderDetail = () => {
                 </Box>
               </>
             }
-            {
-              (deal || {}).dealStatus === CLAIMED_STATUS &&
-              <>
-                <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-                <Text fontWeight={600} fontSize="2xl">Actions</Text>
-              </>
-            }
+            {/* Actions Mark Job as Done */}
 
             <Stack mt={4} direction={'row'} spacing={2}>
               <Box w="full">
-                {(deal || {}).dealStatus === CLAIMED_STATUS && (
+                {(deal || {}).dealStatus === CLAIMED_STATUS && verifyMessages && (
                   <>
+                    <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+                    <Text fontWeight={600} fontSize="2xl">Actions</Text>
                     <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
                       <Box p="1em" position="relative" minHeight="170px" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                         <div>
-                        <Text color="black">
-                          If you agree with the claim made by the buyer, you can choose to make a refund according to the amount required.
-                        </Text>
+                          <Text color="black">
+                            If you agree with the claim made by the buyer, you can choose to make a refund according to the amount required.
+                          </Text>
                         </div>
                         <div>
-                        <Box mt="2em" width="100%" textAlign={{ base: "center", md: "left" }}>
-                          <ButtonPayOrder
-                            transactionInfo={{
-                              claimId: (deal || {}).claimID,
-                              transactionHash: transactionMeta.transactionHash
-                            }}
-                            amount={transactionPayedAmount || '0'}
-                            stepsPostAction={loadOrder}
-                            toggleLoadingStatus={toggleLoadingStatus}
-                            yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                            isSeller={true}
-                          />
-                        </Box>
-                        </div>
-                      </Box>
-                      <Box bg='orange.200' p="1em" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        <div>
-                        <Text color="black">
-                          {
-                            !isLateToChallenge &&
-                            "If you think there is nothing wrong with the service provided, you can dispute the buyer's claim. Participating in the arbitration will have an extra cost (<amount of cost>), and the status of that decision will be taken and communicated in the next few days by a decentralized jury external to Yubiai."
-                          }
-                          {
-                            isLateToChallenge &&
-                            "You cannot challenge the claim of the order because the status of this transaction has expired."
-                          }
-                        </Text>
-                        </div>
-                        <div>
-                        {
-                          !isLateToChallenge &&
-                          <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
-                            <ButtonChallengeClaim
+                          <Box mt="2em" width="100%" textAlign={{ base: "center", md: "left" }}>
+                            <ButtonPayOrder
                               transactionInfo={{
                                 claimId: (deal || {}).claimID,
                                 transactionHash: transactionMeta.transactionHash
                               }}
+                              amount={transactionPayedAmount || '0'}
                               stepsPostAction={loadOrder}
                               toggleLoadingStatus={toggleLoadingStatus}
                               yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                              isSeller={true}
                             />
                           </Box>
-                        }
+                        </div>
+                      </Box>
+                      <Box bg='orange.200' p="1em" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <div>
+                          <Text color="black">
+                            {
+                              !isLateToChallenge &&
+                              "If you think there is nothing wrong with the service provided, you can dispute the buyer's claim. Participating in the arbitration will have an extra cost (<amount of cost>), and the status of that decision will be taken and communicated in the next few days by a decentralized jury external to Yubiai."
+                            }
+                            {
+                              isLateToChallenge &&
+                              "You cannot challenge the claim of the order because the status of this transaction has expired."
+                            }
+                          </Text>
+                        </div>
+                        <div>
+                          {
+                            !isLateToChallenge &&
+                            <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
+                              <ButtonChallengeClaim
+                                transactionInfo={{
+                                  claimId: (deal || {}).claimID,
+                                  transactionHash: transactionMeta.transactionHash
+                                }}
+                                stepsPostAction={loadOrder}
+                                toggleLoadingStatus={toggleLoadingStatus}
+                                yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                              />
+                            </Box>
+                          }
                         </div>
                       </Box>
                     </SimpleGrid>
