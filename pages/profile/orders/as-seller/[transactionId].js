@@ -439,7 +439,7 @@ const OrderDetail = () => {
             {
               orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller ? (
                 <>
-                  <Box width={{ base: "100%", sm: "50%" }}>
+                  <Box width={{ base: "100%", md: "50%" }}>
                     <Box bg="blue.500" rounded={"5px"} p="5px">
                       <Text color="white" fontStyle="italic" pl="15px" pr="15px">Work ready and has already been notified.</Text>
                     </Box>
