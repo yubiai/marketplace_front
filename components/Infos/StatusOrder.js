@@ -76,7 +76,7 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
             }
             return (
                 <Box bg="green.400" rounded={"5px"} w={{base: "100%", md: "30%"}}>
-                    <Text color="black" fontStyle="italic" pl="15px" pr="15px">Order paid</Text>
+                    <Text color="black" fontStyle="italic" pl="15px" pr="15px">Order paidddd</Text>
                 </Box>
             );
         default:

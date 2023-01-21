@@ -180,7 +180,7 @@ const OrderDetail = () => {
       loadOrder();
     }
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance]);
-  
+
   if (!orderDetail) return <Loading />;
   return (
     <>
@@ -374,6 +374,14 @@ const OrderDetail = () => {
               orderDetail.status == "ORDER_DISPUTE_IN_PROGRESS" && (
                 <>
                   {StatusOrder("ORDER_DISPUTE_IN_PROGRESS")}
+                </>
+              )
+            }
+
+            {
+              orderDetail.status == "ORDER_PAID" && (
+                <>
+                  {StatusOrder("ORDER_PAID")}
                 </>
               )
             }
