@@ -31,8 +31,8 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
             : moment(order?.dateOrder).format('DD MMMM, YYYY h:mm:ss a')}</Text>
 
         {order?.status == "ORDER_CREATED" && order?.orderCompletedBySeller ? (<>
-          <Box bg="green.600" rounded={"5px"}>
-            <Text color="white" fontStyle="italic" pl="15px" pr="15px">Seller notified that work completed</Text>
+          <Box bg="orange.400" rounded={"5px"}>
+            <Text color="white" fontStyle="italic" pl="15px" pr="15px">Work has been notified as completed</Text>
           </Box>
         </>) :
           (

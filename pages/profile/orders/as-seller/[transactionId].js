@@ -444,7 +444,7 @@ const OrderDetail = () => {
               )
             }
             {
-              orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller ? (
+              orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller && (
                 <>
                   <Box width={{ base: "100%", md: "50%" }}>
                     <Box bg="blue.500" rounded={"5px"} p="5px">
@@ -452,15 +452,17 @@ const OrderDetail = () => {
                     </Box>
                   </Box>
                 </>
-              ) : (
-                (deal || {}).dealStatus && StatusOrderByState(
-                  deal.dealStatus,
-                  deal.claimStatus,
-                  deal.claimCount,
-                  deal.maxClaimsAllowed,
-                  deal.disputeId
-                )
               )}
+
+            {orderDetail.status != "ORDER_REFUNDED" && (
+              (deal || {}).dealStatus && StatusOrderByState(
+                deal.dealStatus,
+                deal.claimStatus,
+                deal.claimCount,
+                deal.maxClaimsAllowed,
+                deal.disputeId
+              )
+            )}
 
 
             {!verifyMessages && (

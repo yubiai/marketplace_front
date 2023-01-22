@@ -58,7 +58,8 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
         case "2":
             return (
                 <Box bg="pink.300" rounded={"5px"} p="5px" w={{ base: "100%", md: "80%" }}>
-                    <Text color="black" fontStyle="italic" pl="15px" pr="15px">The buyer has claimed a refund for this order. Please choose an option.</Text>
+                    <Text fontStyle="initial" color="white" pl="15px" pr="15px">The buyer has claimed a refund for this order.</Text>
+                    <Text color="black" fontStyle="italic" pl="15px" pr="15px">Please choose an option.</Text>
                 </Box>
             );
         case "3":

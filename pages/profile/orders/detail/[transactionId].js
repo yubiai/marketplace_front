@@ -387,6 +387,14 @@ const OrderDetail = () => {
             }
 
             {
+              orderDetail.status == "ORDER_REFUNDED" && (
+                <>
+                  {StatusOrder("ORDER_REFUNDED")}
+                </>
+              )
+            }
+
+            {
               orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller && (
                 <>
                   <Box width={"100%"}>
