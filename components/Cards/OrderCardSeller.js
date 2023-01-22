@@ -45,12 +45,17 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
           )
         }
 
-        {order?.status != "ORDER_REFUNDED" && (deal || {}).dealStatus && StatusOrderByStateShort(
-          deal.dealStatus,
-          deal.claimStatus,
-          deal.claimCount,
-          deal.disputeId
+        {order?.status != "ORDER_REFUNDED" && (
+          <>
+            {(deal || {}).dealStatus && StatusOrderByStateShort(
+              deal.dealStatus,
+              deal.claimStatus,
+              deal.claimCount,
+              deal.disputeId
+            )}
+          </>
         )}
+
 
       </Stack>
       <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
