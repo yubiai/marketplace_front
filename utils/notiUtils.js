@@ -38,7 +38,7 @@ const parseNoti = (type) => {
       break
     case 'ORDER_COMPLETED_BY_SELLER':
       path = 'profile/orders/detail'
-      message = 'Order completed by seller!'
+      message = 'Work completed by seller!'
       break
     case 'ORDER_REFUNDED':
       path = 'profile/orders/detail'
