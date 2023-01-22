@@ -15,6 +15,7 @@ const ArbitratorPanel = () => {
   const [deals, setDeals] = useState([]);
   const [wallet, setWallet] = useState(null);
   const [claimId, setClaimId] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const initArbitratorInstance = async () => {
@@ -40,6 +41,7 @@ const ArbitratorPanel = () => {
       setWallet(await global.yubiaiPaymentArbitrableInstance.getAccount());
       const result = await orderService.getOrdersBySeller(global?.profile?.eth_address, global?.profile?.token);
       await mapDealsFromOrders(result.data.items);
+      setLoaded(true);
     };
 
     if (!global.yubiaiPaymentArbitrableInstance) {
@@ -47,7 +49,7 @@ const ArbitratorPanel = () => {
       return;
     }
 
-    if (!deals.length && global.profile && global.yubiaiPaymentArbitrableInstance) {
+    if (!deals.length && global.profile && global.yubiaiPaymentArbitrableInstance && !loaded) {
       loadOrdersBySeller();
     }
   }, [deals, global.profile, global.yubiaiPaymentArbitrableInstance]);
