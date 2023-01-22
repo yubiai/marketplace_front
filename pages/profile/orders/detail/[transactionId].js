@@ -394,6 +394,16 @@ const OrderDetail = () => {
               )
             }
 
+            {orderDetail.status !== "ORDER_DISPUTE_IN_PROGRESS" && !orderDetail.orderCompletedBySeller && (
+              (deal || {}).dealStatus && StatusOrderByState(
+                deal.dealStatus,
+                deal.claimStatus,
+                deal.claimCount,
+                deal.maxClaimsAllowed,
+                deal.disputeId
+              )
+            )}
+
             {
               orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller && (
                 <>
@@ -406,16 +416,6 @@ const OrderDetail = () => {
                 </>
               )
             }
-
-            {orderDetail.status !== "ORDER_DISPUTE_IN_PROGRESS" && !orderDetail.orderCompletedBySeller && (
-              (deal || {}).dealStatus && StatusOrderByState(
-                deal.dealStatus,
-                deal.claimStatus,
-                deal.claimCount,
-                deal.maxClaimsAllowed,
-                deal.disputeId
-              )
-            )}
 
             {orderDetail.status == "ORDER_CREATED" && !verifyMessages && (
               <>

@@ -436,24 +436,6 @@ const OrderDetail = () => {
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
 
             <Text fontWeight={600} fontSize="2xl">Status</Text>
-            {
-              orderDetail.status == "ORDER_REFUNDED" && (
-                <>
-                  {StatusOrder("ORDER_REFUNDED")}
-                </>
-              )
-            }
-            {
-              orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller && (
-                <>
-                  <Box width={{ base: "100%", md: "50%" }}>
-                    <Box bg="blue.500" rounded={"5px"} p="5px">
-                      <Text color="white" fontStyle="italic" pl="15px" pr="15px">Work ready and has already been notified.</Text>
-                    </Box>
-                  </Box>
-                </>
-              )}
-
             {orderDetail.status != "ORDER_REFUNDED" && (
               (deal || {}).dealStatus && StatusOrderByState(
                 deal.dealStatus,
@@ -464,6 +446,24 @@ const OrderDetail = () => {
               )
             )}
 
+            {
+              orderDetail.status == "ORDER_REFUNDED" && (
+                <>
+                  {StatusOrder("ORDER_REFUNDED")}
+                </>
+              )
+            }
+
+            {
+              orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller && (
+                <>
+                  <Box width={{ base: "100%", md: "50%" }} mt="1em">
+                    <Box bg="blue.500" rounded={"5px"} p="5px">
+                      <Text color="white" fontStyle="italic" pl="15px" pr="15px">Work ready and has already been notified.</Text>
+                    </Box>
+                  </Box>
+                </>
+              )}
 
             {!verifyMessages && (
               <>
