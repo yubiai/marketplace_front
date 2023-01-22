@@ -30,21 +30,33 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
             ? moment(order?.createdAt).format('DD MMMM, YYYY h:mm:ss a')
             : moment(order?.dateOrder).format('DD MMMM, YYYY h:mm:ss a')}</Text>
 
-        {order?.status == "ORDER_CREATED" && order?.orderCompletedBySeller ? (<>
+        {order?.status == "ORDER_CREATED" && order?.orderCompletedBySeller && (<>
           <Box bg="orange.400" rounded={"5px"}>
             <Text color="white" fontStyle="italic" pl="15px" pr="15px">Work has been notified as completed</Text>
           </Box>
-        </>) :
-          (
+        </>)
+        }
+
+        {
+          order?.status == "ORDER_REFUNDED" && (
             <>
-              {(deal || {}).dealStatus && StatusOrderByStateShort(
-                deal.dealStatus,
-                deal.claimStatus,
-                deal.claimCount,
-                deal.disputeId
-              )}
+              <Box bg="red.700" rounded={"5px"}>
+                <Text color="white" fontStyle="italic" pl="15px" pr="15px">Order Refunded</Text>
+              </Box>
             </>
-          )}
+          )
+        }
+
+        {order?.status != "ORDER_REFUNDED" && (
+          <>
+            {(deal || {}).dealStatus && StatusOrderByStateShort(
+              deal.dealStatus,
+              deal.claimStatus,
+              deal.claimCount,
+              deal.disputeId
+            )}
+          </>
+        )}
 
 
       </Stack>
