@@ -67,6 +67,7 @@ const TitleItemEdit = ({ item, token, mutate }) => {
                 textAlign='left'
                 defaultValue={item.title}
                 fontSize='1em'
+                p="5px"
                 isPreviewFocusable={false}
                 onSubmit={(value) => {
                     UpdateTitleItem(value)
@@ -77,7 +78,7 @@ const TitleItemEdit = ({ item, token, mutate }) => {
                     <EditableControls />
                 </Flex>
                 <Flex>
-                    <Box width={"100%"}>
+                    <Box>
                         <EditablePreview />
                     </Box>
                     <Input as={EditableInput} />

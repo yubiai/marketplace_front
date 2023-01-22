@@ -53,12 +53,12 @@ const CategoriesItemEdit = ({ item, token, mutate }) => {
                 status: 'success',
                 duration: 3000,
                 isClosable: true
-              });
+            });
             mutate();
             reset();
             setActionEdit(false);
             return
-        } catch (err){
+        } catch (err) {
             console.error(err);
             reset()
             setActionEdit(false);
@@ -67,7 +67,7 @@ const CategoriesItemEdit = ({ item, token, mutate }) => {
 
     return (
         <>
-            <Flex mt="10px">
+            <Flex mt="10px" p="5px">
                 <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>Category - Sub category</Text>
                 <Flex justifyContent='left' m="5px">
                     {actionEdit && (
@@ -80,11 +80,12 @@ const CategoriesItemEdit = ({ item, token, mutate }) => {
 
                 </Flex>
             </Flex>
-            {!actionEdit && (<Text>{item.category.title}  {" - " + item.subcategory.title}</Text>)}
+            {!actionEdit && (<Text p="5px"
+            >{item.category.title}  {" - " + item.subcategory.title}</Text>)}
 
             {actionEdit && (
                 <>
-                    <Box h="full">
+                    <Box h="full" p="5px">
                         <form onSubmit={handleSubmit(onSubmit)}>
                             {categories && categories.length > 0 && (
                                 <Box mt="1em">

@@ -146,7 +146,8 @@ const FilesItemEdit = ({ item, token, mutate }) => {
 
     return (
         <>
-            <Flex mt="1em">
+            <Flex mt="1em" p="5px"
+            >
                 <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>Files</Text>
                 <Flex justifyContent='left' m="5px">
                     {actionEdit && (
@@ -169,14 +170,15 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                 />
             )}
             {error && (
-                <Text>
+                <Text p="5px"
+                >
                     {error}
                 </Text>
             )}
             {actionEdit && !loading && (
                 <>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }} width={'full'} color="gray.700">
+                        <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }} width={'full'} color="gray.700" p="5px">
                             <Box w={{ base: "full", md: "33%" }} h="300px" p="1em" mt={{ base: "4em", md: "5px" }}>
                                 {item && item.files && item.files[0] && !editItem0 && (
                                     <>

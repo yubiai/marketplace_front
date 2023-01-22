@@ -52,13 +52,13 @@ const UserMenu = () => {
           _focus={{ boxShadow: 'outline' }}
         />
       )}
-      <Portal>
+      <Portal zIndex={'20'}>
         <MenuList color="black" bg="white">
           <UserInfo profile={profileLogin} balanceToken={balanceToken} />
 
           <Link href="/profile">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}>
-            <FaUserCircle /> <Text fontWeight={"medium"} ml="5px">Profile</Text></MenuItem>
+              <FaUserCircle /> <Text fontWeight={"medium"} ml="5px">Profile</Text></MenuItem>
           </Link>
           <Link href="/profile/notifications">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}><BsFillBellFill /> <Text fontWeight={"medium"} ml="5px">Notifications</Text></MenuItem>

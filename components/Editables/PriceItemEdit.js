@@ -77,7 +77,7 @@ const PriceItemEdit = ({ item, token, mutate }) => {
             status: 'success',
             duration: 3000,
             isClosable: true
-          });
+        });
         mutate()
         setPriceValue('');
         setSelectedCurrency('ETH');
@@ -88,7 +88,8 @@ const PriceItemEdit = ({ item, token, mutate }) => {
 
     return (
         <>
-            <Flex mt="10px">
+            <Flex mt="10px" p="5px"
+            >
                 <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>Price - Ubi Burn</Text>
                 <Flex justifyContent='left' m="5px">
                     {actionEdit && (
@@ -110,10 +111,12 @@ const PriceItemEdit = ({ item, token, mutate }) => {
                     size="md"
                 />
             )}
-            {!actionEdit && (<Text>Currency: {item.currencySymbolPrice} {" - "} Price: {item.price} {item.currencySymbolPrice}  {" - Ubi Burn: " + item.ubiburningamount + "%"}</Text>)}
+            {!actionEdit && (<Text p="5px"
+            >Currency: {item.currencySymbolPrice} {" - "} Price: {item.price} {item.currencySymbolPrice}  {" - Ubi Burn: " + item.ubiburningamount + "%"}</Text>)}
             {actionEdit && global.currencyPriceList && global.currencyPriceList.length > 0 && (
                 <>
-                    <Box h="full">
+                    <Box h="full" p="5px"
+                    >
                         <form onSubmit={handleSubmit(onSubmit)}>
                             {global.currencyPriceList && global.currencyPriceList.length > 0 && (
                                 <FormControl isRequired mt="1em">

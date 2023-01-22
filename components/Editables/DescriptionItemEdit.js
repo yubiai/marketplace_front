@@ -59,6 +59,7 @@ const DescriptionItemEdit = ({ item, token, mutate }) => {
                 textAlign='left'
                 defaultValue={item && item.description}
                 fontSize='1em'
+                p="5px"
                 isPreviewFocusable={false}
                 onSubmit={(value) => {
                     UpdateDescriptionItem(value)
@@ -69,9 +70,8 @@ const DescriptionItemEdit = ({ item, token, mutate }) => {
                     <EditableControls />
                 </Flex>
                 <Flex>
-                    <Box width={"100%"}>
+                    <Box>
                         <EditablePreview />
-
                     </Box>
                     <EditableTextarea />
                 </Flex>
