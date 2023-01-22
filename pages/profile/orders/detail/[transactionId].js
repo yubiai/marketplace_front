@@ -391,7 +391,8 @@ const OrderDetail = () => {
                 <>
                   <Box width={"100%"}>
                     <Box bg="blue.500" rounded={{ base: "5px" }} p="1em">
-                      <Text color="white" fontStyle="italic" pl="15px" pr="15px">Please confirm that you have received the work and have verified that it satisfies all of the conditions you specified during the chat before releasing the payment. Do not confirm and inform the vendor on the chat if the work they completed did not meet your expectations.</Text>
+                      <Text fontStyle="initial" color="white" pl="15px" pr="15px">Work has been notified as completed.</Text>
+                      <Text color="white" fontStyle="italic" pl="15px" pr="15px">(Please confirm that you have received the work and have verified that it satisfies all of the conditions you specified during the chat before releasing the payment. Do not confirm and inform the vendor on the chat if the work they completed did not meet your expectations)</Text>
                     </Box>
                   </Box>
                 </>
