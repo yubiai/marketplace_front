@@ -44,7 +44,7 @@ import {
   Spinner,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
-import { StatusOrderByState, CLAIMED_STATUS, statusDescMap, StatusOrder } from '../../../../components/Infos/StatusOrder';
+import { StatusOrderByState, CLAIMED_STATUS, statusDescMap, StatusOrder, ONGOING_STATUS } from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
 
@@ -232,8 +232,10 @@ const OrderDetail = () => {
       return
     }
   }
+  console.log("deal || {}).dealStatus: ", (deal || {}).dealStatus, "verifyMessages:", verifyMessages)
 
   if (!orderDetail) return <Loading />;
+  console.log(orderDetail)
 
   return (
     <>
@@ -436,15 +438,15 @@ const OrderDetail = () => {
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
 
             <Text fontWeight={600} fontSize="2xl">Status</Text>
-            {orderDetail.status != "ORDER_REFUNDED" && (
-              (deal || {}).dealStatus && StatusOrderByState(
+            {
+              orderDetail.status != "ORDER_REFUNDED" && (deal || {}).dealStatus && StatusOrderByState(
                 deal.dealStatus,
                 deal.claimStatus,
                 deal.claimCount,
                 deal.maxClaimsAllowed,
                 deal.disputeId
               )
-            )}
+            }
 
             {
               orderDetail.status == "ORDER_REFUNDED" && (
@@ -454,27 +456,17 @@ const OrderDetail = () => {
               )
             }
 
-            {
-              orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller && (
-                <>
-                  <Box width={{ base: "100%", md: "50%" }} mt="1em">
-                    <Box bg="blue.500" rounded={"5px"} p="5px">
-                      <Text color="white" fontStyle="italic" pl="15px" pr="15px">Work ready and has already been notified.</Text>
-                    </Box>
-                  </Box>
-                </>
-              )}
-
             {!verifyMessages && (
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-                <Text fontWeight={"semibold"}>Actions will be available when there is a message interaction.</Text>
+                <Text fontWeight={600} fontSize="2xl">Actions</Text>
+                <Text fontWeight={"normal"}>Actions will be available when there is a message interaction.</Text>
               </>
             )}
 
             {/* Actions Mark Job as Done */}
             {
-              orderDetail.status == "ORDER_CREATED" && !orderDetail.orderCompletedBySeller && verifyMessages &&
+              (deal || {}).dealStatus === ONGOING_STATUS && !orderDetail.orderCompletedBySeller && verifyMessages &&
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">Actions</Text>
@@ -525,6 +517,15 @@ const OrderDetail = () => {
               </>
             }
             {/* Actions Mark Job as Done */}
+
+            {
+              (deal || {}).dealStatus === ONGOING_STATUS && orderDetail.orderCompletedBySeller && (
+                <>
+                  <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+                  <Text fontWeight={600} fontSize="2xl">Actions</Text>
+                  <Text fontWeight={"normal"} fontStyle={"italic"}>Work ready and has already been notified.</Text>
+                </>
+              )}
 
             <Stack mt={4} direction={'row'} spacing={2}>
               <Box w="full">

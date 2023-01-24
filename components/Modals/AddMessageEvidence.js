@@ -52,7 +52,9 @@ const AddMessageEvidence = ({ channelDetail, selectedMsg, setSelectedMsg }) => {
 
     return (
         <>
-            <Button mb="1em" mt="1em" onClick={() => {
+            <Button mb="1em" mt="1em" _hover={{
+                bg: "gray.400"
+            }} onClick={() => {
                 onOpen()
             }} bg="green.400" color="white">
                 <ChatIcon w={6} h={6} m="4px" /> Add Messages*
@@ -115,7 +117,9 @@ const AddMessageEvidence = ({ channelDetail, selectedMsg, setSelectedMsg }) => {
                         </ModalBody>
 
                         <ModalFooter>
-                            <Button colorScheme='blue' mr={3} onClick={onClose}>
+                            <Button colorScheme='blue' mr={3} _hover={{
+                                bg: "gray.400"
+                            }} onClick={onClose}>
                                 Save
                             </Button>
                             <Button onClick={onClose}>Cancel</Button>

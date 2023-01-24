@@ -181,6 +181,9 @@ const OrderDetail = () => {
     }
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance]);
 
+
+  console.log("deal || {}).dealStatus: ", (deal || {}).dealStatus, "verifyMessages:", verifyMessages)
+
   if (!orderDetail) return <Loading />;
   return (
     <>
@@ -370,7 +373,7 @@ const OrderDetail = () => {
 
             <Text fontWeight={600} fontSize="2xl">Status</Text>
 
-            {
+            {/* {
               orderDetail.status == "ORDER_DISPUTE_IN_PROGRESS" && (
                 <>
                   {StatusOrder("ORDER_DISPUTE_IN_PROGRESS")}
@@ -384,7 +387,7 @@ const OrderDetail = () => {
                   {StatusOrder("ORDER_PAID")}
                 </>
               )
-            }
+            } */}
 
             {
               orderDetail.status == "ORDER_REFUNDED" && (
@@ -394,33 +397,21 @@ const OrderDetail = () => {
               )
             }
 
-            {orderDetail.status !== "ORDER_DISPUTE_IN_PROGRESS" && !orderDetail.orderCompletedBySeller && (
-              (deal || {}).dealStatus && StatusOrderByState(
+            {
+              orderDetail.status != "ORDER_REFUNDED" && (deal || {}).dealStatus && StatusOrderByState(
                 deal.dealStatus,
                 deal.claimStatus,
                 deal.claimCount,
                 deal.maxClaimsAllowed,
                 deal.disputeId
               )
-            )}
-
-            {
-              orderDetail.status == "ORDER_CREATED" && orderDetail.orderCompletedBySeller && (
-                <>
-                  <Box width={"100%"}>
-                    <Box bg="blue.500" rounded={{ base: "5px" }} p="1em">
-                      <Text fontStyle="initial" color="white" pl="15px" pr="15px">Work has been notified as completed.</Text>
-                      <Text color="white" fontStyle="italic" pl="15px" pr="15px">(Please confirm that you have received the work and have verified that it satisfies all of the conditions you specified during the chat before releasing the payment. Do not confirm and inform the vendor on the chat if the work they completed did not meet your expectations)</Text>
-                    </Box>
-                  </Box>
-                </>
-              )
             }
 
-            {orderDetail.status == "ORDER_CREATED" && !verifyMessages && (
+            {(deal || {}).dealStatus === ONGOING_STATUS && !verifyMessages && (
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-                <Text fontWeight={"semibold"}>Actions will be available when there is a message interaction.</Text>
+                <Text fontWeight={600} fontSize="2xl">Actions</Text>
+                <Text fontWeight={"normal"}>Actions will be available when there is a message interaction.</Text>
               </>
             )}
 
@@ -429,6 +420,18 @@ const OrderDetail = () => {
               (<Box>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">Actions</Text>
+                {
+                  (deal || {}).dealStatus === ONGOING_STATUS && orderDetail.orderCompletedBySeller && (
+                    <>
+                      <Box width={"100%"}>
+                        <Box bg="orange.200" rounded={{ base: "5px" }} p="1em">
+                          <Text fontWeight={"semibold"} color="black" pl="5px" pr="5px">Work has been notified as completed.</Text>
+                          <Text color="black" fontStyle="italic" pl="5px" pr="5px">(Please confirm that you have received the work and have verified that it satisfies all of the conditions you specified during the chat before releasing the payment. Do not confirm and inform the vendor on the chat if the work they completed did not meet your expectations)</Text>
+                        </Box>
+                      </Box>
+                    </>
+                  )
+                }
                 <Stack mt={4} direction={'row'} spacing={2}>
                   <Box w="full">
                     <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
