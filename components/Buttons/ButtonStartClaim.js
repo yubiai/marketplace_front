@@ -146,7 +146,7 @@ const ButtonStartClaim = ({ transactionMeta, profile }) => {
         <>
             <Button
                 size="md" bg="green.500" color="white" _hover={{ bg: "gray.400" }}
-                borderRadius="0.375rem" height="40px" width="120px"
+                borderRadius="0.375rem" height="40px" width={{base: "100%", md:"120px"}}
                 fontWeight="bold"
                 onClick={() => onModalDisputePolicy()}>
                 Start claim

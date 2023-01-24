@@ -51,16 +51,16 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
     switch (dealStatus) {
         case "1":
             return (
-                <Box bg="blue.300" rounded={"5px"} w={{ base: "100%", md: "30%" }}>
-                    <Text color="black" fontStyle="italic" pl="15px" pr="15px">Order created</Text>
+                <Box bg="blue.500" rounded={"5px"} w={{ base: "100%", md: "25%" }}>
+                    <Text color="white" fontSize={"2xl"} fontStyle="italic" pl="15px" pr="15px">Order Created</Text>
                 </Box>
             );
         case "2":
             return (
                 <Box bg="pink.300" rounded={"5px"} p="5px" w={{ base: "100%", md: "80%" }}>
                     <Text fontStyle="initial" color="black" pl="15px" pr="15px">The buyer has claimed a refund for this order.</Text>
-                    <Text color="black" fontStyle="italic" pl="15px" pr="15px">Please choose an option.</Text>
-                </Box>
+{/*                     <Text color="black" fontStyle="italic" pl="15px" pr="15px">Please choose an option.</Text>
+ */}                </Box>
             );
         case "3":
             return (
@@ -83,7 +83,7 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
             }
             return (
                 <Box bg="green.400" rounded={"5px"} w={{ base: "100%", md: "30%" }}>
-                    <Text color="black" fontStyle="italic" pl="15px" pr="15px">Order paid</Text>
+                    <Text color="white" fontSize={"2xl"} fontStyle="italic" pl="15px" pr="15px">Order Paid</Text>
                 </Box>
             );
         default:
