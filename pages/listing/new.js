@@ -391,7 +391,9 @@ const NewListing = () => {
             <FormControl isRequired mt="1em">
               <FormLabel color="black">UBI Burning Amount</FormLabel>
               <Text fontStyle={"italic"}>(Remember that the amount to be burned will be deducted from the final sale price).</Text>
+              <Box textAlign={"center"}>
               <Slider
+                width={{base: "80%", sm: "80%", md: "100%"}}
                 mt="3em"
                 aria-label="slider-ex-6"
                 defaultValue={2}
@@ -403,7 +405,8 @@ const NewListing = () => {
                   0.6%
                 </SliderMark>
                 <SliderMark value={2} {...labelStyles}>
-                  <Flex>2% <Text fontStyle={"italic"} ml="5px">(Recommended)</Text></Flex>
+                  2%
+                  <Text fontStyle={"italic"} fontSize={{base: "0.8em", md: "1em"}} ml="5px">(Recommended)</Text>
                 </SliderMark>
                 <SliderMark value={5} {...labelStyles}>
                   5%
@@ -427,6 +430,7 @@ const NewListing = () => {
                 </SliderTrack>
                 <SliderThumb />
               </Slider>
+              </Box>
             </FormControl>
           </Box>
 
