@@ -88,7 +88,7 @@ const Profile = () => {
               <Text>My Info</Text>
             </BreadcrumbItem>
           </Breadcrumb>
-          <Text fontWeight={'bold'}>Proof of humanity information</Text>
+          <Text fontWeight={'bold'}>Proof of humanity Information</Text>
           {profile && profile.permission === 6 && (
             <>
               <Text color="red.800" fontWeight={'bold'}>User Test</Text>
