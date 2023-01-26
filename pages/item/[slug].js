@@ -265,23 +265,22 @@ const ItemById = ({ item }) => {
               w="full"
               h={{ base: "full", md: "300px" }}
             >
-              <Center>
-                <Button
-                  bg="#00abd1"
-                  color="white"
-                  w="312px"
-                  h="32px"
-                  fontSize={'16px'}
-                  fontWeight={'600'}
-                  onClick={() => buyAndCheckoutItem()}
-                  disabled={owner || !global.profile || item.published == false || item.status != 2}
-                >
-                  Buy Now
-                </Button>
-              </Center>
-              <Center>
-                {owner && <Text color="red.300">It is your publication</Text>}
-              </Center>
+              {!owner && (
+                <Center>
+                  <Button
+                    bg="#00abd1"
+                    color="white"
+                    w="312px"
+                    h="32px"
+                    fontSize={'16px'}
+                    fontWeight={'600'}
+                    onClick={() => buyAndCheckoutItem()}
+                    disabled={owner || !global.profile || item.published == false || item.status != 2}
+                  >
+                    Buy Now
+                  </Button>
+                </Center>
+              )}
             </Flex>
           </Box>
         </Flex>
