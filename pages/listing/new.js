@@ -311,10 +311,16 @@ const NewListing = () => {
               _placeholder={{ color: 'gray.400' }}
               color="gray.700"
               bg="white"
-              {...register('title', { required: true, minLength: 15, maxLength: 72, onChange: (e) => { setCountTitle(e.target.value.length) } })}
+              {...register('title', {
+                required: true, minLength: 15, maxLength: 72, pattern: {
+                  value: /^(?![^a-zA-Z]+$)(?!$).*$/,
+                  message: "Only numbers are not allowed"
+                }, onChange: (e) => { setCountTitle(e.target.value.length) }
+              })}
               isRequired
             />
             <Box m="5px" fontStyle={"italic"} color={countTitle > MAX_TITLE_LENGTH ? "red" : "black"}>Characters: {countTitle} / {MAX_TITLE_LENGTH}</Box>
+            <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
             <Text color="red" m="5px">{errors.title?.type === 'required' && "Title is required"}</Text>
             <Text color="red" m="5px">{errors.title?.type === 'minLength' && "Minimum required characters are 15"}</Text>
             <Text color="red" m="5px">{errors.title?.type === 'maxLength' && "Maximum required characters are 72"}</Text>
@@ -327,10 +333,14 @@ const NewListing = () => {
               _placeholder={{ color: 'gray.400' }}
               color="gray.700"
               bg="white"
-              {...register('description', { required: true, maxLength: 800, minLength: 100, onChange: (e) => { setCountTextarea(e.target.value.length) } })}
+              {...register('description', { required: true, maxLength: 800, minLength: 100, pattern: {
+                value: /^(?![^a-zA-Z]+$)(?!$).*$/,
+                message: "Only numbers are not allowed"
+              }, onChange: (e) => { setCountTextarea(e.target.value.length) } })}
               isRequired
             />
             <Box m="5px" fontStyle={"italic"} color={countTextarea > MAX_TEXTAREA_LENGTH ? "red" : "black"}>Characters: {countTextarea} / {MAX_TEXTAREA_LENGTH}</Box>
+            <Text color="red" m="5px">{errors.description?.type === 'pattern' && errors.description?.message}</Text>
             <Text color="red" m="5px">{errors.description?.type === 'required' && "Description is Required"}</Text>
             <Text color="red" m="5px">{errors.description?.type === 'minLength' && "Minimum required characters are 100"}</Text>
             <Text color="red" m="5px">{errors.description?.type === 'maxLength' && "Maximum required characters are 800"}</Text>
@@ -392,44 +402,44 @@ const NewListing = () => {
               <FormLabel color="black">UBI Burning Amount</FormLabel>
               <Text fontStyle={"italic"}>(Remember that the amount to be burned will be deducted from the final sale price).</Text>
               <Box textAlign={"center"}>
-              <Slider
-                width={{base: "80%", sm: "80%", md: "100%"}}
-                mt="3em"
-                aria-label="slider-ex-6"
-                defaultValue={2}
-                min={0.6}
-                max={10}
-                onChange={(val) => setSliderValue(val)}
-              >
-                <SliderMark value={0.6} {...labelStyles}>
-                  0.6%
-                </SliderMark>
-                <SliderMark value={2} {...labelStyles}>
-                  2%
-                  <Text fontStyle={"italic"} fontSize={{base: "0.8em", md: "1em"}} ml="5px">(Recommended)</Text>
-                </SliderMark>
-                <SliderMark value={5} {...labelStyles}>
-                  5%
-                </SliderMark>
-                <SliderMark value={10} {...labelStyles}>
-                  10%
-                </SliderMark>
-                <SliderMark
-                  value={sliderValue}
-                  textAlign="center"
-                  bg="#00abd1"
-                  color="white"
-                  mt="-10"
-                  ml="-5"
-                  w="12"
+                <Slider
+                  width={{ base: "80%", sm: "80%", md: "100%" }}
+                  mt="3em"
+                  aria-label="slider-ex-6"
+                  defaultValue={2}
+                  min={0.6}
+                  max={10}
+                  onChange={(val) => setSliderValue(val)}
                 >
-                  {sliderValue}%
-                </SliderMark>
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
-                <SliderThumb />
-              </Slider>
+                  <SliderMark value={0.6} {...labelStyles}>
+                    0.6%
+                  </SliderMark>
+                  <SliderMark value={2} {...labelStyles}>
+                    2%
+                    <Text fontStyle={"italic"} fontSize={{ base: "0.8em", md: "1em" }} ml="5px">(Recommended)</Text>
+                  </SliderMark>
+                  <SliderMark value={5} {...labelStyles}>
+                    5%
+                  </SliderMark>
+                  <SliderMark value={10} {...labelStyles}>
+                    10%
+                  </SliderMark>
+                  <SliderMark
+                    value={sliderValue}
+                    textAlign="center"
+                    bg="#00abd1"
+                    color="white"
+                    mt="-10"
+                    ml="-5"
+                    w="12"
+                  >
+                    {sliderValue}%
+                  </SliderMark>
+                  <SliderTrack>
+                    <SliderFilledTrack />
+                  </SliderTrack>
+                  <SliderThumb />
+                </Slider>
               </Box>
             </FormControl>
           </Box>
