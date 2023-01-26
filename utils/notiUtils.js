@@ -42,7 +42,7 @@ const parseNoti = (type) => {
       break
     case 'ORDER_REFUNDED':
       path = 'profile/orders/detail'
-      message = 'Order refunded!'
+      message = 'Order Reimbursed!'
       break
     case 'Channel':
       path = 'profile/mailboxs'
