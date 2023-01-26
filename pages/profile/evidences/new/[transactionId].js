@@ -376,10 +376,16 @@ const NewEvidence = () => {
                 _placeholder={{ color: 'gray.400' }}
                 color="gray.700"
                 bg="white"
-                {...register('title', { required: true, minLength: 15, maxLength: 72, onChange: (e) => { setCountTitle(e.target.value.length) } })}
+                {...register('title', {
+                  required: true, minLength: 15, maxLength: 72, pattern: {
+                    value: /^(?![^a-zA-Z]+$)(?!$).*$/,
+                    message: "Only numbers are not allowed"
+                  }, onChange: (e) => { setCountTitle(e.target.value.length) }
+                })}
                 isRequired
               />
               <Box m="5px" fontStyle={"italic"} color={countTitle > MAX_TITLE_LENGTH ? "red" : "black"}>Characters: {countTitle} / {MAX_TITLE_LENGTH}</Box>
+              <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
               <Text color="red" m="5px">{errors.title?.type === 'required' && "Title is Required"}</Text>
               <Text color="red" m="5px">{errors.title?.type === 'minLength' && "Minimum required characters are 15"}</Text>
               <Text color="red" m="5px">{errors.title?.type === 'maxLength' && "Maximum required characters are 72"}</Text>
@@ -391,10 +397,16 @@ const NewEvidence = () => {
                 _placeholder={{ color: 'gray.400' }}
                 color="gray.700"
                 bg="white"
-                {...register('description', { required: true, maxLength: 800, minLength: 100, onChange: (e) => { setCountTextarea(e.target.value.length) } })}
+                {...register('description', {
+                  required: true, maxLength: 800, minLength: 100, pattern: {
+                    value: /^(?![^a-zA-Z]+$)(?!$).*$/,
+                    message: "Only numbers are not allowed"
+                  }, onChange: (e) => { setCountTextarea(e.target.value.length) }
+                })}
                 isRequired
               />
               <Box m="5px" fontStyle={"italic"} color={countTextarea > MAX_TEXTAREA_LENGTH ? "red" : "black"}>Characters: {countTextarea} / {MAX_TEXTAREA_LENGTH}</Box>
+              <Text color="red" m="5px">{errors.description?.type === 'pattern' && errors.description?.message}</Text>
               <Text color="red" m="5px">{errors.description?.type === 'required' && "Description is Required"}</Text>
               <Text color="red" m="5px">{errors.description?.type === 'minLength' && "Minimum required characters are 100"}</Text>
               <Text color="red" m="5px">{errors.description?.type === 'maxLength' && "Maximum required characters are 800"}</Text>
