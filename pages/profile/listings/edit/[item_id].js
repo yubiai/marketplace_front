@@ -122,7 +122,7 @@ const EditItem = () => {
                                 <Box>
                                     <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em">CreatedAt: {moment(item.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
                                     <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em" mb="1em">UpdatedAt: {moment(item.updatedAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
-                                    <Box noOfLines={2}>                                    
+                                    <Box>                                    
                                         <TitleItemEdit item={item} token={global.profile.token} mutate={mutate} />
                                         <DescriptionItemEdit item={item} token={global.profile.token} mutate={mutate} />
                                     </Box>
