@@ -79,30 +79,24 @@ const Orders = () => {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-            <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-              <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
-            </Link>
-          </BreadcrumbItem>
+              <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
+                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+              </Link>
+            </BreadcrumbItem>
 
             <BreadcrumbItem>
               <Text>Orders</Text>
             </BreadcrumbItem>
           </Breadcrumb>
-          
+
           {data && data.items && data.items.length === 0 && (
             <>
               <Center>
                 <Heading mt="5em">You do not have any orders.</Heading>
               </Center>
               <Center>
-                <Button
-                  backgroundColor={'#00abd1'}
-                  color={'white'}
-                  rounded={'full'}
-                  m="1em"
-                  onClick={() => router.push('/')}
-                >
-                  Back
+                <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
+                  Go Back
                 </Button>
               </Center>
             </>

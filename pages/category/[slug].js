@@ -79,14 +79,8 @@ const ItemsByCategory = ({ response, category }) => {
                 <Heading mt="5em">There is no item published in this subcategory.</Heading>
               </Center>
               <Center>
-                <Button
-                  backgroundColor={'#00abd1'}
-                  color={'white'}
-                  rounded={'full'}
-                  m="1em"
-                  onClick={() => router.push('/')}
-                >
-                  Back
+                <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
+                  Go Back
                 </Button>
               </Center>
             </>

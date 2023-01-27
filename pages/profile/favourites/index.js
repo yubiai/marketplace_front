@@ -72,10 +72,10 @@ const Favourites = () => {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-            <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-              <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
-            </Link>
-          </BreadcrumbItem>
+              <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
+                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+              </Link>
+            </BreadcrumbItem>
 
             <BreadcrumbItem>
               <Text>Your favourites</Text>
@@ -83,25 +83,19 @@ const Favourites = () => {
           </Breadcrumb>
 
           {data && data.items && data.items.length === 0 && (
-              <>
-                <Center>
+            <>
+              <Center>
                 <Heading mt="5em">
                   You do not have any items added to favourites.
                 </Heading>
-                </Center>
-                <Center>
-                  <Button
-                    backgroundColor={'#00abd1'}
-                    color={'white'}
-                    rounded={'full'}
-                    m="1em"
-                    onClick={() => router.push('/')}
-                  >
-                    Back
-                  </Button>
-                </Center>
-              </>
-            )}
+              </Center>
+              <Center>
+                <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
+                  Go Back
+                </Button>
+              </Center>
+            </>
+          )}
           <Grid
             templateRows={{ base: 'repeat(1, 1fr)', md: 'none' }}
             templateColumns={{ base: 'none', md: 'repeat(4, 1fr)' }}

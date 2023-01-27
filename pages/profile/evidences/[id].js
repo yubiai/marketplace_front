@@ -172,7 +172,9 @@ const EvidenceDetail = () => {
                             )
                         })}
 
-                        <Button onClick={() => router.back()} float="right" color="white" bg="green" mt="4em">Back</Button>
+                        <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
+              Go Back
+            </Button>
                     </Box>
                 </Center>
             </Container>

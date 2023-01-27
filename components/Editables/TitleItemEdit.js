@@ -23,6 +23,7 @@ const TitleItemEdit = ({ item, token, mutate }) => {
     const [isEditing, setIsEditing] = useState(false);
 
     const [countTitle, setCountTitle] = useState(0);
+    const MIN_TITLE_LENGTH = 15;
     const MAX_TITLE_LENGTH = 72;
 
 
@@ -110,14 +111,14 @@ const TitleItemEdit = ({ item, token, mutate }) => {
                                     color="gray.700"
                                     bg="white"
                                     {...register('title', {
-                                        required: true, minLength: 15, maxLength: 72, pattern: {
+                                        required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, pattern: {
                                             value: /^(?![^a-zA-Z]+$)(?!$).*$/,
                                             message: "Only numbers are not allowed"
                                         }, onChange: (e) => { setCountTitle(e.target.value.length) }
                                     })}
                                     isRequired
                                 />
-                                <Box m="5px" fontStyle={"italic"} color={countTitle > MAX_TITLE_LENGTH ? "red" : "black"}>Characters: {countTitle} / {MAX_TITLE_LENGTH}</Box>
+                                <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
                                 <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
                                 <Text color="red" m="5px">{errors.title?.type === 'required' && "Title is required"}</Text>
                                 <Text color="red" m="5px">{errors.title?.type === 'minLength' && "Minimum required characters are 15"}</Text>
