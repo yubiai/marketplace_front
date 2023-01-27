@@ -18,6 +18,10 @@ const stepsTour = [
     content: 'Click here for help!'
   },
   {
+    selector: '.step-bridge',
+    content: 'To make a bridge'
+  },
+  {
     selector: '.step-usermenu',
     content: 'Dive on to your profile'
   },

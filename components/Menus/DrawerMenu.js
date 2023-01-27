@@ -33,7 +33,8 @@ import {
   MdShoppingBag,
   MdForum,
   MdOutlinePowerSettingsNew,
-  MdArticle
+  MdArticle,
+  MdPublishedWithChanges
 } from 'react-icons/md'
 import { useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
@@ -288,6 +289,20 @@ const DrawerMenu = () => {
                   >
                     <ListIcon as={MdHelp} />
                     Help
+                  </Button>
+                </Link>
+              </ListItem>
+              <ListItem>
+                <Link href="https://bridge.connext.network/?receivingChainId=100">
+                  <Button
+                    onClick={() => onClose()}
+                    className="step-bridge"
+                    w="full"
+                    bg="transparent"
+                    justifyContent={'left'}
+                  >
+                    <ListIcon as={MdPublishedWithChanges} />
+                    Bridge
                   </Button>
                 </Link>
               </ListItem>

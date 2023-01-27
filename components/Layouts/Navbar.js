@@ -127,6 +127,11 @@ const Navbar = () => {
       href: '/help',
       guide: 'step-help'
     },
+    {
+      label: 'Bridge',
+      href: 'https://bridge.connext.network/?receivingChainId=100',
+      guide: 'step-bridge'
+    },
   ]
 
   return (
