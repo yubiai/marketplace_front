@@ -121,14 +121,8 @@ const Notifications = () => {
                 <Heading mt="5em">You do not have any notifications.</Heading>
               </Center>
               <Center>
-                <Button
-                  backgroundColor={'#00abd1'}
-                  color={'white'}
-                  rounded={'full'}
-                  m="1em"
-                  onClick={() => router.push('/')}
-                >
-                  Back
+                <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
+                  Go Back
                 </Button>
               </Center>
             </>

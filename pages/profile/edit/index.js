@@ -159,7 +159,7 @@ const ProfileEdit = () => {
             />
             <Box float={'right'} m="2em">
               <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.push('/profile')}>
-                Back
+                Go Back
               </Button>
               <Button bg="#00abd1" color="white" _hover={{ bg: "blue.300" }} type="submit">
                 Save

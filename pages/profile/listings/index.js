@@ -77,10 +77,10 @@ const Listings = () => {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-            <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-              <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
-            </Link>
-          </BreadcrumbItem>
+              <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
+                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+              </Link>
+            </BreadcrumbItem>
 
             <BreadcrumbItem>
               <Text>Your Listings</Text>
@@ -93,14 +93,8 @@ const Listings = () => {
                 <Heading mt="5em">You do not have any items listings.</Heading>
               </Center>
               <Center>
-                <Button
-                  backgroundColor={'#00abd1'}
-                  color={'white'}
-                  rounded={'full'}
-                  m="1em"
-                  onClick={() => router.push('/')}
-                >
-                  Back
+                <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
+                  Go Back
                 </Button>
               </Center>
             </>

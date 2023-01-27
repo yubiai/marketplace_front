@@ -22,8 +22,9 @@ const DescriptionItemEdit = ({ item, token, mutate }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
 
-    const [countTextarea, setCountTextarea] = useState(0);
-    const MAX_TEXTAREA_LENGTH = 800;
+    const [countDescription, setCountDescription] = useState(0);
+    const MIN_DESCRIPTION_LENGTH = 100;
+    const MAX_DESCRIPTION_LENGTH = 800;
 
 
     // Open and Close Edit
@@ -31,7 +32,7 @@ const DescriptionItemEdit = ({ item, token, mutate }) => {
         reset({
             description: item.description
         });
-        setCountTextarea(item.description.length)
+        setCountDescription(item.description.length)
         setIsEditing(true);
         return
     }
@@ -110,14 +111,14 @@ const DescriptionItemEdit = ({ item, token, mutate }) => {
                                     color="gray.700"
                                     bg="white"
                                     {...register('description', {
-                                        required: true, maxLength: 800, minLength: 100, pattern: {
+                                        required: true, maxLength: MAX_DESCRIPTION_LENGTH, minLength: MIN_DESCRIPTION_LENGTH, pattern: {
                                             value: /^(?![^a-zA-Z]+$)(?!$).*$/,
                                             message: "Only numbers are not allowed"
-                                        }, onChange: (e) => { setCountTextarea(e.target.value.length) }
+                                        }, onChange: (e) => { setCountDescription(e.target.value.length) }
                                     })}
                                     isRequired
                                 />
-                                <Box m="5px" fontStyle={"italic"} color={countTextarea > MAX_TEXTAREA_LENGTH ? "red" : "black"}>Characters: {countTextarea} / {MAX_TEXTAREA_LENGTH}</Box>
+                                <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
                                 <Text color="red" m="5px">{errors.description?.type === 'pattern' && errors.description?.message}</Text>
                                 <Text color="red" m="5px">{errors.description?.type === 'required' && "Description is Required"}</Text>
                                 <Text color="red" m="5px">{errors.description?.type === 'minLength' && "Minimum required characters are 100"}</Text>
