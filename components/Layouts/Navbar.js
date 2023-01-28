@@ -123,15 +123,15 @@ const Navbar = () => {
       guide: 'step-favourites'
     },
     {
-      label: 'Help',
-      href: '/help',
-      guide: 'step-help'
-    },
-    {
       label: 'Bridge',
       href: 'https://bridge.connext.network/?receivingChainId=100',
       guide: 'step-bridge'
     },
+    {
+      label: 'Help',
+      href: '/help',
+      guide: 'step-help'
+    }
   ]
 
   return (
