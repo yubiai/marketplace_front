@@ -51,7 +51,7 @@ const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'video/
 const labelStyles = {
   mt: '2',
   ml: '-2.5',
-  fontSize: 'sm',
+  fontSize: '10px',
 };
 
 const NewEvidence = () => {
@@ -420,26 +420,35 @@ const NewEvidence = () => {
                 orderDetail && orderDetail.item &&
                 <p>{parseWeiToTokenAmount(valueToClaim)}{orderDetail.item.currencySymbolPrice}</p>
               }
-              <Slider
-                mt="3em"
-                aria-label="slider-ex-6"
-                defaultValue={0}
-                color="black"
-                style={{ margin: "10px 0" }}
-                min={0}
-                max={parseInt(orderDetail.transaction.transactionPayedAmount, 10)}
-                onChange={(val) => setValueToClaim(val)}
-              >
-                <SliderMark {...labelStyles} value={0}>0</SliderMark>
-                {
-                  (marksToClaim && marksToClaim.length) && marksToClaim.map(
-                    (wei, index) => <SliderMark {...labelStyles} value={wei} key={`slider-mark-amount-${index}`}>{parseWeiToTokenAmount(wei)}</SliderMark>)
-                }
-                <SliderTrack>
-                  <SliderFilledTrack />
-                </SliderTrack>
-                <SliderThumb />
-              </Slider>
+              <Box textAlign={"center"}>
+                <Slider
+                  width={{ base: "90%", sm: "90%", md: "100%" }}
+                  mt="3em"
+                  aria-label="slider-ex-6"
+                  defaultValue={0}
+                  color="black"
+                  style={{ margin: "10px 0" }}
+                  min={0}
+                  max={parseInt(orderDetail.transaction.transactionPayedAmount, 10)}
+                  onChange={(val) => setValueToClaim(val)}
+                >
+                  <SliderMark {...labelStyles} value={0}>0</SliderMark>
+                  {
+                    (marksToClaim && marksToClaim.length) && marksToClaim.map(
+                      (wei, index) => {
+                        if(index%2==0 && index !== 0){
+                          return <SliderMark {...labelStyles} value={wei} key={`slider-mark-amount-${index}`}>{parseWeiToTokenAmount(wei)}</SliderMark>
+                        } else {
+                          return null
+                        }
+                      })
+                  }
+                  <SliderTrack>
+                    <SliderFilledTrack />
+                  </SliderTrack>
+                  <SliderThumb />
+                </Slider>
+              </Box>
             </FormControl>
             <Divider />
             <input
@@ -449,11 +458,11 @@ const NewEvidence = () => {
               ref={inputRef}
               name="files"
               onChange={verifyFiles}
-              style={{ display: 'none' }}
+              style={{ display: 'none', marginTop: '1em' }}
             />
-            <Button bg="gray.500" color="white" _hover={{
+            <Button mt="3em" bg="gray.500" color="white" _hover={{
               bg: "gray.400"
-            }} onClick={() => inputRef.current.click()} mt="1em"
+            }} onClick={() => inputRef.current.click()}
             >
               <AttachmentIcon w={6} h={6} m="4px" /> Attach files*
             </Button>
@@ -481,17 +490,19 @@ const NewEvidence = () => {
             <AddMessageEvidence channelDetail={channelDetail} selectedMsg={selectedMsg} setSelectedMsg={setSelectedMsg} />
           </Box>
           <Text color="red">{errorMsg && errorMsg}</Text>
-          <Box float={'left'} mt="2em">
-            <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
-              Go Back
-            </Button>
-          </Box>
-          <Box float={'right'} m="2em">
-            <Button bg="#00abd1" color="white" type="submit" form="hook-form" _hover={{
-              bg: "gray.400"
-            }}>
-              Preview &amp; Submit
-            </Button>
+          <Box>
+            <Box float={'left'} mt="2em">
+              <Button color={"black"} _hover={{ bg: "gray.200" }} onClick={() => router.back()}>
+                Go Back
+              </Button>
+            </Box>
+            <Box float={'right'} mt="2em">
+              <Button bg="#00abd1" color="white" type="submit" form="hook-form" _hover={{
+                bg: "gray.400"
+              }}>
+                Preview &amp; Submit
+              </Button>
+            </Box>
           </Box>
         </form>
         <Modal
