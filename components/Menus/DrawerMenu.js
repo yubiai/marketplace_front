@@ -131,6 +131,20 @@ const DrawerMenu = () => {
                 </Link>
               </ListItem>
               <ListItem>
+                <Link href="https://bridge.connext.network/?receivingChainId=100">
+                  <Button
+                    onClick={() => onClose()}
+                    className="step-bridge"
+                    w="full"
+                    bg="transparent"
+                    justifyContent={'left'}
+                  >
+                    <ListIcon as={MdPublishedWithChanges} />
+                    Bridge
+                  </Button>
+                </Link>
+              </ListItem>
+              <ListItem>
                 <Button
                   className='step-category'
                   onClick={() => onCategory()}
@@ -289,20 +303,6 @@ const DrawerMenu = () => {
                   >
                     <ListIcon as={MdHelp} />
                     Help
-                  </Button>
-                </Link>
-              </ListItem>
-              <ListItem>
-                <Link href="https://bridge.connext.network/?receivingChainId=100">
-                  <Button
-                    onClick={() => onClose()}
-                    className="step-bridge"
-                    w="full"
-                    bg="transparent"
-                    justifyContent={'left'}
-                  >
-                    <ListIcon as={MdPublishedWithChanges} />
-                    Bridge
                   </Button>
                 </Link>
               </ListItem>
