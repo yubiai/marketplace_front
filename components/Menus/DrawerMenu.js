@@ -90,7 +90,7 @@ const DrawerMenu = () => {
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent overflow='scroll'>
           <DrawerCloseButton />
 
           <DrawerHeader bg="yb.1">
