@@ -14,6 +14,7 @@ import {
   FiMenu
 } from 'react-icons/fi'
 import Link from 'next/link'
+import { useRouter } from "next/router";
 import { FaUserCircle } from 'react-icons/fa'
 import { BsFillBellFill } from 'react-icons/bs'
 import { MdArticle, MdFavorite, MdForum, MdSell, MdShoppingBag, MdShoppingBasket } from 'react-icons/md'
@@ -60,6 +61,7 @@ export default function ProfileMenu({ children }) {
 }
 
 const SidebarContent = ({ onClose, ...rest }) => {
+  const router = useRouter();
   return (
     <Box
       bg={'white'}
@@ -77,7 +79,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton color="black" display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} url={link.url}>
+        <NavItem key={link.name} icon={link.icon} url={link.url} onClose={onClose} samePathname={link && link.url === router.pathname ? true : false}>
           {link.name}
         </NavItem>
       ))}
@@ -85,12 +87,17 @@ const SidebarContent = ({ onClose, ...rest }) => {
   )
 }
 
-const NavItem = ({ icon, url, children, ...rest }) => {
+const NavItem = ({ icon, url, children, onClose, samePathname, ...rest }) => {
   return (
     <Link
       href={url}
       style={{ textDecoration: 'none' }}
       _focus={{ boxShadow: 'none' }}
+      onClick={() => {
+        if (samePathname) {
+          onClose()
+        }
+      }}
     >
       <Flex
         align="center"
