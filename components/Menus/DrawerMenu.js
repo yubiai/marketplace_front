@@ -34,7 +34,7 @@ import {
   MdForum,
   MdOutlinePowerSettingsNew,
   MdArticle,
-  MdPublishedWithChanges
+  MdOutlineShuffle
 } from 'react-icons/md'
 import { useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
@@ -131,17 +131,22 @@ const DrawerMenu = () => {
                 </Link>
               </ListItem>
               <ListItem>
-                <Link href="https://bridge.connext.network/?receivingChainId=100">
-                  <Button
-                    onClick={() => onClose()}
-                    className="step-bridge"
-                    w="full"
-                    bg="transparent"
-                    justifyContent={'left'}
-                  >
-                    <ListIcon as={MdPublishedWithChanges} />
-                    Bridge
-                  </Button>
+                <Link
+                  href="https://bridge.connext.network/?receivingChainId=100"
+                  passHref legacyBehavior
+                >
+                  <a target="_blank" rel="noopener noreferrer">
+                    <Button
+                      className='step-bridge'
+                      onClick={() => onCategory()}
+                      w="full"
+                      bg="transparent"
+                      justifyContent={'left'}
+                    >
+                      <ListIcon as={MdOutlineShuffle} />
+                      Bridge
+                    </Button>
+                  </a>
                 </Link>
               </ListItem>
               <ListItem>

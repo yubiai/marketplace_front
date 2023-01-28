@@ -35,21 +35,40 @@ const Navbar = () => {
                 <Box key={navItem.label}>
                   <Popover trigger={'hover'} placement={'bottom-start'}>
                     <PopoverTrigger>
-                      <Button
-                        className={navItem.guide}
-                        p={2}
-                        fontSize={'16px'}
-                        bg="transparent"
-                        fontWeight={500}
-                        color={linkColor}
-                        onClick={() => router.push(navItem.href ? navItem.href : '/')}
-                        _hover={{
-                          textDecoration: 'none',
-                          color: linkHoverColor,
-                        }}
-                      >
-                        {navItem.label}
-                      </Button>
+                      {navItem.external ? (
+                        <a href={navItem.href} target="_blank" rel="noopener noreferrer">
+                          <Button
+                            className={navItem.guide}
+                            p={2}
+                            fontSize={'16px'}
+                            bg="transparent"
+                            fontWeight={500}
+                            color={linkColor}
+                            _hover={{
+                              textDecoration: 'none',
+                              color: linkHoverColor,
+                            }}
+                          >
+                            Bridge
+                          </Button>
+                        </a>
+                      ) : (
+                        <Button
+                          className={navItem.guide}
+                          p={2}
+                          fontSize={'16px'}
+                          bg="transparent"
+                          fontWeight={500}
+                          color={linkColor}
+                          onClick={() => router.push(navItem.href ? navItem.href : '/')}
+                          _hover={{
+                            textDecoration: 'none',
+                            color: linkHoverColor,
+                          }}
+                        >
+                          {navItem.label}
+                        </Button>
+                      )}
                     </PopoverTrigger>
 
                     {navItem.children && (
@@ -125,7 +144,8 @@ const Navbar = () => {
     {
       label: 'Bridge',
       href: 'https://bridge.connext.network/?receivingChainId=100',
-      guide: 'step-bridge'
+      guide: 'step-bridge',
+      external: true
     },
     {
       label: 'Help',
@@ -162,7 +182,7 @@ const Navbar = () => {
                   <Notification />
                 </>
               ) : null}
-              
+
             </Stack>
           </Flex>
         </Container>

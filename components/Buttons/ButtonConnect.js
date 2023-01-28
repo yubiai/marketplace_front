@@ -208,9 +208,9 @@ const ButtonConnect = () => {
             </Button>
 
           </PopoverTrigger>
-          <PopoverContent width={{ base: '250px', md: 'full' }} pr={{ base: '0px', md: '1.5em' }}>
+          <PopoverContent width={{ base: '260px', md: 'full' }} pr={{ base: '0px', md: '1.5em' }}>
             <PopoverArrow />
-            <PopoverCloseButton />
+            <PopoverCloseButton ml="1.5em" />
             <PopoverBody>
               Connect with your wallet and start earning crypto or hiring with your cryptos
             </PopoverBody>
