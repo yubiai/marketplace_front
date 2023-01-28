@@ -306,6 +306,76 @@ const DrawerMenu = () => {
                   </Button>
                 </Link>
               </ListItem>
+              <ListItem>
+                <Link href="/help">
+                  <Button
+                    onClick={() => onClose()}
+                    className="step-help"
+                    w="full"
+                    bg="transparent"
+                    justifyContent={'left'}
+                  >
+                    <ListIcon as={MdHelp} />
+                    Help
+                  </Button>
+                </Link>
+              </ListItem>
+              <ListItem>
+                <Link href="/help">
+                  <Button
+                    onClick={() => onClose()}
+                    className="step-help"
+                    w="full"
+                    bg="transparent"
+                    justifyContent={'left'}
+                  >
+                    <ListIcon as={MdHelp} />
+                    Help
+                  </Button>
+                </Link>
+              </ListItem>
+              <ListItem>
+                <Link href="/help">
+                  <Button
+                    onClick={() => onClose()}
+                    className="step-help"
+                    w="full"
+                    bg="transparent"
+                    justifyContent={'left'}
+                  >
+                    <ListIcon as={MdHelp} />
+                    Help
+                  </Button>
+                </Link>
+              </ListItem>
+              <ListItem>
+                <Link href="/help">
+                  <Button
+                    onClick={() => onClose()}
+                    className="step-help"
+                    w="full"
+                    bg="transparent"
+                    justifyContent={'left'}
+                  >
+                    <ListIcon as={MdHelp} />
+                    Help
+                  </Button>
+                </Link>
+              </ListItem>
+              <ListItem>
+                <Link href="/help">
+                  <Button
+                    onClick={() => onClose()}
+                    className="step-help"
+                    w="full"
+                    bg="transparent"
+                    justifyContent={'left'}
+                  >
+                    <ListIcon as={MdHelp} />
+                    Help
+                  </Button>
+                </Link>
+              </ListItem>
             </List>
           </DrawerBody>
 
