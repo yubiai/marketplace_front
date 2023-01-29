@@ -17,8 +17,8 @@ const Help = () => {
         flexDirection={'column'}
         p={4}
       >
-        <Heading mt="1em">Help</Heading>
-        <Text ml="2px" mt="1em" color="black">For any support/suggestions please reach us at <Link href="mailto:contact@yubiai.market"><Button padding="0px" bg="transparent" h="0px" color="#00abd1">contact@yubiai.market</Button></Link></Text>
+        <Heading mt="10px">Help</Heading>
+        <Text ml="2px" mt="10px" color="black">For any support/suggestions please reach us at <Link href="mailto:contact@yubiai.market"><Button padding="0px" bg="transparent" h="0px" color="#00abd1">contact@yubiai.market</Button></Link></Text>
 
         <Box
           padding={"1.5em"}
@@ -26,7 +26,7 @@ const Help = () => {
           boxShadow={"0 4px 4px 0 rgba(0, 0, 0, 0.25)"}
           bg="white"
           color="black"
-          mt="1em"
+          mt="10px"
         >
           <Heading>
             <Text>What is Yubiai?</Text>
@@ -63,6 +63,30 @@ const Help = () => {
             rejected.
           </Text>
           <Heading mt="10px">
+            <Text >I want to invest. Are you raising funds?</Text>
+          </Heading>
+          <Text mt="5px" >
+            Yes, we are. Please, email us so we can discuss further these opportunities.
+          </Text>
+          <Heading mt="10px">
+            <Text >How much you have raised so far?</Text>
+          </Heading>
+          <Text mt="5px" >
+            So far, we have raised $50.000 as an initial seed investment by participating in the incubator program of Cooperative Kleros.
+          </Text>
+          <Heading mt="10px">
+            <Text >Are you incorporated?</Text>
+          </Heading>
+          <Text mt="5px" >
+            We are in process of being incorporated.
+          </Text>
+          <Heading mt="10px">
+            <Text >I have a question that is not answered here.</Text>
+          </Heading>
+          <Text mt="5px">
+            For any other questions, don’t hesitate to contact us at <Link href="mailto:contact@yubiai.market" color="blue.400">contact@yubiai.market</Link>
+          </Text>
+          <Heading mt="10px">
             <Text>Terms and Conditions</Text>
           </Heading>
           <Link href="/help/terms-and-conditions">
@@ -78,7 +102,7 @@ const Help = () => {
         <Stack
           direction={["column", "row"]}
           spacing={{ base: "24px", md: "24px" }}
-          mt="1em"
+          mt="10px"
           mb="2em"
         >
           <BuyerFaqCard />
