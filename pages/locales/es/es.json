@@ -1,6 +1,8 @@
 {
+    
     "navbar": {
-      "bridge": "Puente"
-      
+      "Connect": "Conectar Billetera",
+      "categories": "Categorías"
     }
+    
   }

@@ -1,10 +1,9 @@
 {
+    
     "navbar": {
-      "bridge": "Bridge",
-      "sales": "Sales",
-      "mailbox": "Mailbox",
-      "my_info": "My info",
-      "kleros_dispute_resolver": "Kleros dispute resolver",
-      "disconnect": "Disconnect"
+      "Connect": "Connect",
+      "categories": "Categories"  
+      
+      
     }
   }

@@ -12,12 +12,15 @@ import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { useEffect } from 'react';
 import { connectWallet, signInWithEthereum, verifyNetwork } from '../../utils/connectWeb3';
 
+import { useTranslation } from "react-i18next";
+
 let loading = false;
 
 const ButtonConnect = () => {
   const toast = useToast();
   const dispatch = useDispatchGlobal();
   const global = useGlobal();
+  const { t } = useTranslation("navbar");
   const { isOpen, onToggle, onClose } = useDisclosure()
 
   const { setIsOpen } = useTour();
@@ -204,7 +207,7 @@ const ButtonConnect = () => {
               onClick={() => onConnect()}
               isDisabled={loading || global.profile && global.profile.eth_address}
             >
-              Connect
+              {t("Connect")}
             </Button>
 
           </PopoverTrigger>

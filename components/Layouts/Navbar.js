@@ -52,7 +52,7 @@ const Navbar = () => {
                               color: linkHoverColor,
                             }}
                           >
-                            {t("bridge")}
+                            Bridge
                           </Button>
                         </a>
                       ) : (
@@ -124,7 +124,7 @@ const Navbar = () => {
 
   const NAV_ITEMS = [
     {
-      label: 'Categories',
+      label: t("categories"),
       href: '/category/services',
       guide: 'step-category',
       children: [

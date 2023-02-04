@@ -42,10 +42,11 @@ import { useRouter } from 'next/router'
 import ButtonConnect from '../Buttons/ButtonConnect'
 import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
 
+
 const DrawerMenu = () => {
   const global = useGlobal()
   const router = useRouter()
-
+  
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
 
@@ -160,7 +161,7 @@ const DrawerMenu = () => {
                   <ListIcon
                     as={listCategory ? MdArrowUpward : MdArrowDownward}
                   />
-                  Categories
+                   Categories
                 </Button>
               </ListItem>
               {listCategory && (
