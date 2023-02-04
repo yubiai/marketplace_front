@@ -20,10 +20,6 @@ import { BsFillBellFill } from 'react-icons/bs'
 import { MdArticle, MdFavorite, MdForum, MdSell, MdShoppingBag, MdShoppingBasket } from 'react-icons/md'
 import { useTranslation } from "react-i18next";
 
-
-
-
-
 export default function ProfileMenu({ children }) {
   
   const { isOpen, onOpen, onClose } = useDisclosure()

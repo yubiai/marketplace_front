@@ -2,7 +2,7 @@
     
     "navbar": {
       "Connect": "Connect",
-      "categories": "Categories",
+      "Categories": "Categories",
       "Services": "Services",
       "Sell": "Sell",
       "Favourites": "Favourites" ,
@@ -18,7 +18,22 @@
         "Questions": "Questions",
         "Orders": "Orders",
         "Sales": "Sales",
-        "Favourites": "Favourites"
+        "Favourites": "Favourites",
+        "Menu": "Menu"
 
+    },
+    "drawermenu": {
+        "Home": "Home",
+        "Profile": "Profile",
+        "Notifications": "Notifications",
+        "New Listing": "New Listing",
+        "Listings": "Listings",
+        "Questions": "Questions",
+        "Orders": "Orders",
+        "Sales": "Sales",
+        "Help": "Help",
+        "Favourites": "Favourites",
+        "Disconnect": "Disconnect"
+  
     }
   }

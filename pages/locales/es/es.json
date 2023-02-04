@@ -18,8 +18,23 @@
         "Questions": "Preguntas",
         "Orders": "Mis Compras",
         "Sales": "Ventas",
-        "Favourites": "Favoritos"
+        "Favourites": "Favoritos",
+        "Menu": "Menú"
 
-    }
+    },
+    "drawermenu": {
+      "Home": "Inicio",
+      "Profile": "Perfil",
+      "Notifications": "Notificaciones",
+      "New Listing": "Vender",
+      "Listings": "Artículos",
+      "Questions": "Preguntas",
+      "Orders": "Mis Compras",
+      "Sales": "Ventas",
+      "Favourites": "Favoritos",
+      "Help": "Ayuda",
+      "Disconnect": "Desconectarse"
+
+  }
     
   }

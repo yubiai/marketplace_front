@@ -124,7 +124,7 @@ const Navbar = () => {
 
   const NAV_ITEMS = [
     {
-      label: t("categories"),
+      label: t("Categories"),
       href: '/category/services',
       guide: 'step-category',
       children: [
