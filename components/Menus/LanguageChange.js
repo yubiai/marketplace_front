@@ -24,7 +24,7 @@ const LanguageChange = () => {
       >
         {i18n.language ? i18n.language.toUpperCase() : 'LANG'}
       </MenuButton>
-      <MenuList>
+      <MenuList style={{ minWidth: "fit-content" }}>
         <MenuItem onClick={() => {i18n.changeLanguage("en")}}>EN</MenuItem>
         <MenuItem onClick={() => {i18n.changeLanguage("es")}}>ES</MenuItem>
         <MenuItem onClick={() => {i18n.changeLanguage("pt")}}>PT</MenuItem>

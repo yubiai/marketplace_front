@@ -3,7 +3,23 @@
     "navbar": {
       "Connect": "Conectar Billetera",
       "categories": "Categorías",
-      "Services": "Servicios"
+      "Services": "Servicios",
+      "Sell": "Vender",
+      "Favourites": "Favoritos",
+      "Help": "Ayuda",
+      "Search in Yubiai": "Buscar en Yubiai",
+      "Profile": "Perfil"
+    },
+    "profilemenu": {
+        "Profile": "Perfil",
+        "Notifications": "Notificaciones",
+        "New Listing": "Vender",
+        "Listings": "Artículos",
+        "Questions": "Preguntas",
+        "Orders": "Mis Compras",
+        "Sales": "Ventas",
+        "Favourites": "Favoritos"
+
     }
     
   }

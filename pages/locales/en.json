@@ -3,8 +3,22 @@
     "navbar": {
       "Connect": "Connect",
       "categories": "Categories",
-      "Services": "Services"  
-      
-      
+      "Services": "Services",
+      "Sell": "Sell",
+      "Favourites": "Favourites" ,
+      "Help": "Help",
+      "Search in Yubiai": "Search in Yubiai"
+        
+    },
+    "profilemenu": {
+        "Profile": "Profile",
+        "Notifications": "Notifications",
+        "New Listing": "New Listing",
+        "Listings": "Listings",
+        "Questions": "Questions",
+        "Orders": "Orders",
+        "Sales": "Sales",
+        "Favourites": "Favourites"
+
     }
   }

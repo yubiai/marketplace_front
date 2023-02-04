@@ -2,10 +2,12 @@ import { SearchIcon, CloseIcon } from '@chakra-ui/icons'
 import { Input, InputGroup, InputLeftElement, InputRightElement } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const SearchBar = () => {
   const router = useRouter()
   const [query, setQuery] = useState("");
+  const { t } = useTranslation("navbar");
 
   const onSearch = (search) => {
     let verifyChart = search.trim();
@@ -58,7 +60,7 @@ const SearchBar = () => {
           backgroundColor={'white'}
           focusBorderColor={'transparent'}
           size="md"
-          placeholder={`Search in Yubiai`}
+          placeholder= {t(`Search in Yubiai`)}
           _placeholder={{ color: 'gray.400' }}
           onChange={(e) => onSearch(e.target.value)}
           value={query}

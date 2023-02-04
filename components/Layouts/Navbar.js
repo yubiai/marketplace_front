@@ -135,12 +135,12 @@ const Navbar = () => {
       ],
     },
     {
-      label: global && global.profile ? 'Sell' : null,
+      label: global && global.profile ? t('Sell') : null,
       href: '/listing/new',
       guide: 'step-sell'
     },
     {
-      label: global && global.profile ? 'Favourites' : null,
+      label: global && global.profile ? t('Favourites') : null,
       href: '/profile/favourites',
       guide: 'step-favourites'
     },
@@ -151,7 +151,7 @@ const Navbar = () => {
       external: true
     },
     {
-      label: 'Help',
+      label: t('Help'),
       href: '/help',
       guide: 'step-help'
     }
