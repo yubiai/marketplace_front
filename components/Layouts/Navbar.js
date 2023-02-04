@@ -15,11 +15,14 @@ import UserMenu from '../Menus/UserMenu'
 import { useGlobal } from '../../providers/globalProvider'
 import { useRouter } from 'next/router'
 import Notification from '../Menus/Notification'
+import { useTranslation } from "react-i18next";
+
 
 const Navbar = () => {
   const global = useGlobal()
   const router = useRouter();
 
+  const { t } = useTranslation("navbar");
 
   const DesktopNav = () => {
     const linkColor = 'white'
@@ -49,7 +52,7 @@ const Navbar = () => {
                               color: linkHoverColor,
                             }}
                           >
-                            Bridge
+                            {t("bridge")}
                           </Button>
                         </a>
                       ) : (

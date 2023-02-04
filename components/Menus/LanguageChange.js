@@ -1,7 +1,9 @@
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
+import { useTranslation } from "react-i18next";
 
 const LanguageChange = () => {
+  const { i18n } = useTranslation("navbar");
   return (
     <Menu>
       <MenuButton
@@ -15,13 +17,13 @@ const LanguageChange = () => {
         _hover={{ bg: '#1C538A', color: 'gray.200' }}
         _expanded={{ bg: 'blue.400' }}
         _focus={{ boxShadow: 'outline' }}
-        isDisabled
+        // isDisabled
       >
         EN
       </MenuButton>
       <MenuList>
-        <MenuItem>EN</MenuItem>
-        <MenuItem>ES</MenuItem>
+        <MenuItem onClick={() => {i18n.changeLanguage("en")}}>EN</MenuItem>
+        <MenuItem onClick={() => {i18n.changeLanguage("es")}}>ES</MenuItem>
         <MenuItem>PT</MenuItem>
         <MenuItem>DE</MenuItem>
         <MenuItem>IT</MenuItem>
