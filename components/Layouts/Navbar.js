@@ -129,7 +129,7 @@ const Navbar = () => {
       guide: 'step-category',
       children: [
         {
-          label: 'Services',
+          label: t("Services"),
           href: '/category/services',
         },
       ],
