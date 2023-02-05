@@ -76,9 +76,15 @@
         "Services": "Servicios",
         "Sub - Categories": "Sub - Categorías",
         "subcategories": {
-          "Marketing": "Marketing2",
+          "Marketing": "Marketing",
           "Plumbing": "Plomeria",
-          "Professionals": "Profesional"
+          "Professionals": "Profesional",
+          "Art and Graphics": "Arte y diseño gráfico",
+          "Travels and Citizenship": "Viajes y ciudadanía",
+          "Translations": "Traducciones",
+          "Advisory/Consulting": "Asesoría/Consultoría",
+          "Textile Inputs": "Produccion textil"
+
         }
     },
     "footer": {
