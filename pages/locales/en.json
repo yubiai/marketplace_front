@@ -34,6 +34,33 @@
         "Help": "Help",
         "Favourites": "Favourites",
         "Disconnect": "Disconnect"
-  
+    },
+    "notifications": {
+        "Home": "Inicio",
+        "Profile": "Profile",
+        "Notifications": "Notifications",
+        "You do not have any notifications.": "You do not have any notifications.",
+        "Go Back": "Go Back",
+        "View All": "View All",
+        "Mark all as read": "Mark all as read",
+        "Mark all notifications as read": "Mark all notifications as read",
+        "Are you sure you want to mark all your notifications as read?": "Are you sure you want to mark all your notifications as read?",
+        "Accept": "Accept",
+        "Cancel": "Cancel",
+        "New Message!": "New Message!",
+        "New Sale!": "New Sale!",
+        "Your Item was accepted and published.": "Your Item was accepted and published.",
+        "Order Paid": "Order Paid",
+        "Order dispute receiver fee pending.": "Order dispute receiver fee pending.",
+        "Order dispute in progress.": "Order dispute in progress.",
+        "Order dispute finished.": "Order dispute finished.",
+        "Order dispute appealable.": "Order dispute appealable.",
+        "Work completed by seller!": "Work completed by seller!",
+        "Order Reimbursed!": "Order Reimbursed!",
+        "New Question!": "New Question!",
+        "New Answer!": "New Answer!",
+        "Question status change.": "Question status change.",
+        "New Notification N/A": "New Notification N/A"
+
     }
   }
