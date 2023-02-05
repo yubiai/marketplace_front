@@ -111,6 +111,9 @@ const SidebarContent = ({ onClose, subcategories, ...rest }) => {
       {subcategories &&
         subcategories.length > 0 &&
         subcategories.map((subcategory, i) => {
+          subcategory = {...subcategory,
+              title:  t("subcategories." + subcategory.title)
+          }
           if (
             subcategory &&
             subcategory.items &&

@@ -74,7 +74,12 @@
     "categories": {
         "Categories": "Categories",
         "Services": "Services",
-        "Sub - Categories": "Sub - Categories"
+        "Sub - Categories": "Sub - Categories",
+        "subcategories": {
+            "Marketing": "Marketing",
+            "Plumbing": "Plumbing",
+            "Professionals": "Professionals"
+        }
     },
     "footer": {
         "Terms and conditions": "Terms and conditions"

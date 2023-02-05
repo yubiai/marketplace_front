@@ -1,4 +1,4 @@
-const parseNoti = (type) => {
+const parseNoti = (type, t) => {
 
   let message = null;
   let path = null;
@@ -22,7 +22,7 @@ const parseNoti = (type) => {
       break
     case 'ORDER_DISPUTE_IN_PROGRESS':
       path = 'profile/orders/as-seller'
-      message = 'Order dispute in progress.'
+      message = t ? t("Order dispute in progress.") : "Order dispute in progress."
       break
     case 'ORDER_DISPUTE_FINISHED_SELLER':
       path = 'profile/orders/as-seller'

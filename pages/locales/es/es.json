@@ -74,7 +74,12 @@
     "categories": {
         "Categories": "Categorías",
         "Services": "Servicios",
-        "Sub - Categories": "Sub - Categorías"
+        "Sub - Categories": "Sub - Categorías",
+        "subcategories": {
+          "Marketing": "Marketing2",
+          "Plumbing": "Plomeria",
+          "Professionals": "Profesional"
+        }
     },
     "footer": {
         "Terms and conditions": "Términos y condiciones"

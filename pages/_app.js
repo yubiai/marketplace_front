@@ -19,6 +19,8 @@ import { SWRConfig } from 'swr'
 import TourGuideProvider from '../providers/tourProvider';
 import MetaErrorAlert from '../components/Alerts/metaErrorAlert';
 
+import i18nInit from '../utils/i18n';
+
 Axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API_URL
 //Axios.defaults.withCredentials = true;
 
@@ -32,6 +34,8 @@ const fetcher = async (url) => {
 }
 
 function MyApp({ Component, pageProps }) {
+  i18nInit();
+
   return (
     <ChakraProvider theme={theme}>
       <ColorModeScript initialColorMode={theme.config.initialColorMode} />

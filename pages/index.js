@@ -6,10 +6,7 @@ import CarrouselCards from '../components/Cards/CarrouselCards'
 import Loading from '../components/Spinners/Loading'
 import { useGlobal } from '../providers/globalProvider'
 import { profileService } from '../services/profileService'
-import i18nInit from '../utils/i18n';
 import { useTranslation } from "react-i18next";
-
-i18nInit();
 
 const Home = ({ items }) => {
   const global = useGlobal();

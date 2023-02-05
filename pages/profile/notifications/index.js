@@ -155,7 +155,7 @@ const Notifications = () => {
                       notis.items.map((item, i) => {
                         return (
                           <div key={i}>
-                            <NotiCard item={item} onClose={null} mutate={mutate} />
+                            <NotiCard item={item} onClose={null} mutate={mutate} t={t} />
                           </div>
                         )
                       })}

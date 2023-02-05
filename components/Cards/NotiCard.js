@@ -10,7 +10,7 @@ import { notiService } from '../../services/notiService'
 import { parseNoti } from '../../utils/notiUtils'
 import { FaRegCommentDots, FaRegComment } from 'react-icons/fa'
 
-const NotiCard = ({ item, onClose, mutate }) => {
+const NotiCard = ({ item, onClose, mutate, t }) => {
   const router = useRouter()
 
   const pushLinkAndSee = async () => {
@@ -43,7 +43,7 @@ const NotiCard = ({ item, onClose, mutate }) => {
         </Box>
         <Box>
           <Heading size='xs'>
-            {parseNoti(item.type).message ? parseNoti(item.type).message : "No Data"}
+            {parseNoti(item.type).message ? parseNoti(item.type, t).message : "No Data"}
           </Heading>
           <Text pt='2' fontSize='sm'>
             {moment(item.createdAt).format('DD MMMM, YYYY h:mm:ss a')}
