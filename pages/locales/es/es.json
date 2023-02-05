@@ -2,13 +2,19 @@
     
     "navbar": {
       "Connect": "Conectar Billetera",
-      "categories": "Categorías",
+      "Categories": "Categorías",
       "Services": "Servicios",
       "Sell": "Vender",
       "Favourites": "Favoritos",
       "Help": "Ayuda",
       "Search in Yubiai": "Buscar en Yubiai",
       "Profile": "Perfil"
+    },
+    "home": {
+      "Popular services": "Servicios mas vistos",
+      "Your favourites": "Tus favoritos",
+      "Last viewed items": "Vistos por última vez"
+
     },
     "profilemenu": {
         "Profile": "Perfil",
@@ -26,6 +32,8 @@
       "Home": "Inicio",
       "Profile": "Perfil",
       "Notifications": "Notificaciones",
+      "Categories": "Categorías",
+      "Services": "Servicios",
       "New Listing": "Vender",
       "Listings": "Artículos",
       "Questions": "Preguntas",
@@ -62,6 +70,14 @@
       "New Answer!": "¡Nueva Respuesta!",
       "Question status change.": "Cambio de estado de la pregunta",
       "New Notification N/A": "Nueva notificación N/A" 
+    },
+    "categories": {
+        "Categories": "Categorías",
+        "Services": "Servicios",
+        "Sub - Categories": "Sub - Categorías"
+    },
+    "footer": {
+        "Terms and conditions": "Términos y condiciones"
     }
     
   }

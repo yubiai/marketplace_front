@@ -161,7 +161,7 @@ const DrawerMenu = () => {
                   <ListIcon
                     as={listCategory ? MdArrowUpward : MdArrowDownward}
                   />
-                   Categories
+                   {t("Categories")}
                 </Button>
               </ListItem>
               {listCategory && (

@@ -6,7 +6,8 @@ import CarrouselCards from '../components/Cards/CarrouselCards'
 import Loading from '../components/Spinners/Loading'
 import { useGlobal } from '../providers/globalProvider'
 import { profileService } from '../services/profileService'
-import i18nInit from '../utils/i18n'; 
+import i18nInit from '../utils/i18n';
+import { useTranslation } from "react-i18next";
 
 i18nInit();
 
@@ -15,6 +16,7 @@ const Home = ({ items }) => {
   const [listFavourites, setListFavourites] = useState(null);
   const [listRandom, setListRandom] = useState(null);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation("home");
 
   const arrayRandom = () => {
     if (items) {
@@ -98,7 +100,7 @@ const Home = ({ items }) => {
       <main>
         <Box h={{ base: "full", sm: "full", md: "full", lg: "full", xl: "100vh" }} m="2em">
           <CarrouselCards
-            title={'Popular services'}
+            title= {t('Popular services')}
             items={items}
           />
           {loading && (
@@ -115,12 +117,12 @@ const Home = ({ items }) => {
           )}
           {listFavourites && listFavourites.length > 0 && (
             <CarrouselCards
-              title={'Your favourites'}
+              title={t('Your favourites')}
               items={listFavourites}
             />
           )}
           {!listFavourites && listRandom && listRandom.length > 0 && (
-            <CarrouselCards title={'Last viewed items'} items={listRandom} />
+            <CarrouselCards title={t('Last viewed items')} items={listRandom} />
           )}
         </Box>
       </main>

@@ -10,6 +10,12 @@
       "Search in Yubiai": "Search in Yubiai"
         
     },
+    "home": {
+      "Popular services": "Popular services",
+      "Your favourites": "Your favourites",
+      "Last viewed items": "Last viewed items"
+
+    },
     "profilemenu": {
         "Profile": "Profile",
         "Notifications": "Notifications",
@@ -28,6 +34,8 @@
         "Notifications": "Notifications",
         "New Listing": "New Listing",
         "Listings": "Listings",
+        "Categories": "Categories",
+        "Services": "Services",
         "Questions": "Questions",
         "Orders": "Orders",
         "Sales": "Sales",
@@ -62,5 +70,13 @@
         "Question status change.": "Question status change.",
         "New Notification N/A": "New Notification N/A"
 
+    },
+    "categories": {
+        "Categories": "Categories",
+        "Services": "Services",
+        "Sub - Categories": "Sub - Categories"
+    },
+    "footer": {
+        "Terms and conditions": "Terms and conditions"
     }
   }

@@ -16,6 +16,7 @@ import useFetch from '../../hooks/data/useFetch'
 import Error from '../Infos/Error'
 import Loading from '../Spinners/Loading'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
+import { useTranslation } from "react-i18next";
 
 export default function SubCategoriesMenu({ children, category }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -64,7 +65,7 @@ export default function SubCategoriesMenu({ children, category }) {
 const SidebarContent = ({ onClose, subcategories, ...rest }) => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
-
+  const { t } = useTranslation("categories");
   const [value, setValue] = useState(null)
 
   useEffect(() => {
@@ -95,7 +96,7 @@ const SidebarContent = ({ onClose, subcategories, ...rest }) => {
           fontFamily="Open Sans, sans-serif"
           fontWeight="normal"
         >
-          Sub - Categories
+          {t("Sub - Categories")}
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
@@ -154,6 +155,7 @@ const NavItem = ({ children, ...rest }) => {
 }
 
 const MobileNav = ({ onOpen, ...rest }) => {
+  const { t } = useTranslation("categories");
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -174,7 +176,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       />
 
       <Text fontSize="1em" ml="8" fontFamily="monospace" fontWeight="bold">
-        Sub - Categories
+      {t("Sub - Categories")}
       </Text>
     </Flex>
   )
