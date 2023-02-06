@@ -21,11 +21,12 @@ import useUser from '../../../hooks/data/useUser'
 import ItemCardPublish from '../../../components/Cards/ItemCardPublish'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 
 const Listings = () => {
   const global = useGlobal()
   const router = useRouter()
-
+  const { t } = useTranslation("listing");
   const { user, loggedOut } = useUser()
 
   // if logged in, redirect to the home
@@ -73,28 +74,28 @@ const Listings = () => {
                 textDecoration: "underline"
               }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                 textDecoration: "underline"
-              }}>Home</Text></Link>
+              }}>{t("Home")}</Text></Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
               <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{t("Profile")}</Text>
               </Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <Text>Your Listings</Text>
+              <Text>{t("Your Listings")}</Text>
             </BreadcrumbItem>
           </Breadcrumb>
 
           {data && data.items && data.items.length === 0 && (
             <>
               <Center>
-                <Heading mt="5em">You do not have any items listings.</Heading>
+                <Heading mt="5em">{t("You do not have any items listings.")}</Heading>
               </Center>
               <Center>
                 <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
-                  Go Back
+                  {t("Go Back")}
                 </Button>
               </Center>
             </>
@@ -108,7 +109,7 @@ const Listings = () => {
               data.items &&
               data.items.length > 0 &&
               data.items.map((item, i) => {
-                return <ItemCardPublish key={i} item={item} token={global?.profile?.token} mutate={mutate} />
+                return <ItemCardPublish key={i} item={item} token={global?.profile?.token} mutate={mutate}  t={t} />
               })}
           </Grid>
           <Paginations data={data ? data : null} />

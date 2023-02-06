@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { itemService } from "../../services/itemService";
 import { publishService } from "../../services/publishService";
 
-const ButtonAdmItem = ({ item, token, mutate, loading, setLoading }) => {
+const ButtonAdmItem = ({ item, token, mutate, loading, setLoading, t }) => {
 
     const router = useRouter()
     
@@ -38,17 +38,17 @@ const ButtonAdmItem = ({ item, token, mutate, loading, setLoading }) => {
                 bg: "blue.300"
             }}
                 color={'white'} rightIcon={<ChevronDownIcon />}>
-                Actions
+                {t("Actions")}
             </MenuButton>
             <MenuList>
                 {item.status == 2 && item.published == true && (
-                    <MenuItem onClick={() => UnpublishItem()}>Unpublish</MenuItem>
+                    <MenuItem onClick={() => UnpublishItem()}>{t("Unpublish")}</MenuItem>
 
                 )}
                 {item.status == 3 && item.published == false && (
                     <>
-                        <MenuItem onClick={() => router.push(`/profile/listings/edit/${item._id}`)}>Edit listing</MenuItem>
-                        <MenuItem onClick={() => ReviewItem()}>Send for review</MenuItem>
+                        <MenuItem onClick={() => router.push(`/profile/listings/edit/${item._id}`)}>{t("Edit listing")}</MenuItem>
+                        <MenuItem onClick={() => ReviewItem()}>{t("Send for review")}</MenuItem>
                     </>
                 )}
             </MenuList>

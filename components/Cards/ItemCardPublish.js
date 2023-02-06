@@ -11,7 +11,7 @@ import Link from 'next/link'
 import { useState } from 'react';
 import ButtonAdmItem from '../Buttons/ButtonAdmItem'
 
-const ItemCardPublish = ({ item, token, mutate }) => {
+const ItemCardPublish = ({ item, token, mutate, t }) => {
   const [loading, setLoading] = useState(false);
 
   return (
@@ -53,9 +53,9 @@ const ItemCardPublish = ({ item, token, mutate }) => {
               </>
             ) : (
               <>
-                <Badge variant='solid' colorScheme={item.published ? "green" : "red"}>{item.published ? "Published" : "Not published"}</Badge>
+                <Badge variant='solid' colorScheme={item.published ? "green" : "red"}>{item.published ? t("Published") : t("Not published")}</Badge>
                 {item.status === 1 && (
-                  <Badge variant='solid' colorScheme="orange" ml="4px">In Review</Badge>
+                  <Badge variant='solid' colorScheme="orange" ml="4px">{t("In Review")}</Badge>
                 )}
               </>
             )}
@@ -81,7 +81,7 @@ const ItemCardPublish = ({ item, token, mutate }) => {
           </Stack>
         </Box>
       </Link>
-      <ButtonAdmItem item={item} token={token} mutate={mutate} loading={loading} setLoading={setLoading} />
+      <ButtonAdmItem item={item} token={token} mutate={mutate} loading={loading} setLoading={setLoading} t={t} />
     </Box>
   )
 }
