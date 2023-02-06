@@ -14,6 +14,10 @@ const Questions = ({ item, profile_id, token }) => {
     const [countQuestions, setCountQuestions] = useState(0);
     const limitQuery = 6;
 
+    const [countQuestion, setCountQuestion] = useState(0);
+    const MIN_QUESTION_LENGTH = 50;
+    const MAX_QUESTION_LENGTH = 400;
+
     const toast = useToast();
 
     const getQuestionsCount = async () => {
@@ -81,6 +85,7 @@ const Questions = ({ item, profile_id, token }) => {
                 duration: 3000,
                 isClosable: true
             })
+            setCountQuestion(0)
             getQuestionsCount()
             setViewQuestions(false)
             setLoading(false)
@@ -94,6 +99,7 @@ const Questions = ({ item, profile_id, token }) => {
                 duration: 3000,
                 isClosable: true
             })
+            setCountQuestion(0)
             getQuestionsCount()
             setViewQuestions(false)
             setLoading(false)
@@ -119,7 +125,12 @@ const Questions = ({ item, profile_id, token }) => {
                                         width={"80%"}
                                         color="gray.700"
                                         bg="white"
-                                        {...register('question', { required: true, maxLength: 400, minLength: 50 })}
+                                        {...register('question', {
+                                            required: true, minLength: MIN_QUESTION_LENGTH, maxLength: MAX_QUESTION_LENGTH, pattern: {
+                                              value: /^(?![^a-zA-Z]+$)(?!$).*$/,
+                                              message: "Only numbers are not allowed"
+                                            }, onChange: (e) => { setCountQuestion(e.target.value.length) }
+                                          })}
                                         isRequired
                                     />
                                     {loading ? (<Spinner
@@ -133,9 +144,10 @@ const Questions = ({ item, profile_id, token }) => {
                                     </Button>)}
 
                                 </Flex>
+                                <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countQuestion < MIN_QUESTION_LENGTH || countQuestion > MAX_QUESTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countQuestion}</Text> / {MAX_QUESTION_LENGTH}</Flex>
                                 <Text color="red" m="5px">{errors.question?.type === 'required' && "Description is Required"}</Text>
-                                <Text color="red" m="5px">{errors.question?.type === 'minLength' && "Minimum required characters are 50"}</Text>
-                                <Text color="red" m="5px">{errors.question?.type === 'maxLength' && "Maximum required characters are 400"}</Text>
+                                <Text color="red" m="5px">{errors.question?.type === 'minLength' && "Minimum required characters are " + MIN_QUESTION_LENGTH}</Text>
+                                <Text color="red" m="5px">{errors.question?.type === 'maxLength' && "Maximum required characters are " + MAX_QUESTION_LENGTH}</Text>
                             </FormControl>
                         </Box>
                     </form>
