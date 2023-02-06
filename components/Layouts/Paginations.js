@@ -53,7 +53,7 @@ const Paginations = ({ data }) => {
         <>
           <Center>
             <Tag m={2} fontWeight="bold">
-              Page: {data?.currentPage + 1}
+               {data?.currentPage + 1}
             </Tag>
           </Center>
           <Flex alignItems={'center'} justifyContent={{ base: 'center' }}>
