@@ -13,12 +13,13 @@ import useUser from '../../hooks/data/useUser'
 import { useRouter } from 'next/router'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
   const global = useGlobal()
   const router = useRouter()
   const dispatch = useDispatchGlobal()
-
+  const { t } = useTranslation("profilepage");
   const { user, loggedOut } = useUser()
 
   // if logged in, redirect to the home
@@ -81,22 +82,22 @@ const Profile = () => {
                 textDecoration: "underline"
               }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                 textDecoration: "underline"
-              }}>Home</Text></Link>
+              }}>{t("Home")}</Text></Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <Text>My Info</Text>
+              <Text>{t("My Info")}</Text>
             </BreadcrumbItem>
           </Breadcrumb>
-          <Text fontWeight={'bold'}>Proof of humanity Information</Text>
+          <Text fontWeight={'bold'}>{t("Proof of humanity Information")}</Text>
           {profile && profile.permission === 6 && (
             <>
               <Text color="red.800" fontWeight={'bold'}>User Test</Text>
             </>
           )}
-          <MyInfoPohCard dataProfile={profile} balance={balanceToken} />
-          <Text fontWeight={'bold'}>Personal Info</Text>
-          <MyInfoPrivateCard dataProfile={profile} />
+          <MyInfoPohCard dataProfile={profile} balance={balanceToken} t={t} />
+          <Text fontWeight={'bold'}>{t("Personal Info")}</Text>
+          <MyInfoPrivateCard dataProfile={profile} t={t} />
         </Box>
       </ProfileMenu>
     </>

@@ -198,7 +198,31 @@
       "Start by clicking on “Connect” on the top right corner then below the search bar on the middle of the navigation area(top middle)click on “Sell” and follow through the steps from Category to Product Images then after filling each field click on “Preview & Submit for review” verify that all is correct and click on `Submit for review`": "Comience haciendo clic en 'Conectar' en la esquina superior derecha, luego debajo de la barra de búsqueda en el medio del área de navegación (parte superior central), haga clic en 'Vender' y siga los pasos desde Categoría hasta Imágenes de productos y luego, después de completar cada campo, haga clic en en 'Previsualizar y enviar para revisión', verifique que todo sea correcto y haga clic en 'Enviar para revisión'",
       "What is `UBI Burning Amount`?":"¿Qué es `Importe a quemar de UBI`?",
       "UBI Burning Amount lets you choose on a dinamyc and optional way how much % will be deducted and sent from the total price of the item you are selling to the UBI Burner to increase the value of $UBI.": "El Importe a quemar de UBI te permite elegir de manera dinámica y opcional que % será deducido y enviado del precio total del artículo que estás vendiendo al UBI Burner incrementando su valor."
+    },
+    "profilepage": {
+      "Home": "Inicio",
+      "My Info": "Perfil",
+      "Proof of humanity Information": "Información de proof of humanity",
+      "Personal Info": "Información personal",
+      "My PoH Profile": "Mi perfil en PoH",
+      "Real Name:": "Nombre Real:",
+      "Shipping address:": "Dirección de envío:",
+      "Telephone": "Teléfono:",
+      "Email": "Correo electrónico:",
+      "Edit Profile": "Editar perfil"
+    },
+    "profedit": {
+        "Home": "Inicio",
+        "Profile": "Perfil",
+        "Edit": "Editar",
+        "Edit my profile": "Editar mi perfil",
+        "Real Name": "Nombre real",
+        "Address": "Dirección de envío",
+        "City": "Ciudad",
+        "Country": "País",
+        "Telephone": "Teléfono",
+        "Email": "Correo electrónico",
+        "Go Back": "Volver ",
+        "Save": "Guardar"
     }
-
-    
   }
