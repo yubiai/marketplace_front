@@ -140,7 +140,12 @@
       "Go Back": "Go Back",
       "Submit for review": "Submit for review",
       "Close": "Close",
-      "Failed to post": "Failed to post"  
+      "Failed to post": "Failed to post",
+      "Net Price": "Net Price",
+      "Total to receive": "Total to receive",
+      "Your listing has been submitted!": "Your listing has been submitted!",
+      "Our team would review your listing and notify you via email once your listing is live. This usually takes 2 hours to review.": "Our team would review your listing and notify you via email once your listing is live. This usually takes 2 hours to review."
+       
       
     }
 

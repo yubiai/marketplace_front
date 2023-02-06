@@ -141,7 +141,11 @@
       "Go Back": "Volver",
       "Submit for review": "Enviar para revisión",
       "Close": "Cerrar",
-      "Failed to post": "Error al publicar"    
+      "Failed to post": "Error al publicar",
+      "Net Price": "Precio Neto",
+      "Total to receive": "Total a recibir",
+      "Your listing has been submitted!": "Su publicación ha sido enviada!",
+      "Our team would review your listing and notify you via email once your listing is live. This usually takes 2 hours to review.": "Nuestro equipo revisará su publicación y le notificará por correo electrónico una vez que su anuncio esté activo. La revisión suele tardar 2 horas."   
     }
     
   }
