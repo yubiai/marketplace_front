@@ -8,7 +8,15 @@
       "Favourites": "Favoritos",
       "Help": "Ayuda",
       "Search in Yubiai": "Buscar en Yubiai",
-      "Profile": "Perfil"
+      "Profile": "Perfil",
+      "Welcome, you are successfully logged in.": "Bienvenido, ha iniciado sesión correctamente.",
+      "Now you are able to start buying & selling on Yubiai." : "Ya puedes empezar a comprar y vender en Yubiai.",
+      "Failed to login.": "Error al iniciar sesión.", 
+      "Wrong network, please change your network on metamask.": "Red incorrecta, por favor cambie su red en metamask.",
+      "User denied message signature.": "Ha denegado la firma del mensaje",
+      "Failed": "Error",
+      "To connect it is necessary to be registered in Proof of Humanity and have your status as registered.": "Para conectarte es necesario estar registrado en Proof of Humanity y tener tu estado como registrado.",
+      "Connect with your wallet and start earning crypto or hiring with your cryptos": "Conéctate con tu billetera y empieza a ganar o contratar con tus criptos"
     },
     "home": {
       "Popular services": "Servicios mas vistos",
@@ -146,6 +154,21 @@
       "Total to receive": "Total a recibir",
       "Your listing has been submitted!": "Su publicación ha sido enviada!",
       "Our team would review your listing and notify you via email once your listing is live. This usually takes 2 hours to review.": "Nuestro equipo revisará su publicación y le notificará por correo electrónico una vez que su anuncio esté activo. La revisión suele tardar 2 horas."   
-    }
+    },
+    "help": {
+      "Message Feedback": "Mensaje de comentarios",
+      "Feedback message was sent.": "Mensaje enviado",
+      "Error sending message": "Error al enviar el mensaje",
+      "Reach out to us with any questions, suggestions or bugs.": "Ponte en contacto con nosotros para cualquier pregunta, sugerencia o error.",
+      "We re available on all weekdays and usually reply within one working day.": "Estamos disponibles todos los días de la semana y solemos responder en el plazo de un día laboral.",
+      "Title": "Título",
+      "Maximum of 80 characters and min 10": "Máximo de caracteres 80 y mínimo 10",
+      "Email": "Correo electrónico",
+      "How can we help?": "¿Cómo podemos ayudar?",
+      "Add the message you want us to read": "Añade el mensaje que quieres que leamos",
+      "Maximum 600 characters and min 50": "Máximo de caracteres 600 y min 50",
+      "Submit": "Enviar"
+  }
+
     
   }
