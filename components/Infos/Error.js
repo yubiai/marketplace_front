@@ -6,8 +6,10 @@ import {
   Heading,
 } from '@chakra-ui/react'
 import Link from 'next/link'
+import { useTranslation } from 'react-i18next'
 
-export default function Error({ error }) {
+export default function Error({ error}) {
+  const { t } = useTranslation("edititem")
   return (
     <Box textAlign="center" py={10} px={6} h="100vh">
       <Box display="inline-block" mt="2em">
@@ -35,7 +37,7 @@ export default function Error({ error }) {
           mt="1em"
           cursor={'pointer'}
         >
-          Go to Home
+          {t("Go to Home")}
         </Button>
       </Link>
     </Box>

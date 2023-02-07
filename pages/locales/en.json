@@ -292,9 +292,15 @@
         "UBI Burning Amount": "UBI Burning Amount",
         "Remember that the amount to be burned will be deducted from the final sale price": "Remember that the amount to be burned will be deducted from the final sale price",
         "Recommended": "Recommended",
-        " - Ubi Burn: ": " - Ubi Burn: "
-
-        
+        " - Ubi Burn: ": " - Ubi Burn: ",
+        "Files": "Files",
+        "Main Image": "Main Image",
+        "File 2": "File 2",
+        "File 3": "File 3",
+        "Failed to upload new file.": "Failed to upload new file.",
+        "Go to Home": "Go to Home",
+        "Error deleting file.": "Error deleting file."
+  
     }
 
   }

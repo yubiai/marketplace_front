@@ -10,7 +10,7 @@ import PlayerAudioEditItem from "../Utils/PlayerAudioEditItem";
 import PlayerImage from "../Utils/PlayerImage";
 import PlayerVideoEditItem from "../Utils/PlayerVideoEditItem";
 
-const FilesItemEdit = ({ item, token, mutate }) => {
+const FilesItemEdit = ({ item, token, mutate, t }) => {
     const toast = useToast();
 
     const { handleSubmit, getValues, setValue, control, resetField, reset } = useForm()
@@ -90,8 +90,8 @@ const FilesItemEdit = ({ item, token, mutate }) => {
             mutate();
             onCloseEdit();
             toast({
-                title: 'Edit Item',
-                description: 'Data Saved successfully.',
+                title: t("Edit Item"),
+                description: t("Data Saved successfully."),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
@@ -101,7 +101,7 @@ const FilesItemEdit = ({ item, token, mutate }) => {
             return
         } catch (err) {
             console.error(err);
-            setError("Failed to upload new file.")
+            setError(t("Failed to upload new file."))
             onCloseEdit()
             setLoading(false);
             return
@@ -117,8 +117,8 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                 file_id: file._id
             }, token);
             toast({
-                title: 'Edit Item',
-                description: 'Data Saved successfully.',
+                title: t("Edit Item"),
+                description: t("Data Saved successfully."),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
@@ -131,8 +131,8 @@ const FilesItemEdit = ({ item, token, mutate }) => {
             console.error(err);
             mutate();
             toast({
-                title: 'Edit Item',
-                description: 'Data Saved successfully.',
+                title: t("Edit Item"),
+                description: t("Data Saved successfully."),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
@@ -140,7 +140,7 @@ const FilesItemEdit = ({ item, token, mutate }) => {
             });
             onCloseEdit();
             setLoading(false);
-            setError("Error deleting file.")
+            setError(t("Error deleting file."))
         }
     }
 
@@ -148,7 +148,7 @@ const FilesItemEdit = ({ item, token, mutate }) => {
         <>
             <Flex mt="1em" p="5px"
             >
-                <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>Files</Text>
+                <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>{t("Files")}</Text>
                 <Flex justifyContent='left' m="5px">
                     {actionEdit && (
                         <ButtonGroup justifyContent='center' size='sm'>
@@ -183,7 +183,7 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                                 {item && item.files && item.files[0] && !editItem0 && (
                                     <>
                                         <Center>
-                                            <Text fontWeight='semibold'>Main Image</Text>
+                                            <Text fontWeight='semibold'>{t("Main Image")}</Text>
                                         </Center>
                                         {activeTypeFile(item.files[0])}
                                         <Center mt="10px">
@@ -219,7 +219,7 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                                 {item && item.files && item.files[1] && !editItem1 && (
                                     <>
                                         <Center>
-                                            <Text fontWeight='semibold'>File 2</Text>
+                                            <Text fontWeight='semibold'>{t("File 2")}</Text>
                                         </Center>
                                         {activeTypeFile(item.files[1])}
                                         <Flex mt="10px">
@@ -262,7 +262,7 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                                 {item && item.files && item.files[2] && !editItem2 && (
                                     <>
                                         <Center>
-                                            <Text fontWeight='semibold'>File 3</Text>
+                                            <Text fontWeight='semibold'>{t("File 3")}</Text>
                                         </Center>
 
                                         {activeTypeFile(item.files[2])}
@@ -305,7 +305,7 @@ const FilesItemEdit = ({ item, token, mutate }) => {
                             </Box>
                         </Flex>
                         <Button float="right" mt="5em" bg="#00abd1" color="white" type="submit" disabled={!getValues("file1") && !getValues("file2") && !getValues("file3")}>
-                            Update
+                            {t("Update")}
                         </Button>
                     </form>
                 </>

@@ -289,7 +289,14 @@
         "UBI Burning Amount": "Importe a quemar de UBI",
         "Remember that the amount to be burned will be deducted from the final sale price": "Recuerda que el importe a quemar se descontará del precio final",
         "Recommended": "Recomendado",
-        " - Ubi Burn: ": " - UBI a quemar: "
+        " - Ubi Burn: ": " - UBI a quemar: ",
+        "Files": "Archivos",
+        "Main Image": "Imágen principal",
+        "File 2": "Archivo 2",
+        "File 3": "Archivo 3",
+        "Failed to upload new file.": "Error al cargar el archivo nuevo.",
+        "Go to Home": "Ir al Inicio",
+        "Error deleting file.": "Error al eliminar archivo."
 
     }
 
