@@ -298,6 +298,20 @@
         "Go to Home": "Ir al Inicio",
         "Error deleting file.": "Error al eliminar archivo."
 
+    },
+    "questions": {
+        "Home": "Inicio",
+        "Profile": "Perfil",
+        "Questions": "Preguntas",
+        "Question": "Pregunta",
+        "Buyer": "Comprador",
+        "Seller": "Vendedor",
+        "Questions as buyer": "Preguntas como comprador",
+        "There is no questions.": "No has hecho preguntas.",
+        "Item:": "Publicación:",
+        "Status:": "Estado:"
+
+
     }
 
     

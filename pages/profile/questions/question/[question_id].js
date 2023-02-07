@@ -14,12 +14,13 @@ import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider";
 import { questionService } from "../../../../services/questionService";
 import questionUtils from "../../../../utils/questionUtils";
+import { useTranslation } from "react-i18next";
 
 const QuestionById = () => {
     const global = useGlobal();
     const dispatch = useDispatchGlobal();
     const router = useRouter();
-
+    const { t } = useTranslation("questions");
     const [loading, setLoading] = useState(false);
     const { question_id } = router.query;
     const [question, setQuestion] = useState(null);
@@ -107,7 +108,7 @@ const QuestionById = () => {
                                 textDecoration: "underline"
                             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                                 textDecoration: "underline"
-                            }}>Home</Text></Link>
+                            }}>{t("Home")}</Text></Link>
                         </BreadcrumbItem>
 
                         <BreadcrumbItem>
@@ -115,20 +116,20 @@ const QuestionById = () => {
                                 textDecoration: "underline"
                             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                                 textDecoration: "underline"
-                            }}>Profile</Text></Link>
+                            }}>{t("Profile")}</Text></Link>
                         </BreadcrumbItem>
                         <BreadcrumbItem>
                             <Link href="/profile/questions" cursor={'pointer'} _hover={{
                                 textDecoration: "underline"
                             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                                 textDecoration: "underline"
-                            }}>Questions</Text></Link>
+                            }}>{t("Questions")}</Text></Link>
                         </BreadcrumbItem>
                         <BreadcrumbItem isCurrentPage>
                             <Text># {question_id}</Text>
                         </BreadcrumbItem>
                     </Breadcrumb>
-                    <Heading mt="1em">Question</Heading>
+                    <Heading mt="1em">{t("Question")}</Heading>
                     {loading && (
                         <Spinner
                             thickness="4px"
@@ -144,21 +145,21 @@ const QuestionById = () => {
                                 <Flex fontWeight={"semibold"} _hover={{
                                     color: "blue.300"
                                 }}>
-                                    <Text mr="5px">Item:</Text>
+                                    <Text mr="5px">{t("Item:")}</Text>
                                     <Link href={`/item/${question.itemId.slug}`}>{question.itemId.title}</Link>
                                     <Text ml="1em">{question.itemId.price} {question.itemId.currencySymbolPrice}</Text>
                                     <Spacer />
                                     {question.status === 2 && (
-                                        <Text color={"blue.400"}>Status: {questionUtils.statusNumber(question.status)}</Text>
+                                        <Text color={"blue.400"}>{t("Status:")} {questionUtils.statusNumber(question.status)}</Text>
                                     )}
                                     {question.status === 3 && (
-                                        <Text color={"orange.400"}>Status: {questionUtils.statusNumber(question.status)}</Text>
+                                        <Text color={"orange.400"}>{t("Status:")} {questionUtils.statusNumber(question.status)}</Text>
                                     )}
                                     {question.status === 6 && (
-                                        <Text color={"red.400"}>Status: {questionUtils.statusNumber(question.status)}</Text>
+                                        <Text color={"red.400"}>{t("Status:")} {questionUtils.statusNumber(question.status)}</Text>
                                     )}
                                     {question.status !== 2 && question.status !== 3 && question.status !== 6 && (
-                                        <Text color={"orange.800"}>Status: {questionUtils.statusNumber(question.status)}</Text>
+                                        <Text color={"orange.800"}>{t("Status:")} {questionUtils.statusNumber(question.status)}</Text>
                                     )}
                                 </Flex>
                                 <Divider />

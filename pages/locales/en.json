@@ -301,6 +301,19 @@
         "Go to Home": "Go to Home",
         "Error deleting file.": "Error deleting file."
   
+    },
+    "questions": {
+        "Home": "Home",
+        "Profile": "Profile",
+        "Questions": "Questions",
+        "Question": "Question",
+        "Buyer": "Buyer",
+        "Seller": "Seller",
+        "Questions as buyer": "Questions as buyer",
+        "There is no questions.": "There is no questions.",
+        "Item:": "Item:",
+        "Status:": "Status:"
+
     }
 
   }

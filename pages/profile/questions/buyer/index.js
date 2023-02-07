@@ -12,6 +12,7 @@ import Loading from "../../../../components/Spinners/Loading";
 import useFetch from "../../../../hooks/data/useFetch";
 import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider";
+import { useTranslation } from "react-i18next";
 
 const QuestionsBuyer = () => {
 
@@ -19,7 +20,7 @@ const QuestionsBuyer = () => {
     const router = useRouter()
     const dispatch = useDispatchGlobal()
     const [status, setStatus] = useState(2);
-
+    const { t } = useTranslation("questions")
     const { user, loggedOut } = useUser()
 
     // if logged in, redirect to the home
@@ -56,7 +57,7 @@ const QuestionsBuyer = () => {
                                 textDecoration: "underline"
                             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                                 textDecoration: "underline"
-                            }}>Home</Text></Link>
+                            }}>{t("Home")}</Text></Link>
                         </BreadcrumbItem>
 
                         <BreadcrumbItem>
@@ -64,20 +65,20 @@ const QuestionsBuyer = () => {
                                 textDecoration: "underline"
                             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                                 textDecoration: "underline"
-                            }}>Profile</Text></Link>
+                            }}>{t("Profile")}</Text></Link>
                         </BreadcrumbItem>
                         <BreadcrumbItem>
                             <Link href="/profile/questions" cursor={'pointer'} _hover={{
                                 textDecoration: "underline"
                             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                                 textDecoration: "underline"
-                            }}>Questions</Text></Link>
+                            }}>{t("Questions")}</Text></Link>
                         </BreadcrumbItem>
                         <BreadcrumbItem isCurrentPage>
-                            <Text>Buyer</Text>
+                            <Text>{t("Buyer")}</Text>
                         </BreadcrumbItem>
                     </Breadcrumb>
-                    <Heading mt="1em">Questions as buyer</Heading>
+                    <Heading mt="1em">{t("Questions as buyer")}</Heading>
                     <Flex mt="1em">
                         <Button ml="1em" bg='green.400' color="white" size='sm' _focus={{
                             bg: 'green.700'
@@ -104,7 +105,7 @@ const QuestionsBuyer = () => {
                             )
                         })}
                         {data && data.items && data.items.length === 0 && (
-                            <Text fontSize={"2xl"}>There is no questions.</Text>
+                            <Text fontSize={"2xl"}>{t("There is no questions.")}</Text>
                         )}
                     </Box>
                     <Paginations data={data ? data : null} />
