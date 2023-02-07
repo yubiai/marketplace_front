@@ -6,7 +6,7 @@ import { itemService } from "../../services/itemService";
 import { getListCategory, getListSubCategory } from "../../utils/itemUtils";
 
 
-const CategoriesItemEdit = ({ item, token, mutate }) => {
+const CategoriesItemEdit = ({ item, token, mutate, t }) => {
     const toast = useToast();
 
     // State useForm
@@ -47,8 +47,8 @@ const CategoriesItemEdit = ({ item, token, mutate }) => {
             }
             await itemService.updateItemById(item._id, newData, token);
             toast({
-                title: 'Edit Item',
-                description: 'Data Saved successfully.',
+                title: t("Edit Item"),
+                description: t("Data Saved successfully."),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
@@ -68,7 +68,7 @@ const CategoriesItemEdit = ({ item, token, mutate }) => {
     return (
         <>
             <Flex mt="10px" p="5px">
-                <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>Category - Sub category</Text>
+                <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>{t("Category - Sub category")}</Text>
                 <Flex justifyContent='left' m="5px">
                     {actionEdit && (
                         <ButtonGroup justifyContent='center' size='sm'>
@@ -90,13 +90,13 @@ const CategoriesItemEdit = ({ item, token, mutate }) => {
                             {categories && categories.length > 0 && (
                                 <Box mt="1em">
                                     <FormControl isRequired>
-                                        <FormLabel color="black"> Category</FormLabel>
+                                        <FormLabel color="black"> {t("Category")}</FormLabel>
                                         <Select
                                             bg="white"
                                             color="black"
                                             name="category"
                                             id="category"
-                                            placeholder="Select Category"
+                                            placeholder={t("Select Category")}
                                             _placeholder={{ color: 'gray.400' }}
                                             isRequired={true}
                                             {...register('category', {
@@ -118,33 +118,39 @@ const CategoriesItemEdit = ({ item, token, mutate }) => {
                             {subCategories && subCategories.length > 0 && (
                                 <Box mt="1em">
                                     <FormControl isRequired>
-                                        <FormLabel color="black">Sub Category</FormLabel>
+                                        <FormLabel color="black">{t("Sub Category")}</FormLabel>
                                         <Select
                                             bg="white"
                                             color="black"
                                             name="subcategory"
                                             id="subcategory"
-                                            placeholder="Select Sub Category"
+                                            placeholder={t("Select Sub Category")}
                                             _placeholder={{ color: 'gray.400' }}
                                             isRequired={true}
                                             {...register('subcategory', { required: true })}
                                         >
-                                            {subCategories.map((subcategory) => (
-                                                <option
-                                                    key={subcategory._id}
-                                                    value={subcategory._id}
-                                                    id="subcategory"
-                                                >
-                                                    {subcategory.title}
-                                                </option>
-                                            ))}
+                                            {subCategories.map((subcategory) => {
+                                                subcategory = {...subcategory,
+                                                    title:  t(subcategory.title)
+
+                                                }
+                                                return  (
+                                                    <option
+                                                        key={subcategory._id}
+                                                        value={subcategory._id}
+                                                        id="subcategory"
+                                                    >
+                                                        {subcategory.title}
+                                                    </option>
+                                                )
+                                            })}
                                         </Select>
                                     </FormControl>
                                     <Divider />
                                 </Box>
                             )}
                             <Button mt="1em" bg="#00abd1" color="white" type="submit">
-                                Update
+                                {t("Update")}
                             </Button>
                         </form>
                     </Box>

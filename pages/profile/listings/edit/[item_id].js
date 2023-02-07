@@ -16,10 +16,12 @@ import useFetch from "../../../../hooks/data/useFetch";
 import useUser from "../../../../hooks/data/useUser";
 import { useGlobal } from "../../../../providers/globalProvider";
 import Error from '../../../../components/Infos/Error';
+import { useTranslation } from 'react-i18next'
 
 const EditItem = () => {
     const global = useGlobal()
     const router = useRouter()
+    const { t } = useTranslation("edititem");
     const { item_id } = router.query;
 
     const { user, loggedOut } = useUser()
@@ -72,23 +74,23 @@ const EditItem = () => {
                                 textDecoration: "underline"
                             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                                 textDecoration: "underline"
-                            }}>Home</Text></Link>
+                            }}>{t("Home")}</Text></Link>
                         </BreadcrumbItem>
 
                         <BreadcrumbItem>
                             <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-                                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+                                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{t("Profile")}</Text>
                             </Link>
                         </BreadcrumbItem>
 
                         <BreadcrumbItem>
                             <Link href="/profile/listings" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-                                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Listings</Text>
+                                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{t("Listings")}</Text>
                             </Link>
                         </BreadcrumbItem>
 
                         <BreadcrumbItem>
-                            <Text>Edit Item</Text>
+                            <Text>{t("Edit Item")}</Text>
                         </BreadcrumbItem>
                     </Breadcrumb>
                     {!item && (
@@ -115,25 +117,25 @@ const EditItem = () => {
                             padding={4}
                         >
                             <Stack divider={<StackDivider />} spacing='4' width={"100%"}>
-                                <Heading size="md">Edit Item</Heading>
+                                <Heading size="md">{t("Edit Item")}</Heading>
                             </Stack>
                             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                             <Stack>
                                 <Box>
-                                    <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em">CreatedAt: {moment(item.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
-                                    <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em" mb="1em">UpdatedAt: {moment(item.updatedAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
+                                    <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em">{t("CreatedAt:")} {moment(item.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
+                                    <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em" mb="1em">{t("UpdatedAt:")} {moment(item.updatedAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
                                     <Box>                                    
-                                        <TitleItemEdit item={item} token={global.profile.token} mutate={mutate} />
-                                        <DescriptionItemEdit item={item} token={global.profile.token} mutate={mutate} />
+                                        <TitleItemEdit item={item} token={global.profile.token} mutate={mutate} t={t} />
+                                        <DescriptionItemEdit item={item} token={global.profile.token} mutate={mutate} t={t} />
                                     </Box>
-                                    <CategoriesItemEdit item={item} token={global.profile.token} mutate={mutate} />
-                                    <PriceItemEdit item={item} token={global.profile.token} mutate={mutate} />
-                                    <FilesItemEdit item={item} token={global.profile.token} mutate={mutate} />
+                                    <CategoriesItemEdit item={item} token={global.profile.token} mutate={mutate} t={t} />
+                                    <PriceItemEdit item={item} token={global.profile.token} mutate={mutate} t={t} />
+                                    <FilesItemEdit item={item} token={global.profile.token} mutate={mutate} t={t} />
                                 </Box>
                             </Stack>
                         </Stack>
                     ) : (
-                        <Error error={"This item is not your property."} />
+                        <Error error={t("This item is not your property.")} />
                     )}
 
                 </Container>

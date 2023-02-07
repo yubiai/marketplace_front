@@ -104,6 +104,7 @@ const Notification = () => {
                               item={item}
                               onClose={onClose}
                               mutate={mutate}
+                              t={t}
                             />
                           )
                         })}
