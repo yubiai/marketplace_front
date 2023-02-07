@@ -81,7 +81,7 @@ const CategoriesItemEdit = ({ item, token, mutate, t }) => {
                 </Flex>
             </Flex>
             {!actionEdit && (<Text p="5px"
-            >{item.category.title}  {" - " + item.subcategory.title}</Text>)}
+            >{t(item.category.title)}  {" - " + t(item.subcategory.title)}</Text>)}
 
             {actionEdit && (
                 <>
@@ -106,11 +106,17 @@ const CategoriesItemEdit = ({ item, token, mutate, t }) => {
                                                 },
                                             })}
                                         >
-                                            {categories.map((category) => (
-                                                <option key={category._id} value={category._id} id="category">
-                                                    {category.title}
-                                                </option>
-                                            ))}
+                                            {categories.map((category) => {
+                                                category = {...category,
+                                                    title:  t(category.title)
+
+                                                }
+                                                return (
+                                                    <option key={category._id} value={category._id} id="category">
+                                                        {category.title}
+                                                    </option>
+                                                )
+                                            })}
                                         </Select>
                                     </FormControl>
                                 </Box>
