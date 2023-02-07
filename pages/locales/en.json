@@ -249,8 +249,8 @@
         "Listings": "Listings",
         "Edit Item": "Edit Item",
         "Data Saved successfully.": "Data Saved successfully.",
-        "CreatedAt:": "CreatedAt:",
-        "UpdatedAt:": "UpdatedAt:",
+        "CreatedAt": "CreatedAt:",
+        "UpdatedAt": "UpdatedAt:",
         "This item is not your property.": "This item is not your property.",
         "Title": "Title",
         "Save": "Save",
@@ -282,7 +282,17 @@
         "Advisory/Consulting": "Advisory/Consulting",
         "Textile Inputs": "Textile Inputs",
         "Learning": "Learning",
-        "Update": "Update"
+        "Update": "Update",
+        "Price - Ubi Burn": "Price - Ubi Burn",
+        "Currency:": "Currency:",
+        "Currency": "Currency",
+        "Price": "Price",
+        "Select Currency": "Select Currency",
+        "Amount": "Amount",
+        "UBI Burning Amount": "UBI Burning Amount",
+        "Remember that the amount to be burned will be deducted from the final sale price": "Remember that the amount to be burned will be deducted from the final sale price",
+        "Recommended": "Recommended",
+        " - Ubi Burn: ": " - Ubi Burn: "
 
         
     }

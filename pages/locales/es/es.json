@@ -245,8 +245,8 @@
         "Listings": "Publicaciones",
         "Edit Item": "Editar publicación",
         "Data Saved successfully.": "Datos guardados con éxito.",
-        "CreatedAt:": "Creado el:",
-        "UpdatedAt:": "Actualizado el:",
+        "CreatedAt": "Creado el:",
+        "UpdatedAt": "Actualizado el:",
         "This item is not your property.": "Esta publicación no le pertenece.",
         "Title": "Título",
         "Save": "Guardar",
@@ -279,7 +279,18 @@
         "Textile Inputs": "Producción textil",
         "Learning": "Aprendizaje",
         "Clean": "Limpieza",
-        "Update": "Actualizar"
+        "Update": "Actualizar",
+        "Price - Ubi Burn": "Precio - UBI a quemar",
+        "Currency:": "Moneda:",
+        "Currency": "Moneda",
+        "Select Currency": "Seleccione moneda",
+        "Price": "Precio",
+        "Amount": "Monto",
+        "UBI Burning Amount": "Importe a quemar de UBI",
+        "Remember that the amount to be burned will be deducted from the final sale price": "Recuerda que el importe a quemar se descontará del precio final",
+        "Recommended": "Recomendado",
+        " - Ubi Burn: ": " - UBI a quemar: "
+
     }
 
     

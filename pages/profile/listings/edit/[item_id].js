@@ -122,8 +122,8 @@ const EditItem = () => {
                             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                             <Stack>
                                 <Box>
-                                    <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em">{t("CreatedAt:")} {moment(item.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
-                                    <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em" mb="1em">{t("UpdatedAt:")} {moment(item.updatedAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
+                                    <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em">{t("CreatedAt")} {moment(item.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
+                                    <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em" mb="1em">{t("UpdatedAt")} {moment(item.updatedAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
                                     <Box>                                    
                                         <TitleItemEdit item={item} token={global.profile.token} mutate={mutate} t={t} />
                                         <DescriptionItemEdit item={item} token={global.profile.token} mutate={mutate} t={t} />
