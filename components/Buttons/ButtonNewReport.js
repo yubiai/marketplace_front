@@ -21,7 +21,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { reportService } from "../../services/reportService";
 
-const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
+const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { handleSubmit, register, formState: { errors }, reset } = useForm()
     const [loading, setLoading] = useState(false);
@@ -44,8 +44,8 @@ const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
             reset();
             setLoading(false);
             toast({
-                title: 'Report',
-                description: 'Report was completed successfully.',
+                title: t("Report "),
+                description: t("Report was completed successfully."),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
