@@ -7,7 +7,9 @@ import ButtonNewQuestion from '../Buttons/ButtonNewQuestion';
 import ButtonNewReportQA from '../Buttons/ButtonNewReportQA';
 import questionUtils from '../../utils/questionUtils';
 
-const QuestionCardListBuyer = ({ question, profile_id, token }) => {
+
+const QuestionCardListBuyer = ({ question, profile_id, token, t }) => {
+    
 
     return (
         <>
@@ -15,7 +17,7 @@ const QuestionCardListBuyer = ({ question, profile_id, token }) => {
                 <Flex fontWeight={"semibold"} _hover={{
                     color: "blue.300"
                 }}>
-                    <Text mr="5px">Item:</Text>
+                    <Text mr="5px">{t("Item")}</Text>
                     <Link href={`/item/${question.itemId.slug}`}>{question.itemId.title}</Link>
                     {/*                     <Text ml="1em">{question.itemId.price} {question.itemId.currencySymbolPrice}</Text>
  */}                    <Spacer />
@@ -35,7 +37,7 @@ const QuestionCardListBuyer = ({ question, profile_id, token }) => {
                 <Divider />
                 <Text fontWeight="medium">{question.question}</Text>
                 <Divider />
-                <ButtonNewQuestion question={question} token={token} />
+                <ButtonNewQuestion question={question} token={token} t={t}/>
                 {question.answer && (
                     <>
                         <Divider />

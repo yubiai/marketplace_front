@@ -182,11 +182,11 @@ const QuestionById = () => {
                     )}
                     {isBuyer && question && (
                         <Stack bg="white" p="2" boxShadow="lg" m="2" borderRadius="lg">
-                            <ButtonNewQuestion question={question} token={global?.profile?.token} />
+                            <ButtonNewQuestion question={question} token={global?.profile?.token} t={t}/>
                         </Stack>
                     )}
                     {isSeller && question && !question.answer && (
-                        <ButtonNewAnswer question={question} token={global?.profile?.token} />
+                        <ButtonNewAnswer question={question} token={global?.profile?.token} t={t}/>
                     )}
                 </Container>
             </ProfileMenu>

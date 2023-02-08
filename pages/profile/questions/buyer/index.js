@@ -87,25 +87,25 @@ const QuestionsBuyer = () => {
                             onClick={() => {
                                 setStatus(2)
                                 mutate()
-                            }}>Published</Button>
+                            }}>{t("Published")}</Button>
                         <Button ml="1em" bg='green.400' color="white" size='sm' _focus={{
                             bg: 'green.700'
                         }} _hover={{ bg: 'green.200' }} isDisabled={status === 3}
                             onClick={() => {
                                 setStatus(3)
                                 mutate()
-                            }}>Unpublished</Button>
+                            }}>{t("Unpublished")}</Button>
                     </Flex>
                     <Box mt="1em">
                         {data && data.items && data.items.length > 0 && data.items.map((question, i) => {
                             return (
                                 <span key={i}>
-                                    <QuestionCardListBuyer question={question} profile_id={global?.profile?._id} token={global?.profile?.token} />
+                                    <QuestionCardListBuyer question={question} profile_id={global?.profile?._id} token={global?.profile?.token} t={t} />
                                 </span>
                             )
                         })}
                         {data && data.items && data.items.length === 0 && (
-                            <Text fontSize={"2xl"}>{t("There is no questions.")}</Text>
+                            <Text fontSize={"2xl"}>{t("There are no questions.")}</Text>
                         )}
                     </Box>
                     <Paginations data={data ? data : null} />
