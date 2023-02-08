@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { questionService } from "../../services/questionService";
 import QuestionCard from "../Cards/QuestionCard";
 
-const Questions = ({ item, profile_id, token }) => {
+const Questions = ({ item, profile_id, token, t }) => {
     const { handleSubmit, register, formState: { errors }, reset } = useForm();
 
     const [viewQuestions, setViewQuestions] = useState(false);
@@ -158,7 +158,7 @@ const Questions = ({ item, profile_id, token }) => {
 
                             return (
                                 <Box key={i}>
-                                    <QuestionCard question={question} profile_id={profile_id} token={token} />
+                                    <QuestionCard question={question} profile_id={profile_id} token={token} t={t}/>
                                 </Box>
                             )
                         })}

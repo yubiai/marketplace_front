@@ -48,7 +48,7 @@ const QuestionCardListBuyer = ({ question, profile_id, token, t }) => {
                             <Text ml="1em" fontSize={{ base: 'sm' }} maxW={'90%'} noOfLines={3}>
                                 {question.answer} - {moment(question.dateanswer).format('DD/MM/YY')}
                             </Text>
-                            <ButtonNewReportQA reference={question._id} type={"Answer"} userId={profile_id} owner={false} token={token} />
+                            <ButtonNewReportQA reference={question._id} type={"Answer"} userId={profile_id} owner={false} token={token} t={t}/>
                         </Flex>
                     </>
                 )}

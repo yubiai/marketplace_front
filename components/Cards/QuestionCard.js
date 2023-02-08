@@ -4,14 +4,14 @@ import { FaAngleDoubleRight } from 'react-icons/fa'
 import moment from 'moment';
 import ButtonNewReportQA from '../Buttons/ButtonNewReportQA';
 
-const QuestionCard = ({ question, profile_id, token }) => {
+const QuestionCard = ({ question, profile_id, token, t }) => {
 
     return (
         <>
             <Stack bg="white" p="2" boxShadow="lg" m="1" borderRadius="lg">
                 <Flex>
                     <Text as='cite' noOfLines={3}>{question.question}</Text>
-                    <ButtonNewReportQA reference={question._id} type={"Question"} userId={profile_id} owner={profile_id == question.buyer._id} token={token} />
+                    <ButtonNewReportQA reference={question._id} type={"Question"} userId={profile_id} owner={profile_id == question.buyer._id} token={token} t={t}/>
                 </Flex>
                 {question.answer && (
                     <>

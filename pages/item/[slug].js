@@ -26,11 +26,12 @@ import PlayerAudio from '../../components/Utils/PlayerAudio'
 import Questions from '../../components/Layouts/Questions'
 import ButtonNewReport from '../../components/Buttons/ButtonNewReport'
 import Error from '../../components/Infos/Error'
+import { useTranslation } from 'react-i18next'
 
 const ItemById = ({ item }) => {
   const global = useGlobal();
   const toast = useToast();
-
+  const { t } = useTranslation("questions");
   const url_gc = process.env.NEXT_PUBLIC_LINK_GC;
   const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
 
@@ -284,7 +285,7 @@ const ItemById = ({ item }) => {
             </Flex>
           </Box>
         </Flex>
-        <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} />
+        <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t}/>
         <Divider />
         <Box m="1em" h="30vh">
           <Text mt="10px" fontWeight={"semibold"}>Description</Text>
@@ -292,7 +293,7 @@ const ItemById = ({ item }) => {
         </Box>
         <Divider mt="2em" />
         <Box m="1em">
-          <Questions item={item} profile_id={global?.profile?._id} token={global?.profile?.token} />
+          <Questions item={item} profile_id={global?.profile?._id} token={global?.profile?.token} t={t}/>
         </Box>
       </Container>
     </>
