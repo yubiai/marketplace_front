@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { StatusOrderByStateShort } from '../Infos/StatusOrder'
 
-const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
+const OrderCardBuyer = ({ order, yubiaiPaymentInstance, t }) => {
   const router = useRouter();
   const [deal, setDeal] = useState(null);
 
@@ -36,7 +36,8 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
               deal.dealStatus,
               deal.claimStatus,
               deal.claimCount,
-              deal.disputeId
+              deal.disputeId,
+              t
             )}
           </>
         )}
@@ -106,7 +107,7 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
                 router.push('/profile/orders/detail/' + order?.transactionHash)
               }
             >
-              View Order
+              {t("View Order")}
             </Button>
           </Box>
         </Center>

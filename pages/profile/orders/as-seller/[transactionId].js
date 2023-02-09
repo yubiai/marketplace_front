@@ -47,6 +47,8 @@ import useUser from '../../../../hooks/data/useUser';
 import { StatusOrderByState, CLAIMED_STATUS, statusDescMap, StatusOrder, ONGOING_STATUS } from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
+import { useTranslation } from 'react-i18next';
+
 
 const OrderDetail = () => {
   /**
@@ -56,6 +58,7 @@ const OrderDetail = () => {
   const global = useGlobal();
   const dispatch = useDispatchGlobal();
   const toast = useToast();
+  
   const { transactionId } = router.query;
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [loadingMarkDone, setLoadingMarkDone] = useState(false);
@@ -64,6 +67,7 @@ const OrderDetail = () => {
    * Order and transaction info
    */
   const [orderDetail, setOrderDetail] = useState(null);
+  const { t } = useTranslation("orders");
   const [transactionData, setTransactionData] = useState({});
   const [transactionMeta, setTransactionMeta] = useState(null);
   const [transactionPayedAmount, setTransactionPayedAmount] = useState('');
@@ -236,7 +240,7 @@ const OrderDetail = () => {
 
   if (!orderDetail) return <Loading />;
   console.log(orderDetail)
-
+  console.log('t:', t);
   return (
     <>
       <Head>
@@ -354,7 +358,8 @@ const OrderDetail = () => {
                 deal.claimStatus,
                 deal.claimCount,
                 deal.maxClaimsAllowed,
-                deal.disputeId
+                deal.disputeId,
+                t
               )}</Text>
               {
                 transactionDate &&
@@ -436,22 +441,23 @@ const OrderDetail = () => {
               </Center>
             </Grid>
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-
-            <Text fontWeight={600} fontSize="2xl">Status</Text>
+                      
+            <Text fontWeight={600} fontSize="2xl" >Status</Text>
             {
               orderDetail.status != "ORDER_REFUNDED" && (deal || {}).dealStatus && StatusOrderByState(
                 deal.dealStatus,
                 deal.claimStatus,
                 deal.claimCount,
                 deal.maxClaimsAllowed,
-                deal.disputeId
+                deal.disputeId,
+                t
               )
             }
 
             {
               orderDetail.status == "ORDER_REFUNDED" && (
                 <>
-                  {StatusOrder("ORDER_REFUNDED")}
+                  {StatusOrder("ORDER_REFUNDED", t)}
                 </>
               )
             }

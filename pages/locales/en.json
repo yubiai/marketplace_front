@@ -341,6 +341,18 @@
         "Minimum required characters are 30": "Minimum required characters are 30",
         "Send": "Send",
         "Cancel": "Cancel"
+    },
+    "orders": {
+        "Home": "Home",
+        "Profile": "Profile",
+        "Orders": "Orders",
+        "You do not have any orders.": "You do not have any orders.",
+        "Go Back": "Go Back",
+        "Order created": "Order Created",
+        "View Order": "View Order",
+        "Order paid":"Order paid"
+ 
+
     }
 
   }

@@ -341,6 +341,17 @@
         "Cancel": "Cancelar" 
 
 
+    },
+    "orders": {
+        "Home": "Inicio",
+        "Profile": "Perfil",
+        "Orders": "Compras",
+        "You do not have any orders.": "No has hecho ninguna compra.",
+        "Go Back": "Volver",
+        "Order created": "Compra Iniciada",
+        "View Order": "Ver Compra",
+        "Order paid":"Pedido pagado"
+
     }
 
     

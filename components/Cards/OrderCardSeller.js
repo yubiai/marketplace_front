@@ -4,10 +4,12 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { StatusOrderByStateShort } from '../Infos/StatusOrder';
+import { useTranslation } from 'react-i18next';
 
 const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
   const router = useRouter();
   const [deal, setDeal] = useState(null);
+  const { t } = useTranslation("orders");
   useEffect(() => {
     const setDealInfo = async _order => {
       const fullStatus = await yubiaiPaymentInstance.getFullStatusOfDeal(_order.transaction.transactionIndex);
@@ -34,7 +36,8 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
               deal.dealStatus,
               deal.claimStatus,
               deal.claimCount,
-              deal.disputeId
+              deal.disputeId,
+              t
             )}
           </>
         )}

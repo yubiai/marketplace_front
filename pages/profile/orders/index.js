@@ -21,12 +21,13 @@ import useFetch from '../../../hooks/data/useFetch'
 import useUser from '../../../hooks/data/useUser'
 import { useDispatchGlobal, useGlobal } from '../../../providers/globalProvider'
 import { setYubiaiInstance } from '../../../providers/orderProvider'
+import { useTranslation } from 'react-i18next'
 
 const Orders = () => {
   const global = useGlobal()
   const router = useRouter()
   const dispatch = useDispatchGlobal()
-
+  const { t } = useTranslation("orders")
   const { user, loggedOut } = useUser()
 
   // if logged in, redirect to the home
@@ -75,28 +76,28 @@ const Orders = () => {
                 textDecoration: "underline"
               }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                 textDecoration: "underline"
-              }}>Home</Text></Link>
+              }}>{t("Home")}</Text></Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
               <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{t("Profile")}</Text>
               </Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <Text>Orders</Text>
+              <Text>{t("Orders")}</Text>
             </BreadcrumbItem>
           </Breadcrumb>
 
           {data && data.items && data.items.length === 0 && (
             <>
               <Center>
-                <Heading mt="5em">You do not have any orders.</Heading>
+                <Heading mt="5em">{t("You do not have any orders.")}</Heading>
               </Center>
               <Center>
                 <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
-                  Go Back
+                  {t("Go Back")}
                 </Button>
               </Center>
             </>
@@ -105,7 +106,7 @@ const Orders = () => {
             data.items &&
             data.items.length > 0 &&
             data.items.map((item, i) => {
-              return <OrderCardBuyer yubiaiPaymentInstance={global.yubiaiPaymentArbitrableInstance} order={item} key={i} />
+              return <OrderCardBuyer yubiaiPaymentInstance={global.yubiaiPaymentArbitrableInstance} order={item} key={i} t={t} />
             })}
           <Paginations data={data ? data : null} />
         </Container>
