@@ -97,37 +97,37 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
     }
 }
 
-export const StatusOrderByStateShort = (dealStatus, claimResult, claimCount = 0, disputeId = '') => {
+export const StatusOrderByStateShort = (dealStatus, claimResult, claimCount = 0, disputeId = '', t) => {
     switch (dealStatus) {
         case "1":
             return (
                 <Box bg="blue.300" rounded={"5px"}>
-                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px" >Order created</Text>
+                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px" >{t("Order created")}</Text>
                 </Box>
             );
         case "2":
             return (
                 <Box bg="pink.300" rounded={"5px"}>
-                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">Order claimed</Text>
+                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Order claimed")}</Text>
                 </Box>
             );
         case "3":
             return (
                 <Box bg="purple.300" rounded={"5px"}>
-                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">In dispute</Text>
+                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("In dispute")}</Text>
                 </Box>
             );
         case "4":
             if (claimCount && disputeId && claimResult !== CLAIM_RESULT_ACCEPTED) {
                 return (
                     <Box bg="red.400" rounded={"5px"}>
-                        <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">Claim rejected</Text>
+                        <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Claim rejected")}</Text>
                     </Box>
                 );
             }
             return (
                 <Box bg="green.400" rounded={"5px"}>
-                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">Order paid</Text>
+                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Order paid")}</Text>
                 </Box>
             );
         default:

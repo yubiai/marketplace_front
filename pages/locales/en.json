@@ -350,7 +350,14 @@
         "Go Back": "Go Back",
         "Order created": "Order Created",
         "View Order": "View Order",
-        "Order paid":"Order paid"
+        "Seller": "Seller:",
+        "Order paid":"Order paid",
+        "Order Refunded": "Order Refunded",
+        "Work has been notified as completed": "Work has been notified as completed",
+        "Order claimed": "Order claimed",
+        "In dispute": "In dispute",
+        "Claim rejected": "Claim rejected"
+        
  
 
     }

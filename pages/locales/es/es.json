@@ -350,7 +350,13 @@
         "Go Back": "Volver",
         "Order created": "Compra Iniciada",
         "View Order": "Ver Compra",
-        "Order paid":"Pedido pagado"
+        "Seller": "Vendedor:",
+        "Order paid":"Pedido pagado",
+        "Order Refunded": "Pedido Reembolsado",
+        "Work has been notified as completed": "El trabajo ha sido notificado como finalizado",
+        "Order claimed": "Pedido reclamado",
+        "In dispute": "En disputa",
+        "Claim rejected": "Reclamo rechazado"
 
     }
 
