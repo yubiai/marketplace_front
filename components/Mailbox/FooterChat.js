@@ -8,7 +8,7 @@ import FilePreviewMini from '../Infos/FilePreviewMini'
 const acceptedFileTypes = 'image/jpeg, image/jpg, image/png, image/webp, video/mp4, audio/mpeg, application/pdf'
 const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 
-const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFiles, handleSendMessage, loadingSubmit }) => {
+const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFiles, handleSendMessage, loadingSubmit, t }) => {
 
   const inputRef = useRef()
   const [errorMsg, setErrorMsg] = useState(null)
@@ -126,7 +126,7 @@ const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFil
       >
 
         <Input
-          placeholder="Type Something..."
+          placeholder={t("Type Something...")}
           border="none"
           borderRadius="none"
           _focus={{

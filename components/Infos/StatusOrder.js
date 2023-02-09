@@ -64,14 +64,14 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
         case "2":
             return (
                 <Box bg="pink.300" rounded={"5px"} p="5px" w={{ base: "100%", md: "max-content" }}>
-                    <Text fontSize={"larger"} fontStyle="normal" color="black" pl="15px" pr="15px">The buyer has claimed a refund for this order.</Text>
+                    <Text fontSize={"larger"} fontStyle="normal" color="black" pl="15px" pr="15px">{t("The buyer has claimed a refund for this order.")}</Text>
 {/*                     <Text color="black" fontStyle="italic" pl="15px" pr="15px">Please choose an option.</Text>
  */}                </Box>
             );
         case "3":
             return (
                 <Box bg="purple.300" rounded={"5px"} w={{ base: "100%", md: "max-content" }}>
-                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">Dispute in progress.</Text>
+                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Dispute in progress.")}</Text>
                 </Box>
             );
         case "4":
@@ -79,17 +79,17 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
                 const claimLimitReaches = claimCount === claimLimit;
                 return (
                     <Box bg="purple.300" rounded={"5px"} w={{ base: "100%", md: "max-content" }}>
-                        <Text color="black" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">Claim rejected. {
+                        <Text color="black" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Claim rejected.")} {
                             claimLimitReaches
-                                ? 'You reached the limit of claims you can do to the seller.'
-                                : `You have ${claimLimit - claimCount} opportunities to try a new claim.`
+                                ? t("You reached the limit of claims you can do to the seller.")
+                                : ` ${t("Opportunities to try a new claim:")}  ${claimLimit - claimCount}`
                         }</Text>
                     </Box>
                 );
             }
             return (
                 <Box bg="green.400" rounded={"5px"} w={{ base: "100%", md: "max-content" }}>
-                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">Order paid</Text>
+                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Order paid")}</Text>
                 </Box>
             );
         default:

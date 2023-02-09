@@ -43,6 +43,7 @@ import {
 } from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
+import { useTranslation } from 'react-i18next';
 
 const OrderDetail = () => {
   /**
@@ -60,6 +61,7 @@ const OrderDetail = () => {
   const [orderDetail, setOrderDetail] = useState(null);
   const [transactionData, setTransactionData] = useState({});
   const [transactionMeta, setTransactionMeta] = useState(null);
+  const { t } = useTranslation("orders");
   const [transactionPayedAmount, setTransactionPayedAmount] = useState('');
   const [transactionFeeAmount, setTransactionFeeAmount] = useState('');
   const [transactionDate, setTransactionDate] = useState('');
@@ -206,21 +208,21 @@ const OrderDetail = () => {
               textDecoration: "underline"
             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
               textDecoration: "underline"
-            }}>Home</Text></Link>
+            }}>{t("Home")}</Text></Link>
           </BreadcrumbItem>
           <BreadcrumbItem>
             <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-              <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+              <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{t("Profile")}</Text>
             </Link>
           </BreadcrumbItem>
 
           <BreadcrumbItem>
             <Link href="/profile/orders/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-              <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Orders</Text>
+              <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{t("Orders")}</Text>
             </Link>
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
-            <Text>Detail</Text>
+            <Text>{t("Detail")}</Text>
           </BreadcrumbItem>
         </Breadcrumb>
         {operationInProgress && <Loading styleType={'checkout'} />}
@@ -233,13 +235,13 @@ const OrderDetail = () => {
             p={6}
           >
             <Heading fontSize={'3xl'} fontFamily={'body'}>
-              Order Detail
+              {t("Order Detail")}
             </Heading>
             <Text fontWeight={600} fontSize={'0.8em'} color={'gray.500'} mt="5px">
               {moment(orderDetail && orderDetail?.dateOrder).format('DD/MM/YYYY, h:mm:ss a')} | # {orderDetail?._id}
             </Text>
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-            <Text fontWeight={600} fontSize="2xl">Item</Text>
+            <Text fontWeight={600} fontSize="2xl">{t("Item")}</Text>
             <Grid
               templateRows={{ base: 'repeat(1, 1fr)', md: 'none' }}
               templateColumns={{ base: 'none', md: 'repeat(3, 1fr)' }}
@@ -271,7 +273,7 @@ const OrderDetail = () => {
                 <Center noOfLines={3} textAlign={"center"} >
                   <Box>
                     <Text fontWeight={600}>{orderDetail.item.title}</Text>
-                    <Text>Price: {orderDetail.item.price || 0} {orderDetail.item.currencySymbolPrice}</Text>
+                    <Text>{t("Price")} {orderDetail.item.price || 0} {orderDetail.item.currencySymbolPrice}</Text>
                   </Box>
                 </Center>
 
@@ -283,17 +285,17 @@ const OrderDetail = () => {
                     color={'white'}
                     _hover={{
                       bg: "gray.400"
-                    }}>See Item</Button>
+                    }}>{t("See Item")}</Button>
                 </Link>
               </Center>
             </Grid>
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
 
-            <Text fontWeight={600} fontSize="2xl">Transaction details</Text>
+            <Text fontWeight={600} fontSize="2xl">{t("Transaction details")}</Text>
 
             <Box p="1em" color="black" bg="orange.100" mt="1em">
               <Flex><Text fontWeight={600}>ID: </Text> <Text>0x...{transactionMeta && transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16)}</Text></Flex>
-              <Text fontWeight={600}>Status: {(deal || {}).dealStatus && statusDescMap(
+              <Text fontWeight={600}>{t("Status")} {(deal || {}).dealStatus && statusDescMap(
                 deal.dealStatus,
                 deal.claimStatus,
                 deal.claimCount,
@@ -302,12 +304,12 @@ const OrderDetail = () => {
               )}</Text>
               {
                 transactionDate &&
-                <Text fontWeight={600}>Date: {moment(transactionDate).format('MM/DD/YYYY, h:mm:ss a')}</Text>
+                <Text fontWeight={600}>{t("Date")} {moment(transactionDate).format('MM/DD/YYYY, h:mm:ss a')}</Text>
               }
               {
                 (transactionPayedAmount && global.yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
-                  Value: {
+                  {t("Value")}: {
                     `${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)}${orderDetail.item.currencySymbolPrice || 'ETH'}`
                   }
                 </Text>
@@ -315,7 +317,7 @@ const OrderDetail = () => {
               {
                 (transactionFeeAmount && global.yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
-                  Fee: {`${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount)}`}
+                  {t("Fee")}: {`${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount)}`}
                 </Text>
               }
               <Link
@@ -330,7 +332,7 @@ const OrderDetail = () => {
               </Link>
             </Box>
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-            <Text fontWeight={600} fontSize="2xl">Seller</Text>
+            <Text fontWeight={600} fontSize="2xl">{t("Seller ")}</Text>
             <Grid
               templateRows={{ base: 'repeat(1, 1fr)', md: 'none' }}
               templateColumns={{ base: 'none', md: 'repeat(3, 1fr)' }}
@@ -349,13 +351,13 @@ const OrderDetail = () => {
               <Center textAlign={"center"}>
                 <Box>
                   <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.seller.first_name} ${orderDetail && orderDetail.item.seller.last_name}`}</Text>
-                  <Text>Eth Address: {orderDetail && orderDetail.item.seller.eth_address.slice(orderDetail.item.seller.eth_address.length - 8)}</Text>
+                  <Text>{t("Eth Address")}: {orderDetail && orderDetail.item.seller.eth_address.slice(orderDetail.item.seller.eth_address.length - 8)}</Text>
                   <Link
                     href={`https://app.proofofhumanity.id/profile/${orderDetail && orderDetail.item.seller.eth_address}`}
                     passHref legacyBehavior
                   >
                     <a target="_blank" rel="noopener noreferrer">
-                      <Text color="black" as='u' fontStyle={"italic"} _hover={{ color: "gray.400" }}>View poh profile</Text>
+                      <Text color="black" as='u' fontStyle={"italic"} _hover={{ color: "gray.400" }}>{t("View poh profile")}</Text>
                     </a>
                   </Link>
                 </Box>
@@ -366,12 +368,12 @@ const OrderDetail = () => {
                   color={'white'}
                   _hover={{
                     bg: "gray.400"
-                  }} onClick={redirectToChat}>Send Message</Button>
+                  }} onClick={redirectToChat}>{t("Send Message")}</Button>
               </Center>
             </Grid>
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
 
-            <Text fontWeight={600} fontSize="2xl">Status</Text>
+            <Text fontWeight={600} fontSize="2xl">{t("Status ")}</Text>
 
             {/* {
               orderDetail.status == "ORDER_DISPUTE_IN_PROGRESS" && (
@@ -392,7 +394,7 @@ const OrderDetail = () => {
             {
               orderDetail.status == "ORDER_REFUNDED" && (
                 <>
-                  {StatusOrder("ORDER_REFUNDED")}
+                  {StatusOrder("ORDER_REFUNDED", t)}
                 </>
               )
             }
@@ -403,15 +405,16 @@ const OrderDetail = () => {
                 deal.claimStatus,
                 deal.claimCount,
                 deal.maxClaimsAllowed,
-                deal.disputeId
+                deal.disputeId,
+                t
               )
             }
 
             {(deal || {}).dealStatus === ONGOING_STATUS && !verifyMessages && (
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-                <Text fontWeight={600} fontSize="2xl">Actions</Text>
-                <Text fontWeight={"normal"}>Actions will be available when there is a message interaction.</Text>
+                <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
+                <Text fontWeight={"normal"}>{t("Actions will be available when there is a message interaction.")}</Text>
               </>
             )}
 
@@ -419,14 +422,14 @@ const OrderDetail = () => {
               (deal || {}).dealStatus === ONGOING_STATUS && verifyMessages &&
               (<Box>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-                <Text fontWeight={600} fontSize="2xl">Actions</Text>
+                <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
                 {
                   (deal || {}).dealStatus === ONGOING_STATUS && orderDetail.orderCompletedBySeller && (
                     <>
                       <Box width={"100%"}>
                         <Box bg="orange.200" rounded={{ base: "5px" }} p="1em">
-                          <Text fontWeight={"semibold"} color="black" pl="5px" pr="5px">Work has been notified as completed.</Text>
-                          <Text color="black" fontStyle="italic" pl="5px" pr="5px">(Please confirm that you have received the work and have verified that it satisfies all of the conditions you specified during the chat before releasing the payment. Do not confirm and inform the vendor on the chat if the work they completed did not meet your expectations)</Text>
+                          <Text fontWeight={"semibold"} color="black" pl="5px" pr="5px">{t("Work has been notified as completed")}</Text>
+                          <Text color="black" fontStyle="italic" pl="5px" pr="5px">{t("(Please confirm that you have received the work and have verified that it satisfies all of the conditions you specified during the chat before releasing the payment. Do not confirm and inform the vendor on the chat if the work they completed did not meet your expectations)")}</Text>
                         </Box>
                       </Box>
                     </>
@@ -440,7 +443,7 @@ const OrderDetail = () => {
                           <>
                             <div>
                               <Text color="black">
-                                Always confirm that you have received the seller is service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.
+                               {t(" Always confirm that you have received the seller is service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.")}
                               </Text>
                             </div>
                             <div>
@@ -454,7 +457,7 @@ const OrderDetail = () => {
                                   stepsPostAction={loadOrder}
                                   toggleLoadingStatus={toggleLoadingStatus}
                                   yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                                  orderCompletedBySeller={orderDetail.orderCompletedBySeller}
+                                  orderCompletedBySeller={orderDetail.orderCompletedBySeller} t={t}
                                 />
                               </Box>
                             </div>
@@ -467,11 +470,11 @@ const OrderDetail = () => {
                           <div>
                             <Text color="black">
                               {
-                                !(deal || {}).isOver && "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case."
+                                !(deal || {}).isOver && t("If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case.")
                               }
                               {
                                 (deal || {}).isOver &&
-                                "You cannot claim this order because the status of this transaction is over."
+                                t("You cannot claim this order because the status of this transaction is over.")
                               }
                             </Text>
                           </div>
@@ -479,7 +482,7 @@ const OrderDetail = () => {
                             {
                               !(deal || {}).isOver &&
                               <Box mt={{ base: "1em", md: "0px" }} textAlign={{ base: "center", md: "right" }}>
-                                <ButtonStartClaim transactionMeta={transactionMeta} profile={global.profile} />
+                                <ButtonStartClaim transactionMeta={transactionMeta} profile={global.profile} t={t}/>
                               </Box>
                             }
                           </div>

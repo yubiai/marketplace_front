@@ -358,8 +358,8 @@ const OrderDetail = () => {
                 deal.claimStatus,
                 deal.claimCount,
                 deal.maxClaimsAllowed,
-                deal.disputeId,
-                t
+                deal.disputeId
+        
               )}</Text>
               {
                 transactionDate &&
