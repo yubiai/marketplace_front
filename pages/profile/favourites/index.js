@@ -21,11 +21,12 @@ import { useEffect } from 'react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import ItemCardLg from '../../../components/Cards/ItemCardLg'
+import { useTranslation } from 'react-i18next'
 
 const Favourites = () => {
   const global = useGlobal()
   const router = useRouter()
-
+  const { t } = useTranslation("home")
   const { user, loggedOut } = useUser()
 
   // if logged in, redirect to the home
@@ -68,17 +69,17 @@ const Favourites = () => {
                 textDecoration: "underline"
               }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                 textDecoration: "underline"
-              }}>Home</Text></Link>
+              }}>{t("Home")}</Text></Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
               <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{t("Profile")}</Text>
               </Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <Text>Your favourites</Text>
+              <Text>{t("Your favourites")}</Text>
             </BreadcrumbItem>
           </Breadcrumb>
 
@@ -86,12 +87,12 @@ const Favourites = () => {
             <>
               <Center>
                 <Heading mt="5em">
-                  You do not have any items added to favourites.
+                  {t("You do not have any items added to favourites.")}
                 </Heading>
               </Center>
               <Center>
                 <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
-                  Go Back
+                  {t("Go Back")}
                 </Button>
               </Center>
             </>

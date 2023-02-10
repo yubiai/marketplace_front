@@ -55,8 +55,8 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
         } catch (err) {
             console.error(err);
             toast({
-                title: 'Report',
-                description: 'Report could not be sent.',
+                title: t('Report'),
+                description: t('Report could not be sent.'),
                 position: 'top-right',
                 status: 'warning',
                 duration: 3000,

@@ -45,7 +45,7 @@ const Notification = () => {
     }
     initial();
   }, [global.notificationsActive])
-
+  
   if (isLoading || isError) return (
     <Spinner
       thickness="4px"
@@ -55,32 +55,32 @@ const Notification = () => {
       size="md"
     />
   );
-
+  console.log(global.profile, "global")  
   if (global && global.profile) {
     return (
-      <>
+      <> 
         <Popover closeOnBlur={true} placement='bottom' initialFocusRef={initRef}>
           {({ onClose }) => {
-            if (!notis) {
+            if (!notis.notifications) {
               onClose();
             }
             return (
               <>
-                {notis && notis && notis.length > 0 && (
+                {notis && notis.notifications && notis.notifications.length > 0 && (
                   <PopoverTrigger>
                     <Button colorScheme="transparent" className='step-notifications'
                       _hover={{ bg: '#1C538A', color: 'gray.200' }}
                       _expanded={{ bg: 'blue.400' }}
                       _focus={{ boxShadow: 'outline' }}>
                       <BsFillBellFill color="white" />
-                      <Box position={'absolute'} top={'-2px'} right={'6px'}>
-                        <Badge colorScheme="green" fontSize="10px">
-                          New                  </Badge>
+                      <Box position={'absolute'} top={'-2px'} right={'11px'}>
+                        <Badge colorScheme="green" fontSize="12px">
+                          {notis.quantity > 99 ? "+99" : notis.quantity} </Badge>
                       </Box>
                     </Button>
                   </PopoverTrigger>
                 )}
-                {!notis || notis.length === 0 && (
+                {!notis || notis.notifications.length === 0 && (
                   <Button onClick={() => router.push("/profile/notifications")} colorScheme="transparent" className='step-notifications'
                     _hover={{ bg: '#1C538A', color: 'gray.200' }}
                     _focus={{ boxShadow: 'outline' }}>
@@ -97,7 +97,7 @@ const Notification = () => {
                     <PopoverBody>
 
                       <Stack divider={<StackDivider />} spacing=''>
-                        {notis && notis && notis.length > 0 && notis.map((item, i) => {
+                      {notis && notis.notifications && notis.notifications.length > 0 && notis.notifications.map((item, i) => {
                           return (
                             <NotiCard
                               key={i}

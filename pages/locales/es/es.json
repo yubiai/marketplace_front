@@ -21,7 +21,12 @@
     "home": {
       "Popular services": "Servicios mas vistos",
       "Your favourites": "Tus favoritos",
-      "Last viewed items": "Vistos por última vez"
+      "Last viewed items": "Vistos por última vez",
+      "Home": "Inicio",
+      "Profile": "Perfil",
+      "Favourites": "Favoritos",
+      "You do not have any items added to favourites.": "No ha añadido ninguna publicación a sus favoritos.",
+      "Go Back": "Volver"
 
     },
     "profilemenu": {
@@ -39,6 +44,7 @@
     "drawermenu": {
       "Home": "Inicio",
       "Profile": "Perfil",
+      "UBI dripped": "UBIs goteados",
       "Notifications": "Notificaciones",
       "Categories": "Categorías",
       "Services": "Servicios",
@@ -195,7 +201,7 @@
       "UBI Burning Amount lets you choose on a dinamyc and optional way how much % will be deducted and sent from the total price of the item you are buying to the UBI Burner to increase the value of $UBI.": "El Importe a quemar de UBI le permite elegir de forma dinámica y opcional que porcentaje se deducirá y enviará del precio total del artículo que está comprando al UBI Burner para aumentar el valor del mismo.",
       "Seller": "Vendedor",
       "How do I start selling?": "¿Cómo empiezo a vender?",
-      "Start by clicking on “Connect” on the top right corner then below the search bar on the middle of the navigation area(top middle)click on “Sell” and follow through the steps from Category to Product Images then after filling each field click on “Preview & Submit for review” verify that all is correct and click on `Submit for review`": "Comience haciendo clic en 'Conectar' en la esquina superior derecha, luego debajo de la barra de búsqueda en el medio del área de navegación (parte superior central), haga clic en 'Vender' y siga los pasos desde Categoría hasta Imágenes de productos y luego, después de completar cada campo, haga clic en en 'Previsualizar y enviar para revisión', verifique que todo sea correcto y haga clic en 'Enviar para revisión'",
+      "Start by clicking on “Connect” on the top right corner then below the search bar on the middle of the navigation area(top middle)click on “Sell” and follow through the steps from Category to Product Images then after filling each field click on “Preview & Submit for review” verify that all is correct and click on `Submit for review`": "Para vender, haga clic en 'Conectar' en la esquina superior derecha, luego en 'Vender' debajo de la barra de búsqueda. Siga los pasos desde la categoría hasta las imágenes del producto y luego envíelo para revisión después de completar cada campo.",
       "What is `UBI Burning Amount`?":"¿Qué es `Importe a quemar de UBI`?",
       "UBI Burning Amount lets you choose on a dinamyc and optional way how much % will be deducted and sent from the total price of the item you are selling to the UBI Burner to increase the value of $UBI.": "El Importe a quemar de UBI te permite elegir de manera dinámica y opcional que % será deducido y enviado del precio total del artículo que estás vendiendo al UBI Burner incrementando su valor."
     },
@@ -223,7 +229,9 @@
         "Telephone": "Teléfono",
         "Email": "Correo electrónico",
         "Go Back": "Volver ",
-        "Save": "Guardar"
+        "Save": "Guardar",
+        "Data saved": "Datos guardados con éxito",
+        "Data not saved": "No se han podido guardar tus datos"
     },
     "listing": {
         "Home": "Inicio",
@@ -307,7 +315,8 @@
         "Buyer": "Comprador",
         "Seller": "Vendedor",
         "Questions as buyer": "Preguntas como comprador",
-        "There are no questions.": "No has hecho preguntas.",
+        "There are no questions.": "No has hecho preguntas",
+        "There are no questions. ": "No te han hecho preguntas.",
         "Item": "Publicación:",
         "Status:": "Estado:",
         "Make other question": "Haz otra pregunta",
@@ -338,7 +347,10 @@
         "Description is required, minimum 30 characters and maximum 800 characters": "Descripción obligatoria, cantidad mínima de 30 caracteres y máximo de 800 caracteres.",
         "Minimum required characters are 30": "Se requiere una cantidad mínima de 30 caracteres",
         "Send": "Enviar",
-        "Cancel": "Cancelar" 
+        "Cancel": "Cancelar",
+        "Favourites": "Favoritos",
+        "Item added to favourites successfully.": "Publicación agregada a favoritos.",
+        "Item removed from favourites successfully.": "Publicación removida de favoritos."
 
 
     },

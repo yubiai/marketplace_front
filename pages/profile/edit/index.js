@@ -65,13 +65,13 @@ const ProfileEdit = () => {
 
     await profileService
       .updateProfile(global.profile._id, data, global?.profile?.token)
-      .then((res) => {
-        actionToat("Profile", res.data && res.data.message, "success");
+      .then(() => {
+        actionToat(t("Profile"), t("Data saved"), "success");
         router.push("/profile")
       })
       .catch((err) => {
-        console.log(err)
-        actionToat("Profile", err.response && err.response.data && err.response.data.message, "error")
+        console.error(err)
+        actionToat(t("Profile"), t("Data not saved"), "error")
       })
   }
 

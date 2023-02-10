@@ -56,7 +56,7 @@ const UserMenu = () => {
       )}
       <Portal zIndex={'20'}>
         <MenuList color="black" bg="white">
-          <UserInfo profile={profileLogin} balanceToken={balanceToken} />
+          <UserInfo profile={profileLogin} balanceToken={balanceToken} t={t}/>
 
           <Link href="/profile">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}>

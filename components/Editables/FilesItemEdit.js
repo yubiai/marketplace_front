@@ -248,7 +248,7 @@ const FilesItemEdit = ({ item, token, mutate, t }) => {
                                             resetField={resetField}
                                             getValues={getValues}
                                         >
-                                            File 2 {editItem1 && item.files && item.files[1] && (
+                                            {t("File 2")} {editItem1 && item.files && item.files[1] && (
                                                 <Button position="absolute" top="0" right="15" float="right" onClick={() => {
                                                     setEditItem1(false)
                                                     setValue("file2", "")
@@ -292,7 +292,7 @@ const FilesItemEdit = ({ item, token, mutate, t }) => {
                                             resetField={resetField}
                                             getValues={getValues}
                                         >
-                                            File 3
+                                            {t("File 3")}
                                             {editItem2 && item.files && item.files[2] && (
                                                 <Button position="absolute" top="0" right="15" float="right" onClick={() => {
                                                     setEditItem2(false)

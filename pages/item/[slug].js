@@ -93,8 +93,8 @@ const ItemById = ({ item }) => {
         if (res.status === 200) {
           getFavourites()
           actionToat(
-            'Favourites',
-            'Item added to favourites successfully.',
+            t("Favourites"),
+            t("Item added to favourites successfully."),
             'success'
           )
           return
@@ -112,8 +112,8 @@ const ItemById = ({ item }) => {
         if (res.status === 200) {
           getFavourites()
           actionToat(
-            'Favourites',
-            'Item removed from favourites successfully.',
+            t("Favourites"),
+            t("Item removed from favourites successfully."),
             'info'
           )
           return

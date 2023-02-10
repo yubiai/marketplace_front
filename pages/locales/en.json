@@ -23,7 +23,12 @@
     "home": {
       "Popular services": "Popular services",
       "Your favourites": "Your favourites",
-      "Last viewed items": "Last viewed items"
+      "Last viewed items": "Last viewed items",
+      "Home": "Home",
+      "Profile": "Profile",
+      "Favourites": "Favourites",
+      "You do not have any items added to favourites.": "You do not have any items added to favourites.",
+      "Go Back": "Go Back"
 
     },
     "profilemenu": {
@@ -41,6 +46,7 @@
     "drawermenu": {
         "Home": "Home",
         "Profile": "Profile",
+        "UBI dripped": "UBI dripped",
         "Notifications": "Notifications",
         "New Listing": "New Listing",
         "Listings": "Listings",
@@ -227,7 +233,9 @@
         "Telephone": "Telephone",
         "Email": "Email",
         "Go Back": "Go Back",
-        "Save": "Save"
+        "Save": "Save",
+        "Data saved": "Data Saved",
+        "Data not saved": "Data not saved"
     },
     "listing": {
         "Home": "Home",
@@ -311,6 +319,7 @@
         "Seller": "Seller",
         "Questions as buyer": "Questions as buyer",
         "There are no questions.": "There are no questions.",
+        "There are no questions. ": "There are no questions.",
         "Item": "Item:",
         "Status:": "Status:",
         "Make other question": "Make other question",
@@ -340,7 +349,11 @@
         "Description is required, minimum 30 characters and maximum 800 characters": "Description is required, minimum 30 characters and maximum 800 characters",
         "Minimum required characters are 30": "Minimum required characters are 30",
         "Send": "Send",
-        "Cancel": "Cancel"
+        "Cancel": "Cancel",
+        "Favourites": "Favourites",
+        "Item added to favourites successfully.": "Item added to favourites successfully.",
+        "Item removed from favourites successfully.": "Item removed from favourites successfully."
+
     },
     "orders": {
         "Home": "Home",
