@@ -15,7 +15,7 @@ import {
   Link,
 } from '@chakra-ui/react'
 
-const InfoUserModal = ({ user }) => {
+const InfoUserModal = ({ user, t }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
 
   return (
@@ -26,7 +26,7 @@ const InfoUserModal = ({ user }) => {
         bg="transparent"
         cursor={'pointer'}
       >
-        Sell by {user.first_name} {user.last_name}
+        {t("Sell by")} {user.first_name} {user.last_name}
       </Text>
 
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -49,7 +49,7 @@ const InfoUserModal = ({ user }) => {
                   fallbackSrc={"/static/images/userdefault.png"}
                 />
               </Center>
-              <Text mt="1em">Wallet</Text>
+              <Text mt="1em">{t("Wallet")}</Text>
               <Text fontSize={"14px"}>{user.eth_address}</Text>
               <Center mt="1em">
                 {user && user.permission !== 6 && (
@@ -60,7 +60,7 @@ const InfoUserModal = ({ user }) => {
                     isExternal
                   >
                     <Button bg="#00ABD1" color="white">
-                      My PoH Profile
+                      {t("My PoH Profile")}
                     </Button>
                   </Link>
                 )}
@@ -70,7 +70,7 @@ const InfoUserModal = ({ user }) => {
 
           <ModalFooter>
             <Button color="#1c548b" mr={3} onClick={onClose}>
-              Close
+              {t("Close")}
             </Button>
           </ModalFooter>
         </ModalContent>

@@ -74,8 +74,8 @@ const Questions = ({ item, profile_id, token, t }) => {
             await questionService.newQuestion(newQuestion, token);
             reset();
             toast({
-                title: 'Question',
-                description: 'Question was completed successfully.',
+                title: t('Question'),
+                description: t('Question was completed successfully.'),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
@@ -87,8 +87,8 @@ const Questions = ({ item, profile_id, token, t }) => {
         } catch (err) {
             console.error(err);
             toast({
-                title: 'Question',
-                description: 'Error creating question.',
+                title: t('Question'),
+                description: t('Error at creating a question.'),
                 position: 'top-right',
                 status: 'warning',
                 duration: 3000,
@@ -106,15 +106,15 @@ const Questions = ({ item, profile_id, token, t }) => {
         <>
             {!profile_id || item && item.seller && item.seller._id !== profile_id && (
                 <Box width={"100%"}>
-                    <Text fontWeight={"semibold"}>Questions and answers</Text>
+                    <Text fontWeight={"semibold"}>{t("Questions and answers")}</Text>
                     <form onSubmit={handleSubmit(onSubmit)}>
 
                         <Box>
                             <FormControl isRequired mt="1em">
-                                <FormLabel color="black">Ask the seller</FormLabel>
+                                <FormLabel color="black">{t("Ask the seller")}</FormLabel>
                                 <Flex>
                                     <Textarea
-                                        placeholder="Write your question..."
+                                        placeholder={t("Write your question...")}
                                         _placeholder={{ color: 'gray.400' }}
                                         width={"80%"}
                                         color="gray.700"
@@ -129,13 +129,13 @@ const Questions = ({ item, profile_id, token, t }) => {
                                         color="blue.500"
                                         size="md"
                                     />) : (<Button ml="1em" width={"20%"} height={"50px"} fontSize={"1em"} bg="#00abd1" color="white" type="submit">
-                                        Ask
+                                        {t("Ask")}
                                     </Button>)}
 
                                 </Flex>
-                                <Text color="red" m="5px">{errors.question?.type === 'required' && "Description is Required"}</Text>
-                                <Text color="red" m="5px">{errors.question?.type === 'minLength' && "Minimum required characters are 50"}</Text>
-                                <Text color="red" m="5px">{errors.question?.type === 'maxLength' && "Maximum required characters are 400"}</Text>
+                                <Text color="red" m="5px">{errors.question?.type === 'required' && t("Description is Required")}</Text>
+                                <Text color="red" m="5px">{errors.question?.type === 'minLength' && t("Minimum required characters are 50")}</Text>
+                                <Text color="red" m="5px">{errors.question?.type === 'maxLength' && t("Maximum required characters are 400")}</Text>
                             </FormControl>
                         </Box>
                     </form>
@@ -144,7 +144,7 @@ const Questions = ({ item, profile_id, token, t }) => {
             {!viewQuestions && (
                 <Button mt="1em" bg='#00abd1' color={'white'} disabled={!countQuestions || countQuestions === 0} _hover={{
                     bg: "blue.300"
-                }} onClick={() => onActiveViewQuestions()}>View Questions ({countQuestions})</Button>
+                }} onClick={() => onActiveViewQuestions()}>{t("View Questions")} ({countQuestions})</Button>
             )}
 
             {viewQuestions && (
@@ -152,7 +152,7 @@ const Questions = ({ item, profile_id, token, t }) => {
                     <Button mt="1em" bg='#00abd1' color={'white'} _hover={{
                         bg: "blue.300"
                     }} onClick={() => setViewQuestions(false)
-                    } >Close Questions</Button>
+                    } >{t("Close Questions")}</Button>
                     <Box mt="1em">
                         {questions && questions.length && questions.map((question, i) => {
 
@@ -167,7 +167,7 @@ const Questions = ({ item, profile_id, token, t }) => {
                         <Box mt="1em" cursor={'pointer'}
                             onClick={() => getQuestions()
                             }>
-                            <Text fontStyle={"italic"} >Ver Mas...</Text>
+                            <Text fontStyle={"italic"} >{t("See more..")}</Text>
 
                         </Box>
                     ) : null}

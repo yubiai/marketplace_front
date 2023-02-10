@@ -352,7 +352,22 @@
         "Cancel": "Cancel",
         "Favourites": "Favourites",
         "Item added to favourites successfully.": "Item added to favourites successfully.",
-        "Item removed from favourites successfully.": "Item removed from favourites successfully."
+        "Item removed from favourites successfully.": "Item removed from favourites successfully.",
+        "Service": "Service",
+        "Sell by": "Sell by",
+        "Wallet": "Wallet",
+        "My PoH Profile":"PoH Profile",
+        "Close": "Close",
+        "additional for Yubiai Fee": "additional for Yubiai Fee", 
+        "additional for UBI Burner Fee": "additional for UBI Burner Fee",
+        "Buy Now": "Buy Now",
+        "Description": "Description",
+        "View Questions": "View Questions",
+        "Close Questions": "Close Questions",
+        "Questions and answers": "Questions and answers",
+        "Error at creating a question.": "Error at creating a question.",
+        "See more..": "See more..",
+        "Report Post": "Report Post"
 
     },
     "orders": {

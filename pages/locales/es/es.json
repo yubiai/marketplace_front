@@ -350,8 +350,21 @@
         "Cancel": "Cancelar",
         "Favourites": "Favoritos",
         "Item added to favourites successfully.": "Publicación agregada a favoritos.",
-        "Item removed from favourites successfully.": "Publicación removida de favoritos."
-
+        "Item removed from favourites successfully.": "Publicación removida de favoritos.",
+        "Service": "Servicio",
+        "Sell by": "Vendido por",
+        "Wallet": "Billetera",
+        "My PoH Profile":"Perfil en PoH",
+        "Close": "Close",
+        "additional for Yubiai Fee": "de comisión adicional para Yubiai", 
+        "additional for UBI Burner Fee": "de comisión adicional para UBI Burner",
+        "Buy Now": "Comprar",
+        "View Questions": "Ver preguntas",
+        "Close Questions": "Cerrar",
+        "Questions and answers": "Preguntas y respuestas",
+        "Error at creating a question.": "Error al crear la pregunta",
+        "See more..": "Ver mas..",
+        "Report Post": "Reportar publicación"
 
     },
     "orders": {

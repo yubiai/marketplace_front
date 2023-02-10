@@ -219,7 +219,7 @@ const ItemById = ({ item }) => {
           >
             <Flex justifyContent={'space-between'}>
               <Text color="#323232" fontSize="14px" fontWeight="300">
-                Service
+                {t("Service")}
               </Text>
               {owner === false && (
                 <Box>
@@ -240,7 +240,7 @@ const ItemById = ({ item }) => {
               {item.title}
             </Text>
             {global.profile && (
-              <InfoUserModal user={item.seller} />
+              <InfoUserModal user={item.seller} t={t}/>
             )}
             {/* <Box
               display={'flex'}
@@ -258,8 +258,8 @@ const ItemById = ({ item }) => {
               </Text>
             </Box> */}
             <Text mt="1em">{item.price} {item.currencySymbolPrice}</Text>
-            <Text>0% additional for Yubiai Fee</Text>
-            <Text>{item.ubiburningamount || 0.6}% additional for UBI Burner Fee</Text>
+            <Text>0% {t("additional for Yubiai Fee")}</Text>
+            <Text>{item.ubiburningamount || 0.6}% {t("additional for UBI Burner Fee")}</Text>
             <Flex
               direction={{ base: 'column' }}
               justifyContent="center"
@@ -278,7 +278,7 @@ const ItemById = ({ item }) => {
                     onClick={() => buyAndCheckoutItem()}
                     disabled={owner || !global.profile || item.published == false || item.status != 2}
                   >
-                    Buy Now
+                    {t("Buy Now")}
                   </Button>
                 </Center>
               )}
@@ -288,7 +288,7 @@ const ItemById = ({ item }) => {
         <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t}/>
         <Divider />
         <Box m="1em" h="30vh">
-          <Text mt="10px" fontWeight={"semibold"}>Description</Text>
+          <Text mt="10px" fontWeight={"semibold"}>{t("Description")}</Text>
           <Text mt="10px">{item.description}</Text>
         </Box>
         <Divider mt="2em" />
