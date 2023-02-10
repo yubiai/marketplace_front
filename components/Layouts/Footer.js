@@ -67,12 +67,12 @@ const Footer = () => {
           />
         </Button>
         <Center display={{ base: 'none', md: 'flex' }}>
-          <Link mr={'1em'} href="https://gov.proofofhumanity.id/" isExternal>
+          {/* <Link mr={'1em'} href="https://gov.proofofhumanity.id/" isExternal>
             Governance Forum
           </Link>
           <Link mr={'1em'} href="https://snapshot.org/#/" isExternal>
             Snapshot
-          </Link>
+          </Link> */}
           <Link mr={'1em'} href="https://app.democracy.earth/#/" isExternal>
             UBI Vaults
           </Link>
