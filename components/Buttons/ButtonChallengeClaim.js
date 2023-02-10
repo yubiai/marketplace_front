@@ -3,7 +3,7 @@ import { Button } from '@chakra-ui/react';
 import { useGlobal } from '../../providers/globalProvider';
 import { orderService } from '../../services/orderService';
 
-const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus, yubiaiPaymentArbitrableInstance }) => {
+const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus, yubiaiPaymentArbitrableInstance, t }) => {
     const global = useGlobal();
 
 
@@ -27,7 +27,7 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
   
     return (
         <Button bg='red.400' color={'white'} w={{base: "100%", md: "200px"}} onClick={() => challengeClaim()}>
-          Challenge claim
+          {t("Challenge claim")}
         </Button>
     );
 };

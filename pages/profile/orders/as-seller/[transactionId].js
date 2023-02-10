@@ -262,14 +262,14 @@ const OrderDetail = () => {
               textDecoration: "underline"
             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
               textDecoration: "underline"
-            }}>Home</Text></Link>
+            }}>{t("Home")}</Text></Link>
           </BreadcrumbItem>
           <BreadcrumbItem>
             <Link href="/profile/" cursor={'pointer'} _hover={{
               textDecoration: "underline"
             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
               textDecoration: "underline"
-            }}>Profile</Text></Link>
+            }}>{t("Profile")}</Text></Link>
           </BreadcrumbItem>
 
           <BreadcrumbItem>
@@ -277,10 +277,10 @@ const OrderDetail = () => {
               textDecoration: "underline"
             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
               textDecoration: "underline"
-            }}>Sales</Text></Link>
+            }}>{t("Sales")}</Text></Link>
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
-            <Text>Detail</Text>
+            <Text>{t("Detail")}</Text>
           </BreadcrumbItem>
         </Breadcrumb>
         <Center py={6}>
@@ -293,13 +293,13 @@ const OrderDetail = () => {
             p={6}
           >
             <Heading fontSize={'3xl'} fontFamily={'body'}>
-              Sales
+              {t("Sales")}
             </Heading>
             <Text fontWeight={600} fontSize={'0.8em'} color={'gray.500'} mt="5px">
               {moment(orderDetail && orderDetail?.dateOrder).format('MM/DD/YYYY, h:mm:ss a')} | # {orderDetail?._id}
             </Text>
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-            <Text fontWeight={600} fontSize="2xl">Item</Text>
+            <Text fontWeight={600} fontSize="2xl">{t("Item")}</Text>
             <Grid
               templateRows={{ base: 'repeat(1, 1fr)', md: 'none' }}
               templateColumns={{ base: 'none', md: 'repeat(3, 1fr)' }}
@@ -331,7 +331,7 @@ const OrderDetail = () => {
                   <Center textAlign={"center"} noOfLines={4}>
                     <Box width={"full"} >
                       <Text fontWeight={600}>{orderDetail.item.title}</Text>
-                      <Text>Price: {orderDetail.item.price || 0} {orderDetail.item.currencySymbolPrice}</Text>
+                      <Text>{t("Price")} {orderDetail.item.price || 0} {orderDetail.item.currencySymbolPrice}</Text>
                     </Box>
                   </Center>
                 )
@@ -343,17 +343,17 @@ const OrderDetail = () => {
                     color={'white'}
                     rounded={"5px"} _hover={{
                       bg: "gray.400"
-                    }}>See Item</Button>
+                    }}>{t("See Item")}</Button>
                 </Link>
               </Center>
             </Grid>
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
 
-            <Text fontWeight={600} fontSize="2xl">Transaction details</Text>
+            <Text fontWeight={600} fontSize="2xl">{t("Transaction details")}</Text>
 
             <Box p="1em" color="black" bg="orange.100" mt="1em" mb="1em">
               <Flex><Text fontWeight={600}>ID: </Text> <Text>0x...{transactionMeta && transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16)}</Text></Flex>
-              <Text fontWeight={600}>Status: {(deal || {}).dealStatus && statusDescMap(
+              <Text fontWeight={600}>{t("Status")} {(deal || {}).dealStatus && statusDescMap(
                 deal.dealStatus,
                 deal.claimStatus,
                 deal.claimCount,
@@ -363,12 +363,12 @@ const OrderDetail = () => {
               )}</Text>
               {
                 transactionDate &&
-                <Text fontWeight={600}>Date: {moment(transactionDate).format('DD/MM/YYYY, h:mm:ss a')}</Text>
+                <Text fontWeight={600}>{t("Date")} {moment(transactionDate).format('DD/MM/YYYY, h:mm:ss a')}</Text>
               }
               {
                 (transactionPayedAmount && global.yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
-                  Value: {
+                  {t("Value")}: {
                     `${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)}${orderDetail.item.currencySymbolPrice || 'ETH'}`
                   }
                 </Text>
@@ -376,7 +376,7 @@ const OrderDetail = () => {
               {
                 (transactionFeeAmount && global.yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
-                  Fee: {`${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount)}`}
+                  {t("Fee")}: {`${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount)}`}
                 </Text>
               }
               <Link
@@ -392,7 +392,7 @@ const OrderDetail = () => {
             </Box>
 
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-            <Text fontWeight={600} fontSize="2xl">Buyer</Text>
+            <Text fontWeight={600} fontSize="2xl">{t("Buyer")}</Text>
             <Grid
               templateRows={{ base: 'repeat(1, 1fr)', md: 'none' }}
               templateColumns={{ base: 'none', md: 'repeat(3, 1fr)' }}
@@ -412,7 +412,7 @@ const OrderDetail = () => {
               <Center textAlign={"center"}>
                 <Box>
                   <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.buyer.first_name} ${orderDetail && orderDetail.item.buyer.last_name}`}</Text>
-                  <Text>Eth Address: {orderDetail && orderDetail.item.buyer.eth_address.slice(orderDetail.item.buyer.eth_address.length - 8)}</Text>
+                  <Text>{t("Eth Address")}: {orderDetail && orderDetail.item.buyer.eth_address.slice(orderDetail.item.buyer.eth_address.length - 8)}</Text>
                   <Link
                     href={
                       `https://app.proofofhumanity.id/profile/${orderDetail && orderDetail.item.buyer.eth_address}`
@@ -426,7 +426,7 @@ const OrderDetail = () => {
                     >
                       <Text color="black" as='u' fontStyle={"italic"} _hover={{
                         color: "gray.400"
-                      }}>View poh profile</Text>
+                      }}>{t("View poh profile")}</Text>
                     </a>
                   </Link>
                 </Box>
@@ -437,12 +437,12 @@ const OrderDetail = () => {
                   color={'white'}
                   rounded={"5px"} _hover={{
                     bg: "gray.400"
-                  }} onClick={redirectToChat}>Send Message</Button>
+                  }} onClick={redirectToChat}>{t("Send Message")}</Button>
               </Center>
             </Grid>
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                       
-            <Text fontWeight={600} fontSize="2xl" >Status</Text>
+            <Text fontWeight={600} fontSize="2xl" >{t("Status ")}</Text>
             {
               orderDetail.status != "ORDER_REFUNDED" && (deal || {}).dealStatus && StatusOrderByState(
                 deal.dealStatus,
@@ -465,8 +465,8 @@ const OrderDetail = () => {
             {!verifyMessages && (
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-                <Text fontWeight={600} fontSize="2xl">Actions</Text>
-                <Text fontWeight={"normal"}>Actions will be available when there is a message interaction.</Text>
+                <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
+                <Text fontWeight={"normal"}>{t("Actions will be available when there is a message interaction.")}</Text>
               </>
             )}
 
@@ -475,7 +475,7 @@ const OrderDetail = () => {
               (deal || {}).dealStatus === ONGOING_STATUS && !orderDetail.orderCompletedBySeller && verifyMessages &&
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-                <Text fontWeight={600} fontSize="2xl">Actions</Text>
+                <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
                 <Button
                   mt="1em"
                   backgroundColor={'#00abd1'}
@@ -485,15 +485,15 @@ const OrderDetail = () => {
                   onClick={onOpen}
                   isDisabled={orderDetail && orderDetail.orderCompletedBySeller}
                 >
-                  Mark job as done
+                  {t("Mark job as done")}
                 </Button>
                 <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
                   <ModalOverlay />
                   <ModalContent>
-                    <ModalHeader>Order Status</ModalHeader>
+                    <ModalHeader>{t("Order Status")}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
-                      Are you sure you want to mark the job as completed?
+                      {t("Are you sure you want to mark the job as completed?")}
                     </ModalBody>
 
                     <ModalFooter>
@@ -501,9 +501,9 @@ const OrderDetail = () => {
                         <>
                           <Button backgroundColor={'#00abd1'} onClick={() => onMarkDone()}
                             color={'white'} mr={3}>
-                            Yes, Mark job as done
+                            {t("Yes, Mark job as done")}
                           </Button>
-                          <Button onClick={onClose}>Cancel</Button>
+                          <Button onClick={onClose}>{t("Cancel")}</Button>
                         </>
                       ) : (
                         <Spinner
@@ -518,7 +518,7 @@ const OrderDetail = () => {
                   </ModalContent>
                 </Modal>
                 <Box width={{ base: "100%", md: "50%" }}>
-                  <Text mt="1em" fontStyle={"italic"}>Job done?, submit your work, this will unlock the  * Mark Job as done * and notify the buyer to release the payment.</Text>
+                  <Text mt="1em" fontStyle={"italic"}>{t("Job done?, submit your work, this will unlock the  * Mark Job as done * and notify the buyer to release the payment.")}</Text>
                 </Box>
               </>
             }
@@ -528,8 +528,8 @@ const OrderDetail = () => {
               (deal || {}).dealStatus === ONGOING_STATUS && orderDetail.orderCompletedBySeller && (
                 <>
                   <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-                  <Text fontWeight={600} fontSize="2xl">Actions</Text>
-                  <Text fontWeight={"normal"} fontStyle={"italic"}>Work ready and has already been notified.</Text>
+                  <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
+                  <Text fontWeight={"normal"} fontStyle={"italic"}>{t("Work ready and has already been notified.")}</Text>
                 </>
               )}
 
@@ -538,12 +538,12 @@ const OrderDetail = () => {
                 {(deal || {}).dealStatus === CLAIMED_STATUS && verifyMessages && (
                   <>
                     <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-                    <Text fontWeight={600} fontSize="2xl">Actions</Text>
+                    <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
                     <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
                       <Box p="1em" position="relative" minHeight="170px" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                         <div>
                           <Text color="black">
-                            If you agree with the claim made by the buyer, you can choose to make a refund according to the amount required.
+                            {t("If you agree with the claim made by the buyer, you can choose to make a refund according to the amount required.")}
                           </Text>
                         </div>
                         <div>
@@ -567,11 +567,11 @@ const OrderDetail = () => {
                           <Text color="black">
                             {
                               !isLateToChallenge &&
-                              "If you think there is nothing wrong with the service provided, you can dispute the buyer's claim. Participating in the arbitration will have an extra cost (<amount of cost>), and the status of that decision will be taken and communicated in the next few days by a decentralized jury external to Yubiai."
+                              t("If you think there is nothing wrong with the service provided, you can dispute the buyer's claim. Participating in the arbitration will have an extra cost (<amount of cost>), and the status of that decision will be taken and communicated in the next few days by a decentralized jury external to Yubiai.")
                             }
                             {
                               isLateToChallenge &&
-                              "You cannot challenge the claim of the order because the status of this transaction has expired."
+                              t("You cannot challenge the claim of the order because the status of this transaction has expired.")
                             }
                           </Text>
                         </div>
@@ -586,7 +586,7 @@ const OrderDetail = () => {
                                 }}
                                 stepsPostAction={loadOrder}
                                 toggleLoadingStatus={toggleLoadingStatus}
-                                yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                                yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance} t={t}
                               />
                             </Box>
                           }

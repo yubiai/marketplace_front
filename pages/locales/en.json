@@ -347,12 +347,15 @@
         "Profile": "Profile",
         "Orders": "Orders",
         "You do not have any orders.": "You do not have any orders.",
+        "You do not have any sales.": "You do not have any sales.",
         "Go Back": "Go Back",
         "Order created": "Order Created",
         "View Order": "View Order",
         "Seller": "Seller:",
         "Order paid":"Order paid",
         "Order Refunded": "Order Refunded",
+        "Order refunded": "Order refunded",
+        "Dispute pending to start, waiting for seller to pay the arbitration fee.": "Dispute pending to start, waiting for seller to pay the arbitration fee.",
         "Work has been notified as completed": "Work has been notified as completed",
         "Order claimed": "Order claimed",
         "In dispute": "In dispute",
@@ -368,6 +371,7 @@
         "Value": "Value",
         "Fee": "Fee",
         "Seller ": "Seller",
+        "Buyer ": "Buyer ",
         "Eth Address": "Eth Address",
         "View poh profile": "View poh profile",
         "Send Message": "Send Message", 
@@ -386,12 +390,20 @@
         "Accept claim": "Accept claim",
         "Release payment": "Release payment",
         "Buyer": "Buyer",
-        "Orders": "Orders",
         "Sales": "Sales",
         "Mailbox of the order #": "Mailbox of the order #",
         "Please be careful of the sensitive information you share. Yubiai is not responsible for the information shared to third parties.": "Please be careful of the sensitive information you share. Yubiai is not responsible for the information shared to third parties.",
-        "Type Something...": "Type Something..."
- 
+        "Type Something...": "Type Something...",
+        "Mark job as done": "Mark job as done",
+        "Are you sure you want to mark the job as completed?": "Are you sure you want to mark the job as completed?",
+        "Job done?, submit your work, this will unlock the  * Mark Job as done * and notify the buyer to release the payment.": "Job done?, submit your work, this will unlock the  * Mark Job as done * and notify the buyer to release the payment.",
+        "Work ready and has already been notified.": "Work ready, buyer has been notified.",
+        "If you agree with the claim made by the buyer, you can choose to make a refund according to the amount required.": "If you agree with the claim made by the buyer, you can choose to make a refund according to the amount required.",
+        "If you think there is nothing wrong with the service provided, you can dispute the buyer's claim. Participating in the arbitration will have an extra cost (<amount of cost>), and the status of that decision will be taken and communicated in the next few days by a decentralized jury external to Yubiai.": "If you think there is nothing wrong with the service provided, you can dispute the buyer's claim. Participating in the arbitration will have an extra cost of 30dai, and the status of that decision will be taken and communicated in the next few days by a decentralized jury external to Yubiai.",
+        "Challenge claim": "Challenge claim",
+        "Yes, Mark job as done": "Yes, Mark job as done",
+        "Cancel": "Cancel"
+
 
     }
 

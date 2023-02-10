@@ -30,20 +30,19 @@ export const StatusOrder = ({status, t}) => {
         case "ORDER_REFUNDED":
             return (
                 <Box bg="red.700" rounded={"5px"} w={{ base: "100%", md: "max-content" }}>
-                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">Order refunded</Text>
+                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Order refunded")}</Text>
                 </Box>
             );
         case "ORDER_DISPUTE_RECEIVER_FEE_PENDING":
             return (
                 <Box bg="purple.300" rounded={"5px"} p="5px" w={{ base: "100%", md: "max-content" }}>
-                    <Text color="black" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">Dispute pending to start, waiting for seller to pay the
-                        arbitration fee.</Text>
+                    <Text color="black" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Dispute pending to start, waiting for seller to pay the arbitration fee.")}</Text>
                 </Box>
             );
         case "ORDER_DISPUTE_IN_PROGRESS":
             return (
                 <Box bg="purple.300" rounded={"5px"} w={{ base: "100%", md: "max-content" }}>
-                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">Dispute in progress.</Text>
+                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Dispute in progress.")}</Text>
                 </Box>
             );
         default:

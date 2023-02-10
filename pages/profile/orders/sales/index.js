@@ -23,12 +23,13 @@ import {
   useGlobal,
 } from '../../../../providers/globalProvider'
 import { setYubiaiInstance } from '../../../../providers/orderProvider'
+import { useTranslation } from 'react-i18next'
 
 const Sales = () => {
   const global = useGlobal()
   const router = useRouter()
   const dispatch = useDispatchGlobal()
-
+  const { t } = useTranslation("orders")
   const { user, loggedOut } = useUser()
 
   // if logged in, redirect to the home
@@ -79,27 +80,27 @@ const Sales = () => {
                 textDecoration: "underline"
               }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                 textDecoration: "underline"
-              }}>Home</Text></Link>
+              }}>{t("Home")}</Text></Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
               <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{t("Profile")}</Text>
               </Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <Text>Sales</Text>
+              <Text>{t("Sales")}</Text>
             </BreadcrumbItem>
           </Breadcrumb>
           {data && data.items && data.items.length === 0 && (
             <>
               <Center>
-                <Heading mt="5em">You do not have any sales.</Heading>
+                <Heading mt="5em">{t("You do not have any sales.")}</Heading>
               </Center>
               <Center>
                 <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
-                  Go Back
+                  {t("Go Back")}
                 </Button>
               </Center>
             </>

@@ -23,7 +23,7 @@ const QuestionCard = ({ question, profile_id, token, t }) => {
                             <Text ml="1em" fontSize={{ base: 'sm' }} maxW={'90%'} padding="5px" bg={"gray.200"} noOfLines={3}>
                                 {question.answer} - {moment(question.dateresponse).format('DD/MM/YY')}
                             </Text>
-                            <ButtonNewReportQA reference={question._id} type={"Answer"} userId={profile_id} owner={profile_id == question.seller._id} token={token} />
+                            <ButtonNewReportQA reference={question._id} type={"Answer"} userId={profile_id} owner={profile_id == question.seller._id} token={token} t={t}/>
                         </Flex>
                     </>
                 )}
