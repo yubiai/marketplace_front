@@ -430,8 +430,31 @@
         "If you think there is nothing wrong with the service provided, you can dispute the buyer's claim. Participating in the arbitration will have an extra cost (<amount of cost>), and the status of that decision will be taken and communicated in the next few days by a decentralized jury external to Yubiai.": "If you think there is nothing wrong with the service provided, you can dispute the buyer's claim. Participating in the arbitration will have an extra cost of 30dai, and the status of that decision will be taken and communicated in the next few days by a decentralized jury external to Yubiai.",
         "Challenge claim": "Challenge claim",
         "Yes, Mark job as done": "Yes, Mark job as done",
-        "Cancel": "Cancel"
-
+        "Cancel": "Cancel",
+        "Start claim": "Start claim",
+        "Failed Start Claim": "Failed Start Claim",
+        "The dispute policy is not available, please try again later.": "The dispute policy is not available, please try again later.",
+        "The dispute policy must be accepted to claim.": "The dispute policy must be accepted to claim.",
+        "Failed to accept the Dispute Policy.": "Failed to accept the Dispute Policy.",
+        "Failed to checkout": "Failed to checkout",
+        "In order to initiate the transaction you must accept the terms and conditions": "In order to initiate the transaction you must accept the terms and conditions",
+        "Yubiai Service Policy": "Yubiai Service Policy",
+        "Update At": "Update At",
+        "Reject": "Reject",
+        "Accept": "Accept"
+    },
+    "checkout": {
+        "Order summary": "Order summary", 
+        "Price": "Price",
+        "UBI Burning": "UBI Burning",
+        "Set the desired percentage of $UBI to be burned on top of the total price. This will favor the token ($UBI) by increasing its price.": "Set the desired percentage of $UBI to be burned on top of the total price. This will favor the token ($UBI) by increasing its price.",
+        "When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service.": "When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service.",
+        "Terms and Conditions":"Terms and Conditions",
+        "Reject": "Reject",
+        "Accept": "Accept",
+        "Terms and conditions":"Terms and conditions",
+        "You have accepted the terms and conditions.": "You have accepted the terms and conditions.",
+        "Hire service": "Hire service"
 
     }
 

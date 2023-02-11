@@ -427,8 +427,33 @@
         "If you think there is nothing wrong with the service provided, you can dispute the buyer's claim. Participating in the arbitration will have an extra cost (<amount of cost>), and the status of that decision will be taken and communicated in the next few days by a decentralized jury external to Yubiai.": "Si cree que no hay nada malo en el servicio prestado, puede refutar el reclamo del comprador. Participar en el arbitraje tendrá un coste extra de 30dai, y el estado de dicha decisión será tomada y comunicada en los próximos días por un jurado descentralizado externo a Yubiai.",
         "Challenge claim": "Desafiar reclamo",
         "Yes, Mark job as done": "Sí, marcar trabajo como realizado",
-        "Cancel": "Cancelar"
+        "Cancel": "Cancelar",
+        "Start claim": "Iniciar reclamo",
+        "Failed Start Claim": "Error al iniciar reclamo",
+        "The dispute policy is not available, please try again later.": "La póliza de disputa no está disponible, por favor inténtelo más tarde",
+        "The dispute policy must be accepted to claim.": "La póliza de disputa debe ser aceptada para poder iniciar reclamo",
+        "Failed to accept the Dispute Policy.": "Error al aceptar la  póliza",
+        "Failed to checkout": "Error al iniciar transacción",
+        "In order to initiate the transaction you must accept the terms and conditions": "Para iniciar la transacción debe aceptar los términos y condiciones",
+        "Yubiai Service Policy": "Póliza de servicios de Yubiai",
+        "Update At": "Actualizado el",
+        "Reject": "Rechazar",
+        "Accept": "Aceptar"
+    },
+    "checkout": {
+        "Order summary": "Resumen del pedido", 
+        "Price": "Precio",
+        "UBI Burning": "Quemado de UBI",
+        "Set the desired percentage of $UBI to be burned on top of the total price. This will favor the token ($UBI) by increasing its price.": "Establezca el porcentaje deseado de $UBI que se quemará sobre el precio total. Esto favorecerá el token ($UBI) al aumentar su precio",
+        "When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service.": "Cuando hagas click en 'Contratar servicio', tu pago será retenido y cuando obtengas el servicio liberado al vendedor.",
+        "Terms and Conditions":"Terms and Conditions",
+        "Reject": "Reject",
+        "Accept": "Accept",
+        "Terms and conditions":"Términos y condiciones",
+        "You have accepted the terms and conditions.": "Has aceptado los términos y condiciones.",
+        "Hire service": "Contratar servicio"
     }
+
 
     
   }

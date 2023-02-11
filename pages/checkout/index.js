@@ -43,12 +43,14 @@ import useUser from '../../hooks/data/useUser';
 import Loading from '../../components/Spinners/Loading';
 import RichTextReadOnly from '../../components/Utils/richTextReadOnly';
 import { profileService } from '../../services/profileService';
+import { useTranslation } from 'react-i18next';
 
 const Checkout = () => {
   const global = useGlobal();
   const toast = useToast();
   const dispatch = useDispatchGlobal();
   const router = useRouter();
+  const { t } = useTranslation("checkout");
   const [orderData, setOrderData] = useState({});
   const [transactionData, setTransactionData] = useState({});
   const [operationInProgress, setOperationInProgress] = useState(false);
@@ -120,8 +122,8 @@ const Checkout = () => {
       setLoadingTerm(true)
       await profileService.addTerms(global.profile._id, term, global.profile.token);
       toast({
-        title: 'Terms and conditions',
-        description: 'You have accepted the terms and conditions.',
+        title: t('Terms and conditions'),
+        description: t('You have accepted the terms and conditions.'),
         position: 'top-right',
         status: 'success',
         duration: 5000,
@@ -142,8 +144,8 @@ const Checkout = () => {
     setLoadingTerm(true)
     router.back();
     toast({
-      title: 'Failed to checkout.',
-      description: 'In order to initiate the transaction you must accept the terms and conditions.',
+      title: t('Failed to checkout.'),
+      description: t('In order to initiate the transaction you must accept the terms and conditions.'),
       position: 'top-right',
       status: 'warning',
       duration: 5000,
@@ -280,10 +282,10 @@ const Checkout = () => {
                 }}
               />
               <Heading fontSize={'2xl'} fontFamily={'body'}>
-                Order summary
+                {t("Order summary")}
               </Heading>
               <Text fontWeight={600} color={'gray.500'} mb={4}>
-                Price: {orderData.item && orderData.item.price}{' '}
+                {t("Price")}: {orderData.item && orderData.item.price}{' '}
                 {(orderData.item && orderData.item.currencySymbolPrice) ||
                   'ETH'}
               </Text>
@@ -306,10 +308,10 @@ const Checkout = () => {
               {!loading && (
                 <>
                   <Center>
-                    <Text mt="1em" fontStyle={"normal"} fontWeight={"bold"}>UBI Burning</Text>
+                    <Text mt="1em" fontStyle={"normal"} fontWeight={"bold"}>{t("UBI Burning")}</Text>
                   </Center>
                   <Text mt="3" fontStyle="italic">
-                    Set the desired percentage of $UBI to be burned on top of the total price. This will favor the token (UBI) by increasing its price.
+                    {t("Set the desired percentage of $UBI to be burned on top of the total price. This will favor the token ($UBI) by increasing its price.")}
                   </Text>
                   <Box pt={6} pb={2} mt="1em">
                     <Slider
@@ -348,9 +350,7 @@ const Checkout = () => {
                   </Box>
                   <Alert status="warning" mt="1em" color="black" bg="orange.100">
                     <AlertIcon color="orange" />
-                    When you click on &apos;Hire service&apos;, your payment will be
-                    held and it will be released to the seller when you get the
-                    service.{' '}
+                   {t("When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service.")}{' '}
                   </Alert>
                   <Stack mt={8}>
                     <ButtonCheckout
@@ -361,6 +361,7 @@ const Checkout = () => {
                       currency={(orderData.item || {}).currencySymbolPrice}
                       burnFee={sliderValue}
                       yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                      t={t}
                     />
                   </Stack>
                 </>
@@ -371,7 +372,7 @@ const Checkout = () => {
         <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'outside'} size={"6xl"}>
           <OverlayOne />
           <ModalContent bg="white" color="black">
-            <ModalHeader>Terms and Conditions</ModalHeader>
+            <ModalHeader>{t("Terms and Conditions")}</ModalHeader>
             <ModalBody pb={6}>
               <RichTextReadOnly text={term && term.text} />
             </ModalBody>
@@ -379,10 +380,10 @@ const Checkout = () => {
             <ModalFooter>
               {!loadingTerm && (
                 <>
-                  <Button onClick={() => rejectTerms()} mr="1em">Reject</Button>
+                  <Button onClick={() => rejectTerms()} mr="1em">{t("Reject")}</Button>
 
                   <Button colorScheme='blue' mr={3} onClick={() => confirmTerms()}>
-                    Accept
+                    {t("Accept")}
                   </Button>
                 </>
               )}
