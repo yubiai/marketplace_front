@@ -45,6 +45,7 @@ import { channelService } from "../../../../services/channelService";
 import { dpolicyService } from "../../../../services/dpolicyService";
 import { evidenceService } from "../../../../services/evidenceService";
 import { orderService } from "../../../../services/orderService";
+import { useTranslation } from "react-i18next";
 
 const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 
@@ -59,7 +60,7 @@ const NewEvidence = () => {
   const dispatch = useDispatchGlobal();
   const router = useRouter();
   const { transactionId } = router.query;
-
+  const { t } = useTranslation("evidence") 
   const [orderDetail, setOrderDetail] = useState(null);
   const [channelDetail, setChannelDetail] = useState(null);
   const [result, setResult] = useState(null);
@@ -178,7 +179,7 @@ const NewEvidence = () => {
 
     if (previewFiles.length + e.target.files.length > 10) {
       console.error('Maximum files per message is 10')
-      setErrorMsg('Maximum files per message is 10')
+      setErrorMsg(t('Maximum files per message is 10'))
       return
     }
 
@@ -199,14 +200,14 @@ const NewEvidence = () => {
       const validFileType = fileTypes.find((type) => type === file.type);
       if (!validFileType) {
         console.error('Error: Invalid file type.')
-        setErrorMsg('Error: Invalid file type.')
+        setErrorMsg(t('Error: Invalid file type.'))
         return
       }
 
       // Verify Size
       if (file.size > 5e+7) {
         console.error('Error: Limit size.')
-        setErrorMsg('Error: Limit size.')
+        setErrorMsg(t('Error: Limit size.'))
         return
       }
 
@@ -243,13 +244,13 @@ const NewEvidence = () => {
   const onSubmit = async (data) => {
     if (!previewFiles.length) {
       console.error('Dispute file is required');
-      setErrorMsg('Dispute file is required');
+      setErrorMsg(t('Dispute file is required'));
       return;
     }
 
     if (!selectedMsg.length) {
       console.error('Message is required');
-      setErrorMsg('Message is required');
+      setErrorMsg(t('Message is required'));
       return;
     }
 
@@ -341,7 +342,7 @@ const NewEvidence = () => {
               textDecoration: "underline"
             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
               textDecoration: "underline"
-            }}>Home</Text></Link>
+            }}>{t("Home")}</Text></Link>
           </BreadcrumbItem>
 
           <BreadcrumbItem>
@@ -349,73 +350,73 @@ const NewEvidence = () => {
               textDecoration: "underline"
             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
               textDecoration: "underline"
-            }}>Orders</Text></Link>
+            }}>{t("Orders")}</Text></Link>
           </BreadcrumbItem>
 
           <BreadcrumbItem>
             <Link href={`/profile/orders/detail/${orderDetail.transaction.transactionMeta.transactionHash}`}><Text color="#00abd1" cursor={'pointer'} _hover={{
               textDecoration: "underline"
-            }}>Order detail</Text></Link>
+            }}>{t("Order detail")}</Text></Link>
           </BreadcrumbItem>
 
           <BreadcrumbItem isCurrentPage>
-            <Text>New Evidence </Text>
+            <Text>{t("New Evidence")} </Text>
           </BreadcrumbItem>
         </Breadcrumb>
-        <Heading mt="1em">Claim transaction</Heading>
+        <Heading mt="1em">{t("Claim transaction")}</Heading>
         <form id="hook-form" onSubmit={handleSubmit(onSubmit)}>
           <Box mt="1em">
-            <Text fontWeight={600}>Order ID</Text>
+            <Text fontWeight={600}>{t("Order ID")}</Text>
             <Text>{orderDetail._id}</Text>
-            <Text fontWeight={600} mt="5px">Transaction Hash</Text>
+            <Text fontWeight={600} mt="5px">{t("Transaction Hash")}</Text>
             <Text>{orderDetail.transaction.transactionMeta.transactionHash}</Text>
           </Box>
           <Box mt="1em">
             <FormControl isRequired mt="1em">
-              <FormLabel color="black">Title</FormLabel>
+              <FormLabel color="black">{t("Title")}</FormLabel>
 
               <Input
-                placeholder="Title is required, minimum 15 characters and maximum 72 characters."
+                placeholder={t("Title is required, minimum 15 characters and maximum 72 characters.")}
                 _placeholder={{ color: 'gray.400' }}
                 color="gray.700"
                 bg="white"
                 {...register('title', {
                   required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, pattern: {
                     value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                    message: "Only numbers are not allowed"
+                    message: t("Only numbers are not allowed")
                   }, onChange: (e) => { setCountTitle(e.target.value.length) }
                 })}
                 isRequired
               />
-              <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
+              <Flex m="5px" fontStyle={"italic"}>{t("Characters")}: <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
               <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
-              <Text color="red" m="5px">{errors.title?.type === 'required' && "Title is Required"}</Text>
-              <Text color="red" m="5px">{errors.title?.type === 'minLength' && "Minimum required characters are 15"}</Text>
-              <Text color="red" m="5px">{errors.title?.type === 'maxLength' && "Maximum required characters are 72"}</Text>
+              <Text color="red" m="5px">{errors.title?.type === 'required' && t("Title is Required")}</Text>
+              <Text color="red" m="5px">{errors.title?.type === 'minLength' && t("Minimum required characters are 15")}</Text>
+              <Text color="red" m="5px">{errors.title?.type === 'maxLength' && t("Maximum required characters are 72")}</Text>
             </FormControl>
             <FormControl isRequired mt="1em">
-              <FormLabel color="black">Description</FormLabel>
+              <FormLabel color="black">{t("Description")}</FormLabel>
               <Textarea
-                placeholder="Description is required, minimum 100 characters and maximum 800 characters"
+                placeholder={t("Description is required, minimum 100 characters and maximum 800 characters")}
                 _placeholder={{ color: 'gray.400' }}
                 color="gray.700"
                 bg="white"
                 {...register('description', {
                   required: true, maxLength: MAX_DESCRIPTION_LENGTH, minLength: MIN_DESCRIPTION_LENGTH, pattern: {
                     value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                    message: "Only numbers are not allowed"
+                    message: t("Only numbers are not allowed")
                   }, onChange: (e) => { setCountDescription(e.target.value.length) }
                 })}
                 isRequired
               />
-              <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
+              <Flex m="5px" fontStyle={"italic"}>{t("Characters")}: <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
               <Text color="red" m="5px">{errors.description?.type === 'pattern' && errors.description?.message}</Text>
-              <Text color="red" m="5px">{errors.description?.type === 'required' && "Description is Required"}</Text>
-              <Text color="red" m="5px">{errors.description?.type === 'minLength' && "Minimum required characters are 100"}</Text>
-              <Text color="red" m="5px">{errors.description?.type === 'maxLength' && "Maximum required characters are 800"}</Text>
+              <Text color="red" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
+              <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 100")}</Text>
+              <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 800")}</Text>
             </FormControl>
             <FormControl>
-              <FormLabel color="black">Amount to claim</FormLabel>
+              <FormLabel color="black">{t("Amount to claim")}</FormLabel>
               {
                 orderDetail && orderDetail.item &&
                 <p>{parseWeiToTokenAmount(valueToClaim)}{orderDetail.item.currencySymbolPrice}</p>
@@ -464,7 +465,7 @@ const NewEvidence = () => {
               bg: "gray.400"
             }} onClick={() => inputRef.current.click()}
             >
-              <AttachmentIcon w={6} h={6} m="4px" /> Attach files*
+              <AttachmentIcon w={6} h={6} m="4px" /> {t("Attach files*")}
             </Button>
             <Divider />
             <Flex overflowY="auto" width={"full"} mt="1em"
@@ -487,20 +488,20 @@ const NewEvidence = () => {
               })}
             </Flex>
             <Divider />
-            <AddMessageEvidence channelDetail={channelDetail} selectedMsg={selectedMsg} setSelectedMsg={setSelectedMsg} />
+            <AddMessageEvidence channelDetail={channelDetail} selectedMsg={selectedMsg} setSelectedMsg={setSelectedMsg} t={t}/>
           </Box>
           <Text color="red">{errorMsg && errorMsg}</Text>
           <Box>
             <Box float={'left'} mt="2em">
               <Button color={"black"} _hover={{ bg: "gray.200" }} onClick={() => router.back()}>
-                Go Back
+                {t("Go Back")}
               </Button>
             </Box>
             <Box float={'right'} mt="2em">
               <Button bg="#00abd1" color="white" type="submit" form="hook-form" _hover={{
                 bg: "gray.400"
               }}>
-                Preview &amp; Submit
+                {t("Preview &amp; Submit")}
               </Button>
             </Box>
           </Box>
@@ -515,14 +516,14 @@ const NewEvidence = () => {
             <>
               <ModalOverlay />
               <ModalContent color="gray.700">
-                <ModalHeader>Review your evidence</ModalHeader>
+                <ModalHeader>{t("Review your evidence")}</ModalHeader>
                 {loadingSubmit === false && <ModalCloseButton />}
                 <ModalBody>
                   {result && orderDetail && (
                     <PreviewEvidence result={result}
                       transactionHash={orderDetail.transaction.transactionMeta.transactionHash}
                       previewFiles={previewFiles}
-                      selectedMsg={selectedMsg} />
+                      selectedMsg={selectedMsg} t={t}/>
                   )}
                 </ModalBody>
 
@@ -535,14 +536,14 @@ const NewEvidence = () => {
                         mr={3}
                         onClick={onClose}
                       >
-                        Go Back
+                        {t("Go Back")}
                       </Button>
                       <Button
                         bg="#00abd1"
                         color="white"
                         onClick={() => confirmSubmit()}
                       >
-                        Submit
+                        {t("Submit")}
                       </Button>
                     </>
                   )}
@@ -568,7 +569,7 @@ const NewEvidence = () => {
 
                 </ModalBody>
                 <ModalFooter>
-                  <Button onClick={() => router.back()}>Close</Button>
+                  <Button onClick={() => router.back()}>{t("Close")}</Button>
                 </ModalFooter>
               </ModalContent>
             </>
@@ -577,7 +578,7 @@ const NewEvidence = () => {
             <>
               <ModalOverlay />
               <ModalContent color="gray.700">
-                <ModalBody>Failed to post</ModalBody>
+                <ModalBody>{t("Failed to post")}</ModalBody>
                 <ModalFooter>
                   <Button
                     onClick={() => {
@@ -585,7 +586,7 @@ const NewEvidence = () => {
                       onClose()
                     }}
                   >
-                    Close
+                    {t("Close")}
                   </Button>
                 </ModalFooter>
               </ModalContent>

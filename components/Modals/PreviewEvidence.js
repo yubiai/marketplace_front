@@ -3,25 +3,25 @@ import ViewMsgFile from "../Cards/ViewMsgFile";
 import ViewMsgText from "../Cards/ViewMsgText";
 import FilePreviewMini from "../Infos/FilePreviewMini";
 
-const PreviewEvidence = ({ result, transactionHash, previewFiles, selectedMsg }) => {
+const PreviewEvidence = ({ result, transactionHash, previewFiles, selectedMsg, t }) => {
 
     return (
         <Box>
-            <Text fontWeight={600} fontSize="2xl" mt="1em">Title</Text>
+            <Text fontWeight={600} fontSize="2xl" mt="1em">{t("Title")}</Text>
             <Text>{result.title}</Text>
             <Divider />
-            <Text fontWeight={600} fontSize="2xl" mt="1em">Description</Text>
+            <Text fontWeight={600} fontSize="2xl" mt="1em">{t("Description")}</Text>
             <Text>{result.description}</Text>
             <Divider />
-            <Text fontWeight={600} fontSize="2xl" mt="1em">TransactionHash</Text>
+            <Text fontWeight={600} fontSize="2xl" mt="1em">{t("Transaction Hash")}</Text>
             <Text>{transactionHash}</Text>
             <Divider />
-            <Text fontWeight={600} fontSize="2xl" mt="1em">Order ID</Text>
+            <Text fontWeight={600} fontSize="2xl" mt="1em">{t("Order ID")}</Text>
             <Text>{result.order_id}</Text>
             {previewFiles && previewFiles.length > 0 && (
                 <>
                     <Divider />
-                    <Text fontWeight={600} fontSize="2xl" mt="1em">Attached files</Text>
+                    <Text fontWeight={600} fontSize="2xl" mt="1em">{t("Attached files")}</Text>
                 </>
             )}
             <Flex overflowY="auto" width={"full"} mt="1em"
@@ -48,7 +48,7 @@ const PreviewEvidence = ({ result, transactionHash, previewFiles, selectedMsg })
             {selectedMsg && selectedMsg.length > 0 && (
                 <>
                     <Divider />
-                    <Text fontWeight={600} fontSize="2xl" mt="1em">Messages</Text>
+                    <Text fontWeight={600} fontSize="2xl" mt="1em">{t("Messages")}</Text>
                 </>
             )}
             {selectedMsg && selectedMsg.length > 0 && selectedMsg.map((msg, i) => {

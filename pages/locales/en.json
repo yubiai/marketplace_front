@@ -456,6 +456,42 @@
         "You have accepted the terms and conditions.": "You have accepted the terms and conditions.",
         "Hire service": "Hire service"
 
+    },
+    "evidence": {
+        "Maximum files per message is 10": "Maximum files per message is 10",
+        "Error: Invalid file type.": "Error: Invalid file type.",
+        "Error: Limit size.": "Error: Limit size.",
+        "Dispute file is required": "Dispute file is required",
+        "Home": "Home",
+        "Orders": "Orders",
+        "Order detail": "Order detail",
+        "New Evidence": "New Evidence",
+        "Claim transaction": "Claim transaction",
+        "Order ID": "Order ID",
+        "Transaction Hash": "Transaction Hash",
+        "Title": "Title",
+        "Title is required, minimum 15 characters and maximum 72 characters.": "Title is required, minimum 15 characters and maximum 72 characters.",
+        "Only numbers are not allowed": "Only numbers are not allowed",
+        "Characters": "Characters",
+        "Title is Required": "Title is Required",
+        "Minimum required characters are 15": "Minimum required characters are 15",
+        "Maximum required characters are 72": "Maximum required characters are 72",
+        "Description": "Description",
+        "Description is required, minimum 100 characters and maximum 800 characters": "Description is required, minimum 100 characters and maximum 800 characters",
+        "Description is Required": "Description is Required",
+        "Amount to claim": "Amount to claim",
+        "Attach files*": "Attach files*",
+        "Attached files": "Attached files",
+        "Add Messages*": "Add Messages*",
+        "Messages": "Messages",
+        "Save": "Save",
+        "Go Back": "Go Back",
+        "Cancel": "Cancel",
+        "Preview &amp; Submit": "Preview &amp; Submit",
+        "Review your evidence": "Review your evidence",
+        "Submit": "Submit",
+        "Close": "Close",
+        "Failed to post": "Failed to post"
     }
 
   }
