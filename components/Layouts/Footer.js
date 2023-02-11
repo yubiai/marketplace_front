@@ -16,22 +16,23 @@ import ButtonTermaConditions from '../Buttons/ButtonTermaconditions'
 
 const SocialButton = ({ children, label, href }) => {
   return (
-    <chakra.button
-      bg={'blackAlpha.100'}
-      rounded={'full'}
-      w={12}
-      h={12}
-      cursor={'pointer'}
-      as={'a'}
-      href={href}
-      display={'inline-flex'}
-      alignItems={'center'}
-      justifyContent={'center'}
-      transition={'background 0.3s ease'}
-    >
-      <VisuallyHidden>{label}</VisuallyHidden>
-      {children}
-    </chakra.button>
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      <chakra.button
+        bg={'blackAlpha.100'}
+        rounded={'full'}
+        w={12}
+        h={12}
+        cursor={'pointer'}
+        display={'inline-flex'}
+        alignItems={'center'}
+        justifyContent={'center'}
+        transition={'background 0.3s ease'}
+      >
+        <VisuallyHidden>{label}</VisuallyHidden>
+        {children}
+      </chakra.button>
+    </a>
+
   )
 }
 
