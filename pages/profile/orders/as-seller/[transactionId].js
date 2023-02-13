@@ -558,6 +558,7 @@ const OrderDetail = () => {
                               toggleLoadingStatus={toggleLoadingStatus}
                               yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
                               isSeller={true}
+                              t={t}
                             />
                           </Box>
                         </div>
