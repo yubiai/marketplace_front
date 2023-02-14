@@ -15,7 +15,7 @@ import UserMenu from '../Menus/UserMenu'
 import { useGlobal } from '../../providers/globalProvider'
 import { useRouter } from 'next/router'
 import Notification from '../Menus/Notification'
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 
 const Navbar = () => {

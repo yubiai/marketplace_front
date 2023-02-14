@@ -12,7 +12,7 @@ import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { useEffect } from 'react';
 import { connectWallet, signInWithEthereum, verifyNetwork } from '../../utils/connectWeb3';
 
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 let loading = false;
 

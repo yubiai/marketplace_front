@@ -1,6 +1,6 @@
 import { Text } from "@chakra-ui/react";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const ButtonTermaConditions = () => {
     const { t } = useTranslation("footer");

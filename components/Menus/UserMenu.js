@@ -16,7 +16,7 @@ import { balanceUbi1 } from '../../utils/ethereum'
 import { useRouter } from 'next/router'
 import { BsFillBellFill } from 'react-icons/bs'
 import { MdArticle, MdFavorite, MdForum, MdHelp, MdOutlinePowerSettingsNew, MdSell, MdShoppingBag, MdShoppingBasket } from 'react-icons/md'
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const UserMenu = () => {
   const router = useRouter()

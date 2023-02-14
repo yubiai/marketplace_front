@@ -50,7 +50,7 @@ import { publishService } from '../../services/publishService'
 import { getListSubCategory } from '../../utils/itemUtils'
 import { loadCurrencyPrices, setYubiaiInstance } from '../../providers/orderProvider'
 import { ChevronRightIcon } from '@chakra-ui/icons'
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const NewListing = () => {
   const global = useGlobal()

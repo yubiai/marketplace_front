@@ -1,6 +1,6 @@
 import { CheckCircleIcon } from '@chakra-ui/icons'
 import { Box, Heading, Text } from '@chakra-ui/react'
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const SuccessItem = () => {
   const { t } = useTranslation("newlisting");

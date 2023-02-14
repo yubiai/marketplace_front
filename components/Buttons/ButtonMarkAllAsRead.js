@@ -12,7 +12,7 @@ import {
 import { useState } from "react";
 import { useDispatchGlobal, useGlobal } from "../../providers/globalProvider";
 import { notiService } from "../../services/notiService";
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const ButtonMarkAllAsRead = ({ onClosePopover, mutate }) => {
     const global = useGlobal();

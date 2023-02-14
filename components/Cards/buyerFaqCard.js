@@ -1,5 +1,5 @@
 import { Box, Center, Heading, Text } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const BuyerFaqCard = () => {
   const { t } = useTranslation("faq");

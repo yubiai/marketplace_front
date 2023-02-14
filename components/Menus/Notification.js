@@ -24,7 +24,7 @@ import NotiCard from '../Cards/NotiCard'
 import useFetch from '../../hooks/data/useFetch'
 import ButtonMarkAllAsRead from '../Buttons/ButtonMarkAllAsRead'
 import { useRouter } from 'next/router'
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const Notification = () => {
   const global = useGlobal();

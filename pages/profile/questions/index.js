@@ -4,7 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import ProfileMenu from "../../../components/Menus/ProfileMenu";
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const Questions = () => {
     const router = useRouter();

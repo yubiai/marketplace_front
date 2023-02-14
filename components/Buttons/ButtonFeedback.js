@@ -18,7 +18,7 @@ import { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { MdOutlineChat } from 'react-icons/md'
 import { messageFeedback } from '../../services/msgFeedbackService';
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const ButtonFeedback = () => {
     const initRef = useRef()

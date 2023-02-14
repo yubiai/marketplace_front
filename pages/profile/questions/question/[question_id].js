@@ -14,7 +14,7 @@ import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider";
 import { questionService } from "../../../../services/questionService";
 import questionUtils from "../../../../utils/questionUtils";
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const QuestionById = () => {
     const global = useGlobal();

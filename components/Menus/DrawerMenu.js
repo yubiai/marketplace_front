@@ -41,7 +41,7 @@ import { balanceUbi1 } from '../../utils/ethereum'
 import { useRouter } from 'next/router'
 import ButtonConnect from '../Buttons/ButtonConnect'
 import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const DrawerMenu = () => {
   const global = useGlobal()

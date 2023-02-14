@@ -12,7 +12,7 @@ import Loading from "../../../../components/Spinners/Loading";
 import useFetch from "../../../../hooks/data/useFetch";
 import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider";
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const QuestionsBuyer = () => {
 

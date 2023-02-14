@@ -3,7 +3,7 @@ import { useState } from 'react'
 import ImagePreviewListingCard from '../Cards/ImagePreviewListingCard'
 import PlayerAudio from '../Utils/PlayerAudio'
 import PlayerVideo from '../Utils/PlayerVideo'
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const PreviewItem = ({ item }) => {
   const [selectFile, setSelectFile] = useState(item && item.files[0])

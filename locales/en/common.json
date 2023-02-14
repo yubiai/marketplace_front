@@ -17,11 +17,9 @@
       "Failed": "Failed",
       "To connect it is necessary to be registered in Proof of Humanity and have your status as registered.": "To connect it is necessary to be registered in Proof of Humanity and have your status as registered.",
       "Connect with your wallet and start earning crypto or hiring with your cryptos": "Connect with your wallet and start earning crypto or hiring with your cryptos"
-      
-        
     },
     "home": {
-      "Popular services": "Popular services",
+      "Popular Services": "Popular services",
       "Your favourites": "Your favourites",
       "Last viewed items": "Last viewed items",
       "Home": "Home",
@@ -180,7 +178,7 @@
     },
     "faq": {
         "Help": "Help",
-        "For any support/suggestions please reach us at": "For any support/suggestions please reach us at",
+        "subtitle": "For any support/suggestions please reach us at",
         "What is Yubiai?": "What is Yubiai?",
         "Yubiai is a decentralized marketplace that allows any people registered in proof of humanity to buy and sell everything using crypto.": "Yubiai is a decentralized marketplace that allows any people registered in proof of humanity to buy and sell everything using crypto.",
         "How do I use Yubiai?": "How do I use Yubiai?",

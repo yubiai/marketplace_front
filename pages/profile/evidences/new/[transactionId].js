@@ -45,7 +45,7 @@ import { channelService } from "../../../../services/channelService";
 import { dpolicyService } from "../../../../services/dpolicyService";
 import { evidenceService } from "../../../../services/evidenceService";
 import { orderService } from "../../../../services/orderService";
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 

@@ -16,7 +16,7 @@ import useFetch from '../../hooks/data/useFetch'
 import Error from '../Infos/Error'
 import Loading from '../Spinners/Loading'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 export default function SubCategoriesMenu({ children, category }) {
   const { isOpen, onOpen, onClose } = useDisclosure()

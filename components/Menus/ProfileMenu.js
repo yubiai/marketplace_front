@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 import { FaUserCircle } from 'react-icons/fa'
 import { BsFillBellFill } from 'react-icons/bs'
 import { MdArticle, MdFavorite, MdForum, MdSell, MdShoppingBag, MdShoppingBasket } from 'react-icons/md'
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 
 export default function ProfileMenu({ children }) {
   
