@@ -1,23 +1,4 @@
 {
-    
-    "navbar": {
-      "Connect": "Connect",
-      "Categories": "Categories",
-      "Services": "Services",
-      "Sell": "Sell",
-      "Favourites": "Favourites" ,
-      "Help": "Help",
-      "Search in Yubiai": "Search in Yubiai",
-      "Profile": "Profile",
-      "Welcome, you are successfully logged in.": "Welcome, you are successfully logged in.",
-      "Now you are able to start buying & selling on Yubiai." : "Now you are able to start buying & selling on Yubiai.",
-      "Failed to login.": "Failed to login.", 
-      "Wrong network, please change your network on metamask.": "Wrong network, please change your network on metamask.",
-      "User denied message signature.": "User denied message signature.",
-      "Failed": "Failed",
-      "To connect it is necessary to be registered in Proof of Humanity and have your status as registered.": "To connect it is necessary to be registered in Proof of Humanity and have your status as registered.",
-      "Connect with your wallet and start earning crypto or hiring with your cryptos": "Connect with your wallet and start earning crypto or hiring with your cryptos"
-    },
     "home": {
       "Popular Services": "Popular services",
       "Your favourites": "Your favourites",
@@ -175,37 +156,6 @@
         "Add the message you want us to read": "Add the message you want us to read",
         "Maximum 600 characters and min 50": "Maximum 600 characters and min 50",
         "Submit": "Submit"
-    },
-    "faq": {
-        "Help": "Help",
-        "subtitle": "For any support/suggestions please reach us at",
-        "What is Yubiai?": "What is Yubiai?",
-        "Yubiai is a decentralized marketplace that allows any people registered in proof of humanity to buy and sell everything using crypto.": "Yubiai is a decentralized marketplace that allows any people registered in proof of humanity to buy and sell everything using crypto.",
-        "How do I use Yubiai?": "How do I use Yubiai?",
-        "If you are already registered in Proof Of Humanity you can connect with your wallet from PoH on app.yubiai.market and start using the platform, if not just go ahead to https://app.proofofhumanity.id/, create a new metamask wallet and register.": "If you are already registered in Proof Of Humanity you can connect with your wallet from PoH on app.yubiai.market and start using the platform, if not just go ahead to https://app.proofofhumanity.id/, create a new metamask wallet and register.",
-        "How does Yubiai work?": "How does Yubiai work?", 
-        "Yubiai has three layers of security, one is proofofhumanity as identity and authentication method, the other ones are Kleros Escrow, dispute resolution and curate. PoH acts a sybil resistance mechanism so you know that you are transactioning with a real human, the kleros escrow holds the payment of every transaction and if anything goes well it releases the payment to the seller or if anything goes sideways the dispute resolver kicks in and a juror will decide upon evidence how to rule. And there is the last mechanism that is curate, in every submission of an item, if it's inside the scope or regulations of each country and specifications of submission your item will be published if not it will get rejected.": "Yubiai has three layers of security, one is proofofhumanity as identity and authentication method, the other ones are Kleros Escrow, dispute resolution and curate. PoH acts a sybil resistance mechanism so you know that you are transactioning with a real human, the kleros escrow holds the payment of every transaction and if anything goes well it releases the payment to the seller or if anything goes sideways the dispute resolver kicks in and a juror will decide upon evidence how to rule. And there is the last mechanism that is curate, in every submission of an item, if it's inside the scope or regulations of each country and specifications of submission your item will be published if not it will get rejected.",
-        "I want to invest. Are you raising funds?": "I want to invest. Are you raising funds?",
-        "Yes, we are. Please, email us so we can discuss further these opportunities.": "Yes, we are. Please, email us so we can discuss further these opportunities.",
-        "How much you have raised so far?": "How much you have raised so far?",
-        "So far, we have raised $50.000 as an initial seed investment by participating in the incubator program of Cooperative Kleros.": "So far, we have raised $50.000 as an initial seed investment by participating in the incubator program of Cooperative Kleros.",
-        "Are you incorporated?": "Are you incorporated?",
-        "We are in process of being incorporated.": "We are in process of being incorporated.",
-        "I have a question that is not answered here.": "I have a question that is not answered here.",
-        "For any other questions, don't hesitate to contact us at": "For any other questions, don't hesitate to contact us at",
-        "Terms and Conditions": "Terms and Conditions",
-        "See details": "See details",
-        "Buyer": "Buyer",
-        "How do I start buying?": "How do I start buying?",
-        "Start by clicking on “Connect” on the top right corner then head over to the search bar on the middle of the navigation area, search whatever you want and then click on the item card that will appear.": "Start by clicking on “Connect” on the top right corner then head over to the search bar on the middle of the navigation area, search whatever you want and then click on the item card that will appear.",
-        "What is `UBI Burning Amount`?": "What is `UBI Burning Amount`?",
-        "UBI Burning Amount lets you choose on a dinamyc and optional way how much % will be deducted and sent from the total price of the item you are buying to the UBI Burner to increase the value of $UBI.": "UBI Burning Amount lets you choose on a dinamyc and optional way how much % will be deducted and sent from the total price of the item you are buying to the UBI Burner to increase the value of $UBI.",
-        "Seller": "Seller",
-        "How do I start selling?": "How do I start selling?",
-        "Start by clicking on “Connect” on the top right corner then below the search bar on the middle of the navigation area(top middle)click on “Sell” and follow through the steps from Category to Product Images then after filling each field click on “Preview & Submit for review” verify that all is correct and click on `Submit for review`": "Start by clicking on “Connect” on the top right corner then below the search bar on the middle of the navigation area(top middle)click on “Sell” and follow through the steps from Category to Product Images then after filling each field click on “Preview & Submit for review” verify that all is correct and click on `Submit for review`",
-        "What is `UBI Burning Amount`?":"What is `UBI Burning Amount`?",
-        "UBI Burning Amount lets you choose on a dinamyc and optional way how much % will be deducted and sent from the total price of the item you are selling to the UBI Burner to increase the value of $UBI.": "UBI Burning Amount lets you choose on a dinamyc and optional way how much % will be deducted and sent from the total price of the item you are selling to the UBI Burner to increase the value of $UBI."
-
     },
     "profilepage": {
         "Home": "Home",

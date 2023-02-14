@@ -2,6 +2,7 @@
     "locales": ["en", "es"],
     "defaultLocale": "en",
     "pages": {
-      "*": ["common"]
+      "*": ["common", "navbar"],
+      "/help": ["faq"]
     }
-  }
+}
