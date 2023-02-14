@@ -45,7 +45,7 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
             setLoading(false);
             toast({
                 title: t("Report "),
-                description: t("Report was completed successfully."),
+                description: t("Report was completed successfully"),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
@@ -99,7 +99,7 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
                                 <FormLabel color="black">{t("Motive")}</FormLabel>
 
                                 <Input
-                                    placeholder={t("Motive is required, minimum 15 characters and maximum 72 characters.")}
+                                    placeholder={t("Motive is required, minimum 15 characters and maximum 72 characters")}
                                     _placeholder={{ color: 'gray.400' }}
                                     color="gray.700"
                                     bg="white"

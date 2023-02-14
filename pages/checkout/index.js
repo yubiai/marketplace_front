@@ -43,7 +43,7 @@ import useUser from '../../hooks/data/useUser';
 import Loading from '../../components/Spinners/Loading';
 import RichTextReadOnly from '../../components/Utils/richTextReadOnly';
 import { profileService } from '../../services/profileService';
-import { useTranslation } from 'react-i18next';
+import useTranslation from 'next-translate/useTranslation';
 
 const Checkout = () => {
   const global = useGlobal();
@@ -311,7 +311,7 @@ const Checkout = () => {
                     <Text mt="1em" fontStyle={"normal"} fontWeight={"bold"}>{t("UBI Burning")}</Text>
                   </Center>
                   <Text mt="3" fontStyle="italic">
-                    {t("Set the desired percentage of $UBI to be burned on top of the total price. This will favor the token ($UBI) by increasing its price.")}
+                    {t("UBI percentage")}
                   </Text>
                   <Box pt={6} pb={2} mt="1em">
                     <Slider
@@ -350,7 +350,7 @@ const Checkout = () => {
                   </Box>
                   <Alert status="warning" mt="1em" color="black" bg="orange.100">
                     <AlertIcon color="orange" />
-                   {t("When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service.")}{' '}
+                   {t("When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service")}{' '}
                   </Alert>
                   <Stack mt={8}>
                     <ButtonCheckout

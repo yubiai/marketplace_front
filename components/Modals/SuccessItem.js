@@ -13,7 +13,7 @@ const SuccessItem = () => {
         {t("Your listing has been submitted!")}
         </Heading>
         <Text color={'gray.500'}>
-        {t("Our team would review your listing and notify you via email once your listing is live. This usually takes 2 hours to review.")}
+        {t("Revision")}
         </Text>
       </Box>    
     </>

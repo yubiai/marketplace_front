@@ -105,7 +105,7 @@ const QuestionsSeller = () => {
                             )
                         })}
                         {data && data.items && data.items.length === 0 && (
-                            <Text fontSize={"2xl"}>{t("There are no questions. ")}</Text>
+                            <Text fontSize={"2xl"}>{t("There are no questions ")}</Text>
                         )}
                     </Box>
                     <Paginations data={data ? data : null} />

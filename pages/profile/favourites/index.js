@@ -21,7 +21,7 @@ import { useEffect } from 'react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import ItemCardLg from '../../../components/Cards/ItemCardLg'
-import { useTranslation } from 'react-i18next'
+import useTranslation from 'next-translate/useTranslation';
 
 const Favourites = () => {
   const global = useGlobal()
@@ -87,7 +87,7 @@ const Favourites = () => {
             <>
               <Center>
                 <Heading mt="5em">
-                  {t("You do not have any items added to favourites.")}
+                  {t("You do not have any items added to favourites")}
                 </Heading>
               </Center>
               <Center>

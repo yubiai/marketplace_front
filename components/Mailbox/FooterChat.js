@@ -126,7 +126,7 @@ const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFil
       >
 
         <Input
-          placeholder={t("Type Something...")}
+          placeholder={t("Type")}
           border="none"
           borderRadius="none"
           _focus={{

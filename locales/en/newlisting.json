@@ -23,7 +23,7 @@
     "Title": "Title",
     "Title is required, minimum 15 characters and maximum 72 characters.": "Title is required, minimum 15 characters and maximum 72 characters.",
     "Only numbers are not allowed": "Only numbers are not allowed",
-    "Characters:": "Characters:",
+    "Characters": "Characters:",
     "Title is required": "Title is required",
     "Minimum required characters are 15": "Minimum required characters are 15",
     "Maximum required characters are 72": "Maximum required characters are 72",
@@ -40,8 +40,8 @@
     "Recommended": "Recommended",
     "Images / Videos / Audios": "Images / Videos / Audios",
     "Get noticed by the right buyers with visual examples of your": "Get noticed by the right buyers with visual examples of your",
-    " services. Images must have a minimum width of 375px, height of 375px": " services. Images must have a minimum width of 375px, height of 375px",
-    " and must not be more than 10mb each.": " and must not be more than 10mb each.",
+    "hazte notar1": " services. Images must have a minimum width of 375px, height of 375px",
+    "hazte notar2": " and must not be more than 10mb each.",
     "Main Image": "Main Image",
     "File": "File",
     "Preview & Submit for review": "Preview & Submit for review",
@@ -53,5 +53,5 @@
     "Net Price": "Net Price",
     "Total to receive": "Total to receive",
     "Your listing has been submitted!": "Your listing has been submitted!",
-    "Our team would review your listing and notify you via email once your listing is live. This usually takes 2 hours to review.": "Our team would review your listing and notify you via email once your listing is live. This usually takes 2 hours to review."
+    "Revision": "Our team would review your listing and notify you via email once your listing is live. This usually takes 2 hours to review."
 }

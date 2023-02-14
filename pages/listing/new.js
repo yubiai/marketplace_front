@@ -323,7 +323,7 @@ const NewListing = () => {
               })}
               isRequired
             />
-            <Flex m="5px" fontStyle={"italic"}>{t("Characters:")} <Text color={countTitle < MIN_TITLE_LENGTH ||countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
+            <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH ||countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
             <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
             <Text color="red" m="5px">{errors.title?.type === 'required' && t("Title is required")}</Text>
             <Text color="red" m="5px">{errors.title?.type === 'minLength' && t("Minimum required characters are 15")}</Text>
@@ -343,7 +343,7 @@ const NewListing = () => {
               }, onChange: (e) => { setCountDescription(e.target.value.length) } })}
               isRequired
             />
-            <Flex m="5px" fontStyle={"italic"}>{t("Characters:")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
+            <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
             <Text color="red" m="5px">{errors.description?.type === 'pattern' && errors.description?.message}</Text>
             <Text color="red" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
             <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 100")}</Text>
@@ -452,8 +452,8 @@ const NewListing = () => {
 
           <Text>
             {t("Get noticed by the right buyers with visual examples of your")} 
-            {t(" services. Images must have a minimum width of 375px, height of 375px")} 
-            {t(" and must not be more than 10mb each.")} 
+            {t("hazte notar1")} 
+            {t("hazte notar2")} 
           </Text>
 
           <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }} color="gray.700">

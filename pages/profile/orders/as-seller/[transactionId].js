@@ -47,7 +47,7 @@ import useUser from '../../../../hooks/data/useUser';
 import { StatusOrderByState, CLAIMED_STATUS, statusDescMap, StatusOrder, ONGOING_STATUS } from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
-import { useTranslation } from 'react-i18next';
+import useTranslation from 'next-translate/useTranslation';
 
 
 const OrderDetail = () => {
@@ -466,7 +466,7 @@ const OrderDetail = () => {
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
-                <Text fontWeight={"normal"}>{t("Actions will be available when there is a message interaction.")}</Text>
+                <Text fontWeight={"normal"}>{t("Actions will be available when there is a message interaction")}</Text>
               </>
             )}
 
@@ -529,7 +529,7 @@ const OrderDetail = () => {
                 <>
                   <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                   <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
-                  <Text fontWeight={"normal"} fontStyle={"italic"}>{t("Work ready and has already been notified.")}</Text>
+                  <Text fontWeight={"normal"} fontStyle={"italic"}>{t("Work ready and has already been notified")}</Text>
                 </>
               )}
 
@@ -543,7 +543,7 @@ const OrderDetail = () => {
                       <Box p="1em" position="relative" minHeight="170px" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                         <div>
                           <Text color="black">
-                            {t("If you agree with the claim made by the buyer, you can choose to make a refund according to the amount required.")}
+                            {t("If you agree with the claim made by the buyer, you can choose to make a refund according to the amount required")}
                           </Text>
                         </div>
                         <div>
@@ -568,7 +568,7 @@ const OrderDetail = () => {
                           <Text color="black">
                             {
                               !isLateToChallenge &&
-                              t("If you think there is nothing wrong with the service provided, you can dispute the buyer's claim. Participating in the arbitration will have an extra cost (<amount of cost>), and the status of that decision will be taken and communicated in the next few days by a decentralized jury external to Yubiai.")
+                              t("Dispute claim")
                             }
                             {
                               isLateToChallenge &&

@@ -26,7 +26,7 @@ import PlayerAudio from '../../components/Utils/PlayerAudio'
 import Questions from '../../components/Layouts/Questions'
 import ButtonNewReport from '../../components/Buttons/ButtonNewReport'
 import Error from '../../components/Infos/Error'
-import { useTranslation } from 'react-i18next'
+import useTranslation from 'next-translate/useTranslation';
 
 const ItemById = ({ item }) => {
   const global = useGlobal();
@@ -94,7 +94,7 @@ const ItemById = ({ item }) => {
           getFavourites()
           actionToat(
             t("Favourites"),
-            t("Item added to favourites successfully."),
+            t("Item added to favourites successfully"),
             'success'
           )
           return
@@ -113,7 +113,7 @@ const ItemById = ({ item }) => {
           getFavourites()
           actionToat(
             t("Favourites"),
-            t("Item removed from favourites successfully."),
+            t("Item removed from favourites successfully"),
             'info'
           )
           return

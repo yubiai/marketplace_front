@@ -6,7 +6,7 @@ import SearchBar from './SearchBar'
 import ButtonConnect from '../Buttons/ButtonConnect'
 import { useGlobal } from '../../providers/globalProvider'
 import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
-import { useTranslation } from 'react-i18next'
+import useTranslation from 'next-translate/useTranslation';
 
 const Header = () => {
   const global = useGlobal()

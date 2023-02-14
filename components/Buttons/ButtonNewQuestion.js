@@ -29,7 +29,7 @@ const ButtonNewQuestion = ({ question, token, t }) => {
             reset();
             toast({
                 title: t("Question"),
-                description: t("Question was completed successfully."),
+                description: t("Question was completed successfully"),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
@@ -89,7 +89,7 @@ const ButtonNewQuestion = ({ question, token, t }) => {
 
                                 <Flex>
                                     <Textarea
-                                        placeholder={t("Write your question...")}
+                                        placeholder={t("Write question")}
                                         _placeholder={{ color: 'gray.400' }}
                                         width={"80%"}
                                         color="gray.700"

@@ -29,7 +29,7 @@ const SellerFaqCard = () => {
         <Text>{t("What is `UBI Burning Amount`?")}</Text>
       </Heading>
       <Text>
-        {t("UBI Burning Amount lets you choose on a dinamyc and optional way how much % will be deducted and sent from the total price of the item you are selling to the UBI Burner to increase the value of $UBI.")}
+        {t("UBI Burning Amount lets you choose on a dinamyc and optional way how much % will be deducted and sent from the total price of the item you are selling to the UBI Burner to increase the value of $UBI")}
       </Text>
     </Box>
   );

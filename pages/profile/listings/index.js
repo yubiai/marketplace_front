@@ -21,7 +21,7 @@ import useUser from '../../../hooks/data/useUser'
 import ItemCardPublish from '../../../components/Cards/ItemCardPublish'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
-import { useTranslation } from 'react-i18next'
+import useTranslation from 'next-translate/useTranslation';
 
 const Listings = () => {
   const global = useGlobal()

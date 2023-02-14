@@ -39,8 +39,8 @@ const ButtonConnect = () => {
     Cookies.set('Yubiai', token, { expires: 1, secure: true })
     localStorage.setItem('Yubiai', JSON.stringify(yubiaiLS))
     toast({
-      title: t('Welcome, you are successfully logged in.'),
-      description: t('Now you are able to start buying & selling on Yubiai.'),
+      title: t('Welcome, you are successfully logged in'),
+      description: t('Now you are able to start buying & selling on Yubiai'),
       position: 'top-right',
       status: 'success',
       duration: 2000,

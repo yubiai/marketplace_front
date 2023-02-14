@@ -23,7 +23,7 @@ import {
   useGlobal,
 } from '../../../../providers/globalProvider'
 import { setYubiaiInstance } from '../../../../providers/orderProvider'
-import { useTranslation } from 'react-i18next'
+import useTranslation from 'next-translate/useTranslation';
 
 const Sales = () => {
   const global = useGlobal()

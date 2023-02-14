@@ -22,7 +22,7 @@ import useUser from '../../../hooks/data/useUser'
 import Error from '../../../components/Infos/Error'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
-import { useTranslation } from 'react-i18next'
+import useTranslation from 'next-translate/useTranslation';
 
 const MailBoxs = () => {
   const global = useGlobal()
@@ -259,7 +259,7 @@ const MailBoxs = () => {
               </Flex>
             </Flex>
           </Flex>
-          <Text fontStyle={"italic"} color="red" mt="1em" >{t("Please be careful of the sensitive information you share. Yubiai is not responsible for the information shared to third parties.")}</Text>
+          <Text fontStyle={"italic"} color="red" mt="1em" >{t("Sensitive")}</Text>
         </Box>
 {/*         <Box w={{ base: 'full', lg: '30%' }} p="1em">
 

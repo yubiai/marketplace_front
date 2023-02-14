@@ -114,7 +114,7 @@ const Questions = ({ item, profile_id, token, t }) => {
                                 <FormLabel color="black">{t("Ask the seller")}</FormLabel>
                                 <Flex>
                                     <Textarea
-                                        placeholder={t("Write your question...")}
+                                        placeholder={t("Write question")}
                                         _placeholder={{ color: 'gray.400' }}
                                         width={"80%"}
                                         color="gray.700"

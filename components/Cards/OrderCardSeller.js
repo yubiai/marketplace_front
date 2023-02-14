@@ -4,7 +4,7 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { StatusOrderByStateShort } from '../Infos/StatusOrder';
-import { useTranslation } from 'react-i18next';
+import useTranslation from 'next-translate/useTranslation';
 
 const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
   const router = useRouter();

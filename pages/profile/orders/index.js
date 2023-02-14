@@ -21,7 +21,7 @@ import useFetch from '../../../hooks/data/useFetch'
 import useUser from '../../../hooks/data/useUser'
 import { useDispatchGlobal, useGlobal } from '../../../providers/globalProvider'
 import { setYubiaiInstance } from '../../../providers/orderProvider'
-import { useTranslation } from 'react-i18next'
+import useTranslation from 'next-translate/useTranslation';
 
 const Orders = () => {
   const global = useGlobal()

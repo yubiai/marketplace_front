@@ -16,7 +16,7 @@ import useFetch from "../../../../hooks/data/useFetch";
 import useUser from "../../../../hooks/data/useUser";
 import { useGlobal } from "../../../../providers/globalProvider";
 import Error from '../../../../components/Infos/Error';
-import { useTranslation } from 'react-i18next'
+import useTranslation from 'next-translate/useTranslation';
 
 const EditItem = () => {
     const global = useGlobal()

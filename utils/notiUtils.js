@@ -10,7 +10,7 @@ const parseNoti = (type, t) => {
       break
     case 'Publish':
       path = 'item'
-      message = t ? t("Your Item was accepted and published.") : "Your Item was accepted and published."
+      message = t ? t("Your Item was accepted and published") : "Your Item was accepted and published"
       break
     case 'ORDER_PAID':
       path = 'profile/orders/as-seller'
@@ -18,23 +18,23 @@ const parseNoti = (type, t) => {
       break
     case 'ORDER_DISPUTE_RECEIVER_FEE_PENDING':
       path = 'profile/orders/as-seller'
-      message = t ? t("Order dispute receiver fee pending.") : "Order dispute receiver fee pending."
+      message = t ? t("Order dispute receiver fee pending") : "Order dispute receiver fee pending"
       break
     case 'ORDER_DISPUTE_IN_PROGRESS':
       path = 'profile/orders/as-seller'
-      message = t ? t("Order dispute in progress.") : "Order dispute in progress."
+      message = t ? t("Order dispute in progress") : "Order dispute in progress"
       break
     case 'ORDER_DISPUTE_FINISHED_SELLER':
       path = 'profile/orders/as-seller'
-      message = t ? t("Order dispute finished.") : "Order dispute finished."
+      message = t ? t("Order dispute finished") : "Order dispute finished"
       break
     case 'ORDER_DISPUTE_IN_PROGRESS_BUYER':
       path = 'profile/orders/detail'
-      message = t ? t("Order dispute finished.") : "Order dispute finished."
+      message = t ? t("Order dispute finished") : "Order dispute finished"
       break
     case 'ORDER_DISPUTE_APPEALABLE':
       path = 'profile/orders/as-seller'
-      message = t ? t("Order dispute appealable.") : "Order dispute appealable."
+      message = t ? t("Order dispute appealable") : "Order dispute appealable"
       break
     case 'ORDER_COMPLETED_BY_SELLER':
       path = 'profile/orders/detail'
@@ -58,7 +58,7 @@ const parseNoti = (type, t) => {
       break
     case 'ActionQuestion':
       path = 'profile/questions/question'
-      message = t ? t("Question status change.") : "Question status change." 
+      message = t ? t("Question status change") : "Question status change" 
       break
     default:
       path = 'profile'

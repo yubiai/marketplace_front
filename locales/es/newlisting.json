@@ -23,7 +23,7 @@
     "Title": "Título",
     "Title is required, minimum 15 characters and maximum 72 characters.": "Título obligatorio, mínimo 15 caracteres y máximo 72 caracteres.",
     "Only numbers are not allowed": "No se admiten sólo números",
-    "Characters:": "Caracteres:",
+    "Characters": "Caracteres:",
     "Title is required": "Título obligatorio",
     "Minimum required characters are 15": "Se requiere una cantidad mínima de 15 caracteres",
     "Maximum required characters are 72": "Se requiere una cantidad máxima de 72 caracteres",
@@ -40,8 +40,8 @@
     "Recommended": "Recomendado",
     "Images / Videos / Audios": "Imágenes / Vídeos / Audios",
     "Get noticed by the right buyers with visual examples of your": "Hazte notar por los compradores adecuados con ejemplos visuales de tus",
-    " services. Images must have a minimum width of 375px, height of 375px": " servicios. Las imágenes deben tener un mínimo de 375px de ancho y 375px de alto",
-    " and must not be more than 10mb each.": " y no deben superar los 10mb cada una.",
+    "hazte notar1": " servicios. Las imágenes deben tener un mínimo de 375px de ancho y 375px de alto",
+    "hazte notar2": " y no deben superar los 10mb cada una.",
     "Main Image": "Imágen principal",
     "File": "Archivo",
     "Preview & Submit for review": "Previsualizar y enviar para revisión",
@@ -53,5 +53,5 @@
     "Net Price": "Precio Neto",
     "Total to receive": "Total a recibir",
     "Your listing has been submitted!": "Su publicación ha sido enviada!",
-    "Our team would review your listing and notify you via email once your listing is live. This usually takes 2 hours to review.": "Nuestro equipo revisará su publicación y le notificará por correo electrónico una vez que su anuncio esté activo. La revisión suele tardar 2 horas."
+    "Revision": "Nuestro equipo revisará su publicación y le notificará por correo electrónico una vez que su anuncio esté activo. La revisión suele tardar 2 horas."
 }

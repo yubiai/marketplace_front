@@ -40,34 +40,34 @@ const Help = () => {
             <Text>{t("How do I use Yubiai?")}</Text>
           </Heading>
           <Text mt="5px" >
-            {t("If you are already registered in Proof Of Humanity you can connect with your wallet from PoH on app.yubiai.market and start using the platform, if not just go ahead to https://app.proofofhumanity.id/, create a new metamask wallet and register.")}
+            {t("Answer use")}
           </Text>
           <Heading mt="10px">
             <Text >{t("How does Yubiai work?")}</Text>
           </Heading>
           <Text mt="5px" >
-            {t("Yubiai has three layers of security, one is proofofhumanity as identity and authentication method, the other ones are Kleros Escrow, dispute resolution and curate. PoH acts a sybil resistance mechanism so you know that you are transactioning with a real human, the kleros escrow holds the payment of every transaction and if anything goes well it releases the payment to the seller or if anything goes sideways the dispute resolver kicks in and a juror will decide upon evidence how to rule. And there is the last mechanism that is curate, in every submission of an item, if it's inside the scope or regulations of each country and specifications of submission your item will be published if not it will get rejected.")}
+            {t("Answer explain")}
           </Text>
           <Heading mt="10px">
-            <Text >{t("I want to invest. Are you raising funds?")}</Text>
+            <Text >{t("Invest")}</Text>
           </Heading>
           <Text mt="5px" >
-            {t("Yes, we are. Please, email us so we can discuss further these opportunities.")}
+            {t("Invest answer")}
           </Text>
           <Heading mt="10px">
             <Text >{t("How much you have raised so far?")}</Text>
           </Heading>
           <Text mt="5px" >
-            {t("So far, we have raised $50.000 as an initial seed investment by participating in the incubator program of Cooperative Kleros.")}
+            {t("Answer raised")}
           </Text>
           <Heading mt="10px">
             <Text >{t("Are you incorporated?")}</Text>
           </Heading>
           <Text mt="5px" >
-            {t("We are in process of being incorporated.")}
+            {t("We are in process of being incorporated")}
           </Text>
           <Heading mt="10px">
-            <Text >{t("I have a question that is not answered here.")}</Text>
+            <Text >{t("I have a question that is not answered here")}</Text>
           </Heading>
           <Text mt="5px">
             {t("For any other questions, don't hesitate to contact us at")} <Link href="mailto:contact@yubiai.market" color="blue.400">contact@yubiai.market</Link>

@@ -23,13 +23,13 @@ const BuyerFaqCard = () => {
         <Text>{t("How do I start buying?")}</Text>
       </Heading>
       <Text>
-        {t("Start by clicking on “Connect” on the top right corner then head over to the search bar on the middle of the navigation area, search whatever you want and then click on the item card that will appear.")}
+        {t("Start by clicking on “Connect” on the top right corner then head over to the search bar on the middle of the navigation area, search whatever you want and then click on the item card that will appear")}
       </Text>
       <Heading fontSize={"2xl"} mt="1em">
         <Text>{t("What is `UBI Burning Amount`?")}</Text>
       </Heading>
       <Text>
-        {t("UBI Burning Amount lets you choose on a dinamyc and optional way how much % will be deducted and sent from the total price of the item you are buying to the UBI Burner to increase the value of $UBI.")}
+        {t("UBI Burning Amount lets you choose on a dinamyc and optional way how much % will be deducted and sent from the total price of the item you are buying to the UBI Burner to increase the value of $UBI")}
       </Text>
     </Box>
   );

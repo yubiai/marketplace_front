@@ -43,7 +43,7 @@ import {
 } from '../../../../components/Infos/StatusOrder';
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
-import { useTranslation } from 'react-i18next';
+import useTranslation from 'next-translate/useTranslation';
 
 const OrderDetail = () => {
   /**
@@ -414,7 +414,7 @@ const OrderDetail = () => {
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
-                <Text fontWeight={"normal"}>{t("Actions will be available when there is a message interaction.")}</Text>
+                <Text fontWeight={"normal"}>{t("Actions will be available when there is a message interaction")}</Text>
               </>
             )}
 
@@ -429,7 +429,7 @@ const OrderDetail = () => {
                       <Box width={"100%"}>
                         <Box bg="orange.200" rounded={{ base: "5px" }} p="1em">
                           <Text fontWeight={"semibold"} color="black" pl="5px" pr="5px">{t("Work has been notified as completed")}</Text>
-                          <Text color="black" fontStyle="italic" pl="5px" pr="5px">{t("(Please confirm that you have received the work and have verified that it satisfies all of the conditions you specified during the chat before releasing the payment. Do not confirm and inform the vendor on the chat if the work they completed did not meet your expectations)")}</Text>
+                          <Text color="black" fontStyle="italic" pl="5px" pr="5px">{t("Please confirm")}</Text>
                         </Box>
                       </Box>
                     </>
@@ -443,7 +443,7 @@ const OrderDetail = () => {
                           <>
                             <div>
                               <Text color="black">
-                               {t(" Always confirm that you have received the seller is service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.")}
+                               {t("Confirm")}
                               </Text>
                             </div>
                             <div>
@@ -470,7 +470,7 @@ const OrderDetail = () => {
                           <div>
                             <Text color="black">
                               {
-                                !(deal || {}).isOver && t("If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case.")
+                                !(deal || {}).isOver && t("If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case")
                               }
                               {
                                 (deal || {}).isOver &&

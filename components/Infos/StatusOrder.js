@@ -42,7 +42,7 @@ export const StatusOrder = ({status, t}) => {
         case "ORDER_DISPUTE_IN_PROGRESS":
             return (
                 <Box bg="purple.300" rounded={"5px"} w={{ base: "100%", md: "max-content" }}>
-                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Dispute in progress.")}</Text>
+                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Dispute in progress")}</Text>
                 </Box>
             );
         default:
@@ -63,14 +63,14 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
         case "2":
             return (
                 <Box bg="pink.300" rounded={"5px"} p="5px" w={{ base: "100%", md: "max-content" }}>
-                    <Text fontSize={"larger"} fontStyle="normal" color="black" pl="15px" pr="15px">{t("The buyer has claimed a refund for this order.")}</Text>
+                    <Text fontSize={"larger"} fontStyle="normal" color="black" pl="15px" pr="15px">{t("The buyer has claimed a refund for this order")}</Text>
 {/*                     <Text color="black" fontStyle="italic" pl="15px" pr="15px">Please choose an option.</Text>
  */}                </Box>
             );
         case "3":
             return (
                 <Box bg="purple.300" rounded={"5px"} w={{ base: "100%", md: "max-content" }}>
-                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Dispute in progress.")}</Text>
+                    <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Dispute in progress")}</Text>
                 </Box>
             );
         case "4":

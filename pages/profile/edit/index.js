@@ -12,7 +12,7 @@ import { profileService } from '../../../services/profileService'
 import useUser from '../../../hooks/data/useUser'
 import Link from 'next/link'
 import { ChevronRightIcon } from '@chakra-ui/icons'
-import { useTranslation } from 'react-i18next'
+import useTranslation from 'next-translate/useTranslation';
 
 const ProfileEdit = () => {
   const global = useGlobal()

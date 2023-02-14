@@ -29,14 +29,14 @@ const MyInfoPrivateCard = ({ dataProfile, t }) => {
           >
             <Divider />
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              <b>{t("Real Name:")}</b>{' '}
+              <b>{t("Real Name")}</b>{' '}
               {dataProfile && dataProfile.realname
                 ? dataProfile.realname
                 : 'Empty'}
             </Text>
             <Divider />
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              <b>{t("Shipping address:")}</b> {dataProfile.address} - {dataProfile.city} -{' '}
+              <b>{t("Shipping address")}</b> {dataProfile.address} - {dataProfile.city} -{' '}
               {dataProfile.country}
             </Text>
             <Divider />
