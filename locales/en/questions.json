@@ -23,7 +23,7 @@
     "Description is Required": "Description is Required",
     "Minimum required characters are 50": "Minimum required characters are 50",
     "Maximum required characters are 400": "Maximum required characters are 400",
-    "The response was successfully sent.": "The response was successfully sent.",
+    "The response was successfully sent": "The response was successfully sent.",
     "Error creating question.": "Error creating question.",
     "Question was completed successfully": "Question was completed successfully.",
     "Error in response.": "Error in response.",

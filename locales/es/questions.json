@@ -23,7 +23,7 @@
     "Description is Required": "Descripción obligatoria",
     "Minimum required characters are 50": "Se requiere una cantidad mínima de 50 caracteres",
     "Maximum required characters are 400": "Se requiere una cantidad máxima de 400 caracteres",
-    "The response was successfully sent.": "Respuesta enviada.",
+    "The response was successfully sent": "Respuesta enviada.",
     "Error creating question.": "Error al enviar la pregunta.",
     "Question was completed successfully": "Pregunta enviada",
     "Error in response.": "Error al enviar la respuesta.",

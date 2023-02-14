@@ -26,7 +26,7 @@ const ButtonNewAnswer = ({ question, token, t }) => {
             reset();
             toast({
                 title: t("Answer"),
-                description: t("The response was successfully sent."),
+                description: t("The response was successfully sent"),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
