@@ -86,7 +86,7 @@ const ButtonNewAnswer = ({ question, token, t }) => {
 
                                 <Flex>
                                     <Textarea
-                                        placeholder={t("Write your answer...")}
+                                        placeholder={t("Write your answer")}
                                         _placeholder={{ color: 'gray.400' }}
                                         width={"80%"}
                                         color="gray.700"

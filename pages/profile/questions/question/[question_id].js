@@ -145,7 +145,7 @@ const QuestionById = () => {
                                 <Flex fontWeight={"semibold"} _hover={{
                                     color: "blue.300"
                                 }}>
-                                    <Text mr="5px">{t("Item:")}</Text>
+                                    <Text mr="5px">{t("Item")}</Text>
                                     <Link href={`/item/${question.itemId.slug}`}>{question.itemId.title}</Link>
                                     <Text ml="1em">{question.itemId.price} {question.itemId.currencySymbolPrice}</Text>
                                     <Spacer />
