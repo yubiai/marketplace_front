@@ -100,6 +100,7 @@ const DrawerMenu = () => {
               <UserInfo
                 profile={global && global.profile}
                 balanceToken={balanceToken}
+                t={t}
               />
             ) : (
               <>
