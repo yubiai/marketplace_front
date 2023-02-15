@@ -451,9 +451,7 @@ const NewListing = () => {
           <Heading mt="1em">{t("Images / Videos / Audios")}</Heading>
 
           <Text>
-            {t("Get noticed by the right buyers with visual examples of your")} 
-            {t("hazte notar1")} 
-            {t("hazte notar2")} 
+            {t("UploadInfo")}
           </Text>
 
           <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }} color="gray.700">
