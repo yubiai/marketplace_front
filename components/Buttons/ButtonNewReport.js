@@ -124,7 +124,7 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
                                     })}
                                     isRequired
                                 />
-                                <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countMotive < MIN_MOTIVE_LENGTH || countMotive > MAX_MOTIVE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countMotive}</Text> / {MAX_MOTIVE_LENGTH}</Flex>
+                                <Flex m="5px" fontStyle={"italic"}>{t("Characters")}: <Text color={countMotive < MIN_MOTIVE_LENGTH || countMotive > MAX_MOTIVE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countMotive}</Text> / {MAX_MOTIVE_LENGTH}</Flex>
                                 <Text color="red" m="5px">{errors.motive?.type === 'required' && "Description is Required"}</Text>
                                 <Text color="red" m="5px">{errors.motive?.type === 'minLength' && "Minimum required characters are " + MIN_MOTIVE_LENGTH}</Text>
                                 <Text color="red" m="5px">{errors.motive?.type === 'maxLength' && "Maximum required characters are " + MAX_MOTIVE_LENGTH}</Text>
