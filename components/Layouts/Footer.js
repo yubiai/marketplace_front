@@ -16,22 +16,23 @@ import ButtonTermaConditions from '../Buttons/ButtonTermaconditions'
 
 const SocialButton = ({ children, label, href }) => {
   return (
-    <chakra.button
-      bg={'blackAlpha.100'}
-      rounded={'full'}
-      w={12}
-      h={12}
-      cursor={'pointer'}
-      as={'a'}
-      href={href}
-      display={'inline-flex'}
-      alignItems={'center'}
-      justifyContent={'center'}
-      transition={'background 0.3s ease'}
-    >
-      <VisuallyHidden>{label}</VisuallyHidden>
-      {children}
-    </chakra.button>
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      <chakra.button
+        bg={'blackAlpha.100'}
+        rounded={'full'}
+        w={12}
+        h={12}
+        cursor={'pointer'}
+        display={'inline-flex'}
+        alignItems={'center'}
+        justifyContent={'center'}
+        transition={'background 0.3s ease'}
+      >
+        <VisuallyHidden>{label}</VisuallyHidden>
+        {children}
+      </chakra.button>
+    </a>
+
   )
 }
 
@@ -67,12 +68,12 @@ const Footer = () => {
           />
         </Button>
         <Center display={{ base: 'none', md: 'flex' }}>
-          <Link mr={'1em'} href="https://gov.proofofhumanity.id/" isExternal>
+          {/* <Link mr={'1em'} href="https://gov.proofofhumanity.id/" isExternal>
             Governance Forum
           </Link>
           <Link mr={'1em'} href="https://snapshot.org/#/" isExternal>
             Snapshot
-          </Link>
+          </Link> */}
           <Link mr={'1em'} href="https://app.democracy.earth/#/" isExternal>
             UBI Vaults
           </Link>

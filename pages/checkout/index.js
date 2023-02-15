@@ -23,6 +23,7 @@ import {
   useDisclosure,
   useToast,
   Spinner,
+  Container,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useEffect, useState, useRef } from 'react';
@@ -249,10 +250,15 @@ const Checkout = () => {
             content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask"
           />
         </Head>
-        <Box
-          h={{ base: '100vh', sm: 'full', md: 'full', lg: 'full', xl: '100vh' }}
-          m="2em"
-        >
+        <Container
+        maxW="6xl"
+        h={{
+          base: '100%',
+          md: '100vh'
+        }}
+        display={'flex'}
+        flexDirection={'column'}
+      >
           <Center py={6}>
             <Box
               maxW={'360px'}
@@ -368,7 +374,7 @@ const Checkout = () => {
               )}
             </Box>
           </Center>
-        </Box>
+        </Container>
         <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'outside'} size={"6xl"}>
           <OverlayOne />
           <ModalContent bg="white" color="black">

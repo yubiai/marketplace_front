@@ -97,7 +97,7 @@ const Notification = () => {
                     <PopoverBody>
 
                       <Stack divider={<StackDivider />} spacing=''>
-                      {notis && notis.notifications && notis.notifications.length > 0 && notis.notifications.map((item, i) => {
+                        {notis && notis.notifications && notis.notifications.length > 0 && notis.notifications.map((item, i) => {
                           return (
                             <NotiCard
                               key={i}

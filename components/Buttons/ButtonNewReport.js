@@ -15,7 +15,8 @@ import {
     useToast,
     Spinner,
     Box,
-    Tooltip
+    Tooltip,
+    Flex
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -26,6 +27,14 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
     const { handleSubmit, register, formState: { errors }, reset } = useForm()
     const [loading, setLoading] = useState(false);
     const toast = useToast();
+
+    const [countMotive, setCountMotive] = useState(0);
+    const MIN_MOTIVE_LENGTH = 15;
+    const MAX_MOTIVE_LENGTH = 72;
+
+    const [countDescription, setCountDescription] = useState(0);
+    const MIN_DESCRIPTION_LENGTH = 30;
+    const MAX_DESCRIPTION_LENGTH = 800;
 
     const onSubmit = async (data) => {
 
@@ -51,6 +60,8 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
                 duration: 3000,
                 isClosable: true
             });
+            setCountMotive(0);
+            setCountDescription(0);
             return;
         } catch (err) {
             console.error(err);
@@ -62,6 +73,8 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
                 duration: 3000,
                 isClosable: true
             });
+            setCountMotive(0);
+            setCountDescription(0);
             return
         }
     }
@@ -103,12 +116,18 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
                                     _placeholder={{ color: 'gray.400' }}
                                     color="gray.700"
                                     bg="white"
-                                    {...register('motive', { required: true, minLength: 15, maxLength: 72 })}
+                                    {...register('motive', {
+                                        required: true, minLength: MIN_MOTIVE_LENGTH, maxLength: MAX_MOTIVE_LENGTH, pattern: {
+                                            value: /^(?![^a-zA-Z]+$)(?!$).*$/,
+                                            message: "Only numbers are not allowed"
+                                        }, onChange: (e) => { setCountMotive(e.target.value.length) }
+                                    })}
                                     isRequired
                                 />
+                                <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countMotive < MIN_MOTIVE_LENGTH || countMotive > MAX_MOTIVE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countMotive}</Text> / {MAX_MOTIVE_LENGTH}</Flex>
                                 <Text color="red" m="5px">{errors.motive?.type === 'required' && "Description is Required"}</Text>
-                                <Text color="red" m="5px">{errors.motive?.type === 'minLength' && "Minimum required characters are 15"}</Text>
-                                <Text color="red" m="5px">{errors.motive?.type === 'maxLength' && "Maximum required characters are 72"}</Text>
+                                <Text color="red" m="5px">{errors.motive?.type === 'minLength' && "Minimum required characters are " + MIN_MOTIVE_LENGTH}</Text>
+                                <Text color="red" m="5px">{errors.motive?.type === 'maxLength' && "Maximum required characters are " + MAX_MOTIVE_LENGTH}</Text>
                             </FormControl>
                             <FormControl isRequired mt="1em">
                                 <FormLabel color="black">{t("Description")}</FormLabel>
@@ -117,9 +136,15 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
                                     _placeholder={{ color: 'gray.400' }}
                                     color="gray.700"
                                     bg="white"
-                                    {...register('description', { required: true, maxLength: 400, minLength: 30 })}
+                                    {...register('description', {
+                                        required: true, minLength: MIN_DESCRIPTION_LENGTH, maxLength: MAX_DESCRIPTION_LENGTH, pattern: {
+                                            value: /^(?![^a-zA-Z]+$)(?!$).*$/,
+                                            message: "Only numbers are not allowed"
+                                        }, onChange: (e) => { setCountDescription(e.target.value.length) }
+                                    })}
                                     isRequired
                                 />
+                                <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
                                 <Text color="red" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
                                 <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 30")}</Text>
                                 <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 400")}</Text>

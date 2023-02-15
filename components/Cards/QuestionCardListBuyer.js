@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Text, Flex, Divider, Box, Spacer } from '@chakra-ui/react';
+import { Stack, Text, Flex, Divider, Box, Spacer, Image } from '@chakra-ui/react';
 import { FaAngleDoubleRight } from 'react-icons/fa'
 import moment from 'moment';
 import Link from 'next/link';
@@ -17,10 +17,29 @@ const QuestionCardListBuyer = ({ question, profile_id, token, t }) => {
                 <Flex fontWeight={"semibold"} _hover={{
                     color: "blue.300"
                 }}>
-                    <Text mr="5px">{t("Item")}</Text>
-                    <Link href={`/item/${question.itemId.slug}`}>{question.itemId.title}</Link>
-                    {/*                     <Text ml="1em">{question.itemId.price} {question.itemId.currencySymbolPrice}</Text>
- */}                    <Spacer />
+                    <Image
+                        alt="Img Item"
+                        m={{base:"1em", md: "0.8em"}}
+                        border={"1px solid rgba(0,0,0,.1)"}
+                        height={'50px'}
+                        width={'50px'}
+                        objectFit={'cover'}
+                        src={question && question.itemId.files && question.itemId.files[0] ? process.env.NEXT_PUBLIC_LINK_FLEEK + question.itemId.files[0].filename : '/static/images/ybminilogo.png'}
+                        fallbackSrc={question && question.itemId.files && question.itemId.files[0] ? process.env.NEXT_PUBLIC_LINK_GC + question.itemId.files[0].filename : '/static/images/ybminilogo.png'}
+                    />
+                    <Flex width="100%" mt={{base: "1em", md: "1.5em"}} noOfLines={3}>
+                        <Link href={`/item/${question.itemId.slug}`}><Text
+                            color={'gray.600'}
+                            fontSize={'0.9em'}
+                            _hover={{
+                                color: "gray.400"
+                              }}
+                        >
+                            {question.itemId.title}
+                        </Text></Link>
+                    </Flex>
+                    <Text width="100%" ml="2em" mt={{base: "1em", md: "1.5em"}} noOfLines={3}>{question.itemId.price} {question.itemId.currencySymbolPrice}</Text>
+                    <Spacer />
                     {question.status === 2 && (
                         <Text color={"blue.400"}>{questionUtils.statusNumber(question.status)}</Text>
                     )}
