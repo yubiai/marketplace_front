@@ -3,7 +3,7 @@ import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import useTranslation from 'next-translate/useTranslation';
 import React from 'react';
 import setLanguage from 'next-translate/setLanguage'
-
+import Cookies from 'js-cookie'
 
 const LanguageChange = () => {
   const { lang } = useTranslation('common')
@@ -15,7 +15,8 @@ const LanguageChange = () => {
     const date = new Date()
     const expireMs = 100 * 24 * 60 * 60 * 1000 // 100 days
     date.setTime(date.getTime() + expireMs)
-    document.cookie = `NEXT_LOCALE=${lng};expires=${date.toUTCString()};path=/`
+    Cookies.set('NEXT_LOCALE', lng, { expires: 30, secure: true })
+
   }
 
   return (
