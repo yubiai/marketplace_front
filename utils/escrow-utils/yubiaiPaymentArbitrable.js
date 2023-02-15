@@ -157,7 +157,7 @@ export default class YubiaiPaymentArbitrable {
 
     if (dealInfo.currentClaim) {
       claimInfo = await this.getClaimInfo(dealInfo.currentClaim);
-      disputeId = await this.getDisputeIDFromClaimId(dealInfo.currentClaim);
+      disputeId = claimInfo.disputeId;
     }
 
     return {

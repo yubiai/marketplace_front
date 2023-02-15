@@ -59,9 +59,10 @@ const ArbitratorPanel = () => {
     for (let order of orders) {
       const transactionIndex = order.transaction.transactionIndex;
       const dealInfo = await global.yubiaiPaymentArbitrableInstance.getDealInfo(transactionIndex);
-      console.log("Deal info. ... ", dealInfo)
+      const fullStateInfo = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(transactionIndex);
       dealItems.push({
         ...dealInfo,
+        disputeId: fullStateInfo.disputeId,
         transactionIndex
       });
     }
@@ -74,7 +75,7 @@ const ArbitratorPanel = () => {
   };
 
   const selectDeal = async deal => {
-    setClaimId(deal.currentClaim);
+    setClaimId(deal.disputeId);
   };
 
   return (
@@ -93,6 +94,7 @@ const ArbitratorPanel = () => {
                 <p>State: {deal.state}</p>
                 <p>Buyer: {deal.buyer}</p>
                 <p>Current claim: {deal.currentClaim}</p>
+                <p>Dispute ID: {deal.disputeId}</p>
                 <p>Created at: {formatDate(deal.createdAt)}</p>
               </Box>;
             })
