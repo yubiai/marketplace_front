@@ -18,20 +18,12 @@ import { useRouter } from "next/router";
 import { FaUserCircle } from 'react-icons/fa'
 import { BsFillBellFill } from 'react-icons/bs'
 import { MdArticle, MdFavorite, MdForum, MdSell, MdShoppingBag, MdShoppingBasket } from 'react-icons/md'
-
-const LinkItems = [
-  { name: 'Profile', icon: FaUserCircle, url: '/profile' },
-  { name: 'Notifications', icon: BsFillBellFill, url: '/profile/notifications' },
-  { name: 'New Listing', icon: MdSell, url: '/listing/new' },
-  { name: 'Listings', icon: MdArticle, url: '/profile/listings' },
-  { name: 'Questions', icon: MdForum, url: '/profile/questions' },
-  { name: 'Orders', icon: MdShoppingBag, url: '/profile/orders' },
-  { name: 'Sales', icon: MdShoppingBasket, url: '/profile/orders/sales' },
-  { name: 'Favourites', icon: MdFavorite, url: '/profile/favourites' },
-]
+import useTranslation from 'next-translate/useTranslation';
 
 export default function ProfileMenu({ children }) {
+  
   const { isOpen, onOpen, onClose } = useDisclosure()
+  
   return (
     <Box minH={{ base: "full", md: "85vh" }} bg={'gray.100'}>
       <SidebarContent
@@ -62,6 +54,18 @@ export default function ProfileMenu({ children }) {
 
 const SidebarContent = ({ onClose, ...rest }) => {
   const router = useRouter();
+  const { t } = useTranslation("profilemenu");
+  
+  const LinkItems = [
+    { name: t("Profile"), icon: FaUserCircle, url: '/profile' },
+    { name: t('Notifications'), icon: BsFillBellFill, url: '/profile/notifications' },
+    { name: t('New Listing'), icon: MdSell, url: '/listing/new' },
+    { name: t('Listings'), icon: MdArticle, url: '/profile/listings' },
+    { name: t('Questions'), icon: MdForum, url: '/profile/questions' },
+    { name: t('Orders'), icon: MdShoppingBag, url: '/profile/orders' },
+    { name: t('Sales'), icon: MdShoppingBasket, url: '/profile/orders/sales' },
+    { name: t('Favourites'), icon: MdFavorite, url: '/profile/favourites' },
+  ]
   return (
     <Box
       bg={'white'}
@@ -74,7 +78,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
         <Text fontSize="2xl" color="black" fontFamily="OpenSans, sans-serif" fontWeight="bold">
-          Menu
+          {t("Menu")}
         </Text>
         <CloseButton color="black" display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
@@ -130,6 +134,7 @@ const NavItem = ({ icon, url, children, onClose, samePathname, ...rest }) => {
 }
 
 const MobileNav = ({ onOpen, ...rest }) => {
+  const { t } = useTranslation("profilemenu");
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -150,7 +155,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       />
 
       <Text fontSize="2xl" ml="8" fontFamily="monospace" fontWeight="bold">
-        Menu
+      {t("Menu")}
       </Text>
     </Flex>
   )

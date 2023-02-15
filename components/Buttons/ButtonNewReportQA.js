@@ -19,7 +19,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { reportService } from "../../services/reportService";
 
-const ButtonNewReportQA = ({ reference, type, userId, owner, token }) => {
+const ButtonNewReportQA = ({ reference, type, userId, owner, token, t }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { handleSubmit, register, formState: { errors }, reset } = useForm()
     const [loading, setLoading] = useState(false);
@@ -50,8 +50,8 @@ const ButtonNewReportQA = ({ reference, type, userId, owner, token }) => {
             reset();
             setLoading(false);
             toast({
-                title: 'Report',
-                description: 'Report was completed successfully.',
+                title: t("Report "),
+                description: t("Report was completed successfully"),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
@@ -63,8 +63,8 @@ const ButtonNewReportQA = ({ reference, type, userId, owner, token }) => {
         } catch (err) {
             console.error(err);
             toast({
-                title: 'Report',
-                description: 'Report could not be sent.',
+                title: t("Report "),
+                description: t("Report could not be sent."),
                 position: 'top-right',
                 status: 'warning',
                 duration: 3000,
@@ -79,20 +79,20 @@ const ButtonNewReportQA = ({ reference, type, userId, owner, token }) => {
     return (
         <>
             {userId && token && !owner && !loading ? (
-                <Text cursor={"pointer"} ml="5px" fontSize={"sm"} color="red.200" onClick={() => onOpen()}>Report</Text>
+                <Text cursor={"pointer"} ml="5px" fontSize={"sm"} color="red.200" onClick={() => onOpen()}>{t("Report")}</Text>
             ) : null}
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <ModalHeader>Report {type === "Question" ? "Question" : "Answer"}</ModalHeader>
+                        <ModalHeader>{t("Report")} {type === "Question" ? t("Question") : t("Answer")}</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody pb={6}>
                             <FormControl isRequired mt="1em">
-                                <FormLabel color="black">Motive</FormLabel>
+                                <FormLabel color="black">{t("Motive")}</FormLabel>
 
                                 <Input
-                                    placeholder={`Motive is required, minimum ${MIN_MOTIVE_LENGTH} characters and maximum ${MAX_MOTIVE_LENGTH} characters.`}
+                                    placeholder={t("Motive is required, minimum 15 characters and maximum 72 characters")}
                                     _placeholder={{ color: 'gray.400' }}
                                     color="gray.700"
                                     bg="white"
@@ -105,14 +105,14 @@ const ButtonNewReportQA = ({ reference, type, userId, owner, token }) => {
                                     isRequired
                                 />
                                 <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countMotive < MIN_MOTIVE_LENGTH || countMotive > MAX_MOTIVE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countMotive}</Text> / {MAX_MOTIVE_LENGTH}</Flex>
-                                <Text color="red" m="5px">{errors.motive?.type === 'required' && "Description is Required"}</Text>
-                                <Text color="red" m="5px">{errors.motive?.type === 'minLength' && "Minimum required characters are 15"}</Text>
-                                <Text color="red" m="5px">{errors.motive?.type === 'maxLength' && "Maximum required characters are 72"}</Text>
+                                <Text color="red" m="5px">{errors.motive?.type === 'required' && t("Description is Required")}</Text>
+                                <Text color="red" m="5px">{errors.motive?.type === 'minLength' && t("Minimum required characters are 15")}</Text>
+                                <Text color="red" m="5px">{errors.motive?.type === 'maxLength' && t("Maximum required characters are 72")}</Text>
                             </FormControl>
                             <FormControl isRequired mt="1em">
-                                <FormLabel color="black">Description</FormLabel>
+                                <FormLabel color="black">{t("Description")}</FormLabel>
                                 <Textarea
-                                    placeholder={`Description is required, minimum ${MIN_DESCRIPTION_LENGTH} characters and maximum ${MAX_DESCRIPTION_LENGTH} characters`}
+                                    placeholder={t("Description is required, minimum 30 characters and maximum 800 characters")}
                                     _placeholder={{ color: 'gray.400' }}
                                     color="gray.700"
                                     bg="white"
@@ -125,9 +125,9 @@ const ButtonNewReportQA = ({ reference, type, userId, owner, token }) => {
                                     isRequired
                                 />
                                 <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
-                                <Text color="red" m="5px">{errors.description?.type === 'required' && "Description is Required"}</Text>
-                                <Text color="red" m="5px">{errors.description?.type === 'minLength' && "Minimum required characters are 30"}</Text>
-                                <Text color="red" m="5px">{errors.description?.type === 'maxLength' && "Maximum required characters are 400"}</Text>
+                                <Text color="red" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
+                                <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 30")}</Text>
+                                <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 400")}</Text>
                             </FormControl>
                         </ModalBody>
 
@@ -144,9 +144,9 @@ const ButtonNewReportQA = ({ reference, type, userId, owner, token }) => {
                                 <>
                                     <Button backgroundColor={'#00abd1'}
                                         color={'white'} mr={3} type="submit">
-                                        Send
+                                        {t("Send")}
                                     </Button>
-                                    <Button onClick={onClose}>Cancel</Button>
+                                    <Button onClick={onClose}>{t("Cancel")}</Button>
                                 </>
                             )}
 

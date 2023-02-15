@@ -8,7 +8,7 @@ import {
   Text,
   Link
 } from '@chakra-ui/react'
-const MyInfoPohCard = ({ dataProfile, balance }) => {
+const MyInfoPohCard = ({ dataProfile, balance, t }) => {
   if (!dataProfile)
     return (
       <>
@@ -70,7 +70,7 @@ const MyInfoPohCard = ({ dataProfile, balance }) => {
                   <Button bg="#00ABD1" color="white" _hover={{
                     bg: "blue.300"
                   }}>
-                    My PoH Profile
+                    {t("My PoH Profile")}
                   </Button>
                 </Link>
               )}

@@ -3,7 +3,7 @@ import { Input, InputGroup, InputLeftElement, InputRightElement } from '@chakra-
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-const SearchBar = () => {
+const SearchBar = ({t}) => {
   const router = useRouter()
   const [query, setQuery] = useState("");
 
@@ -58,7 +58,7 @@ const SearchBar = () => {
           backgroundColor={'white'}
           focusBorderColor={'transparent'}
           size="md"
-          placeholder={`Search in Yubiai`}
+          placeholder= {t(`Search in Yubiai`)}
           _placeholder={{ color: 'gray.400' }}
           onChange={(e) => onSearch(e.target.value)}
           value={query}

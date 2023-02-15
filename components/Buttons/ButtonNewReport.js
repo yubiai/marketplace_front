@@ -22,7 +22,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { reportService } from "../../services/reportService";
 
-const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
+const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { handleSubmit, register, formState: { errors }, reset } = useForm()
     const [loading, setLoading] = useState(false);
@@ -53,8 +53,8 @@ const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
             reset();
             setLoading(false);
             toast({
-                title: 'Report',
-                description: 'Report was completed successfully.',
+                title: t("Report "),
+                description: t("Report was completed successfully"),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
@@ -66,8 +66,8 @@ const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
         } catch (err) {
             console.error(err);
             toast({
-                title: 'Report',
-                description: 'Report could not be sent.',
+                title: t('Report'),
+                description: t('Report could not be sent.'),
                 position: 'top-right',
                 status: 'warning',
                 duration: 3000,
@@ -83,7 +83,7 @@ const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
         <>
             {userId && token && !owner && !loading ? (
                 <Box>
-                    <Tooltip label="Report" aria-label='Report' placement='top' bg={"#00abd1"} color={"white"}>
+                    <Tooltip label={t("Report")} aria-label='Report' placement='top' bg={"#00abd1"} color={"white"}>
                         <Button
                             mb="1em"
                             backgroundColor={'red.400'}
@@ -105,14 +105,14 @@ const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
                 <ModalOverlay />
                 <ModalContent>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <ModalHeader>Report Post</ModalHeader>
+                        <ModalHeader>{t("Report Post")}</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody pb={6}>
                             <FormControl isRequired mt="1em">
-                                <FormLabel color="black">Motive</FormLabel>
+                                <FormLabel color="black">{t("Motive")}</FormLabel>
 
                                 <Input
-                                    placeholder={`Motive is required, minimum ${MIN_MOTIVE_LENGTH} characters and maximum ${MAX_MOTIVE_LENGTH} characters.`}
+                                    placeholder={t("Motive is required, minimum 15 characters and maximum 72 characters")}
                                     _placeholder={{ color: 'gray.400' }}
                                     color="gray.700"
                                     bg="white"
@@ -130,9 +130,9 @@ const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
                                 <Text color="red" m="5px">{errors.motive?.type === 'maxLength' && "Maximum required characters are " + MAX_MOTIVE_LENGTH}</Text>
                             </FormControl>
                             <FormControl isRequired mt="1em">
-                                <FormLabel color="black">Description</FormLabel>
+                                <FormLabel color="black">{t("Description")}</FormLabel>
                                 <Textarea
-                                    placeholder={`Description is required, minimum ${MIN_DESCRIPTION_LENGTH} characters and maximum ${MAX_DESCRIPTION_LENGTH} characters`}
+                                    placeholder={t("Description is required, minimum 30 characters and maximum 800 characters")}
                                     _placeholder={{ color: 'gray.400' }}
                                     color="gray.700"
                                     bg="white"
@@ -145,9 +145,9 @@ const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
                                     isRequired
                                 />
                                 <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
-                                <Text color="red" m="5px">{errors.description?.type === 'required' && "Description is Required"}</Text>
-                                <Text color="red" m="5px">{errors.description?.type === 'minLength' && "Minimum required characters are " + MIN_DESCRIPTION_LENGTH}</Text>
-                                <Text color="red" m="5px">{errors.description?.type === 'maxLength' && "Maximum required characters are " + MAX_DESCRIPTION_LENGTH}</Text>
+                                <Text color="red" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
+                                <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 30")}</Text>
+                                <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 400")}</Text>
                             </FormControl>
                         </ModalBody>
 
@@ -164,9 +164,9 @@ const ButtonNewReport = ({ reference, type, userId, owner, token }) => {
                                 <>
                                     <Button backgroundColor={'#00abd1'}
                                         color={'white'} mr={3} type="submit">
-                                        Send
+                                        {t("Send")}
                                     </Button>
-                                    <Button onClick={onClose}>Cancel</Button>
+                                    <Button onClick={onClose}>{t("Cancel")}</Button>
                                 </>
                             )}
 

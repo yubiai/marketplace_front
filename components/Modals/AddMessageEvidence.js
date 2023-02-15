@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import ViewMsgFile from "../Cards/ViewMsgFile";
 import ViewMsgText from "../Cards/ViewMsgText";
 
-const AddMessageEvidence = ({ channelDetail, selectedMsg, setSelectedMsg }) => {
+const AddMessageEvidence = ({ channelDetail, selectedMsg, setSelectedMsg, t }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     // State useForm
@@ -57,7 +57,7 @@ const AddMessageEvidence = ({ channelDetail, selectedMsg, setSelectedMsg }) => {
             }} onClick={() => {
                 onOpen()
             }} bg="green.400" color="white">
-                <ChatIcon w={6} h={6} m="4px" /> Add Messages*
+                <ChatIcon w={6} h={6} m="4px" /> {t("Add Messages*")}
             </Button>
 
             {selectedMsg && selectedMsg.length > 0 && selectedMsg.map((msg, i) => {
@@ -84,7 +84,7 @@ const AddMessageEvidence = ({ channelDetail, selectedMsg, setSelectedMsg }) => {
                 <form>
 
                     <ModalContent>
-                        <ModalHeader>Messages</ModalHeader>
+                        <ModalHeader>{t("Messages")}</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody pb={6}>
                             <CheckboxGroup onChange={handleChange} colorScheme='green'>
@@ -120,9 +120,9 @@ const AddMessageEvidence = ({ channelDetail, selectedMsg, setSelectedMsg }) => {
                             <Button colorScheme='blue' mr={3} _hover={{
                                 bg: "gray.400"
                             }} onClick={onClose}>
-                                Save
+                                {t("Save")}
                             </Button>
-                            <Button onClick={onClose}>Cancel</Button>
+                            <Button onClick={onClose}>{t("Cancel")}</Button>
                         </ModalFooter>
                     </ModalContent>
                 </form>

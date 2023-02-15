@@ -12,10 +12,12 @@ import {
 import { useState } from "react";
 import { useDispatchGlobal, useGlobal } from "../../providers/globalProvider";
 import { notiService } from "../../services/notiService";
+import useTranslation from 'next-translate/useTranslation';
 
 const ButtonMarkAllAsRead = ({ onClosePopover, mutate }) => {
     const global = useGlobal();
     const dispatch = useDispatchGlobal()
+    const { t } = useTranslation("notifications");
     const [loading, SetLoading] = useState(false);
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -58,16 +60,16 @@ const ButtonMarkAllAsRead = ({ onClosePopover, mutate }) => {
                 mr={'2em'}
                 rounded={'full'}
                 cursor={'pointer'} onClick={() => { onOpen() }}
-            >Mark all as read</Button>
+            >{t("Mark all as read")}</Button>
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size={"md"}>
                 <OverlayOne />
 
                 <ModalContent bg="white" color="black">
 
-                    <ModalHeader>Mark all notifications as read</ModalHeader>
+                    <ModalHeader>{t("Mark all notifications as read")}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody pb={6}>
-                        Are you sure you want to mark all your notifications as read?
+                        {t("Are you sure you want to mark all your notifications as read?")}
                     </ModalBody>
 
                     {loading ? (<Spinner
@@ -79,9 +81,9 @@ const ButtonMarkAllAsRead = ({ onClosePopover, mutate }) => {
                     />) : (
                         <>
                             <ModalFooter>
-                                <Button onClick={() => onClose()} mr="1em">Cancel</Button>
+                                <Button onClick={() => onClose()} mr="1em">{t("Cancel")}</Button>
                                 <Button colorScheme='blue' mr={3} onClick={() => markAllRead()}>
-                                    Accept
+                                    {t("Accept")}
                                 </Button>
                             </ModalFooter>
                         </>

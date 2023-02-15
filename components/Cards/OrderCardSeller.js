@@ -4,10 +4,12 @@ import moment from 'moment'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { StatusOrderByStateShort } from '../Infos/StatusOrder';
+import useTranslation from 'next-translate/useTranslation';
 
 const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
   const router = useRouter();
   const [deal, setDeal] = useState(null);
+  const { t } = useTranslation("orders");
   useEffect(() => {
     const setDealInfo = async _order => {
       const fullStatus = await yubiaiPaymentInstance.getFullStatusOfDeal(_order.transaction.transactionIndex);
@@ -34,14 +36,15 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
               deal.dealStatus,
               deal.claimStatus,
               deal.claimCount,
-              deal.disputeId
+              deal.disputeId,
+              t
             )}
           </>
         )}
 
         {order?.status == "ORDER_CREATED" && order?.orderCompletedBySeller && (<>
           <Box bg="orange.400" rounded={"5px"}>
-            <Text color="white" fontStyle="italic" pl="15px" pr="15px">Work has been notified as completed</Text>
+            <Text color="white" fontStyle="italic" pl="15px" pr="15px">{t("Work has been notified as completed")}</Text>
           </Box>
         </>)
         }
@@ -50,7 +53,7 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
           order?.status == "ORDER_REFUNDED" && (
             <>
               <Box bg="red.700" rounded={"5px"}>
-                <Text color="white" fontStyle="italic" pl="15px" pr="15px">Order Refunded</Text>
+                <Text color="white" fontStyle="italic" pl="15px" pr="15px">{t("Order Refunded")}</Text>
               </Box>
             </>
           )
@@ -95,7 +98,7 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
                 router.push('/profile/orders/as-seller/' + order?.transactionHash)
               }
             >
-              View Order
+              {t("View Order")}
             </Button>
           </Box>
         </Center>

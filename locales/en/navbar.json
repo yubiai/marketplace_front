@@ -1,0 +1,18 @@
+{
+    "Connect": "Connect",
+    "Categories": "Categories",
+    "Services": "Services",
+    "Sell": "Sell",
+    "Favourites": "Favourites" ,
+    "Help": "Help",
+    "Search in Yubiai": "Search in Yubiai",
+    "Profile": "Profile",
+    "Welcome, you are successfully logged in": "Welcome, you are successfully logged in.",
+    "Now you are able to start buying & selling on Yubiai" : "Now you are able to start buying & selling on Yubiai.",
+    "Failed to login.": "Failed to login.", 
+    "Wrong network, please change your network on metamask.": "Wrong network, please change your network on metamask.",
+    "User denied message signature.": "User denied message signature.",
+    "Failed": "Failed",
+    "To connect it is necessary to be registered in Proof of Humanity and have your status as registered.": "To connect it is necessary to be registered in Proof of Humanity and have your status as registered.",
+    "Connect with your wallet and start earning crypto or hiring with your cryptos": "Connect with your wallet and start earning crypto or hiring with your cryptos"
+  }

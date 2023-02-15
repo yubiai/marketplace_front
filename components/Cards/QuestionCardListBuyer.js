@@ -7,7 +7,9 @@ import ButtonNewQuestion from '../Buttons/ButtonNewQuestion';
 import ButtonNewReportQA from '../Buttons/ButtonNewReportQA';
 import questionUtils from '../../utils/questionUtils';
 
-const QuestionCardListBuyer = ({ question, profile_id, token }) => {
+
+const QuestionCardListBuyer = ({ question, profile_id, token, t }) => {
+    
 
     return (
         <>
@@ -54,7 +56,7 @@ const QuestionCardListBuyer = ({ question, profile_id, token }) => {
                 <Divider />
                 <Text fontWeight="medium">{question.question}</Text>
                 <Divider />
-                <ButtonNewQuestion question={question} token={token} />
+                <ButtonNewQuestion question={question} token={token} t={t}/>
                 {question.answer && (
                     <>
                         <Divider />
@@ -65,7 +67,7 @@ const QuestionCardListBuyer = ({ question, profile_id, token }) => {
                             <Text ml="1em" fontSize={{ base: 'sm' }} maxW={'90%'} noOfLines={3}>
                                 {question.answer} - {moment(question.dateanswer).format('DD/MM/YY')}
                             </Text>
-                            <ButtonNewReportQA reference={question._id} type={"Answer"} userId={profile_id} owner={false} token={token} />
+                            <ButtonNewReportQA reference={question._id} type={"Answer"} userId={profile_id} owner={false} token={token} t={t}/>
                         </Flex>
                     </>
                 )}

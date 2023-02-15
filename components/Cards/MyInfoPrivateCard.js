@@ -1,7 +1,7 @@
 import { Box, Button, Center, Divider, Stack, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
-const MyInfoPrivateCard = ({ dataProfile }) => {
+const MyInfoPrivateCard = ({ dataProfile, t }) => {
   if (!dataProfile) return <>No Data</>
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter()
@@ -29,33 +29,33 @@ const MyInfoPrivateCard = ({ dataProfile }) => {
           >
             <Divider />
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              <b>Real Name:</b>{' '}
+              <b>{t("Real Name")}</b>{' '}
               {dataProfile && dataProfile.realname
                 ? dataProfile.realname
                 : 'Empty'}
             </Text>
             <Divider />
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              <b>Shipping address:</b> {dataProfile.address} - {dataProfile.city} -{' '}
+              <b>{t("Shipping address")}</b> {dataProfile.address} - {dataProfile.city} -{' '}
               {dataProfile.country}
             </Text>
             <Divider />
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              <b>Telephone:</b>{' '}
+              <b>{t("Telephone")}</b> {' '}
               {dataProfile && dataProfile.telephone
                 ? dataProfile.telephone
                 : 'Empty'}
             </Text>
             <Divider />
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              <b>Email:</b>{' '}
+              <b>{t("Email")}</b> {' '}
               {dataProfile && dataProfile.email ? dataProfile.email : 'Empty'}
             </Text>
             <Divider />
             <Box textAlign={"center"}>
               <Button bg="#00ABD1" color="white" w="10em" _hover={{
                 bg: "blue.300"
-              }} onClick={() => router.push("/profile/edit")}>Edit Profile</Button>
+              }} onClick={() => router.push("/profile/edit")}>{t("Edit Profile")}</Button>
             </Box>
           </Stack>
         </Stack>

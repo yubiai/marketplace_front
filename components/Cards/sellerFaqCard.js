@@ -1,6 +1,8 @@
 import { Box, Center, Heading, Text } from "@chakra-ui/react";
+import useTranslation from 'next-translate/useTranslation';
 
 const SellerFaqCard = () => {
+  const { t } = useTranslation("faq");
   return (
     <Box
       width={{ base: "100%", md: "50%" }}
@@ -14,26 +16,20 @@ const SellerFaqCard = () => {
     >
       <Center>
         <Heading fontSize={"3xl"}>
-          <Text as="u">Seller</Text>
+          <Text as="u">{t("Seller")}</Text>
         </Heading>
       </Center>
       <Heading fontSize={"2xl"} mt="1em">
-        <Text>How do I start selling?</Text>
+        <Text>{t("How do I start selling?")}</Text>
       </Heading>
       <Text>
-        Start by clicking on “Connect” on the top right corner then below the
-        search bar on the middle of the navigation area(top middle)click on
-        “Sell” and follow through the steps from Category to Product Images then
-        after filling each field click on “Preview & Submit for review” verify
-        that all is correct and click on `Submit for review`
+        {t("Start by clicking on “Connect” on the top right corner then below the search bar on the middle of the navigation area(top middle)click on “Sell” and follow through the steps from Category to Product Images then after filling each field click on “Preview & Submit for review” verify that all is correct and click on `Submit for review`")}
       </Text>
       <Heading fontSize={"2xl"} mt="1em">
-        <Text>What is `UBI Burning Amount`?</Text>
+        <Text>{t("What is `UBI Burning Amount`?")}</Text>
       </Heading>
       <Text>
-        UBI Burning Amount lets you choose on a dinamyc and optional way how
-        much % will be deducted and sent from the total price of the item you
-        are selling to the UBI Burner to increase the value of $UBI.
+        {t("UBI Burning Amount lets you choose on a dinamyc and optional way how much % will be deducted and sent from the total price of the item you are selling to the UBI Burner to increase the value of $UBI")}
       </Text>
     </Box>
   );

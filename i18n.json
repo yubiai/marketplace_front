@@ -1,0 +1,17 @@
+{
+    "locales": ["en", "es"],
+    "defaultLocale": "en",
+    "pages": {
+      "*": ["navbar", "home", "profilemenu", "drawermenu","notifications","categories","footer", "help","questions","edititem", "orders", "evidence"],
+      "/": ["home"],
+      "/help": ["faq"],
+      "/category/services": ["categories"],
+      "/listing/new": ["newlisting"],
+      "/profile/edit": ["profedit"],
+      "/profile": ["profilepage"],
+      "/profile/listings": ["listing"],
+      "/profile/orders": ["orders"],
+      "/checkout": ["checkout"],
+      "/profile/evidences/new": ["evidence"]
+    }
+}

@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { itemService } from '../../services/itemService'
 
-const TitleItemEdit = ({ item, token, mutate }) => {
+const TitleItemEdit = ({ item, token, mutate, t }) => {
     const toast = useToast();
     const { handleSubmit, register, formState: { errors }, reset } = useForm();
 
@@ -59,8 +59,8 @@ const TitleItemEdit = ({ item, token, mutate }) => {
             mutate();
 
             toast({
-                title: 'Edit Item',
-                description: 'Data Saved successfully.',
+                title: t("Edit Item"),
+                description: t("Data Saved successfully."),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
@@ -79,7 +79,7 @@ const TitleItemEdit = ({ item, token, mutate }) => {
     return (
         <>
             <Flex p="5px">
-                <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>Title</Text>
+                <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>{t("Title")}</Text>
                 {isEditing ? (
                     <ButtonGroup m="5px" justifyContent='center' size='sm'>
                         <IconButton icon={<CloseIcon />} onClick={() => closeEdit()} />
@@ -106,26 +106,26 @@ const TitleItemEdit = ({ item, token, mutate }) => {
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <FormControl isRequired >
                                 <Input
-                                    placeholder="Title is required, minimum 15 characters and maximum 72 characters."
+                                    placeholder={t("Title is required, minimum 15 characters and maximum 72 characters.")}
                                     _placeholder={{ color: 'gray.400' }}
                                     color="gray.700"
                                     bg="white"
                                     {...register('title', {
                                         required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, pattern: {
                                             value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                                            message: "Only numbers are not allowed"
+                                            message: t("Only numbers are not allowed")
                                         }, onChange: (e) => { setCountTitle(e.target.value.length) }
                                     })}
                                     isRequired
                                 />
-                                <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
+                                <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
                                 <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
-                                <Text color="red" m="5px">{errors.title?.type === 'required' && "Title is required"}</Text>
-                                <Text color="red" m="5px">{errors.title?.type === 'minLength' && "Minimum required characters are 15"}</Text>
-                                <Text color="red" m="5px">{errors.title?.type === 'maxLength' && "Maximum required characters are 72"}</Text>
+                                <Text color="red" m="5px">{errors.title?.type === 'required' && t("Title is required")}</Text>
+                                <Text color="red" m="5px">{errors.title?.type === 'minLength' && t("Minimum required characters are 15")}</Text>
+                                <Text color="red" m="5px">{errors.title?.type === 'maxLength' && t("Maximum required characters are 72")}</Text>
                             </FormControl>
                             <Button bg="#00abd1" color="white" type="submit">
-                                Save
+                                {t("Save")}
                             </Button>
                         </form>
                     )}

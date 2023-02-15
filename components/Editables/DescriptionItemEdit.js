@@ -15,7 +15,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { itemService } from '../../services/itemService'
 
-const DescriptionItemEdit = ({ item, token, mutate }) => {
+const DescriptionItemEdit = ({ item, token, mutate, t }) => {
     const toast = useToast();
     const { handleSubmit, register, formState: { errors }, reset } = useForm();
 
@@ -58,8 +58,8 @@ const DescriptionItemEdit = ({ item, token, mutate }) => {
             mutate();
 
             toast({
-                title: 'Edit Item',
-                description: 'Data Saved successfully.',
+                title: t("Edit Item"),
+                description: t("Data Saved successfully."),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
@@ -78,7 +78,7 @@ const DescriptionItemEdit = ({ item, token, mutate }) => {
     return (
         <>
             <Flex p="5px">
-                <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>Description</Text>
+                <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>{t("Description")}</Text>
                 {isEditing ? (
                     <ButtonGroup m="5px" justifyContent='center' size='sm'>
                         <IconButton icon={<CloseIcon />} onClick={() => closeEdit()} />
@@ -106,27 +106,27 @@ const DescriptionItemEdit = ({ item, token, mutate }) => {
 
                             <FormControl isRequired>
                                 <Textarea
-                                    placeholder="Description is required, minimum 100 characters and maximum 800 characters"
+                                    placeholder={t("Description is required, minimum 100 characters and maximum 800 characters")}
                                     _placeholder={{ color: 'gray.400' }}
                                     color="gray.700"
                                     bg="white"
                                     {...register('description', {
                                         required: true, maxLength: MAX_DESCRIPTION_LENGTH, minLength: MIN_DESCRIPTION_LENGTH, pattern: {
                                             value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                                            message: "Only numbers are not allowed"
+                                            message: t("Only numbers are not allowed")
                                         }, onChange: (e) => { setCountDescription(e.target.value.length) }
                                     })}
                                     isRequired
                                 />
-                                <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
+                                <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
                                 <Text color="red" m="5px">{errors.description?.type === 'pattern' && errors.description?.message}</Text>
-                                <Text color="red" m="5px">{errors.description?.type === 'required' && "Description is Required"}</Text>
-                                <Text color="red" m="5px">{errors.description?.type === 'minLength' && "Minimum required characters are 100"}</Text>
-                                <Text color="red" m="5px">{errors.description?.type === 'maxLength' && "Maximum required characters are 800"}</Text>
+                                <Text color="red" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
+                                <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 100")}</Text>
+                                <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 800")}</Text>
                             </FormControl>
 
                             <Button bg="#00abd1" color="white" type="submit">
-                                Save
+                                {t("Save")}
                             </Button>
                         </form>
                     )}

@@ -7,7 +7,9 @@ import ButtonNewAnswer from '../Buttons/ButtonNewAnswer';
 import ButtonNewReportQA from '../Buttons/ButtonNewReportQA';
 import questionUtils from '../../utils/questionUtils';
 
-const QuestionCardListSeller = ({ question, profile_id, token }) => {
+
+const QuestionCardListSeller = ({ question, profile_id, token, t}) => {
+    
 
     return (
         <>
@@ -15,7 +17,7 @@ const QuestionCardListSeller = ({ question, profile_id, token }) => {
                 <Flex fontWeight={"semibold"} _hover={{
                     color: "blue.300"
                 }}>
-                    <Text mr="5px">Item:</Text>
+                    <Text mr="5px">{t("Item")}</Text>
                     <Link href={`/item/${question.itemId.slug}`}>{question.itemId.title}</Link>
                     <Spacer />
                     {question.status === 2 && (
@@ -34,7 +36,7 @@ const QuestionCardListSeller = ({ question, profile_id, token }) => {
                 <Divider />
                 <Flex>
                     <Text fontWeight="medium" noOfLines={3}>{question.question}</Text>
-                    <ButtonNewReportQA reference={question._id} type={"Question"} userId={profile_id} owner={false} token={token} />
+                    <ButtonNewReportQA reference={question._id} type={"Question"} userId={profile_id} owner={false} token={token} t={t}/>
                 </Flex>
                 <Divider />
                 {question.answer ? (
@@ -51,7 +53,7 @@ const QuestionCardListSeller = ({ question, profile_id, token }) => {
                     </>
                 ) : (
                     <>
-                        <ButtonNewAnswer question={question} token={token} />
+                        <ButtonNewAnswer question={question} token={token} t={t}/>
                     </>
                 )}
             </Stack>

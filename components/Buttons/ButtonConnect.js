@@ -12,12 +12,15 @@ import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import { useEffect } from 'react';
 import { connectWallet, signInWithEthereum, verifyNetwork } from '../../utils/connectWeb3';
 
+import useTranslation from 'next-translate/useTranslation';
+
 let loading = false;
 
 const ButtonConnect = () => {
   const toast = useToast();
   const dispatch = useDispatchGlobal();
   const global = useGlobal();
+  const { t } = useTranslation("navbar");
   const { isOpen, onToggle, onClose } = useDisclosure()
 
   const { setIsOpen } = useTour();
@@ -36,8 +39,8 @@ const ButtonConnect = () => {
     Cookies.set('Yubiai', token, { expires: 1, secure: true })
     localStorage.setItem('Yubiai', JSON.stringify(yubiaiLS))
     toast({
-      title: 'Welcome, you are successfully logged in.',
-      description: 'Now you are able to start buying & selling on Yubiai.',
+      title: t('Welcome, you are successfully logged in'),
+      description: t('Now you are able to start buying & selling on Yubiai'),
       position: 'top-right',
       status: 'success',
       duration: 2000,
@@ -67,8 +70,8 @@ const ButtonConnect = () => {
     if (!confirmNetwork) {
       console.error("Error the network");
       toast({
-        title: 'Failed to login.',
-        description: 'Failed network, please change your network on metamask',
+        title: t('Failed to login.'),
+        description: t('Wrong network, please change your network on metamask.'),
         position: 'top-right',
         status: 'warning',
         duration: 5000,
@@ -83,8 +86,8 @@ const ButtonConnect = () => {
 
     if (!resultSignIn && !resultSignIn.signature) {
       toast({
-        title: 'Failed to login.',
-        description: 'User denied message signature.',
+        title: t('Failed to login.'),
+        description: t('User denied message signature.'),
         position: 'top-right',
         status: 'warning',
         duration: 5000,
@@ -101,8 +104,8 @@ const ButtonConnect = () => {
       .catch((err) => {
         console.error(err, "error")
         toast({
-          title: 'Failed to login.',
-          description: 'User denied message signature.',
+          title: t('Failed to login.'),
+          description: t('User denied message signature.'),
           position: 'top-right',
           status: 'warning',
           duration: 5000,
@@ -118,8 +121,8 @@ const ButtonConnect = () => {
         if (err && err.response && err.response.data && err.response.data.error) {
           console.error(err)
           toast({
-            title: 'Failed to login.',
-            description: err.response.data && err.response.data.error ? err.response.data.error : "Failed",
+            title: t('Failed to login.'),
+            description: err.response.data && err.response.data.error ? err.response.data.error : t("Failed"),
             position: 'top-right',
             status: 'warning',
             duration: 5000,
@@ -127,7 +130,7 @@ const ButtonConnect = () => {
           })
           dispatch({
             type: 'AUTHERROR',
-            payload: 'To connect it is necessary to be registered in Proof of Humanity and have your status as registered.'
+            payload: t('To connect it is necessary to be registered in Proof of Humanity and have your status as registered.')
           });
           loading = false;
           return
@@ -204,7 +207,7 @@ const ButtonConnect = () => {
               onClick={() => onConnect()}
               isDisabled={loading || global.profile && global.profile.eth_address}
             >
-              Connect
+              {t("Connect")}
             </Button>
 
           </PopoverTrigger>
@@ -212,7 +215,7 @@ const ButtonConnect = () => {
             <PopoverArrow />
             <PopoverCloseButton ml="1.5em" />
             <PopoverBody>
-              Connect with your wallet and start earning crypto or hiring with your cryptos
+              {t("Connect with your wallet and start earning crypto or hiring with your cryptos")}
             </PopoverBody>
           </PopoverContent>
         </Popover>

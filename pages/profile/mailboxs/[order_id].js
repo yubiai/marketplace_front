@@ -22,20 +22,21 @@ import useUser from '../../../hooks/data/useUser'
 import Error from '../../../components/Infos/Error'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
+import useTranslation from 'next-translate/useTranslation';
 
 const MailBoxs = () => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
   const router = useRouter()
   const { order_id } = router.query
-
+  
   const [messages, setMessages] = useState([])
   const [inputMessage, setInputMessage] = useState('')
   const [previewFiles, setPreviewFiles] = useState([]);
 
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   //const [deal, setDeal] = useState(null);
-
+  const { t } = useTranslation("orders");
   const { user, loggedOut } = useUser()
 
   // if logged in, redirect to the home
@@ -175,7 +176,7 @@ const MailBoxs = () => {
                 textDecoration: "underline"
               }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                 textDecoration: "underline"
-              }}>Home</Text></Link>
+              }}>{t("Home")}</Text></Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
@@ -183,7 +184,7 @@ const MailBoxs = () => {
                 textDecoration: "underline"
               }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                 textDecoration: "underline"
-              }}>Profile</Text></Link>
+              }}>{t("Profile")}</Text></Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
@@ -192,7 +193,7 @@ const MailBoxs = () => {
                       global.profile._id !== channel.buyer._id ? "/profile/orders/sales/" : "/profile/orders/"} cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
                 <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{global &&
                       global.profile &&
-                      global.profile._id !== channel.buyer._id ? "Sales" : "Orders"}</Text>
+                      global.profile._id !== channel.buyer._id ? t("Sales") : t("Orders")}</Text>
               </Link>
             </BreadcrumbItem>
 
@@ -200,12 +201,12 @@ const MailBoxs = () => {
               <Link href={global &&
                       global.profile &&
                       global.profile._id !== channel.buyer._id ? `/profile/orders/as-seller/${channel.order_id.transactionHash}` : `/profile/orders/detail/${channel.order_id.transactionHash}`} cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Detail</Text>
+                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{t("Detail")}</Text>
               </Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem isCurrentPage>
-              <Text>Mailbox the order # {channel.order_id._id}</Text>
+              <Text>{t("Mailbox of the order #")} {channel.order_id._id}</Text>
             </BreadcrumbItem>
           </Breadcrumb>
           <Flex w="100%" h="700px" justify="center" align="center" bg="white" mt="1em">
@@ -221,8 +222,8 @@ const MailBoxs = () => {
                   }
                   type={
                     global && global.profile._id !== channel.buyer._id
-                      ? 'Buyer'
-                      : 'Seller'
+                      ? t('Buyer ')
+                      : t('Seller ')
                   }
                 />
               )}
@@ -253,12 +254,12 @@ const MailBoxs = () => {
                   previewFiles={previewFiles}
                   setPreviewFiles={setPreviewFiles}
                   handleSendMessage={handleSendMessage}
-                  loadingSubmit={loadingSubmit}
+                  loadingSubmit={loadingSubmit} t={t}
                 />
               </Flex>
             </Flex>
           </Flex>
-          <Text fontStyle={"italic"} color="red" mt="1em" >Please be careful of the sensitive information you share. Yubiai is not responsible for the information shared to third parties.</Text>
+          <Text fontStyle={"italic"} color="red" mt="1em" >{t("Sensitive")}</Text>
         </Box>
 {/*         <Box w={{ base: 'full', lg: '30%' }} p="1em">
 

@@ -6,7 +6,7 @@ import { FaWindowClose } from "react-icons/fa";
 import { questionService } from "../../services/questionService";
 
 
-const ButtonNewAnswer = ({ question, token }) => {
+const ButtonNewAnswer = ({ question, token, t }) => {
     const { handleSubmit, register, formState: { errors }, reset } = useForm();
     const [loading, setLoading] = useState(false);
     const toast = useToast();
@@ -25,8 +25,8 @@ const ButtonNewAnswer = ({ question, token }) => {
             await questionService.newAnswer(question._id, newAnswer, token);
             reset();
             toast({
-                title: 'Answer',
-                description: 'Answer was completed successfully.',
+                title: t("Answer"),
+                description: t("The response was successfully sent"),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
@@ -37,8 +37,8 @@ const ButtonNewAnswer = ({ question, token }) => {
         } catch (err) {
             console.error(err);
             toast({
-                title: 'Question',
-                description: 'Error creating question.',
+                title: t("Question"),
+                description: t("Error in response."),
                 position: 'top-right',
                 status: 'warning',
                 duration: 3000,
@@ -56,7 +56,7 @@ const ButtonNewAnswer = ({ question, token }) => {
                     <Button onClick={() => setActiveNewAnswer(true)} backgroundColor={'#00abd1'}
                         color={'white'}
                         rounded={'full'}>
-                        Answer the question
+                        {t("Answer the question")}
                     </Button>
                 </Box>
             )}
@@ -76,7 +76,7 @@ const ButtonNewAnswer = ({ question, token }) => {
 
                             <FormControl isRequired>
                                 <Flex>
-                                    <FormLabel mt="5px" color="black">Answer the question</FormLabel>
+                                    <FormLabel mt="5px" color="black">{t("Answer the question")}</FormLabel>
                                     <Button onClick={() => setActiveNewAnswer(false) } bg="blue.400" color="white" size={"sm"} fontSize={"md"} float={"left"} _hover={{
                                         bg: "blue.100"
                                     }}>
@@ -86,7 +86,7 @@ const ButtonNewAnswer = ({ question, token }) => {
 
                                 <Flex>
                                     <Textarea
-                                        placeholder="Write your answer..."
+                                        placeholder={t("Write your answer")}
                                         _placeholder={{ color: 'gray.400' }}
                                         width={"80%"}
                                         color="gray.700"
@@ -101,13 +101,13 @@ const ButtonNewAnswer = ({ question, token }) => {
                                         color="blue.500"
                                         size="md"
                                     />) : (<Button ml="1em" width={"20%"} height={"50px"} fontSize={"1em"} bg="#00abd1" color="white" type="submit">
-                                        Answer
+                                        {t("Answer")}
                                     </Button>)}
 
                                 </Flex>
-                                <Text color="red" m="5px">{errors.answer?.type === 'required' && "Description is Required"}</Text>
-                                <Text color="red" m="5px">{errors.answer?.type === 'minLength' && "Minimum required characters are 50"}</Text>
-                                <Text color="red" m="5px">{errors.answer?.type === 'maxLength' && "Maximum required characters are 400"}</Text>
+                                <Text color="red" m="5px">{errors.answer?.type === 'required' && t("Description is Required")}</Text>
+                                <Text color="red" m="5px">{errors.answer?.type === 'minLength' && t("Minimum required characters are 50")}</Text>
+                                <Text color="red" m="5px">{errors.answer?.type === 'maxLength' && t("Maximum required characters are 400")}</Text>
                             </FormControl>
                         </Box>
                     </form>

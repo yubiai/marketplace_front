@@ -24,10 +24,12 @@ import NotiCard from '../Cards/NotiCard'
 import useFetch from '../../hooks/data/useFetch'
 import ButtonMarkAllAsRead from '../Buttons/ButtonMarkAllAsRead'
 import { useRouter } from 'next/router'
+import useTranslation from 'next-translate/useTranslation';
 
 const Notification = () => {
   const global = useGlobal();
   const initRef = useRef();
+  const { t } = useTranslation("notifications");
   const router = useRouter();
 
   const { data: notis, isLoading, isError, mutate } = useFetch(
@@ -43,7 +45,7 @@ const Notification = () => {
     }
     initial();
   }, [global.notificationsActive])
-
+  
   if (isLoading || isError) return (
     <Spinner
       thickness="4px"
@@ -53,10 +55,10 @@ const Notification = () => {
       size="md"
     />
   );
-
+  console.log(global.profile, "global")  
   if (global && global.profile) {
     return (
-      <>
+      <> 
         <Popover closeOnBlur={true} placement='bottom' initialFocusRef={initRef}>
           {({ onClose }) => {
             if (!notis.notifications) {
@@ -88,7 +90,7 @@ const Notification = () => {
                 <Portal>
                   <PopoverContent>
                     <PopoverHeader fontWeight={"semibold"}>
-                      Notifications
+                    {t("Notifications")}
                       <ButtonMarkAllAsRead onClosePopover={onClose} mutate={mutate} />
                       <PopoverCloseButton />
                     </PopoverHeader>
@@ -102,6 +104,7 @@ const Notification = () => {
                               item={item}
                               onClose={onClose}
                               mutate={mutate}
+                              t={t}
                             />
                           )
                         })}
@@ -113,7 +116,7 @@ const Notification = () => {
                           color: "blue.400"
                         }}>
                           <Link href="/profile/notifications">
-                            View All
+                            {t("View All")}
                           </Link>
 
                         </Text>

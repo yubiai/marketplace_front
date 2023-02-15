@@ -12,12 +12,13 @@ import { profileService } from '../../../services/profileService'
 import useUser from '../../../hooks/data/useUser'
 import Link from 'next/link'
 import { ChevronRightIcon } from '@chakra-ui/icons'
+import useTranslation from 'next-translate/useTranslation';
 
 const ProfileEdit = () => {
   const global = useGlobal()
   const router = useRouter()
   const toast = useToast()
-
+  const { t } = useTranslation("profedit"); 
   const { user, loggedOut } = useUser()
 
   // if logged in, redirect to the home
@@ -64,13 +65,13 @@ const ProfileEdit = () => {
 
     await profileService
       .updateProfile(global.profile._id, data, global?.profile?.token)
-      .then((res) => {
-        actionToat("Profile", res.data && res.data.message, "success");
+      .then(() => {
+        actionToat(t("Profile"), t("Data saved"), "success");
         router.push("/profile")
       })
       .catch((err) => {
-        console.log(err)
-        actionToat("Profile", err.response && err.response.data && err.response.data.message, "error")
+        console.error(err)
+        actionToat(t("Profile"), t("Data not saved"), "error")
       })
   }
 
@@ -93,7 +94,7 @@ const ProfileEdit = () => {
                 textDecoration: "underline"
               }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                 textDecoration: "underline"
-              }}>Home</Text></Link>
+              }}>{t("Home")}</Text></Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
@@ -101,68 +102,68 @@ const ProfileEdit = () => {
                 textDecoration: "underline"
               }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                 textDecoration: "underline"
-              }}>Profile</Text></Link>
+              }}>{t("Profile")}</Text></Link>
             </BreadcrumbItem>
             <BreadcrumbItem isCurrentPage>
-              <Text>Edit</Text>
+              <Text>{t("Edit")}</Text>
             </BreadcrumbItem>
           </Breadcrumb>
-          <Heading mt="1em">Edit my profile</Heading>
+          <Heading mt="1em">{t("Edit my profile")}</Heading>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Text mt="2em">Real Name</Text>
+            <Text mt="2em">{t("Real Name")}</Text>
             <Input
               color="black"
-              placeholder="Real Name"
+              placeholder={t("Real Name")}
               _placeholder={{ color: 'gray.400' }}
               bg="white"
               {...register('realname', { maxLength: 150 })}
             />
-            <Text mt="2em">Address</Text>
+            <Text mt="2em">{t("Address")}</Text>
             <Input
               color="black"
-              placeholder="Address"
+              placeholder={t("Address")}
               _placeholder={{ color: 'gray.400' }}
               bg="white"
               {...register('address', { maxLength: 150 })}
             />
-            <Text mt="2em">City</Text>
+            <Text mt="2em">{t("City")}</Text>
             <Input
               color="black"
-              placeholder="City"
+              placeholder={t("City")}
               _placeholder={{ color: 'gray.400' }}
               bg="white"
               {...register('city', { maxLength: 150 })}
             />
-            <Text mt="2em">Country</Text>
+            <Text mt="2em">{t("Country")}</Text>
             <Input
               color="black"
-              placeholder="Country"
+              placeholder={t("Country")}
               _placeholder={{ color: 'gray.400' }}
               bg="white"
               {...register('country', { maxLength: 150 })}
             />
-            <Text mt="2em">Telephone</Text>
+            <Text mt="2em">{t("Telephone")}</Text>
             <Input
               color="black"
-              placeholder="Telephone"
+              placeholder={t("Telephone")}
               _placeholder={{ color: 'gray.400' }}
               bg="white"
               {...register('telephone', { maxLength: 150 })}
             />
-            <Text mt="2em">Email</Text>
+            <Text mt="2em">{t("Email")}</Text>
             <Input
               color="black"
-              placeholder="Email"
+              placeholder={t("Email")}
               _placeholder={{ color: 'gray.400' }}
               bg="white"
               {...register('email', { maxLength: 150 })}
             />
             <Box float={'right'} m="2em">
               <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.push('/profile')}>
-                Go Back
+                {t("Go Back")}
               </Button>
               <Button bg="#00abd1" color="white" _hover={{ bg: "blue.300" }} type="submit">
-                Save
+                {t("Save")}
               </Button>
             </Box>
           </form>

@@ -41,11 +41,12 @@ import { balanceUbi1 } from '../../utils/ethereum'
 import { useRouter } from 'next/router'
 import ButtonConnect from '../Buttons/ButtonConnect'
 import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
+import useTranslation from 'next-translate/useTranslation';
 
 const DrawerMenu = () => {
   const global = useGlobal()
   const router = useRouter()
-
+  const { t } = useTranslation("drawermenu");
   const { isOpen, onOpen, onClose } = useDisclosure()
   const btnRef = useRef()
 
@@ -126,7 +127,7 @@ const DrawerMenu = () => {
                     justifyContent={'left'}
                   >
                     <ListIcon as={MdHome} />
-                    Home
+                    {t("Home")}
                   </Button>
                 </Link>
               </ListItem>
@@ -160,7 +161,7 @@ const DrawerMenu = () => {
                   <ListIcon
                     as={listCategory ? MdArrowUpward : MdArrowDownward}
                   />
-                  Categories
+                   {t("Categories")}
                 </Button>
               </ListItem>
               {listCategory && (
@@ -174,7 +175,7 @@ const DrawerMenu = () => {
                         justifyContent={'left'}
                       >
                         <ListIcon as={MdDesignServices} />
-                        Services
+                        {t("Services")}
                       </Button>
                     </Link>
                   </ListItem>
@@ -192,7 +193,7 @@ const DrawerMenu = () => {
                         justifyContent={'left'}
                       >
                         <ListIcon as={FaUserCircle} />
-                        Profile
+                        {t("Profile")}
                       </Button>
                     </Link>
                   </ListItem>
@@ -206,7 +207,7 @@ const DrawerMenu = () => {
                         justifyContent={'left'}
                       >
                         <ListIcon as={BsFillBellFill} />
-                        Notifications
+                        {t("Notifications")}
                       </Button>
                     </Link>
                   </ListItem>
@@ -220,7 +221,7 @@ const DrawerMenu = () => {
                         justifyContent={'left'}
                       >
                         <ListIcon as={MdSell} />
-                        New Listing
+                        {t("New Listing")}
                       </Button>
                     </Link>
                   </ListItem>
@@ -234,7 +235,7 @@ const DrawerMenu = () => {
                         justifyContent={'left'}
                       >
                         <ListIcon as={MdArticle} />
-                        Listings
+                        {t("Listings")}
                       </Button>
                     </Link>
                   </ListItem>
@@ -248,7 +249,7 @@ const DrawerMenu = () => {
                         justifyContent={'left'}
                       >
                         <ListIcon as={MdForum} />
-                        Questions
+                        {t("Questions")}
                       </Button>
                     </Link>
                   </ListItem>
@@ -262,7 +263,7 @@ const DrawerMenu = () => {
                         justifyContent={'left'}
                       >
                         <ListIcon as={MdShoppingBag} />
-                        Orders
+                        {t("Orders")}
                       </Button>
                     </Link>
                   </ListItem>
@@ -276,7 +277,7 @@ const DrawerMenu = () => {
                         justifyContent={'left'}
                       >
                         <ListIcon as={MdShoppingBasket} />
-                        Sales
+                        {t("Sales")}
                       </Button>
                     </Link>
                   </ListItem>
@@ -290,7 +291,7 @@ const DrawerMenu = () => {
                         justifyContent={'left'}
                       >
                         <ListIcon as={MdFavorite} />
-                        Favourites
+                        {t("Favourites")}
                       </Button>
                     </Link>
                   </ListItem>
@@ -307,7 +308,7 @@ const DrawerMenu = () => {
                     justifyContent={'left'}
                   >
                     <ListIcon as={MdHelp} />
-                    Help
+                    {t("Help")}
                   </Button>
                 </Link>
               </ListItem>
@@ -316,7 +317,7 @@ const DrawerMenu = () => {
 
           <DrawerFooter>
             {statusLogin && (
-              <Button onClick={() => router.push('/logout')}><MdOutlinePowerSettingsNew /> <Text fontWeight={"bold"} ml="5px">Disconnect</Text></Button>
+              <Button onClick={() => router.push('/logout')}><MdOutlinePowerSettingsNew /> <Text fontWeight={"bold"} ml="5px">{t("Disconnect")}</Text></Button>
             )}
           </DrawerFooter>
         </DrawerContent>

@@ -15,11 +15,14 @@ import UserMenu from '../Menus/UserMenu'
 import { useGlobal } from '../../providers/globalProvider'
 import { useRouter } from 'next/router'
 import Notification from '../Menus/Notification'
+import useTranslation from 'next-translate/useTranslation';
+
 
 const Navbar = () => {
   const global = useGlobal()
   const router = useRouter();
 
+  const { t } = useTranslation("navbar");
 
   const DesktopNav = () => {
     const linkColor = 'white'
@@ -121,23 +124,23 @@ const Navbar = () => {
 
   const NAV_ITEMS = [
     {
-      label: 'Categories',
+      label: t("Categories"),
       href: '/category/services',
       guide: 'step-category',
       children: [
         {
-          label: 'Services',
+          label: t("Services"),
           href: '/category/services',
         },
       ],
     },
     {
-      label: global && global.profile ? 'Sell' : null,
+      label: global && global.profile ? t('Sell') : null,
       href: '/listing/new',
       guide: 'step-sell'
     },
     {
-      label: global && global.profile ? 'Favourites' : null,
+      label: global && global.profile ? t('Favourites') : null,
       href: '/profile/favourites',
       guide: 'step-favourites'
     },
@@ -148,7 +151,7 @@ const Navbar = () => {
       external: true
     },
     {
-      label: 'Help',
+      label: t('Help'),
       href: '/help',
       guide: 'step-help'
     }

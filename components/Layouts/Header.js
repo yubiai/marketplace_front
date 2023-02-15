@@ -6,9 +6,11 @@ import SearchBar from './SearchBar'
 import ButtonConnect from '../Buttons/ButtonConnect'
 import { useGlobal } from '../../providers/globalProvider'
 import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
+import useTranslation from 'next-translate/useTranslation';
 
 const Header = () => {
   const global = useGlobal()
+  const { t } = useTranslation("navbar");
 
   return (
     <Box bg={'yb.1'} px={{ base: 'full', md: 4 }}>
@@ -41,7 +43,7 @@ const Header = () => {
 
           {/* Search */}
           <Center w={{ base: 'full', md: 'md' }} mt={{ md: '15px' }}>
-            <SearchBar />
+            <SearchBar t={t} />
             <LanguageChange />
           </Center>
 

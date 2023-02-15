@@ -3,7 +3,7 @@ import { Button } from '@chakra-ui/react';
 import { useGlobal } from '../../providers/globalProvider';
 import { orderService } from '../../services/orderService';
 
-const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus, yubiaiPaymentArbitrableInstance, isSeller, orderCompletedBySeller }) => {
+const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus, yubiaiPaymentArbitrableInstance, isSeller, orderCompletedBySeller, t }) => {
     const global = useGlobal();
 
     const payOrder = async () => {
@@ -52,7 +52,7 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
                 isSeller ? acceptClaim() : payOrder()
             }
         }>
-            {isSeller ? "Accept claim" : "Release payment"}
+            {isSeller ? t("Accept claim") : t("Release payment")}
         </Button>
     );
 };

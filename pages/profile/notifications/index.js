@@ -25,11 +25,14 @@ import Loading from '../../../components/Spinners/Loading'
 import useFetch from '../../../hooks/data/useFetch'
 import useUser from '../../../hooks/data/useUser'
 import { useDispatchGlobal, useGlobal } from '../../../providers/globalProvider'
+import useTranslation from 'next-translate/useTranslation';
+
 
 const Notifications = () => {
   const global = useGlobal()
   const router = useRouter()
   const dispatch = useDispatchGlobal()
+  const { t } = useTranslation("notifications");
   const [notisSeenFalse, setNotisSeenFalse] = useState(false);
   const { user, loggedOut } = useUser()
 
@@ -102,27 +105,27 @@ const Notifications = () => {
                 textDecoration: "underline"
               }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                 textDecoration: "underline"
-              }}>Home</Text></Link>
+              }}>{t("Home")}</Text></Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
               <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{t("Profile")}</Text>
               </Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <Text>Notifications</Text>
+              <Text>{t("Notifications")}</Text>
             </BreadcrumbItem>
           </Breadcrumb>
           {notis && notis.items && notis.items.length === 0 && (
             <>
               <Center>
-                <Heading mt="5em">You do not have any notifications.</Heading>
+                <Heading mt="5em">{t("You do not have any notifications")}</Heading>
               </Center>
               <Center>
                 <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
-                  Go Back
+                  {t("Go Back")}
                 </Button>
               </Center>
             </>
@@ -142,7 +145,7 @@ const Notifications = () => {
                 >
                   <Stack divider={<StackDivider />} spacing='4' width={"100%"}>
                     <Flex display={"flex"}>
-                      <Heading size="md">Notifications</Heading>
+                      <Heading size="md">{t("Notifications")}</Heading>
                       <Spacer />
                       {notisSeenFalse && <ButtonMarkAllAsRead onClosePopover={null} mutate={mutate} />}
                     </Flex>
@@ -152,7 +155,7 @@ const Notifications = () => {
                       notis.items.map((item, i) => {
                         return (
                           <div key={i}>
-                            <NotiCard item={item} onClose={null} mutate={mutate} />
+                            <NotiCard item={item} onClose={null} mutate={mutate} t={t} />
                           </div>
                         )
                       })}

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { StatusOrderByStateShort } from '../Infos/StatusOrder'
 
-const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
+const OrderCardBuyer = ({ order, yubiaiPaymentInstance, t }) => {
   const router = useRouter();
   const [deal, setDeal] = useState(null);
 
@@ -36,14 +36,15 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
               deal.dealStatus,
               deal.claimStatus,
               deal.claimCount,
-              deal.disputeId
+              deal.disputeId,
+              t
             )}
           </>
         )}
 
         {order?.status == "ORDER_CREATED" && order?.orderCompletedBySeller && (<>
           <Box bg="orange.400" rounded={"5px"}>
-            <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">Work has been notified as completed</Text>
+            <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Work has been notified as completed")}</Text>
           </Box>
         </>)
         }
@@ -52,7 +53,7 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
           order?.status == "ORDER_REFUNDED" && (
             <>
               <Box bg="red.700" rounded={"5px"}>
-                <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">Order Refunded</Text>
+                <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Order Refunded")}</Text>
               </Box>
             </>
           )
@@ -89,7 +90,7 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
         </Center>
         <Center>
           <Box display={"flex"}>
-            <Text fontWeight={600}>Seller:</Text>
+            <Text fontWeight={600}>{t("Seller")}</Text>
             <Text ml="2px">{order.itemId.seller.first_name} {order.itemId.seller.last_name}</Text>
           </Box>
         </Center>
@@ -106,7 +107,7 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance }) => {
                 router.push('/profile/orders/detail/' + order?.transactionHash)
               }
             >
-              View Order
+              {t("View Order")}
             </Button>
           </Box>
         </Center>

@@ -50,11 +50,13 @@ import { publishService } from '../../services/publishService'
 import { getListSubCategory } from '../../utils/itemUtils'
 import { loadCurrencyPrices, setYubiaiInstance } from '../../providers/orderProvider'
 import { ChevronRightIcon } from '@chakra-ui/icons'
+import useTranslation from 'next-translate/useTranslation';
 
 const NewListing = () => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
   const router = useRouter()
+  const { t } = useTranslation("newlisting");
 
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -232,31 +234,31 @@ const NewListing = () => {
               textDecoration: "underline"
             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
               textDecoration: "underline"
-            }}>Home</Text></Link>
+            }}>{t("Home")}</Text></Link>
           </BreadcrumbItem>
 
           <BreadcrumbItem>
             <Link href="/profile/" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-              <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>Profile</Text>
+              <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{t("Profile")}</Text>
             </Link>
           </BreadcrumbItem>
 
           <BreadcrumbItem>
-            <Text>Listing</Text>
+            <Text>{t("Listing")}</Text>
           </BreadcrumbItem>
         </Breadcrumb>
-        <Heading mt="5px">New Listing</Heading>
+        <Heading mt="5px">{t("New Listing")}</Heading>
         <form onSubmit={handleSubmit(onSubmit)}>
           {categories && categories.length > 0 && (
             <Box mt="1em">
               <FormControl isRequired>
-                <FormLabel color="black"> Category</FormLabel>
+                <FormLabel color="black"> {t("Category")}</FormLabel>
                 <Select
                   bg="white"
                   color="black"
                   name="category"
                   id="category"
-                  placeholder="Select Category"
+                  placeholder= {t("Select Category")}
                   _placeholder={{ color: 'gray.400' }}
                   isRequired={true}
                   {...register('category', {
@@ -268,7 +270,7 @@ const NewListing = () => {
                 >
                   {categories.map((category) => (
                     <option key={category._id} value={category._id} id="category">
-                      {category.title}
+                      {t(category.title)}
                     </option>
                   ))}
                 </Select>
@@ -280,13 +282,13 @@ const NewListing = () => {
           {subCategories.length > 0 && (
             <Box mt="1em">
               <FormControl isRequired>
-                <FormLabel color="black">Sub Category</FormLabel>
+                <FormLabel color="black">{t("Sub Category")}</FormLabel>
                 <Select
                   bg="white"
                   color="black"
                   name="subcategory"
                   id="subcategory"
-                  placeholder="Select Sub Category"
+                  placeholder={t("Select Sub Category")}
                   _placeholder={{ color: 'gray.400' }}
                   isRequired={true}
                   {...register('subcategory', { required: true })}
@@ -297,7 +299,7 @@ const NewListing = () => {
                       value={subcategory._id}
                       id="subcategory"
                     >
-                      {subcategory.title}
+                      {t(subcategory.title)}
                     </option>
                   ))}
                 </Select>
@@ -306,57 +308,57 @@ const NewListing = () => {
             </Box>
           )}
           <FormControl isRequired mt="1em">
-            <FormLabel color="black">Title</FormLabel>
+            <FormLabel color="black">{t("Title")}</FormLabel>
 
             <Input
-              placeholder="Title is required, minimum 15 characters and maximum 72 characters."
+              placeholder={t("Title is required, minimum 15 characters and maximum 72 characters.")}
               _placeholder={{ color: 'gray.400' }}
               color="gray.700"
               bg="white"
               {...register('title', {
                 required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, pattern: {
                   value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                  message: "Only numbers are not allowed"
+                  message: t("Only numbers are not allowed")
                 }, onChange: (e) => { setCountTitle(e.target.value.length) }
               })}
               isRequired
             />
-            <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countTitle < MIN_TITLE_LENGTH ||countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
+            <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH ||countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
             <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
-            <Text color="red" m="5px">{errors.title?.type === 'required' && "Title is required"}</Text>
-            <Text color="red" m="5px">{errors.title?.type === 'minLength' && "Minimum required characters are 15"}</Text>
-            <Text color="red" m="5px">{errors.title?.type === 'maxLength' && "Maximum required characters are 72"}</Text>
+            <Text color="red" m="5px">{errors.title?.type === 'required' && t("Title is required")}</Text>
+            <Text color="red" m="5px">{errors.title?.type === 'minLength' && t("Minimum required characters are 15")}</Text>
+            <Text color="red" m="5px">{errors.title?.type === 'maxLength' && t("Maximum required characters are 72")}</Text>
           </FormControl>
 
           <FormControl isRequired mt="1em">
-            <FormLabel color="black">Description</FormLabel>
+            <FormLabel color="black">{t("Description")}</FormLabel>
             <Textarea
-              placeholder="Description is required, minimum 100 characters and maximum 800 characters"
+              placeholder={t("Description is required, minimum 100 characters and maximum 800 characters")}
               _placeholder={{ color: 'gray.400' }}
               color="gray.700"
               bg="white"
               {...register('description', { required: true, minLength: MIN_DESCRIPTION_LENGTH, maxLength: MAX_DESCRIPTION_LENGTH, pattern: {
                 value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                message: "Only numbers are not allowed"
+                message: t("Only numbers are not allowed")
               }, onChange: (e) => { setCountDescription(e.target.value.length) } })}
               isRequired
             />
-            <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
+            <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
             <Text color="red" m="5px">{errors.description?.type === 'pattern' && errors.description?.message}</Text>
-            <Text color="red" m="5px">{errors.description?.type === 'required' && "Description is Required"}</Text>
-            <Text color="red" m="5px">{errors.description?.type === 'minLength' && "Minimum required characters are 100"}</Text>
-            <Text color="red" m="5px">{errors.description?.type === 'maxLength' && "Maximum required characters are 800"}</Text>
+            <Text color="red" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
+            <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 100")}</Text>
+            <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 800")}</Text>
           </FormControl>
 
           {global.currencyPriceList && global.currencyPriceList.length > 0 && (
             <FormControl isRequired mt="1em">
-              <FormLabel color="black">Price</FormLabel>
+              <FormLabel color="black">{t("Price")}</FormLabel>
               <Select
                 bg="white"
                 color="black"
                 name="currency"
                 id="currency"
-                placeholder="Select Currency"
+                placeholder={t("Select Currency")}
                 onChange={(e) => {
                   setSelectedCurrency(e.target.value)
                 }}
@@ -375,7 +377,7 @@ const NewListing = () => {
             </FormControl>
           )}
           <FormControl isRequired mt="1em">
-            <FormLabel color="black">Amount</FormLabel>
+            <FormLabel color="black">{t("Amount")}</FormLabel>
             <NumberInput
               onChange={(valueString) => {
                 setPriceValue(parse(valueString))
@@ -401,8 +403,8 @@ const NewListing = () => {
           <Box pt={6} pb={2} color="gray.700"
           >
             <FormControl isRequired mt="1em">
-              <FormLabel color="black">UBI Burning Amount</FormLabel>
-              <Text fontStyle={"italic"}>(Remember that the amount to be burned will be deducted from the final sale price).</Text>
+              <FormLabel color="black">{t("UBI Burning Amount")}</FormLabel>
+              <Text fontStyle={"italic"}>({t("Remember that the amount to be burned will be deducted from the final sale price")}).</Text>
               <Box textAlign={"center"}>
                 <Slider
                   width={{ base: "80%", sm: "80%", md: "100%" }}
@@ -418,7 +420,7 @@ const NewListing = () => {
                   </SliderMark>
                   <SliderMark value={2} {...labelStyles}>
                     2%
-                    <Text fontStyle={"italic"} fontSize={{ base: "0.8em", md: "1em" }} ml="5px">(Recommended)</Text>
+                    <Text fontStyle={"italic"} fontSize={{ base: "0.8em", md: "1em" }} ml="5px">({t("Recommended")})</Text>
                   </SliderMark>
                   <SliderMark value={5} {...labelStyles}>
                     5%
@@ -446,12 +448,10 @@ const NewListing = () => {
             </FormControl>
           </Box>
 
-          <Heading mt="1em">Product Images / Videos / Audios</Heading>
+          <Heading mt="1em">{t("Images / Videos / Audios")}</Heading>
 
           <Text>
-            Get noticed by the right buyers with visual examples of your
-            services. Images must have a minimum width of 375px, height of 375px
-            and must not be more than 10mb each
+            {t("UploadInfo")}
           </Text>
 
           <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }} color="gray.700">
@@ -464,7 +464,7 @@ const NewListing = () => {
               resetField={resetField}
               getValues={getValues}
             >
-              Main Image
+              {t("Main Image")}
             </FileUpload>
             <FileUpload
               name="file2"
@@ -475,7 +475,7 @@ const NewListing = () => {
               resetField={resetField}
               getValues={getValues}
             >
-              File
+              {t("File")}
             </FileUpload>
             <FileUpload
               name="file3"
@@ -486,13 +486,13 @@ const NewListing = () => {
               resetField={resetField}
               getValues={getValues}
             >
-              File
+              {t("File")}
             </FileUpload>
           </Flex>
 
           <Box float={'right'} m="2em">
             <Button bg="#00abd1" color="white" type="submit">
-              Preview & Submit for review
+              {t("Preview & Submit for review")}
             </Button>
           </Box>
         </form>
@@ -506,7 +506,7 @@ const NewListing = () => {
             <>
               <ModalOverlay />
               <ModalContent color="gray.700">
-                <ModalHeader>Review your listing</ModalHeader>
+                <ModalHeader>{t("Review your listing")}</ModalHeader>
                 {loadingSubmit === false && <ModalCloseButton />}
                 <ModalBody>
                   <PreviewItem item={result} />
@@ -521,14 +521,14 @@ const NewListing = () => {
                         mr={3}
                         onClick={onClose}
                       >
-                        Go Back
+                        {t("Go Back")}
                       </Button>
                       <Button
                         bg="#00abd1"
                         color="white"
                         onClick={() => confirmSubmit()}
                       >
-                        Submit for review
+                        {t("Submit for review")}
                       </Button>
                     </>
                   )}
@@ -554,7 +554,7 @@ const NewListing = () => {
                 </ModalBody>
                 <ModalFooter>
                   <Link href={'/profile/listings'}>
-                    <Button>Close</Button>
+                    <Button>{t("Close")}</Button>
                   </Link>
                 </ModalFooter>
               </ModalContent>
@@ -564,7 +564,7 @@ const NewListing = () => {
             <>
               <ModalOverlay />
               <ModalContent color="gray.700">
-                <ModalBody>Failed to post</ModalBody>
+                <ModalBody>{t("Failed to post")}</ModalBody>
                 <ModalFooter>
                   <Button
                     onClick={() => {
@@ -572,7 +572,7 @@ const NewListing = () => {
                       onClose()
                     }}
                   >
-                    Close
+                    {t("Close")}
                   </Button>
                 </ModalFooter>
               </ModalContent>

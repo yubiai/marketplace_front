@@ -1,0 +1,18 @@
+{
+    "Connect": "Conectar Billetera",
+    "Categories": "Categorías",
+    "Services": "Servicios",
+    "Sell": "Vender",
+    "Favourites": "Favoritos",
+    "Help": "Ayuda",
+    "Search in Yubiai": "Buscar en Yubiai",
+    "Profile": "Perfil",
+    "Welcome, you are successfully logged in": "Bienvenido, ha iniciado sesión correctamente.",
+    "Now you are able to start buying & selling on Yubiai" : "Ya puedes empezar a comprar y vender en Yubiai.",
+    "Failed to login.": "Error al iniciar sesión.", 
+    "Wrong network, please change your network on metamask.": "Red incorrecta, por favor cambie su red en metamask.",
+    "User denied message signature.": "Ha denegado la firma del mensaje",
+    "Failed": "Error",
+    "To connect it is necessary to be registered in Proof of Humanity and have your status as registered.": "Para conectarte es necesario estar registrado en Proof of Humanity y tener tu estado como registrado.",
+    "Connect with your wallet and start earning crypto or hiring with your cryptos": "Conéctate con tu billetera y empieza a ganar o contratar con tus criptos"
+}

@@ -4,14 +4,16 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import ProfileMenu from "../../../components/Menus/ProfileMenu";
+import useTranslation from 'next-translate/useTranslation';
 
 const Questions = () => {
     const router = useRouter();
+    const { t } = useTranslation("questions");
 
     return (
         <>
             <Head>
-                <title>Yubiai Marketplace - Edit My Profile </title>
+                <title>Yubiai Marketplace - View Questions </title>
             </Head>
             <ProfileMenu>
                 <Container maxW="2xl" h="80vh" display={'flex'} flexDirection={'column'}>
@@ -21,7 +23,7 @@ const Questions = () => {
                                 textDecoration: "underline"
                             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                                 textDecoration: "underline"
-                            }}>Home</Text></Link>
+                            }}>{t("Home")}</Text></Link>
                         </BreadcrumbItem>
 
                         <BreadcrumbItem>
@@ -29,25 +31,25 @@ const Questions = () => {
                                 textDecoration: "underline"
                             }}><Text color="#00abd1" cursor={'pointer'} _hover={{
                                 textDecoration: "underline"
-                            }}>Profile</Text></Link>
+                            }}>{t("Profile")}</Text></Link>
                         </BreadcrumbItem>
                         <BreadcrumbItem isCurrentPage>
-                            <Text>Questions</Text>
+                            <Text>{t("Questions")}</Text>
                         </BreadcrumbItem>
                     </Breadcrumb>
-                    <Heading mt="1em">Questions</Heading>
+                    <Heading mt="1em">{t("Questions")}</Heading>
                     <Box mt="1em">
                         <Stack mt="1em" p="4" boxShadow="lg" borderRadius="lg" bg="white">
                             <Button h="100px" fontSize={"2em"} backgroundColor={'#00abd1'}
                                 color={'white'} onClick={() => router.push("/profile/questions/buyer")} _hover={{
                                     bg: "blue.300"
-                                }}>Buyer</Button>
+                                }}>{t("Buyer")}</Button>
                         </Stack>
                         <Stack mt="1em" p="4" boxShadow="lg" borderRadius="lg" bg="white">
                             <Button h="100px" fontSize={"2em"} backgroundColor={'#00abd1'}
                                 color={'white'}  onClick={() => router.push("/profile/questions/seller")} _hover={{
                                     bg: "blue.300"
-                                }}>Seller</Button>
+                                }}>{t("Seller")}</Button>
                         </Stack>
                     </Box>
                 </Container>

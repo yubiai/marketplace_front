@@ -1,7 +1,9 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
 import Link from 'next/link';
+import useTranslation from 'next-translate/useTranslation';
 
 const CategoriesMenu = () => {
+  const { t } = useTranslation("categories");
   return (
     <Menu>
       <MenuButton
@@ -19,11 +21,11 @@ const CategoriesMenu = () => {
         cursor={'pointer'}
         minW={0}
       >
-        Categories
+        {t("Categories")}
       </MenuButton>
       <MenuList>
         <MenuItem color="black">
-          <Link href={'/category/services'}>Services</Link>
+          <Link href={'/category/services'}>{t("Services")}</Link>
         </MenuItem>
       </MenuList>
     </Menu>

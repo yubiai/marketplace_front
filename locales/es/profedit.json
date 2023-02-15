@@ -1,0 +1,16 @@
+{
+    "Home": "Inicio",
+    "Profile": "Perfil",
+    "Edit": "Editar",
+    "Edit my profile": "Editar mi perfil",
+    "Real Name": "Nombre real",
+    "Address": "Dirección de envío",
+    "City": "Ciudad",
+    "Country": "País",
+    "Telephone": "Teléfono",
+    "Email": "Correo electrónico",
+    "Go Back": "Volver ",
+    "Save": "Guardar",
+    "Data saved": "Datos guardados con éxito",
+    "Data not saved": "No se han podido guardar tus datos"
+}

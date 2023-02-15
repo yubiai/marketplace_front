@@ -26,11 +26,12 @@ import PlayerAudio from '../../components/Utils/PlayerAudio'
 import Questions from '../../components/Layouts/Questions'
 import ButtonNewReport from '../../components/Buttons/ButtonNewReport'
 import Error from '../../components/Infos/Error'
+import useTranslation from 'next-translate/useTranslation';
 
 const ItemById = ({ item }) => {
   const global = useGlobal();
   const toast = useToast();
-
+  const { t } = useTranslation("questions");
   const url_gc = process.env.NEXT_PUBLIC_LINK_GC;
   const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
 
@@ -92,8 +93,8 @@ const ItemById = ({ item }) => {
         if (res.status === 200) {
           getFavourites()
           actionToat(
-            'Favourites',
-            'Item added to favourites successfully.',
+            t("Favourites"),
+            t("Item added to favourites successfully"),
             'success'
           )
           return
@@ -111,8 +112,8 @@ const ItemById = ({ item }) => {
         if (res.status === 200) {
           getFavourites()
           actionToat(
-            'Favourites',
-            'Item removed from favourites successfully.',
+            t("Favourites"),
+            t("Item removed from favourites successfully"),
             'info'
           )
           return
@@ -218,7 +219,7 @@ const ItemById = ({ item }) => {
           >
             <Flex justifyContent={'space-between'}>
               <Text color="#323232" fontSize="14px" fontWeight="300">
-                Service
+                {t("Service")}
               </Text>
               {owner === false && (
                 <Box>
@@ -239,7 +240,7 @@ const ItemById = ({ item }) => {
               {item.title}
             </Text>
             {global.profile && (
-              <InfoUserModal user={item.seller} />
+              <InfoUserModal user={item.seller} t={t}/>
             )}
             {/* <Box
               display={'flex'}
@@ -257,8 +258,8 @@ const ItemById = ({ item }) => {
               </Text>
             </Box> */}
             <Text mt="1em">{item.price} {item.currencySymbolPrice}</Text>
-            <Text>0% additional for Yubiai Fee</Text>
-            <Text>{item.ubiburningamount || 0.6}% additional for UBI Burner Fee</Text>
+            <Text>0% {t("additional for Yubiai Fee")}</Text>
+            <Text>{item.ubiburningamount || 0.6}% {t("additional for UBI Burner Fee")}</Text>
             <Flex
               direction={{ base: 'column' }}
               justifyContent="center"
@@ -277,22 +278,22 @@ const ItemById = ({ item }) => {
                     onClick={() => buyAndCheckoutItem()}
                     disabled={owner || !global.profile || item.published == false || item.status != 2}
                   >
-                    Buy Now
+                    {t("Buy Now")}
                   </Button>
                 </Center>
               )}
             </Flex>
           </Box>
         </Flex>
-        <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} />
+        <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t}/>
         <Divider />
         <Box m="1em" h="30vh">
-          <Text mt="10px" fontWeight={"semibold"}>Description</Text>
+          <Text mt="10px" fontWeight={"semibold"}>{t("Description")}</Text>
           <Text mt="10px">{item.description}</Text>
         </Box>
         <Divider mt="2em" />
         <Box m="1em">
-          <Questions item={item} profile_id={global?.profile?._id} token={global?.profile?.token} />
+          <Questions item={item} profile_id={global?.profile?._id} token={global?.profile?.token} t={t}/>
         </Box>
       </Container>
     </>

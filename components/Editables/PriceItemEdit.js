@@ -7,7 +7,7 @@ import { loadCurrencyPrices, setYubiaiInstance } from "../../providers/orderProv
 import { itemService } from "../../services/itemService";
 
 
-const PriceItemEdit = ({ item, token, mutate }) => {
+const PriceItemEdit = ({ item, token, mutate, t }) => {
     const global = useGlobal();
     const dispatch = useDispatchGlobal();
     const toast = useToast();
@@ -71,8 +71,8 @@ const PriceItemEdit = ({ item, token, mutate }) => {
         }
         await itemService.updateItemById(item._id, newData, token);
         toast({
-            title: 'Edit Item',
-            description: 'Data Saved successfully.',
+            title: t("Edit Item"),
+            description: t("Data Saved successfully."),
             position: 'top-right',
             status: 'success',
             duration: 3000,
@@ -90,7 +90,7 @@ const PriceItemEdit = ({ item, token, mutate }) => {
         <>
             <Flex mt="10px" p="5px"
             >
-                <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>Price - Ubi Burn</Text>
+                <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>{t("Price - Ubi Burn")}</Text>
                 <Flex justifyContent='left' m="5px">
                     {actionEdit && (
                         <ButtonGroup justifyContent='center' size='sm'>
@@ -112,7 +112,7 @@ const PriceItemEdit = ({ item, token, mutate }) => {
                 />
             )}
             {!actionEdit && (<Text p="5px"
-            >Currency: {item.currencySymbolPrice} {" - "} Price: {item.price} {item.currencySymbolPrice}  {" - Ubi Burn: " + item.ubiburningamount + "%"}</Text>)}
+            >{t("Currency:")} {item.currencySymbolPrice} {" - "} {t("Price:")} {item.price} {item.currencySymbolPrice}  {t(" - Ubi Burn: ") + item.ubiburningamount + "%"}</Text>)}
             {actionEdit && global.currencyPriceList && global.currencyPriceList.length > 0 && (
                 <>
                     <Box h="full" p="5px"
@@ -120,13 +120,13 @@ const PriceItemEdit = ({ item, token, mutate }) => {
                         <form onSubmit={handleSubmit(onSubmit)}>
                             {global.currencyPriceList && global.currencyPriceList.length > 0 && (
                                 <FormControl isRequired mt="1em">
-                                    <FormLabel color="black">Currency</FormLabel>
+                                    <FormLabel color="black">{t("Currency")}</FormLabel>
                                     <Select
                                         bg="white"
                                         color="black"
                                         name="currency"
                                         id="currency"
-                                        placeholder="Select Currency"
+                                        placeholder={t("Select Currency")}
                                         onChange={(e) => {
                                             setSelectedCurrency(e.target.value)
                                         }}
@@ -145,7 +145,7 @@ const PriceItemEdit = ({ item, token, mutate }) => {
                                 </FormControl>
                             )}
                             <FormControl isRequired mt="1em">
-                                <FormLabel color="black">Amount</FormLabel>
+                                <FormLabel color="black">{t("Amount")}</FormLabel>
                                 <NumberInput
                                     onChange={(valueString) => setPriceValue(parse(valueString))}
                                     value={format(priceValue)}
@@ -166,8 +166,8 @@ const PriceItemEdit = ({ item, token, mutate }) => {
                             <Box color="gray.700"
                             >
                                 <FormControl isRequired mt="1em" >
-                                    <FormLabel color="black">UBI Burning Amount</FormLabel>
-                                    <Text fontStyle={"italic"}>(Remember that the amount to be burned will be deducted from the final sale price).</Text>
+                                    <FormLabel color="black">{t("UBI Burning Amount")}</FormLabel>
+                                    <Text fontStyle={"italic"}>{t("Remember that the amount to be burned will be deducted from the final sale price")}.</Text>
                                     <Box pr={"1em"} pl={"1em"} w={{ base: "full", md: "50%" }}>
                                         <Slider
                                             mt="3em"
@@ -181,7 +181,7 @@ const PriceItemEdit = ({ item, token, mutate }) => {
                                                 0.6%
                                             </SliderMark>
                                             <SliderMark value={2} {...labelStyles}>
-                                                <Flex>2% <Text fontStyle={"italic"} ml="5px">(Recommended)</Text></Flex>
+                                                <Flex>2% <Text fontStyle={"italic"} ml="5px">{t("Recommended")}</Text></Flex>
                                             </SliderMark>
                                             <SliderMark value={5} {...labelStyles}>
                                                 5%
@@ -209,7 +209,7 @@ const PriceItemEdit = ({ item, token, mutate }) => {
                                 </FormControl>
                             </Box>
                             <Button mt="3em" bg="#00abd1" color="white" type="submit">
-                                Update
+                                {t("Update")}
                             </Button>
                         </form>
                     </Box>
