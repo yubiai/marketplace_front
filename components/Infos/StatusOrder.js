@@ -78,10 +78,10 @@ export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, clai
                 const claimLimitReaches = claimCount === claimLimit;
                 return (
                     <Box bg="purple.300" rounded={"5px"} w={{ base: "100%", md: "max-content" }}>
-                        <Text color="black" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Claim rejected.")} {
+                        <Text color="black" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Claim rejected")} {
                             claimLimitReaches
-                                ? t("You reached the limit of claims you can do to the seller.")
-                                : ` ${t("Opportunities to try a new claim:")}  ${claimLimit - claimCount}`
+                                ? t("You reached the limit of claims you can do to the seller")
+                                : ` ${t("Opportunities to try a new claim")}  ${claimLimit - claimCount}`
                         }</Text>
                     </Box>
                 );

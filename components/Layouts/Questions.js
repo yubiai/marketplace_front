@@ -79,7 +79,7 @@ const Questions = ({ item, profile_id, token, t }) => {
             reset();
             toast({
                 title: t('Question'),
-                description: t('Question was completed successfully.'),
+                description: t('Question was completed successfully'),
                 position: 'top-right',
                 status: 'success',
                 duration: 3000,
