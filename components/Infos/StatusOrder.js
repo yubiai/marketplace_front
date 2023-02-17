@@ -9,8 +9,7 @@ export const FINISHED_STATUS = "4";
 export const CLAIM_RESULT_REJECTED = "1";
 export const CLAIM_RESULT_ACCEPTED = "2";
 
-
-export const StatusOrder = ({status, t}) => {
+export const StatusOrder = (status, t) => {
   switch (status) {
     case "ORDER_CREATED":
       return (
