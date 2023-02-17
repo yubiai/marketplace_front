@@ -70,13 +70,13 @@ export const StatusOrderByState = (deal = {}, claim = {}, t) => {
       );
     case "CLAIM_REJECTED":
     case "CLAIM_REJECTED_LIMIT_REACHED":
-      const claimLimitReaches = claim.claimCount === claim.maxClaimsAllowed;
+      //const claimLimitReaches = claim.claimCount === claim.maxClaimsAllowed;
       return (
         <Box bg="purple.300" rounded={"5px"} w={{ base: "100%", md: "max-content" }}>
           <Text color="black" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Claim rejected")} {
             status === "CLAIM_REJECTED_LIMIT_REACHED"
               ? t("You reached the limit of claims you can do to the seller")
-              : ` ${t("Opportunities to try a new claim")}  ${claimLimit - claimCount}`
+              : ` ${t("Opportunities to try a new claim")}  ${claim.claimLimit - claim.claimCount}`
           }</Text>
         </Box>
       );
@@ -149,7 +149,7 @@ export const statusDescMap = (deal = {}, claim = {}) => {
         if (claim.solvedAt && claim.ruling === "2") {
           return "CLAIM_WON";
         } else if (claim.solvedAt) {
-          const claimLimitReaches = claimCount === claimLimit;
+          const claimLimitReaches = claim.claimCount === claim.claimLimit;
           if (claimLimitReaches) {
             return "CLAIM_REJECTED_LIMIT_REACHED";
           }
