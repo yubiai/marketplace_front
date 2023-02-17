@@ -73,7 +73,7 @@ const OrderDetail = () => {
   const [transactionPayedAmount, setTransactionPayedAmount] = useState('');
   const [transactionFeeAmount, setTransactionFeeAmount] = useState('');
   const [transactionDate, setTransactionDate] = useState('');
-  const [deal, setDeal] = useState(null);
+  const [deal, setDeal] = useState({ deal: {}, claim: {} });
   const [isLateToChallenge, setIsLateToChallenge] = useState(false);
 
   /**
@@ -352,13 +352,9 @@ const OrderDetail = () => {
 
             <Box p="1em" color="black" bg="orange.100" mt="1em" mb="1em">
               <Flex><Text fontWeight={600}>ID: </Text> <Text>0x...{transactionMeta && transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16)}</Text></Flex>
-              <Text fontWeight={600}>{t("Status")} {(deal || {}).dealStatus && statusDescMap(
-                deal.dealStatus,
-                deal.claimStatus,
-                deal.claimCount,
-                deal.maxClaimsAllowed,
-                deal.disputeId
-        
+              <Text fontWeight={600}>Status: {(deal || {}).deal.dealStatus && statusDescMap(
+                deal.deal,
+                deal.claim
               )}</Text>
               {
                 transactionDate &&
@@ -443,12 +439,9 @@ const OrderDetail = () => {
                       
             <Text fontWeight={600} fontSize="2xl" >{t("Status ")}</Text>
             {
-              orderDetail.status != "ORDER_REFUNDED" && (deal || {}).dealStatus && StatusOrderByState(
-                deal.dealStatus,
-                deal.claimStatus,
-                deal.claimCount,
-                deal.maxClaimsAllowed,
-                deal.disputeId,
+              orderDetail.status != "ORDER_REFUNDED" && (deal || {}).deal.dealStatus && StatusOrderByState(
+                deal.deal,
+                deal.claim,
                 t
               )
             }
@@ -471,7 +464,7 @@ const OrderDetail = () => {
 
             {/* Actions Mark Job as Done */}
             {
-              (deal || {}).dealStatus === ONGOING_STATUS && !orderDetail.orderCompletedBySeller && verifyMessages &&
+              (deal || {}).deal.dealStatus === ONGOING_STATUS && !orderDetail.orderCompletedBySeller && verifyMessages &&
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
@@ -524,7 +517,7 @@ const OrderDetail = () => {
             {/* Actions Mark Job as Done */}
 
             {
-              (deal || {}).dealStatus === ONGOING_STATUS && orderDetail.orderCompletedBySeller && (
+              (deal || {}).deal.dealStatus === ONGOING_STATUS && orderDetail.orderCompletedBySeller && (
                 <>
                   <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                   <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
@@ -534,7 +527,7 @@ const OrderDetail = () => {
 
             <Stack mt={4} direction={'row'} spacing={2}>
               <Box w="full">
-                {(deal || {}).dealStatus === CLAIMED_STATUS && verifyMessages && (
+                {(deal || {}).deal.dealStatus === CLAIMED_STATUS && verifyMessages && (
                   <>
                     <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                     <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
@@ -549,7 +542,7 @@ const OrderDetail = () => {
                           <Box mt="2em" width="100%" textAlign={{ base: "center", md: "left" }}>
                             <ButtonPayOrder
                               transactionInfo={{
-                                claimId: (deal || {}).claimID,
+                                claimId: (deal || {}).claim.claimID,
                                 transactionHash: transactionMeta.transactionHash
                               }}
                               amount={transactionPayedAmount || '0'}
@@ -581,7 +574,7 @@ const OrderDetail = () => {
                             <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
                               <ButtonChallengeClaim
                                 transactionInfo={{
-                                  claimId: (deal || {}).claimID,
+                                  claimId: (deal || {}).claim.claimID,
                                   transactionHash: transactionMeta.transactionHash
                                 }}
                                 stepsPostAction={loadOrder}

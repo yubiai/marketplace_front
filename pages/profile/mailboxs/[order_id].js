@@ -270,7 +270,7 @@ const MailBoxs = () => {
 
           )}
           <Center mt="1em"> {channel.order_id && channel.order_id.status && (
-            StatusOrderByState((deal || {}).dealStatus)
+            StatusOrderByState((deal || {}).deal.dealStatus)
           )}</Center>
 
         </Box> */}

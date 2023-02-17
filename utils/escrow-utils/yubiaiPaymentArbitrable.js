@@ -154,26 +154,34 @@ export default class YubiaiPaymentArbitrable {
     const isOver = await this.isOver(dealId);
     let claimInfo;
     let disputeId;
+    let formattedClaimInfo = {};
 
     if (dealInfo.currentClaim) {
       claimInfo = await this.getClaimInfo(dealInfo.currentClaim);
       disputeId = claimInfo.disputeId;
-      console.log("claim info is: ", claimInfo) 
+      formattedClaimInfo = {
+        claimID: dealInfo.currentClaim,
+        claimStatus: (claimInfo || {}).ruling,
+        claimCreatedAt: parseInt((claimInfo || {}).createdAt, 10),
+        claimSolvedAt: parseInt((claimInfo || { solvedAt: 0 }).solvedAt),
+        claimCount: parseInt(dealInfo.claimCount, 10),
+        disputeId: parseInt(disputeId, 10),
+        timeForClaim: parseInt(dealInfo.timeForClaim, 10),
+        maxClaimsAllowed: parseInt(settings.maxClaims, 10),
+      };
     }
 
     return {
-      dealId: dealId,
-      dealStatus: dealInfo.state,
-      dealCreatedAt: parseInt((dealInfo || {}).createdAt, 10),
-      claimID: dealInfo.currentClaim,
-      claimStatus: (claimInfo || {}).ruling,
-      claimCreatedAt: parseInt((claimInfo || {}).createdAt, 10),
-      claimCount: parseInt(dealInfo.claimCount, 10),
-      maxClaimsAllowed: parseInt(settings.maxClaims, 10),
-      timeForService: parseInt(dealInfo.timeForService, 10),
-      timeForClaim: parseInt(dealInfo.timeForClaim, 10),
-      disputeId: parseInt(disputeId, 10), // xx
-      isOver
+      deal: {
+        dealId,
+        dealStatus: dealInfo.state,
+        dealCreatedAt: parseInt((dealInfo || {}).createdAt, 10),
+        timeForService: parseInt(dealInfo.timeForService, 10),
+        isOver,
+      },
+      claim: {
+        ...formattedClaimInfo,
+      },
     }
   }
 }

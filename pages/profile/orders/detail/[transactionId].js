@@ -65,7 +65,7 @@ const OrderDetail = () => {
   const [transactionPayedAmount, setTransactionPayedAmount] = useState('');
   const [transactionFeeAmount, setTransactionFeeAmount] = useState('');
   const [transactionDate, setTransactionDate] = useState('');
-  const [deal, setDeal] = useState(null);
+  const [deal, setDeal] = useState({ deal: {}, claim: {} });
 
   /**
    * Auxiliar status and instances
@@ -183,9 +183,6 @@ const OrderDetail = () => {
     }
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance]);
 
-
-  console.log("deal || {}).dealStatus: ", (deal || {}).dealStatus, "verifyMessages:", verifyMessages)
-
   if (!orderDetail) return <Loading />;
   return (
     <>
@@ -295,12 +292,9 @@ const OrderDetail = () => {
 
             <Box p="1em" color="black" bg="orange.100" mt="1em">
               <Flex><Text fontWeight={600}>ID: </Text> <Text>0x...{transactionMeta && transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16)}</Text></Flex>
-              <Text fontWeight={600}>{t("Status")} {(deal || {}).dealStatus && statusDescMap(
-                deal.dealStatus,
-                deal.claimStatus,
-                deal.claimCount,
-                deal.maxClaimsAllowed,
-                deal.disputeId
+              <Text fontWeight={600}>Status: {(deal || {}).deal.dealStatus && statusDescMap(
+                deal.deal,
+                deal.claim
               )}</Text>
               {
                 transactionDate &&
@@ -400,17 +394,14 @@ const OrderDetail = () => {
             }
 
             {
-              orderDetail.status != "ORDER_REFUNDED" && (deal || {}).dealStatus && StatusOrderByState(
-                deal.dealStatus,
-                deal.claimStatus,
-                deal.claimCount,
-                deal.maxClaimsAllowed,
-                deal.disputeId,
+              orderDetail.status != "ORDER_REFUNDED" && (deal || {}).deal.dealStatus && StatusOrderByState(
+                deal.deal,
+                deal.claim,
                 t
               )
             }
 
-            {(deal || {}).dealStatus === ONGOING_STATUS && !verifyMessages && (
+            {(deal || {}).deal.dealStatus === ONGOING_STATUS && !verifyMessages && (
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
@@ -419,12 +410,12 @@ const OrderDetail = () => {
             )}
 
             {
-              (deal || {}).dealStatus === ONGOING_STATUS && verifyMessages &&
+              (deal || {}).deal.dealStatus === ONGOING_STATUS && verifyMessages &&
               (<Box>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
                 {
-                  (deal || {}).dealStatus === ONGOING_STATUS && orderDetail.orderCompletedBySeller && (
+                  (deal || {}).deal.dealStatus === ONGOING_STATUS && orderDetail.orderCompletedBySeller && (
                     <>
                       <Box width={"100%"}>
                         <Box bg="orange.200" rounded={{ base: "5px" }} p="1em">
@@ -470,17 +461,17 @@ const OrderDetail = () => {
                           <div>
                             <Text color="black">
                               {
-                                !(deal || {}).isOver && t("If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case")
+                                !(deal || {}).deal.isOver && "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case."
                               }
                               {
-                                (deal || {}).isOver &&
-                                t("You cannot claim this order because the status of this transaction is over.")
+                                (deal || {}).deal.isOver &&
+                                "You cannot claim this order because the status of this transaction is over."
                               }
                             </Text>
                           </div>
                           <div>
                             {
-                              !(deal || {}).isOver &&
+                              !(deal || {}).deal.isOver &&
                               <Box mt={{ base: "1em", md: "0px" }} textAlign={{ base: "center", md: "right" }}>
                                 <ButtonStartClaim transactionMeta={transactionMeta} profile={global.profile} t={t}/>
                               </Box>

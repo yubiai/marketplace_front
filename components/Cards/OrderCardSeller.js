@@ -8,7 +8,7 @@ import useTranslation from 'next-translate/useTranslation';
 
 const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
   const router = useRouter();
-  const [deal, setDeal] = useState(null);
+  const [deal, setDeal] = useState({deal: {}, claim: {}});
   const { t } = useTranslation("orders");
   useEffect(() => {
     const setDealInfo = async _order => {
@@ -16,7 +16,7 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
       setDeal(fullStatus);
     }
 
-    if (!deal && yubiaiPaymentInstance) {
+    if (!deal.deal.dealId && yubiaiPaymentInstance) {
       setDealInfo(order);
     }
   }, [deal, yubiaiPaymentInstance]);
@@ -32,11 +32,9 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
 
         {order?.status != "ORDER_REFUNDED" && (
           <>
-            {(deal || {}).dealStatus && StatusOrderByStateShort(
-              deal.dealStatus,
-              deal.claimStatus,
-              deal.claimCount,
-              deal.disputeId,
+            {(deal || {}).deal.dealStatus && StatusOrderByStateShort(
+              deal.deal,
+              deal.claim,
               t
             )}
           </>
