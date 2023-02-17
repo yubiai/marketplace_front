@@ -236,11 +236,10 @@ const OrderDetail = () => {
       return
     }
   }
-  console.log("deal || {}).dealStatus: ", (deal || {}).dealStatus, "verifyMessages:", verifyMessages)
 
   if (!orderDetail) return <Loading />;
-  console.log(orderDetail)
-  console.log('t:', t);
+
+  
   return (
     <>
       <Head>

@@ -158,9 +158,11 @@ export default class YubiaiPaymentArbitrable {
     if (dealInfo.currentClaim) {
       claimInfo = await this.getClaimInfo(dealInfo.currentClaim);
       disputeId = claimInfo.disputeId;
+      console.log("claim info is: ", claimInfo) 
     }
 
     return {
+      dealId: dealId,
       dealStatus: dealInfo.state,
       dealCreatedAt: parseInt((dealInfo || {}).createdAt, 10),
       claimID: dealInfo.currentClaim,
@@ -170,7 +172,7 @@ export default class YubiaiPaymentArbitrable {
       maxClaimsAllowed: parseInt(settings.maxClaims, 10),
       timeForService: parseInt(dealInfo.timeForService, 10),
       timeForClaim: parseInt(dealInfo.timeForClaim, 10),
-      disputeId: parseInt(disputeId, 10),
+      disputeId: parseInt(disputeId, 10), // xx
       isOver
     }
   }

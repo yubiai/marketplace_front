@@ -1,8 +1,5 @@
 import { Box, Text } from "@chakra-ui/react";
 
-
-
-
 export const NONE_STATUS = "0";
 export const ONGOING_STATUS = "1";
 export const CLAIMED_STATUS = "2";
@@ -12,8 +9,8 @@ export const FINISHED_STATUS = "4";
 export const CLAIM_RESULT_REJECTED = "0";
 export const CLAIM_RESULT_ACCEPTED = "1";
 
-export const StatusOrder = ({status, t}) => {
-    
+export const StatusOrder = (status, t) => {
+
     switch (status) {
         case "ORDER_CREATED":
             return (
@@ -50,9 +47,7 @@ export const StatusOrder = ({status, t}) => {
     }
 }
 
-export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, claimLimit = 0, disputeId = '', t) => {
-    console.log('t:', t)
-    
+export const StatusOrderByState = (dealStatus, claimResult, claimCount = 0, claimLimit = 0, disputeId = '', t) => {    
     switch (dealStatus) {
         case "1":
             return (
