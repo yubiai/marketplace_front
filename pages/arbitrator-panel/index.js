@@ -62,7 +62,7 @@ const ArbitratorPanel = () => {
       const fullStateInfo = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(transactionIndex);
       dealItems.push({
         ...dealInfo,
-        disputeId: fullStateInfo.disputeId,
+        disputeId: (fullStateInfo.claim || {}).disputeId,
         transactionIndex
       });
     }

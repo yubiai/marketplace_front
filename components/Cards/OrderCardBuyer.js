@@ -7,7 +7,7 @@ import { StatusOrderByStateShort } from '../Infos/StatusOrder'
 
 const OrderCardBuyer = ({ order, yubiaiPaymentInstance, t }) => {
   const router = useRouter();
-  const [deal, setDeal] = useState(null);
+  const [deal, setDeal] = useState({deal: {}, claim: {}});
 
   useEffect(() => {
     const setDealInfo = async _order => {
@@ -15,7 +15,7 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance, t }) => {
       setDeal(fullStatus);
     }
 
-    if (!deal && yubiaiPaymentInstance) {
+    if (!deal.deal.dealId && yubiaiPaymentInstance) {
       setDealInfo(order);
     }
   }, [deal, yubiaiPaymentInstance]);
@@ -32,11 +32,9 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance, t }) => {
 
         {order?.status != "ORDER_REFUNDED" && (
           <>
-            {(deal || {}).dealStatus && StatusOrderByStateShort(
-              deal.dealStatus,
-              deal.claimStatus,
-              deal.claimCount,
-              deal.disputeId,
+            {(deal || {}).deal.dealStatus && StatusOrderByStateShort(
+              deal.deal,
+              deal.claim,
               t
             )}
           </>
@@ -58,10 +56,6 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance, t }) => {
             </>
           )
         }
-
-
-
-
       </Stack>
       <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
       <SimpleGrid columns={{ base: '1', sm: '1', md: '2', lg: '3', xl: '4' }} spacing={5} color="black">
