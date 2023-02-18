@@ -239,7 +239,7 @@ const OrderDetail = () => {
 
   if (!orderDetail) return <Loading />;
 
-  console.log(orderDetail)
+  console.log(orderDetail, "Estoy viendo")
   console.log((deal || {}))
   
   return (
