@@ -143,6 +143,7 @@ export const StatusOrderByStateShort = (deal = {}, claim = {}, t) => {
 }
 
 export const statusDescMap = (deal = {}, claim = {}) => {
+  console.log(deal.dealStatus, "deal.dealStatusssss")
   switch (deal.dealStatus) {
     case "1":
       if (claim.claimID) {
@@ -162,6 +163,9 @@ export const statusDescMap = (deal = {}, claim = {}) => {
     case "3":
       return "ORDER_DISPUTE_IN_PROGRESS";
     case "4":
+      if(claim.claimCount > 0){
+        return "ORDER_REFUNDED";
+      }
       return "ORDER_PAID";
     default:
       return "UNKNOWN_STATE";
