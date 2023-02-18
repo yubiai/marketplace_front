@@ -184,6 +184,9 @@ const OrderDetail = () => {
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance]);
 
   if (!orderDetail) return <Loading />;
+
+  console.log((deal || {}))
+
   return (
     <>
       <Head>
