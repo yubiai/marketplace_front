@@ -59,8 +59,8 @@ const PreviewItem = ({ item }) => {
         <Text>{item?.subcategory}</Text>
         <Text fontWeight={'bold'}>{t("Net Price")} </Text>
         <Text>{item?.price} {item?.currencySymbolPrice}</Text>
-        <Text fontWeight={'bold'}>{t("UBI Burning Amount")} </Text>
-        <Text> {item?.ubiburningamount} % ({item?.price * item?.ubiburningamount / 100} {item?.currencySymbolPrice})</Text>
+{/*         <Text fontWeight={'bold'}>{t("UBI Burning Amount")} </Text>
+        <Text> {item?.ubiburningamount} % ({item?.price * item?.ubiburningamount / 100} {item?.currencySymbolPrice})</Text> */}
         <Text fontWeight={'bold'}>{t("Total to receive")} </Text>
         <Text>{item?.price - item?.price * item?.ubiburningamount / 100} {item?.currencySymbolPrice}</Text>
 

@@ -73,10 +73,11 @@ const Footer = () => {
           </Link>
           <Link mr={'1em'} href="https://snapshot.org/#/" isExternal>
             Snapshot
-          </Link> */}
+          </Link> 
           <Link mr={'1em'} href="https://app.democracy.earth/#/" isExternal>
             UBI Vaults
           </Link>
+          */}
           <Link mr={'1em'} href="https://court.kleros.io/" isExternal>
             Kleros
           </Link>

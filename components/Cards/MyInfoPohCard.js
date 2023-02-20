@@ -8,7 +8,7 @@ import {
   Text,
   Link
 } from '@chakra-ui/react'
-const MyInfoPohCard = ({ dataProfile, balance, t }) => {
+const MyInfoPohCard = ({ dataProfile, /* balance, */ t }) => {
   if (!dataProfile)
     return (
       <>
@@ -54,9 +54,9 @@ const MyInfoPohCard = ({ dataProfile, balance, t }) => {
               <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
                 {dataProfile.eth_address}
               </Text>
-              <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
+              {/* <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
                 {balance || 'No Data'} ubis
-              </Text>
+              </Text> */}
             </Stack>
             <Flex flex={0.2} justifyContent="center" alignItems="center">
               {dataProfile && dataProfile.permission !== 6 && (

@@ -25,12 +25,12 @@ const SellerFaqCard = () => {
       <Text>
         {t("Start by clicking on “Connect” on the top right corner then below the search bar on the middle of the navigation area(top middle)click on “Sell” and follow through the steps from Category to Product Images then after filling each field click on “Preview & Submit for review” verify that all is correct and click on `Submit for review`")}
       </Text>
-      <Heading fontSize={"2xl"} mt="1em">
+{/*       <Heading fontSize={"2xl"} mt="1em">
         <Text>{t("What is `UBI Burning Amount`?")}</Text>
       </Heading>
       <Text>
         {t("UBI Burning Amount lets you choose on a dinamyc and optional way how much % will be deducted and sent from the total price of the item you are selling to the UBI Burner to increase the value of $UBI")}
-      </Text>
+      </Text> */}
     </Box>
   );
 };

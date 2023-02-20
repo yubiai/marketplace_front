@@ -1,5 +1,5 @@
 import { CloseIcon, EditIcon } from "@chakra-ui/icons";
-import { Box, Button, ButtonGroup, Flex, FormControl, FormLabel, IconButton, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack, Spinner, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Flex, FormControl, FormLabel, IconButton, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, /* Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack, */ Spinner, Text, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatchGlobal, useGlobal } from "../../providers/globalProvider";
@@ -23,7 +23,7 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
 
     const [priceValue, setPriceValue] = useState('')
     const [selectedCurrency, setSelectedCurrency] = useState('ETH')
-    const [sliderValue, setSliderValue] = useState(2)
+    const [sliderValue, setSliderValue] = useState(0)
 
     // Load Currencies
     const loadCurrencies = async () => {
@@ -31,11 +31,11 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
         loadCurrencyPrices(dispatch, global, networkType);
     }
 
-    const labelStyles = {
+  /*   const labelStyles = {
         mt: '2',
         ml: '-2.5',
         fontSize: 'sm',
-    }
+    } */
 
     const onEdit = async () => {
 
@@ -81,7 +81,7 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
         mutate()
         setPriceValue('');
         setSelectedCurrency('ETH');
-        setSliderValue(2);
+        setSliderValue(0);
         reset();
         setActionEdit(false);
     }
@@ -163,7 +163,7 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
                                     </NumberInputStepper>
                                 </NumberInput>
                             </FormControl>
-                            <Box color="gray.700"
+                            {/* <Box color="gray.700"
                             >
                                 <FormControl isRequired mt="1em" >
                                     <FormLabel color="black">{t("UBI Burning Amount")}</FormLabel>
@@ -207,7 +207,7 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
                                         </Slider>
                                     </Box>
                                 </FormControl>
-                            </Box>
+                            </Box> */}
                             <Button mt="3em" bg="#00abd1" color="white" type="submit">
                                 {t("Update")}
                             </Button>

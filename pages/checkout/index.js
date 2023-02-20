@@ -8,11 +8,11 @@ import {
   Stack,
   AlertIcon,
   Alert,
-  SliderThumb,
-  SliderFilledTrack,
-  SliderTrack,
-  SliderMark,
-  Slider,
+  /*   SliderThumb,
+    SliderFilledTrack,
+    SliderTrack,
+    SliderMark,
+    Slider, */
   Divider,
   Modal,
   ModalOverlay,
@@ -72,14 +72,15 @@ const Checkout = () => {
     }
   }, [user, loggedOut, router, dispatch]);
 
+  const sliderValue = 0;
 
-  const [sliderValue, setSliderValue] = useState(0)
+  /*const [sliderValue, setSliderValue] = useState(0)
 
-  const labelStyles = {
-    mt: '2',
-    ml: '-2.5',
-    fontSize: 'sm',
-  };
+     const labelStyles = {
+      mt: '2',
+      ml: '-2.5',
+      fontSize: 'sm',
+    }; */
 
   const verifyTyC = async () => {
 
@@ -247,18 +248,18 @@ const Checkout = () => {
           <title>Yubiai Marketplace - Search Item</title>
           <meta
             name="keywords"
-            content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask"
+            content="yubiai, market, marketplace, crypto, eth, poh, metamask"
           />
         </Head>
         <Container
-        maxW="6xl"
-        h={{
-          base: '100%',
-          md: '100vh'
-        }}
-        display={'flex'}
-        flexDirection={'column'}
-      >
+          maxW="6xl"
+          h={{
+            base: '100%',
+            md: '100vh'
+          }}
+          display={'flex'}
+          flexDirection={'column'}
+        >
           <Center py={6}>
             <Box
               maxW={'360px'}
@@ -313,7 +314,7 @@ const Checkout = () => {
               )}
               {!loading && (
                 <>
-                  <Center>
+                  {/* <Center>
                     <Text mt="1em" fontStyle={"normal"} fontWeight={"bold"}>{t("UBI Burning")}</Text>
                   </Center>
                   <Text mt="3" fontStyle="italic">
@@ -353,10 +354,10 @@ const Checkout = () => {
                       </SliderTrack>
                       <SliderThumb bg='blue.400' />
                     </Slider>
-                  </Box>
+                  </Box> */}
                   <Alert status="warning" mt="1em" color="black" bg="orange.100">
                     <AlertIcon color="orange" />
-                   {t("When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service")}{' '}
+                    {t("When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service")}{' '}
                   </Alert>
                   <Stack mt={8}>
                     <ButtonCheckout

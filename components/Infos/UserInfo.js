@@ -1,7 +1,7 @@
 import { Center, Flex, Image, Text, Stack, HStack, Box } from '@chakra-ui/react'
 
 
-const UserInfo = ({ profile, balanceToken, t }) => {
+const UserInfo = ({ profile, /* balanceToken, t */ }) => {
 
 
   if (profile) {
@@ -40,9 +40,9 @@ const UserInfo = ({ profile, balanceToken, t }) => {
                     src={'/static/images/logoubi.png'}
                     fallbackSrc={'/static/images/logoubi.png'}
                   />
-                  <Text fontSize={'10px'} fontWeight="bold">
+                  {/* <Text fontSize={'10px'} fontWeight="bold">
                     {balanceToken} {t("UBI dripped")}
-                  </Text>
+                  </Text> */}
                 </>
               )}
 

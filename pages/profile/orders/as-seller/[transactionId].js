@@ -248,7 +248,7 @@ const OrderDetail = () => {
         <title>Yubiai Marketplace - Sales</title>
         <meta
           name="keywords"
-          content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask"
+          content="yubiai, market, marketplace, crypto, eth, poh, metamask"
         />
       </Head>
       <Container

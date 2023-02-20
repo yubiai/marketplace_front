@@ -259,8 +259,8 @@ const ItemById = ({ item }) => {
             </Box> */}
             <Text mt="1em">{item.price} {item.currencySymbolPrice}</Text>
             <Text>0% {t("additional for Yubiai Fee")}</Text>
-            <Text>{item.ubiburningamount || 0.6}% {t("additional for UBI Burner Fee")}</Text>
-            <Flex
+{/*             <Text>{item.ubiburningamount || 0.6}% {t("additional for UBI Burner Fee")}</Text>
+ */}            <Flex
               direction={{ base: 'column' }}
               justifyContent="center"
               w="full"

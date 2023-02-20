@@ -55,7 +55,7 @@ const Listings = () => {
         <title>Yubiai Marketplace - Listings</title>
         <meta
           name="keywords"
-          content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask"
+          content="yubiai, market, marketplace, crypto, eth, poh, metamask"
         />
       </Head>
       <ProfileMenu>

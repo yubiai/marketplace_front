@@ -82,7 +82,7 @@ const Home = ({ items }) => {
         <meta charSet="utf-8" />
         <meta name="theme-color" content="#f8f8f8" />
         <meta name="description" content="Marketplace" />
-        <meta name="keywords" content="yubiai, market, marketplace, crypto, eth, ubi, poh, metamask" />
+        <meta name="keywords" content="yubiai, market, marketplace, crypto, eth, poh, metamask" />
         <meta name="author" content="VeneziaDev" />
         <meta property="og:title" content="Yubiai - Web" />
         <meta property="og:description" content="Marketplace" />

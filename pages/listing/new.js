@@ -23,11 +23,11 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
-  Slider,
+/*   Slider,
   SliderFilledTrack,
   SliderMark,
   SliderThumb,
-  SliderTrack,
+  SliderTrack, */
   Spinner,
   Text,
   Textarea,
@@ -83,13 +83,15 @@ const NewListing = () => {
   const [loadingSubmit, setLoadingSubmit] = useState(false)
   const [dataSubmit, setDataSubmit] = useState(null)
 
-  const [sliderValue, setSliderValue] = useState(2)
+  const sliderValue = 0;
+
+  /* const [sliderValue, setSliderValue] = useState(0)
 
   const labelStyles = {
     mt: '2',
     ml: '-2.5',
     fontSize: 'sm',
-  }
+  } */
 
   // Auth
   const { user, loggedOut } = useUser()
@@ -400,7 +402,7 @@ const NewListing = () => {
             </NumberInput>
           </FormControl>
 
-          <Box pt={6} pb={2} color="gray.700"
+          {/* <Box pt={6} pb={2} color="gray.700"
           >
             <FormControl isRequired mt="1em">
               <FormLabel color="black">{t("UBI Burning Amount")}</FormLabel>
@@ -446,7 +448,7 @@ const NewListing = () => {
                 </Slider>
               </Box>
             </FormControl>
-          </Box>
+          </Box> */}
 
           <Heading mt="1em">{t("Images / Videos / Audios")}</Heading>
 
