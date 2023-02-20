@@ -8,7 +8,7 @@ import FilePreviewMini from '../Infos/FilePreviewMini'
 const acceptedFileTypes = 'image/jpeg, image/jpg, image/png, image/webp, video/mp4, audio/mpeg, application/pdf'
 const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 
-const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFiles, handleSendMessage, loadingSubmit, t }) => {
+const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFiles, handleSendMessage, loadingSubmit, orderStatus, t }) => {
 
   const inputRef = useRef()
   const [errorMsg, setErrorMsg] = useState(null)
@@ -98,6 +98,10 @@ const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFil
         </Center>
       </Box>
     )
+  }
+
+  if(orderStatus == "ORDER_REFUNDED" || orderStatus == "ORDER_PAID"  || orderStatus == "CLAIM_WON"){
+    return null
   }
 
   return (

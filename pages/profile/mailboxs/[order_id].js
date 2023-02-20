@@ -155,7 +155,9 @@ const MailBoxs = () => {
     return <Error error={isError?.message} />
   }
 
-  if (isLoading || !user ) return <Loading />
+  if (isLoading || !channel || !user ) return <Loading />
+
+  console.log(channel)
 
   return (
     <>
@@ -254,7 +256,9 @@ const MailBoxs = () => {
                   previewFiles={previewFiles}
                   setPreviewFiles={setPreviewFiles}
                   handleSendMessage={handleSendMessage}
-                  loadingSubmit={loadingSubmit} t={t}
+                  loadingSubmit={loadingSubmit} 
+                  orderStatus={channel.order_id.status}
+                  t={t}
                 />
               </Flex>
             </Flex>

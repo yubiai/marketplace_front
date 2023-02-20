@@ -32,7 +32,7 @@ const UserInfo = ({ profile, /* balanceToken, t */ }) => {
                 </Text>
               ) : (
                 <>
-                  <Image
+                  {/* <Image
                     alt={'Logo'}
                     width="0.8em"
                     borderRadius="2xl"
@@ -40,7 +40,7 @@ const UserInfo = ({ profile, /* balanceToken, t */ }) => {
                     src={'/static/images/logoubi.png'}
                     fallbackSrc={'/static/images/logoubi.png'}
                   />
-                  {/* <Text fontSize={'10px'} fontWeight="bold">
+                  <Text fontSize={'10px'} fontWeight="bold">
                     {balanceToken} {t("UBI dripped")}
                   </Text> */}
                 </>
