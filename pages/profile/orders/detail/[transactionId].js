@@ -464,11 +464,11 @@ const OrderDetail = () => {
                           <div>
                             <Text color="black">
                               {
-                                !(deal || {}).deal.isOver && "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case."
+                                !(deal || {}).deal.isOver && t("Issues")
                               }
                               {
                                 (deal || {}).deal.isOver &&
-                                "You cannot claim this order because the status of this transaction is over."
+                                t("You cannot claim this order because the status of this transaction is over")
                               }
                             </Text>
                           </div>

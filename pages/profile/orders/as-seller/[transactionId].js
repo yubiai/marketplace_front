@@ -205,8 +205,8 @@ const OrderDetail = () => {
       loadOrder();
 
       toast({
-        title: 'Order',
-        description: 'Successfully changed the status.',
+        title: t('Order'),
+        description: t('Successfully changed the status'),
         position: 'top-right',
         status: 'success',
         duration: 5000,
@@ -512,7 +512,7 @@ const OrderDetail = () => {
                   </ModalContent>
                 </Modal>
                 <Box width={{ base: "100%", md: "50%" }}>
-                  <Text mt="1em" fontStyle={"italic"}>{t("Job done?, submit your work, this will unlock the  * Mark Job as done * and notify the buyer to release the payment.")}</Text>
+                  <Text mt="1em" fontStyle={"italic"}>{t("Job done?")}</Text>
                 </Box>
               </>
             }
