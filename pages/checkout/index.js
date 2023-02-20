@@ -253,10 +253,7 @@ const Checkout = () => {
         </Head>
         <Container
           maxW="6xl"
-          h={{
-            base: '100%',
-            md: '100vh'
-          }}
+          h={"100vh"}
           display={'flex'}
           flexDirection={'column'}
         >
