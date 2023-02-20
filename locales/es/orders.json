@@ -39,8 +39,10 @@
     "Confirm": "Siempre confirme que ha recibido el servicio del vendedor antes de tocar [Liberar pago]. NO libere su pago al comprador si no ha recibido su servicio.",
     "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case": "Si encuentra algún problema durante el proceso de transacción, puede iniciar un reclamo y un intermediario lo ayudará a resolver su caso.",
     "You cannot claim this order because the status of this transaction is over.": "No puede reclamar este pedido porque el estado de esta transacción ha finalizado.",
+    "You cannot claim this order because the status of this transaction is over": "No puede reclamar este pedido porque el estado de esta transacción ha finalizado.",
     "The buyer has claimed a refund for this order": "Se ha solicitado un reembolso por este pedido.",
     "Dispute in progress": "Disputa en progreso.",
+    "Issues": "Si encuentra algún problema durante el curso de la transacción, puede presentar un reclamo y un mediador le ayudará a resolver su caso.",
     "You reached the limit of claims you can do to the seller": "Has alcanzado el límite de reclamos que puedes hacerle al vendedor",
     "Opportunities to try a new claim": "Oportunidades para probar un nuevo reclamo:",
     "Accept claim": "Aceptar reclamo",
@@ -52,7 +54,7 @@
     "Type": "Escriba algo...",
     "Mark job as done": "Marcar trabajo como realizado",
     "Are you sure you want to mark the job as completed?": "¿Estás seguro de que quieres marcar el trabajo como finalizado?",
-    "Job done?, submit your work, this will unlock the  * Mark Job as done * and notify the buyer to release the payment.": "¿Trabajo finalizado?, envíe su trabajo, esto desbloqueará la opción * Marcar trabajo como realizado * y se le notificará al comprador para liberar el pago",
+    "Job done?": "¿Trabajo finalizado?, envíe su trabajo, esto desbloqueará la opción * Marcar trabajo como realizado * y se le notificará al comprador para liberar el pago",
     "Work ready and has already been notified": "Trabajo marcado como finalizado, el comprador ha sido notificado.",
     "If you agree with the claim made by the buyer, you can choose to make a refund according to the amount required": "Si está de acuerdo con el reclamo hecho por el comprador, puede optar por hacer un reembolso de acuerdo a la cantidad requerida.",
     "Dispute claim": "Si cree que no hay nada malo en el servicio prestado, puede refutar el reclamo del comprador. Participar en el arbitraje tendrá un coste extra de 30dai, y el estado de dicha decisión será tomada y comunicada en los próximos días por un jurado descentralizado externo a Yubiai.",
@@ -69,5 +71,7 @@
     "Yubiai Service Policy": "Póliza de servicios de Yubiai",
     "Update At": "Actualizado el",
     "Reject": "Rechazar",
-    "Accept": "Aceptar"
+    "Accept": "Aceptar",
+    "Successfully changed the status": "Se ha cambiado el estado con éxito.",
+    "Order": "Pedido"
 }
