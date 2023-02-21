@@ -144,7 +144,7 @@ const Questions = ({ item, profile_id, token, t }) => {
                                     </Button>)}
 
                                 </Flex>
-                                <Flex m="5px" fontStyle={"italic"}>Characters: <Text color={countQuestion < MIN_QUESTION_LENGTH || countQuestion > MAX_QUESTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countQuestion}</Text> / {MAX_QUESTION_LENGTH}</Flex>
+                                <Flex m="5px" fontStyle={"italic"}>{t("Characters")}: <Text color={countQuestion < MIN_QUESTION_LENGTH || countQuestion > MAX_QUESTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countQuestion}</Text> / {MAX_QUESTION_LENGTH}</Flex>
                                 <Text color="red" m="5px">{errors.question?.type === 'required' && t("Description is Required")}</Text>
                                 <Text color="red" m="5px">{errors.question?.type === 'minLength' && t("Minimum required characters are 50")}</Text>
                                 <Text color="red" m="5px">{errors.question?.type === 'maxLength' && t("Maximum required characters are 400")}</Text>
