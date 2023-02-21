@@ -179,7 +179,7 @@ const Questions = ({ item, profile_id, token, t }) => {
                         <Box mt="1em" cursor={'pointer'}
                             onClick={() => getQuestions()
                             }>
-                            <Text fontStyle={"italic"} >{t("See more..")}</Text>
+                            <Text fontStyle={"italic"} >{t("See more")}</Text>
 
                         </Box>
                     ) : null}
