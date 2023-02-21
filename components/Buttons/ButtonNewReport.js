@@ -48,12 +48,29 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
         }
 
         try {
-            await reportService.newReport(newData, token);
+            const resultReport = await reportService.newReport(newData, token);
+            if(resultReport.data && resultReport.data.exist === true){
+                onClose();
+                reset();
+                toast({
+                    title: t("Report"),
+                    description: t("Your report has already been sent, you can't report the same article again"),
+                    position: 'top-right',
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true
+                });
+                setLoading(false);
+                setCountMotive(0);
+                setCountDescription(0);
+                return;
+            }
+
             onClose();
             reset();
             setLoading(false);
             toast({
-                title: t("Report "),
+                title: t("Report"),
                 description: t("Report was completed successfully"),
                 position: 'top-right',
                 status: 'success',
