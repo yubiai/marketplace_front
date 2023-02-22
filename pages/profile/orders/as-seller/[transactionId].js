@@ -472,15 +472,20 @@ const OrderDetail = () => {
                 <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
                 <Button
                   mt="1em"
+                  width={{base: "100%", md: "50%"}}
                   backgroundColor={'#00abd1'}
                   color={'white'}
-                  rounded={'full'}
+                  rounded={'5px'}
+                  fontSize={{base: "0.9em", md: "1.4em"}}
                   cursor={'pointer'}
                   onClick={onOpen}
                   isDisabled={orderDetail && orderDetail.orderCompletedBySeller}
+                  _hover={{
+                    bg: "blue.300"
+                  }}
                 >
                   {t("Mark job as done")}
-                </Button>
+                </Button> 
                 <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
                   <ModalOverlay />
                   <ModalContent>

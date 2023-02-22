@@ -60,7 +60,7 @@ export const StatusOrderByState = (deal = {}, claim = {}, t) => {
     case "ORDER_DISPUTE_RECEIVER_FEE_PENDING":
       return (
         <Box bg="pink.300" rounded={"5px"} p="5px" w={{ base: "100%", md: "max-content" }}>
-          <Text fontSize={"larger"} fontStyle="normal" color="black" pl="15px" pr="15px">{t("The buyer has claimed a refund for this order")}</Text>
+          <Text fontSize={"larger"} fontStyle="normal" color="black" pl="15px" pr="15px">{t("The buyer has claimed a refund for this order")} (N° {claim.claimCount})</Text>
         </Box>
       );
     case "ORDER_DISPUTE_IN_PROGRESS":
@@ -81,9 +81,9 @@ export const StatusOrderByState = (deal = {}, claim = {}, t) => {
           }</Text>
         </Box>
       );
-    case "CLAIM_WON":
+    case "CLAIM_WON_BY_BUYER":
       return (
-        <Box bg="green.400" rounded={"5px"} w={{ base: "100%", md: "max-content" }}>
+        <Box bg="green.500" rounded={"5px"} w={{ base: "100%", md: "max-content" }}>
           <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Claim won")}</Text>
         </Box>
       );
@@ -126,7 +126,7 @@ export const StatusOrderByStateShort = (deal = {}, claim = {}, t) => {
           <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Claim rejected")}</Text>
         </Box>
       );
-    case "CLAIM_WON":
+    case "CLAIM_WON_BY_BUYER":
       return (
         <Box bg="green.400" rounded={"5px"}>
           <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Claim won")}</Text>
@@ -149,7 +149,7 @@ export const statusDescMap = (deal = {}, claim = {}) => {
     case "1":
       if (claim.claimID != "0") {
         if (claim.claimSolvedAt && claim.ruling === "2") {
-          return "CLAIM_WON";
+          return "CLAIM_WON_BY_BUYER";
         } else if (claim.claimSolvedAt) {
           const claimLimitReaches = claim.claimCount === claim.maxClaimsAllowed;
           if (claimLimitReaches) {
@@ -168,7 +168,7 @@ export const statusDescMap = (deal = {}, claim = {}) => {
         return "ORDER_REFUNDED";
       }
       if(claim.claimCount > 0 && claim.claimStatus == "2"){
-        return "CLAIM_WON";
+        return "CLAIM_WON_BY_BUYER";
       }
       return "ORDER_PAID";
     default:
