@@ -38,7 +38,7 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
     useEffect(() => {
         if (window.ethereum) {
             window.ethereum.on("chainChanged", async (chainid) => {
-                if (chainid == 0x1 || chainid == 0x5 || chainid == 0x64) {
+                if (chainid == 0x1 || chainid == 0x5 || chainid == 0x64 || chainid == 0x56) {
                     return window.location.reload();
                 }
                 localStorage.removeItem('Yubiai')
