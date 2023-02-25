@@ -22,7 +22,7 @@ const listChains = [
   },
   {
     id: 56,
-    chainID: "0x56",
+    chainID: "0x38",
     title: "BNB",
     aliasTitle: 'bsc',
     currency: "BNB"

@@ -38,7 +38,8 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
     useEffect(() => {
         if (window.ethereum) {
             window.ethereum.on("chainChanged", async (chainid) => {
-                if (chainid == 0x1 || chainid == 0x5 || chainid == 0x64 || chainid == 0x56) {
+                console.log(chainid, "chainid")
+                if (chainid == 0x1 || chainid == 0x5 || chainid == 0x64 || chainid == 0x38) {
                     return window.location.reload();
                 }
                 localStorage.removeItem('Yubiai')
@@ -59,6 +60,7 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
         setTimeout(() => {
             if (window.ethereum && window.ethereum.networkVersion) {
                 const networkVersion = window.ethereum.networkVersion;
+                console.log(networkVersion, "networkVersion")
                 const data = getNetwork(networkVersion)
                 setNetwork(data)
                 setLoading(false)
@@ -75,10 +77,10 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
                 method: 'wallet_switchEthereumChain',
                 params: [{ chainId: data.chainID }],
             })
+            console.log(data, "data")
             setNetwork(data)
         }
     }
-
 
     return (
         <Menu>
