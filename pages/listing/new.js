@@ -313,7 +313,7 @@ const NewListing = () => {
             <FormLabel color="black">{t("Title")}</FormLabel>
 
             <Input
-              placeholder={t("Title is required, minimum 15 characters and maximum 72 characters.")}
+              placeholder={t("Title is required 15")}
               _placeholder={{ color: 'gray.400' }}
               color="gray.700"
               bg="white"
