@@ -21,8 +21,15 @@ const listChains = [
     currency: "xDAI"
   },
   {
-    id: 56,
+    id: 38,
     chainID: "0x38",
+    title: "BNB",
+    aliasTitle: 'bsc',
+    currency: "BNB"
+  },
+  {
+    id: 56,
+    chainID: "0x56",
     title: "BNB",
     aliasTitle: 'bsc',
     currency: "BNB"
