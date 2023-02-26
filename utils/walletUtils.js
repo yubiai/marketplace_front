@@ -61,6 +61,7 @@ const getCurrentWallet = (lowerCase = false) => {
 }
 
 const getBlockExplorerForNetwork = (networkType) => {
+  console.log(networkType, "networkTypenetworkTypenetworkType")
   switch (networkType) {
     case 'goerli':
       return 'https://goerli.etherscan.io';
@@ -74,6 +75,8 @@ const getBlockExplorerForNetwork = (networkType) => {
       return 'https://blockscout.com';
     case 'bsc':
       return 'https://bscscan.com';
+    case 'sepolia':
+      return 'https://sepolia.etherscan.io'
     default:
       return '';
   }

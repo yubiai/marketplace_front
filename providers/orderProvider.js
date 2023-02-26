@@ -17,6 +17,7 @@ const getAccount = async () => {
 
 const getWeb3Instance = () => {
   const networkItem = getCurrentNetwork();
+  console.log(networkItem, "networkItemnetworkItem12")
   const settings = getSettingsByNetwork(networkItem.aliasTitle);
 
   return new Web3(
@@ -82,6 +83,12 @@ const getSettingsByNetwork = networkType => {
     return {
       NEXT_PUBLIC_NETWORK: process.env.NEXT_PUBLIC_NETWORK_GOERLI,
       NEXT_PUBLIC_INFURA_ENDPOINT: process.env.NEXT_PUBLIC_INFURA_ENDPOINT_GOERLI
+    }
+  }
+  if (networkType === 'sepolia') {
+    return {
+      NEXT_PUBLIC_NETWORK: process.env.NEXT_PUBLIC_NETWORK_SEPOLIA,
+      NEXT_PUBLIC_INFURA_ENDPOINT: process.env.NEXT_PUBLIC_INFURA_ENDPOINT_SEPOLIA
     }
   }
   return {
