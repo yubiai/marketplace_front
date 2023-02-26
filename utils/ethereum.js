@@ -30,7 +30,7 @@ const verifyNetwork = async () => {
 
   const networkVersion = window.ethereum.networkVersion;
 
-  if (networkVersion == 1 || networkVersion == 5 || networkVersion == 100 || networkVersion == 38) {
+  if (networkVersion == 1 || networkVersion == 5 || networkVersion == 100 || networkVersion == 38 || networkVersion == 56) {
     return true
   }
 
