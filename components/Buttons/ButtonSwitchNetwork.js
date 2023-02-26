@@ -61,7 +61,7 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
             if (window.ethereum && window.ethereum.networkVersion) {
                 const networkVersion = window.ethereum.networkVersion;
                 console.log(networkVersion, "networkVersion")
-                const data = getNetwork(networkVersion)
+                const data = getNetwork(networkVersion == 56 ? 38 : networkVersion)
                 setNetwork(data)
                 setLoading(false)
                 return
@@ -73,12 +73,33 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
         const data = getNetwork(id)
 
         if (data) {
-            await window.ethereum.request({
-                method: 'wallet_switchEthereumChain',
-                params: [{ chainId: data.chainID }],
-            })
-            console.log(data, "data")
-            setNetwork(data)
+            try {
+                await window.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: data.chainID }],
+                })
+                setNetwork(data)
+            } catch (err) {
+                if (err.code === 4902) {
+                    try {
+                        await ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [
+                                {
+                                    chainId: data.chainID,
+                                    rpcUrls: data.rpcUrls,
+                                    chainName: data.title
+                                },
+                            ],
+                        });
+                    } catch (error) {
+                        console.error(error)
+                        console.error("Operation failed.")
+                        return
+                    }
+                }
+
+            }
         }
     }
 
@@ -109,13 +130,13 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
             <MenuList>
                 {listChains && listChains.length > 0 && listChains.map((chain, i) => {
 
-                    if (!netWork || !netWork && chain.id != 56) {
+                    if (!netWork || !netWork) {
                         return (
                             <MenuItem key={i} onClick={() => onChangeSwitchNetwork(chain.id)}>{chain.title}</MenuItem>
                         )
                     }
 
-                    if (netWork.title != chain.title && chain.id != 56) {
+                    if (netWork.title != chain.title) {
                         return (
                             <MenuItem key={i} onClick={() => onChangeSwitchNetwork(chain.id)}>{chain.title}</MenuItem>
                         )

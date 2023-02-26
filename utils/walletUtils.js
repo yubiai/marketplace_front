@@ -23,16 +23,10 @@ const listChains = [
   {
     id: 38,
     chainID: "0x38",
-    title: "BNB",
+    title: "BSC Mainnet",
     aliasTitle: 'bsc',
-    currency: "BNB"
-  },
-  {
-    id: 56,
-    chainID: "0x56",
-    title: "BNB",
-    aliasTitle: 'bsc',
-    currency: "BNB"
+    currency: "BNB",
+    rpcUrls: ['https://bsc-dataseed.binance.org/']
   }
 ];
 
@@ -45,6 +39,7 @@ const getCurrentNetwork = () => {
 
   if (window && window.ethereum && window.ethereum.networkVersion) {
     const networkVersion = window.ethereum.networkVersion;
+    console.log(networkVersion)
     const data = getNetwork(parseInt(networkVersion, 10));
     return data;
   }
