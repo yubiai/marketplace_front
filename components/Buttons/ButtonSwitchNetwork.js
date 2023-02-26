@@ -82,7 +82,7 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
             } catch (err) {
                 if (err.code === 4902) {
                     try {
-                        await ethereum.request({
+                        await window.ethereum.request({
                             method: 'wallet_addEthereumChain',
                             params: [
                                 {
