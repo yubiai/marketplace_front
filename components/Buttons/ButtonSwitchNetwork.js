@@ -39,7 +39,7 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
         if (window.ethereum) {
             window.ethereum.on("chainChanged", async (chainid) => {
                 console.log(chainid, "chainid")
-                if (chainid == 0x1 || chainid == 0x5 || chainid == 0x64 || chainid == 0x38 || chainid == 0x56) {
+                if (chainid == 0x1 || chainid == 0x5 || chainid == 0x64 || chainid == 0x38 || chainid == 0x56 || chainid == 11155111) {
                     return window.location.reload();
                 }
                 localStorage.removeItem('Yubiai')
@@ -61,7 +61,7 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
             if (window.ethereum && window.ethereum.networkVersion) {
                 const networkVersion = window.ethereum.networkVersion;
                 console.log(networkVersion, "networkVersion")
-                const data = getNetwork(networkVersion == 56 ? 38 : networkVersion)
+                const data = getNetwork(networkVersion)
                 setNetwork(data)
                 setLoading(false)
                 return

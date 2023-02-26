@@ -21,12 +21,20 @@ const listChains = [
     currency: "xDAI"
   },
   {
-    id: 38,
+    id: 56,
     chainID: "0x38",
     title: "BSC Mainnet",
     aliasTitle: 'bsc',
     currency: "BNB",
     rpcUrls: ['https://bsc-dataseed.binance.org/']
+  },
+  {
+    id: 11155111,
+    chainID: "0xaa36a7",
+    title: "Sepolia",
+    aliasTitle: 'sepolia',
+    currency: "SEP",
+    rpcUrls: ['https://rpc2.sepolia.org/']
   }
 ];
 
