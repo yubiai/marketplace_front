@@ -33,7 +33,7 @@ async function signInWithEthereum(signer) {
             signer.provider.network.chainId || '1'
         );
         const signature = await signer.signMessage(message);
-        
+
         const result = {
             message, address, signature
         }
@@ -50,12 +50,12 @@ function connectWallet(provider) {
     return new Promise((resolve, reject) => {
         try {
             const wallet = provider.send('eth_requestAccounts', [])
-            .catch(() => {
-                console.log('user rejected request')
-                return reject(false)
-            });
+                .catch(() => {
+                    console.log('user rejected request')
+                    return reject(false)
+                });
             return resolve(wallet)
-        } catch(err){
+        } catch (err) {
             console.error(err, "err");
             return reject(false)
         }
@@ -66,23 +66,23 @@ function connectWallet(provider) {
 // Verify Network
 const verifyNetwork = async () => {
 
-    const networkVersion = window.ethereum.networkVersion;
-  
-    if (networkVersion == 1 || networkVersion == 5 || networkVersion == 100 || networkVersion == 38) {
-      return true
-    }
-  
     try {
-      await window.ethereum.request({
-        method: 'wallet_switchEthereumChain',
-        params: [{ chainId: '0x1' }],
-      })
-    
-      return true;
-    } catch (err){
-      console.log(err);
-      return false;
+        const networkVersion = window.ethereum.networkVersion;
+
+        if (networkVersion == 1 || networkVersion == 5 || networkVersion == 100 || networkVersion == 38 || networkVersion == 56) {
+            return true
+        }
+
+        await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: '0x1' }],
+        })
+
+        return true;
+    } catch (err) {
+        console.log(err);
+        return false;
     }
-  }
+}
 
 export { signInWithEthereum, connectWallet, verifyNetwork }
