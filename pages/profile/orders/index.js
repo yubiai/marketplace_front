@@ -93,7 +93,7 @@ const Orders = () => {
           {data && data.items && data.items.length === 0 && (
             <>
               <Center>
-                <Heading mt="5em">{t("You do not have any orders.")}</Heading>
+                <Heading mt="5em">{t("You do not have any orders")}</Heading>
               </Center>
               <Center>
                 <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
