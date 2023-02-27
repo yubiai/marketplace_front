@@ -96,7 +96,7 @@ const Sales = () => {
           {data && data.items && data.items.length === 0 && (
             <>
               <Center>
-                <Heading mt="5em">{t("You do not have any sales.")}</Heading>
+                <Heading mt="5em">{t("You do not have any sales")}</Heading>
               </Center>
               <Center>
                 <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
