@@ -78,6 +78,9 @@ const setYubiaiInstance = async dispatch => {
   })
 }
 
+/**
+ * TODO: Refactorizar, juntando esta logica con walletUtils.getCurrentNetwork
+ */
 const getSettingsByNetwork = networkType => {
   if (networkType === 'goerli') {
     return {

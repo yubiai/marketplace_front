@@ -82,6 +82,9 @@ const getBlockExplorerForNetwork = (networkType) => {
   }
 }
 
+/**
+ * TODO: Refactorizar, juntando esta logica con orderProvider.getSettingsByNetwork
+ */
 const getContractsForNetwork = (networkType) => {
   switch (networkType) {
     case 'goerli':

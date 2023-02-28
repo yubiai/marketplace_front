@@ -15,8 +15,8 @@ export default class YubiaiPaymentArbitrable {
   async initContract() {
     const web3 = createWeb3((this.web3Obj.currentProvider || {}).url || '');
     this.web3 = await createWeb3FromModal(web3.modal, web3.infuraURL);
-    const networkType = await this.web3.eth.net.getNetworkType();
-    const contracts = getContractsForNetwork(networkType);
+    const networkType = await this.web3.eth.net.getNetworkType(); // TODO: Reemplazar por walletUtils.getCurrentNetwork ()
+    const contracts = getContractsForNetwork(networkType); // TODO: Usar la funcion nueva refactorizada
     this.contractAddress = contracts.yubiaiArbitrable;
     this.contract = new this.web3.eth.Contract(
       yubiaiArbitrable, this.contractAddress, { from: this.account },
