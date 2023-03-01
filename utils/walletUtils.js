@@ -97,6 +97,11 @@ const getContractsForNetwork = (networkType) => {
         yubiaiArbitrable: process.env.NEXT_PUBLIC_MAIN_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
         yubiaiArbitrator: process.env.NEXT_PUBLIC_MAIN_ARBITRATOR
       };
+    case 'sepolia':
+      return {
+        yubiaiArbitrable: process.env.NEXT_PUBLIC_SEPOLIA_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
+        yubiaiArbitrator: process.env.NEXT_PUBLIC_SEPOLIA_ARBITRATOR
+      }
     case 'rinkeby':
     case 'ropsten':
     case 'kovan':

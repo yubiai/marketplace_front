@@ -57,8 +57,8 @@ const ButtonMarkAllAsRead = ({ onClosePopover, mutate }) => {
                 backgroundColor={'#00abd1'}
                 color={'white'}
                 size={'sm'}
-                fontSize={{base: "12px", md: "1em"}}
-                ml="1em"
+                fontSize={{base: "12px", md: "0.9em"}}
+                mr={{base: "2px", md: "1.5em"}}
                 cursor={'pointer'} onClick={() => { onOpen() }}
             >{t("Mark all as read")}</Button>
             <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} size={"md"}>
