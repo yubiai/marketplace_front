@@ -44,8 +44,6 @@ const QuestionsSeller = () => {
     if (isLoading || !data) return <Loading />
 
 
-    console.log(data, "data")
-
     return (
         <>
             <Head>

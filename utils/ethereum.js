@@ -67,7 +67,6 @@ const balanceUbi1 = (wallet) => {
 
 const balanceUbi2 = async (wallet) => {
   if (!window.ethereum) {
-    console.log('no hay metamask')
     return null
   }
 

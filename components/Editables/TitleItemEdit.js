@@ -46,7 +46,6 @@ const TitleItemEdit = ({ item, token, mutate, t }) => {
     }
 
     async function onSubmit(data) {
-        console.log(data, "data")
         setIsLoading(true)
 
         if (data && data.title !== item.title) {

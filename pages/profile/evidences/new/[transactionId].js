@@ -226,8 +226,6 @@ const NewEvidence = () => {
   }
 
   const removeFile = (id) => {
-    console.log(previewFiles, "previewsds removegfile")
-    console.log(id, "id removegfile")
 
     const result = previewFiles.filter(e => e.id !== id);
 

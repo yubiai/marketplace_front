@@ -16,7 +16,6 @@ const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFil
 
   const verifyFiles = (e) => {
 
-    console.log(previewFiles, "previewFiles")
 
     if (e.target.files && e.target.files.length === 0) {
       return
@@ -71,9 +70,6 @@ const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFil
   }
 
   const removeFile = (id) => {
-    console.log(previewFiles, "previewsds removegfile")
-    console.log(id, "id removegfile")
-
     const result = previewFiles.filter(e => e.id !== id);
 
     if (!result) {

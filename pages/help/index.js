@@ -86,7 +86,7 @@ const Help = () => {
           </Link>
         </Box>
         <Stack
-          direction={["column", "row"]}
+          direction={{base: "column", md: "row"}}
           spacing={{ base: "24px", md: "24px" }}
           mt="10px"
           mb="2em"

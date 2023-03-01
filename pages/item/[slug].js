@@ -287,7 +287,7 @@ const ItemById = ({ item }) => {
         </Flex>
         <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t}/>
         <Divider />
-        <Box m="1em" h="30vh">
+        <Box m="1em" h={"100%"}>
           <Text mt="10px" fontWeight={"semibold"}>{t("Description")}</Text>
           <Text mt="10px">{item.description}</Text>
         </Box>

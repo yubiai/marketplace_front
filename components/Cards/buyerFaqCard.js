@@ -7,7 +7,7 @@ const BuyerFaqCard = () => {
     <Box
       width={{ base: "100%", md: "50%" }}
       position={"relative"}
-      height={{ base: "660px", md: "400px" }}
+      height={"100%"}
       padding={"1.5em"}
       borderRadius={"5px"}
       boxShadow={"0 4px 4px 0 rgba(0, 0, 0, 0.25)"}
@@ -22,7 +22,7 @@ const BuyerFaqCard = () => {
       <Heading fontSize={"2xl"} mt="1em">
         <Text>{t("How do I start buying?")}</Text>
       </Heading>
-      <Text>
+      <Text mt="1em">
         {t("Start by clicking on “Connect” on the top right corner then head over to the search bar on the middle of the navigation area, search whatever you want and then click on the item card that will appear")}
       </Text>
 {/*       <Heading fontSize={"2xl"} mt="1em">

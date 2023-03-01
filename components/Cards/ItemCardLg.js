@@ -52,12 +52,16 @@ const ItemCardLg = ({ item }) => {
             </Text>
             {item.seller && (
               <Box position="absolute" bottom="5" left="0.5">
-                <Badge color={"blue.800"} bg="white" fontSize={"10px"}
+                <Badge color={"blue.800"} bg="white" fontSize={"10px"} noOfLines={2}
+                  style={{
+                    whiteSpace: "normal",
+                    wordWrap: "break-word",
+                  }}
                 >{item.seller.first_name} {item.seller.last_name}</Badge>
               </Box>
             )}
             <Stack direction={'row'} position="absolute" bottom="0" left="1">
-             <Text fontWeight={800} fontSize={'1ems'}>
+              <Text fontWeight={800} fontSize={'1ems'} ml="2px">
                 {item.price}
               </Text>
               <Text>{item.currencySymbolPrice || 'ETH'}</Text>

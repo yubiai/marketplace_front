@@ -16,7 +16,6 @@ const ButtonNewQuestion = ({ question, token, t }) => {
 
     // New Question
     const onSubmit = async (data) => {
-        console.log(data)
         setLoading(true)
         const newQuestion = {
             seller: question.seller,

@@ -8,7 +8,7 @@ const ItemCard = ({ item }) => {
         <Box
           role={'group'}
           p={2}
-          w={{base: '140px', sm: "150px", md: "160px", lg: "180px"}}
+          w={{ base: '140px', sm: "150px", md: "160px", lg: "180px" }}
           maxH={'260px'}
           h={'260px'}
           bg={'white'}
@@ -27,7 +27,7 @@ const ItemCard = ({ item }) => {
             src={item && item.files && item.files.length && item.files[0] && item.files[0].filename ? process.env.NEXT_PUBLIC_LINK_FLEEK + item.files[0].filename : '/static/images/ybminilogo.png'}
             fallbackSrc={item && item.files && item.files.length && item.files[0] && item.files[0].filename ? process.env.NEXT_PUBLIC_LINK_GC + item.files[0].filename : '/static/images/ybminilogo.png'}
           />
-          
+
           <Stack align={'left'}>
             <Divider />
             <Text
@@ -39,13 +39,17 @@ const ItemCard = ({ item }) => {
               {item.title}
             </Text>
             {item.seller && (
-            <Box position="absolute" bottom="5" left="1">
-              <Badge color={"blue.800"} bg="white" fontSize={"10px"}
-              >{item.seller.first_name} {item.seller.last_name}</Badge>
-            </Box>
-          )} 
+              <Box position="absolute" bottom="5" left="1" >
+                <Badge color={"blue.800"} bg="white" fontSize={{base: "8px", md: "10px"}} mr={"3px"} noOfLines={2}
+                  style={{
+                    whiteSpace: "normal",
+                    wordWrap: "break-word",
+                  }}
+                >{item.seller.first_name} {item.seller.last_name}</Badge>
+              </Box>
+            )}
             <Stack direction={'row'} position="absolute" bottom="0">
-              <Text fontWeight={800} fontSize={'1ems'}>
+              <Text fontWeight={800} fontSize={'1ems'} >
                 {item.price}
               </Text>
               <Text>{item.currencySymbolPrice}</Text>

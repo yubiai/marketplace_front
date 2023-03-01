@@ -51,7 +51,6 @@ function connectWallet(provider) {
         try {
             const wallet = provider.send('eth_requestAccounts', [])
                 .catch(() => {
-                    console.log('user rejected request')
                     return reject(false)
                 });
             return resolve(wallet)

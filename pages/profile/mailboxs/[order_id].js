@@ -102,7 +102,6 @@ const MailBoxs = () => {
   }
 
   const saveMessageWithFiles = async (message) => {
-    console.log(message, "message")
     await channelService
       .pushMsgWithFiles(channel._id, message, global.profile.token)
       .then(() => {
@@ -156,8 +155,6 @@ const MailBoxs = () => {
   }
 
   if (isLoading || !channel || !user ) return <Loading />
-
-  console.log(channel)
 
   return (
     <>

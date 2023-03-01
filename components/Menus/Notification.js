@@ -55,7 +55,7 @@ const Notification = () => {
       size="md"
     />
   );
-  console.log(global.profile, "global")  
+
   if (global && global.profile) {
     return (
       <> 
