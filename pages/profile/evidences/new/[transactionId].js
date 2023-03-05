@@ -379,10 +379,7 @@ const NewEvidence = () => {
                 color="gray.700"
                 bg="white"
                 {...register('title', {
-                  required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, pattern: {
-                    value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                    message: t("Only numbers are not allowed")
-                  }, onChange: (e) => { setCountTitle(e.target.value.length) }
+                  required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, onChange: (e) => { setCountTitle(e.target.value.length) }
                 })}
                 isRequired
               />
@@ -400,10 +397,7 @@ const NewEvidence = () => {
                 color="gray.700"
                 bg="white"
                 {...register('description', {
-                  required: true, maxLength: MAX_DESCRIPTION_LENGTH, minLength: MIN_DESCRIPTION_LENGTH, pattern: {
-                    value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                    message: t("Only numbers are not allowed")
-                  }, onChange: (e) => { setCountDescription(e.target.value.length) }
+                  required: true, maxLength: MAX_DESCRIPTION_LENGTH, minLength: MIN_DESCRIPTION_LENGTH, onChange: (e) => { setCountDescription(e.target.value.length) }
                 })}
                 isRequired
               />

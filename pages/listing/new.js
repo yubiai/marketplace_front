@@ -318,10 +318,7 @@ const NewListing = () => {
               color="gray.700"
               bg="white"
               {...register('title', {
-                required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, pattern: {
-                  value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                  message: t("Only numbers are not allowed")
-                }, onChange: (e) => { setCountTitle(e.target.value.length) }
+                required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, onChange: (e) => { setCountTitle(e.target.value.length) }
               })}
               isRequired
             />
@@ -339,10 +336,7 @@ const NewListing = () => {
               _placeholder={{ color: 'gray.400' }}
               color="gray.700"
               bg="white"
-              {...register('description', { required: true, minLength: MIN_DESCRIPTION_LENGTH, maxLength: MAX_DESCRIPTION_LENGTH, pattern: {
-                value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                message: t("Only numbers are not allowed")
-              }, onChange: (e) => { setCountDescription(e.target.value.length) } })}
+              {...register('description', { required: true, minLength: MIN_DESCRIPTION_LENGTH, maxLength: MAX_DESCRIPTION_LENGTH, onChange: (e) => { setCountDescription(e.target.value.length) } })}
               isRequired
             />
             <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>

@@ -134,10 +134,7 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
                                     color="gray.700"
                                     bg="white"
                                     {...register('motive', {
-                                        required: true, minLength: MIN_MOTIVE_LENGTH, maxLength: MAX_MOTIVE_LENGTH, pattern: {
-                                            value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                                            message: "Only numbers are not allowed"
-                                        }, onChange: (e) => { setCountMotive(e.target.value.length) }
+                                        required: true, minLength: MIN_MOTIVE_LENGTH, maxLength: MAX_MOTIVE_LENGTH, onChange: (e) => { setCountMotive(e.target.value.length) }
                                     })}
                                     isRequired
                                 />
@@ -154,10 +151,7 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
                                     color="gray.700"
                                     bg="white"
                                     {...register('description', {
-                                        required: true, minLength: MIN_DESCRIPTION_LENGTH, maxLength: MAX_DESCRIPTION_LENGTH, pattern: {
-                                            value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                                            message: "Only numbers are not allowed"
-                                        }, onChange: (e) => { setCountDescription(e.target.value.length) }
+                                        required: true, minLength: MIN_DESCRIPTION_LENGTH, maxLength: MAX_DESCRIPTION_LENGTH, onChange: (e) => { setCountDescription(e.target.value.length) }
                                     })}
                                     isRequired
                                 />

@@ -126,10 +126,7 @@ const Questions = ({ item, profile_id, token, t }) => {
                                         color="gray.700"
                                         bg="white"
                                         {...register('question', {
-                                            required: true, minLength: MIN_QUESTION_LENGTH, maxLength: MAX_QUESTION_LENGTH, pattern: {
-                                              value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                                              message: "Only numbers are not allowed"
-                                            }, onChange: (e) => { setCountQuestion(e.target.value.length) }
+                                            required: true, minLength: MIN_QUESTION_LENGTH, maxLength: MAX_QUESTION_LENGTH, onChange: (e) => { setCountQuestion(e.target.value.length) }
                                           })}
                                         isRequired
                                     />

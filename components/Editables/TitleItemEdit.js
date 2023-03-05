@@ -110,10 +110,7 @@ const TitleItemEdit = ({ item, token, mutate, t }) => {
                                     color="gray.700"
                                     bg="white"
                                     {...register('title', {
-                                        required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, pattern: {
-                                            value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                                            message: t("Only numbers are not allowed")
-                                        }, onChange: (e) => { setCountTitle(e.target.value.length) }
+                                        required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, onChange: (e) => { setCountTitle(e.target.value.length) }
                                     })}
                                     isRequired
                                 />

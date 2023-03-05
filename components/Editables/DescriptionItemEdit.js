@@ -111,10 +111,7 @@ const DescriptionItemEdit = ({ item, token, mutate, t }) => {
                                     color="gray.700"
                                     bg="white"
                                     {...register('description', {
-                                        required: true, maxLength: MAX_DESCRIPTION_LENGTH, minLength: MIN_DESCRIPTION_LENGTH, pattern: {
-                                            value: /^(?![^a-zA-Z]+$)(?!$).*$/,
-                                            message: t("Only numbers are not allowed")
-                                        }, onChange: (e) => { setCountDescription(e.target.value.length) }
+                                        required: true, maxLength: MAX_DESCRIPTION_LENGTH, minLength: MIN_DESCRIPTION_LENGTH, onChange: (e) => { setCountDescription(e.target.value.length) }
                                     })}
                                     isRequired
                                 />
