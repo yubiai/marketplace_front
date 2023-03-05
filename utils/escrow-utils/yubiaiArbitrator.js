@@ -1,7 +1,7 @@
 import { Buffer } from 'buffer';
 import { createWeb3, createWeb3FromModal } from './web3-provider';
 import { yubiaiArbitrator } from './abis';
-import { getContractsForNetwork } from '../walletUtils';
+import { getContractsForNetwork, getCurrentNetwork } from '../walletUtils';
 
 export default class YubiaiArbitrator {
   constructor(web3Obj, account) {
@@ -13,11 +13,10 @@ export default class YubiaiArbitrator {
   async initContract() {
     const web3 = createWeb3((this.web3Obj.currentProvider || {}).url || '');
     this.web3 = await createWeb3FromModal(web3.modal, web3.infuraURL);
-    const networkType = await this.web3.eth.net.getNetworkType();
-    const contracts = getContractsForNetwork(networkType);
+    const networkType = getCurrentNetwork() // TODO: Reemplazar por walletUtils.getCurrentNetwork ()
+    const contracts = getContractsForNetwork(networkType.aliasTitle);
     this.contractAddress = contracts.yubiaiArbitrator;
     this.contract = new this.web3.eth.Contract(yubiaiArbitrator, this.contractAddress, { from: this.account });
-
     window.contract = this.contract;
   }
 

@@ -1,7 +1,7 @@
 import { Buffer } from 'buffer';
 import { createWeb3, createWeb3FromModal } from './web3-provider';
 import { erc20, yubiaiArbitrable } from './abis';
-import { getContractsForNetwork } from '../walletUtils';
+import { getContractsForNetwork, getCurrentNetwork } from '../walletUtils';
 
 const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
 
@@ -15,8 +15,8 @@ export default class YubiaiPaymentArbitrable {
   async initContract() {
     const web3 = createWeb3((this.web3Obj.currentProvider || {}).url || '');
     this.web3 = await createWeb3FromModal(web3.modal, web3.infuraURL);
-    const networkType = await this.web3.eth.net.getNetworkType(); // TODO: Reemplazar por walletUtils.getCurrentNetwork ()
-    const contracts = getContractsForNetwork(networkType); // TODO: Usar la funcion nueva refactorizada
+    const networkType = getCurrentNetwork() 
+    const contracts = getContractsForNetwork(networkType.aliasTitle);
     this.contractAddress = contracts.yubiaiArbitrable;
     this.contract = new this.web3.eth.Contract(
       yubiaiArbitrable, this.contractAddress, { from: this.account },
