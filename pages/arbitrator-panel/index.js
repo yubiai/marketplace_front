@@ -22,7 +22,7 @@ const ArbitratorPanel = () => {
       // Since Arbitrator Panel is not included in this release, not important to attach infura server
       const yubiaiArbitratorInstance = new YubiaiArbitrator(
         new Web3(
-          process.env.NEXT_PUBLIC_INFURA_ENDPOINT_GOERLI ||
+          process.env.NEXT_PUBLIC_INFURA_ENDPOINT_SEPOLIA ||
           new Web3.providers.HttpProvider('http://localhost:8545')
         ),
         global?.profile?.eth_address.toLowerCase()
@@ -30,6 +30,7 @@ const ArbitratorPanel = () => {
       await yubiaiArbitratorInstance.initContract();
       setArbitratorInstance(yubiaiArbitratorInstance);
     }
+
 
     if (!arbitratorInstance) {
       initArbitratorInstance();
