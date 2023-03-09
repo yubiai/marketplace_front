@@ -48,6 +48,7 @@ import { StatusOrderByState, CLAIMED_STATUS, statusDescMap, StatusOrder, ONGOING
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
+import ButtonCloseDeal from '../../../../components/Buttons/ButtonCloseDeal';
 
 
 const OrderDetail = () => {
@@ -58,7 +59,7 @@ const OrderDetail = () => {
   const global = useGlobal();
   const dispatch = useDispatchGlobal();
   const toast = useToast();
-  
+
   const { transactionId } = router.query;
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [loadingMarkDone, setLoadingMarkDone] = useState(false);
@@ -239,9 +240,8 @@ const OrderDetail = () => {
 
   if (!orderDetail) return <Loading />;
 
-  console.log(orderDetail, "Estoy viendo")
   console.log((deal || {}))
-  
+
   return (
     <>
       <Head>
@@ -438,7 +438,7 @@ const OrderDetail = () => {
               </Center>
             </Grid>
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-                      
+
             <Text fontWeight={600} fontSize="2xl" >{t("Status ")}</Text>
             {
               orderDetail.status != "ORDER_REFUNDED" && (deal || {}).deal.dealStatus && StatusOrderByState(
@@ -472,11 +472,11 @@ const OrderDetail = () => {
                 <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
                 <Button
                   mt="1em"
-                  width={{base: "100%", md: "50%"}}
+                  width={{ base: "100%", md: "50%" }}
                   backgroundColor={'#00abd1'}
                   color={'white'}
                   rounded={'5px'}
-                  fontSize={{base: "0.9em", md: "1.4em"}}
+                  fontSize={{ base: "0.9em", md: "1.4em" }}
                   cursor={'pointer'}
                   onClick={onOpen}
                   isDisabled={orderDetail && orderDetail.orderCompletedBySeller}
@@ -485,7 +485,7 @@ const OrderDetail = () => {
                   }}
                 >
                   {t("Mark job as done")}
-                </Button> 
+                </Button>
                 <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
                   <ModalOverlay />
                   <ModalContent>
@@ -596,6 +596,24 @@ const OrderDetail = () => {
 
                   </>
                 )}
+
+                {
+                  (deal || {}).deal.isOver && verifyMessages && (deal || {}).deal.dealStatus !== "4" && (
+                    <>
+                      <ButtonCloseDeal
+                        dealId={(deal || {}).deal.dealId}
+                        toggleLoadingStatus={toggleLoadingStatus}
+                        yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                        stepsPostAction={loadOrder}
+                      />
+
+                      <Text mt="5px" fontWeight={"normal"} fontStyle={"italic"}>
+                        Se termino el tiempo para reclamar
+                      </Text>
+                    </>
+                  )
+                }
+
               </Box>
             </Stack>
           </Box>
