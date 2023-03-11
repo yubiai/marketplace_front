@@ -1,5 +1,7 @@
 import React from "react";
 import WalletConnectWeb3Provider from "@walletconnect/web3-provider";
+import { EthereumProvider } from "@walletconnect/ethereum-provider";
+
 import Authereum from "authereum";
 import {
   createContext,
@@ -34,7 +36,7 @@ export const createWeb3 = (infuraURL) => {
     cacheProvider: true,
     providerOptions: {
       walletconnect: {
-        package: WalletConnectWeb3Provider,
+        package: EthereumProvider,
         options: {
           infuraId: "777dea866eb241a6818b154b7b637e66",
         },

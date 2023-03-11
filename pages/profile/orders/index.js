@@ -44,7 +44,7 @@ const Orders = () => {
   }, [global.yubiaiPaymentArbitrableInstance]);
 
   const { data, isLoading, isError } = useFetch(
-    global && global.profile && global.profile.eth_address ? `/orders/buyer/${global.profile.eth_address}?page=${global.pageIndex}&size=2` : null,
+    global && global.profile && global.profile.eth_address ? `/orders/buyer/${global.profile.eth_address}?page=${global.pageIndex}&size=5` : null,
     global && global.profile && global.profile.token
   )
 
