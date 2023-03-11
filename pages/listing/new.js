@@ -58,8 +58,6 @@ const NewListing = () => {
   const router = useRouter()
   const { t } = useTranslation("newlisting");
 
-  console.log(global)
-
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
 

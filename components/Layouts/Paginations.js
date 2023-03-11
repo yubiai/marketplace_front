@@ -16,8 +16,11 @@ const Page = ({ id }) => {
       color="#00abd1"
       variant="ghost"
       onClick={() => selectPageIndex(id)}
-      m="1em"
+      m="5px"
       size="xl"
+      _hover={{
+        bg: "gray.300"
+      }}
     >
       {id}
     </Button>
@@ -56,23 +59,23 @@ const Paginations = ({ data }) => {
                {data?.currentPage + 1}
             </Tag>
           </Center>
-          <Flex alignItems={'center'} justifyContent={{ base: 'center' }}>
+          <Flex alignItems={'center'} justifyContent={{ base: 'center' }} width="100%">
             <Button
               onClick={descrPageIndex}
               color="white"
               bg="#00abd1"
               disabled={global.pageIndex <= 0}
             >
-              <ArrowLeftIcon w={6} h={6} />
+              <ArrowLeftIcon w={4} h={4} />
             </Button>
-            {pages.length < 20 ? pages : ''}
+            {pages.length < 10 ? pages : ''}
             <Button
               onClick={incrPageIndex}
               color="white"
               bg="#00abd1"
               disabled={global.pageIndex >= data?.totalPages - 1}
             >
-              <ArrowRightIcon w={6} h={6} />
+              <ArrowRightIcon w={4} h={4} />
             </Button>
           </Flex>
         </>
