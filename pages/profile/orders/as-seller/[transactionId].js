@@ -460,7 +460,7 @@ const OrderDetail = () => {
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
-                <Text fontWeight={"normal"}>{t("Actions will be available when there is a message interaction")}</Text>
+                <Text fontWeight={"normal"}>{t("Actions as seller will be available when there is a message interaction")}</Text>
               </>
             )}
 
