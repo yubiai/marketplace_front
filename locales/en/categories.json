@@ -2,6 +2,8 @@
     "Categories": "Categories",
     "Services": "Services",
     "Sub - Categories": "Sub - Categories",
+    "There is no item published in this subcategory": "There is no item published in this subcategory.",
+    "Go Back": "Go Back",
     "subcategories": {
         "Marketing": "Marketing",
         "Gastronomy": "Gastronomy",
@@ -11,6 +13,7 @@
         "Travels and Citizenship": "Travel and Citizenship",
         "Translations": "Translations",
         "Advisory/Consulting": "Advisory/Consulting",
-        "Textile Inputs": "Textile Inputs"
+        "Textile Inputs": "Textile Inputs",
+        "Finance": "Finance"
     }
 }

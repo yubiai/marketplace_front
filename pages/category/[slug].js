@@ -11,12 +11,14 @@ import Error from '../../components/Infos/Error'
 import { useEffect } from 'react'
 import useFetch from '../../hooks/data/useFetch'
 import { useRouter } from 'next/router'
+import useTranslation from 'next-translate/useTranslation';
+
 
 const ItemsByCategory = ({ response, category }) => {
   const global = useGlobal();
   const dispatch = useDispatchGlobal();
   const router = useRouter();
-
+  const { t } = useTranslation("categories");
   const { data, isLoading, isError } = useFetch(
     `/items/?page=${global.pageIndex}&size=8&categoryId=${category ? category._id : ''
     }&subcategoryId=${global.subCategory ? global.subCategory : ''}`,
@@ -64,7 +66,7 @@ const ItemsByCategory = ({ response, category }) => {
           flexDirection={'column'}
         >
           <Flex alignItems={'center'}>
-            <Text fontWeight={'bold'}>Categories</Text>
+            <Text fontWeight={'bold'}>{t("Categories")}</Text>
             <MdKeyboardArrowRight />
             <Text fontWeight={'bold'}>
               {capitalize(category && category.title)}
@@ -76,11 +78,11 @@ const ItemsByCategory = ({ response, category }) => {
           {data && data.items.length === 0 && (
             <>
               <Center>
-                <Heading mt="5em">There is no item published in this subcategory.</Heading>
+                <Heading mt="5em">{t("There is no item published in this subcategory")}</Heading>
               </Center>
               <Center>
                 <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
-                  Go Back
+                  {t("Go Back")}
                 </Button>
               </Center>
             </>
