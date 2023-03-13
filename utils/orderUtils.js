@@ -78,11 +78,28 @@ const parseItemIntoOrderTransaction = (
     }
 }
 
+const calculateRemainingDays = (transactionDate) => {
+
+    const TimeFormClaim = process.env.NEXT_PUBLIC_TIME_FOR_CLAIM;
+
+    const now = Date.now();
+    const diffInSeconds = Math.floor((now - transactionDate) / 1000); 
+    
+    let resultRemaining = (TimeFormClaim - diffInSeconds) / (24 * 60 * 60);
+
+    resultRemaining = parseInt(resultRemaining);
+
+    return resultRemaining;
+}
+
+
+
 export {
     parseItemIntoOrderTransaction,
     totalAmountOrder,
     parsePriceToETHAmount,
     getProtocolNamingFromNetwork,
     parseFromAToBToken,
-    translateStatusIdToNamingInTransaction
+    translateStatusIdToNamingInTransaction,
+    calculateRemainingDays
 }
