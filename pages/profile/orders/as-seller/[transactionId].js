@@ -332,7 +332,9 @@ const OrderDetail = () => {
                   <Center textAlign={"center"} noOfLines={4}>
                     <Box width={"full"} >
                       <Text fontWeight={600}>{orderDetail.item.title}</Text>
-                      <Text>{t("Price")} {orderDetail.item.price || 0} {orderDetail.item.currencySymbolPrice}</Text>
+                      <Text>{t("Price")} {
+                        `${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)} ${orderDetail.item.currencySymbolPrice || 'ETH'}`
+                      }</Text>
                     </Box>
                   </Center>
                 )

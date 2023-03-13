@@ -46,6 +46,7 @@ import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
 
 const OrderDetail = () => {
+  const [loading, setLoading] = useState(false);
   /**
    * External dependencies
    */
@@ -87,8 +88,10 @@ const OrderDetail = () => {
   const loadOrder = async () => {
     const response = await orderService.getOrderByTransaction(
       transactionId, global.profile.token);
+    console.log(response, "response")
     const { data } = response;
     const orderInfo = data.result;
+    console.log(orderInfo, "orderInfo aca 1")
 
     // Check if it is the buyer if not outside
     const userEthAddress = global && global.profile && global.profile.eth_address.toUpperCase();
@@ -107,6 +110,7 @@ const OrderDetail = () => {
       return router.replace('/logout');
     }
 
+
     const { transaction } = await loadOrderData(
       orderInfo.item, global.currencyPriceList, true);
 
@@ -124,6 +128,8 @@ const OrderDetail = () => {
     if (verifyMessages && verifyMessages.data) {
       setVerifyMessages(true)
     }
+
+    setLoading(true);
 
   }
 
@@ -183,7 +189,7 @@ const OrderDetail = () => {
     }
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance]);
 
-  if (!orderDetail) return <Loading />;
+  if (!loading) return <Loading />;
 
   console.log((deal || {}))
 
@@ -273,7 +279,10 @@ const OrderDetail = () => {
                 <Center noOfLines={3} textAlign={"center"} >
                   <Box>
                     <Text fontWeight={600}>{orderDetail.item.title}</Text>
-                    <Text>{t("Price")} {orderDetail.item.price || 0} {orderDetail.item.currencySymbolPrice}</Text>
+                    <Text>{t("Price")} {
+                      `${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)} ${orderDetail.item.currencySymbolPrice || 'ETH'}`
+                    }</Text>
+
                   </Box>
                 </Center>
 
@@ -437,7 +446,7 @@ const OrderDetail = () => {
                           <>
                             <div>
                               <Text color="black">
-                               {t("Confirm")}
+                                {t("Confirm")}
                               </Text>
                             </div>
                             <div>
@@ -476,7 +485,7 @@ const OrderDetail = () => {
                             {
                               !(deal || {}).deal.isOver &&
                               <Box mt={{ base: "1em", md: "0px" }} textAlign={{ base: "center", md: "right" }}>
-                                <ButtonStartClaim transactionMeta={transactionMeta} profile={global.profile} t={t}/>
+                                <ButtonStartClaim transactionMeta={transactionMeta} profile={global.profile} t={t} />
                               </Box>
                             }
                           </div>
