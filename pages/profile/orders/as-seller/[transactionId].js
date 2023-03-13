@@ -49,6 +49,7 @@ import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
 import ButtonCloseDeal from '../../../../components/Buttons/ButtonCloseDeal';
+import { calculateRemainingDays } from '../../../../utils/orderUtils';
 
 
 const OrderDetail = () => {
@@ -458,6 +459,12 @@ const OrderDetail = () => {
               )
             }
 
+            {(deal || {}).deal.dealStatus === ONGOING_STATUS && (
+              <>
+                <Text mt="1em" fontWeight={"normal"}>Dias restantes: {calculateRemainingDays(transactionDate)}</Text>
+              </>
+            )}
+
             {!verifyMessages && (
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
@@ -465,6 +472,7 @@ const OrderDetail = () => {
                 <Text fontWeight={"normal"}>{t("Actions as seller will be available when there is a message interaction")}</Text>
               </>
             )}
+
 
             {/* Actions Mark Job as Done */}
             {

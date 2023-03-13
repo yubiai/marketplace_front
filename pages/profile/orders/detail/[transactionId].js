@@ -44,6 +44,7 @@ import {
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
+import { calculateRemainingDays } from '../../../../utils/orderUtils';
 
 const OrderDetail = () => {
   const [loading, setLoading] = useState(false);
@@ -412,6 +413,11 @@ const OrderDetail = () => {
                 t
               )
             }
+            {(deal || {}).deal.dealStatus === ONGOING_STATUS && (
+              <>
+                <Text mt="1em" fontWeight={"normal"}>Dias restantes: {calculateRemainingDays(transactionDate)}</Text>
+              </>
+            )}
 
             {(deal || {}).deal.dealStatus === ONGOING_STATUS && !verifyMessages && (
               <>

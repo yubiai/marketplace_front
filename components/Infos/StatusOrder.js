@@ -66,7 +66,7 @@ export const StatusOrderByState = (deal = {}, claim = {}, t) => {
     case "ORDER_DISPUTE_IN_PROGRESS":
       return (
         <Box bg="purple.300" rounded={"5px"} w={{ base: "100%", md: "max-content" }}>
-          <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Dispute in progress")}</Text>
+          <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Dispute in progress")} (Dispute Id: {claim.disputeId})</Text>
         </Box>
       );
     case "CLAIM_REJECTED":
