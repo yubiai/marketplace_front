@@ -415,7 +415,7 @@ const OrderDetail = () => {
             }
             {(deal || {}).deal.dealStatus === ONGOING_STATUS && (
               <>
-                <Text mt="1em" fontWeight={"normal"}>Dias restantes: {calculateRemainingDays(transactionDate)}</Text>
+                <Text mt="1em" fontWeight={"normal"}>{t("Remaining days")}: {calculateRemainingDays(transactionDate)}</Text>
               </>
             )}
 
