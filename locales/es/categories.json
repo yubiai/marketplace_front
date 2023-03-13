@@ -2,6 +2,8 @@
     "Categories": "Categorías",
     "Services": "Servicios",
     "Sub - Categories": "Sub - Categorías",
+    "There is no item published in this subcategory": "No hay ningun articul publicado en esta subcategoria.",
+    "Go Back": "Volver",
     "subcategories": {
         "Marketing": "Marketing",
         "Plumbing": "Plomeria",
@@ -11,6 +13,7 @@
         "Travels and Citizenship": "Viajes y ciudadanía",
         "Translations": "Traducciones",
         "Advisory/Consulting": "Asesoría/Consultoría",
-        "Textile Inputs": "Producción textil"
+        "Textile Inputs": "Producción textil",
+        "Finance": "Finanzas"
     }
 }
