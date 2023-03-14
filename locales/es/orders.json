@@ -34,6 +34,7 @@
     "Send Message": "Enviar mensaje",
     "Status ": "Estado",
     "Actions": "Acciones",
+    "Remaining days": "Dias restantes",
     "Actions as seller will be available when there is a message interaction": "Las acciones estarán disponibles cuando haya una interacción en el chat. Como vendedor, responda al comprador durante el periodo de 10 días en el que su pago está retenido en el contrato inteligente. Si no respondes, el comprador puede cerrar el trato y recuperar su pago. Después de 10 días, puedes cerrar el trato y quedarte con el pago si el comprador no ha comunicado sus intenciones, pero lo mejor es trabajar para llegar a un resultado mutuamente beneficioso.",
     "Actions as buyer will be available when there is a message interaction": "Las acciones estarán disponibles cuando haya una interacción en el chat. Tenga en cuenta que su pago se retendrá en el contrato inteligente durante 10 días. Si no recibe una respuesta del vendedor en este plazo, podrá cerrar el trato y recuperar su pago. Sin embargo, ten en cuenta que una vez transcurrido el plazo de 10 días, el vendedor también tiene la opción de cerrar el trato y retener el pago si no has comunicado tus intenciones.",
     "Please confirm": "Confirma que has recibido el trabajo y que has verificado que satisface todas las condiciones que especificaste durante el chat antes de liberar el pago. No confirmes e informa al vendedor en el chat si el trabajo que completó no cumplió con tus expectativas.",
