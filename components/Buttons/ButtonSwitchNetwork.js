@@ -38,7 +38,6 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
     useEffect(() => {
         if (window.ethereum) {
             window.ethereum.on("chainChanged", async (chainid) => {
-                console.log(chainid, "chainid")
                 if (chainid == 0x1 || chainid == 0x5 || chainid == 0x64 || chainid == 0x38 || chainid == 0x56 || chainid == 11155111) {
                     return window.location.reload();
                 }
