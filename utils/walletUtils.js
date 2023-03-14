@@ -1,5 +1,5 @@
 const listChains = [
-  {
+/*   {
     id: 1,
     chainID: "0x1",
     title: "Ethereum",
@@ -27,7 +27,7 @@ const listChains = [
     aliasTitle: 'bsc',
     currency: "BNB",
     rpcUrls: ['https://bsc-dataseed.binance.org/']
-  },
+  }, */
   {
     id: 11155111,
     chainID: "0xaa36a7",
