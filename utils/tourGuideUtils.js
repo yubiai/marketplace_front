@@ -1,13 +1,13 @@
 
-    const stepsTour =  [
-       
+const stepsTour = (t) => {
+  const listSteps = [
     {
       selector: '.step-sell',
-      content: t('Head on and publish your service'),
+      content: t('Head on and publish your service')
     },
     {
       selector: '.step-category',
-      content: t('Search an item by categories and subcategories'),
+      content: t('Search an item by categories and subcategories')
     },
     {
       selector: '.step-favourites',
@@ -30,15 +30,9 @@
       content: t('View your notifications')
     }
   ];
+  return listSteps
+}
 
-  const stepsJoyride = [
-    {
-      target: '.step-connect',
-      content: t('Connect with your wallet and start earning crypto or hiring with your cryptos'),
-    }
-  ];
-
-  export {
-    stepsTour,
-    stepsJoyride
-  }
+export {
+  stepsTour
+}

@@ -21,7 +21,7 @@ const TourGuideProvider = ({ children }) => {
 
     return (
         <>
-            <TourProvider steps={stepsTour} beforeClose={() => handleTourClose()} t={t}>
+            <TourProvider steps={stepsTour(t)} beforeClose={() => handleTourClose()}>
                 {children}
             </TourProvider>
         </>
