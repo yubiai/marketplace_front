@@ -3,9 +3,11 @@ import { TourProvider } from '@reactour/tour';
 import { profileService } from '../services/profileService';
 import { stepsTour } from '../utils/tourGuideUtils';
 import { useGlobal } from './globalProvider';
+import useTranslation from 'next-translate/useTranslation';
 
 const TourGuideProvider = ({ children }) => {
     const global = useGlobal();
+    const { t } = useTranslation("help");
 
     const handleTourClose = async () => {
         try {
@@ -19,7 +21,7 @@ const TourGuideProvider = ({ children }) => {
 
     return (
         <>
-            <TourProvider steps={stepsTour} beforeClose={() => handleTourClose()}>
+            <TourProvider steps={stepsTour} beforeClose={() => handleTourClose()} t={t}>
                 {children}
             </TourProvider>
         </>
