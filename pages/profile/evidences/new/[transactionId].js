@@ -317,7 +317,7 @@ const NewEvidence = () => {
         dealId, amount, evidenceURI, parsedFeeAmount);
 
       if (result) {
-        const status = 'ORDER_DISPUTE_IN_PROGRESS';
+        const status = 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
         await orderService.updateOrderStatus(transactionHash, status, global?.profile?.token);
         router.replace(`/profile/orders/detail/${transactionHash}`);
       }

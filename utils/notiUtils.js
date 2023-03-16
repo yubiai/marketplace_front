@@ -44,6 +44,14 @@ const parseNoti = (type, t) => {
       path = 'profile/orders/detail'
       message = t ? t("Order Reimbursed!") : "Order Reimbursed!"
       break
+    case 'DISPUTE_WAS_DECIDED_SELLER':
+      path = 'profile/orders/as-seller'
+      message = t ? t("Dispute has reach a resolution") : "Dispute has reach a resolution."
+      break
+    case 'DISPUTE_WAS_DECIDED_BUYER':
+      path = 'profile/orders/detail'
+      message = t ? t("Dispute has reach a resolution") : "Dispute has reach a resolution."
+      break
     case 'Channel':
       path = 'profile/mailboxs'
       message = t ? t("New Message!") : "New Message!"

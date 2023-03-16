@@ -148,7 +148,7 @@ export const statusDescMap = (deal = {}, claim = {}) => {
   switch (deal.dealStatus) {
     case "1":
       if (claim.claimID != "0") {
-        if (claim.claimSolvedAt && claim.ruling === "2") {
+        if (claim.claimSolvedAt && claim.claimStatus === "2") {
           return "CLAIM_WON_BY_BUYER";
         } else if (claim.claimSolvedAt) {
           const claimLimitReaches = claim.claimCount === claim.maxClaimsAllowed;
