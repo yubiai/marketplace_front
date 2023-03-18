@@ -90,7 +90,7 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
         <>
             <Flex mt="10px" p="5px"
             >
-                <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>{t("Price - Ubi Burn")}</Text>
+                <Text mt="10px" fontStyle={"italic"} fontWeight={"semibold"}>{t("Price Edit")}</Text>
                 <Flex justifyContent='left' m="5px">
                     {actionEdit && (
                         <ButtonGroup justifyContent='center' size='sm'>
@@ -112,7 +112,7 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
                 />
             )}
             {!actionEdit && (<Text p="5px"
-            >{t("Currency:")} {item.currencySymbolPrice} {" - "} {t("Price:")} {item.price} {item.currencySymbolPrice}  {t(" - Ubi Burn: ") + item.ubiburningamount + "%"}</Text>)}
+            >{t("Currency:")} {item.currencySymbolPrice} {" - "} {t("Price:")} {item.price} {item.currencySymbolPrice}</Text>)}
             {actionEdit && global.currencyPriceList && global.currencyPriceList.length > 0 && (
                 <>
                     <Box h="full" p="5px"

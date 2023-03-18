@@ -22,7 +22,7 @@ const parseNoti = (type, t) => {
       break
     case 'ORDER_DISPUTE_IN_PROGRESS':
       path = 'profile/orders/as-seller'
-      message = t ? t("Order dispute in progress") : "Order dispute in progress"
+      message = t ? t("Dispute initiated on Kleros as seller rejected your claim") : "Dispute initiated on Kleros as seller rejected your claim."
       break
     case 'ORDER_DISPUTE_FINISHED_SELLER':
       path = 'profile/orders/as-seller'
@@ -43,6 +43,10 @@ const parseNoti = (type, t) => {
     case 'ORDER_REFUNDED':
       path = 'profile/orders/detail'
       message = t ? t("Order Reimbursed!") : "Order Reimbursed!"
+      break
+    case 'ORDER_CLOSE_DEAL':
+      path = 'profile/orders/detail'
+      message = t ? t("Seller has requested your payment") : "Seller has requested your payment."
       break
     case 'DISPUTE_WAS_DECIDED_SELLER':
       path = 'profile/orders/as-seller'
@@ -66,7 +70,7 @@ const parseNoti = (type, t) => {
       break
     case 'ActionQuestion':
       path = 'profile/questions/question'
-      message = t ? t("Question status change") : "Question status change" 
+      message = t ? t("Question status change") : "Question status change"
       break
     default:
       path = 'profile'

@@ -383,7 +383,7 @@ const NewEvidence = () => {
                 })}
                 isRequired
               />
-              <Flex m="5px" fontStyle={"italic"}>{t("Characters")}: <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
+              <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
               <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
               <Text color="red" m="5px">{errors.title?.type === 'required' && t("Title is Required")}</Text>
               <Text color="red" m="5px">{errors.title?.type === 'minLength' && t("Minimum required characters are 15")}</Text>
@@ -401,7 +401,7 @@ const NewEvidence = () => {
                 })}
                 isRequired
               />
-              <Flex m="5px" fontStyle={"italic"}>{t("Characters")}: <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
+              <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
               <Text color="red" m="5px">{errors.description?.type === 'pattern' && errors.description?.message}</Text>
               <Text color="red" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
               <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 100")}</Text>

@@ -75,5 +75,6 @@
     "Reject": "Rechazar",
     "Accept": "Aceptar",
     "Successfully changed the status": "Se ha cambiado el estado con éxito.",
-    "Order": "Pedido"
+    "Order": "Pedido",
+    "Claim Payment": "Reclamar Pago"
 }

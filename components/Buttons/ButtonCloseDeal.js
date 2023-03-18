@@ -1,15 +1,15 @@
 import React from 'react';
 import { Button } from '@chakra-ui/react';
 
-const ButtonCloseDeal = ({ dealId, toggleLoadingStatus, yubiaiPaymentArbitrableInstance, stepsPostAction }) => {
+const ButtonCloseDeal = ({ dealId, toggleLoadingStatus, yubiaiPaymentArbitrableInstance, stepsPostAction, t }) => {
 
     const closeDeal = async () => {
 
         try {
             toggleLoadingStatus(true)
             const senderWallet = await yubiaiPaymentArbitrableInstance.getAccount();
-            const result = await yubiaiPaymentArbitrableInstance.contract.methods.closeDeal(dealId).send({from: senderWallet})
-            console.log(result, "result")
+            await yubiaiPaymentArbitrableInstance.contract.methods.closeDeal(dealId).send({from: senderWallet});
+            await orderService.updateOrderStatus(transactionHash, 'ORDER_CLOSE_DEAL', global?.profile?.token);
             stepsPostAction();
             setTimeout(() => {
                 toggleLoadingStatus(false);
@@ -17,7 +17,7 @@ const ButtonCloseDeal = ({ dealId, toggleLoadingStatus, yubiaiPaymentArbitrableI
             return
 
         } catch (e) {
-            console.error(e);
+            console.error('Error close deal the transaction : ', e);
             toggleLoadingStatus(false);
             return
         }
@@ -27,7 +27,7 @@ const ButtonCloseDeal = ({ dealId, toggleLoadingStatus, yubiaiPaymentArbitrableI
         <Button bg='#00abd1' w={{ base: "100%", md: "200px" }} _hover={{
             bg: "gray.400"
         }} color={'white'} onClick={() => { closeDeal() }}>
-            Reclamar Pago
+            {t("Claim Payment")}
         </Button>
     );
 };

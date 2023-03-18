@@ -24,5 +24,7 @@
     "New Answer!": "¡Nueva Respuesta!",
     "Question status change": "Cambio de estado de la pregunta",
     "New Notification N/A": "Nueva notificación N/A",
-    "Dispute has reach a resolution": "Disputa resuelta."
+    "Dispute has reach a resolution": "Disputa resuelta.",
+    "Dispute initiated on Kleros as seller rejected your claim": "Rechazaron tu reclamo, se inició una disputa en Kleros.",
+    "Seller has requested your payment": "El vendedor ha solicitado su pago."
 }

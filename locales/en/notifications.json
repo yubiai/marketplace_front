@@ -24,5 +24,7 @@
     "New Answer!": "New Answer!",
     "Question status change": "Question status change.",
     "New Notification N/A": "New Notification N/A",
-    "Dispute has reach a resolution": "Dispute has reach a resolution."
+    "Dispute has reach a resolution": "Dispute has reach a resolution.",
+    "Dispute initiated on Kleros as seller rejected your claim": "Dispute initiated on Kleros as seller rejected your claim.",
+    "Seller has requested your payment": "Seller has requested your payment."
 }

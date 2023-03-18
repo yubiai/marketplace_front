@@ -616,6 +616,7 @@ const OrderDetail = () => {
                         toggleLoadingStatus={toggleLoadingStatus}
                         yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
                         stepsPostAction={loadOrder}
+                        t={t}
                       />
 
                       <Text mt="5px" fontWeight={"normal"} fontStyle={"italic"}>

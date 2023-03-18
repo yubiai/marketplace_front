@@ -74,5 +74,6 @@
     "Reject": "Reject",
     "Accept": "Accept",
     "Successfully changed the status": "Successfully changed the status.",
-    "Order": "Order"
+    "Order": "Order",
+    "Claim Payment": "Claim Payment"
 }
