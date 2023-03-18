@@ -613,6 +613,7 @@ const OrderDetail = () => {
                     <>
                       <ButtonCloseDeal
                         dealId={(deal || {}).deal.dealId}
+                        transactionHash={transactionMeta.transactionHash} 
                         toggleLoadingStatus={toggleLoadingStatus}
                         yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
                         stepsPostAction={loadOrder}

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button } from '@chakra-ui/react';
+import { orderService } from '../../services/orderService';
 
-const ButtonCloseDeal = ({ dealId, toggleLoadingStatus, yubiaiPaymentArbitrableInstance, stepsPostAction, t }) => {
+const ButtonCloseDeal = ({ dealId, transactionHash, toggleLoadingStatus, yubiaiPaymentArbitrableInstance, stepsPostAction, t }) => {
 
     const closeDeal = async () => {
 
