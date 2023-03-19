@@ -32,15 +32,15 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
 
         try {
             toggleLoadingStatus(true);
-            const result = await yubiaiPaymentArbitrableInstance.acceptClaim(claimId);
-            if (result) {
-                await orderService.updateOrderStatus(transactionHash, 'ORDER_REFUNDED', global?.profile?.token);
-                stepsPostAction();
-                toggleLoadingStatus(false);
-            }
+            await yubiaiPaymentArbitrableInstance.acceptClaim(claimId);
+            await orderService.updateOrderStatus(transactionHash, 'ORDER_REFUNDED', global?.profile?.token);
+            stepsPostAction();
+            toggleLoadingStatus(false);
+            return
         } catch (e) {
             console.log('Error accepting claim the transaction : ', e);
             toggleLoadingStatus(false);
+            return
         }
     }
 

@@ -21,7 +21,7 @@ const parseNoti = (type, t) => {
       message = t ? t("Order dispute receiver fee pending") : "Order dispute receiver fee pending"
       break
     case 'ORDER_DISPUTE_IN_PROGRESS':
-      path = 'profile/orders/as-seller'
+      path = 'profile/orders/detail'
       message = t ? t("Dispute initiated on Kleros as seller rejected your claim") : "Dispute initiated on Kleros as seller rejected your claim."
       break
     case 'ORDER_DISPUTE_FINISHED_SELLER':
