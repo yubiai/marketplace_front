@@ -89,10 +89,8 @@ const OrderDetail = () => {
   const loadOrder = async () => {
     const response = await orderService.getOrderByTransaction(
       transactionId, global.profile.token);
-    console.log(response, "response")
     const { data } = response;
     const orderInfo = data.result;
-    console.log(orderInfo, "orderInfo aca 1")
 
     // Check if it is the buyer if not outside
     const userEthAddress = global && global.profile && global.profile.eth_address.toUpperCase();
@@ -171,23 +169,42 @@ const OrderDetail = () => {
       loadCurrencyPrices(dispatch, global, networkType);
     }
 
-    if ((orderDetail || {}).transaction && global.yubiaiPaymentArbitrableInstance) {
-      setDealInfo((orderDetail || {}).transaction);
+    async function initialArbInstance(){
+      if (!global.yubiaiPaymentArbitrableInstance) {
+        const res = await setYubiaiInstance(dispatch);
+        if(!res){
+          toast({
+            title: "Wrong Network",
+            description: "Change the network to one that is enabled.",
+            position: 'top-right',
+            status: 'warning',
+            duration: 3000,
+            isClosable: true
+          });
+          setTimeout(() => {
+            router.push("/logout");
+          }, 3000);
+          return
+        }
+        return
+      }
     }
 
-    if (!global.yubiaiPaymentArbitrableInstance) {
-      setYubiaiInstance(dispatch);
-      return;
-    }
+    initialArbInstance();
 
     if (!global.currencyPriceList.length && (global.profile || {}).token && (global.yubiaiPaymentArbitrableInstance || {}).web3) {
       loadCurrencies();
       return;
     }
 
-    if (!(transactionData || {}).extraData && (global.profile || {}).token) {
+    if (!(transactionData || {}).extraData && (global.profile || {}).token && global.yubiaiPaymentArbitrableInstance) {
       loadOrder();
     }
+
+    if ((orderDetail || {}).transaction && global.yubiaiPaymentArbitrableInstance) {
+      setDealInfo((orderDetail || {}).transaction);
+    }
+
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance]);
 
   if (!loading) return <Loading />;

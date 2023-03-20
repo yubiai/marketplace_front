@@ -7,15 +7,30 @@ import Error from '../../../components/Infos/Error'
 
 const TermsAndConditions = ({ terms }) => {
 
-    if(!terms) return <Error error={"Error getting term."} />
+    if (!terms) return <Error error={"Error getting term."} />
 
     return (
         <>
             <Head>
-                <title>Yubiai Marketplace - Terms and Conditions</title>
-            </Head>
-            <Head>
-                <title>Yubiai Marketplace - Help</title>
+                <title>Yubiai a web3 marketplace - Terms and Conditions</title>
+                <meta
+                    name="viewport"
+                    content="initial-scale=1.0, width=device-width"
+                    key="viewport"
+                />
+                <meta charSet="utf-8" />
+                <meta name="theme-color" content="#f8f8f8" />
+                <meta name="description" content="Yubiai is the leading web3 marketplace empowering users to buy, sell and trade digital assets across a wide variety of asset classes in a secure and intuitive platform." />
+                <meta name="keywords" content="Yubiai, Web3 Marketplace, Decentralized Exchange, Crypto Trading, Secure Transaction, Smart Contract Enabled Platform, Non-Custodial Wallets, High Security Protocols, Instant Liquidity, Low Fees" />
+                <meta name="author" content="Yubiai Members" />
+                <meta property="og:title" content="Yubiai a web3 marketplace - Terms and Conditions" />
+                <meta property="og:description" content="Marketplace" />
+                <meta property="og:url" content="https://www.yubiai.com/" />
+                <meta property="og:type" content="website" />
+                <link rel="icon" href="/favicon.ico" />
+                <link rel="shortcut icon" type="image/png" href="/favicon-32x32.png" />
+                <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+                <meta name="Robots" content="all" />
             </Head>
             <Container
                 maxW="6xl"

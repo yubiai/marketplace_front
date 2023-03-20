@@ -7,6 +7,7 @@ import {
   Container,
   Heading,
   Text,
+  useToast,
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -18,6 +19,7 @@ import ProfileMenu from '../../../../components/Menus/ProfileMenu'
 import Loading from '../../../../components/Spinners/Loading'
 import useFetch from '../../../../hooks/data/useFetch'
 import useUser from '../../../../hooks/data/useUser'
+import Error from '../../../../components/Infos/Error'
 import {
   useDispatchGlobal,
   useGlobal,
@@ -26,11 +28,12 @@ import { setYubiaiInstance } from '../../../../providers/orderProvider'
 import useTranslation from 'next-translate/useTranslation';
 
 const Sales = () => {
-  const global = useGlobal()
-  const router = useRouter()
-  const dispatch = useDispatchGlobal()
-  const { t } = useTranslation("orders")
-  const { user, loggedOut } = useUser()
+  const global = useGlobal();
+  const router = useRouter();
+  const toast = useToast();
+  const dispatch = useDispatchGlobal();
+  const { t } = useTranslation("orders");
+  const { user, loggedOut } = useUser();
 
   // if logged in, redirect to the home
   useEffect(() => {
@@ -39,20 +42,42 @@ const Sales = () => {
     }
   }, [user, loggedOut, router, dispatch])
 
-  useEffect(() => {
-    if (!global.yubiaiPaymentArbitrableInstance) {
-      setYubiaiInstance(dispatch);
-    }
-  }, [global.yubiaiPaymentArbitrableInstance]);
-
-  const { data, isLoading } = useFetch(
+  const { data, isLoading, isError} = useFetch(
     global && global.profile && global.profile.eth_address
       ? `/orders/seller/${global.profile.eth_address}?page=${global.pageIndex}&size=4`
       : null,
     global && global.profile && global.profile.token
   )
 
-  if (isLoading || !data) return <Loading />
+  useEffect(() => {
+    async function initialArbInstance(){
+      if (!global.yubiaiPaymentArbitrableInstance) {
+        const res = await setYubiaiInstance(dispatch);
+        if(!res){
+          toast({
+            title: "Wrong Network",
+            description: "Change the network to one that is enabled.",
+            position: 'top-right',
+            status: 'warning',
+            duration: 3000,
+            isClosable: true
+          });
+          setTimeout(() => {
+            router.push("/logout");
+          }, 3000);
+          return
+        }
+        return
+      }
+    }
+    initialArbInstance();
+  }, [global.yubiaiPaymentArbitrableInstance]);
+
+  if (isLoading || !global.yubiaiPaymentArbitrableInstance) return <Loading />
+
+  if (isError) {
+    return <Error error={isError?.message} />
+  }
 
   return (
     <>

@@ -7,6 +7,7 @@ import {
   Container,
   Heading,
   Text,
+  useToast,
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -26,6 +27,7 @@ import useTranslation from 'next-translate/useTranslation';
 const Orders = () => {
   const global = useGlobal()
   const router = useRouter()
+  const toast = useToast();
   const dispatch = useDispatchGlobal()
   const { t } = useTranslation("orders")
   const { user, loggedOut } = useUser()
@@ -35,24 +37,45 @@ const Orders = () => {
     if (loggedOut) {
       router.replace('/logout')
     }
-  }, [user, loggedOut, router, dispatch])
-
-  useEffect(() => {
-    if (!global.yubiaiPaymentArbitrableInstance) {
-      setYubiaiInstance(dispatch);
-    }
-  }, [global.yubiaiPaymentArbitrableInstance]);
+  }, [user, loggedOut, router, dispatch]);
 
   const { data, isLoading, isError } = useFetch(
     global && global.profile && global.profile.eth_address ? `/orders/buyer/${global.profile.eth_address}?page=${global.pageIndex}&size=5` : null,
     global && global.profile && global.profile.token
   )
 
-  if (isLoading || !data) return <Loading />
+  useEffect(() => {
+    async function initialArbInstance(){
+      if (!global.yubiaiPaymentArbitrableInstance) {
+        const res = await setYubiaiInstance(dispatch);
+        if(!res){
+          toast({
+            title: "Wrong Network",
+            description: "Change the network to one that is enabled.",
+            position: 'top-right',
+            status: 'warning',
+            duration: 3000,
+            isClosable: true
+          });
+          setTimeout(() => {
+            router.push("/logout");
+          }, 3000);
+          return
+        }
+        return
+      }
+    }
+    initialArbInstance();
+  }, [global.yubiaiPaymentArbitrableInstance]);
+
+  if (isLoading || !global.yubiaiPaymentArbitrableInstance) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />
   }
+
+  console.log(global, "global")
+
 
   return (
     <>
