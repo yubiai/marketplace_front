@@ -47,7 +47,6 @@ const getCurrentNetwork = () => {
 
   if (window && window.ethereum && window.ethereum.networkVersion) {
     const networkVersion = window.ethereum.networkVersion;
-    console.log(networkVersion)
     const data = getNetwork(parseInt(networkVersion, 10));
     return data;
   }

@@ -166,6 +166,29 @@ const OrderDetail = () => {
       loadCurrencyPrices(dispatch, global, networkType);
     };
 
+    async function initialArbInstance(){
+      if (!global.yubiaiPaymentArbitrableInstance) {
+        const res = await setYubiaiInstance(dispatch);
+        if(!res){
+          toast({
+            title: "Wrong Network",
+            description: "Change the network to one that is enabled.",
+            position: 'top-right',
+            status: 'warning',
+            duration: 3000,
+            isClosable: true
+          });
+          setTimeout(() => {
+            router.push("/logout");
+          }, 3000);
+          return
+        }
+        return
+      }
+    }
+
+    initialArbInstance();
+
     const setDealInfo = async transaction => {
       const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(transaction.transactionIndex);
       const { timeForChallenge } = await global.yubiaiPaymentArbitrableInstance.contract.methods.settings().call();
@@ -181,17 +204,12 @@ const OrderDetail = () => {
       setDealInfo((orderDetail || {}).transaction);
     }
 
-    if (!global.yubiaiPaymentArbitrableInstance) {
-      setYubiaiInstance(dispatch);
-      return;
-    }
-
     if (!global.currencyPriceList.length && (global.profile || {}).token && (global.yubiaiPaymentArbitrableInstance || {}).web3) {
       loadCurrencies();
       return;
     }
 
-    if (!(transactionData || {}).extraData && (global.profile || {}).token) {
+    if (!(transactionData || {}).extraData && (global.profile || {}).token && global.yubiaiPaymentArbitrableInstance) {
       loadOrder();
     }
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance])

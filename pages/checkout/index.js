@@ -158,6 +158,35 @@ const Checkout = () => {
   }
 
   useEffect(() => {
+
+    const loadCurrencies = async () => {
+      const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
+      loadCurrencyPrices(dispatch, global, networkType);
+    };
+
+    async function initialArbInstance(){
+      if (!global.yubiaiPaymentArbitrableInstance) {
+        const res = await setYubiaiInstance(dispatch);
+        if(!res){
+          toast({
+            title: "Wrong Network",
+            description: "Change the network to one that is enabled.",
+            position: 'top-right',
+            status: 'warning',
+            duration: 3000,
+            isClosable: true
+          });
+          setTimeout(() => {
+            router.push("/logout");
+          }, 3000);
+          return
+        }
+        return
+      }
+    }
+
+    initialArbInstance();
+
     const loadOrder = async () => {
       const result = await loadOrderData(
         { ...global.itemToCheckout },
@@ -168,26 +197,16 @@ const Checkout = () => {
       setTransactionData(transaction)
     };
 
-    const loadCurrencies = async () => {
-      const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
-      loadCurrencyPrices(dispatch, global, networkType);
-    };
-
-    if (!global.yubiaiPaymentArbitrableInstance) {
-      setYubiaiInstance(dispatch);
-      return;
-    }
-
     if (!global.currencyPriceList.length && (global.yubiaiPaymentArbitrableInstance || {}).web3) {
       loadCurrencies();
       return;
     }
 
-    if (!global.itemToCheckout) {
+    if (!global.itemToCheckout && global.yubiaiPaymentArbitrableInstance) {
       return;
     }
 
-    if (!transactionData.extraData) {
+    if (!transactionData.extraData && global.yubiaiPaymentArbitrableInstance) {
       verifyTyC()
       loadOrder();
     }
@@ -290,8 +309,7 @@ const Checkout = () => {
               </Heading>
               <Text fontWeight={600} color={'gray.500'} mb={4}>
                 {t("Price")}: {orderData.item && orderData.item.price}{' '}
-                {(orderData.item && orderData.item.currencySymbolPrice) ||
-                  'ETH'}
+                {orderData.item && orderData.item.currencySymbolPrice}
               </Text>
               <Text textAlign={'center'} color={'gray.700'} px={3}>
                 {orderData.item && orderData.item.title}

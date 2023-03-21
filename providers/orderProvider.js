@@ -8,16 +8,25 @@ import {
 } from '../utils/orderUtils';
 import { getCurrentNetwork } from '../utils/walletUtils';
 import Arbitrator from '../utils/escrow-utils/arbitrator';
+import { useRouter } from 'next/router';
 
 const getAccount = async () => {
   const web3 = getWeb3Instance();
+  if(!web3){
+    return null;
+  }
   const accounts = await web3.eth.getAccounts();
   return accounts;
 }
 
 const getWeb3Instance = () => {
   const networkItem = getCurrentNetwork();
-  console.log(networkItem, "networkItemnetworkItem12")
+  
+  // Red no permitida
+  if(!networkItem){
+    return null;
+  }
+
   const settings = getSettingsByNetwork(networkItem.aliasTitle);
 
   return new Web3(
@@ -69,6 +78,13 @@ const setArbitratorInstance = (account, dispatch) => {
 
 const setYubiaiInstance = async dispatch => {
   const web3 = getWeb3Instance();
+  if(!web3){
+    dispatch({
+      type: 'SET_YUBIAI_ARBITRABLE_INSTANCE',
+      payload: null
+    })
+    return null;
+  }
   const yubiaiArbitrableInstance = new YubiaiPaymentArbitrable(
     web3, global?.profile?.eth_address.toLowerCase());
   await yubiaiArbitrableInstance.initContract();
@@ -77,6 +93,7 @@ const setYubiaiInstance = async dispatch => {
     type: 'SET_YUBIAI_ARBITRABLE_INSTANCE',
     payload: yubiaiArbitrableInstance,
   })
+  return true
 }
 
 /**
