@@ -44,7 +44,7 @@ import {
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
-import { calculateRemainingDays } from '../../../../utils/orderUtils';
+import { calculateFinishDate } from '../../../../utils/orderUtils';
 
 const OrderDetail = () => {
   const [loading, setLoading] = useState(false);
@@ -432,7 +432,7 @@ const OrderDetail = () => {
             }
             {(deal || {}).deal.dealStatus === ONGOING_STATUS && (
               <>
-                <Text mt="1em" fontWeight={"normal"}>{t("Remaining days")}: {calculateRemainingDays(transactionDate)}</Text>
+                <Text mt="1em" fontWeight={"bold"}>{t("Finish Date")}: {calculateFinishDate(transactionDate,  deal.claim.claimCount, deal.claim.claimSolvedAt)}</Text>
               </>
             )}
 

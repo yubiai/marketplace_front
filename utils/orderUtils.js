@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const DEFAULT_TIMEOUT = 604800;
 
 const translateStatusIdToNamingInTransaction = (statusId = 0) => {
@@ -43,8 +45,8 @@ const totalAmountOrder = (orders = []) => {
 const parseItemIntoOrderTransaction = (
     item = {},
     recipient,
-    currencyContract='',
-    timeout=DEFAULT_TIMEOUT
+    currencyContract = '',
+    timeout = DEFAULT_TIMEOUT
 ) => {
     const generatedDescription = item.title
     const compiledItemIds = item._id
@@ -52,7 +54,7 @@ const parseItemIntoOrderTransaction = (
     const now = new Date()
     const month = now.getMonth() + 1
     const day = now.getDate() + 1
-    const date = `${now.getFullYear()}-${month < 10 ? `0${month}` : month }-${day < 10 ? `0${day}` : day }`
+    const date = `${now.getFullYear()}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}`
 
     const generatedTitle = `Order for item: ${compiledItemIds}, Date ${date}`
 
@@ -78,18 +80,31 @@ const parseItemIntoOrderTransaction = (
     }
 }
 
-const calculateRemainingDays = (transactionDate) => {
+const calculateFinishDate = (transactionDate, claimCount, claimSolvedAt) => {
 
-    const TimeFormClaim = process.env.NEXT_PUBLIC_TIME_FOR_CLAIM;
+    let dateCalcu
 
-    const now = Date.now();
-    const diffInSeconds = Math.floor((now - transactionDate) / 1000); 
-    
-    let resultRemaining = (TimeFormClaim - diffInSeconds) / (24 * 60 * 60);
+    const TimeFormClaim = Number(process.env.NEXT_PUBLIC_TIME_FOR_CLAIM);
+    const TimeForService = Number(process.env.NEXT_PUBLIC_TIME_FOR_SERVICE);
+    const TimeForReclaim = Number(process.env.NEXT_PUBLIC_TIME_FOR_RECLAIM);
 
-    resultRemaining = parseInt(resultRemaining);
+    if(claimCount > 0){
+        // SC -> return (block.timestamp >= (claims[deal.currentClaim].solvedAt + settings.timeForReclaim));
 
-    return resultRemaining;
+        dateCalcu = claimSolvedAt + TimeForReclaim;
+        
+        dateCalcu = moment(dateCalcu * 1000).format('MM/DD/YYYY, h:mm:ss a')
+
+        return dateCalcu;
+    }
+
+    //SC -> return (block.timestamp >= (deal.createdAt + deal.timeForService + deal.timeForClaim));
+
+    dateCalcu = transactionDate / 1000 + TimeForService + TimeFormClaim;
+
+    dateCalcu = moment(dateCalcu * 1000).format('MM/DD/YYYY, h:mm:ss a')
+
+    return dateCalcu;
 }
 
 
@@ -101,5 +116,5 @@ export {
     getProtocolNamingFromNetwork,
     parseFromAToBToken,
     translateStatusIdToNamingInTransaction,
-    calculateRemainingDays
+    calculateFinishDate
 }

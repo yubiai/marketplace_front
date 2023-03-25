@@ -49,7 +49,7 @@ import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
 import ButtonCloseDeal from '../../../../components/Buttons/ButtonCloseDeal';
-import { calculateRemainingDays } from '../../../../utils/orderUtils';
+import { calculateFinishDate } from '../../../../utils/orderUtils';
 
 
 const OrderDetail = () => {
@@ -382,7 +382,7 @@ const OrderDetail = () => {
               )}</Text>
               {
                 transactionDate &&
-                <Text fontWeight={600}>{t("Date")} {moment(transactionDate).format('DD/MM/YYYY, h:mm:ss a')}</Text>
+                <Text fontWeight={600}>{t("Date")} {moment(transactionDate).format('MM/DD/YYYY, h:mm:ss a')}</Text>
               }
               {
                 (transactionPayedAmount && global.yubiaiPaymentArbitrableInstance) &&
@@ -480,7 +480,7 @@ const OrderDetail = () => {
 
             {(deal || {}).deal.dealStatus === ONGOING_STATUS && (
               <>
-                <Text mt="1em" fontWeight={"normal"}>{t("Remaining days")}: {calculateRemainingDays(transactionDate)}</Text>
+                <Text mt="1em" fontWeight={"bold"}>{t("Finish Date")}: {calculateFinishDate(transactionDate,  deal.claim.claimCount, deal.claim.claimSolvedAt)}</Text>
               </>
             )}
 
