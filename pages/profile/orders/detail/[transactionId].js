@@ -436,11 +436,17 @@ const OrderDetail = () => {
               </>
             )}
 
-            {(deal || {}).deal.dealStatus === ONGOING_STATUS && !verifyMessages && (
+            {(deal || {}).deal.dealStatus === ONGOING_STATUS && (deal || {}).claim.claimCount === 0 && !verifyMessages && (
               <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
                 <Text fontWeight={"normal"}>{t("Actions as buyer will be available when there is a message interaction")}</Text>
+              </>
+            )}
+
+            {(deal || {}).deal.dealStatus === ONGOING_STATUS && (deal || {}).claim.claimCount > 0 && verifyMessages && (
+              <>
+                <Text mt="1em" fontWeight={"normal"}>{t("Since the jury ruled in favor of the seller")}</Text>
               </>
             )}
 

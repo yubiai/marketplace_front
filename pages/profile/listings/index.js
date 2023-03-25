@@ -102,7 +102,7 @@ const Listings = () => {
           )}
           <Grid
             templateRows={{ base: 'repeat(1, 1fr)', md: 'none' }}
-            templateColumns={{ base: 'none', md: 'repeat(4, 1fr)' }}
+            templateColumns={{ base: 'none', md: 'repeat(3, 1fr)' }}
             gap={1}
           >
             {data &&
