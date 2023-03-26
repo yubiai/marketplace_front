@@ -77,5 +77,6 @@
     "Accept": "Aceptar",
     "Successfully changed the status": "Se ha cambiado el estado con éxito.",
     "Order": "Pedido",
-    "Claim Payment": "Reclamar Pago"
+    "Claim Payment": "Reclamar Pago",
+    "Time to claim exhausted": "Se termino el tiempo para reclamar."
 }

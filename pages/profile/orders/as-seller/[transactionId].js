@@ -639,7 +639,7 @@ const OrderDetail = () => {
                       />
 
                       <Text mt="5px" fontWeight={"normal"} fontStyle={"italic"}>
-                        Se termino el tiempo para reclamar
+                        {t("Time to claim exhausted")}
                       </Text>
                     </>
                   )

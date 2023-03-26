@@ -76,5 +76,6 @@
     "Accept": "Accept",
     "Successfully changed the status": "Successfully changed the status.",
     "Order": "Order",
-    "Claim Payment": "Claim Payment"
+    "Claim Payment": "Claim Payment",
+    "Time to claim exhausted": "Time to claim exhausted"
 }
