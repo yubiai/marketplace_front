@@ -105,7 +105,7 @@ const TitleItemEdit = ({ item, token, mutate, t }) => {
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <FormControl isRequired >
                                 <Input
-                                    placeholder={t("Title is required 15")}
+                                    placeholder={t("Title is required")}
                                     _placeholder={{ color: 'gray.400' }}
                                     color="gray.700"
                                     bg="white"

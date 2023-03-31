@@ -32,6 +32,7 @@ import {
   Text,
   Textarea,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -56,6 +57,7 @@ const NewListing = () => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
   const router = useRouter()
+  const toast = useToast();
   const { t } = useTranslation("newlisting");
 
   //Modal
@@ -106,11 +108,28 @@ const NewListing = () => {
       const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
       loadCurrencyPrices(dispatch, global, networkType);
     }
-
-    if (!global.yubiaiPaymentArbitrableInstance) {
-      setYubiaiInstance(dispatch);
-      return;
+    async function initialArbInstance(){
+      if (!global.yubiaiPaymentArbitrableInstance) {
+        const res = await setYubiaiInstance(dispatch);
+        if(!res){
+          toast({
+            title: "Wrong Network",
+            description: "Change the network to one that is enabled.",
+            position: 'top-right',
+            status: 'warning',
+            duration: 3000,
+            isClosable: true
+          });
+          setTimeout(() => {
+            router.push("/logout");
+          }, 3000);
+          return
+        }
+        return
+      }
     }
+
+    initialArbInstance();
 
     if (user && !global.currencyPriceList.length && global.profile && global.yubiaiPaymentArbitrableInstance) {
       loadCurrencies();
@@ -222,7 +241,7 @@ const NewListing = () => {
     return <Error error={isError?.message} />
   }
 
-  if (isLoading || !user) return <Loading />
+  if (isLoading || !user || !global.yubiaiPaymentArbitrableInstance) return <Loading />
 
   return (
     <>
