@@ -8,6 +8,7 @@ import {
   VisuallyHidden,
   Center,
   Button,
+  Text,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { FaTelegramPlane, FaTwitter, FaYoutube } from 'react-icons/fa'
@@ -78,8 +79,16 @@ const Footer = () => {
             UBI Vaults
           </Link>
           */}
+          <Text color="white">Secured by</Text>
           <Link mr={'1em'} href="https://court.kleros.io/" isExternal>
-            Kleros
+            <Image
+              alt="Img Item"
+              rounded={'lg'}
+              height={'50px'}
+              width={'100%'}
+              objectFit={'cover'}
+              src={"/static/images/Logo-kleros.png"}
+            />
           </Link>
           <ButtonTermaConditions />
         </Center>

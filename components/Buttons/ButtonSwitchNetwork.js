@@ -59,7 +59,6 @@ const ButtonSwitchNetwork = ({ bg, color }) => {
         setTimeout(() => {
             if (window.ethereum && window.ethereum.networkVersion) {
                 const networkVersion = window.ethereum.networkVersion;
-                console.log(networkVersion, "networkVersion")
                 const data = getNetwork(networkVersion)
                 setNetwork(data)
                 setLoading(false)

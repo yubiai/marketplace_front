@@ -512,6 +512,7 @@ const NewListing = () => {
           </Box>
         </form>
         <Modal
+          closeOnOverlayClick={false}
           isOpen={isOpen}
           onClose={onClose}
           size="5xl"

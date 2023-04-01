@@ -91,7 +91,7 @@ const Favourites = () => {
                 </Heading>
               </Center>
               <Center>
-                <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
+                <Button bg="#00abd1" color="white" _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
                   {t("Go Back")}
                 </Button>
               </Center>

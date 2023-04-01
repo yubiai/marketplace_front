@@ -36,7 +36,6 @@ const getWeb3Instance = () => {
 }
 
 const loadOrderData = async (item = {}, currencyPriceList = [], ethPrice = false) => {
-  console.log(item, currencyPriceList, ethPrice, "aca 1")
   const seller = item.seller;
   const currencySymbol = ethPrice ? 'ETH' : item.currencySymbolPrice;
 
