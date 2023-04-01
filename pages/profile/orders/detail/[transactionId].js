@@ -214,6 +214,7 @@ const OrderDetail = () => {
   if (!loading) return <Loading />;
 
   console.log((deal || {}))
+  console.log(global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount))
 
   return (
     <>
@@ -345,7 +346,7 @@ const OrderDetail = () => {
               {
                 (transactionFeeAmount && global.yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
-                  {t("Fee")}: {`${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount)}`}
+                  {t("Fee")}: {`${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount).toFixed(4)}`}
                 </Text>
               }
               <Link
