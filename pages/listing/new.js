@@ -78,7 +78,7 @@ const NewListing = () => {
 
   const [countDescription, setCountDescription] = useState(0);
   const MIN_DESCRIPTION_LENGTH = 100;
-  const MAX_DESCRIPTION_LENGTH = 800;
+  const MAX_DESCRIPTION_LENGTH = 1600;
 
   // State Submit
   const [stateSubmit, setStateSubmit] = useState(0)
