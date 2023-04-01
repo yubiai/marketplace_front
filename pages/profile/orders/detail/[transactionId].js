@@ -214,7 +214,7 @@ const OrderDetail = () => {
   if (!loading) return <Loading />;
 
   console.log((deal || {}))
-  console.log(global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount))
+  console.log(global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount), "aca fee amount")
 
   return (
     <>
