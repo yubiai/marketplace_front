@@ -111,6 +111,12 @@ const getSettingsByNetwork = networkType => {
       NEXT_PUBLIC_INFURA_ENDPOINT: process.env.NEXT_PUBLIC_INFURA_ENDPOINT_SEPOLIA
     }
   }
+  if (networkType === 'gnosis') {
+    return {
+      NEXT_PUBLIC_NETWORK_GNOSIS: process.env.NEXT_PUBLIC_NETWORK_GNOSIS,
+      NEXT_PUBLIC_INFURA_ENDPOINT_GNOSIS: process.env.NEXT_PUBLIC_INFURA_ENDPOINT_GNOSIS
+    }
+  }
   return {
     NEXT_PUBLIC_NETWORK: '',
     NEXT_PUBLIC_INFURA_ENDPOINT: ''
@@ -118,10 +124,13 @@ const getSettingsByNetwork = networkType => {
 }
 
 const loadCurrencyPrices = async (dispatch, global, networkType) => {
+  console.log(networkType, "networkType")
   const naming = getProtocolNamingFromNetwork(networkType);
+  console.log(naming, "naming")
   const resp = await priceService.getCurrencyPrices(
     naming, global && global.profile && global.profile.token);
   const { data } = resp;
+  console.log(data, "data")
   dispatch({
     type: 'SET_CURRENCY_PRICE_LIST',
     payload: [...data],

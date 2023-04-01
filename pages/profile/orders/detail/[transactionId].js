@@ -154,6 +154,10 @@ const OrderDetail = () => {
       "0x..." + transactionMeta?.transactionHash?.slice(transactionMeta?.transactionHash.length - 16) :
       transactionMeta?.transactionHash;
 
+    if(transaction.networkEnv === "gnosis"){
+      return `https://gnosisscan.io/tx/${transactionHash}`;
+    }
+
     return transaction.networkEnv !== 'mainnet'
       ? `https://${transaction.networkEnv}.etherscan.io/tx/${transactionHash}`
       : `https://etherscan.io/tx/${transactionHash}`;

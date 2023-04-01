@@ -1,33 +1,41 @@
-const listChains = [
-/*   {
-    id: 1,
-    chainID: "0x1",
-    title: "Ethereum",
-    aliasTitle: 'mainnet',
-    currency: "ETH"
-  },
-  {
-    id: 5,
-    chainID: "0x5",
-    title: "Görli",
-    aliasTitle: 'goerli',
-    currency: "ETH"
-  },
-  {
-    id: 100,
-    chainID: "0x64",
-    title: "Gnosis",
-    aliasTitle: 'gnosis',
-    currency: "xDAI"
-  },
-  {
-    id: 56,
-    chainID: "0x38",
-    title: "BSC Mainnet",
-    aliasTitle: 'bsc',
-    currency: "BNB",
-    rpcUrls: ['https://bsc-dataseed.binance.org/']
-  }, */
+const listChains = process.env.NEXT_PUBLIC_ENV === "prod" ? [{
+  id: 100,
+  chainID: "0x64",
+  title: "Gnosis",
+  aliasTitle: 'gnosis',
+  currency: "xDai",
+  rpcUrls: ['https://rpc.gnosischain.com']
+}
+] : [
+  /*   {
+      id: 1,
+      chainID: "0x1",
+      title: "Ethereum",
+      aliasTitle: 'mainnet',
+      currency: "ETH"
+    },
+    {
+      id: 5,
+      chainID: "0x5",
+      title: "Görli",
+      aliasTitle: 'goerli',
+      currency: "ETH"
+    },
+    {
+      id: 100,
+      chainID: "0x64",
+      title: "Gnosis",
+      aliasTitle: 'gnosis',
+      currency: "xDAI"
+    },
+    {
+      id: 56,
+      chainID: "0x38",
+      title: "BSC Mainnet",
+      aliasTitle: 'bsc',
+      currency: "BNB",
+      rpcUrls: ['https://bsc-dataseed.binance.org/']
+    }, */
   {
     id: 11155111,
     chainID: "0xaa36a7",
@@ -70,7 +78,7 @@ const getBlockExplorerForNetwork = (networkType) => {
     case 'chiado':
       return 'https://blockscout.chiadochain.net';
     case 'gnosis':
-      return 'https://blockscout.com';
+      return 'https://gnosisscan.io/';
     case 'bsc':
       return 'https://bscscan.com';
     case 'sepolia':
@@ -99,6 +107,11 @@ const getContractsForNetwork = (networkType) => {
       return {
         yubiaiArbitrable: process.env.NEXT_PUBLIC_SEPOLIA_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
         yubiaiArbitrator: process.env.NEXT_PUBLIC_SEPOLIA_ARBITRATOR
+      }
+    case 'gnosis':
+      return {
+        yubiaiArbitrable: process.env.NEXT_PUBLIC_GNOSIS_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
+        yubiaiArbitrator: process.env.NEXT_PUBLIC_GNOSIS_ARBITRATOR
       }
     case 'rinkeby':
     case 'ropsten':

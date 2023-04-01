@@ -151,6 +151,10 @@ const OrderDetail = () => {
       "0x..." + transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16) :
       transactionMeta.transactionHash;
 
+    if (transaction.networkEnv === "gnosis") {
+      return `https://gnosisscan.io/tx/${transactionHash}`;
+    }
+
     return transaction.networkEnv !== 'mainnet'
       ? `https://${transaction.networkEnv}.etherscan.io/tx/${transactionHash}`
       : `https://etherscan.io/tx/${transactionHash}`;
@@ -166,10 +170,10 @@ const OrderDetail = () => {
       loadCurrencyPrices(dispatch, global, networkType);
     };
 
-    async function initialArbInstance(){
+    async function initialArbInstance() {
       if (!global.yubiaiPaymentArbitrableInstance) {
         const res = await setYubiaiInstance(dispatch);
-        if(!res){
+        if (!res) {
           toast({
             title: "Wrong Network",
             description: "Change the network to one that is enabled.",
@@ -480,7 +484,7 @@ const OrderDetail = () => {
 
             {(deal || {}).deal.dealStatus === ONGOING_STATUS && (
               <>
-                <Text mt="1em" fontWeight={"bold"}>{t("Finish Date")}: {calculateFinishDate(transactionDate,  deal.claim.claimCount, deal.claim.claimSolvedAt)}</Text>
+                <Text mt="1em" fontWeight={"bold"}>{t("Finish Date")}: {calculateFinishDate(transactionDate, deal.claim.claimCount, deal.claim.claimSolvedAt)}</Text>
               </>
             )}
 
@@ -631,7 +635,7 @@ const OrderDetail = () => {
                     <>
                       <ButtonCloseDeal
                         dealId={(deal || {}).deal.dealId}
-                        transactionHash={transactionMeta.transactionHash} 
+                        transactionHash={transactionMeta.transactionHash}
                         toggleLoadingStatus={toggleLoadingStatus}
                         yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
                         stepsPostAction={loadOrder}
