@@ -7,13 +7,11 @@ import {
   Link,
   VisuallyHidden,
   Center,
-  Button,
-  Text,
+  Button
 } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import { FaTelegramPlane, FaTwitter, FaYoutube } from 'react-icons/fa'
 import { SiLinktree } from 'react-icons/si'
-import ButtonTermaConditions from '../Buttons/ButtonTermaconditions'
 
 const SocialButton = ({ children, label, href }) => {
   return (
