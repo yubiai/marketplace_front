@@ -24,7 +24,7 @@ const DescriptionItemEdit = ({ item, token, mutate, t }) => {
 
     const [countDescription, setCountDescription] = useState(0);
     const MIN_DESCRIPTION_LENGTH = 100;
-    const MAX_DESCRIPTION_LENGTH = 800;
+    const MAX_DESCRIPTION_LENGTH = 1600;
 
 
     // Open and Close Edit

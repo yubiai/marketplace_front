@@ -21,7 +21,10 @@ const TourGuideProvider = ({ children }) => {
 
     return (
         <>
-            <TourProvider steps={stepsTour(t)} beforeClose={() => handleTourClose()}>
+            <TourProvider steps={stepsTour(t)} beforeClose={() => handleTourClose()} 
+            styles={{ popover: (base) => ({ ...base, 
+                color: "black" }) }}
+            >
                 {children}
             </TourProvider>
         </>
