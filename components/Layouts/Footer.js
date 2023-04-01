@@ -87,7 +87,7 @@ const Footer = () => {
               height={'50px'}
               width={'100%'}
               objectFit={'cover'}
-              src={"/static/images/Logo-kleros.png"}
+              src={"/static/images/logo-kleros.png"}
             />
           </Link>
           <ButtonTermaConditions />
