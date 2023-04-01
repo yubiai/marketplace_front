@@ -79,19 +79,17 @@ const Footer = () => {
             UBI Vaults
           </Link>
           */}
-          <Text color="white">Secured by</Text>
           <Link mr={'1em'} href="https://court.kleros.io/" isExternal>
             <Image
               alt="Img Item"
-              rounded={'lg'}
-              height={'50px'}
+              height={'30px'}
               width={'100%'}
-              objectFit={'cover'}
-              src={"/static/images/logo-kleros.png"}
+              objectFit={'fill'}
+              src={"/static/svgs/secured-by-kleros.svg"}
             />
           </Link>
-          <ButtonTermaConditions />
-        </Center>
+          {/*           <ButtonTermaConditions />
+ */}        </Center>
         <Stack direction={'row'} spacing={6}>
           <SocialButton label={'Twitter'} href={'https://twitter.com/YubiaiM'} >
             <FaTwitter fontSize={22} />
