@@ -3,7 +3,7 @@ const listChains = process.env.NEXT_PUBLIC_ENV === "prod" ? [{
   chainID: "0x64",
   title: "Gnosis",
   aliasTitle: 'gnosis',
-  currency: "xDai",
+  currency: "xDAI",
   rpcUrls: ['https://rpc.gnosischain.com']
 }
 ] : [
@@ -35,7 +35,15 @@ const listChains = process.env.NEXT_PUBLIC_ENV === "prod" ? [{
       aliasTitle: 'bsc',
       currency: "BNB",
       rpcUrls: ['https://bsc-dataseed.binance.org/']
-    }, */
+    }, 
+  {
+    id: 100,
+    chainID: "0x64",
+    title: "Gnosis",
+    aliasTitle: 'gnosis',
+    currency: "xDAI",
+    rpcUrls: ['https://rpc.gnosischain.com']
+  },*/
   {
     id: 11155111,
     chainID: "0xaa36a7",

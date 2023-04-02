@@ -212,10 +212,6 @@ const OrderDetail = () => {
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance]);
 
   if (!loading) return <Loading />;
-
-  console.log((deal || {}))
-  console.log(global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount), "acaaa fee amouuunt")
-
   return (
     <>
       <Head>
@@ -346,7 +342,7 @@ const OrderDetail = () => {
               {
                 (transactionFeeAmount && global.yubiaiPaymentArbitrableInstance) &&
                 <Text fontWeight={600}>
-                  {t("Fee")}: {`${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount).toFixed(4)}`}
+                  {t("Fee")}: {`${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount)}`}
                 </Text>
               }
               <Link

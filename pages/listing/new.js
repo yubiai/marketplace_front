@@ -332,7 +332,7 @@ const NewListing = () => {
             <FormLabel color="black">{t("Title")}</FormLabel>
 
             <Input
-              placeholder={t("Title is required 15")}
+              placeholder={t(`Title is required, minimum ${MIN_TITLE_LENGTH} characters and maximum ${MAX_TITLE_LENGTH} characters`)}
               _placeholder={{ color: 'gray.400' }}
               color="gray.700"
               bg="white"
@@ -351,7 +351,7 @@ const NewListing = () => {
           <FormControl isRequired mt="1em">
             <FormLabel color="black">{t("Description")}</FormLabel>
             <Textarea
-              placeholder={t("Description is required, minimum 100 characters and maximum 800 characters")}
+              placeholder={t(`Description is required, minimum ${MIN_DESCRIPTION_LENGTH} characters and maximum ${MAX_DESCRIPTION_LENGTH} characters`)}
               _placeholder={{ color: 'gray.400' }}
               color="gray.700"
               bg="white"

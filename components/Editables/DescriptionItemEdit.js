@@ -106,7 +106,7 @@ const DescriptionItemEdit = ({ item, token, mutate, t }) => {
 
                             <FormControl isRequired>
                                 <Textarea
-                                    placeholder={t("Description is required, minimum 100 characters and maximum 800 characters")}
+                                    placeholder={t(`Description is required, minimum ${MIN_DESCRIPTION_LENGTH} characters and maximum ${MAX_DESCRIPTION_LENGTH} characters`)}
                                     _placeholder={{ color: 'gray.400' }}
                                     color="gray.700"
                                     bg="white"

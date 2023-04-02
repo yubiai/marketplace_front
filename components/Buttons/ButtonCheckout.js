@@ -52,11 +52,20 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             const transactionPayedAmount = deal.amount;
             const parsedTransactionPayedAmountInETH = parseFloat(yubiaiPaymentArbitrableInstance.web3.utils.fromWei(
                 transactionPayedAmount), 10);
-            const finalCalculationForFee = parsedTransactionPayedAmountInETH - (
-                parsedTransactionPayedAmountInETH / 100 * (parseInt(deal.extraBurnFee, 10) / 100)
-            );
+            
+            let transactionFeeAmount = 0;
 
-            const transactionFeeAmount = yubiaiPaymentArbitrableInstance.web3.utils.toWei(finalCalculationForFee.toFixed(WEI_DECIMAL_PLACES));
+            if(deal.extraBurnFee > 0){
+
+                const finalCalculationForFee = parsedTransactionPayedAmountInETH - (
+                    parsedTransactionPayedAmountInETH / 100 * (parseInt(deal.extraBurnFee, 10) / 100)
+                );
+    
+                transactionFeeAmount = yubiaiPaymentArbitrableInstance.web3.utils.toWei(finalCalculationForFee.toFixed(WEI_DECIMAL_PLACES));
+            } else {
+                transactionFeeAmount = 0;
+            }
+
             const {
                 claimCount,
                 createdAt,
@@ -93,22 +102,22 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             toggleLoadingStatus(false);
         }
     };
-  
+
     return (
-       <>
-        {operationInProgress && (
-        <Center >
-            <Spinner
-                thickness="4px"
-                speed="0.65s"
-                emptyColor="gray.200"
-                color="blue.500"
-                size="md"
-              />
-        </Center>
-        )}
-        <Button bg='#00abd1' color={'white'} onClick={createTransaction} isDisabled={operationInProgress && operationInProgress}>{t("Hire service")}</Button>
-       </>
+        <>
+            {operationInProgress && (
+                <Center >
+                    <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="blue.500"
+                        size="md"
+                    />
+                </Center>
+            )}
+            <Button bg='#00abd1' color={'white'} onClick={createTransaction} isDisabled={operationInProgress && operationInProgress}>{t("Hire service")}</Button>
+        </>
     );
 };
 
