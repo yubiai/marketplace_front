@@ -30,8 +30,10 @@ async function getNotisSeenFalseById(user_id, token) {
 
 // Update Noti By Id Seen True
 async function updateSeenNotiById(noti_id, token) {
-  return await axios.get(
-    `/noti/seen/${noti_id}`,
+  return await axios.put(
+    `/noti/seen/true`, {
+      noti_id: noti_id
+    },
     token
       ? {
           headers: {
@@ -44,8 +46,8 @@ async function updateSeenNotiById(noti_id, token) {
 
 // Update All Notis With Seen False to True
 async function updateNotisAllSeenFalseByUserId(user_id, token) {
-  return await axios.put(
-    `/noti/seen/all/${user_id}`,
+  return await axios.get(
+    `/noti/all/${user_id}`,
     token
       ? {
           headers: {

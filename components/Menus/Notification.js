@@ -104,6 +104,7 @@ const Notification = () => {
                               item={item}
                               onClose={onClose}
                               mutate={mutate}
+                              token={global.profile.token}
                               t={t}
                             />
                           )

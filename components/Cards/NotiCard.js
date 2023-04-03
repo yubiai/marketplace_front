@@ -10,24 +10,28 @@ import { notiService } from '../../services/notiService'
 import { parseNoti } from '../../utils/notiUtils'
 import { FaRegCommentDots, FaRegComment } from 'react-icons/fa'
 
-const NotiCard = ({ item, onClose, mutate, t }) => {
+const NotiCard = ({ item, onClose, mutate, token, t }) => {
   const router = useRouter()
 
   const pushLinkAndSee = async () => {
-    await notiService
-      .updateSeenNotiById(item._id)
-      .catch((err) => {
-        console.log(err, "error update seen")
-      })
+    try {
+      await notiService
+        .updateSeenNotiById(item._id, token)
 
-    await mutate();
-    onClose && onClose()
+      await mutate();
+      onClose && onClose()
 
-    router.push(
-      `/${parseNoti(item.type).path ? parseNoti(item.type).path : null}/${item.reference
-      }`
-    )
-    return
+      setTimeout(() => {
+        router.push(
+          `/${parseNoti(item.type).path ? parseNoti(item.type).path : null}/${item.reference
+          }`
+        )
+        return
+      }, 1000);
+    } catch (err) {
+      console.error(err);
+      return
+    }
   };
 
   return (
