@@ -212,6 +212,8 @@ const OrderDetail = () => {
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance]);
 
   if (!loading) return <Loading />;
+
+  console.log((deal || {}), "(deal || {})")
   return (
     <>
       <Head>
@@ -263,7 +265,7 @@ const OrderDetail = () => {
               {t("Order Detail")}
             </Heading>
             <Text fontWeight={600} fontSize={'0.8em'} color={'gray.500'} mt="5px">
-              {moment(orderDetail && orderDetail?.dateOrder).format('DD/MM/YYYY, h:mm:ss a')} | # {orderDetail?._id}
+              {moment(orderDetail && orderDetail?.dateOrder).format('DD/MM/YYYY, h:mm:ss a')} | Deal # {(deal || {}).deal.dealId}
             </Text>
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
             <Text fontWeight={600} fontSize="2xl">{t("Item")}</Text>

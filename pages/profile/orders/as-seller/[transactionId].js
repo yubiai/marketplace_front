@@ -321,7 +321,7 @@ const OrderDetail = () => {
               {t("Sales")}
             </Heading>
             <Text fontWeight={600} fontSize={'0.8em'} color={'gray.500'} mt="5px">
-              {moment(orderDetail && orderDetail?.dateOrder).format('MM/DD/YYYY, h:mm:ss a')} | # {orderDetail?._id}
+              {moment(orderDetail && orderDetail?.dateOrder).format('MM/DD/YYYY, h:mm:ss a')} | Deal # {(deal || {}).deal.dealId}
             </Text>
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
             <Text fontWeight={600} fontSize="2xl">{t("Item")}</Text>

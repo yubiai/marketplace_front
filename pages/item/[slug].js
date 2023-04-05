@@ -159,7 +159,7 @@ const ItemById = ({ item }) => {
   return (
     <>
     <Head>
-        <title>Yubiai a web3 marketplace - {title}</title>
+        <title>{title}</title>
         <meta
           name="viewport"
           content="initial-scale=1.0, width=device-width"
