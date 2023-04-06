@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <title>Sitio en mantenimiento / Site under maintenance</title>
+    <style>
+      /* Estilos CSS para el fondo de la página */
+      body {
+        background: #242424;
+        color: #fff;
+        font-family: sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+      }
+
+      /* Estilos CSS para la animación */
+      .loader {
+        border: 10px solid rgba(255, 255, 255, 0.2);
+        border-top: 10px solid #fff;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loader"></div>
+    <h1>Site under maintenance</h1>
+    <p>We are working to improve our website. Please come back soon.</p>
+    <hr>
+    <h1>Sitio en mantenimiento</h1>
+    <p>Estamos trabajando para mejorar nuestro sitio web. Por favor, vuelva a visitarnos pronto.</p>
+
+  </body>
+</html>
+

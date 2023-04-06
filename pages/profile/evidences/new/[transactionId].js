@@ -40,7 +40,7 @@ import SuccessEvidence from "../../../../components/Modals/SuccessEvidence";
 import Loading from "../../../../components/Spinners/Loading";
 import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider";
-import { setYubiaiInstance } from "../../../../providers/orderProvider";
+import { setArbitratorInstance, setYubiaiInstance } from "../../../../providers/orderProvider";
 import { channelService } from "../../../../services/channelService";
 import { dpolicyService } from "../../../../services/dpolicyService";
 import { evidenceService } from "../../../../services/evidenceService";
@@ -307,12 +307,25 @@ const NewEvidence = () => {
       console.log(err, "err");
       setLoadingSubmit(false);
       setStateSubmit(2);
+      return
     }
   }
 
   const manageClaim = async (dealId, amount, evidenceURI, transactionHash) => {
     try {
+      if(!user.walletAddress){
+        throw "No address"
+      }
+      
+      await setArbitratorInstance(dispatch, global.profile.eth_address);
+
       const parsedFeeAmount = global.yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(process.env.NEXT_PUBLIC_FEE_ARBITRATION));
+
+      const calculator = await global.arbitratorInstance.getArbitrationCost(evidenceURI)
+      console.log(calculator,"asdasdas calcul")
+
+      throw "asdadadadad";
+
       const result = await global.yubiaiPaymentArbitrableInstance.makeClaim(
         dealId, amount, evidenceURI, parsedFeeAmount);
 
@@ -323,6 +336,9 @@ const NewEvidence = () => {
       }
     } catch (e) {
       console.log('Error creating a claim for a deal: ', e);
+      setLoadingSubmit(false);
+      setStateSubmit(2);
+      return
     }
   };
 

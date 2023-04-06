@@ -12,7 +12,7 @@ import { useRouter } from 'next/router';
 
 const getAccount = async () => {
   const web3 = getWeb3Instance();
-  if(!web3){
+  if (!web3) {
     return null;
   }
   const accounts = await web3.eth.getAccounts();
@@ -21,9 +21,9 @@ const getAccount = async () => {
 
 const getWeb3Instance = () => {
   const networkItem = getCurrentNetwork();
-  
+
   // Red no permitida
-  if(!networkItem){
+  if (!networkItem) {
     return null;
   }
 
@@ -66,18 +66,50 @@ const loadOrderData = async (item = {}, currencyPriceList = [], ethPrice = false
   }
 }
 
-const setArbitratorInstance = (account, dispatch) => {
+// Arbitrator Kleros
+/* const setArbitratorInstance = (account, dispatch) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const web3 = getWeb3Instance();
+      const arbitratorInstance = new Arbitrator(web3, account);
+      console.log(arbitratorInstance, "arbitratorInstance");
+      dispatch({
+        type: 'SET_ARBITRATOR_INSTANCE',
+        payload: arbitratorInstance
+      })
+      return resolve(true);
+    } catch (err) {
+      console.error(err);
+      return reject(null);
+    }
+  })
+} */
+
+// Arbitrable Yubiai
+const setArbitratorInstance = async (dispatch, eth_address) => {
   const web3 = getWeb3Instance();
-  const arbitratorInstance = new Arbitrator(web3, account);
+  if (!web3 || !eth_address) {
+    dispatch({
+      type: 'SET_ARBITRATOR_INSTANCE',
+      payload: null
+    })
+    return null;
+  }
+
+  const arbitratorInstance = new Arbitrator(
+    web3, eth_address.toLowerCase());
+  await arbitratorInstance.initContract();
   dispatch({
     type: 'SET_ARBITRATOR_INSTANCE',
     payload: arbitratorInstance
   })
+  return true
 }
 
+// Arbitrable Yubiai
 const setYubiaiInstance = async dispatch => {
   const web3 = getWeb3Instance();
-  if(!web3){
+  if (!web3) {
     dispatch({
       type: 'SET_YUBIAI_ARBITRABLE_INSTANCE',
       payload: null
@@ -124,9 +156,7 @@ const getSettingsByNetwork = networkType => {
 }
 
 const loadCurrencyPrices = async (dispatch, global, networkType) => {
-  console.log(networkType, "networkType")
   const naming = getProtocolNamingFromNetwork(networkType);
-  console.log(naming, "naming")
   const resp = await priceService.getCurrencyPrices(
     naming, global && global.profile && global.profile.token);
   const { data } = resp;
