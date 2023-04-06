@@ -40,7 +40,7 @@ import SuccessEvidence from "../../../../components/Modals/SuccessEvidence";
 import Loading from "../../../../components/Spinners/Loading";
 import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider";
-import { setArbitratorInstance, setYubiaiInstance } from "../../../../providers/orderProvider";
+import { setYubiaiInstance } from "../../../../providers/orderProvider";
 import { channelService } from "../../../../services/channelService";
 import { dpolicyService } from "../../../../services/dpolicyService";
 import { evidenceService } from "../../../../services/evidenceService";
@@ -292,17 +292,19 @@ const NewEvidence = () => {
         dataSubmit,
         global.profile.token
       );
-      const { result } = response.data;
-      const { files } = result;
-      const file = files.pop();
-      const filePath = `${process.env.NEXT_PUBLIC_LINK_FLEEK}evidences/${file.filename}`;
+      console.log(response)
+      //const { result } = response.data;
+      //const { files } = result;
+      //const file = files.pop();
+      //const filePath = `${process.env.NEXT_PUBLIC_LINK_FLEEK}evidences/${file.filename}`;
 
-      manageClaim(
+      /* manageClaim(
         orderDetail.transaction.transactionIndex,
         String(valueToClaim),
         filePath,
         orderDetail.transaction.transactionMeta.transactionHash
-      );
+      ); */
+      return
     } catch (err) {
       console.log(err, "err");
       setLoadingSubmit(false);
@@ -311,7 +313,7 @@ const NewEvidence = () => {
     }
   }
 
-  const manageClaim = async (dealId, amount, evidenceURI, transactionHash) => {
+  /* const manageClaim = async (dealId, amount, evidenceURI, transactionHash) => {
     try {
       if(!user.walletAddress){
         throw "No address"
@@ -326,21 +328,21 @@ const NewEvidence = () => {
 
       throw "asdadadadad";
 
-      const result = await global.yubiaiPaymentArbitrableInstance.makeClaim(
+      /* const result = await global.yubiaiPaymentArbitrableInstance.makeClaim(
         dealId, amount, evidenceURI, parsedFeeAmount);
 
       if (result) {
         const status = 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
         await orderService.updateOrderStatus(transactionHash, status, global?.profile?.token);
         router.replace(`/profile/orders/detail/${transactionHash}`);
-      }
+      } 
     } catch (e) {
       console.log('Error creating a claim for a deal: ', e);
       setLoadingSubmit(false);
       setStateSubmit(2);
       return
     }
-  };
+  }; */
 
   if (!user || !orderDetail) return <Loading />
 
