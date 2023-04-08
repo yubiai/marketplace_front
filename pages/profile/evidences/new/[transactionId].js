@@ -47,7 +47,7 @@ import { evidenceService } from "../../../../services/evidenceService";
 import { orderService } from "../../../../services/orderService";
 import useTranslation from 'next-translate/useTranslation';
 
-const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'video/mp4', 'audio/mpeg', 'application/pdf'];
+const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 
 const labelStyles = {
   mt: '2',
@@ -253,12 +253,13 @@ const NewEvidence = () => {
     }
 
     const form = new FormData();
-    form.append('title', data.title)
-    form.append('description', data.description)
-    form.append('order_id', orderDetail._id)
-    form.append('transactionHash', orderDetail.transaction.transactionMeta.transactionHash)
-    form.append('author', global.profile._id)
-    form.append('author_address', global.profile.eth_address)
+    form.append('title', data.title);
+    form.append('description', data.description);
+    form.append('order_id', orderDetail._id);
+    form.append('transactionHash', orderDetail.transaction.transactionMeta.transactionHash);
+    form.append('author', global.profile._id);
+    form.append('author_address', global.profile.eth_address);
+    form.append('value_to_claim', valueToClaim);
 
     let messages = [];
 

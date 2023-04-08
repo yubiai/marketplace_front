@@ -33,6 +33,10 @@ const AddMessageEvidence = ({ channelDetail, selectedMsg, setSelectedMsg, t }) =
             }
         }
 
+        messages.sort((a, b) => {
+            return new Date(a.date) - new Date(b.date);
+        });
+
         setSelectedMsg(messages)
         return
     }

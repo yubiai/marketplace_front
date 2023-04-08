@@ -3,7 +3,6 @@ import moment from "moment"
 import { FaFileAlt } from "react-icons/fa"
 
 const ViewMsgText = (msg) => {
-
     return (
         <Stack
             mt="5px"
@@ -16,7 +15,7 @@ const ViewMsgText = (msg) => {
                 <Box ml='3'>
                     <Flex align="center">
                         <Text fontWeight='bold' fontSize='md' >
-                            Text:
+                            Texxt:
                         </Text>
                         <Text fontSize='sm' ml="5px">
                             {msg?.text}
@@ -25,7 +24,7 @@ const ViewMsgText = (msg) => {
                     <Badge colorScheme='green'>
                         {msg?.user?.first_name} {msg?.user?.last_name}
                     </Badge>
-                    <Text fontSize='sm'>{moment(msg?.file?.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
+                    <Text fontSize='sm'>{moment(msg?.date).format('DD MMMM, YYYY h:mm:ss a')}</Text>
                 </Box>
             </Flex>
         </Stack>

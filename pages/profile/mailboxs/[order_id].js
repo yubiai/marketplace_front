@@ -124,6 +124,7 @@ const MailBoxs = () => {
 
       let newMessage = {
         user: global.profile._id,
+        user_eth_address: global.profile.eth_address,
         text: data,
       }
 
@@ -142,6 +143,7 @@ const MailBoxs = () => {
       }
 
       form.append('user', global.profile._id);
+      form.append('user_eth_address', global.profile.eth_address);
 
       saveMessageWithFiles(form)
     }

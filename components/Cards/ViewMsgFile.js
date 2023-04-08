@@ -4,6 +4,7 @@ import FileIcon from "../Infos/FileIcon"
 
 
 const ViewMsgFile = (msg) => {
+    console.log(msg, "msg")
 
     return (
         <Stack
@@ -25,7 +26,7 @@ const ViewMsgFile = (msg) => {
                     <Badge colorScheme='green'>
                         {msg?.user?.first_name} {msg?.user?.last_name}
                     </Badge>
-                    <Text fontSize='sm'>{moment(msg?.file?.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
+                    <Text fontSize='sm'>{moment(msg?.date).format('DD MMMM, YYYY h:mm:ss a')}</Text>
                 </Box>
             </Flex>
         </Stack>
