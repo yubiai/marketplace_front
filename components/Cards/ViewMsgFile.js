@@ -4,7 +4,6 @@ import FileIcon from "../Infos/FileIcon"
 
 
 const ViewMsgFile = (msg) => {
-    console.log(msg, "msg")
 
     return (
         <Stack

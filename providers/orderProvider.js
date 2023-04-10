@@ -66,25 +66,6 @@ const loadOrderData = async (item = {}, currencyPriceList = [], ethPrice = false
   }
 }
 
-// Arbitrator Kleros
-/* const setArbitratorInstance = (account, dispatch) => {
-  return new Promise((resolve, reject) => {
-    try {
-      const web3 = getWeb3Instance();
-      const arbitratorInstance = new Arbitrator(web3, account);
-      console.log(arbitratorInstance, "arbitratorInstance");
-      dispatch({
-        type: 'SET_ARBITRATOR_INSTANCE',
-        payload: arbitratorInstance
-      })
-      return resolve(true);
-    } catch (err) {
-      console.error(err);
-      return reject(null);
-    }
-  })
-} */
-
 // Arbitrable Yubiai
 const setArbitratorInstance = async (dispatch, eth_address) => {
   const web3 = getWeb3Instance();

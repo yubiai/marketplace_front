@@ -8,7 +8,7 @@ import { getContractsForNetwork, getCurrentNetwork } from '../walletUtils';
 // const ARBITRATOR_CONTRACT = '0x988b3a538b618c7a603e1c11ab82cd16dbe28069';
 
 // Sepolia
-const ARBITRATOR_CONTRACT = '0x22545150F189fd2b7C4800625FdB27BDc0463f1C';
+const ARBITRATOR_CONTRACT = '0x9C1dA9A04925bDfDedf0f6421bC7EEa8305F9002';
 
 export default class Arbitrator {
     constructor(web3Obj, account) {
@@ -52,11 +52,5 @@ export default class Arbitrator {
     async getDispute(disputeId) {
         return this.contract.methods.getDispute(disputeId).call();
     }
-
-    async getArbitrationCost(extraData) {
-        console.log(extraData, "hola aca get arbi cost")
-        return this.contract.methods.arbitrationCost(extraData).call();
-    }
-
 
 }

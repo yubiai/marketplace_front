@@ -60,7 +60,7 @@ const NewEvidence = () => {
   const dispatch = useDispatchGlobal();
   const router = useRouter();
   const { transactionId } = router.query;
-  const { t } = useTranslation("evidence") 
+  const { t } = useTranslation("evidence")
   const [orderDetail, setOrderDetail] = useState(null);
   const [channelDetail, setChannelDetail] = useState(null);
   const [result, setResult] = useState(null);
@@ -154,8 +154,7 @@ const NewEvidence = () => {
 
   const [countDescription, setCountDescription] = useState(0);
   const MIN_DESCRIPTION_LENGTH = 100;
-  const MAX_DESCRIPTION_LENGTH = 800;
-
+  const MAX_DESCRIPTION_LENGTH = 1600;
 
   // Input Files
   const inputRef = useRef();
@@ -293,18 +292,18 @@ const NewEvidence = () => {
         dataSubmit,
         global.profile.token
       );
-      console.log(response)
-      //const { result } = response.data;
-      //const { files } = result;
-      //const file = files.pop();
-      //const filePath = `${process.env.NEXT_PUBLIC_LINK_FLEEK}evidences/${file.filename}`;
 
-      /* manageClaim(
+      const { result } = response.data;
+
+      console.log(result, "result")
+      manageClaim(
         orderDetail.transaction.transactionIndex,
         String(valueToClaim),
-        filePath,
-        orderDetail.transaction.transactionMeta.transactionHash
-      ); */
+        result.url_ipfs_json,
+        orderDetail.transaction.transactionMeta.transactionHash,
+        result._id
+      );
+
       return
     } catch (err) {
       console.log(err, "err");
@@ -314,36 +313,36 @@ const NewEvidence = () => {
     }
   }
 
-  /* const manageClaim = async (dealId, amount, evidenceURI, transactionHash) => {
+  const manageClaim = async (dealId, amount, evidenceURI, transactionHash, idEvidence) => {
     try {
-      if(!user.walletAddress){
+      if (!user.walletAddress) {
         throw "No address"
       }
-      
-      await setArbitratorInstance(dispatch, global.profile.eth_address);
 
       const parsedFeeAmount = global.yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(process.env.NEXT_PUBLIC_FEE_ARBITRATION));
 
-      const calculator = await global.arbitratorInstance.getArbitrationCost(evidenceURI)
-      console.log(calculator,"asdasdas calcul")
-
-      throw "asdadadadad";
-
-      /* const result = await global.yubiaiPaymentArbitrableInstance.makeClaim(
+      const result = await global.yubiaiPaymentArbitrableInstance.makeClaim(
         dealId, amount, evidenceURI, parsedFeeAmount);
 
+      console.log(result, "resulttt")
+      console.log(dealId, amount, evidenceURI, transactionHash, "dealId, amount, evidenceURI, transactionHash")
+
       if (result) {
+        await evidenceService.updateStatus(idEvidence, {
+          status: 1
+        }, global?.profile?.token)
         const status = 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
         await orderService.updateOrderStatus(transactionHash, status, global?.profile?.token);
         router.replace(`/profile/orders/detail/${transactionHash}`);
-      } 
+        return
+      }
     } catch (e) {
       console.log('Error creating a claim for a deal: ', e);
       setLoadingSubmit(false);
       setStateSubmit(2);
       return
     }
-  }; */
+  };
 
   if (!user || !orderDetail) return <Loading />
 
@@ -393,7 +392,7 @@ const NewEvidence = () => {
               <FormLabel color="black">{t("Title")}</FormLabel>
 
               <Input
-                placeholder={t("Title is required, minimum 15 characters and maximum 72 characters.")}
+                placeholder={t("Title Evidence is required")}
                 _placeholder={{ color: 'gray.400' }}
                 color="gray.700"
                 bg="white"
@@ -405,13 +404,13 @@ const NewEvidence = () => {
               <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
               <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
               <Text color="red" m="5px">{errors.title?.type === 'required' && t("Title is Required")}</Text>
-              <Text color="red" m="5px">{errors.title?.type === 'minLength' && t("Minimum required characters are 15")}</Text>
-              <Text color="red" m="5px">{errors.title?.type === 'maxLength' && t("Maximum required characters are 72")}</Text>
+              <Text color="red" m="5px">{errors.title?.type === 'minLength' && t("Minimum required") + " " + MIN_TITLE_LENGTH}</Text>
+              <Text color="red" m="5px">{errors.title?.type === 'maxLength' && t("Maximum required") + " " + MAX_TITLE_LENGTH}</Text>
             </FormControl>
             <FormControl isRequired mt="1em">
               <FormLabel color="black">{t("Description")}</FormLabel>
               <Textarea
-                placeholder={t("Description is required, minimum 100 characters and maximum 800 characters")}
+                placeholder={t("Description Evidence is required")}
                 _placeholder={{ color: 'gray.400' }}
                 color="gray.700"
                 bg="white"
@@ -423,8 +422,8 @@ const NewEvidence = () => {
               <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
               <Text color="red" m="5px">{errors.description?.type === 'pattern' && errors.description?.message}</Text>
               <Text color="red" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
-              <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 100")}</Text>
-              <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 800")}</Text>
+              <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required") + " " + MIN_DESCRIPTION_LENGTH}</Text>
+              <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required") + " " + MAX_DESCRIPTION_LENGTH}</Text>
             </FormControl>
             <FormControl>
               <FormLabel color="black">{t("Amount to claim")}</FormLabel>
@@ -448,7 +447,7 @@ const NewEvidence = () => {
                   {
                     (marksToClaim && marksToClaim.length) && marksToClaim.map(
                       (wei, index) => {
-                        if(index%2==0 && index !== 0){
+                        if (index % 2 == 0 && index !== 0) {
                           return <SliderMark {...labelStyles} value={wei} key={`slider-mark-amount-${index}`}>{parseWeiToTokenAmount(wei)}</SliderMark>
                         } else {
                           return null
@@ -499,7 +498,7 @@ const NewEvidence = () => {
               })}
             </Flex>
             <Divider />
-            <AddMessageEvidence channelDetail={channelDetail} selectedMsg={selectedMsg} setSelectedMsg={setSelectedMsg} t={t}/>
+            <AddMessageEvidence channelDetail={channelDetail} selectedMsg={selectedMsg} setSelectedMsg={setSelectedMsg} t={t} />
           </Box>
           <Text color="red">{errorMsg && errorMsg}</Text>
           <Box>
@@ -534,7 +533,7 @@ const NewEvidence = () => {
                     <PreviewEvidence result={result}
                       transactionHash={orderDetail.transaction.transactionMeta.transactionHash}
                       previewFiles={previewFiles}
-                      selectedMsg={selectedMsg} t={t}/>
+                      selectedMsg={selectedMsg} t={t} />
                   )}
                 </ModalBody>
 

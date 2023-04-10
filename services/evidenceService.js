@@ -64,9 +64,27 @@ async function newEvidence(transactionId, payload, token) {
   )
 }
 
+/**
+ * Update Evidence status
+ * @param {query} id
+ */
+async function updateStatus(id, payload, token) {
+  return await axios.put(
+    `/evidences/status/${id}`, payload,
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : null
+  )
+}
+
 export const evidenceService = {
   newEvidence,
   getEvidenceById,
   getEvidenceByOrderID,
-  getFilevidenceByOrderID
+  getFilevidenceByOrderID,
+  updateStatus
 }
