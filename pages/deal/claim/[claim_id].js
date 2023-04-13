@@ -1,56 +1,44 @@
-import { Badge, Box, Breadcrumb, BreadcrumbItem, Button, Center, Container, Divider, Flex, Heading, Stack, Text } from "@chakra-ui/react";
-import moment from "moment";
-import Head from "next/head";
+import { Badge, Box, Button, Center, Container, Divider, Flex, Heading, Link, Spinner, Stack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import { evidenceService } from "../../../services/evidenceService";
-import { useDispatchGlobal, useGlobal } from "../../../providers/globalProvider"
-import { useState } from "react";
-import useUser from "../../../hooks/data/useUser";
-import Loading from "../../../components/Spinners/Loading";
-import FileIcon from "../../../components/Infos/FileIcon";
-import { ChevronRightIcon } from "@chakra-ui/icons";
-import Link from "next/link";
+import { dealService } from '../../../services/dealService';
+import { useEffect, useState } from "react";
+import Head from "next/head";
+import moment from "moment";
 import ViewMsgText from "../../../components/Cards/ViewMsgText";
 import ViewMsgFile from "../../../components/Cards/ViewMsgFile";
+import FileIcon from "../../../components/Infos/FileIcon";
 
 const EvidenceDetail = () => {
 
-    const global = useGlobal();
-    const dispatch = useDispatchGlobal();
     const router = useRouter();
-    const { id } = router.query;
-    const [evidence, setEvidence] = useState(null)
+    const { claim_id } = router.query;
+    const [evidence, setEvidence] = useState(null);
 
-    const { user, loggedOut } = useUser();
 
-    // if logged in, redirect to the home
-    useEffect(() => {
-        if (loggedOut) {
-            router.replace('/logout')
-        }
-    }, [user, loggedOut, router, dispatch]);
-
-    const loadEvidence = async () => {
+    const getEvidenceByClaimID = async () => {
 
         try {
-            const response = await evidenceService.getEvidenceById(id, global.profile.token);
-            setEvidence(response.data)
-
+            const response = await dealService.getEvidenceByClaimID(claim_id);
+            setEvidence(response.data);
+            console.log(response)
+            return
         } catch (err) {
             console.error(err);
-            setEvidence(null)
+            return
         }
     }
 
+
     useEffect(() => {
-        if (global && global.profile) {
-            loadEvidence()
+        if (claim_id) {
+            getEvidenceByClaimID()
+            return
         }
-    }, [global && global.profile])
+    }, [claim_id])
 
-    if (!user || !evidence) return <Loading />
+    if (!evidence) return <Spinner />
 
+    console.log(evidence)
     return (
         <>
             <Head>
@@ -66,25 +54,6 @@ const EvidenceDetail = () => {
                 display={'flex'}
                 flexDirection={'column'}
             >
-                <Breadcrumb spacing='8px' mt='1em' separator={<ChevronRightIcon color='gray.500' />}>
-                    <BreadcrumbItem>
-                        <Link href="/" cursor={'pointer'} _hover={{
-                            textDecoration: "underline"
-                        }}><Text color="#00abd1" cursor={'pointer'} _hover={{
-                            textDecoration: "underline"
-                        }}>Home</Text></Link>
-                    </BreadcrumbItem>
-
-                    <BreadcrumbItem>
-                        <Link href={`/profile/orders/detail/${evidence.transactionHash}`}><Text color="#00abd1" cursor={'pointer'} _hover={{
-                            textDecoration: "underline"
-                        }}>Order detail</Text></Link>
-                    </BreadcrumbItem>
-
-                    <BreadcrumbItem isCurrentPage>
-                        <Text>Evidence</Text>
-                    </BreadcrumbItem>
-                </Breadcrumb>
                 <Center py={6}>
                     <Box
                         w={"80%"}
@@ -120,7 +89,9 @@ const EvidenceDetail = () => {
                             </>
                         )}
 
+
                         {evidence.messages.length > 0 && evidence.messages.map((msg, i) => {
+                            console.log(msg)
                             return (
                                 <Flex key={i}>
                                     {msg.text && (
@@ -170,16 +141,14 @@ const EvidenceDetail = () => {
                                 </Link>
                             )
                         })}
-
-                        <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.back()}>
+                        <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.push("/")}>
               Go Back
             </Button>
-                    </Box>
-                </Center>
+                    </Box></Center>
             </Container>
+
         </>
     )
-
 }
 
 export default EvidenceDetail;

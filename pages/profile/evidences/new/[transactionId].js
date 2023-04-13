@@ -328,9 +328,14 @@ const NewEvidence = () => {
       console.log(dealId, amount, evidenceURI, transactionHash, "dealId, amount, evidenceURI, transactionHash")
 
       if (result) {
+        const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(dealId);
+        console.log(fullStatus, "fullStatus")
         await evidenceService.updateStatus(idEvidence, {
+          dealId: dealId,
+          claimID: fullStatus.claim.claimID,
           status: 1
-        }, global?.profile?.token)
+        }, global?.profile?.token);
+
         const status = 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
         await orderService.updateOrderStatus(transactionHash, status, global?.profile?.token);
         router.replace(`/profile/orders/detail/${transactionHash}`);

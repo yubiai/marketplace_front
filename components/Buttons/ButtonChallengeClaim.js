@@ -2,18 +2,24 @@ import React from 'react';
 import { Button } from '@chakra-ui/react';
 import { useGlobal } from '../../providers/globalProvider';
 import { orderService } from '../../services/orderService';
+import { evidenceService } from '../../services/evidenceService';
 
-const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus, yubiaiPaymentArbitrableInstance, t }) => {
+const ButtonChallengeClaim = ({ transactionInfo, stepsPostAction, evidenceID, toggleLoadingStatus, yubiaiPaymentArbitrableInstance, t }) => {
     const global = useGlobal();
 
     const challengeClaim = async () => {
-        const { claimId, transactionHash } = transactionInfo;
+        const { claimID, transactionHash } = transactionInfo;
         const parsedFeeAmount = yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(process.env.NEXT_PUBLIC_FEE_ARBITRATION));
 
         try {
             toggleLoadingStatus(true);
-            await yubiaiPaymentArbitrableInstance.challengeClaim(claimId, parsedFeeAmount);
+            await yubiaiPaymentArbitrableInstance.challengeClaim(claimID, parsedFeeAmount);
+
+            await evidenceService.updateStatus(evidenceID, {
+                status: 2
+            }, global?.profile?.token);
             await orderService.updateOrderStatus(transactionHash, 'ORDER_DISPUTE_IN_PROGRESS', global?.profile?.token);
+
             stepsPostAction();
             toggleLoadingStatus(false);
             return
@@ -31,4 +37,4 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
     );
 };
 
-export default ButtonPayOrder;
+export default ButtonChallengeClaim;

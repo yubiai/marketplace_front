@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Link, Text } from "@chakra-ui/react";
 
 export const NONE_STATUS = "0";
 export const ONGOING_STATUS = "1";
@@ -64,7 +64,8 @@ export const StatusOrderByState = (deal = {}, claim = {}, t) => {
     case "ORDER_DISPUTE_IN_PROGRESS":
       return (
         <Box bg="purple.300" rounded={"5px"} w={{ base: "100%", md: "max-content" }}>
-          <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Dispute in progress")} (Dispute Id: {claim.disputeId})</Text>
+          <Text color="white" fontSize={"larger"} fontStyle="normal" pl="15px" pr="15px">{t("Dispute in progress")} (Dispute Id: {claim.disputeId}) </Text>
+          <Link href={process.env.NEXT_PUBLIC_COURT_CASES + claim.disputeId} color="white" pl="15px" pr="15px">{process.env.NEXT_PUBLIC_COURT_CASES + claim.disputeId}</Link>
         </Box>
       );
     case "CLAIM_REJECTED":
@@ -161,10 +162,10 @@ export const statusDescMap = (deal = {}, claim = {}) => {
     case "3":
       return "ORDER_DISPUTE_IN_PROGRESS";
     case "4":
-      if(claim.claimCount > 0 && claim.claimStatus == "0"){
+      if (claim.claimCount > 0 && claim.claimStatus == "0") {
         return "ORDER_REFUNDED";
       }
-      if(claim.claimCount > 0 && claim.claimStatus == "2"){
+      if (claim.claimCount > 0 && claim.claimStatus == "2") {
         return "CLAIM_WON_BY_BUYER";
       }
       return "ORDER_PAID";

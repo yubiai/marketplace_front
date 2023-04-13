@@ -1,7 +1,8 @@
 import axios from 'axios'
 
 export const dealService = {
-  getItemSlugByDealId
+  getItemSlugByDealId,
+  getEvidenceByClaimID
 }
 
 /**
@@ -12,5 +13,17 @@ export const dealService = {
 async function getItemSlugByDealId(deal_id) {
   return await axios.get(
     `/deal/${deal_id}`
+  )
+}
+
+
+/**
+ * Get Evidence by claimID
+ * @param {str} claimID
+ */
+
+async function getEvidenceByClaimID(claimID) {
+  return await axios.get(
+    `/deal/claim/${claimID}`
   )
 }

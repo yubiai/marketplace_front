@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { orderService } from '../../../../services/orderService';
+import { dealService } from '../../../../services/dealService';
 import {
   useGlobal,
   useDispatchGlobal,
@@ -72,6 +73,7 @@ const OrderDetail = () => {
   const { t } = useTranslation("orders");
   const [transactionData, setTransactionData] = useState({});
   const [transactionMeta, setTransactionMeta] = useState(null);
+  const [evidence, setEvidence] = useState(null);
   const [transactionPayedAmount, setTransactionPayedAmount] = useState('');
   const [transactionFeeAmount, setTransactionFeeAmount] = useState('');
   const [transactionDate, setTransactionDate] = useState('');
@@ -199,6 +201,12 @@ const OrderDetail = () => {
       const currentTS = Math.floor((new Date()).getTime() / 1000);
       const limitClaimTime = Math.floor(
         (parseInt(fullStatus.claimCreatedAt, 10) + parseInt(timeForChallenge, 10)) / 1000);
+
+      // Obtener Evidence
+      if (fullStatus && fullStatus.claim.claimCount > 0 && fullStatus.claim.claimID) {
+        const response = await dealService.getEvidenceByClaimID(fullStatus.claim.claimID);
+        setEvidence(response.data);
+      }
 
       setDeal(fullStatus);
       setIsLateToChallenge(currentTS < limitClaimTime);
@@ -614,10 +622,12 @@ const OrderDetail = () => {
                             <Box mt="1em" textAlign={{ base: "center", md: "right" }}>
                               <ButtonChallengeClaim
                                 transactionInfo={{
-                                  claimId: (deal || {}).claim.claimID,
-                                  transactionHash: transactionMeta.transactionHash
+                                  claimID: (deal || {}).claim.claimID,
+                                  transactionHash: transactionMeta.transactionHash,
+
                                 }}
                                 stepsPostAction={loadOrder}
+                                evidenceID={evidence && evidence._id}
                                 toggleLoadingStatus={toggleLoadingStatus}
                                 yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance} t={t}
                               />
