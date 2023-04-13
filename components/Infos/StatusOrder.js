@@ -1,4 +1,5 @@
 import { Box, Link, Text } from "@chakra-ui/react";
+import EvidenceDetailCard from "../Cards/EvidenceDetailCard";
 
 export const NONE_STATUS = "0";
 export const ONGOING_STATUS = "1";
@@ -57,9 +58,12 @@ export const StatusOrderByState = (deal = {}, claim = {}, t) => {
       );
     case "ORDER_DISPUTE_RECEIVER_FEE_PENDING":
       return (
-        <Box bg="pink.300" rounded={"5px"} p="5px" w={{ base: "100%", md: "max-content" }}>
-          <Text fontSize={"larger"} fontStyle="normal" color="black" pl="15px" pr="15px">{t("The buyer has claimed a refund for this order")} (N° {claim.claimCount})</Text>
-        </Box>
+        <>
+          <Box bg="pink.300" rounded={"5px"} p="5px" w={{ base: "100%", md: "max-content" }}>
+            <Text fontSize={"larger"} fontStyle="normal" color="black" pl="15px" pr="15px">{t("The buyer has claimed a refund for this order")} (N° {claim.claimCount})</Text>
+          </Box>
+          <EvidenceDetailCard claim={claim} />
+        </>
       );
     case "ORDER_DISPUTE_IN_PROGRESS":
       return (

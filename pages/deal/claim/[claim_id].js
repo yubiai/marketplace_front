@@ -75,6 +75,12 @@ const EvidenceDetail = () => {
                         <Divider />
                         <Text fontWeight={600} fontSize="2xl" mt="1em">Description</Text>
                         <Text>{evidence.description}</Text>
+                        <Text mt="5px" fontWeight={"bold"}>JSON</Text>
+                        <Link color="blue.700" href={process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_json} isExternal>{process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_json}</Link>
+                        <Text mt="5px" fontWeight={"bold"}>PDF</Text>
+                        <Link color="blue.700" href={process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_pdf} isExternal>{process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_pdf}</Link>
+                        <Text mt="5px" fontWeight={"bold"}>File Signature</Text>
+                        <Text >{evidence.fileSignature}</Text>
                         <Divider />
                         <Text fontWeight={600} fontSize="2xl" mt="1em">TransactionHash</Text>
                         <Text>{evidence.transactionHash}</Text>
@@ -142,8 +148,8 @@ const EvidenceDetail = () => {
                             )
                         })}
                         <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.push("/")}>
-              Go Back
-            </Button>
+                            Go Back
+                        </Button>
                     </Box></Center>
             </Container>
 
