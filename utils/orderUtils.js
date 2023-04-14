@@ -1,4 +1,5 @@
 import moment from "moment";
+import { ethers } from "ethers";
 
 const DEFAULT_TIMEOUT = 604800;
 
@@ -107,6 +108,12 @@ const calculateFinishDate = (transactionDate, claimCount, claimSolvedAt) => {
     return dateCalcu;
 }
 
+const parserForWei = (value) => {
+    const valorBigNumber = ethers.BigNumber.from(value);
+    const valorEnEther = ethers.utils.formatEther(valorBigNumber);
+    const valorEnFloat = parseFloat(valorEnEther).toFixed(5);
+    return valorEnFloat;
+}
 
 
 export {
@@ -116,5 +123,6 @@ export {
     getProtocolNamingFromNetwork,
     parseFromAToBToken,
     translateStatusIdToNamingInTransaction,
-    calculateFinishDate
+    calculateFinishDate,
+    parserForWei
 }

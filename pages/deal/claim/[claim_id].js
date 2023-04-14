@@ -8,6 +8,8 @@ import ViewMsgText from "../../../components/Cards/ViewMsgText";
 import ViewMsgFile from "../../../components/Cards/ViewMsgFile";
 import FileIcon from "../../../components/Infos/FileIcon";
 import Loading from "../../../components/Spinners/Loading";
+import { StatusEvidence } from "../../../components/Infos/StatusEvidence";
+import { parserForWei } from "../../../utils/orderUtils";
 
 const EvidenceDetail = () => {
 
@@ -19,7 +21,7 @@ const EvidenceDetail = () => {
 
         try {
             const response = await dealService.getEvidenceByClaimID(claim_id);
-            if(response && response.status === 204){
+            if (response && response.status === 204) {
                 return router.replace("/404")
             }
             setEvidence(response.data);
@@ -68,27 +70,28 @@ const EvidenceDetail = () => {
                             Evidence Detail
                         </Heading>
                         <Text fontWeight={600} fontSize={'0.8em'} color={'gray.500'} mt="5px">
-                            {moment(evidence && evidence?.dateOrder).format('MM/DD/YYYY, h:mm:ss a')} | # {evidence?._id}
+                            {moment(evidence && evidence?.dateOrder).format('MM/DD/YYYY, h:mm:ss a')} | # {evidence.transactionHash}
                         </Text>
+                            <Stack mt="5px" direction='row'>
+                                {StatusEvidence(evidence.status)}                                
+                            </Stack>
                         <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-                        Status: {evidence.status}
                         <Text fontWeight={600} fontSize="2xl" mt="1em">Title</Text>
                         <Text>{evidence.title}</Text>
-                        <Divider />
                         <Text fontWeight={600} fontSize="2xl" mt="1em">Description</Text>
                         <Text>{evidence.description}</Text>
-                        <Text mt="5px" fontWeight={"bold"}>JSON</Text>
-                        <Link color="blue.700" href={process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_json} isExternal>{process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_json}</Link>
-                        <Text mt="5px" fontWeight={"bold"}>PDF</Text>
+                        <Text fontWeight={600} fontSize="2xl" mt="1em">Value To Claim</Text>
+                        <Text>{parserForWei(evidence.value_to_claim)}</Text>
+                        <Divider />
+                        <Text fontWeight={600} fontSize="2xl" mt="1em">PDF</Text>
                         <Link color="blue.700" href={process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_pdf} isExternal>{process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_pdf}</Link>
-                        <Text mt="5px" fontWeight={"bold"}>File Signature</Text>
+                        <Text fontWeight={600} fontSize="2xl" mt="1em">File Signature</Text>
                         <Text >{evidence.fileSignature}</Text>
+                        <Text fontWeight={600} fontSize="2xl" mt="1em">JSON</Text>
+                        <Link color="blue.700" href={process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_json} isExternal>{process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_json}</Link>
                         <Divider />
-                        <Text fontWeight={600} fontSize="2xl" mt="1em">TransactionHash</Text>
-                        <Text>{evidence.transactionHash}</Text>
-                        <Divider />
-                        <Text fontWeight={600} fontSize="2xl" mt="1em">Order ID</Text>
-                        <Text>{evidence.order_id}</Text>
+                        <Text fontWeight={600} fontSize="2xl" mt="1em">Item</Text>
+                        <Link href={"/item/" + evidence.order.itemId.slug} color="blue.700" fontWeight={"hairline"}>{evidence.order.itemId.title}</Link>
                         <Divider />
                         {evidence.messages && evidence.messages.length > 0 && (
                             <>
