@@ -1,4 +1,4 @@
-import { Badge, Box, Button, Center, Container, Divider, Flex, Heading, Link, Spinner, Stack, Text } from "@chakra-ui/react";
+import { Badge, Box, Button, Center, Container, Divider, Flex, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { dealService } from '../../../services/dealService';
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import moment from "moment";
 import ViewMsgText from "../../../components/Cards/ViewMsgText";
 import ViewMsgFile from "../../../components/Cards/ViewMsgFile";
 import FileIcon from "../../../components/Infos/FileIcon";
+import Loading from "../../../components/Spinners/Loading";
 
 const EvidenceDetail = () => {
 
@@ -14,17 +15,18 @@ const EvidenceDetail = () => {
     const { claim_id } = router.query;
     const [evidence, setEvidence] = useState(null);
 
-
     const getEvidenceByClaimID = async () => {
 
         try {
             const response = await dealService.getEvidenceByClaimID(claim_id);
+            if(response && response.status === 204){
+                return router.replace("/404")
+            }
             setEvidence(response.data);
-            console.log(response)
             return
         } catch (err) {
             console.error(err);
-            return
+            return router.replace("/404")
         }
     }
 
@@ -36,7 +38,7 @@ const EvidenceDetail = () => {
         }
     }, [claim_id])
 
-    if (!evidence) return <Spinner />
+    if (!evidence) return <Loading />
 
     console.log(evidence)
     return (

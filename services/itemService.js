@@ -41,7 +41,7 @@ async function getItemById(id, token) {
  */
  async function updateItemById(id, data, token) {
   return await axios.put(
-    `/items/item/id/${id}`, data,
+    `/itemedit/id/${id}`, data,
     token
       ? {
         headers: {
@@ -58,7 +58,7 @@ async function getItemById(id, token) {
  */
  async function deleteFileById(id, data, token) {
   return await axios.put(
-    `/items/item/deletefile/${id}`, data,
+    `/itemedit/deletefile/${id}`, data,
     token
       ? {
         headers: {
