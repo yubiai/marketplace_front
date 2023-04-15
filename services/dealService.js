@@ -2,7 +2,8 @@ import axios from 'axios'
 
 export const dealService = {
   getItemSlugByDealId,
-  getEvidenceByClaimID
+  getEvidenceByClaimID,
+  validateSignature
 }
 
 /**
@@ -26,4 +27,8 @@ async function getEvidenceByClaimID(claimID) {
   return await axios.get(
     `/deal/claim/${claimID}`
   )
+}
+
+async function validateSignature(payload){
+  return await axios.post("/deal/validatesignature/", payload);
 }

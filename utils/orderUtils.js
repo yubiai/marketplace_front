@@ -89,11 +89,11 @@ const calculateFinishDate = (transactionDate, claimCount, claimSolvedAt) => {
     const TimeForService = Number(process.env.NEXT_PUBLIC_TIME_FOR_SERVICE);
     const TimeForReclaim = Number(process.env.NEXT_PUBLIC_TIME_FOR_RECLAIM);
 
-    if(claimCount > 0){
+    if (claimCount > 0) {
         // SC -> return (block.timestamp >= (claims[deal.currentClaim].solvedAt + settings.timeForReclaim));
 
         dateCalcu = claimSolvedAt + TimeForReclaim;
-        
+
         dateCalcu = moment(dateCalcu * 1000).format('MM/DD/YYYY, h:mm:ss a')
 
         return dateCalcu;
@@ -109,7 +109,7 @@ const calculateFinishDate = (transactionDate, claimCount, claimSolvedAt) => {
 }
 
 const parserForWei = (value) => {
-    const valorBigNumber = ethers.BigNumber.from(value);
+    const valorBigNumber = ethers.BigNumber.from(value.toString());
     const valorEnEther = ethers.utils.formatEther(valorBigNumber);
     const valorEnFloat = parseFloat(valorEnEther).toFixed(5);
     return valorEnFloat;

@@ -8,7 +8,6 @@ import {
 } from '../utils/orderUtils';
 import { getCurrentNetwork } from '../utils/walletUtils';
 import Arbitrator from '../utils/escrow-utils/arbitrator';
-import { useRouter } from 'next/router';
 
 const getAccount = async () => {
   const web3 = getWeb3Instance();

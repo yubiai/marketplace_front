@@ -10,6 +10,7 @@ import FileIcon from "../../../components/Infos/FileIcon";
 import Loading from "../../../components/Spinners/Loading";
 import { StatusEvidence } from "../../../components/Infos/StatusEvidence";
 import { parserForWei } from "../../../utils/orderUtils";
+import ValidateSignatureEvidence from "../../../components/Modals/ValidateSignatureEvidence";
 
 const EvidenceDetail = () => {
 
@@ -87,6 +88,7 @@ const EvidenceDetail = () => {
                         <Link color="blue.700" href={process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_pdf} isExternal>{process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_pdf}</Link>
                         <Text fontWeight={600} fontSize="2xl" mt="1em">File Signature</Text>
                         <Text >{evidence.fileSignature}</Text>
+                        <ValidateSignatureEvidence urlpdf={evidence.url_ipfs_pdf} fileSignature={evidence.fileSignature} />
                         <Text fontWeight={600} fontSize="2xl" mt="1em">JSON</Text>
                         <Link color="blue.700" href={process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_json} isExternal>{process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_json}</Link>
                         <Divider />
