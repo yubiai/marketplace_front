@@ -41,9 +41,18 @@ const EvidenceDetail = () => {
         }
     }, [claim_id])
 
+    const goBack = () => {
+        if (window.history.length > 2) {
+            router.back();
+          } else {
+            router.push('/');
+          }
+        return
+    }
+
     if (!evidence) return <Loading />
 
-    console.log(evidence)
+    console.log(router)
     return (
         <>
             <Head>
@@ -73,9 +82,9 @@ const EvidenceDetail = () => {
                         <Text fontWeight={600} fontSize={'0.8em'} color={'gray.500'} mt="5px">
                             {moment(evidence && evidence?.dateOrder).format('MM/DD/YYYY, h:mm:ss a')} | # {evidence.transactionHash}
                         </Text>
-                            <Stack mt="5px" direction='row'>
-                                {StatusEvidence(evidence.status)}                                
-                            </Stack>
+                        <Stack mt="5px" direction='row'>
+                            {StatusEvidence(evidence.status)}
+                        </Stack>
                         <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                         <Text fontWeight={600} fontSize="2xl" mt="1em">Title</Text>
                         <Text>{evidence.title}</Text>
@@ -88,7 +97,7 @@ const EvidenceDetail = () => {
                         <Link color="blue.700" href={process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_pdf} isExternal>{process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_pdf}</Link>
                         <Text fontWeight={600} fontSize="2xl" mt="1em">File Signature</Text>
                         <Text >{evidence.fileSignature}</Text>
-                        <ValidateSignatureEvidence urlpdf={evidence.url_ipfs_pdf} fileSignature={evidence.fileSignature} />
+                        <ValidateSignatureEvidence urlpdf={evidence.url_ipfs_pdf} fileSignature={evidence.fileSignature} evidence_id={evidence._id} />
                         <Text fontWeight={600} fontSize="2xl" mt="1em">JSON</Text>
                         <Link color="blue.700" href={process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_json} isExternal>{process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_json}</Link>
                         <Divider />
@@ -104,7 +113,6 @@ const EvidenceDetail = () => {
 
 
                         {evidence.messages.length > 0 && evidence.messages.map((msg, i) => {
-                            console.log(msg)
                             return (
                                 <Flex key={i}>
                                     {msg.text && (
@@ -154,7 +162,7 @@ const EvidenceDetail = () => {
                                 </Link>
                             )
                         })}
-                        <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.push("/")}>
+                        <Button bg="#00abd1" color="white" _hover={{ bg: "gray.200" }} m="2em" onClick={() => goBack()}>
                             Go Back
                         </Button>
                     </Box></Center>

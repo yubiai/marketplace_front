@@ -31,6 +31,23 @@ async function newEvidence(transactionId, payload, token) {
 }
 
 /**
+ * Evidences by dealId
+ * @param {query} dealId
+ */
+async function getEvidencesByDealId(dealId, token) {
+  return await axios.get(
+    `/evidences/all/dealid/${dealId}`,
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : null
+  )
+}
+
+/**
  * Files Evidence by id order
  * @param {query} Search
  */
@@ -84,6 +101,7 @@ async function updateStatus(id, payload, token) {
 export const evidenceService = {
   newEvidence,
   getEvidenceById,
+  getEvidencesByDealId,
   getEvidenceByOrderID,
   getFilevidenceByOrderID,
   updateStatus

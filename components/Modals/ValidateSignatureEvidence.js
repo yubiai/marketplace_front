@@ -1,9 +1,11 @@
-import { Alert, AlertIcon, Box, Button, Flex, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, useDisclosure } from "@chakra-ui/react";
+import { Alert, AlertIcon, Box, Button, Flex, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Text, useDisclosure, useToast } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { dealService } from "../../services/dealService";
 
-const ValidateSignatureEvidence = ({ urlpdf, fileSignature }) => {
+const ValidateSignatureEvidence = ({ urlpdf, fileSignature, evidence_id }) => {
+    console.log(evidence_id, "evidence_id")
+    const toast = useToast();
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { handleSubmit, register, formState: { errors }, reset } = useForm();
 
@@ -29,7 +31,13 @@ const ValidateSignatureEvidence = ({ urlpdf, fileSignature }) => {
     const onSubmit = async (data) => {
         try {
             setLoading(true)
-            const response = await dealService.validateSignature(data);
+
+            const validateData = {
+                ...data,
+                evidence_id: evidence_id
+            }
+
+            const response = await dealService.validateSignature(validateData);
 
             if (response.status === 200) {
                 setSignatureValid(response.data && response.data.signatureValid);
@@ -39,6 +47,15 @@ const ValidateSignatureEvidence = ({ urlpdf, fileSignature }) => {
             return
         } catch (err) {
             console.error(err);
+            toast({
+                title: "Validate Signature",
+                description: "Error Validate",
+                position: 'top-right',
+                status: 'warning',
+                duration: 2000,
+                isClosable: true
+            })
+            onCloseModal()
             return
         }
     }
@@ -46,6 +63,7 @@ const ValidateSignatureEvidence = ({ urlpdf, fileSignature }) => {
     const onCloseModal = () => {
         reset();
         onClose();
+        setLoading(false);
         setSignatureValid(null);
         setCountPATHPDF(0);
         setCountSignature(0);

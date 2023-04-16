@@ -45,6 +45,7 @@ import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
 import { calculateFinishDate } from '../../../../utils/orderUtils';
+import EvidencesList from '../../../../components/Infos/EvidencesList';
 
 const OrderDetail = () => {
   const [loading, setLoading] = useState(false);
@@ -212,7 +213,7 @@ const OrderDetail = () => {
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance]);
 
   if (!loading) return <Loading />;
-
+  console.log(orderDetail)
   console.log((deal || {}), "(deal || {})")
   return (
     <>
@@ -402,22 +403,6 @@ const OrderDetail = () => {
 
             <Text fontWeight={600} fontSize="2xl">{t("Status ")}</Text>
 
-            {/* {
-              orderDetail.status == "ORDER_DISPUTE_IN_PROGRESS" && (
-                <>
-                  {StatusOrder("ORDER_DISPUTE_IN_PROGRESS")}
-                </>
-              )
-            }
-
-            {
-              orderDetail.status == "ORDER_PAID" && (
-                <>
-                  {StatusOrder("ORDER_PAID")}
-                </>
-              )
-            } */}
-
             {
               orderDetail.status == "ORDER_REFUNDED" && (
                 <>
@@ -528,6 +513,7 @@ const OrderDetail = () => {
                 </Stack>
               </Box>)
             }
+            <EvidencesList dealId={(deal || {}).deal.dealId} token={global.profile.token} />
           </Box>
         </Center>
       </Container>
