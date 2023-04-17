@@ -36,7 +36,7 @@ const ButtonCloseDeal = ({ dealId, transactionHash, toggleLoadingStatus, yubiaiP
 
     return (
         <Button isDisabled={isDisabled} bg='#00abd1' w={{ base: "100%", md: "200px" }} _hover={{
-            bg: "gray.400"
+            bg: "blue.300"
         }} color={'white'} onClick={() => { closeDeal() }}>
             {t("Claim Payment")}
         </Button>

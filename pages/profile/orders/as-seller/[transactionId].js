@@ -641,7 +641,7 @@ const OrderDetail = () => {
                 )}
 
                 {
-                  (deal || {}).deal.isOver && verifyMessages && (deal || {}).deal.dealStatus !== "4" && (
+                  (deal || {}).deal.isOver && orderDetail.orderCompletedBySeller && verifyMessages && (deal || {}).deal.dealStatus !== "4" && (
                     <>
                       <ButtonCloseDeal
                         dealId={(deal || {}).deal.dealId}
