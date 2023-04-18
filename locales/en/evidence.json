@@ -32,5 +32,8 @@
     "Review your evidence": "Review your evidence",
     "Submit": "Submit",
     "Close": "Close",
-    "Failed to post": "Failed to post"
+    "Enable editing": "Enable editing",
+    "Failed to post": "We're sorry, we couldn't submit the evidence at this time. Please review the data entered and try again. If the issue persists, it may be due to a system error. Please try again later.",
+    "Operation cancelled": "Operation cancelled",
+    "Failed to metamask": "The user has cancelled the confirmation in Metamask. Please review the evidence and try to submit or edit it again. Please make sure to accept the confirmation in Metamask to complete the operation."
 }

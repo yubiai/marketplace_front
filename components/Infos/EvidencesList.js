@@ -4,7 +4,7 @@ import { evidenceService } from "../../services/evidenceService";
 import moment from "moment";
 import { useRouter } from "next/router";
 
-const EvidencesList = ({ dealId, token }) => {
+const EvidencesList = ({ dealId, token, t }) => {
     const router = useRouter();
 
     const [loading, setLoading] = useState(false);
@@ -51,14 +51,13 @@ const EvidencesList = ({ dealId, token }) => {
                         <h2>
                             <AccordionButton>
                                 <Box as="span" flex='1' textAlign='left'>
-                                    Evidences ({evidences.length})
+                                    {t("Evidences")} ({evidences.length})
                                 </Box>
                                 <AccordionIcon />
                             </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4}>
                             {evidences.map((evidence, i) => {
-                                console.log(evidence, "evidences")
                                 return (
                                     <Box key={i} p="1em" m="1em" bg="blue.400" color="white" rounded="2xl" _hover={{
                                         bg: "blue.200"

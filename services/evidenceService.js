@@ -98,11 +98,30 @@ async function updateStatus(id, payload, token) {
   )
 }
 
+
+/**
+ * Remove Evidence by id
+ * @param {query} Search
+ */
+async function removeEvidenceOld(id, token) {
+  return await axios.delete(
+    `/evidences/removeold/${id}`,
+    token
+      ? {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      : null
+  )
+}
+
 export const evidenceService = {
   newEvidence,
   getEvidenceById,
   getEvidencesByDealId,
   getEvidenceByOrderID,
   getFilevidenceByOrderID,
-  updateStatus
+  updateStatus,
+  removeEvidenceOld
 }

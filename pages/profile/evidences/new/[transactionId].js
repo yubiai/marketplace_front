@@ -1,4 +1,4 @@
-import { AttachmentIcon, ChevronRightIcon } from "@chakra-ui/icons";
+import { AttachmentIcon, ChevronRightIcon, CloseIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -26,7 +26,8 @@ import {
   Textarea,
   useDisclosure,
   Breadcrumb,
-  BreadcrumbItem
+  BreadcrumbItem,
+  useToast
 } from "@chakra-ui/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -59,12 +60,17 @@ const NewEvidence = () => {
   const global = useGlobal();
   const dispatch = useDispatchGlobal();
   const router = useRouter();
+  const toast = useToast();
   const { transactionId } = router.query;
   const { t } = useTranslation("evidence")
   const [orderDetail, setOrderDetail] = useState(null);
   const [channelDetail, setChannelDetail] = useState(null);
   const [result, setResult] = useState(null);
   const { user, loggedOut } = useUser();
+
+  const [loadingEnableEditing, setLoadingEnableEditing] = useState(false);
+
+  const [evidenceSave, setEvidenceSave] = useState(null);
 
   const [valueToClaim, setValueToClaim] = useState(0);
   const [marksToClaim, setMarksToClaim] = useState([]);
@@ -285,26 +291,41 @@ const NewEvidence = () => {
 
   // Confirm Submit
   const confirmSubmit = async () => {
+
     setLoadingSubmit(true);
+
     try {
-      const response = await evidenceService.newEvidence(
-        orderDetail.transaction.transactionMeta.transactionHash,
-        dataSubmit,
-        global.profile.token
-      );
+      if (evidenceSave) {
 
-      const { result } = response.data;
+        manageClaim(
+          orderDetail.transaction.transactionIndex,
+          String(evidenceSave.value_to_claim),
+          evidenceSave.url_ipfs_json,
+          orderDetail.transaction.transactionMeta.transactionHash,
+          evidenceSave._id
+        );
 
-      console.log(result, "result")
-      manageClaim(
-        orderDetail.transaction.transactionIndex,
-        String(valueToClaim),
-        result.url_ipfs_json,
-        orderDetail.transaction.transactionMeta.transactionHash,
-        result._id
-      );
+        return
+      } else {
+        const response = await evidenceService.newEvidence(
+          orderDetail.transaction.transactionMeta.transactionHash,
+          dataSubmit,
+          global.profile.token
+        );
 
-      return
+        const { result } = response.data;
+        setEvidenceSave(result && result._id ? result : null);
+
+        manageClaim(
+          orderDetail.transaction.transactionIndex,
+          String(valueToClaim),
+          result.url_ipfs_json,
+          orderDetail.transaction.transactionMeta.transactionHash,
+          result._id
+        );
+
+        return
+      }
     } catch (err) {
       console.log(err, "err");
       setLoadingSubmit(false);
@@ -318,18 +339,13 @@ const NewEvidence = () => {
       if (!user.walletAddress) {
         throw "No address"
       }
-
       const parsedFeeAmount = global.yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(process.env.NEXT_PUBLIC_FEE_ARBITRATION));
 
       const result = await global.yubiaiPaymentArbitrableInstance.makeClaim(
         dealId, amount, evidenceURI, parsedFeeAmount);
 
-      console.log(result, "resulttt")
-      console.log(dealId, amount, evidenceURI, transactionHash, "dealId, amount, evidenceURI, transactionHash")
-
       if (result) {
         const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(dealId);
-        console.log(fullStatus, "fullStatus")
         await evidenceService.updateStatus(idEvidence, {
           dealId: dealId,
           claimID: fullStatus.claim.claimID,
@@ -341,13 +357,52 @@ const NewEvidence = () => {
         router.replace(`/profile/orders/detail/${transactionHash}`);
         return
       }
-    } catch (e) {
-      console.log('Error creating a claim for a deal: ', e);
+    } catch (err) {
+      console.error('Error creating a claim for a deal: ', err);
+      console.log(err.code, "err.code")
+      if(err.code == 4001){
+        console.log("aca entro")
+        setLoadingSubmit(false);
+        setStateSubmit(3);
+        return
+      }
       setLoadingSubmit(false);
       setStateSubmit(2);
       return
     }
   };
+
+  const enableEditing = async () => {
+    if (evidenceSave) {
+      try {
+        setLoadingEnableEditing(true);
+        await evidenceService.removeEvidenceOld(evidenceSave._id, global.profile.token);
+        setEvidenceSave(null);
+        setLoadingEnableEditing(false);
+        toast({
+          title: 'Editing Form',
+          description: 'The form is now editable.',
+          position: 'top-right',
+          status: 'success',
+          duration: 2000,
+          isClosable: true
+        })
+        return
+      } catch (error) {
+        console.error(error);
+        toast({
+          title: 'Error editing form',
+          description: 'Please review and try again',
+          position: 'top-right',
+          status: 'warning',
+          duration: 2000,
+          isClosable: true
+        })
+        setLoadingEnableEditing(false);
+        return
+      }
+    }
+  }
 
   if (!user || !orderDetail) return <Loading />
 
@@ -392,6 +447,21 @@ const NewEvidence = () => {
             <Text fontWeight={600} mt="5px">{t("Transaction Hash")}</Text>
             <Text>{orderDetail.transaction.transactionMeta.transactionHash}</Text>
           </Box>
+          {evidenceSave && (
+            <Box mt="1em">
+              {loadingEnableEditing ? (
+                <Spinner />
+              ) : (
+                <Button onClick={() => enableEditing()} backgroundColor={'#00abd1'}
+                  color={'white'} _hover={{
+                    backgroundColor: "blue.400"
+                  }}>
+                 {t("Enable editing")}
+                </Button>
+              )}
+
+            </Box>
+          )}
           <Box mt="1em">
             <FormControl isRequired mt="1em">
               <FormLabel color="black">{t("Title")}</FormLabel>
@@ -400,6 +470,7 @@ const NewEvidence = () => {
                 placeholder={t("Title Evidence is required")}
                 _placeholder={{ color: 'gray.400' }}
                 color="gray.700"
+                isDisabled={evidenceSave}
                 bg="white"
                 {...register('title', {
                   required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, onChange: (e) => { setCountTitle(e.target.value.length) }
@@ -419,6 +490,7 @@ const NewEvidence = () => {
                 _placeholder={{ color: 'gray.400' }}
                 color="gray.700"
                 bg="white"
+                isDisabled={evidenceSave}
                 {...register('description', {
                   required: true, maxLength: MAX_DESCRIPTION_LENGTH, minLength: MIN_DESCRIPTION_LENGTH, onChange: (e) => { setCountDescription(e.target.value.length) }
                 })}
@@ -440,6 +512,7 @@ const NewEvidence = () => {
                 <Slider
                   width={{ base: "90%", sm: "90%", md: "100%" }}
                   mt="3em"
+                  isDisabled={evidenceSave}
                   aria-label="slider-ex-6"
                   defaultValue={0}
                   color="black"
@@ -476,9 +549,10 @@ const NewEvidence = () => {
               onChange={verifyFiles}
               style={{ display: 'none', marginTop: '1em' }}
             />
-            <Button mt="3em" bg="gray.500" color="white" _hover={{
-              bg: "gray.400"
-            }} onClick={() => inputRef.current.click()}
+            <Button mt="3em" bg="gray.500" color="white" isDisabled={evidenceSave}
+              _hover={{
+                bg: "gray.400"
+              }} onClick={() => inputRef.current.click()}
             >
               <AttachmentIcon w={6} h={6} m="4px" /> {t("Attach files*")}
             </Button>
@@ -498,12 +572,12 @@ const NewEvidence = () => {
               }}>
               {previewFiles && previewFiles.length > 0 && previewFiles.map((file, i) => {
                 return (
-                  <FilePreviewMini file={file} key={i} removeFile={removeFile} />
+                  <FilePreviewMini file={file} key={i} evidenceSave={evidenceSave} removeFile={removeFile} />
                 )
               })}
             </Flex>
             <Divider />
-            <AddMessageEvidence channelDetail={channelDetail} selectedMsg={selectedMsg} setSelectedMsg={setSelectedMsg} t={t} />
+            <AddMessageEvidence channelDetail={channelDetail} selectedMsg={selectedMsg} setSelectedMsg={setSelectedMsg} evidenceSave={evidenceSave} t={t} />
           </Box>
           <Text color="red">{errorMsg && errorMsg}</Text>
           <Box>
@@ -511,6 +585,7 @@ const NewEvidence = () => {
               <Button color={"black"} _hover={{ bg: "gray.200" }} onClick={() => router.back()}>
                 {t("Go Back")}
               </Button>
+
             </Box>
             <Box float={'right'} mt="2em">
               <Button bg="#00abd1" color="white" type="submit" form="hook-form" _hover={{
@@ -593,7 +668,69 @@ const NewEvidence = () => {
             <>
               <ModalOverlay />
               <ModalContent color="gray.700">
-                <ModalBody>{t("Failed to post")}</ModalBody>
+                <ModalBody>
+                  <Box textAlign="center" py={10} px={6}>
+                    <Box display="inline-block">
+                      <Flex
+                        flexDirection="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        bg={'red.500'}
+                        rounded={'50px'}
+                        w={'55px'}
+                        h={'55px'}
+                        textAlign="center">
+                        <CloseIcon boxSize={'20px'} color={'white'} />
+                      </Flex>
+                    </Box>
+                    <Heading as="h2" size="xl" mt={6} mb={2}>
+                      Error
+                    </Heading>
+                    <Text color={'gray.500'}>
+                      {t("Failed to post")}
+                    </Text>
+                  </Box>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    onClick={() => {
+                      setStateSubmit(0)
+                      onClose()
+                    }}
+                  >
+                    {t("Close")}
+                  </Button>
+                </ModalFooter>
+              </ModalContent>
+            </>
+          )}
+          {stateSubmit === 3 && (
+            <>
+              <ModalOverlay />
+              <ModalContent color="gray.700">
+                <ModalBody>
+                  <Box textAlign="center" py={10} px={6}>
+                    <Box display="inline-block">
+                      <Flex
+                        flexDirection="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        bg={'red.500'}
+                        rounded={'50px'}
+                        w={'55px'}
+                        h={'55px'}
+                        textAlign="center">
+                        <CloseIcon boxSize={'20px'} color={'white'} />
+                      </Flex>
+                    </Box>
+                    <Heading as="h2" size="xl" mt={6} mb={2}>
+                      {t("Operation cancelled")}
+                    </Heading>
+                    <Text color={'gray.500'}>
+                      {t("Failed to metamask")}
+                    </Text>
+                  </Box>
+                </ModalBody>
                 <ModalFooter>
                   <Button
                     onClick={() => {

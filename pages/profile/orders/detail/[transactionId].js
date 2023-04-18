@@ -513,7 +513,7 @@ const OrderDetail = () => {
                 </Stack>
               </Box>)
             }
-            <EvidencesList dealId={(deal || {}).deal.dealId} token={global.profile.token} />
+            <EvidencesList dealId={(deal || {}).deal.dealId} token={global.profile.token} t={t} />
           </Box>
         </Center>
       </Container>

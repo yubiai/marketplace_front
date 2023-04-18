@@ -32,5 +32,8 @@
     "Review your evidence": "Revisa tu evidencia",
     "Submit": "Enviar",
     "Close": "Cerrar",
-    "Failed to post": "Error al publicar"
+    "Enable editing": "Permitir la edición",
+    "Failed to post": "Lo sentimos, no se pudo enviar la evidencia en este momento. Por favor, revise los datos ingresados e intente nuevamente. Si el problema persiste, puede deberse a un error del sistema. Por favor, intente nuevamente más tarde.",
+    "Operation cancelled": "Operación cancelada",
+    "Failed to metamask": "El usuario ha cancelado la confirmación en Metamask. Por favor, revise la evidencia y vuelva a intentar enviarla o editarla. Asegúrese de aceptar la confirmación en Metamask para completar la operación."
 }

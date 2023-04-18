@@ -17,7 +17,7 @@ import { useForm } from "react-hook-form";
 import ViewMsgFile from "../Cards/ViewMsgFile";
 import ViewMsgText from "../Cards/ViewMsgText";
 
-const AddMessageEvidence = ({ channelDetail, selectedMsg, setSelectedMsg, t }) => {
+const AddMessageEvidence = ({ channelDetail, selectedMsg, setSelectedMsg, evidenceSave, t }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     // State useForm
@@ -56,7 +56,7 @@ const AddMessageEvidence = ({ channelDetail, selectedMsg, setSelectedMsg, t }) =
 
     return (
         <>
-            <Button mb="1em" mt="1em" _hover={{
+            <Button isDisabled={evidenceSave} mb="1em" mt="1em" _hover={{
                 bg: "gray.400"
             }} onClick={() => {
                 onOpen()
@@ -74,7 +74,7 @@ const AddMessageEvidence = ({ channelDetail, selectedMsg, setSelectedMsg, t }) =
                             {msg.file && (
                                 ViewMsgFile(msg)
                             )}
-                            <Button bg="transparent" float="right" p="1em" ml="4px" size="15px" onClick={() => removeMsgSelected(msg._id)}>
+                            <Button bg="transparent" float="right" p="1em" ml="4px" size="15px" isDisabled={evidenceSave} onClick={() => removeMsgSelected(msg._id)}>
                                 <DeleteIcon fontSize={"1.5em"} />
                             </Button>
                         </Flex>
