@@ -1,5 +1,6 @@
 import { SiweMessage } from 'siwe';
 import { profileService } from '../services/profileService';
+import { listChains } from './walletUtils';
 
 async function createSiweMessage(address, statement, chainId) {
     const resNonce = await profileService.nonce();
@@ -64,24 +65,31 @@ function connectWallet(provider) {
 
 // Verify Network
 const verifyNetwork = async () => {
-
     try {
         const networkVersion = window.ethereum.networkVersion;
 
-        if (networkVersion == 1 || networkVersion == 5 || networkVersion == 100 || networkVersion == 38 || networkVersion == 56 || networkVersion == 11155111) {
-            return true
+        let isNetworkMatched = false;
+        for (let i = 0; i < listChains.length; i++) {
+            if (listChains[i].id.toString() === networkVersion) {
+                isNetworkMatched = true;
+                break;
+            }
+        }
+
+        if (isNetworkMatched) {
+            return true;
         }
 
         await window.ethereum.request({
             method: 'wallet_switchEthereumChain',
-            params: [{ chainId: '0x1' }],
-        })
+            params: [{ chainId: listChains[0].chainID }],
+        });
 
-        return true;
+        return "switch";
     } catch (err) {
         console.log(err);
         return false;
     }
-}
+};
 
 export { signInWithEthereum, connectWallet, verifyNetwork }

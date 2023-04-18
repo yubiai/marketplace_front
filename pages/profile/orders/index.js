@@ -74,9 +74,6 @@ const Orders = () => {
     return <Error error={isError?.message} />
   }
 
-  console.log(global, "global")
-
-
   return (
     <>
       <Head>
@@ -92,6 +89,7 @@ const Orders = () => {
           h={{ base: data && data.items && data.items.length > 1 ? 'full' : '70vh', sm: data && data.items && data.items.length > 1 ? 'full' : '85vh', md: 'full' }}
           display={'flex'}
           flexDirection={'column'}
+          mb="2em"
         >
           <Breadcrumb spacing='8px' mt='1em' mb='1em' separator={<ChevronRightIcon color='gray.500' />}>
             <BreadcrumbItem>

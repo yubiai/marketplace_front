@@ -55,7 +55,6 @@ const ButtonConnect = () => {
   }, [global.profile]);
 
   const onConnect = async () => {
-    console.log("Inicio on connect");
     loading = true;
 
     const provider = new ethers.providers.Web3Provider(window && window.location ? window.ethereum : "null");
@@ -78,6 +77,11 @@ const ButtonConnect = () => {
         isClosable: true,
       })
       loading = false;
+      return
+    }
+
+    if(confirmNetwork === "switch"){
+      // Retry Connect
       return
     }
 
