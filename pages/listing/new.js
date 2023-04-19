@@ -59,6 +59,7 @@ const NewListing = () => {
   const router = useRouter()
   const toast = useToast();
   const { t } = useTranslation("newlisting");
+  const { lang } = useTranslation('common')
 
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -320,7 +321,7 @@ const NewListing = () => {
                       value={subcategory._id}
                       id="subcategory"
                     >
-                      {t(subcategory.title)}
+                      {subcategory[lang]}
                     </option>
                   ))}
                 </Select>

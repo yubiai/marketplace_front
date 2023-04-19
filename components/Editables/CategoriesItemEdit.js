@@ -4,10 +4,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { itemService } from "../../services/itemService";
 import { getListCategory, getListSubCategory } from "../../utils/itemUtils";
+import useTranslation from "next-translate/useTranslation";
 
 
 const CategoriesItemEdit = ({ item, token, mutate, t }) => {
     const toast = useToast();
+    const { lang } = useTranslation('common')
 
     // State useForm
     const { handleSubmit, register, reset } = useForm()
@@ -65,6 +67,8 @@ const CategoriesItemEdit = ({ item, token, mutate, t }) => {
         }
     }
 
+    console.log(item, "item")
+
     return (
         <>
             <Flex mt="10px" p="5px">
@@ -81,7 +85,7 @@ const CategoriesItemEdit = ({ item, token, mutate, t }) => {
                 </Flex>
             </Flex>
             {!actionEdit && (<Text p="5px"
-            >{t(item.category.title)}  {" - " + t(item.subcategory.title)}</Text>)}
+            >{t(item.category.title)}  {" - " + item.subcategory[lang]}</Text>)}
 
             {actionEdit && (
                 <>
@@ -137,7 +141,7 @@ const CategoriesItemEdit = ({ item, token, mutate, t }) => {
                                         >
                                             {subCategories.map((subcategory) => {
                                                 subcategory = {...subcategory,
-                                                    title:  t(subcategory.title)
+                                                    title: subcategory[lang]
 
                                                 }
                                                 return  (
@@ -146,7 +150,7 @@ const CategoriesItemEdit = ({ item, token, mutate, t }) => {
                                                         value={subcategory._id}
                                                         id="subcategory"
                                                     >
-                                                        {subcategory.title}
+                                                        {subcategory[lang]}
                                                     </option>
                                                 )
                                             })}

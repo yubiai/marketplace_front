@@ -65,6 +65,7 @@ export default function SubCategoriesMenu({ children, category }) {
 const SidebarContent = ({ onClose, subcategories, ...rest }) => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
+  const { lang } = useTranslation('common')
   const { t } = useTranslation("categories");
   const [value, setValue] = useState(null)
 
@@ -112,7 +113,7 @@ const SidebarContent = ({ onClose, subcategories, ...rest }) => {
         subcategories.length > 0 &&
         subcategories.map((subcategory, i) => {
           subcategory = {...subcategory,
-              title:  t("subcategories." + subcategory.title)
+              title: subcategory[lang]
           }
           if (
             subcategory &&
@@ -137,6 +138,8 @@ const SidebarContent = ({ onClose, subcategories, ...rest }) => {
 }
 
 const NavItem = ({ children, ...rest }) => {
+  const { lang } = useTranslation('common')
+
   return (
     <Flex
       align="center"
@@ -152,7 +155,7 @@ const NavItem = ({ children, ...rest }) => {
       }}
       {...rest}
     >
-      <Radio value={children._id} bg="gray.300">{children.title}</Radio>
+      <Radio value={children._id} bg="gray.300">{children[lang] ? children[lang] : children.title}</Radio>
     </Flex>
   )
 }
