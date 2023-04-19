@@ -43,8 +43,10 @@ const Notification = () => {
     async function initial() {
       await mutate();
     }
-    initial();
-  }, [global.notificationsActive])
+    if (global && global.profile) {
+      initial();
+    }
+  }, [global.notificationsActive, global.profile]);
   
   if (isLoading || isError) return (
     <Spinner
@@ -61,7 +63,7 @@ const Notification = () => {
       <> 
         <Popover closeOnBlur={true} placement='bottom' initialFocusRef={initRef}>
           {({ onClose }) => {
-            if (!notis.notifications) {
+            if (!notis || !notis.notifications) {
               onClose();
             }
             return (

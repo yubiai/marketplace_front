@@ -97,6 +97,13 @@ const reducer = (state, action) => {
         ...state,
         notificationsActive: !initialState.notificationsActive,
       }
+    case 'UPDATE_USER':
+      return {
+        ...state,
+        isAuthenticated: action.payload.isAuthenticated,
+        profile: action.payload.profile,
+        token: action.payload.token,
+      };
     default:
       throw new Error('Action Fail')
   }

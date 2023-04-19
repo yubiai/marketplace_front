@@ -1,7 +1,9 @@
-const { withAxiom } = require('next-axiom')
-const nextTranslate = require('next-translate')
+const nextTranslate = require('next-translate');
+const withTM = require('next-transpile-modules')(['@lens-protocol/widgets-react']);
 
-module.exports = nextTranslate(withAxiom({
-  // ... your existing config
-  reactStrictMode: false,
-}))
+module.exports = nextTranslate(
+  withTM({
+    // ... your existing config
+    reactStrictMode: false,
+  }),
+);
