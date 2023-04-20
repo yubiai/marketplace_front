@@ -1,5 +1,5 @@
 {
-    "Connect": "Connect",
+    "Login": "Login",
     "Categories": "Categories",
     "Services": "Services",
     "Sell": "Sell",
@@ -12,6 +12,7 @@
     "Failed to login.": "Failed to login.", 
     "Wrong network, please change your network on metamask.": "Wrong network, please change your network on metamask.",
     "User denied message signature.": "User denied message signature.",
+    "Could not connect to lens protocol": "Could not connect to lens protocol",
     "Failed": "Failed",
     "To connect it is necessary to be registered in Proof of Humanity and have your status as registered.": "To connect it is necessary to be registered in Proof of Humanity and have your status as registered.",
     "Connect with your wallet and start earning crypto or hiring with your cryptos": "Connect with your wallet and start earning crypto or hiring with your cryptos"

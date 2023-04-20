@@ -19,7 +19,6 @@ import { useDispatchGlobal } from '../../providers/globalProvider'
 import Head from 'next/head'
 import { useGlobal } from '../../providers/globalProvider'
 import { profileService } from '../../services/profileService'
-import { log } from 'next-axiom';
 import ImagePreviewListingCard from '../../components/Cards/ImagePreviewListingCard'
 import PlayerVideo from '../../components/Utils/PlayerVideo'
 import PlayerAudio from '../../components/Utils/PlayerAudio'
@@ -83,7 +82,6 @@ const ItemById = ({ item }) => {
   }
 
   const addFavorite = async () => {
-    log.info('Add Favorite axion')
     await profileService
       .addFavorite(
         (global && global.profile && global.profile._id) || null,

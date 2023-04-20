@@ -1,13 +1,21 @@
 import axios from 'axios'
 
 /**
- * Login
+ * Login with POH
  * @param {str} walletAddress
  */
 async function login(walletAddress) {
-  return await axios.post(`/auth/login`, {
+  return await axios.post(`/auth/loginpoh`, {
     walletAddress,
   })
+}
+
+/**
+ * Login with Lens Protocol
+ * @param {str} walletAddress
+ */
+async function loginLens(payload) {
+  return await axios.post(`/auth/loginlens`, payload)
 }
 
 /**
@@ -152,6 +160,7 @@ async function addTerms(profile, term, token) {
 
 export const profileService = {
   login,
+  loginLens,
   nonce,
   verifySignature,
   getProfileFromId,

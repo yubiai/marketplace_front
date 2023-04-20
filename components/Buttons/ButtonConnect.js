@@ -1,29 +1,44 @@
 import Cookies from 'js-cookie'
 import { useTour } from "@reactour/tour";
 import { ethers } from 'ethers';
+import {
+  SignInWithLens
+} from '@lens-protocol/widgets-react'
 
 import {
   Button, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverTrigger, useDisclosure, useToast,
   //useMediaQuery
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Box,
+  Center,
+  Image,
+  Spinner,
 } from '@chakra-ui/react'
 
 import { profileService } from '../../services/profileService'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connectWallet, signInWithEthereum, verifyNetwork } from '../../utils/connectWeb3';
 
 import useTranslation from 'next-translate/useTranslation';
-
-let loading = false;
 
 const ButtonConnect = () => {
   const toast = useToast();
   const dispatch = useDispatchGlobal();
   const global = useGlobal();
+  const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation("navbar");
-  const { isOpen, onToggle, onClose } = useDisclosure()
+  const { isOpen: isPopoverOpen, onToggle: onPopoverToggle, onClose: onPopoverClose } = useDisclosure()
+  const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure()
 
   const { setIsOpen } = useTour();
+
   const authGlobalAndCookies = (profile, token) => {
 
     dispatch({
@@ -50,12 +65,13 @@ const ButtonConnect = () => {
   }
 
   useEffect(() => {
-    onToggle()
+    // Toggle Popover
+    onPopoverToggle()
     return
   }, [global.profile]);
 
-  const onConnect = async () => {
-    loading = true;
+  const onConnectPoh = async () => {
+    setIsLoading(true);
 
     const provider = new ethers.providers.Web3Provider(window && window.location ? window.ethereum : "null");
     const signer = provider.getSigner();
@@ -76,11 +92,11 @@ const ButtonConnect = () => {
         duration: 5000,
         isClosable: true,
       })
-      loading = false;
+      setIsLoading(false)
       return
     }
 
-    if(confirmNetwork === "switch"){
+    if (confirmNetwork === "switch") {
       // Retry Connect
       return
     }
@@ -97,7 +113,7 @@ const ButtonConnect = () => {
         duration: 5000,
         isClosable: true,
       })
-      loading = false;
+      setIsLoading(false)
       return
     }
 
@@ -115,7 +131,7 @@ const ButtonConnect = () => {
           duration: 5000,
           isClosable: true,
         })
-        loading = false;
+        setIsLoading(false)
         return
       })
 
@@ -136,13 +152,14 @@ const ButtonConnect = () => {
             type: 'AUTHERROR',
             payload: t('To connect it is necessary to be registered in Proof of Humanity and have your status as registered.')
           });
-          loading = false;
+          onModalClose()
+          setIsLoading(false)
           return
         }
       })
 
     if (!res) {
-      loading = false;
+      setIsLoading(false)
       return
     }
 
@@ -170,9 +187,49 @@ const ButtonConnect = () => {
 
       return
     }
-    
-    loading = false;
+
+    onModalClose()
+    setIsLoading(false)
     return
+  }
+
+  async function onSignIn(tokens, profile) {
+    console.log('tokens: ', tokens)
+    console.log('profile: ', profile)
+    setIsLoading(true)
+
+    if (tokens && profile) {
+      try {
+
+        // Login
+        const result = await profileService.loginLens({
+          profile: profile,
+          tokenLens: tokens.accessToken
+        });
+
+        console.log(result, "result lenst")
+        onModalClose()
+        setIsLoading(false);
+        return
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+        return
+      }
+    }
+
+  }
+
+  const errorLens = () => {
+    toast({
+      title: t('Failed to login.'),
+      description: t('Could not connect to lens protocol.'),
+      position: 'top-right',
+      status: 'warning',
+      duration: 5000,
+      isClosable: true,
+    })
+    setIsLoading(false)
   }
 
   //const [isLargerThanmd] = useMediaQuery('(min-width: 768px)')
@@ -187,7 +244,7 @@ const ButtonConnect = () => {
           rounded={'full'}
           w="90%"
           cursor={'pointer'}
-          isDisabled={loading || global.profile && global.profile.eth_address}
+          isDisabled={isLoading || global.profile && global.profile.eth_address}
         >
           {global.profile.eth_address.slice(0, 5) + "..." + global.profile.eth_address.slice(global.profile.eth_address.length - 4)}
         </Button>
@@ -195,8 +252,8 @@ const ButtonConnect = () => {
       {!global.profile && (
         <Popover
           returnFocusOnClose={false}
-          isOpen={isOpen}
-          onClose={onClose}
+          isOpen={isPopoverOpen}
+          onClose={onPopoverClose}
           placement='bottom'
           closeOnBlur={false}
         >
@@ -208,8 +265,8 @@ const ButtonConnect = () => {
               rounded={'full'}
               w="90%"
               cursor={'pointer'}
-              onClick={() => onConnect()}
-              isDisabled={loading || global.profile && global.profile.eth_address}
+              onClick={() => onModalOpen()}
+              isDisabled={isLoading || global.profile && global.profile.eth_address}
             >
               {t("Connect")}
             </Button>
@@ -224,6 +281,49 @@ const ButtonConnect = () => {
           </PopoverContent>
         </Popover>
       )}
+
+      <Modal closeOnOverlayClick={false} isOpen={isModalOpen} onClose={onModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Choose a connection method</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            {isLoading ? (
+              <Center>
+                <Spinner />
+              </Center>
+            ) : (
+              <>
+                <Center>
+                  <Box mt="1em">
+
+                    <Button leftIcon={<Image
+                      alt="Img Item"
+                      height={'25px'}
+                      width={'20px'}
+                      objectFit={'fill'}
+                      src={'/static/images/poh.png'}
+                    />} rounded={"full"} fontSize={"18px"} fontWeight={"light"} colorScheme='teal' size='lg' w="226px" onClick={() => onConnectPoh()}>
+                      Sign in Poh
+                    </Button>
+                  </Box>
+                </Center>
+                <Center>
+                  <Box mt="2em" onClick={() => setIsLoading(true)}>
+                    <SignInWithLens size={"large"} theme={"default"}
+                      onSignIn={onSignIn} onError={errorLens}
+                    />
+                  </Box>
+                </Center>
+              </>
+            )}
+          </ModalBody>
+
+          <ModalFooter>
+            <Button onClick={onModalClose}>Close</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   )
 }

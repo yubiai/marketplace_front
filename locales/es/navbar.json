@@ -1,5 +1,5 @@
 {
-    "Connect": "Conectar Billetera",
+    "Login": "Iniciar Sesion",
     "Categories": "Categorías",
     "Services": "Servicios",
     "Sell": "Vender",
@@ -13,6 +13,7 @@
     "Wrong network, please change your network on metamask.": "Red incorrecta, por favor cambie su red en metamask.",
     "User denied message signature.": "Ha denegado la firma del mensaje",
     "Failed": "Error",
+    "Could not connect to lens protocol": "No se pudo conectar a lens protocol",
     "To connect it is necessary to be registered in Proof of Humanity and have your status as registered.": "Para conectarte es necesario estar registrado en Proof of Humanity y tener tu estado como registrado.",
     "Connect with your wallet and start earning crypto or hiring with your cryptos": "Conéctate con tu billetera y empieza a ganar o contratar con tus criptos"
 }
