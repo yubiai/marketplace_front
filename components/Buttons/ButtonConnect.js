@@ -85,7 +85,7 @@ const ButtonConnect = () => {
     if (!confirmNetwork) {
       console.error("Error the network");
       toast({
-        title: t('Failed to login.'),
+        title: t('Failed to login'),
         description: t('Wrong network, please change your network on metamask.'),
         position: 'top-right',
         status: 'warning',
@@ -106,7 +106,7 @@ const ButtonConnect = () => {
 
     if (!resultSignIn && !resultSignIn.signature) {
       toast({
-        title: t('Failed to login.'),
+        title: t('Failed to login'),
         description: t('User denied message signature.'),
         position: 'top-right',
         status: 'warning',
@@ -124,7 +124,7 @@ const ButtonConnect = () => {
       .catch((err) => {
         console.error(err, "error")
         toast({
-          title: t('Failed to login.'),
+          title: t('Failed to login'),
           description: t('User denied message signature.'),
           position: 'top-right',
           status: 'warning',
@@ -141,7 +141,7 @@ const ButtonConnect = () => {
         if (err && err.response && err.response.data && err.response.data.error) {
           console.error(err)
           toast({
-            title: t('Failed to login.'),
+            title: t('Failed to login'),
             description: err.response.data && err.response.data.error ? err.response.data.error : t("Failed"),
             position: 'top-right',
             status: 'warning',
@@ -169,13 +169,7 @@ const ButtonConnect = () => {
     });
 
     const token = res.data.token;
-    let profile = res.data.data;
-
-    profile = {
-      ...res.data.data,
-      signature,
-      messageSignature: message
-    }
+    const profile = res.data.data;
 
     authGlobalAndCookies(profile, token);
     // JoyTour Initial
@@ -193,6 +187,31 @@ const ButtonConnect = () => {
     return
   }
 
+  const onConnectLens = async () => {
+    // 1 - Verify NetWork
+    setIsLoading(true)
+    const confirmNetwork = await verifyNetwork();
+
+    if (!confirmNetwork) {
+      console.error("Error the network");
+      toast({
+        title: t('Failed to login'),
+        description: t('Wrong network, please change your network on metamask.'),
+        position: 'top-right',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+      })
+      setIsLoading(false)
+      return
+    }
+
+    if (confirmNetwork === "switch") {
+      // Retry Connect
+      return
+    }
+  }
+
   async function onSignIn(tokens, profile) {
     console.log('tokens: ', tokens)
     console.log('profile: ', profile)
@@ -201,18 +220,40 @@ const ButtonConnect = () => {
     if (tokens && profile) {
       try {
 
-        // Login
-        const result = await profileService.loginLens({
+        // step 1 - Login
+        const res = await profileService.loginLens({
           profile: profile,
           tokenLens: tokens.accessToken
         });
 
-        console.log(result, "result lenst")
+        console.log(res, "res")
+
+
+        dispatch({
+          type: 'AUTHERROR',
+          payload: null
+        });
+
+        const token = res.data.token;
+        const profileData = res.data.data;
+
+        // step 3 - auth cookies
+        authGlobalAndCookies(profileData, token);
+        // JoyTour Initial
+        if (profileData && profileData.permission && profileData.permission === 1) {
+          setTimeout(() => {
+            setIsOpen(true)
+            return
+          }, 500);
+
+          return
+        }
+
         onModalClose()
         setIsLoading(false);
         return
       } catch (error) {
-        console.error(error);
+        console.error(error, "error");
         setIsLoading(false);
         return
       }
@@ -222,7 +263,7 @@ const ButtonConnect = () => {
 
   const errorLens = () => {
     toast({
-      title: t('Failed to login.'),
+      title: t('Failed to login'),
       description: t('Could not connect to lens protocol.'),
       position: 'top-right',
       status: 'warning',
@@ -268,7 +309,7 @@ const ButtonConnect = () => {
               onClick={() => onModalOpen()}
               isDisabled={isLoading || global.profile && global.profile.eth_address}
             >
-              {t("Connect")}
+              {t("Login")}
             </Button>
 
           </PopoverTrigger>
@@ -286,7 +327,7 @@ const ButtonConnect = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Choose a connection method</ModalHeader>
-          <ModalCloseButton />
+          <ModalCloseButton isDisabled={isLoading} />
           <ModalBody pb={6}>
             {isLoading ? (
               <Center>
@@ -309,7 +350,7 @@ const ButtonConnect = () => {
                   </Box>
                 </Center>
                 <Center>
-                  <Box mt="2em" onClick={() => setIsLoading(true)}>
+                  <Box mt="2em" onClick={() => onConnectLens()}>
                     <SignInWithLens size={"large"} theme={"default"}
                       onSignIn={onSignIn} onError={errorLens}
                     />
@@ -320,7 +361,7 @@ const ButtonConnect = () => {
           </ModalBody>
 
           <ModalFooter>
-            <Button onClick={onModalClose}>Close</Button>
+            <Button isDisabled={isLoading} onClick={onModalClose}>Close</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

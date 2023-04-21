@@ -9,7 +9,7 @@
     "Profile": "Profile",
     "Welcome, you are successfully logged in": "Welcome, you are successfully logged in.",
     "Now you are able to start buying & selling on Yubiai" : "Now you are able to start buying & selling on Yubiai.",
-    "Failed to login.": "Failed to login.", 
+    "Failed to login": "Failed to login", 
     "Wrong network, please change your network on metamask.": "Wrong network, please change your network on metamask.",
     "User denied message signature.": "User denied message signature.",
     "Could not connect to lens protocol": "Could not connect to lens protocol",
