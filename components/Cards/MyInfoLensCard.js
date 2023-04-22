@@ -10,17 +10,19 @@ import {
 } from '@chakra-ui/react'
 const MyInfoLensCard = ({ dataProfile, /* balance, */ t }) => {
 
-  let pictureLens = dataProfile && dataProfile.photo.split("/") || null;
-  pictureLens = pictureLens[pictureLens.length - 1] ? "https://lens.infura-ipfs.io/ipfs/" + pictureLens[pictureLens.length - 1] : "";
+  let pictureLens = dataProfile && dataProfile.photo && dataProfile.photo.split("/") || null;
+  pictureLens = pictureLens && pictureLens[pictureLens.length - 1] ? "https://lens.infura-ipfs.io/ipfs/" + pictureLens[pictureLens.length - 1] : "";
 
-  if (!dataProfile)
+  if (!dataProfile || !dataProfile.lens_info)
     return (
       <>
         <Text>No Data</Text>
       </>
     )
 
-  if (dataProfile)
+  
+
+  if (dataProfile.lens_info)
     return (
       <>
         <Center py={6}>

@@ -442,7 +442,7 @@ const OrderDetail = () => {
               </Center>
               <Center textAlign={"center"}>
                 <Box>
-                  <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.buyer.first_name} ${orderDetail && orderDetail.item.buyer.last_name}`}</Text>
+                  <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.buyer.name}`}</Text>
                   <Text>{t("Eth Address")}: {orderDetail && orderDetail.item.buyer.eth_address.slice(orderDetail.item.buyer.eth_address.length - 8)}</Text>
                   <Link
                     href={

@@ -9,7 +9,6 @@ import {
 import Link from 'next/link'
 
 const ItemCardLg = ({ item }) => {
-
   return (
     <Box p={2} cursor="pointer">
       <Link href={`/item/${item.slug}`}>
@@ -29,7 +28,7 @@ const ItemCardLg = ({ item }) => {
           {/* {item.seller && (
             <Box position={"absolute"} ml="3px">
               <Badge colorScheme='blue' fontSize={"10px"}
-              >{item.seller.first_name} {item.seller.last_name}</Badge>
+              >{item.seller.name}</Badge>
             </Box>
           )} */}
           <Image
@@ -57,7 +56,7 @@ const ItemCardLg = ({ item }) => {
                     whiteSpace: "normal",
                     wordWrap: "break-word",
                   }}
-                >{item.seller.first_name} {item.seller.last_name}</Badge>
+                >{item.seller.name}</Badge>
               </Box>
             )}
             <Stack direction={'row'} position="absolute" bottom="0" left="1">

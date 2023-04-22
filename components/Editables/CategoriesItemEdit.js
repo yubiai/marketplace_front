@@ -67,8 +67,6 @@ const CategoriesItemEdit = ({ item, token, mutate, t }) => {
         }
     }
 
-    console.log(item, "item")
-
     return (
         <>
             <Flex mt="10px" p="5px">

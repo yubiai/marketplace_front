@@ -64,6 +64,8 @@ const MailBoxs = () => {
     setDeal(fullStatus); 
   } */
 
+  console.log(channel, "channel")
+
   const refreshMessages = async () => {
     await channelService.getChannelByOrderId(channel && channel.order_id && channel.order_id._id, global && global.profile.token)
       .then((res) => {

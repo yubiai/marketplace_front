@@ -74,8 +74,6 @@ const Orders = () => {
     return <Error error={isError?.message} />
   }
 
-  console.log(global.profile, "global.profile")
-
   return (
     <>
       <Head>

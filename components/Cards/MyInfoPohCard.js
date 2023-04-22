@@ -39,7 +39,7 @@ const MyInfoPohCard = ({ dataProfile, /* balance, */ t }) => {
                 objectFit="cover"
                 boxSize="100%"
                 borderRadius={'10px'}
-                src={process.env.NEXT_PUBLIC_IPFS_GATEWAY + dataProfile.poh_info.photo}
+                src={process.env.NEXT_PUBLIC_IPFS_GATEWAY + dataProfile?.poh_info?.photo}
                 fallbackSrc={"/static/images/userdefault.png"}
               />
             </Flex>
@@ -52,13 +52,13 @@ const MyInfoPohCard = ({ dataProfile, /* balance, */ t }) => {
               pt={2}
             >
               <Heading fontSize={'2xl'} fontFamily={'body'}>
-                {dataProfile.poh_info.first_name} {dataProfile.poh_info.last_name}
+                {dataProfile?.poh_info?.first_name} {dataProfile?.poh_info?.last_name}
               </Heading>
               <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-                {dataProfile.eth_address}
+                {dataProfile?.eth_address}
               </Text>
               <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-                {t("Registration date")}: {moment.unix(dataProfile.poh_info.registered_time).format('DD MMMM, YYYY h:mm:ss a')}
+                {t("Registration date")}: {moment.unix(dataProfile?.poh_info?.registered_time).format('DD MMMM, YYYY h:mm:ss a')}
               </Text>
             </Stack>
             <Flex flex={0.2} justifyContent="center" alignItems="center">

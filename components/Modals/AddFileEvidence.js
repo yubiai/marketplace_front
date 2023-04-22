@@ -75,7 +75,7 @@ const AddFileEvidence = ({ filesChannel, selectedFiles, setSelectedFiles }) => {
                         <Text fontWeight='bold' fontSize='sm'>
                             {file?.filename}
                             <Badge ml='1' colorScheme='green'>
-                                {file?.author.first_name} {file?.author.last_name}
+                                {file?.author.name}
                             </Badge>
                         </Text>
                         <Text fontSize='sm'>{moment(file?.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>

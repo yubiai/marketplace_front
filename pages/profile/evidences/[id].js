@@ -160,7 +160,7 @@ const EvidenceDetail = () => {
                                                 <Text fontWeight='bold' fontSize={{ base: 'sm', md: 'sm' }}>
                                                     {file?.filename}
                                                     <Badge ml='1' colorScheme='green'>
-                                                        {evidence.author.first_name} {evidence.author.last_name}
+                                                        {evidence.author.name}
                                                     </Badge>
                                                 </Text>
                                                 <Text fontSize='sm'>{moment(file?.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>

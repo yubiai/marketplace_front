@@ -15,7 +15,6 @@ import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation';
 import MyInfoLensCard from '../../components/Cards/MyInfoLensCard'
-import MyInfoPrivateCard1 from '../../components/Cards/MyInfoPrivateCard1'
 
 const Profile = () => {
   const global = useGlobal()
@@ -99,7 +98,7 @@ const Profile = () => {
             </>
           )}
           <Text fontWeight={'bold'}>{t("Personal Info")}</Text>
-          <MyInfoPrivateCard1 dataProfile={profile} t={t} />
+          <MyInfoPrivateCard dataProfile={profile} t={t} />
           <Text fontWeight={'bold'}>{t("Proof of humanity Information")}</Text>
           <MyInfoPohCard dataProfile={profile} balance={balanceToken} t={t} />
           <Text fontWeight={'bold'}>{t("Lens Protocol Information")}</Text>

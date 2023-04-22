@@ -45,7 +45,7 @@ const ItemCard = ({ item }) => {
                     whiteSpace: "normal",
                     wordWrap: "break-word",
                   }}
-                >{item.seller.first_name} {item.seller.last_name}</Badge>
+                >{item.seller.name}</Badge>
               </Box>
             )}
             <Stack direction={'row'} position="absolute" bottom="0">

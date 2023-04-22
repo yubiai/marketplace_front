@@ -29,7 +29,7 @@ const ProfileEdit = () => {
   }, [user, loggedOut, router])
 
   // State useForm
-  const { handleSubmit, register, formState: { errors }, reset } = useForm()
+  const { handleSubmit, register, reset } = useForm()
 
   const {
     data: dataProfile,

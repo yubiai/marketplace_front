@@ -378,7 +378,7 @@ const OrderDetail = () => {
               </Center>
               <Center textAlign={"center"}>
                 <Box>
-                  <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.seller.first_name} ${orderDetail && orderDetail.item.seller.last_name}`}</Text>
+                  <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.seller.name}`}</Text>
                   <Text>{t("Eth Address")}: {orderDetail && orderDetail.item.seller.eth_address.slice(orderDetail.item.seller.eth_address.length - 8)}</Text>
                   <Link
                     href={`https://app.proofofhumanity.id/profile/${orderDetail && orderDetail.item.seller.eth_address}`}

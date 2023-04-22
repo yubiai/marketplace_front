@@ -26,14 +26,14 @@ const InfoUserModal = ({ user, t }) => {
         bg="transparent"
         cursor={'pointer'}
       >
-        {t("Sell by")} {user.first_name} {user.last_name}
+        {t("Sell by")} {user.name}
       </Text>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {user.first_name} {user.last_name}
+            {user.name}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>

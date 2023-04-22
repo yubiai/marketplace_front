@@ -23,7 +23,7 @@ const ViewMsgFile = (msg) => {
                     </Text>
                     </Flex>
                     <Badge colorScheme='green'>
-                        {msg?.user?.first_name} {msg?.user?.last_name}
+                        {msg?.user?.name}
                     </Badge>
                     <Text fontSize='sm'>{moment(msg?.date).format('DD MMMM, YYYY h:mm:ss a')}</Text>
                 </Box>

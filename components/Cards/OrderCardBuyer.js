@@ -85,7 +85,7 @@ const OrderCardBuyer = ({ order, yubiaiPaymentInstance, t }) => {
         <Center>
           <Box display={"flex"} w="80%">
             <Text fontWeight={600}>{t("Seller")}</Text>
-            <Text ml="2px" noOfLines={2}>{order.itemId.seller.first_name} {order.itemId.seller.last_name}</Text>
+            <Text ml="2px" noOfLines={2}>{order.itemId.seller.name} </Text>
           </Box>
         </Center>
         <Center>
