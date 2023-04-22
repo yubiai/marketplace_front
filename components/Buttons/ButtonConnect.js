@@ -217,7 +217,6 @@ const ButtonConnect = () => {
   }
 
   async function onSignIn(tokens, profile) {
-
     setIsLoading(true)
 
     if (tokens && profile) {
@@ -256,6 +255,14 @@ const ButtonConnect = () => {
         return
       } catch (error) {
         console.error(error, "error");
+        toast({
+          title: t('Failed to login'),
+          description: t('Error when authenticating with lens, it may be that you are not registered'),
+          position: 'top-right',
+          status: 'warning',
+          duration: 5000,
+          isClosable: true,
+        })
         onModalClose()
         setIsLoading(false);
         return
@@ -279,8 +286,6 @@ const ButtonConnect = () => {
   }
 
   //const [isLargerThanmd] = useMediaQuery('(min-width: 768px)')
-
-  console.log(global && global.profile, "global && global.profile")
 
   return (
     <>

@@ -11,6 +11,7 @@
     "Now you are able to start buying & selling on Yubiai" : "Now you are able to start buying & selling on Yubiai.",
     "Failed to login": "Failed to login", 
     "Wrong network, please change your network on metamask.": "Wrong network, please change your network on metamask.",
+    "Error when authenticating with lens, it may be that you are not registered": "Error when authenticating with lens, it may be that you are not registered.",
     "User denied message signature.": "User denied message signature.",
     "Could not connect to lens protocol": "Could not connect to lens protocol",
     "Failed": "Failed",
