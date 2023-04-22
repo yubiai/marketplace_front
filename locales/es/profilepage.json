@@ -2,11 +2,14 @@
     "Home": "Inicio",
     "My Info": "Perfil",
     "Proof of humanity Information": "Información de proof of humanity",
+    "Lens Protocol Information": "Información de Lens Protocols",
     "Personal Info": "Información personal",
     "My PoH Profile": "Mi perfil en PoH",
-    "Real Name": "Nombre Real:",
-    "Shipping address": "Dirección de envío:",
+    "My Lens Profile": "Mi perfil en Lens Protocol",
+    "Name": "Nombre",
+    "Address": "Dirección",
     "Telephone": "Teléfono:",
     "Email": "Correo electrónico:",
-    "Edit Profile": "Editar perfil"
+    "Edit Profile": "Editar perfil",
+    "Registration date": "Fecha de registracion"
   }

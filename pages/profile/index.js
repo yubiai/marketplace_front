@@ -14,6 +14,8 @@ import { useRouter } from 'next/router'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation';
+import MyInfoLensCard from '../../components/Cards/MyInfoLensCard'
+import MyInfoPrivateCard1 from '../../components/Cards/MyInfoPrivateCard1'
 
 const Profile = () => {
   const global = useGlobal()
@@ -57,11 +59,13 @@ const Profile = () => {
     getInitBalance()
   }, [profile])
 
-  if (isLoading || !user) return <Loading />
+  if (isLoading || !user || !profile) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />
   }
+
+  console.log(profile)
 
   return (
     <>
@@ -89,15 +93,17 @@ const Profile = () => {
               <Text>{t("My Info")}</Text>
             </BreadcrumbItem>
           </Breadcrumb>
-          <Text fontWeight={'bold'}>{t("Proof of humanity Information")}</Text>
           {profile && profile.permission === 6 && (
             <>
               <Text color="red.800" fontWeight={'bold'}>User Test</Text>
             </>
           )}
-          <MyInfoPohCard dataProfile={profile} balance={balanceToken} t={t} />
           <Text fontWeight={'bold'}>{t("Personal Info")}</Text>
-          <MyInfoPrivateCard dataProfile={profile} t={t} />
+          <MyInfoPrivateCard1 dataProfile={profile} t={t} />
+          <Text fontWeight={'bold'}>{t("Proof of humanity Information")}</Text>
+          <MyInfoPohCard dataProfile={profile} balance={balanceToken} t={t} />
+          <Text fontWeight={'bold'}>{t("Lens Protocol Information")}</Text>
+          <MyInfoLensCard dataProfile={profile} t={t} />
         </Box>
       </ProfileMenu>
     </>

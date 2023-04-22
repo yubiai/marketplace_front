@@ -1,4 +1,4 @@
-import { Box, Button, Center, Divider, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Center, Divider, Flex, Image, Stack, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 
 const MyInfoPrivateCard = ({ dataProfile, t }) => {
@@ -27,29 +27,45 @@ const MyInfoPrivateCard = ({ dataProfile, t }) => {
             p={2}
             pt={2}
           >
+            <Flex flex={0.2}>
+              <Image
+                alt="Photo perfil"
+                objectFit="cover"
+                width={"300px"}
+                height={"250px"}
+                borderRadius={'10px'}
+                src={dataProfile.photo}
+                fallbackSrc={"/static/images/userdefault.png"}
+              />
+            </Flex>
             <Divider />
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
               <b>{t("Real Name")}</b>{' '}
-              {dataProfile && dataProfile.realname
-                ? dataProfile.realname
+              {dataProfile && dataProfile.name
+                ? dataProfile.name
                 : 'Empty'}
             </Text>
             <Divider />
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              <b>{t("Shipping address")}</b> {dataProfile.address} - {dataProfile.city} -{' '}
-              {dataProfile.country}
+              <b>{t("Shipping address")}</b>
+              {dataProfile.private_info && (
+                <>
+                  {dataProfile.private_info.address || ""} - {dataProfile.private_info.city || ""} -{' '}
+                  {dataProfile.private_info.country || ""}
+                </>
+              )}
             </Text>
             <Divider />
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
               <b>{t("Telephone")}</b> {' '}
-              {dataProfile && dataProfile.telephone
-                ? dataProfile.telephone
+              {dataProfile && dataProfile.private_info && dataProfile.private_info.telephone
+                ? dataProfile.private_info.telephone
                 : 'Empty'}
             </Text>
             <Divider />
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
               <b>{t("Email")}</b> {' '}
-              {dataProfile && dataProfile.email ? dataProfile.email : 'Empty'}
+              {dataProfile && dataProfile.private_info && dataProfile.private_info.email ? dataProfile.private_info.email : 'Empty'}
             </Text>
             <Divider />
             <Box textAlign={"center"}>

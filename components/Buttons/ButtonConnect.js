@@ -27,8 +27,10 @@ import { useEffect, useState } from 'react';
 import { connectWallet, signInWithEthereum, verifyNetwork } from '../../utils/connectWeb3';
 
 import useTranslation from 'next-translate/useTranslation';
+import { useRouter } from 'next/router';
 
 const ButtonConnect = () => {
+  const router = useRouter();
   const toast = useToast();
   const dispatch = useDispatchGlobal();
   const global = useGlobal();
@@ -175,6 +177,8 @@ const ButtonConnect = () => {
     // JoyTour Initial
     if (profile?.permission === 1) {
       setTimeout(() => {
+        onModalClose()
+        setIsLoading(false)
         setIsOpen(true)
         return
       }, 500);
@@ -213,8 +217,7 @@ const ButtonConnect = () => {
   }
 
   async function onSignIn(tokens, profile) {
-    console.log('tokens: ', tokens)
-    console.log('profile: ', profile)
+
     setIsLoading(true)
 
     if (tokens && profile) {
@@ -226,9 +229,6 @@ const ButtonConnect = () => {
           tokenLens: tokens.accessToken
         });
 
-        console.log(res, "res")
-
-
         dispatch({
           type: 'AUTHERROR',
           payload: null
@@ -236,12 +236,14 @@ const ButtonConnect = () => {
 
         const token = res.data.token;
         const profileData = res.data.data;
-
-        // step 3 - auth cookies
+        console.log(res.data, "res.data")
+        // step 2 - auth cookies
         authGlobalAndCookies(profileData, token);
         // JoyTour Initial
         if (profileData && profileData.permission && profileData.permission === 1) {
           setTimeout(() => {
+            onModalClose()
+            setIsLoading(false)
             setIsOpen(true)
             return
           }, 500);
@@ -254,6 +256,7 @@ const ButtonConnect = () => {
         return
       } catch (error) {
         console.error(error, "error");
+        onModalClose()
         setIsLoading(false);
         return
       }
@@ -270,10 +273,14 @@ const ButtonConnect = () => {
       duration: 5000,
       isClosable: true,
     })
-    setIsLoading(false)
+    onModalClose();
+    setIsLoading(false);
+    router.reload();
   }
 
   //const [isLargerThanmd] = useMediaQuery('(min-width: 768px)')
+
+  console.log(global && global.profile, "global && global.profile")
 
   return (
     <>

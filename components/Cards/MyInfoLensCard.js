@@ -8,16 +8,17 @@ import {
   Text,
   Link
 } from '@chakra-ui/react'
-import moment from 'moment'
-const MyInfoPohCard = ({ dataProfile, /* balance, */ t }) => {
+const MyInfoLensCard = ({ dataProfile, /* balance, */ t }) => {
+
+  let pictureLens = dataProfile && dataProfile.photo.split("/") || null;
+  pictureLens = pictureLens[pictureLens.length - 1] ? "https://lens.infura-ipfs.io/ipfs/" + pictureLens[pictureLens.length - 1] : "";
+
   if (!dataProfile)
     return (
       <>
         <Text>No Data</Text>
       </>
     )
-
-  console.log(dataProfile, "dataProfile")
 
   if (dataProfile)
     return (
@@ -39,7 +40,7 @@ const MyInfoPohCard = ({ dataProfile, /* balance, */ t }) => {
                 objectFit="cover"
                 boxSize="100%"
                 borderRadius={'10px'}
-                src={process.env.NEXT_PUBLIC_IPFS_GATEWAY + dataProfile.poh_info.photo}
+                src={pictureLens}
                 fallbackSrc={"/static/images/userdefault.png"}
               />
             </Flex>
@@ -52,36 +53,31 @@ const MyInfoPohCard = ({ dataProfile, /* balance, */ t }) => {
               pt={2}
             >
               <Heading fontSize={'2xl'} fontFamily={'body'}>
-                {dataProfile.poh_info.first_name} {dataProfile.poh_info.last_name}
+                {dataProfile.lens_info.name}
               </Heading>
               <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-                {dataProfile.eth_address}
-              </Text>
-              <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-                {t("Registration date")}: {moment.unix(dataProfile.poh_info.registered_time).format('DD MMMM, YYYY h:mm:ss a')}
+                {dataProfile.lens_info.handle}
               </Text>
             </Stack>
-            <Flex flex={0.2} justifyContent="center" alignItems="center">
+             <Flex flex={0.2} justifyContent="center" alignItems="center">
               {dataProfile && dataProfile.permission !== 6 && (
                 <Link
-                  href={
-                    'https://app.proofofhumanity.id/profile/' +
-                    dataProfile.eth_address
+                  href={"https://www.lensfrens.xyz/" + dataProfile.lens_info.handle
                   }
                   isExternal
                 >
                   <Button bg="#00ABD1" color="white" _hover={{
                     bg: "blue.300"
                   }}>
-                    {t("My PoH Profile")}
+                    {t("My Lens Profile")}
                   </Button>
                 </Link>
               )}
-            </Flex>
+            </Flex> 
           </Stack>
         </Center>
       </>
     )
 }
 
-export default MyInfoPohCard
+export default MyInfoLensCard

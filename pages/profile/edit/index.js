@@ -18,7 +18,7 @@ const ProfileEdit = () => {
   const global = useGlobal()
   const router = useRouter()
   const toast = useToast()
-  const { t } = useTranslation("profedit"); 
+  const { t } = useTranslation("profedit");
   const { user, loggedOut } = useUser()
 
   // if logged in, redirect to the home
@@ -29,7 +29,7 @@ const ProfileEdit = () => {
   }, [user, loggedOut, router])
 
   // State useForm
-  const { handleSubmit, register, reset } = useForm()
+  const { handleSubmit, register, formState: { errors }, reset } = useForm()
 
   const {
     data: dataProfile,
@@ -43,7 +43,7 @@ const ProfileEdit = () => {
   useEffect(() => {
     const initProfile = () => {
       if (dataProfile) {
-        reset(dataProfile)
+        reset(dataProfile.private_info)
       }
     }
     initProfile()
@@ -62,17 +62,18 @@ const ProfileEdit = () => {
 
   // Form Submit Preview
   const onSubmit = async (data) => {
-
-    await profileService
-      .updateProfile(global.profile._id, data, global?.profile?.token)
-      .then(() => {
-        actionToat(t("Profile"), t("Data saved"), "success");
-        router.push("/profile")
-      })
-      .catch((err) => {
-        console.error(err)
-        actionToat(t("Profile"), t("Data not saved"), "error")
-      })
+    if (data) {
+      await profileService
+        .updateProfile(global.profile._id, data, global?.profile?.token)
+        .then(() => {
+          actionToat(t("Profile"), t("Data saved"), "success");
+          router.push("/profile")
+        })
+        .catch((err) => {
+          console.error(err)
+          actionToat(t("Profile"), t("Data not saved"), "error")
+        })
+    }
   }
 
   if (isError) {
@@ -116,7 +117,7 @@ const ProfileEdit = () => {
               placeholder={t("Real Name")}
               _placeholder={{ color: 'gray.400' }}
               bg="white"
-              {...register('realname', { maxLength: 150 })}
+              {...register('realname', { minLength: 3, maxLength: 150 })}
             />
             <Text mt="2em">{t("Address")}</Text>
             <Input
@@ -124,7 +125,7 @@ const ProfileEdit = () => {
               placeholder={t("Address")}
               _placeholder={{ color: 'gray.400' }}
               bg="white"
-              {...register('address', { maxLength: 150 })}
+              {...register('address', { minLength: 3, maxLength: 150 })}
             />
             <Text mt="2em">{t("City")}</Text>
             <Input
@@ -132,7 +133,7 @@ const ProfileEdit = () => {
               placeholder={t("City")}
               _placeholder={{ color: 'gray.400' }}
               bg="white"
-              {...register('city', { maxLength: 150 })}
+              {...register('city', { minLength: 3, maxLength: 150 })}
             />
             <Text mt="2em">{t("Country")}</Text>
             <Input
@@ -140,7 +141,7 @@ const ProfileEdit = () => {
               placeholder={t("Country")}
               _placeholder={{ color: 'gray.400' }}
               bg="white"
-              {...register('country', { maxLength: 150 })}
+              {...register('country', { minLength: 3, maxLength: 150 })}
             />
             <Text mt="2em">{t("Telephone")}</Text>
             <Input
@@ -148,7 +149,7 @@ const ProfileEdit = () => {
               placeholder={t("Telephone")}
               _placeholder={{ color: 'gray.400' }}
               bg="white"
-              {...register('telephone', { maxLength: 150 })}
+              {...register('telephone', { minLength: 3, maxLength: 150 })}
             />
             <Text mt="2em">{t("Email")}</Text>
             <Input
@@ -156,7 +157,7 @@ const ProfileEdit = () => {
               placeholder={t("Email")}
               _placeholder={{ color: 'gray.400' }}
               bg="white"
-              {...register('email', { maxLength: 150 })}
+              {...register('email', { minLength: 3, maxLength: 150 })}
             />
             <Box float={'right'} m="2em">
               <Button color={"black"} _hover={{ bg: "gray.200" }} m="2em" onClick={() => router.push('/profile')}>
