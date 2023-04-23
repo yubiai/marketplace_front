@@ -52,7 +52,7 @@ const InfoUserModal = ({ user, t }) => {
               <Text mt="1em">{t("Wallet")}</Text>
               <Text fontSize={"14px"}>{user.eth_address}</Text>
               <Center mt="1em">
-                {user && user.eth_address && user.poh_info.first_name && (
+                {user && user.eth_address && user.poh_info && user.poh_info.first_name && (
                   <ButtonProtocolProfile profile={user} protocol={"poh"} />
                 )}
                 {user && user.lens_info && user.lens_info.handle && (
