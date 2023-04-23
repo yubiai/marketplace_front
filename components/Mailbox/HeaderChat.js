@@ -9,7 +9,7 @@ const HeaderChat = ({ dataUser, type }) => {
       </Avatar>
       <Flex flexDirection="column" mx="5" justify="center">
         <Text fontSize="lg" fontWeight="bold">
-          {dataUser && dataUser.first_name} {dataUser && dataUser.last_name}
+          {dataUser && dataUser.name}
         </Text>
         <Text color="green.500">{type}</Text>
       </Flex>

@@ -12,8 +12,8 @@ import {
   Center,
   Box,
   Text,
-  Link,
 } from '@chakra-ui/react'
+import ButtonProtocolProfile from '../Buttons/ButtonProtocolProfile';
 
 const InfoUserModal = ({ user, t }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -52,17 +52,11 @@ const InfoUserModal = ({ user, t }) => {
               <Text mt="1em">{t("Wallet")}</Text>
               <Text fontSize={"14px"}>{user.eth_address}</Text>
               <Center mt="1em">
-                {user && user.permission !== 6 && (
-                  <Link
-                    href={
-                      'https://app.proofofhumanity.id/profile/' + user.eth_address
-                    }
-                    isExternal
-                  >
-                    <Button bg="#00ABD1" color="white">
-                      {t("My PoH Profile")}
-                    </Button>
-                  </Link>
+                {user && user.eth_address && user.poh_info.first_name && (
+                  <ButtonProtocolProfile profile={user} protocol={"poh"} />
+                )}
+                {user && user.lens_info && user.lens_info.handle && (
+                  <ButtonProtocolProfile profile={user} protocol={"lens"} />
                 )}
               </Center>
             </Box>

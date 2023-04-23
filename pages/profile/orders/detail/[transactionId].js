@@ -46,6 +46,7 @@ import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
 import { calculateFinishDate } from '../../../../utils/orderUtils';
 import EvidencesList from '../../../../components/Infos/EvidencesList';
+import ButtonProtocolProfile from '../../../../components/Buttons/ButtonProtocolProfile';
 
 const OrderDetail = () => {
   const [loading, setLoading] = useState(false);
@@ -213,7 +214,7 @@ const OrderDetail = () => {
   }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance]);
 
   if (!loading) return <Loading />;
-  console.log(orderDetail)
+
   console.log((deal || {}), "(deal || {})")
   return (
     <>
@@ -380,14 +381,14 @@ const OrderDetail = () => {
                 <Box>
                   <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.seller.name}`}</Text>
                   <Text>{t("Eth Address")}: {orderDetail && orderDetail.item.seller.eth_address.slice(orderDetail.item.seller.eth_address.length - 8)}</Text>
-                  <Link
-                    href={`https://app.proofofhumanity.id/profile/${orderDetail && orderDetail.item.seller.eth_address}`}
-                    passHref legacyBehavior
-                  >
-                    <a target="_blank" rel="noopener noreferrer">
-                      <Text color="black" as='u' fontStyle={"italic"} _hover={{ color: "gray.400" }}>{t("View poh profile")}</Text>
-                    </a>
-                  </Link>
+                  <Center mt="0.6em">
+                    {orderDetail && orderDetail.item.seller && orderDetail.item.seller.eth_address && orderDetail.item.seller.poh_info && orderDetail.item.seller.poh_info.first_name && (
+                      <ButtonProtocolProfile profile={orderDetail.item.seller} protocol={"poh"} />
+                    )}
+                    {orderDetail && orderDetail.item.seller && orderDetail.item.seller.eth_address && orderDetail.item.seller.lens_info && orderDetail.item.seller.lens_info.handle && (
+                      <ButtonProtocolProfile profile={orderDetail.item.seller} protocol={"lens"} />
+                    )}
+                  </Center>
                 </Box>
               </Center>
 

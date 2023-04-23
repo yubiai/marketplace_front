@@ -1,23 +1,24 @@
 import {
-  Button,
+  Box,
   Center,
   Flex,
   Heading,
   Image,
   Stack,
   Text,
-  Link
 } from '@chakra-ui/react'
 import moment from 'moment'
+import ButtonProtocolProfile from '../Buttons/ButtonProtocolProfile';
+
 const MyInfoPohCard = ({ dataProfile, /* balance, */ t }) => {
-  if (!dataProfile)
+  if (!dataProfile || !dataProfile.poh_info)
     return (
       <>
-        <Text>No Data</Text>
+        <Box mt="1em" mb="1em">
+        <Text>{t("Not registered")}</Text>
+        </Box>
       </>
     )
-
-  console.log(dataProfile, "dataProfile")
 
   if (dataProfile)
     return (
@@ -62,21 +63,7 @@ const MyInfoPohCard = ({ dataProfile, /* balance, */ t }) => {
               </Text>
             </Stack>
             <Flex flex={0.2} justifyContent="center" alignItems="center">
-              {dataProfile && dataProfile.permission !== 6 && (
-                <Link
-                  href={
-                    'https://app.proofofhumanity.id/profile/' +
-                    dataProfile.eth_address
-                  }
-                  isExternal
-                >
-                  <Button bg="#00ABD1" color="white" _hover={{
-                    bg: "blue.300"
-                  }}>
-                    {t("My PoH Profile")}
-                  </Button>
-                </Link>
-              )}
+              <ButtonProtocolProfile profile={dataProfile} protocol={"poh"} />
             </Flex>
           </Stack>
         </Center>

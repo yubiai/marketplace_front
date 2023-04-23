@@ -1,13 +1,14 @@
 import {
-  Button,
+  Box,
   Center,
   Flex,
   Heading,
   Image,
   Stack,
   Text,
-  Link
 } from '@chakra-ui/react'
+import ButtonProtocolProfile from '../Buttons/ButtonProtocolProfile';
+
 const MyInfoLensCard = ({ dataProfile, /* balance, */ t }) => {
 
   let pictureLens = dataProfile && dataProfile.photo && dataProfile.photo.split("/") || null;
@@ -16,11 +17,11 @@ const MyInfoLensCard = ({ dataProfile, /* balance, */ t }) => {
   if (!dataProfile || !dataProfile.lens_info)
     return (
       <>
-        <Text>No Data</Text>
+        <Box mt="1em" mb="1em">
+        <Text>{t("Not registered")}</Text>
+        </Box>
       </>
     )
-
-  
 
   if (dataProfile.lens_info)
     return (
@@ -61,21 +62,11 @@ const MyInfoLensCard = ({ dataProfile, /* balance, */ t }) => {
                 {dataProfile.lens_info.handle}
               </Text>
             </Stack>
-             <Flex flex={0.2} justifyContent="center" alignItems="center">
-              {dataProfile && dataProfile.permission !== 6 && (
-                <Link
-                  href={"https://www.lensfrens.xyz/" + dataProfile.lens_info.handle
-                  }
-                  isExternal
-                >
-                  <Button bg="#00ABD1" color="white" _hover={{
-                    bg: "blue.300"
-                  }}>
-                    {t("My Lens Profile")}
-                  </Button>
-                </Link>
+            <Flex flex={0.2} justifyContent="center" alignItems="center">
+              {dataProfile && dataProfile.lens_info.handle && (
+                <ButtonProtocolProfile profile={dataProfile} protocol={"lens"} />
               )}
-            </Flex> 
+            </Flex>
           </Stack>
         </Center>
       </>

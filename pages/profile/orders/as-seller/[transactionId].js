@@ -42,7 +42,7 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  Spinner,
+  Spinner
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
 import { StatusOrderByState, CLAIMED_STATUS, statusDescMap, StatusOrder, ONGOING_STATUS } from '../../../../components/Infos/StatusOrder';
@@ -51,6 +51,7 @@ import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
 import ButtonCloseDeal from '../../../../components/Buttons/ButtonCloseDeal';
 import { calculateFinishDate } from '../../../../utils/orderUtils';
+import ButtonProtocolProfile from '../../../../components/Buttons/ButtonProtocolProfile';
 
 
 const OrderDetail = () => {
@@ -271,7 +272,6 @@ const OrderDetail = () => {
 
   if (!orderDetail) return <Loading />;
 
-  console.log(orderDetail, "orderDetail")
   console.log((deal || {}))
 
   return (
@@ -444,22 +444,14 @@ const OrderDetail = () => {
                 <Box>
                   <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.buyer.name}`}</Text>
                   <Text>{t("Eth Address")}: {orderDetail && orderDetail.item.buyer.eth_address.slice(orderDetail.item.buyer.eth_address.length - 8)}</Text>
-                  <Link
-                    href={
-                      `https://app.proofofhumanity.id/profile/${orderDetail && orderDetail.item.buyer.eth_address}`
-
-                    }
-                    passHref legacyBehavior
-                  >
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <Text color="black" as='u' fontStyle={"italic"} _hover={{
-                        color: "gray.400"
-                      }}>{t("View poh profile")}</Text>
-                    </a>
-                  </Link>
+                  <Center mt="0.6em">
+                    {orderDetail && orderDetail.item.buyer && orderDetail.item.buyer.eth_address && orderDetail.item.buyer.poh_info.first_name && (
+                      <ButtonProtocolProfile profile={orderDetail.item.buyer} protocol={"poh"} />
+                    )}
+                    {orderDetail && orderDetail.item.buyer && orderDetail.item.buyer.eth_address && orderDetail.item.buyer.lens_info.handle && (
+                      <ButtonProtocolProfile profile={orderDetail.item.buyer} protocol={"lens"} />
+                    )}
+                  </Center>
                 </Box>
               </Center>
 
