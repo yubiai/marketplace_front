@@ -445,10 +445,10 @@ const OrderDetail = () => {
                   <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.buyer.name}`}</Text>
                   <Text>{t("Eth Address")}: {orderDetail && orderDetail.item.buyer.eth_address.slice(orderDetail.item.buyer.eth_address.length - 8)}</Text>
                   <Center mt="0.6em">
-                    {orderDetail && orderDetail.item.buyer && orderDetail.item.buyer.eth_address && orderDetail.item.buyer.poh_info.first_name && (
+                    {orderDetail && orderDetail.item.buyer && orderDetail.item.buyer.eth_address && orderDetail.item.buyer.poh_info && orderDetail.item.buyer.poh_info.first_name && (
                       <ButtonProtocolProfile profile={orderDetail.item.buyer} protocol={"poh"} />
                     )}
-                    {orderDetail && orderDetail.item.buyer && orderDetail.item.buyer.eth_address && orderDetail.item.buyer.lens_info.handle && (
+                    {orderDetail && orderDetail.item.buyer && orderDetail.item.buyer.eth_address && orderDetail.item.buyer.lens_info && orderDetail.item.buyer.lens_info.handle && (
                       <ButtonProtocolProfile profile={orderDetail.item.buyer} protocol={"lens"} />
                     )}
                   </Center>
