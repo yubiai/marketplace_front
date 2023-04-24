@@ -11,14 +11,14 @@ import ButtonProtocolProfile from '../Buttons/ButtonProtocolProfile';
 
 const MyInfoLensCard = ({ dataProfile, /* balance, */ t }) => {
 
-  let pictureLens = dataProfile && dataProfile.photo && dataProfile.photo.split("/") || null;
+  let pictureLens = dataProfile && dataProfile.lens_info && dataProfile.lens_info.photo.split("/") || null;
   pictureLens = pictureLens && pictureLens[pictureLens.length - 1] ? "https://lens.infura-ipfs.io/ipfs/" + pictureLens[pictureLens.length - 1] : "";
 
   if (!dataProfile || !dataProfile.lens_info)
     return (
       <>
         <Box mt="1em" mb="1em">
-        <Text>{t("Not registered")}</Text>
+          <Text>{t("Not registered")}</Text>
         </Box>
       </>
     )

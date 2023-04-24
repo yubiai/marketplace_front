@@ -10,7 +10,7 @@ const ButtonProtocolProfile = ({ profile, protocol }) => {
 
     let linkProfile = protocol === "poh" ? `https://app.proofofhumanity.id/profile/${profile && profile.eth_address}` : `https://www.lensfrens.xyz/${profile && profile.lens_info.handle}`
     let imageProtocol = protocol === "poh" ? '/static/images/poh.png' : '/static/images/lenslogo.png';
-    let toolTipText = protocol === "poh" ? "View POH profile" : "View Lens profile";
+    let toolTipText = protocol === "poh" ? "View poh profile" : "View lens profile";
 
     return (
         <>
