@@ -96,8 +96,6 @@ const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFil
     )
   }
 
-  console.log(orderStatus)
-
   if(orderStatus == "ORDER_REFUNDED" || orderStatus == "ORDER_PAID"  || orderStatus == "CLAIM_WON_BY_BUYER" || orderStatus == "ORDER_DISPUTE_IN_PROGRESS"){
     return null
   }

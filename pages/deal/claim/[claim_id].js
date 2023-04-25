@@ -52,7 +52,6 @@ const EvidenceDetail = () => {
 
     if (!evidence) return <Loading />
 
-    console.log(router)
     return (
         <>
             <Head>

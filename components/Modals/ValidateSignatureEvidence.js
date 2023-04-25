@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { dealService } from "../../services/dealService";
 
 const ValidateSignatureEvidence = ({ urlpdf, fileSignature, evidence_id }) => {
-    console.log(evidence_id, "evidence_id")
+
     const toast = useToast();
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { handleSubmit, register, formState: { errors }, reset } = useForm();

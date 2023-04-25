@@ -140,7 +140,6 @@ const loadCurrencyPrices = async (dispatch, global, networkType) => {
   const resp = await priceService.getCurrencyPrices(
     naming, global && global.profile && global.profile.token);
   const { data } = resp;
-  console.log(data, "data")
   dispatch({
     type: 'SET_CURRENCY_PRICE_LIST',
     payload: [...data],

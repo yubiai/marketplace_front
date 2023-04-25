@@ -359,9 +359,7 @@ const NewEvidence = () => {
       }
     } catch (err) {
       console.error('Error creating a claim for a deal: ', err);
-      console.log(err.code, "err.code")
       if(err.code == 4001){
-        console.log("aca entro")
         setLoadingSubmit(false);
         setStateSubmit(3);
         return

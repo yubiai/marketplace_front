@@ -235,7 +235,7 @@ const ButtonConnect = () => {
 
         const token = res.data.token;
         const profileData = res.data.data;
-        console.log(res.data, "res.data")
+
         // step 2 - auth cookies
         authGlobalAndCookies(profileData, token);
         // JoyTour Initial
