@@ -4,7 +4,6 @@ import { MdKeyboardArrowRight } from 'react-icons/md'
 import ItemCardLg from '../../components/Cards/ItemCardLg'
 import axios from 'axios'
 import Loading from '../../components/Spinners/Loading'
-import Head from 'next/head'
 import Paginations from '../../components/Layouts/Paginations'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
 import Error from '../../components/Infos/Error'
@@ -12,6 +11,7 @@ import { useEffect } from 'react'
 import useFetch from '../../hooks/data/useFetch'
 import { useRouter } from 'next/router'
 import useTranslation from 'next-translate/useTranslation';
+import SEO from '../../components/Utils/SEO'
 
 
 const ItemsByCategory = ({ response, category }) => {
@@ -52,9 +52,12 @@ const ItemsByCategory = ({ response, category }) => {
 
   return (
     <>
-      <Head>
-        <title>Yubiai Marketplace - {category && category.title}</title>
-      </Head>
+      <SEO
+        title={category && category.title}
+        description={"Yubiai is the leading web3 marketplace empowering users to buy, sell and trade digital assets across a wide variety of asset classes in a secure and intuitive platform."}
+        keywords="Yubiai, Web3 Marketplace, Decentralized Exchange, Crypto Trading, Secure Transaction, Smart Contract Enabled Platform, Non-Custodial Wallets, High Security Protocols, Instant Liquidity, Low Fees"
+        imageUrl={"/static/apple-touch-icon.png"}
+      />
       <SubCategoriesMenu category={category && category._id}>
         <Box
           maxW="6xl"
