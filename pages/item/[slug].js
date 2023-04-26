@@ -3,11 +3,12 @@ import {
   Button,
   Center,
   Container,
-  Divider,
   Flex,
   Image,
   Text,
   useToast,
+  Grid,
+  GridItem
 } from '@chakra-ui/react'
 // import { FaBeer } from 'react-icons/fa';
 import { MdStarOutline, MdStar } from 'react-icons/md'
@@ -156,7 +157,7 @@ const ItemById = ({ item }) => {
 
   return (
     <>
-    <Head>
+      <Head>
         <title>{title}</title>
         <meta
           name="viewport"
@@ -177,88 +178,124 @@ const ItemById = ({ item }) => {
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="Robots" content="all" />
       </Head>
-      <Container
-        maxW="6xl"
-        h={"full"}
-        display={'flex'}
-        flexDirection={'column'}
-      >
-        <Flex width={'full'} direction={{ base: 'column', md: 'row' }} mt="1em">
-          <Box width={{ base: '100%', md: '66%' }} height={'600px'} m="5px">
-            <Box width={"full"} height={"80%"} overflow='hidden' display={"flex"} alignItems={"center"} justifyContent={"center"}>
-              {selectFile && selectFile.mimetype === "image/webp" && (
-                <Center>
-                  <Image
-                    alt="Img Item"
-                    rounded={'lg'}
-                    objectFit={'contain'}
-                    width={"full"}
-                    height={"full"}
-                    src={url_fleek + selectFile.filename}
-                    fallbackSrc={url_gc + selectFile.filename}
-                  />
-                </Center>
-              )
-              }
-              {selectFile && selectFile.mimetype === "video/mp4" && (<PlayerVideo videoSrc={selectFile.filename} createObjectURL={false} />)}
-              {selectFile && selectFile.mimetype === "audio/mpeg" && (<PlayerAudio audioSrc={selectFile.filename} createObjectURL={false} />)}
+      <Container maxW="6xl" h={"full"} display={'flex'} flexDirection={'column'}>
+        <Grid
+          templateColumns={{ base: '1fr', md: '2fr 1fr' }}
+          gap={{ base: '1rem', md: '1rem' }}
+          mt="1em"
+        >
+          <GridItem>
+            <Flex direction="column">
+              {/* Main content */}
+              <Box
+                height={'600px'}
+                m="5px"
+              //order={{ base: '1', md: 'none' }}
+              >
+                <Box
+                  width={"full"}
+                  height={"80%"}
+                  overflow='hidden'
+                  display={"flex"}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  {selectFile && selectFile.mimetype === "image/webp" && (
+                    <Center>
+                      <Image
+                        alt="Img Item"
+                        rounded={'lg'}
+                        objectFit={'contain'}
+                        width={"full"}
+                        height={"full"}
+                        src={url_fleek + selectFile.filename}
+                        fallbackSrc={url_gc + selectFile.filename}
+                      />
+                    </Center>
+                  )
+                  }
+                  {selectFile && selectFile.mimetype === "video/mp4" && (<PlayerVideo videoSrc={selectFile.filename} createObjectURL={false} />)}
+                  {selectFile && selectFile.mimetype === "audio/mpeg" && (<PlayerAudio audioSrc={selectFile.filename} createObjectURL={false} />)}
 
-            </Box>
-            <Box mt="10px">
-              <Flex justifyContent={'center'}>
-                {item &&
-                  item.files.length > 0 &&
-                  item.files.map((file, i) => {
-                    if (file) {
-                      if (file.mimetype === "image/webp") {
-                        return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={false} key={i} />
-                      }
-                      if (file.mimetype === "video/mp4") {
-                        return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/videologo.png'} key={i} />
-                      }
-                      if (file.mimetype === "audio/mpeg") {
-                        return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/audiologo.png'} key={i} />
-                      }
-                    }
-
-                  })}
-              </Flex>
-            </Box>
-          </Box>
-          <Box
-            padding="5px"
-            m="5px"
-            width={{ base: '100%', md: '33%' }}
-            h="546px"
-            border={'solid 1px #bababa;'}
-            borderRadius={'5px'}
-          >
-            <Flex justifyContent={'space-between'}>
-              <Text color="#323232" fontSize="14px" fontWeight="300">
-                {t("Service")}
-              </Text>
-              {owner === false && (
-                <Box>
-                  {favorite === false && (
-                    <Button onClick={() => addFavorite()}>
-                      <MdStarOutline color="00abd1" />
-                    </Button>
-                  )}
-                  {favorite === true && (
-                    <Button onClick={() => removeFavorite()}>
-                      <MdStar color="00abd1" />
-                    </Button>
-                  )}
                 </Box>
-              )}
+                <Box mt="10px">
+                  <Flex justifyContent={'center'}>
+                    {item &&
+                      item.files.length > 0 &&
+                      item.files.map((file, i) => {
+                        if (file) {
+                          if (file.mimetype === "image/webp") {
+                            return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={false} key={i} />
+                          }
+                          if (file.mimetype === "video/mp4") {
+                            return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/videologo.png'} key={i} />
+                          }
+                          if (file.mimetype === "audio/mpeg") {
+                            return <ImagePreviewListingCard file={file} setSelectFile={setSelectFile} img={'/static/images/audiologo.png'} key={i} />
+                          }
+                        }
+
+                      })}
+                  </Flex>
+                </Box>
+              </Box>
+              <Box
+                m="1em"
+                h={"100%"}
+              //order={{ base: '2', md: 'none' }}
+              >
+                <Text mt="10px" fontWeight={"semibold"}>{t("Description")}</Text>
+                <Text mt="10px">{item.description}</Text>
+              </Box>
             </Flex>
-            <Text fontSize="20px" fontWeight="600">
-              {item.title}
-            </Text>
-            {global.profile && (
-              <InfoUserModal user={item.seller} t={t}/>
-            )}
-            {/* <Box
+            <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t} />
+
+            
+            <Box m="1em">
+              <Questions item={item} profile_id={global?.profile?._id} token={global?.profile?.token} t={t} />
+            </Box>
+
+
+          </GridItem>
+          <GridItem>
+
+            <Box
+              padding="5px"
+              m="5px"
+              width={{ base: '100%', md: '100%' }}
+              h="546px"
+              border={'solid 1px #bababa;'}
+              position={{ base: 'relative', md: 'sticky' }}
+              borderRadius={'5px'}
+              top={{ base: 0, md: '1rem' }}
+              alignSelf={{ base: 'center', md: 'initial' }}
+            >
+              <Flex justifyContent={'space-between'}>
+                <Text color="#323232" fontSize="14px" fontWeight="300">
+                  {t("Service")}
+                </Text>
+                {owner === false && (
+                  <Box>
+                    {favorite === false && (
+                      <Button onClick={() => addFavorite()}>
+                        <MdStarOutline color="00abd1" />
+                      </Button>
+                    )}
+                    {favorite === true && (
+                      <Button onClick={() => removeFavorite()}>
+                        <MdStar color="00abd1" />
+                      </Button>
+                    )}
+                  </Box>
+                )}
+              </Flex>
+              <Text fontSize="20px" fontWeight="600">
+                {item.title}
+              </Text>
+              {global.profile && (
+                <InfoUserModal user={item.seller} t={t} />
+              )}
+              {/* <Box
               display={'flex'}
               flexDirection={'row'}
               mt="5px"
@@ -273,44 +310,45 @@ const ItemById = ({ item }) => {
                 0 Opinions
               </Text>
             </Box> */}
-            <Text mt="1em">{item.price} {item.currencySymbolPrice}</Text>
-            <Text>0% {t("additional for Yubiai Fee")}</Text>
-{/*             <Text>{item.ubiburningamount || 0.6}% {t("additional for UBI Burner Fee")}</Text>
+              <Text mt="1em">{item.price} {item.currencySymbolPrice}</Text>
+              <Text>0% {t("additional for Yubiai Fee")}</Text>
+              {/*             <Text>{item.ubiburningamount || 0.6}% {t("additional for UBI Burner Fee")}</Text>
  */}            <Flex
-              direction={{ base: 'column' }}
-              justifyContent="center"
-              w="full"
-              h={{ base: "full", md: "300px" }}
-            >
-              {!owner && (
-                <Center>
-                  <Button
-                    bg="#00abd1"
-                    color="white"
-                    w="312px"
-                    h="32px"
-                    fontSize={'16px'}
-                    fontWeight={'600'}
-                    onClick={() => buyAndCheckoutItem()}
-                    disabled={!global.profile || item.published == false || item.status != 2}
-                  >
-                    {t("Buy Now")}
-                  </Button>
-                </Center>
-              )}
-            </Flex>
-          </Box>
-        </Flex>
-        <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t}/>
-        <Divider />
-        <Box m="1em" h={"100%"}>
-          <Text mt="10px" fontWeight={"semibold"}>{t("Description")}</Text>
-          <Text mt="10px">{item.description}</Text>
-        </Box>
-        <Divider mt="2em" />
-        <Box m="1em">
-          <Questions item={item} profile_id={global?.profile?._id} token={global?.profile?.token} t={t}/>
-        </Box>
+                direction={{ base: 'column' }}
+                justifyContent="center"
+                w="full"
+                h={{ base: "full", md: "300px" }}
+              >
+                {!owner && (
+                  <Center>
+                    <Button
+                      bg="#00abd1"
+                      color="white"
+                      w="312px"
+                      h="32px"
+                      fontSize={'16px'}
+                      fontWeight={'600'}
+                      onClick={() => buyAndCheckoutItem()}
+                      disabled={!global.profile || item.published == false || item.status != 2}
+                    >
+                      {t("Buy Now")}
+                    </Button>
+                  </Center>
+                )}
+              </Flex>
+
+            </Box>
+
+
+
+          </GridItem>
+
+        </Grid>
+        
+
+
+
+
       </Container>
     </>
   )
