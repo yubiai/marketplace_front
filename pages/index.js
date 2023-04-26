@@ -7,6 +7,7 @@ import Loading from '../components/Spinners/Loading'
 import { useGlobal } from '../providers/globalProvider'
 import { profileService } from '../services/profileService'
 import useTranslation from 'next-translate/useTranslation';
+import SEO from '../components/Utils/SEO'
 
 const Home = ({ items }) => {
   const global = useGlobal();
@@ -72,27 +73,12 @@ const Home = ({ items }) => {
 
   return (
     <>
-      <Head>
-        <title>Yubiai a web3 marketplace - Home</title>
-        <meta
-          name="viewport"
-          content="initial-scale=1.0, width=device-width"
-          key="viewport"
-        />
-        <meta charSet="utf-8" />
-        <meta name="theme-color" content="#f8f8f8" />
-        <meta name="description" content="Yubiai is the leading web3 marketplace empowering users to buy, sell and trade digital assets across a wide variety of asset classes in a secure and intuitive platform." />
-        <meta name="keywords" content="Yubiai, Web3 Marketplace, Decentralized Exchange, Crypto Trading, Secure Transaction, Smart Contract Enabled Platform, Non-Custodial Wallets, High Security Protocols, Instant Liquidity, Low Fees" />
-        <meta name="author" content="Yubiai Members" />
-        <meta property="og:title" content="Yubiai a web3 marketplace - Home" />
-        <meta property="og:description" content="Marketplace" />
-        <meta property="og:url" content="https://www.yubiai.com/" />
-        <meta property="og:type" content="website" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="shortcut icon" type="image/png" href="/favicon-32x32.png" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <meta name="Robots" content="all" />
-      </Head>
+      <SEO
+        title={"Home"}
+        description={"Yubiai is the leading web3 marketplace empowering users to buy, sell and trade digital assets across a wide variety of asset classes in a secure and intuitive platform."}
+        keywords="Yubiai, Web3 Marketplace, Decentralized Exchange, Crypto Trading, Secure Transaction, Smart Contract Enabled Platform, Non-Custodial Wallets, High Security Protocols, Instant Liquidity, Low Fees"
+        imageUrl={"/static/apple-touch-icon.png"}
+      />
       <main>
         <Box h={{ base: "full", sm: "full", md: "full", lg: "full", xl: "100vh" }} m="2em">
           <CarrouselCards
