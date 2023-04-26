@@ -1,6 +1,5 @@
 import { Box, Spinner } from '@chakra-ui/react'
 import axios from 'axios'
-import Head from 'next/head'
 import { useEffect, useState } from 'react'
 import CarrouselCards from '../components/Cards/CarrouselCards'
 import Loading from '../components/Spinners/Loading'
