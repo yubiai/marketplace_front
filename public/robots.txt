@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /profile/
+Sitemap: https://app.yubiai.market/sitemap.xml
