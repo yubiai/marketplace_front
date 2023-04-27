@@ -160,7 +160,7 @@ const ItemById = ({ item }) => {
         title={title}
         description={item.description.slice(0, 150)}
         keywords="Yubiai, Web3 Marketplace, Decentralized Exchange, Crypto Trading, Secure Transaction, Smart Contract Enabled Platform, Non-Custodial Wallets, High Security Protocols, Instant Liquidity, Low Fees"
-        imageUrl={url_fleek + selectFile.filename}
+        imageUrl={"https://images.yubiai.market/3547361c-6cea-4745-8807-5760c4eafa94-bucket/prod/" + item.files[0].filename}
       />
       <Container
         maxW="6xl"
