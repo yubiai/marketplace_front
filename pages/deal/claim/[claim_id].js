@@ -2,7 +2,7 @@ import { Badge, Box, Button, Center, Container, Divider, Flex, Heading, Link, St
 import { useRouter } from "next/router";
 import { dealService } from '../../../services/dealService';
 import { useEffect, useState } from "react";
-import Head from "next/head";
+import SEO from '../../../components/Utils/SEO'
 import moment from "moment";
 import ViewMsgText from "../../../components/Cards/ViewMsgText";
 import ViewMsgFile from "../../../components/Cards/ViewMsgFile";
@@ -44,9 +44,9 @@ const EvidenceDetail = () => {
     const goBack = () => {
         if (window.history.length > 2) {
             router.back();
-          } else {
+        } else {
             router.push('/');
-          }
+        }
         return
     }
 
@@ -54,13 +54,12 @@ const EvidenceDetail = () => {
 
     return (
         <>
-            <Head>
-                <title>Yubiai Marketplace - Evidence Detail </title>
-                <meta
-                    name="keywords"
-                    content="yubiai, market, marketplace, crypto, eth, poh, metamask"
-                />
-            </Head>
+            <SEO
+                title={"Evidence Detail"}
+                description={"Yubiai is the leading web3 marketplace empowering users to buy, sell and trade digital assets across a wide variety of asset classes in a secure and intuitive platform."}
+                keywords={"Yubiai, Web3 Marketplace, Decentralized Exchange, Crypto Trading, Secure Transaction, Smart Contract Enabled Platform, Non-Custodial Wallets, High Security Protocols, Instant Liquidity, Low Fees"}
+                imageUrl={"/apple-touch-icon.png"}
+            />
             <Container
                 maxW="6xl"
                 h={'full'}
