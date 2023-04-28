@@ -23,7 +23,7 @@ const SellerFaqCard = () => {
         <Text>{t("How do I start selling?")}</Text>
       </Heading>
       <Text mt="1em">
-        {t("Start by clicking on “Connect” on the top right corner then below the search bar on the middle of the navigation area(top middle)click on “Sell” and follow through the steps from Category to Product Images then after filling each field click on “Preview & Submit for review” verify that all is correct and click on `Submit for review`")}
+        {t("Begin by clicking on")}
       </Text>
 {/*       <Heading fontSize={"2xl"} mt="1em">
         <Text>{t("What is `UBI Burning Amount`?")}</Text>
