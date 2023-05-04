@@ -28,7 +28,7 @@ const parseNoti = (type, t) => {
       path = 'profile/orders/as-seller'
       message = t ? t("Order dispute finished") : "Order dispute finished"
       break
-    case 'ORDER_DISPUTE_IN_PROGRESS_BUYER':
+    case 'ORDER_DISPUTE_FINISHED_BUYER':
       path = 'profile/orders/detail'
       message = t ? t("Order dispute finished") : "Order dispute finished"
       break
