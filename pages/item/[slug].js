@@ -168,12 +168,10 @@ const ItemById = ({ item }) => {
         display={'flex'}
         flexDirection={'column'}
       >
-        <Box mt="1em">
+        <Box mt="1em" display={{ base: 'block', sm: 'block', md: 'none' }}>
           <Text color="#323232" fontSize="14px" fontWeight="300">
             {t("Service")}
           </Text>
-        </Box>
-        <Box>
           <Text fontSize="20px" fontWeight="600"
           >
             {item.title}
@@ -297,22 +295,37 @@ const ItemById = ({ item }) => {
             position={{ base: "", sm: 'sticky' }}
             top={{ md: '1rem' }}
           >
-            <Flex justifyContent={'space-between'}>
-              <Text mt="1em">{item.price} {item.currencySymbolPrice}</Text>
-              {owner === false && (
-                <Box mt="5px">
-                  {favorite === false && (
-                    <Button onClick={() => addFavorite()}>
-                      <MdStarOutline color="00abd1" />
-                    </Button>
-                  )}
-                  {favorite === true && (
-                    <Button onClick={() => removeFavorite()}>
-                      <MdStar color="00abd1" />
-                    </Button>
-                  )}
-                </Box>
-              )}            </Flex>
+            <Box>
+              <Flex justifyContent={'space-between'}>
+                <Text mt="10px" color="#323232" fontSize="14px" fontWeight="300">
+                  {t("Service")}
+                </Text>              
+                {owner === false && (
+                  <Box>
+                    {favorite === false && (
+                      <Button onClick={() => addFavorite()}>
+                        <MdStarOutline color="00abd1" />
+                      </Button>
+                    )}
+                    {favorite === true && (
+                      <Button onClick={() => removeFavorite()}>
+                        <MdStar color="00abd1" />
+                      </Button>
+                    )}
+                  </Box>
+                )}
+              </Flex>
+
+              <Text fontSize="20px" fontWeight="600"
+              >
+                {item.title}
+              </Text>
+              {global.profile && (
+                <InfoUserModal user={item.seller} t={t} />
+              )}
+            </Box>
+            <Text mt="1em">{item.price} {item.currencySymbolPrice}</Text>
+
             <Text>0% {t("additional for Yubiai Fee")}</Text>
             {/*             <Text>{item.ubiburningamount || 0.6}% {t("additional for UBI Burner Fee")}</Text>*/}
             <Flex
