@@ -156,7 +156,7 @@ const ItemById = ({ item }) => {
 
   return (
     <>
-      <SEO 
+      <SEO
         title={title}
         description={item.description.slice(0, 150)}
         keywords="Yubiai, Web3 Marketplace, Decentralized Exchange, Crypto Trading, Secure Transaction, Smart Contract Enabled Platform, Non-Custodial Wallets, High Security Protocols, Instant Liquidity, Low Fees"
@@ -168,7 +168,39 @@ const ItemById = ({ item }) => {
         display={'flex'}
         flexDirection={'column'}
       >
+        <Flex justifyContent={'space-between'}>
+          <Box mt="1em">
+            <Text color="#323232" fontSize="14px" fontWeight="300">
+              {t("Service")}
+            </Text>
+          </Box>
+          {owner === false && (
+            <Box mt="10px">
+              {favorite === false && (
+                <Button onClick={() => addFavorite()}>
+                  <MdStarOutline color="00abd1" />
+                </Button>
+              )}
+              {favorite === true && (
+                <Button onClick={() => removeFavorite()}>
+                  <MdStar color="00abd1" />
+                </Button>
+              )}
+            </Box>
+          )}
+        </Flex>
+        <Box>
+          <Text fontSize="20px" fontWeight="600"
+          >
+            {item.title}
+          </Text>
+          {global.profile && (
+            <InfoUserModal user={item.seller} t={t} />
+          )}
+        </Box>
+
         <Flex width={'full'} direction={{ base: 'column', md: 'row' }} mt="1em">
+
           <Box width={{ base: '100%', md: '66%' }} height={'600px'} m="5px">
             <Box width={"full"} height={"80%"} overflow='hidden' display={"flex"} alignItems={"center"} justifyContent={"center"}>
               {selectFile && selectFile.mimetype === "image/webp" && (
@@ -214,54 +246,14 @@ const ItemById = ({ item }) => {
             padding="5px"
             m="5px"
             width={{ base: '100%', md: '33%' }}
-            h="546px"
+            h={{ base: "200px", md: "500px" }}
             border={'solid 1px #bababa;'}
             borderRadius={'5px'}
           >
-            <Flex justifyContent={'space-between'}>
-              <Text color="#323232" fontSize="14px" fontWeight="300">
-                {t("Service")}
-              </Text>
-              {owner === false && (
-                <Box>
-                  {favorite === false && (
-                    <Button onClick={() => addFavorite()}>
-                      <MdStarOutline color="00abd1" />
-                    </Button>
-                  )}
-                  {favorite === true && (
-                    <Button onClick={() => removeFavorite()}>
-                      <MdStar color="00abd1" />
-                    </Button>
-                  )}
-                </Box>
-              )}
-            </Flex>
-            <Text fontSize="20px" fontWeight="600">
-              {item.title}
-            </Text>
-            {global.profile && (
-              <InfoUserModal user={item.seller} t={t}/>
-            )}
-            {/* <Box
-              display={'flex'}
-              flexDirection={'row'}
-              mt="5px"
-              alignItems={'center'}
-            >
-              <MdStarOutline color="00abd1" />
-              <MdStarOutline color="00abd1" />
-              <MdStarOutline color="00abd1" />
-              <MdStarOutline color="00abd1" />
-              <MdStarOutline color="00abd1" />
-              <Text color="#323232" fontSize="14px" fontWeight="300">
-                0 Opinions
-              </Text>
-            </Box> */}
             <Text mt="1em">{item.price} {item.currencySymbolPrice}</Text>
             <Text>0% {t("additional for Yubiai Fee")}</Text>
-{/*             <Text>{item.ubiburningamount || 0.6}% {t("additional for UBI Burner Fee")}</Text>
- */}            <Flex
+            {/*             <Text>{item.ubiburningamount || 0.6}% {t("additional for UBI Burner Fee")}</Text>*/} 
+            <Flex
               direction={{ base: 'column' }}
               justifyContent="center"
               w="full"
@@ -286,7 +278,7 @@ const ItemById = ({ item }) => {
             </Flex>
           </Box>
         </Flex>
-        <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t}/>
+        <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t} />
         <Divider />
         <Box m="1em" h={"100%"}>
           <Text mt="10px" fontWeight={"semibold"}>{t("Description")}</Text>
@@ -294,7 +286,7 @@ const ItemById = ({ item }) => {
         </Box>
         <Divider mt="2em" />
         <Box m="1em">
-          <Questions item={item} profile_id={global?.profile?._id} token={global?.profile?.token} t={t}/>
+          <Questions item={item} profile_id={global?.profile?._id} token={global?.profile?.token} t={t} />
         </Box>
       </Container>
     </>

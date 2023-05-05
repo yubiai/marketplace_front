@@ -136,7 +136,7 @@ const Questions = ({ item, profile_id, token, t }) => {
                                         emptyColor="gray.200"
                                         color="blue.500"
                                         size="md"
-                                    />) : (<Button ml="1em" width={"20%"} height={"50px"} fontSize={"1em"} bg="#00abd1" color="white" type="submit">
+                                    />) : (<Button ml="1em" width={"20%"} height={"50px"} fontSize={{base: "12px", md: "1em"}} bg="#00abd1" color="white" type="submit">
                                         {t("Ask")}
                                     </Button>)}
 
