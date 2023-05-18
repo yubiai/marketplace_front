@@ -2,7 +2,7 @@
     "locales": ["en", "es"],
     "defaultLocale": "en",
     "pages": {
-      "*": ["navbar", "home", "profilemenu", "drawermenu","notifications","categories","footer", "help","questions","edititem", "orders", "evidence"],
+      "*": ["navbar", "home", "profilemenu", "drawermenu","notifications","categories","footer", "help","questions","edititem", "orders", "evidence", "mailboxs"],
       "/": ["home"],
       "/help": ["faq"],
       "/category/services": ["categories"],
@@ -12,6 +12,7 @@
       "/profile/listings": ["listing"],
       "/profile/orders": ["orders"],
       "/checkout": ["checkout"],
-      "/profile/evidences/new": ["evidence"]
+      "/profile/evidences/new": ["evidence"],
+      "/profile/mailboxs/*": ["mailboxs"]
     }
 }

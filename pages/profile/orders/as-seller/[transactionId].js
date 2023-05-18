@@ -146,7 +146,7 @@ const OrderDetail = () => {
 
   const redirectToChat = () => {
     const { _id } = orderDetail
-    router.push(`/profile/mailboxs/${_id}`)
+    router.push(`/profile/mailboxs/id/${_id}`)
   };
 
   const getTransactionLink = (transaction = {}, transactionMeta = {}, shortLink = false) => {

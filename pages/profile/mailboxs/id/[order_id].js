@@ -10,21 +10,21 @@ import {
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import FooterChat from '../../../components/Mailbox/FooterChat'
-import MessagesChat from '../../../components/Mailbox/MessagesChat'
-import HeaderChat from '../../../components/Mailbox/HeaderChat'
-import Loading from '../../../components/Spinners/Loading'
-import useFetch from '../../../hooks/data/useFetch'
-import { useDispatchGlobal, useGlobal } from '../../../providers/globalProvider'
-import { setYubiaiInstance } from '../../../providers/orderProvider'
-import { channelService } from '../../../services/channelService'
-import useUser from '../../../hooks/data/useUser'
-import Error from '../../../components/Infos/Error'
+import FooterChat from '../../../../components/Mailbox/FooterChat'
+import MessagesChat from '../../../../components/Mailbox/MessagesChat'
+import HeaderChat from '../../../../components/Mailbox/HeaderChat'
+import Loading from '../../../../components/Spinners/Loading'
+import useFetch from '../../../../hooks/data/useFetch'
+import { useDispatchGlobal, useGlobal } from '../../../../providers/globalProvider'
+import { setYubiaiInstance } from '../../../../providers/orderProvider'
+import { channelService } from '../../../../services/channelService'
+import useUser from '../../../../hooks/data/useUser'
+import Error from '../../../../components/Infos/Error'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation';
 
-const MailBoxs = () => {
+const MailBoxByOrderId = () => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
   const router = useRouter()
@@ -282,4 +282,4 @@ const MailBoxs = () => {
   )
 }
 
-export default MailBoxs
+export default MailBoxByOrderId;
