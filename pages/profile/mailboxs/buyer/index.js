@@ -11,6 +11,7 @@ import useFetch from "../../../../hooks/data/useFetch";
 import Loading from "../../../../components/Spinners/Loading";
 import ChannelCard from "../../../../components/Cards/ChannelCard";
 import Paginations from "../../../../components/Layouts/Paginations";
+import Error from "../../../../components/Infos/Error";
 
 const MailBoxsBuyer = () => {
     const global = useGlobal()
