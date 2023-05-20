@@ -15,7 +15,7 @@ import { useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
 import { useRouter } from 'next/router'
 import { BsFillBellFill } from 'react-icons/bs'
-import { MdArticle, MdFavorite, MdForum, MdHelp, MdOutlinePowerSettingsNew, MdSell, MdShoppingBag, MdShoppingBasket } from 'react-icons/md'
+import { MdArticle, MdChat, MdFavorite, MdForum, MdHelp, MdOutlinePowerSettingsNew, MdSell, MdShoppingBag, MdShoppingBasket } from 'react-icons/md'
 import useTranslation from 'next-translate/useTranslation';
 
 const UserMenu = () => {
@@ -70,6 +70,9 @@ const UserMenu = () => {
           </Link>
           <Link href="/profile/listings">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdArticle /> <Text fontWeight={"medium"} ml="5px">{t("Listings")}</Text></MenuItem>
+          </Link>
+          <Link href="/profile/mailboxs">
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdChat /> <Text fontWeight={"medium"} ml="5px">Mailboxs</Text></MenuItem>
           </Link>
           <Link href="/profile/questions">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdForum /> <Text fontWeight={"medium"} ml="5px">{t("Questions")}</Text></MenuItem>

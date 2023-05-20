@@ -5,7 +5,8 @@ export const channelService = {
   getMessagesByOrderId,
   pushMsg,
   pushMsgWithFiles,
-  createChannel
+  createChannel,
+  findChannel
 }
 
 /**
@@ -66,4 +67,16 @@ async function pushMsgWithFiles(orderid, payload, token){
       'Authorization': token ? `Bearer ${token}` : null,
     },
   });
+}
+
+async function findChannel(payload, token){
+  return await axios.post(
+    '/channel/find/', payload, token
+    ? {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    : null
+  )
 }

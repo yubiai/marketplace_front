@@ -26,6 +26,7 @@ import ButtonNewReport from '../../components/Buttons/ButtonNewReport'
 import Error from '../../components/Infos/Error'
 import useTranslation from 'next-translate/useTranslation';
 import SEO from '../../components/Utils/SEO'
+import ButtonNewChannel from '../../components/Buttons/ButtonNewChannel'
 
 const ItemById = ({ item }) => {
   const global = useGlobal();
@@ -233,6 +234,7 @@ const ItemById = ({ item }) => {
               display={{ base: 'block', sm: 'block', md: 'none' }}
             >
               <Flex justifyContent={'space-between'}>
+
                 <Text mt="8px">{item.price} {item.currencySymbolPrice}</Text>
                 {owner === false && (
                   <Box>
@@ -251,26 +253,29 @@ const ItemById = ({ item }) => {
               </Flex>
               <Text>0% {t("additional for Yubiai Fee")}</Text>
               {/*             <Text>{item.ubiburningamount || 0.6}% {t("additional for UBI Burner Fee")}</Text>*/}
-              {!owner && (
-                <Center mt="4em">
-                  <Button
-                    bg="#00abd1"
-                    color="white"
-                    w="312px"
-                    h="32px"
-                    fontSize={'16px'}
-                    fontWeight={'600'}
-                    onClick={() => buyAndCheckoutItem()}
-                    disabled={!global.profile || item.published == false || item.status != 2}
-                  >
-                    {t("Buy Now")}
-                  </Button>
-                </Center>
+              {owner === false && global?.profile?._id && (
+                <>
+                  <Center mt="4em">
+                    <Button
+                      bg="#00abd1"
+                      color="white"
+                      w="312px"
+                      h="32px"
+                      fontSize={'16px'}
+                      fontWeight={'600'}
+                      onClick={() => buyAndCheckoutItem()}
+                      disabled={!global.profile || item.published == false || item.status != 2}
+                    >
+                      {t("Buy Now")}
+                    </Button>
+                  </Center>
+                  <Flex mt="4em" justifyContent={'space-between'}>
+                    <ButtonNewChannel buyer={global?.profile?._id} seller={item.seller._id} item_id={item._id} profile={global?.profile} t={t} />
+                    <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t} />
+                  </Flex>
+                </>
               )}
-              <Flex mt="4em" justifyContent={'space-between'}>
-                <Box></Box>
-                <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t} />
-              </Flex>
+
             </Box>
             <Box mt="2em">
               <Divider />
@@ -299,7 +304,7 @@ const ItemById = ({ item }) => {
               <Flex justifyContent={'space-between'}>
                 <Text mt="10px" color="#323232" fontSize="14px" fontWeight="300">
                   {t("Service")}
-                </Text>              
+                </Text>
                 {owner === false && (
                   <Box>
                     {favorite === false && (
@@ -334,26 +339,33 @@ const ItemById = ({ item }) => {
               w="full"
               h={{ base: "full", md: "300px" }}
             >
-              {!owner && (
-                <Center>
-                  <Button
-                    bg="#00abd1"
-                    color="white"
-                    w="312px"
-                    h="32px"
-                    fontSize={'16px'}
-                    fontWeight={'600'}
-                    onClick={() => buyAndCheckoutItem()}
-                    disabled={!global.profile || item.published == false || item.status != 2}
-                  >
-                    {t("Buy Now")}
-                  </Button>
-                </Center>
+              {owner === false && global?.profile?._id && (
+                <>
+                  <Center>
+                    <Button
+                      bg="#00abd1"
+                      color="white"
+                      w="312px"
+                      h="32px"
+                      fontSize={'16px'}
+                      fontWeight={'600'}
+                      onClick={() => buyAndCheckoutItem()}
+                      disabled={!global.profile || item.published == false || item.status != 2}
+                    >
+                      {t("Buy Now")}
+                    </Button>
+
+                  </Center>
+
+                  <Box position={"absolute"} left={2} bottom={0}>
+                  <ButtonNewChannel buyer={global?.profile?._id} seller={item.seller._id} item_id={item._id} profile={global?.profile} t={t} />
+                  </Box>
+
+                  <Box position={"absolute"} right={2} bottom={0}>
+                    <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t} />
+                  </Box>
+                </>
               )}
-              <Flex position={"absolute"} right={2} bottom={0} justifyContent={'space-between'}>
-                <Box></Box>
-                <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t} />
-              </Flex>
             </Flex>
           </Box>
         </Flex>

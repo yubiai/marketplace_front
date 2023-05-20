@@ -17,7 +17,7 @@ import Link from 'next/link'
 import { useRouter } from "next/router";
 import { FaUserCircle } from 'react-icons/fa'
 import { BsFillBellFill } from 'react-icons/bs'
-import { MdArticle, MdFavorite, MdForum, MdSell, MdShoppingBag, MdShoppingBasket } from 'react-icons/md'
+import { MdArticle, MdFavorite, MdForum, MdSell, MdShoppingBag, MdShoppingBasket, MdChat } from 'react-icons/md'
 import useTranslation from 'next-translate/useTranslation';
 
 export default function ProfileMenu({ children }) {
@@ -61,6 +61,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     { name: t('Notifications'), icon: BsFillBellFill, url: '/profile/notifications' },
     { name: t('New Listing'), icon: MdSell, url: '/listing/new' },
     { name: t('Listings'), icon: MdArticle, url: '/profile/listings' },
+    { name: 'Mailboxs', icon: MdChat, url: '/profile/mailboxs' },
     { name: t('Questions'), icon: MdForum, url: '/profile/questions' },
     { name: t('Orders'), icon: MdShoppingBag, url: '/profile/orders' },
     { name: t('Sales'), icon: MdShoppingBasket, url: '/profile/orders/sales' },

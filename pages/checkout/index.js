@@ -235,9 +235,10 @@ const Checkout = () => {
 
     await channelService.createChannel(
       {
-        order_id: orderId,
         buyer: buyerId,
         seller: sellerId,
+        item_id: orderData.item._id,
+        order_id: orderId
       },
       global.profile.token
     )

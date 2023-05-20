@@ -13,7 +13,7 @@ import ChannelCard from "../../../../components/Cards/ChannelCard";
 import Paginations from "../../../../components/Layouts/Paginations";
 import Error from "../../../../components/Infos/Error";
 
-const MailBoxsBuyer = () => {
+const MailBoxsSeller = () => {
     const global = useGlobal()
     const dispatch = useDispatchGlobal()
     const { t } = useTranslation("orders");
@@ -35,7 +35,7 @@ const MailBoxsBuyer = () => {
         isError,
     } = useFetch(
         global && global.profile && global.profile.token && user && user.id
-            ? `/channel/channels/buyer/${user.id}?page=${global.pageIndex}&size=10`
+            ? `/channel/channels/seller/${user.id}?page=${global.pageIndex}&size=10`
             : null,
         global && global.profile && global.profile.token
     )
@@ -85,16 +85,16 @@ const MailBoxsBuyer = () => {
                             }}>{"Mailboxs"}</Text></Link>
                         </BreadcrumbItem>
                         <BreadcrumbItem>
-                            <Text>Buyer</Text>
+                            <Text>Seller</Text>
                         </BreadcrumbItem>
                     </Breadcrumb>
                     <Heading mt="10px" fontSize={'3xl'} fontFamily={'body'}>
-                        Channels as a buyer
+                        Channels as a Seller
                     </Heading>
                     <Box mt="2em">
-                        {channels && channels.items.length > 0 && channels.items && channels.items.map((channel, i) =>
+                        {channels && channels.items && channels.items.length > 0 && channels.items && channels.items.map((channel, i) =>
                             (
-                                <ChannelCard key={i} channel={channel} mood="buyer" />
+                                <ChannelCard key={i} channel={channel} mood={"seller"} />
                             )
                         )}
                         <Paginations data={channels ? channels : null} />
@@ -107,4 +107,4 @@ const MailBoxsBuyer = () => {
     )
 }
 
-export default MailBoxsBuyer;
+export default MailBoxsSeller;

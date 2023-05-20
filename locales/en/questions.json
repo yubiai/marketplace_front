@@ -59,5 +59,10 @@
     "Questions and answers": "Questions and answers",
     "Error at creating a question.": "Error at creating a question.",
     "See more": "See more..",
-    "Report Post": "Report Post"
+    "Report Post": "Report Post",
+    "Start a chat": "Start a chat",
+    "Start a chat with the seller": "Start a chat with the seller",
+    "Are you sure you want to start a conversation?": "Are you sure you want to start or continue a conversation?",
+    "Yes": "Yes",
+    "Error starting a chat": "Error starting a chat"
 }

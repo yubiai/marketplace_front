@@ -59,5 +59,10 @@
     "Questions and answers": "Preguntas y respuestas",
     "Error at creating a question.": "Error al crear la pregunta",
     "See more": "Ver mas..",
-    "Report Post": "Reportar publicación"
+    "Report Post": "Reportar publicación",
+    "Start a chat": "Iniciar un Chat",
+    "Start a chat with the seller": "Iniciar un chat con el vendedor",
+    "Are you sure you want to start a conversation?": "¿Estás seguro de que quieres iniciar o seguir una conversación?",
+    "Yes": "Si",
+    "Error starting a chat": "Error al iniciar un chat"
 }

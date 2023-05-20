@@ -6,6 +6,7 @@ import {
   Divider as ChakraDivider,
   Flex,
   Text,
+  Button,
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -28,8 +29,8 @@ const MailBoxByOrderId = () => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
   const router = useRouter()
-  const { order_id } = router.query
-  
+  const { id } = router.query
+
   const [messages, setMessages] = useState([])
   const [inputMessage, setInputMessage] = useState('')
   const [previewFiles, setPreviewFiles] = useState([]);
@@ -51,18 +52,18 @@ const MailBoxByOrderId = () => {
     isLoading,
     isError,
   } = useFetch(
-    global && global.profile && global.profile.token && order_id
-      ? `/channel/orderid/${order_id}`
+    global && global.profile && global.profile.token && id
+      ? `/channel/${id}`
       : null,
     global && global.profile && global.profile.token
   )
 
- /*  const loadItem = async () => {
-    const result = await orderService.getOrderByOrderId(order_id, global.profile?.token);
-    const data = result.data.result;
-     const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(data.transaction.transactionIndex);
-    setDeal(fullStatus); 
-  } */
+  /*  const loadItem = async () => {
+     const result = await orderService.getOrderByOrderId(order_id, global.profile?.token);
+     const data = result.data.result;
+      const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(data.transaction.transactionIndex);
+     setDeal(fullStatus); 
+   } */
 
   const refreshMessages = async () => {
     await channelService.getChannelByOrderId(channel && channel.order_id && channel.order_id._id, global && global.profile.token)
@@ -156,7 +157,9 @@ const MailBoxByOrderId = () => {
     return <Error error={isError?.message} />
   }
 
-  if (isLoading || !channel || !user ) return <Loading />
+  if (isLoading || !channel || !user) return <Loading />
+
+  console.log(channel, "channel")
 
   return (
     <>
@@ -189,25 +192,15 @@ const MailBoxByOrderId = () => {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <Link href={global &&
-                      global.profile &&
-                      global.profile._id !== channel.buyer._id ? "/profile/orders/sales/" : "/profile/orders/"} cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{global &&
-                      global.profile &&
-                      global.profile._id !== channel.buyer._id ? t("Sales") : t("Orders")}</Text>
-              </Link>
-            </BreadcrumbItem>
-
-            <BreadcrumbItem>
-              <Link href={global &&
-                      global.profile &&
-                      global.profile._id !== channel.buyer._id ? `/profile/orders/as-seller/${channel.order_id.transactionHash}` : `/profile/orders/detail/${channel.order_id.transactionHash}`} cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
-                <Text color="#00abd1" cursor={'pointer'} _hover={{ textDecoration: "underline" }}>{t("Detail")}</Text>
-              </Link>
+              <Link href="/profile/mailboxs" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+                textDecoration: "underline"
+              }}>Mailboxs</Text></Link>
             </BreadcrumbItem>
 
             <BreadcrumbItem isCurrentPage>
-              <Text>{t("Mailbox of the order #")} {channel.order_id._id}</Text>
+              <Text>Chat</Text>
             </BreadcrumbItem>
           </Breadcrumb>
           <Flex w="100%" h="700px" justify="center" align="center" bg="white" mt="1em">
@@ -255,8 +248,8 @@ const MailBoxByOrderId = () => {
                   previewFiles={previewFiles}
                   setPreviewFiles={setPreviewFiles}
                   handleSendMessage={handleSendMessage}
-                  loadingSubmit={loadingSubmit} 
-                  orderStatus={channel.order_id.status}
+                  loadingSubmit={loadingSubmit}
+                  orderStatus={channel.order_id && channel.order_id.status ? channel.order_id.status : null}
                   t={t}
                 />
               </Flex>
@@ -264,19 +257,22 @@ const MailBoxByOrderId = () => {
           </Flex>
           <Text fontStyle={"italic"} color="red" mt="1em" >{t("Sensitive")}</Text>
         </Box>
-{/*         <Box w={{ base: 'full', lg: '30%' }} p="1em">
+        <Box w={{ base: 'full', lg: '30%' }} m="5px" p="1em" >
 
-          <Center><Heading size="md">Item</Heading></Center>
-
-          {item && (
-            <ItemCard item={item} />
-
+          {channel.order_id && channel.order_id.transactionHash ? (
+            <Link href={global &&
+              global.profile &&
+              global.profile._id !== channel.buyer._id ? `/profile/orders/as-seller/${channel.order_id.transactionHash}` : `/profile/orders/detail/${channel.order_id.transactionHash}`} cursor={'pointer'} _hover={{ textDecoration: "underline" }}>
+              <Button mt="2em" w="100%" color={'white'} backgroundColor={'#00abd1'} _hover={{
+                bg: "blue.400"
+              }}>Order</Button>
+            </Link>
+          ) : (
+            <Button mt="2em" w="100%" color={'white'} isDisabled="true" backgroundColor={'#00abd1'} _hover={{
+              bg: "blue.400"
+            }}>No existe la order</Button>
           )}
-          <Center mt="1em"> {channel.order_id && channel.order_id.status && (
-            StatusOrderByState((deal || {}).deal.dealStatus)
-          )}</Center>
-
-        </Box> */}
+        </Box>
       </Container>
     </>
   )

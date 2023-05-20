@@ -57,7 +57,7 @@ const parseNoti = (type, t) => {
       message = t ? t("Dispute has reach a resolution") : "Dispute has reach a resolution."
       break
     case 'Channel':
-      path = 'profile/mailboxs'
+      path = 'profile/mailboxs/id'
       message = t ? t("New Message!") : "New Message!"
       break
     case 'NewQuestion':
