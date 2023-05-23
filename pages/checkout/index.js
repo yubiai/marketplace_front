@@ -193,6 +193,7 @@ const Checkout = () => {
         global.currencyPriceList
       )
       const { orderInfo, transaction } = result
+      console.log(orderInfo, "ORDERINFO")
       setOrderData(orderInfo)
       setTransactionData(transaction)
     };

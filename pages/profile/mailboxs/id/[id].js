@@ -24,6 +24,7 @@ import Error from '../../../../components/Infos/Error'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation';
+import BuyConfigCard from '../../../../components/Cards/BuyConfigCard'
 
 const MailBoxByOrderId = () => {
   const global = useGlobal()
@@ -51,6 +52,7 @@ const MailBoxByOrderId = () => {
     data: channel,
     isLoading,
     isError,
+    mutate
   } = useFetch(
     global && global.profile && global.profile.token && id
       ? `/channel/${id}`
@@ -258,7 +260,11 @@ const MailBoxByOrderId = () => {
           <Text fontStyle={"italic"} color="red" mt="1em" >{t("Sensitive")}</Text>
         </Box>
         <Box w={{ base: 'full', lg: '30%' }} m="5px" p="1em" >
-
+        {channel.item_id && channel.item_id.slug && (
+            <Button mt="2em" w="100%" color={'white'} backgroundColor={'#00abd1'} onClick={() => router.push("/item/" + channel.item_id.slug)} _hover={{
+              bg: "blue.400"
+            }}>Item</Button>
+          )}
           {channel.order_id && channel.order_id.transactionHash ? (
             <Link href={global &&
               global.profile &&
@@ -272,6 +278,9 @@ const MailBoxByOrderId = () => {
               bg: "blue.400"
             }}>No existe la order</Button>
           )}
+
+          <BuyConfigCard channel={channel} profile={global.profile} update={mutate} />
+        
         </Box>
       </Container>
     </>
