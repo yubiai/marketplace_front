@@ -62,6 +62,7 @@
     "Challenge claim": "Challenge claim",
     "Yes, Mark job as done": "Yes, Mark job as done",
     "Cancel": "Cancel",
+    "Cancel Channel": "Cancel Channel",
     "Start claim": "Start claim",
     "Failed Start Claim": "Failed Start Claim",
     "The dispute policy is not available, please try again later.": "The dispute policy is not available, please try again later.",
@@ -77,5 +78,11 @@
     "Order": "Order",
     "Claim Payment": "Claim Payment",
     "Time to claim exhausted": "Time to claim exhausted",
-    "Evidences": "Evidences"
+    "Evidences": "Evidences",
+    "Order doesn't exist": "Order doesn't exist",
+    "New Price": "New Price",
+    "Added New Price": "Added New Price",
+    "Save": "Save",
+    "Buy Now": "Buy Now",
+    "Channel blocked": "Channel blocked"
 }

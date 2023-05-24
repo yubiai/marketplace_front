@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 import { useDispatchGlobal } from "../../providers/globalProvider";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import { EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { channelService } from "../../services/channelService";
 
 
-const BuyConfigCard = ({ channel, profile, update }) => {
+const BuyConfigCard = ({ channel, profile, update, t }) => {
     const router = useRouter();
     const dispatch = useDispatchGlobal();
     const [isLoading, setIsLoading] = useState(false);
@@ -51,30 +51,42 @@ const BuyConfigCard = ({ channel, profile, update }) => {
         }
     }
 
-    const buyAndCheckoutItem = () => {
 
-        const itemConfig = {
-            ...channel.item_id,
-            seller: channel.seller,
-            price: channel.priceconfig
+    const buyAndCheckoutItem = async() => {
+        const res = await update();
+
+        if (res && res.status === true && res.priceconfig) {
+            const itemConfig = {
+                ...channel.item_id,
+                seller: channel.seller,
+                price: channel.priceconfig
+            }
+
+            dispatch({
+                type: 'SET_ITEM_TO_CHECKOUT',
+                payload: itemConfig
+            })
+            router.push('/checkout')
+        } else {
+            toast({
+                title: 'Error',
+                description: 'Error Chat',
+                position: 'top-right',
+                status: 'warning',
+                duration: 2000,
+                isClosable: true
+            })
         }
-
-        dispatch({
-            type: 'SET_ITEM_TO_CHECKOUT',
-            payload: itemConfig
-        })
-        router.push('/checkout')
     }
 
     const onSubmit = async () => {
         try {
             setIsLoading(true)
-            const result = await channelService.updatePriceConfig({
+            await channelService.updatePriceConfig({
                 _id: channel._id,
                 priceconfig: priceValue
             }, profile.token);
 
-            console.log(result);
             reset();
             update();
             setEditNewPrice(false);
@@ -92,6 +104,14 @@ const BuyConfigCard = ({ channel, profile, update }) => {
             return
         } catch (err) {
             console.error(err);
+            toast({
+                title: 'Error',
+                description: 'New Price Error',
+                position: 'top-right',
+                status: 'warning',
+                duration: 2000,
+                isClosable: true
+            })
             setTimeout(() => {
                 setIsLoading(false);
             }, 2000);
@@ -107,31 +127,23 @@ const BuyConfigCard = ({ channel, profile, update }) => {
                         <>
                             {!editNewPrice && channel?.priceconfig && (
                                 <>
-                                    <Text>New Price</Text>
+                                    <Text>{t("New Price")}</Text>
                                     {isLoading ? (
                                         <Spinner />
                                     ) : (
                                         <>
                                             <Flex>
                                                 <Text mt="10px">{channel.priceconfig} {channel.item_id.currencySymbolPrice}</Text>
-                                                <Button ml="1em" onClick={() => setEditNewPrice(true)}><EditIcon></EditIcon></Button>
+                                                <Button ml="5px" onClick={() => setEditNewPrice(true)}><EditIcon></EditIcon></Button>
+                                                <Button ml="5px" onClick={() => onCancel()}><DeleteIcon></DeleteIcon></Button>
                                             </Flex>
-                                            <Button
-                                                bg="red.300"
-                                                color="white"
-                                                w="100%"
-                                                mt="1em"
-                                                fontSize={'16px'}
-                                                fontWeight={'600'}
-                                                onClick={() => onCancel()}
-                                            >
-                                                Cancel
-                                            </Button>
+
                                         </>
                                     )}
 
                                 </>
                             )}
+
                             {!editNewPrice && !channel?.priceconfig && !isLoading && (
                                 <>
                                     <Button
@@ -144,7 +156,7 @@ const BuyConfigCard = ({ channel, profile, update }) => {
                                         onClick={() => setEditNewPrice(true)}
                                         _hover={{ bg: 'green.500' }}
                                     >
-                                        Added New Price
+                                        {t("Added New Price")}
                                     </Button>
                                 </>
                             )}
@@ -174,7 +186,7 @@ const BuyConfigCard = ({ channel, profile, update }) => {
                                         </NumberInput>
                                     </FormControl>
                                     <Button mt="1em" w="100%" bg="#00abd1" color="white" type="submit">
-                                        Save
+                                        {t("Save")}
                                     </Button>
                                 </form>
                             )}
@@ -182,7 +194,7 @@ const BuyConfigCard = ({ channel, profile, update }) => {
                     )}
                     {profile._id === channel.buyer._id && channel.priceconfig && (
                         <>
-                            <Text>New Price</Text>
+                            <Text>{t("New Price")}</Text>
                             <Flex>
                                 <Text mt="10px">{channel.priceconfig} {channel.item_id.currencySymbolPrice}</Text>
                             </Flex>
@@ -195,7 +207,7 @@ const BuyConfigCard = ({ channel, profile, update }) => {
                                 fontWeight={'600'}
                                 onClick={() => buyAndCheckoutItem()}
                             >
-                                Buy Now
+                                {t("Buy Now")}
                             </Button>
                         </>
                     )}

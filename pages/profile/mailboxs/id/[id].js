@@ -7,6 +7,9 @@ import {
   Flex,
   Text,
   Button,
+  Alert,
+  AlertIcon,
+  useToast,
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -30,6 +33,8 @@ const MailBoxByOrderId = () => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
   const router = useRouter()
+  const toast = useToast();
+
   const { id } = router.query
 
   const [messages, setMessages] = useState([])
@@ -89,7 +94,7 @@ const MailBoxByOrderId = () => {
       setMessages(channel.messages);
       //loadItem();
     }
-  }, [channel, global.profile, global.yubiaiPaymentArbitrableInstance])
+  }, [channel, global?.profile, global?.yubiaiPaymentArbitrableInstance])
 
   // Saved Message
   const saveMessage = async (message) => {
@@ -118,6 +123,31 @@ const MailBoxByOrderId = () => {
         setPreviewFiles([])
         setLoadingSubmit(false)
       })
+  }
+
+  const updateStatusChannel = async (status) => {
+
+    try {
+      await channelService.updateStatus({
+        _id: channel._id,
+        status: status
+      }, global?.profile?.token);
+      mutate();
+      setTimeout(() => {
+        toast({
+          title: 'Channel',
+          description: 'Update Status',
+          position: 'top-right',
+          status: 'warning',
+          duration: 2000,
+          isClosable: true
+        })
+      }, 2000);
+      return
+    } catch (error) {
+      console.error(error);
+      return
+    }
   }
 
   const handleSendMessage = async () => {
@@ -244,23 +274,25 @@ const MailBoxByOrderId = () => {
                 mt="5"
               />
               <Flex>
-                <FooterChat
-                  inputMessage={inputMessage}
-                  setInputMessage={setInputMessage}
-                  previewFiles={previewFiles}
-                  setPreviewFiles={setPreviewFiles}
-                  handleSendMessage={handleSendMessage}
-                  loadingSubmit={loadingSubmit}
-                  orderStatus={channel.order_id && channel.order_id.status ? channel.order_id.status : null}
-                  t={t}
-                />
+                {channel && channel.status === true && (
+                  <FooterChat
+                    inputMessage={inputMessage}
+                    setInputMessage={setInputMessage}
+                    previewFiles={previewFiles}
+                    setPreviewFiles={setPreviewFiles}
+                    handleSendMessage={handleSendMessage}
+                    loadingSubmit={loadingSubmit}
+                    orderStatus={channel.order_id && channel.order_id.status ? channel.order_id.status : null}
+                    t={t}
+                  />
+                )}
               </Flex>
             </Flex>
           </Flex>
           <Text fontStyle={"italic"} color="red" mt="1em" >{t("Sensitive")}</Text>
         </Box>
         <Box w={{ base: 'full', lg: '30%' }} m="5px" p="1em" >
-        {channel.item_id && channel.item_id.slug && (
+          {channel.item_id && channel.item_id.slug && (
             <Button mt="2em" w="100%" color={'white'} backgroundColor={'#00abd1'} onClick={() => router.push("/item/" + channel.item_id.slug)} _hover={{
               bg: "blue.400"
             }}>Item</Button>
@@ -276,11 +308,36 @@ const MailBoxByOrderId = () => {
           ) : (
             <Button mt="2em" w="100%" color={'white'} isDisabled="true" backgroundColor={'#00abd1'} _hover={{
               bg: "blue.400"
-            }}>No existe la order</Button>
+            }}>{t("Order doesn't exist")}</Button>
           )}
 
-          <BuyConfigCard channel={channel} profile={global.profile} update={mutate} />
-        
+          {channel && channel.status === true ? (
+            <>
+              <BuyConfigCard channel={channel} profile={global.profile} update={mutate} t={t} />
+              {channel && global.profile._id === channel.seller._id && channel.order_id === null && (<Button
+                bg="red.300"
+                color="white"
+                w="100%"
+                mt="2em"
+                fontSize={'16px'}
+                fontWeight={'600'}
+                onClick={() => updateStatusChannel(false)}
+              >
+                {t("Cancel Channel")}
+              </Button>)}
+            </>
+          ) : (
+            <>
+              <Alert mt="1em" status='error'>
+                <AlertIcon />
+                {t("Channel blocked")}
+              </Alert>
+              {channel && global.profile._id === channel.seller._id && channel.order_id === null && (<Button mt="1em" w="100%" color={'white'} backgroundColor={'green.700'} onClick={() => updateStatusChannel(true)} _hover={{
+                bg: "green.800"
+              }}>Abrir chat</Button>)}
+            </>
+          )}
+
         </Box>
       </Container>
     </>

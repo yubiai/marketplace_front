@@ -7,7 +7,8 @@ export const channelService = {
   pushMsgWithFiles,
   createChannel,
   findChannel,
-  updatePriceConfig
+  updatePriceConfig,
+  updateStatus
 }
 
 /**
@@ -85,6 +86,18 @@ async function findChannel(payload, token){
 async function updatePriceConfig(payload, token){
   return await axios.put(
     '/channel/priceconfig/' + payload._id, payload, token
+    ? {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    : null
+  )
+}
+
+async function updateStatus(payload, token){
+  return await axios.put(
+    '/channel/updatestatus/' + payload._id, payload, token
     ? {
         headers: {
           Authorization: `Bearer ${token}`,

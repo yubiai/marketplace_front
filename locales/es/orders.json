@@ -63,6 +63,7 @@
     "Challenge claim": "Desafiar reclamo",
     "Yes, Mark job as done": "Sí, marcar trabajo como realizado",
     "Cancel": "Cancelar",
+    "Cancel Channel": "Cancelar Chat",
     "Start claim": "Iniciar reclamo",
     "Failed Start Claim": "Error al iniciar reclamo",
     "The dispute policy is not available, please try again later.": "La póliza de disputa no está disponible, por favor inténtelo más tarde",
@@ -78,5 +79,11 @@
     "Order": "Pedido",
     "Claim Payment": "Reclamar Pago",
     "Time to claim exhausted": "Se termino el tiempo para reclamar.",
-    "Evidences": "Evidencias"
+    "Evidences": "Evidencias",
+    "Order doesn't exist": "La orden no existe",
+    "New Price": "Nuevo Precio",
+    "Added New Price": "Agregar nuevo precio",
+    "Save": "Guardar",
+    "Buy Now": "Comprar ahora",
+    "Channel blocked": "Chat Bloqueado"
 }
