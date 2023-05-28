@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 export const channelService = {
-  getChannelByOrderId,
+  getChannelById,
   getMessagesByOrderId,
   pushMsg,
   pushMsgWithFiles,
@@ -26,9 +26,9 @@ export const channelService = {
   : null)
 }
 
-async function getChannelByOrderId(orderid, token) {
+async function getChannelById(id, token) {
   return await axios.get(
-    `/channel/orderid/${orderid}`,token
+    `/channel/${id}`,token
     ? {
         headers: {
           Authorization: `Bearer ${token}`,

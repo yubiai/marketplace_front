@@ -137,22 +137,25 @@ const OrderDetail = () => {
   const setDealInfo = async transaction => {
     const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(transaction.transactionIndex);
     const currentTS = Math.floor((new Date()).getTime() / 1000);
-    setDeal(fullStatus);
-    setIsDealEnabledToClaim(
-      currentTS >= fullStatus.deal.dealCreatedAt + fullStatus.deal.timeForService);
+    if (fullStatus) {
+      setDeal(fullStatus);
+      updateStatusOrder(fullStatus);
+      setIsDealEnabledToClaim(
+        currentTS >= fullStatus.deal.dealCreatedAt + fullStatus.deal.timeForService);
+    }
   }
 
   const toggleLoadingStatus = status => {
     setOperationInProgress(status);
   };
 
-  const redirectToChat = async() => {
+  const redirectToChat = async () => {
     const { _id } = orderDetail;
     try {
       const result = await channelService.findChannel({
         order_id: _id
       }, global.profile.token)
-      if(result && result.data && result.data.id){
+      if (result && result.data && result.data.id) {
         router.push(`/profile/mailboxs/id/${result.data.id}`)
       } else {
         toast({
@@ -176,7 +179,7 @@ const OrderDetail = () => {
       "0x..." + transactionMeta?.transactionHash?.slice(transactionMeta?.transactionHash.length - 16) :
       transactionMeta?.transactionHash;
 
-    if(transaction.networkEnv === "gnosis"){
+    if (transaction.networkEnv === "gnosis") {
       return `https://gnosisscan.io/tx/${transactionHash}`;
     }
 
@@ -184,6 +187,19 @@ const OrderDetail = () => {
       ? `https://${transaction.networkEnv}.etherscan.io/tx/${transactionHash}`
       : `https://etherscan.io/tx/${transactionHash}`;
   };
+
+  const updateStatusOrder = async (deal) => {
+
+    const statusNow = statusDescMap(
+      deal.deal,
+      deal.claim
+    );
+
+    if (statusNow !== orderDetail.status) {
+      await orderService.updateOrderStatus(orderDetail.transaction && orderDetail.transaction.transactionMeta.transactionHash, statusNow, global?.profile?.token);
+    }
+
+  }
 
   useEffect(() => {
     if (!transactionId) {
@@ -195,10 +211,10 @@ const OrderDetail = () => {
       loadCurrencyPrices(dispatch, global, networkType);
     }
 
-    async function initialArbInstance(){
+    async function initialArbInstance() {
       if (!global.yubiaiPaymentArbitrableInstance) {
         const res = await setYubiaiInstance(dispatch);
-        if(!res){
+        if (!res) {
           toast({
             title: "Wrong Network",
             description: "Change the network to one that is enabled.",
@@ -441,7 +457,7 @@ const OrderDetail = () => {
             }
             {(deal || {}).deal.dealStatus === ONGOING_STATUS && (
               <>
-                <Text mt="1em" fontWeight={"bold"}>{t("Finish Date")}: {calculateFinishDate(transactionDate,  deal.claim.claimCount, deal.claim.claimSolvedAt)}</Text>
+                <Text mt="1em" fontWeight={"bold"}>{t("Finish Date")}: {calculateFinishDate(transactionDate, deal.claim.claimCount, deal.claim.claimSolvedAt)}</Text>
               </>
             )}
 

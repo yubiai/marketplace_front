@@ -147,6 +147,7 @@ export const StatusOrderByStateShort = (deal = {}, claim = {}, t) => {
 }
 
 export const statusDescMap = (deal = {}, claim = {}) => {
+  console.log(deal, claim, "asd")
   switch (deal.dealStatus) {
     case "1":
       if (claim.claimID != "0") {

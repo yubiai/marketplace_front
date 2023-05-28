@@ -323,7 +323,7 @@ const MailBoxByOrderId = () => {
                 fontWeight={'600'}
                 onClick={() => updateStatusChannel(false)}
               >
-                {t("Cancel Channel")}
+                {t("Cancel Chat")}
               </Button>)}
             </>
           ) : (

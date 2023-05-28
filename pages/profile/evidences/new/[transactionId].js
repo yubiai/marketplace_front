@@ -91,6 +91,7 @@ const NewEvidence = () => {
         transactionId, global.profile.token);
       const { data } = response;
       setOrderDetail(data.result);
+      console.log(data.result, "data.result")
       loadMsgsByOrderID(data.result);
       const payedAmount = parseInt(data.result.transaction.transactionPayedAmount, 10) || 0;
       setMarksToClaim(generateMarksFromAmount(payedAmount));
@@ -103,15 +104,19 @@ const NewEvidence = () => {
   }
 
   const loadMsgsByOrderID = async (order) => {
-    await channelService.getChannelByOrderId(order._id, global?.profile?.token)
-      .then((res) => {
-        if (res.data && res.data.messages) {
-          setChannelDetail(res.data)
-        }
-      })
-      .catch((err) => {
-        console.error(err)
-      });
+    try {
+      const channelFind = await channelService.findChannel({
+        order_id: order._id
+      }, global.profile.token)
+      const channel = await channelService.getChannelById(channelFind.data.id, global?.profile?.token)
+      if (channel.data && channel.data.messages) {
+        setChannelDetail(channel.data)
+      }
+      return
+    } catch (error) {
+      console.error(error);
+      return
+    }
   }
 
   useEffect(() => {
@@ -359,7 +364,7 @@ const NewEvidence = () => {
       }
     } catch (err) {
       console.error('Error creating a claim for a deal: ', err);
-      if(err.code == 4001){
+      if (err.code == 4001) {
         setLoadingSubmit(false);
         setStateSubmit(3);
         return
@@ -454,7 +459,7 @@ const NewEvidence = () => {
                   color={'white'} _hover={{
                     backgroundColor: "blue.400"
                   }}>
-                 {t("Enable editing")}
+                  {t("Enable editing")}
                 </Button>
               )}
 
