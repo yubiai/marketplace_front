@@ -73,7 +73,7 @@ const MailBoxByOrderId = () => {
    } */
 
   const refreshMessages = async () => {
-    await channelService.getChannelByOrderId(channel && channel.order_id && channel.order_id._id, global && global.profile.token)
+    await channelService.getChannelById(id)
       .then((res) => {
         if (res.data && res.data.messages && res.data.messages.length > 0) {
           setMessages(res.data.messages);
@@ -230,6 +230,18 @@ const MailBoxByOrderId = () => {
                 textDecoration: "underline"
               }}>Mailboxs</Text></Link>
             </BreadcrumbItem>
+
+            {channel.order_id && channel.order_id.transactionHash && (
+              <BreadcrumbItem>
+                <Link href={global &&
+                  global.profile &&
+                  global.profile._id !== channel.buyer._id ? `/profile/orders/as-seller/${channel.order_id.transactionHash}` : `/profile/orders/detail/${channel.order_id.transactionHash}`} cursor={'pointer'} _hover={{
+                    textDecoration: "underline"
+                  }}><Text color="#00abd1" cursor={'pointer'} _hover={{
+                    textDecoration: "underline"
+                  }}>Order</Text></Link>
+              </BreadcrumbItem>
+            )}
 
             <BreadcrumbItem isCurrentPage>
               <Text>Chat</Text>

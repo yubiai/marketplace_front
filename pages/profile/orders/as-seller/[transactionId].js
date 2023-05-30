@@ -144,9 +144,29 @@ const OrderDetail = () => {
     setOperationInProgress(status)
   };
 
-  const redirectToChat = () => {
-    const { _id } = orderDetail
-    router.push(`/profile/mailboxs/id/${_id}`)
+  const redirectToChat = async () => {
+    const { _id } = orderDetail;
+    try {
+      const result = await channelService.findChannel({
+        order_id: _id
+      }, global.profile.token)
+      if (result && result.data && result.data.id) {
+        router.push(`/profile/mailboxs/id/${result.data.id}`)
+      } else {
+        toast({
+          title: "Error",
+          description: "Chat error",
+          position: 'top-right',
+          status: 'warning',
+          duration: 3000,
+          isClosable: true
+        });
+      }
+      return
+    } catch (error) {
+      console.error(error);
+      return
+    }
   };
 
   const getTransactionLink = (transaction = {}, transactionMeta = {}, shortLink = false) => {
