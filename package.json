@@ -19,6 +19,7 @@
     "@walletconnect/ethereum-provider": "^2.4.9",
     "@walletconnect/web3-provider": "^1.6.2",
     "@web3modal/standalone": "^2.3.3",
+    "0xsequence": "^0.43.29",
     "authereum": "0.0.4-beta.186",
     "axios": "^0.27.2",
     "draft-convert": "^2.1.13",

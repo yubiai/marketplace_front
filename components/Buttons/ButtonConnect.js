@@ -3,7 +3,7 @@ import { useTour } from "@reactour/tour";
 import { ethers } from 'ethers';
 import {
   SignInWithLens
-} from '@lens-protocol/widgets-react'
+} from '@lens-protocol/widgets-react';
 
 import {
   Button, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverTrigger, useDisclosure, useToast,
@@ -23,20 +23,20 @@ import {
 
 import { profileService } from '../../services/profileService'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { connectWallet, signInWithEthereum, verifyNetwork } from '../../utils/connectWeb3';
 
 import useTranslation from 'next-translate/useTranslation';
 import { useRouter } from 'next/router';
 
-const ButtonConnect = () => {
+const ButtonConnect = ({ onModalCloseFirst }) => {
   const router = useRouter();
   const toast = useToast();
   const dispatch = useDispatchGlobal();
   const global = useGlobal();
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation("navbar");
-  const { isOpen: isPopoverOpen, onToggle: onPopoverToggle, onClose: onPopoverClose } = useDisclosure()
+  const { isOpen: isPopoverOpen, onClose: onPopoverClose } = useDisclosure()
   const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalClose } = useDisclosure()
 
   const { setIsOpen } = useTour();
@@ -65,13 +65,7 @@ const ButtonConnect = () => {
     })
     return
   }
-
-  useEffect(() => {
-    // Toggle Popover
-    onPopoverToggle()
-    return
-  }, [global.profile]);
-
+  
   const onConnectPoh = async () => {
     setIsLoading(true);
 
@@ -154,7 +148,8 @@ const ButtonConnect = () => {
             type: 'AUTHERROR',
             payload: t('To connect it is necessary to be registered in Proof of Humanity and have your status as registered.')
           });
-          onModalClose()
+          onModalClose();
+          onModalCloseFirst();
           setIsLoading(false)
           return
         }
@@ -177,17 +172,19 @@ const ButtonConnect = () => {
     // JoyTour Initial
     if (profile?.permission === 1) {
       setTimeout(() => {
-        onModalClose()
-        setIsLoading(false)
-        setIsOpen(true)
+        onModalClose();
+        onModalCloseFirst();
+        setIsLoading(false);
+        setIsOpen(true);
         return
       }, 500);
 
       return
     }
 
-    onModalClose()
-    setIsLoading(false)
+    onModalClose();
+    onModalCloseFirst();
+    setIsLoading(false);
     return
   }
 
@@ -241,16 +238,18 @@ const ButtonConnect = () => {
         // JoyTour Initial
         if (profileData && profileData.permission && profileData.permission === 1) {
           setTimeout(() => {
-            onModalClose()
-            setIsLoading(false)
-            setIsOpen(true)
+            onModalClose();
+            onModalCloseFirst();
+            setIsLoading(false);
+            setIsOpen(true);
             return
           }, 500);
 
           return
         }
 
-        onModalClose()
+        onModalClose();
+        onModalCloseFirst();
         setIsLoading(false);
         return
       } catch (error) {
@@ -263,7 +262,8 @@ const ButtonConnect = () => {
           duration: 5000,
           isClosable: true,
         })
-        onModalClose()
+        onModalClose();
+        onModalCloseFirst();
         setIsLoading(false);
         return
       }
@@ -281,6 +281,7 @@ const ButtonConnect = () => {
       isClosable: true,
     })
     onModalClose();
+    onModalCloseFirst();
     setIsLoading(false);
     router.reload();
   }
@@ -289,19 +290,6 @@ const ButtonConnect = () => {
 
   return (
     <>
-      {global && global.profile && (
-        <Button
-          className={'step-connect'}
-          backgroundColor={'white'}
-          color={'#00abd1'}
-          rounded={'full'}
-          w="90%"
-          cursor={'pointer'}
-          isDisabled={isLoading || global.profile && global.profile.eth_address}
-        >
-          {global.profile.eth_address.slice(0, 5) + "..." + global.profile.eth_address.slice(global.profile.eth_address.length - 4)}
-        </Button>
-      )}
       {!global.profile && (
         <Popover
           returnFocusOnClose={false}
@@ -321,7 +309,7 @@ const ButtonConnect = () => {
               onClick={() => onModalOpen()}
               isDisabled={isLoading || global.profile && global.profile.eth_address}
             >
-              {t("Login")}
+              {t("or connect with a crypto wallet")}
             </Button>
 
           </PopoverTrigger>
@@ -342,9 +330,11 @@ const ButtonConnect = () => {
           <ModalCloseButton isDisabled={isLoading} />
           <ModalBody pb={6}>
             {isLoading ? (
-              <Center>
-                <Spinner />
-              </Center>
+              <Box h="120px">
+                <Center>
+                  <Spinner />
+                </Center>
+              </Box>
             ) : (
               <>
                 <Center>

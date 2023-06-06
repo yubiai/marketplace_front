@@ -19,6 +19,16 @@ async function loginLens(payload) {
 }
 
 /**
+ * Login with Sequence
+ * @param {str} walletAddress
+ */
+async function loginSequence(walletAddress, email) {
+  return await axios.post(`/auth/loginsq`, {
+    walletAddress, email
+  })
+}
+
+/**
  * Nonce
  */
 async function nonce() {
@@ -161,6 +171,7 @@ async function addTerms(profile, term, token) {
 export const profileService = {
   login,
   loginLens,
+  loginSequence,
   nonce,
   verifySignature,
   getProfileFromId,
