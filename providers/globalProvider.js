@@ -10,6 +10,7 @@ const initialState = {
   pageIndex: 0,
   subCategory: '',
   meta: false,
+  wallet: null,
   profile: null,
   autherror: null,
   yubiaiPaymentArbitrableInstance: null,
@@ -46,6 +47,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         meta: action.payload,
+      }
+    case 'WALLETACTIVE':
+      return {
+        ...state,
+        wallet: action.payload,
       }
     case 'SET_YUBIAI_ARBITRABLE_INSTANCE':
       return {

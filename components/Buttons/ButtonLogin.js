@@ -1,5 +1,5 @@
 import {
-    Button, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverTrigger, useDisclosure, useToast,
+    Button, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverTrigger, useDisclosure,
     //useMediaQuery
     Modal,
     ModalOverlay,
@@ -8,31 +8,33 @@ import {
     ModalFooter,
     ModalBody,
     ModalCloseButton,
-    Box,
     Center,
     Spinner,
-} from '@chakra-ui/react'
-import Cookies from 'js-cookie'
-import { useDispatchGlobal, useGlobal } from "../../providers/globalProvider";
-import { sequence } from '0xsequence'
+    Box
+} from '@chakra-ui/react';
+//import Cookies from 'js-cookie';
+import { useGlobal } from "../../providers/globalProvider";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ButtonConnect from './ButtonConnect';
-import { profileService } from '../../services/profileService';
-import { useTour } from '@reactour/tour';
-
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { useAccount } from 'wagmi';
 
 const ButtonLogin = () => {
-    const toast = useToast();
-    const dispatch = useDispatchGlobal();
+/*     const toast = useToast();
+    const dispatch = useDispatchGlobal(); */
     const global = useGlobal();
     const { t } = useTranslation("navbar");
+    const { isConnected } = useAccount();
 
-    const [isLoading, setIsLoading] = useState(false);
 
-    const { isOpen: isPopoverOpen, onToggle: onPopoverToggle, onClose: onPopoverClose } = useDisclosure()
-    const { isOpen: isModalOpen, onOpen: onModalOpen, onClose: onModalCloseFirst } = useDisclosure()
-    const { setIsOpen } = useTour();
+    const [isLoading, /* setIsLoading */] = useState(false);
+
+    const { isOpen: isPopoverOpen, onToggle: onPopoverToggle, onClose: onPopoverClose } = useDisclosure();
+    const { isOpen: isModalOpen, onClose: onModalCloseFirst } = useDisclosure();
+    //const { setIsOpen } = useTour();
+
+    //const disableActions = !isConnected
 
     useEffect(() => {
         // Toggle Popover
@@ -40,6 +42,14 @@ const ButtonLogin = () => {
         return
     }, [global.profile]);
 
+    useEffect(() => {
+        if (isConnected) {
+            console.log('Wallet connected!')
+        } else {
+            console.log("Wallet no coneccted")
+        }
+    }, [isConnected])
+/* 
     const authGlobalAndCookies = (profile, token) => {
 
         dispatch({
@@ -63,104 +73,10 @@ const ButtonLogin = () => {
             isClosable: true
         })
         return
-    }
+    } */
 
     // SQ
-    // Configure Sequence wallet
-    const walletAppURL = process.env.VITE_WALLET_APP_URL || 'https://sequence.app'
-    const network = 'mainnet'
-
-    sequence.initWallet(network, { walletAppURL })
-    const defaultConnectOptions = {
-        app: 'Yubiai',
-        askForEmail: true
-        // keepWalletOpened: true,
-    }
-    const [isWalletConnected, setIsWalletConnected] = useState(false)
-
-    // Methods
-    const connectSq = async (connectOptions) => {
-        if (isWalletConnected) {
-
-            console.log('Wallet already connected!')
-            return
-        }
-
-        connectOptions = {
-            ...defaultConnectOptions,
-            ...connectOptions,
-            settings: {
-                ...defaultConnectOptions?.settings,
-                ...connectOptions?.settings
-            }
-        }
-
-        try {
-
-            console.log('Connecting')
-            const wallet = sequence.getWallet()
-
-            const connectDetails = await wallet.connect(connectOptions)
-
-            console.warn('connectDetails', { connectDetails })
-
-            // Example of how to verify using ETHAuth via Sequence API
-            if (connectOptions.authorize) {
-                const api = new sequence.api.SequenceAPIClient('https://api.sequence.app')
-                const { isValid } = await api.isValidETHAuthProof({
-                    chainId: 'mainnet',
-                    walletAddress: connectDetails.session.accountAddress,
-                    ethAuthProofString: connectDetails.proof.proofString
-                })
-                console.log('isValid?', isValid)
-            }
-            if (connectDetails.connected) {
-                console.log('Wallet connected!')
-                try {
-                    const res = await profileService.loginSequence(connectDetails.session.accountAddress, connectDetails.email);
-
-                    dispatch({
-                        type: 'AUTHERROR',
-                        payload: null
-                    });
-
-                    const token = res.data.token;
-                    const profileData = res.data.data;
-
-                    authGlobalAndCookies(profileData, token);
-                    // JoyTour Initial
-                    if (profileData && profileData.permission && profileData.permission === 1) {
-                        setTimeout(() => {
-                            onModalCloseFirst();
-                            setIsLoading(false);
-                            setIsOpen(true);
-                            return
-                        }, 500);
-
-                        return
-                    }
-                    setIsWalletConnected(true)
-
-                    onModalCloseFirst();
-                    setIsLoading(false);
-                    return
-                } catch (error) {
-                    setIsWalletConnected(false)
-                    onModalCloseFirst()
-                    console.error(error);
-                    return
-                }
-
-            } else {
-                console.log('Failed to connect wallet - ' + connectDetails.error)
-                onModalCloseFirst()
-            }
-        } catch (e) {
-            console.error(e)
-            return
-        }
-    }
-
+    
     return (
         <>
             {global && global.profile && (
@@ -185,18 +101,97 @@ const ButtonLogin = () => {
                     closeOnBlur={false}
                 >
                     <PopoverTrigger>
-                        <Button
-                            className={'step-connect'}
-                            backgroundColor={'white'}
-                            color={'#00abd1'}
-                            rounded={'full'}
-                            w="90%"
-                            cursor={'pointer'}
-                            onClick={() => onModalOpen()}
-                            isDisabled={isLoading || global.profile && global.profile.eth_address}
-                        >
-                            {t("Login")}
-                        </Button>
+                        <ConnectButton.Custom>
+                            {({
+                                account,
+                                chain,
+                                openAccountModal,
+                                openChainModal,
+                                openConnectModal,
+                                authenticationStatus,
+                                mounted,
+                            }) => {
+                                // Note: If your app doesn't use authentication, you
+                                // can remove all 'authenticationStatus' checks
+                                const ready = mounted && authenticationStatus !== 'loading';
+                                const connected =
+                                    ready &&
+                                    account &&
+                                    chain &&
+                                    (!authenticationStatus ||
+                                        authenticationStatus === 'authenticated');
+
+                                return (
+                                    <div
+                                        {...(!ready && {
+                                            'aria-hidden': true,
+                                            'style': {
+                                                opacity: 0,
+                                                pointerEvents: 'none',
+                                                userSelect: 'none',
+                                            }
+                                        })}
+                                    >
+                                        {(() => {
+                                            if (!connected) {
+                                                return (
+                                                    <Button style={{ marginBottom: '20px' }} onClick={openConnectModal} type="button">
+                                                        Connect Wallet
+                                                    </Button>
+                                                );
+                                            }
+
+                                            if (chain.unsupported) {
+                                                return (
+                                                    <Button onClick={openChainModal} type="button">
+                                                        Wrong network
+                                                    </Button>
+                                                );
+                                            }
+
+                                            return (
+                                                <div style={{ display: 'flex', gap: 12 }}>
+                                                    <Button
+                                                        onClick={openChainModal}
+                                                        style={{ display: 'flex', alignItems: 'center' }}
+                                                        type="button"
+                                                    >
+                                                        {chain.hasIcon && (
+                                                            <div
+                                                                style={{
+                                                                    background: chain.iconBackground,
+                                                                    width: 12,
+                                                                    height: 12,
+                                                                    borderRadius: 999,
+                                                                    overflow: 'hidden',
+                                                                    marginRight: 4,
+                                                                }}
+                                                            >
+                                                                {chain.iconUrl && (
+                                                                    <img
+                                                                        alt={chain.name ?? 'Chain icon'}
+                                                                        src={chain.iconUrl}
+                                                                        style={{ width: 12, height: 12 }}
+                                                                    />
+                                                                )}
+                                                            </div>
+                                                        )}
+                                                        {chain.name}
+                                                    </Button>
+
+                                                    <Button onClick={openAccountModal} type="button">
+                                                        {account.displayName}
+                                                        {account.displayBalance
+                                                            ? ` (${account.displayBalance})`
+                                                            : ''}
+                                                    </Button>
+                                                </div>
+                                            );
+                                        })()}
+                                    </div>
+                                );
+                            }}
+                        </ConnectButton.Custom>
 
                     </PopoverTrigger>
                     <PopoverContent width={{ base: '260px', md: 'full' }} pr={{ base: '0px', md: '1.5em' }}>
@@ -208,6 +203,7 @@ const ButtonLogin = () => {
                     </PopoverContent>
                 </Popover>
             )}
+
             <Modal closeOnOverlayClick={false} isOpen={isModalOpen} onClose={onModalCloseFirst}>
                 <ModalOverlay />
                 <ModalContent>
@@ -220,11 +216,7 @@ const ButtonLogin = () => {
                             </Center>
                         ) : (
                             <>
-                                <Center>
-                                    <Button rounded={"full"} fontSize={"18px"} fontWeight={"light"} colorScheme='teal' size='lg' w="100%" onClick={() => connectSq()}>
-                                        {t("Connect email")}
-                                    </Button>
-                                </Center>
+
                                 <Center>
                                     <Box mt="1em">
                                         <ButtonConnect onModalCloseFirst={onModalCloseFirst} />

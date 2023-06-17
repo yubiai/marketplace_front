@@ -14,6 +14,10 @@ const Logout = () => {
         type: 'AUTHPROFILE',
         payload: null,
       })
+      dispatch({
+        type: 'WALLETACTIVE',
+        payload: null
+      })
       localStorage.removeItem('Yubiai')
       Cookies.remove('Yubiai')
       setTimeout(() => {

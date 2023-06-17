@@ -3,13 +3,10 @@ import { Box, Flex, Button, Container, Image, Center } from '@chakra-ui/react'
 import LanguageChange from '../Menus/LanguageChange'
 import DrawerMenu from '../Menus/DrawerMenu'
 import SearchBar from './SearchBar'
-import { useGlobal } from '../../providers/globalProvider'
-import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
 import useTranslation from 'next-translate/useTranslation';
-import ButtonLogin from '../Buttons/ButtonLogin'
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Header = () => {
-  const global = useGlobal()
   const { t } = useTranslation("navbar");
 
   return (
@@ -52,8 +49,10 @@ const Header = () => {
           mt={'15px'} 
           display={{ base: 'none', md: 'flex' }}
           width="330px">
-            <ButtonSwitchNetwork bg={"white"} color={'#00abd1'} />
-            {global.meta ? <ButtonLogin /> : ''}
+                  <ConnectButton />
+
+            {/* {global.wallet === 'metamask' && <ButtonSwitchNetwork bg={"white"} color={'#00abd1'} />}
+            {global.meta ? <ButtonLogin /> : ''} */}
           </Center>
           <DrawerMenu />
         </Flex>

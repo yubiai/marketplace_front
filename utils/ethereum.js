@@ -1,6 +1,7 @@
 import { ethers } from 'ethers'
 import genericErc20Abi from '../providers/Erc20.json'
 import { etherscanService } from '../services/etherscanService'
+import createKeccakHash from 'keccak';
 
 // Login Metamask
 const loginMetamask = async () => {
@@ -88,4 +89,29 @@ const balanceUbi2 = async (wallet) => {
   }
 }
 
-export { loginMetamask, verifyNetwork, balanceUbi1, balanceUbi2 }
+
+// EIP 55 address wallet
+function toChecksumAddress(address) {
+  return new Promise((resolve, reject) => {
+    try {
+      address = address.toLowerCase().replace('0x', '')
+      var hash = createKeccakHash('keccak256').update(address).digest('hex')
+      var ret = '0x'
+    
+      for (var i = 0; i < address.length; i++) {
+        if (parseInt(hash[i], 16) >= 8) {
+          ret += address[i].toUpperCase()
+        } else {
+          ret += address[i]
+        }
+      }
+    
+      return resolve(ret)
+    } catch (error) {
+      console.error(error);
+      return reject(false);
+    }
+  })
+}
+
+export { loginMetamask, verifyNetwork, balanceUbi1, balanceUbi2, toChecksumAddress }

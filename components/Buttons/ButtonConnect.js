@@ -165,6 +165,11 @@ const ButtonConnect = ({ onModalCloseFirst }) => {
       payload: null
     });
 
+    dispatch({
+      type: 'WALLETACTIVE',
+      payload: 'metamask',
+    })
+
     const token = res.data.token;
     const profile = res.data.data;
 
@@ -247,6 +252,11 @@ const ButtonConnect = ({ onModalCloseFirst }) => {
 
           return
         }
+
+        dispatch({
+          type: 'WALLETACTIVE',
+          payload: 'metamask',
+        })
 
         onModalClose();
         onModalCloseFirst();
