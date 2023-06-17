@@ -34,3 +34,6 @@ yarn-error.log*
 .vercel
 
 info.txt
+
+/pages/test.js
+/pages/componentss
