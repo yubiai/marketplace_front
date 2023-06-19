@@ -51,6 +51,14 @@ const listChains = process.env.NEXT_PUBLIC_ENV === "prod" ? [{
     aliasTitle: 'sepolia',
     currency: "SEP",
     rpcUrls: ['https://rpc2.sepolia.org/']
+  },
+  {
+    id: 274,
+    chainID: "0x112",
+    title: "LaChain",
+    aliasTitle: 'lachain',
+    currency: "LAC",
+    rpcUrls: ['https://rpc1.mainnet.lachain.network']
   }
 ];
 
@@ -91,6 +99,8 @@ const getBlockExplorerForNetwork = (networkType) => {
       return 'https://bscscan.com';
     case 'sepolia':
       return 'https://sepolia.etherscan.io'
+    case 'lachain':
+      return 'https://explorer.lachain.network/'
     default:
       return '';
   }
@@ -100,6 +110,7 @@ const getBlockExplorerForNetwork = (networkType) => {
  * TODO: Refactorizar, juntando esta logica con orderProvider.getSettingsByNetwork
  */
 const getContractsForNetwork = (networkType) => {
+  console.log(networkType, "networkType contract for network")
   switch (networkType) {
     case 'goerli':
       return {
@@ -115,6 +126,11 @@ const getContractsForNetwork = (networkType) => {
       return {
         yubiaiArbitrable: process.env.NEXT_PUBLIC_SEPOLIA_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
         yubiaiArbitrator: process.env.NEXT_PUBLIC_SEPOLIA_ARBITRATOR
+      }
+    case 'lachain':
+      return {
+        yubiaiArbitrable: process.env.NEXT_PUBLIC_LACHAIN_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
+        yubiaiArbitrator: process.env.NEXT_PUBLIC_LACHAIN_ARBITRATOR
       }
     case 'gnosis':
       return {

@@ -111,6 +111,7 @@ const setYubiaiInstance = async dispatch => {
  * TODO: Refactorizar, juntando esta logica con walletUtils.getCurrentNetwork
  */
 const getSettingsByNetwork = networkType => {
+  console.log(networkType, "networkType")
   if (networkType === 'goerli') {
     return {
       NEXT_PUBLIC_NETWORK: process.env.NEXT_PUBLIC_NETWORK_GOERLI,
@@ -121,6 +122,12 @@ const getSettingsByNetwork = networkType => {
     return {
       NEXT_PUBLIC_NETWORK: process.env.NEXT_PUBLIC_NETWORK_SEPOLIA,
       NEXT_PUBLIC_INFURA_ENDPOINT: process.env.NEXT_PUBLIC_INFURA_ENDPOINT_SEPOLIA
+    }
+  }
+  if (networkType === 'lachain') {
+    return {
+      NEXT_PUBLIC_NETWORK: process.env.NEXT_PUBLIC_NETWORK_LACHAIN,
+      NEXT_PUBLIC_INFURA_ENDPOINT: process.env.NEXT_PUBLIC_INFURA_ENDPOINT_LACHAIN
     }
   }
   if (networkType === 'gnosis') {
@@ -140,6 +147,7 @@ const loadCurrencyPrices = async (dispatch, global, networkType) => {
   const resp = await priceService.getCurrencyPrices(
     naming, global && global.profile && global.profile.token);
   const { data } = resp;
+  console.log(naming, data, "data currency")
   dispatch({
     type: 'SET_CURRENCY_PRICE_LIST',
     payload: [...data],

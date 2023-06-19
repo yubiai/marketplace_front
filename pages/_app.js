@@ -1,7 +1,9 @@
 
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from '../styles/theme'
-
+import {
+  SignInWithLens
+} from '@lens-protocol/widgets-react';
 import '../styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 
@@ -39,11 +41,11 @@ import { goerli, gnosis } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import axios from 'axios';
 import { useState } from 'react';
-
+import { lachain } from '../utils/escrow-utils/chainsList';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
-    gnosis,
+    gnosis, lachain,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli, sepolia] : []),
   ],
   [publicProvider()]
@@ -98,9 +100,7 @@ function MyApp({ Component, pageProps }) {
   const authenticationAdapter = createAuthenticationAdapter({
 
     getNonce: async () => {
-      console.log("Get Nonce")
       const response = await axios.get(`/auth/nonce`);
-      console.log(response.data, "response.text()")
       return await response.data;
     },
 
@@ -137,12 +137,10 @@ function MyApp({ Component, pageProps }) {
           return Boolean(true);
         } else {
           // Metamask
-          console.log(signature, "signature")
           const verifyRes = await axios.post(`/auth/verifysignature`, {
             message, signature
           });
-          console.log(verifyRes, "verifyRes")
-
+          
           setAuthenticationStatus(verifyRes.data == true ? "authenticated" : "unauthenticated");
           return Boolean(true);
         }
@@ -158,6 +156,10 @@ function MyApp({ Component, pageProps }) {
       setAuthenticationStatus("unauthenticated");
     },
   });
+
+  async function onSignIn(tokens, profile) {
+    console.log(tokens, profile)
+  }
 
   return (
     <WagmiConfig config={wagmiConfig}>
@@ -181,6 +183,8 @@ function MyApp({ Component, pageProps }) {
                     <MetaErrorAlert />
                     <Component {...pageProps} />
                     <Footer />
+
+
                   </TourGuideProvider>
                 </AuthProvider>
               </SWRConfig>
@@ -189,6 +193,17 @@ function MyApp({ Component, pageProps }) {
           </ChakraProvider>
         </RainbowKitProvider>
       </RainbowKitAuthenticationProvider>
+      <div style={{
+        position: 'absolute',
+        top: '-9999px',
+        left: '-9999px',
+      }}>
+        <SignInWithLens
+          size={"large"} theme={"default"}
+          onSignIn={onSignIn}
+        />
+      </div>
+
     </WagmiConfig>
   )
 }

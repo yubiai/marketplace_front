@@ -107,6 +107,7 @@ const NewListing = () => {
 
     const loadCurrencies = async () => {
       const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
+      console.log(networkType, "networkType")
       loadCurrencyPrices(dispatch, global, networkType);
     }
     async function initialArbInstance(){
@@ -133,6 +134,7 @@ const NewListing = () => {
     initialArbInstance();
 
     if (user && !global.currencyPriceList.length && global.profile && global.yubiaiPaymentArbitrableInstance) {
+      console.log("Se activo el currency list price")
       loadCurrencies();
       return
     }
