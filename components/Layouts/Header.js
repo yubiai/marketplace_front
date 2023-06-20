@@ -45,14 +45,11 @@ const Header = () => {
           </Center>
 
           {/* Language */}
-          <Center 
-          mt={'15px'} 
-          display={{ base: 'none', md: 'flex' }}
-          width="330px">
-                  <ConnectButton />
-
-            {/* {global.wallet === 'metamask' && <ButtonSwitchNetwork bg={"white"} color={'#00abd1'} />}
-            {global.meta ? <ButtonLogin /> : ''} */}
+          <Center
+            mt={'15px'}
+            display={{ base: 'none', md: 'flex' }}
+            width="330px">
+            <ConnectButton />
           </Center>
           <DrawerMenu />
         </Flex>

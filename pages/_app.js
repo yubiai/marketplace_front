@@ -36,17 +36,15 @@ import {
 } from '@rainbow-me/rainbowkit/wallets';
 import { sequenceWallet } from '@0xsequence/rainbowkit-plugin'
 
-import { configureChains, createConfig, sepolia, WagmiConfig } from 'wagmi';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { goerli, gnosis } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import axios from 'axios';
 import { useState } from 'react';
-import { lachain } from '../utils/escrow-utils/chainsList';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
-    gnosis, lachain,
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli, sepolia] : []),
+    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : [gnosis]),
   ],
   [publicProvider()]
 );
@@ -66,7 +64,7 @@ const connectors = connectorsForWallets([
         chains,
         connect: {
           app: projectId,
-          networkId: 100,
+          networkId: process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? 5 : 100,
           authorize: true
         }
       })

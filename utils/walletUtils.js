@@ -7,18 +7,18 @@ const listChains = process.env.NEXT_PUBLIC_ENV === "prod" ? [{
   rpcUrls: ['https://rpc.gnosischain.com']
 }
 ] : [
+  {
+    id: 5,
+    chainID: "0x5",
+    title: "Görli",
+    aliasTitle: 'goerli',
+    currency: "ETH"
+  },
   /*   {
       id: 1,
       chainID: "0x1",
       title: "Ethereum",
       aliasTitle: 'mainnet',
-      currency: "ETH"
-    },
-    {
-      id: 5,
-      chainID: "0x5",
-      title: "Görli",
-      aliasTitle: 'goerli',
       currency: "ETH"
     },
     {
@@ -43,7 +43,7 @@ const listChains = process.env.NEXT_PUBLIC_ENV === "prod" ? [{
     aliasTitle: 'gnosis',
     currency: "xDAI",
     rpcUrls: ['https://rpc.gnosischain.com']
-  },*/
+  },
   {
     id: 11155111,
     chainID: "0xaa36a7",
@@ -53,13 +53,13 @@ const listChains = process.env.NEXT_PUBLIC_ENV === "prod" ? [{
     rpcUrls: ['https://rpc2.sepolia.org/']
   },
   {
-    id: 274,
-    chainID: "0x112",
-    title: "LaChain",
-    aliasTitle: 'lachain',
-    currency: "LAC",
-    rpcUrls: ['https://rpc1.mainnet.lachain.network']
-  }
+    id: 80001,
+    chainID: "0x13881",
+    title: "Matic",
+    aliasTitle: 'matic',
+    currency: "TST",
+    rpcUrls: ['https://rpc2.sepolia.org/']
+  }*/
 ];
 
 const getCurrentNetwork = () => {
@@ -71,6 +71,7 @@ const getCurrentNetwork = () => {
 
   if (window && window.ethereum && window.ethereum.networkVersion) {
     const networkVersion = window.ethereum.networkVersion;
+    console.log(networkVersion, "networkVersion")
     const data = getNetwork(parseInt(networkVersion, 10));
     return data;
   }
@@ -99,8 +100,8 @@ const getBlockExplorerForNetwork = (networkType) => {
       return 'https://bscscan.com';
     case 'sepolia':
       return 'https://sepolia.etherscan.io'
-    case 'lachain':
-      return 'https://explorer.lachain.network/'
+    case 'mumbai':
+      return 'https://mumbai.polygonscan.com'
     default:
       return '';
   }
@@ -127,10 +128,10 @@ const getContractsForNetwork = (networkType) => {
         yubiaiArbitrable: process.env.NEXT_PUBLIC_SEPOLIA_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
         yubiaiArbitrator: process.env.NEXT_PUBLIC_SEPOLIA_ARBITRATOR
       }
-    case 'lachain':
+    case 'matic':
       return {
-        yubiaiArbitrable: process.env.NEXT_PUBLIC_LACHAIN_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
-        yubiaiArbitrator: process.env.NEXT_PUBLIC_LACHAIN_ARBITRATOR
+        yubiaiArbitrable: process.env.NEXT_PUBLIC_MUMBAI_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
+        yubiaiArbitrator: process.env.NEXT_PUBLIC_MUMBAI_ARBITRATOR
       }
     case 'gnosis':
       return {
