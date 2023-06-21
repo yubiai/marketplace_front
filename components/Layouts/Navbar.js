@@ -35,12 +35,13 @@ const Navbar = () => {
           {NAV_ITEMS.map((navItem) => {
             if (navItem && navItem.label) {
               return (
-                <Box key={navItem.label}>
+                <Box key={navItem.label} >
                   <Popover trigger={'hover'} placement={'bottom-start'}>
-                    <PopoverTrigger>
+                    <PopoverTrigger >
                       {navItem.external ? (
-                        <a href={navItem.href} target="_blank" rel="noopener noreferrer">
+                        <a href={navItem.href} target="_blank" rel="noopener noreferrer" >
                           <Button
+                            //border={'solid red'}
                             className={navItem.guide}
                             p={2}
                             fontSize={'16px'}
@@ -52,7 +53,7 @@ const Navbar = () => {
                               color: linkHoverColor,
                             }}
                           >
-                            Bridge
+                            To Fiat
                           </Button>
                         </a>
                       ) : (
@@ -81,7 +82,10 @@ const Navbar = () => {
                         bg={popoverContentBgColor}
                         p={4}
                         rounded={'xl'}
-                        minW={'sm'}
+                        //minW={'sm'}
+                        width={'100%'}
+                        maxW={'fit-content'}
+                        padding={'10px'}
                       >
                         <Stack>
                           {navItem.children.map((child) => (
@@ -102,16 +106,18 @@ const Navbar = () => {
 
   const DesktopSubNav = ({ label, href }) => {
     return (
-      <Link href={`${href}`}>
+      <Link href={`${href}`}  width={'100%'}
+      maxWidth={'fit-content'}>
         <Button
           role={'group'}
           display={'block'}
           rounded={'md'}
-          width={'full'}
+          width={'100%'}
+          maxWidth={'fit-content'}
           _hover={{ bg: 'blue.50' }}
         >
-          <Stack direction={'row'} align={'center'}>
-            <Box>
+          <Stack direction={'row'} align={'center'} >
+            <Box >
               <Text transition={'all .3s ease'} fontWeight={500}>
                 {label}
               </Text>
@@ -145,10 +151,21 @@ const Navbar = () => {
       guide: 'step-favourites'
     },
     {
-      label: 'Bridge',
-      href: 'https://bridge.connext.network/?receivingChainId=100',
-      guide: 'step-bridge',
-      external: true
+      label: t('To Fiat'),
+      children: [
+        {
+          label: 'PayDece',
+          href: 'https://app.paydece.io/',
+          guide: 'step-tofiat',
+          external: true
+        },
+        {
+          label: 'Bridge',
+          href: 'https://bridge.connext.network/?receivingChainId=100',
+          guide: 'step-bridge',
+          external: true
+        }
+      ],
     },
     {
       label: t('Help'),
@@ -167,7 +184,7 @@ const Navbar = () => {
         <Container maxW="container.xl">
           <Flex color={'black'} minH={'60px'} align={'center'}>
             <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'center' }}>
-              <Flex>
+              <Flex >
                 <DesktopNav />
               </Flex>
             </Flex>

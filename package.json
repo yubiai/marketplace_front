@@ -17,6 +17,7 @@
     "@lens-protocol/widgets-react": "^0.0.11",
     "@reactour/tour": "^3.1.6",
     "@walletconnect/ethereum-provider": "^2.4.9",
+    "@walletconnect/modal": "^2.4.7",
     "@walletconnect/web3-provider": "^1.6.2",
     "@web3modal/standalone": "^2.3.3",
     "authereum": "0.0.4-beta.186",
