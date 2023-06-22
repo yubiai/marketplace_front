@@ -45,6 +45,8 @@ import Loading from '../../components/Spinners/Loading';
 import RichTextReadOnly from '../../components/Utils/richTextReadOnly';
 import { profileService } from '../../services/profileService';
 import useTranslation from 'next-translate/useTranslation';
+import { useAccount } from 'wagmi';
+import { getNetwork, writeContract } from '@wagmi/core';
 
 const Checkout = () => {
   const global = useGlobal();
@@ -58,6 +60,9 @@ const Checkout = () => {
   const [term, setTerm] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadingTerm, setLoadingTerm] = useState(false);
+  const { address, connector } = useAccount()
+  const { chain } = getNetwork()
+
 
   const { user, loggedOut } = useUser()
 
@@ -157,17 +162,29 @@ const Checkout = () => {
     return
   }
 
-  useEffect(() => {
 
-    const loadCurrencies = async () => {
-      const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
-      loadCurrencyPrices(dispatch, global, networkType);
-    };
+  const loadOrder = async () => {
+    const result = await loadOrderData(
+      { ...global.itemToCheckout },
+      global.currencyPriceList
+    )
+    const { orderInfo, transaction } = result
+    console.log(orderInfo, "ORDERINFO")
+    setOrderData(orderInfo)
+    setTransactionData(transaction)
+  };
 
-    async function initialArbInstance(){
+  const loadCurrencies = async () => {
+    const networkType = connector && connector.id === "metaMask" ? await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType() : chain && chain.name || null;
+    console.log(networkType, "networkType")
+    loadCurrencyPrices(dispatch, global, networkType);
+  };
+
+  const contractMetamask = () => {
+    async function initialArbInstance() {
       if (!global.yubiaiPaymentArbitrableInstance) {
         const res = await setYubiaiInstance(dispatch);
-        if(!res){
+        if (!res) {
           toast({
             title: "Wrong Network",
             description: "Change the network to one that is enabled.",
@@ -187,17 +204,6 @@ const Checkout = () => {
 
     initialArbInstance();
 
-    const loadOrder = async () => {
-      const result = await loadOrderData(
-        { ...global.itemToCheckout },
-        global.currencyPriceList
-      )
-      const { orderInfo, transaction } = result
-      console.log(orderInfo, "ORDERINFO")
-      setOrderData(orderInfo)
-      setTransactionData(transaction)
-    };
-
     if (!global.currencyPriceList.length && (global.yubiaiPaymentArbitrableInstance || {}).web3) {
       loadCurrencies();
       return;
@@ -211,10 +217,50 @@ const Checkout = () => {
       verifyTyC()
       loadOrder();
     }
+  }
+
+  useEffect(() => {
+    console.log(connector, "connector")
+    console.log(address, "address")
+    console.log(chain, "chain")
+
+
+    // Sequence
+    if (connector && connector.id === "sequence") {
+      console.log("sequence")
+
+      if (!global.currencyPriceList.length) {
+        loadCurrencies();
+        return;
+      }
+
+      if (!global.itemToCheckout && connector) {
+        return;
+      }
+
+      if (!transactionData.extraData && connector) {
+        verifyTyC()
+        loadOrder();
+      }
+
+      setLoading(false)
+
+
+    }
+
+
+    // Metamask
+    if (connector && connector.id === "metaMask") {
+      contractMetamask()
+    }
+
+    return
   }, [transactionData, global.itemToCheckout, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance])
 
   const createOrder = async (transactionResult = {}) => {
-    const currentWalletAccount = await global.yubiaiPaymentArbitrableInstance.getAccount();
+    const currentWalletAccount = connector && connector.id === "metaMask" ? await global.yubiaiPaymentArbitrableInstance.getAccount() : address;
+    console.log(currentWalletAccount, "currentWalletAccount");
+
     const orderResponse = await orderService.createOrder(
       {
         order: {
@@ -377,16 +423,32 @@ const Checkout = () => {
                     {t("When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service")}{' '}
                   </Alert>
                   <Stack mt={8}>
-                    <ButtonCheckout
-                      transactionInfo={transactionData}
-                      toggleLoadingStatus={toggleLoadingStatus}
-                      createOrder={createOrder}
-                      operationInProgress={operationInProgress}
-                      currency={(orderData.item || {}).currencySymbolPrice}
-                      burnFee={sliderValue}
-                      yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                      t={t}
-                    />
+                    {connector.id === "sequence" && (
+                      <ButtonCheckout
+                        transactionInfo={transactionData}
+                        toggleLoadingStatus={toggleLoadingStatus}
+                        createOrder={createOrder}
+                        operationInProgress={operationInProgress}
+                        currency={(orderData.item || {}).currencySymbolPrice}
+                        burnFee={sliderValue}
+                        yubiaiPaymentArbitrableInstance={null}
+                        address={address}
+                        writeContract={writeContract}
+                        t={t}
+                      />
+                    )}
+                    {connector.id === "metaMask" && (
+                      <ButtonCheckout
+                        transactionInfo={transactionData}
+                        toggleLoadingStatus={toggleLoadingStatus}
+                        createOrder={createOrder}
+                        operationInProgress={operationInProgress}
+                        currency={(orderData.item || {}).currencySymbolPrice}
+                        burnFee={sliderValue}
+                        yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                        t={t}
+                      />
+                    )}
                   </Stack>
                 </>
               )}

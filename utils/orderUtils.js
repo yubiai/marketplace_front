@@ -21,6 +21,7 @@ const translateStatusIdToNamingInTransaction = (statusId = 0) => {
 
 const getProtocolNamingFromNetwork = (network) => {
     const capitalNameNetwork = network?.charAt(0).toUpperCase() + network?.slice(1);
+    console.log(capitalNameNetwork, "capitalNameNetwork")
     return network !== 'Mainnet' ? `${capitalNameNetwork} ERC20` : 'ERC20';
 }
 
@@ -110,9 +111,15 @@ const calculateFinishDate = (transactionDate, claimCount, claimSolvedAt) => {
 
 const parserForWei = (value) => {
     const valorBigNumber = ethers.BigNumber.from(value.toString());
+    console.log(valorBigNumber, "valorBigNumber")
     const valorEnEther = ethers.utils.formatEther(valorBigNumber);
     const valorEnFloat = parseFloat(valorEnEther).toFixed(5);
     return valorEnFloat;
+}
+
+const forToWei = (value) => {
+    const wei = ethers.utils.parseEther(value.toString());
+    return wei.toString();
 }
 
 
@@ -124,5 +131,6 @@ export {
     parseFromAToBToken,
     translateStatusIdToNamingInTransaction,
     calculateFinishDate,
-    parserForWei
+    parserForWei,
+    forToWei
 }

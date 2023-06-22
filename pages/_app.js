@@ -35,7 +35,7 @@ import {
 import { sequenceWallet } from '@0xsequence/rainbowkit-plugin'
 
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { goerli, gnosis } from 'wagmi/chains';
+import { gnosis, goerli, polygon } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import axios from 'axios';
 import { useState } from 'react';
@@ -43,7 +43,7 @@ import { useRouter } from 'next/router';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
-    ...(process.env.NEXT_PUBLIC_ENV === 'dev' ? [goerli] : [gnosis]),
+    ...(process.env.NEXT_PUBLIC_ENV === 'dev' ? [goerli, polygon] : [gnosis]),
   ],
   [publicProvider()]
 );
@@ -63,7 +63,7 @@ const connectors = connectorsForWallets([
         chains,
         connect: {
           app: projectId,
-          networkId: process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? 5 : 100,
+          networkId: 5,
           authorize: true,
           askForEmail: true
         }
