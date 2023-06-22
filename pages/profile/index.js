@@ -1,12 +1,10 @@
 import { Box, Breadcrumb, BreadcrumbItem, Text } from '@chakra-ui/react'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
-import MyInfoPohCard from '../../components/Cards/MyInfoPohCard'
+import { useEffect } from 'react'
 import MyInfoPrivateCard from '../../components/Cards/MyInfoPrivateCard'
 import ProfileMenu from '../../components/Menus/ProfileMenu'
 import Loading from '../../components/Spinners/Loading'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
-import { balanceUbi1 } from '../../utils/ethereum'
 import useFetch from '../../hooks/data/useFetch'
 import Error from '../../components/Infos/Error'
 import useUser from '../../hooks/data/useUser'
@@ -34,8 +32,6 @@ const Profile = () => {
     }
   }, [user, loggedOut, router])
 
-  const [balanceToken, setBalanceToken] = useState(null)
-
   const {
     data: profile,
     isLoading,
@@ -47,16 +43,7 @@ const Profile = () => {
     global && global.profile && global.profile.token
   )
 
-  useEffect(() => {
-    const getInitBalance = async () => {
-      if (profile) {
-        await balanceUbi1(profile.eth_address || null).then((res) => {
-          setBalanceToken(res)
-        })
-      }
-    }
-    getInitBalance()
-  }, [profile])
+
 
   if (isLoading || !user || !profile) return <Loading />
 
@@ -97,8 +84,8 @@ const Profile = () => {
           )}
           <Text fontWeight={'bold'}>{t("Personal Info")}</Text>
           <MyInfoPrivateCard dataProfile={profile} t={t} />
-          <Text fontWeight={'bold'}>{t("Proof of humanity Information")}</Text>
-          <MyInfoPohCard dataProfile={profile} balance={balanceToken} t={t} />
+          {/* <Text fontWeight={'bold'}>{t("Proof of humanity Information")}</Text>
+          <MyInfoPohCard dataProfile={profile} balance={balanceToken} t={t} /> */}
           <Text fontWeight={'bold'}>{t("Lens Protocol Information")}</Text>
           <MyInfoLensCard dataProfile={profile} t={t} />
         </Box>

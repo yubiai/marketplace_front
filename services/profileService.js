@@ -22,9 +22,9 @@ async function loginLens(payload) {
  * Login with Sequence
  * @param {str} walletAddress
  */
-async function loginSequence(walletAddress, email) {
+async function loginSequence(walletAddress) {
   return await axios.post(`/auth/loginsq`, {
-    walletAddress, email
+    walletAddress
   })
 }
 

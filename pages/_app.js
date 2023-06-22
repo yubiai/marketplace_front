@@ -1,9 +1,7 @@
 
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from '../styles/theme'
-import {
-  SignInWithLens
-} from '@lens-protocol/widgets-react';
+
 import '../styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 
@@ -41,10 +39,11 @@ import { goerli, gnosis } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import axios from 'axios';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? [goerli] : [gnosis]),
+    ...(process.env.NEXT_PUBLIC_ENV === 'dev' ? [goerli] : [gnosis]),
   ],
   [publicProvider()]
 );
@@ -65,7 +64,8 @@ const connectors = connectorsForWallets([
         connect: {
           app: projectId,
           networkId: process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true' ? 5 : 100,
-          authorize: true
+          authorize: true,
+          askForEmail: true
         }
       })
     ]
@@ -93,6 +93,8 @@ const fetcher = async (url) => {
 }
 
 function MyApp({ Component, pageProps }) {
+
+  const router = useRouter();
 
   const [authenticationStatus, setAuthenticationStatus] = useState("");
   const authenticationAdapter = createAuthenticationAdapter({
@@ -145,6 +147,7 @@ function MyApp({ Component, pageProps }) {
 
       } catch (err) {
         console.error(err);
+        setAuthenticationStatus("unauthenticated")
         return Boolean(false);
       }
     },
@@ -152,17 +155,14 @@ function MyApp({ Component, pageProps }) {
     signOut: async () => {
       console.log("arranco signout")
       setAuthenticationStatus("unauthenticated");
+      router.replace('/logout')
     },
   });
-
-  async function onSignIn(tokens, profile) {
-    console.log(tokens, profile)
-  }
 
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitAuthenticationProvider adapter={authenticationAdapter} status={authenticationStatus}>
-        <RainbowKitProvider appInfo={demoAppInfo} chains={chains}>
+        <RainbowKitProvider modalSize="compact" appInfo={demoAppInfo} chains={chains}>
           <ChakraProvider theme={theme}>
             <ColorModeScript initialColorMode={theme.config.initialColorMode} />
 
@@ -173,7 +173,7 @@ function MyApp({ Component, pageProps }) {
                   dedupingInterval: 10000
                 }}
               >
-                <AuthProvider>
+                <AuthProvider status={authenticationStatus} >
                   <TourGuideProvider>
                     <Header />
                     <Navbar />
@@ -191,17 +191,6 @@ function MyApp({ Component, pageProps }) {
           </ChakraProvider>
         </RainbowKitProvider>
       </RainbowKitAuthenticationProvider>
-      <div style={{
-        position: 'absolute',
-        top: '-9999px',
-        left: '-9999px',
-      }}>
-        <SignInWithLens
-          size={"large"} theme={"default"}
-          onSignIn={onSignIn}
-        />
-      </div>
-
     </WagmiConfig>
   )
 }
