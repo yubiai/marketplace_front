@@ -34,7 +34,8 @@ import {
   MdForum,
   MdOutlinePowerSettingsNew,
   MdArticle,
-  MdOutlineShuffle
+  MdOutlineShuffle,
+  MdOutlineAttachMoney
 } from 'react-icons/md'
 import { useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
@@ -130,6 +131,25 @@ const DrawerMenu = () => {
                     <ListIcon as={MdHome} />
                     {t("Home")}
                   </Button>
+                </Link>
+              </ListItem>
+              <ListItem>
+                <Link
+                  href="https://app.paydece.io/"
+                  passHref legacyBehavior
+                >
+                  <a target="_blank" rel="noopener noreferrer">
+                    <Button
+                      className='step-bridge'
+                      onClick={() => onCategory()}
+                      w="full"
+                      bg="transparent"
+                      justifyContent={'left'}
+                    >
+                      <ListIcon as={MdOutlineAttachMoney} />
+                      {t("To Fiat")}
+                    </Button>
+                  </a>
                 </Link>
               </ListItem>
               <ListItem>
