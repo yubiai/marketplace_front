@@ -160,7 +160,7 @@ const Navbar = () => {
           external: true
         },
         {
-          label: 'To Fiat',
+          label: 'Bridge',
           href: 'https://bridge.connext.network/?receivingChainId=100',
           guide: 'step-bridge',
           external: true
