@@ -52,7 +52,7 @@ const Navbar = () => {
                               color: linkHoverColor,
                             }}
                           >
-                            Bridge
+                            To Fiat
                           </Button>
                         </a>
                       ) : (
@@ -145,7 +145,7 @@ const Navbar = () => {
       guide: 'step-favourites'
     },
     {
-      label: 'Bridge',
+      label: 'To Fiat',
       href: 'https://bridge.connext.network/?receivingChainId=100',
       guide: 'step-bridge',
       external: true
