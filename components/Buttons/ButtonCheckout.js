@@ -7,14 +7,17 @@ import {
 } from '../../utils/walletUtils';
 import { yubiaiArbitrable } from '../../utils/escrow-utils/abis';
 import { forToWei } from '../../utils/orderUtils';
+import { getContract, getWalletClient, prepareWriteContract, readContract } from '@wagmi/core';
 
 const WEI_DECIMAL_PLACES = 18;
+const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
+
 
 const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, yubiaiPaymentArbitrableInstance, address, writeContract, t }) => {
     console.log(transactionInfo, createOrder, operationInProgress, burnFee, currency, "transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, yubiaiPaymentArbitrableInstance")
     const global = useGlobal();
     const { amount, recipient } = transactionInfo;
-
+    console.log(yubiaiPaymentArbitrableInstance, "yubiaiPaymentArbitrableInstance")
     const createTransactionSq = async () => {
         try {
             toggleLoadingStatus(true);
@@ -23,16 +26,23 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             console.log("Se activo createTransaction sq")
             const amountToWei = forToWei(amount.value);
             console.log(amountToWei, "amountToWei")
-            const senderWallet = address;
+            const walletClient = await getWalletClient()
 
-            const result = await writeContract({
-                address: '0x265C8b4aD217Ccb9178697738394e0A95Bd841A2',
+            const result = await readContract({
+                address: '0x3C8be116dA439ee473ef20d10058b0c99eC9Bd70',
+                abi: yubiaiArbitrable,
+                functionName: 'deals',
+                args: ["1"]
+            }) 
+
+            const { request } = await writeContract({
+                address: '0x3C8be116dA439ee473ef20d10058b0c99eC9Bd70',
                 abi: yubiaiArbitrable,
                 functionName: 'createDealWithValue',
                 args: [
                     [
                         String(amountToWei),
-                        senderWallet,
+                        walletClient,
                         0,
                         burnFee * 100,
                         0,
@@ -41,12 +51,17 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                         Math.floor((new Date()).getTime() / 1000),
                         process.env.NEXT_PUBLIC_TIME_FOR_SERVICE,
                         process.env.NEXT_PUBLIC_TIME_FOR_CLAIM,
-                        "0x7af963cF6D228E564e2A0aA0DdBF06210B38615D",
+                        NULL_ADDRESS,
                         0,
                         0
                     ], process.env.NEXT_PUBLIC_TERMS_URL_DEFAULT
-                ]
-            })
+                ],
+                value: String(amountToWei)
+            });
+            console.log(request, "request")
+
+            const { hash } = await writeContract(request)
+ 
 
             console.log(result, "result")
 
@@ -71,8 +86,9 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             const networkBaseToken = (networkTypeObj.currency) || 'ETH';
             const blockExplorer = getBlockExplorerForNetwork(networkType);
             const yubiaiContract = getContractsForNetwork(networkType);
-
+            console.log(currency, networkBaseToken, "networkBaseToken")
             const token = currency !== networkBaseToken ? global.currencyPriceList.find(price => price.symbol === currency) : { token_address: null };
+            console.log(token, "token")
             const result = await yubiaiPaymentArbitrableInstance.createDeal(
                 token.token_address,
                 burnFee,
@@ -164,7 +180,7 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                     />
                 </Center>
             )}
-            <Button bg='#00abd1' color={'white'} onClick={yubiaiPaymentArbitrableInstance ? createTransaction :createTransactionSq} isDisabled={operationInProgress && operationInProgress}>{t("Hire service")}</Button>
+            <Button bg='#00abd1' color={'white'} onClick={yubiaiPaymentArbitrableInstance ? createTransaction : createTransactionSq} isDisabled={operationInProgress && operationInProgress}>{t("Hire service")}</Button>
         </>
     );
 };

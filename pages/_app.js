@@ -36,6 +36,8 @@ import { sequenceWallet } from '@0xsequence/rainbowkit-plugin'
 
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { gnosis, polygonMumbai, goerli, polygon } from 'wagmi/chains';
+import { infuraProvider } from '@wagmi/core/providers/infura'
+
 import { publicProvider } from 'wagmi/providers/public';
 import axios from 'axios';
 import { useState } from 'react';
@@ -45,7 +47,8 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
     ...(process.env.NEXT_PUBLIC_ENV === 'dev' ? [polygonMumbai, goerli, polygon] : [gnosis]),
   ],
-  [publicProvider()]
+  [infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA })],
+  publicProvider()
 );
 
 const projectId = 'Yubiai';

@@ -14,6 +14,14 @@ const listChains = process.env.NEXT_PUBLIC_ENV === "prod" ? [{
     aliasTitle: 'goerli',
     currency: "ETH"
   },
+  {
+    id: 137,
+    chainID: "0x89",
+    title: "Polygon",
+    aliasTitle: 'polygon',
+    currency: "MATIC",
+    rpcUrls: ['https://polygon-bor.publicnode.com']
+  },
   /*   {
       id: 1,
       chainID: "0x1",
@@ -128,10 +136,10 @@ const getContractsForNetwork = (networkType) => {
         yubiaiArbitrable: process.env.NEXT_PUBLIC_SEPOLIA_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
         yubiaiArbitrator: process.env.NEXT_PUBLIC_SEPOLIA_ARBITRATOR
       }
-    case 'matic':
+    case 'polygon':
       return {
-        yubiaiArbitrable: process.env.NEXT_PUBLIC_MUMBAI_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
-        yubiaiArbitrator: process.env.NEXT_PUBLIC_MUMBAI_ARBITRATOR
+        yubiaiArbitrable: process.env.NEXT_PUBLIC_POLYGON_YUBIAI_ARBITRABLE_PAYMENT_CONTRACT,
+        yubiaiArbitrator: process.env.NEXT_PUBLIC_POLYGON_ARBITRATOR
       }
     case 'gnosis':
       return {

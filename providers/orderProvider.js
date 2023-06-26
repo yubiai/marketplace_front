@@ -136,6 +136,12 @@ const getSettingsByNetwork = networkType => {
       NEXT_PUBLIC_INFURA_ENDPOINT_GNOSIS: process.env.NEXT_PUBLIC_INFURA_ENDPOINT_GNOSIS
     }
   }
+  if (networkType === 'polygon') {
+    return {
+      NEXT_PUBLIC_NETWORK_POLYGON: process.env.NEXT_PUBLIC_NETWORK_POLYGON,
+      NEXT_PUBLIC_INFURA_ENDPOINT_POLYGON: process.env.NEXT_PUBLIC_INFURA_ENDPOINT_POLYGON
+    }
+  }
   return {
     NEXT_PUBLIC_NETWORK: '',
     NEXT_PUBLIC_INFURA_ENDPOINT: ''
@@ -144,6 +150,7 @@ const getSettingsByNetwork = networkType => {
 
 const loadCurrencyPrices = async (dispatch, global, networkType) => {
   const naming = getProtocolNamingFromNetwork(networkType);
+  console.log(naming, "naming")
   const resp = await priceService.getCurrencyPrices(
     naming, global && global.profile && global.profile.token);
   const { data } = resp;

@@ -36,8 +36,27 @@ const sepolia = {
 
 }
 
+const polygon = {
+    id: 137,
+    name: 'Polygon',
+    network: 'polygon',
+    nativeCurrency: {
+        decimals: 0x89,
+        name: 'Polygon',
+        symbol: 'MATIC',
+    },
+    rpcUrls: {
+        public: { http: ['https://polygon.llamarpc.com'] }
+    },
+    blockExplorers: {
+        default: { name: 'Polygon', url: 'https://polygonscan.com' },
+    }
+
+}
+
 
 export {
     lachain,
-    sepolia
+    sepolia,
+    polygon
 }
