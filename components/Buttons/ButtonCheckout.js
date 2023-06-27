@@ -8,62 +8,34 @@ import {
 import { yubiaiArbitrable } from '../../utils/escrow-utils/abis';
 import { forToWei } from '../../utils/orderUtils';
 import { getContract, getWalletClient, prepareWriteContract, readContract } from '@wagmi/core';
+import useContractWriteHook from '../../hooks/contract/useContractWrite';
 
 const WEI_DECIMAL_PLACES = 18;
-const NULL_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 
 const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, yubiaiPaymentArbitrableInstance, address, writeContract, t }) => {
-    console.log(transactionInfo, createOrder, operationInProgress, burnFee, currency, "transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, yubiaiPaymentArbitrableInstance")
     const global = useGlobal();
     const { amount, recipient } = transactionInfo;
-    console.log(yubiaiPaymentArbitrableInstance, "yubiaiPaymentArbitrableInstance")
+    
     const createTransactionSq = async () => {
         try {
             toggleLoadingStatus(true);
-
+            const senderWallet = address;
             // error
             console.log("Se activo createTransaction sq")
-            const amountToWei = forToWei(amount.value);
+            const amountToWei = await forToWei(amount.value);
             console.log(amountToWei, "amountToWei")
-            const walletClient = await getWalletClient()
-
-            const result = await readContract({
+            /* const result = await readContract({
                 address: '0x3C8be116dA439ee473ef20d10058b0c99eC9Bd70',
                 abi: yubiaiArbitrable,
                 functionName: 'deals',
                 args: ["1"]
-            }) 
+            })  */
 
-            const { request } = await writeContract({
-                address: '0x3C8be116dA439ee473ef20d10058b0c99eC9Bd70',
-                abi: yubiaiArbitrable,
-                functionName: 'createDealWithValue',
-                args: [
-                    [
-                        String(amountToWei),
-                        walletClient,
-                        0,
-                        burnFee * 100,
-                        0,
-                        0,
-                        recipient,
-                        Math.floor((new Date()).getTime() / 1000),
-                        process.env.NEXT_PUBLIC_TIME_FOR_SERVICE,
-                        process.env.NEXT_PUBLIC_TIME_FOR_CLAIM,
-                        NULL_ADDRESS,
-                        0,
-                        0
-                    ], process.env.NEXT_PUBLIC_TERMS_URL_DEFAULT
-                ],
-                value: String(amountToWei)
-            });
-            console.log(request, "request")
+            console.log(senderWallet, amountToWei, recipient, "senderWallet, amountToWei, recipient")
+            const { data } = await useContractWriteHook(senderWallet, amountToWei, recipient);
+            console.log(data, "data")
 
-            const { hash } = await writeContract(request)
- 
-
-            console.log(result, "result")
 
             toggleLoadingStatus(false);
 

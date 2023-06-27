@@ -118,8 +118,15 @@ const parserForWei = (value) => {
 }
 
 const forToWei = (value) => {
-    const wei = ethers.utils.parseEther(value.toString());
-    return wei.toString();
+    return new Promise((resolve, reject) => {
+        try {
+            const wei = ethers.utils.parseEther(value.toString());
+            return resolve(wei.toString());
+        } catch (error) {
+            console.error(error);
+            reject(false);
+        }
+    })
 }
 
 
