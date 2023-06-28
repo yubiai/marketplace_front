@@ -3,10 +3,10 @@ import { Box, Flex, Button, Container, Image, Center } from '@chakra-ui/react'
 import LanguageChange from '../Menus/LanguageChange'
 import DrawerMenu from '../Menus/DrawerMenu'
 import SearchBar from './SearchBar'
-import ButtonConnect from '../Buttons/ButtonConnect'
 import { useGlobal } from '../../providers/globalProvider'
 import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
 import useTranslation from 'next-translate/useTranslation';
+import ButtonConnectMetamask from '../Buttons/ButtonConnectMetamask'
 
 const Header = () => {
   const global = useGlobal()
@@ -53,7 +53,8 @@ const Header = () => {
           display={{ base: 'none', md: 'flex' }}
           width="330px">
             <ButtonSwitchNetwork bg={"white"} color={'#00abd1'} />
-            {global.meta ? <ButtonConnect /> : ''}
+{/*             {global.meta ? <ButtonConnect /> : ''}
+ */}            {global.meta ? <ButtonConnectMetamask /> : ''}
           </Center>
           <DrawerMenu />
         </Flex>

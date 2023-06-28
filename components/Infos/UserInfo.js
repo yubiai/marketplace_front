@@ -2,7 +2,7 @@ import { Center, Flex, Image, Text, Stack, HStack, Box } from '@chakra-ui/react'
 
 
 const UserInfo = ({ profile, /* balanceToken, t */ }) => {
-
+  const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
 
   if (profile) {
     return (
@@ -16,7 +16,7 @@ const UserInfo = ({ profile, /* balanceToken, t */ }) => {
               width={'3em'}
               height={'2.8em'}
               objectFit={'cover'}
-              src={profile.photo}
+              src={url_fleek + profile.photo}
               fallbackSrc={"/static/images/userdefault.png"}
             />
           </Center>

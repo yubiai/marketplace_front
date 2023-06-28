@@ -11,6 +11,16 @@ async function login(walletAddress) {
 }
 
 /**
+ * Login with SQ
+ * @param {str} walletAddress
+ */
+async function loginSQ(walletAddress) {
+  return await axios.post(`/auth/loginsq`, {
+    walletAddress,
+  })
+}
+
+/**
  * Login with Lens Protocol
  * @param {str} walletAddress
  */
@@ -68,13 +78,12 @@ async function getProfile(eth_address, token) {
  * @param {str} data
  */
 async function updateProfile(profile, data, token) {
-  return await axios.put(`/profiles/id/${profile}`, data, token
-    ? {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-    : null
+  return await axios.put(`/profiles/id/${profile}`, data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      'Authorization': token ? `Bearer ${token}` : null,
+    },
+  }
   )
 }
 
@@ -161,6 +170,7 @@ async function addTerms(profile, term, token) {
 export const profileService = {
   login,
   loginLens,
+  loginSQ,
   nonce,
   verifySignature,
   getProfileFromId,

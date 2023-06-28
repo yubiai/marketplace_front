@@ -3,10 +3,10 @@ import { useRouter } from 'next/router'
 
 const MyInfoPrivateCard = ({ dataProfile, t }) => {
   const router = useRouter();
+  const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
 
   if (!dataProfile) return <>No Data</>
   // eslint-disable-next-line react-hooks/rules-of-hooks
-
   return (
     <>
       <Center py={6}>
@@ -14,19 +14,19 @@ const MyInfoPrivateCard = ({ dataProfile, t }) => {
           borderWidth="1px"
           borderRadius="lg"
           w={'full'}
-          height={{ sm: 'full', md: '10rem' }}
+          height={{ sm: 'full', md: '20rem' }}
           direction={{ base: 'column', md: 'row' }}
           bg={'white'}
           boxShadow={'2xl'}
           padding={4}
         >
-          <Flex flex={0.2}>
+          <Flex flex={0.4}>
             <Image
               alt="Photo perfil"
               objectFit="cover"
               boxSize="100%"
               borderRadius={'10px'}
-              src={dataProfile.photo}
+              src={url_fleek + dataProfile.photo}
               fallbackSrc={"/static/images/userdefault.png"}
             />
           </Flex>
@@ -43,6 +43,9 @@ const MyInfoPrivateCard = ({ dataProfile, t }) => {
             </Heading>
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
               {dataProfile.eth_address}
+            </Text>
+            <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
+              Real Name: {dataProfile.private_info.realname || "No Data"}
             </Text>
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
               <b>{t("Address")}: </b>
@@ -62,7 +65,6 @@ const MyInfoPrivateCard = ({ dataProfile, t }) => {
                 ? dataProfile.private_info.telephone
                 : 'Empty'}
             </Text>
-            <Divider />
           </Stack>
           <Flex flex={0.2} justifyContent="center" alignItems="center">
             <Button bg="#00ABD1" color="white" w="10em" _hover={{

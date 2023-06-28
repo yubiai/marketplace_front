@@ -1,12 +1,10 @@
 import { Box, Breadcrumb, BreadcrumbItem, Text } from '@chakra-ui/react'
 import Head from 'next/head'
-import { useEffect, useState } from 'react'
-import MyInfoPohCard from '../../components/Cards/MyInfoPohCard'
+import { useEffect } from 'react'
 import MyInfoPrivateCard from '../../components/Cards/MyInfoPrivateCard'
 import ProfileMenu from '../../components/Menus/ProfileMenu'
 import Loading from '../../components/Spinners/Loading'
 import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
-import { balanceUbi1 } from '../../utils/ethereum'
 import useFetch from '../../hooks/data/useFetch'
 import Error from '../../components/Infos/Error'
 import useUser from '../../hooks/data/useUser'
@@ -14,7 +12,6 @@ import { useRouter } from 'next/router'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation';
-import MyInfoLensCard from '../../components/Cards/MyInfoLensCard'
 
 const Profile = () => {
   const global = useGlobal()
@@ -22,6 +19,7 @@ const Profile = () => {
   const dispatch = useDispatchGlobal()
   const { t } = useTranslation("profilepage");
   const { user, loggedOut } = useUser()
+
 
   // if logged in, redirect to the home
   useEffect(() => {
@@ -34,29 +32,17 @@ const Profile = () => {
     }
   }, [user, loggedOut, router])
 
-  const [balanceToken, setBalanceToken] = useState(null)
 
   const {
     data: profile,
     isLoading,
-    isError,
+    isError
   } = useFetch(
     global && global.profile && global.profile._id
       ? `/profiles/id/${global.profile._id}`
       : null,
     global && global.profile && global.profile.token
   )
-
-  useEffect(() => {
-    const getInitBalance = async () => {
-      if (profile) {
-        await balanceUbi1(profile.eth_address || null).then((res) => {
-          setBalanceToken(res)
-        })
-      }
-    }
-    getInitBalance()
-  }, [profile])
 
   if (isLoading || !user || !profile) return <Loading />
 
@@ -97,10 +83,10 @@ const Profile = () => {
           )}
           <Text fontWeight={'bold'}>{t("Personal Info")}</Text>
           <MyInfoPrivateCard dataProfile={profile} t={t} />
-          <Text fontWeight={'bold'}>{t("Proof of humanity Information")}</Text>
+{/*           <Text fontWeight={'bold'}>{t("Proof of humanity Information")}</Text>
           <MyInfoPohCard dataProfile={profile} balance={balanceToken} t={t} />
           <Text fontWeight={'bold'}>{t("Lens Protocol Information")}</Text>
-          <MyInfoLensCard dataProfile={profile} t={t} />
+          <MyInfoLensCard dataProfile={profile} t={t} /> */}
         </Box>
       </ProfileMenu>
     </>
