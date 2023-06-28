@@ -23,7 +23,6 @@ const ProfileEdit = () => {
   const { user, loggedOut } = useUser()
   const [changePhoto, setChangePhoto] = useState(false);
   const [loading, setLoading] = useState(false);
-  const url_gc = process.env.NEXT_PUBLIC_LINK_GC;
   const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
 
   const [countName, setCountName] = useState(0);
@@ -168,8 +167,8 @@ const ProfileEdit = () => {
                     objectFit="cover"
                     boxSize="100%"
                     borderRadius={'10px'}
-                    src={dataProfile.photo ? url_fleek + dataProfile.photo : "/static/images/userdefault.png"}
-                    fallbackSrc={dataProfile.photo ? url_gc + dataProfile.photo : "/static/images/userdefault.png"}
+                    src={url_fleek + dataProfile.photo}
+                    fallbackSrc={"/static/images/userdefault.png"}
                   />
                 </Flex>
                 <Button ml="1em" bg="#00abd1" color="white" _hover={{ bg: "blue.300" }} onClick={() => setChangePhoto(true)}>{t("Change photo")}</Button>
