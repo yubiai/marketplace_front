@@ -40,7 +40,7 @@ import {
 import { useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
 import { useRouter } from 'next/router'
-import ButtonConnect from '../Buttons/ButtonConnect'
+import ButtonConnectMetamask from '../Buttons/ButtonConnectMetamask'
 import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
 import useTranslation from 'next-translate/useTranslation';
 
@@ -105,7 +105,7 @@ const DrawerMenu = () => {
               />
             ) : (
               <>
-                <ButtonConnect />
+                <ButtonConnectMetamask />
               </>
             )}
 
@@ -171,6 +171,21 @@ const DrawerMenu = () => {
                   </a>
                 </Link>
               </ListItem>
+              
+              <ListItem>
+                <Link href="/help">
+                  <Button
+                    onClick={() => onClose()}
+                    className="step-help"
+                    w="full"
+                    bg="transparent"
+                    justifyContent={'left'}
+                  >
+                    <ListIcon as={MdHelp} />
+                    {t("Help")}
+                  </Button>
+                </Link>
+              </ListItem>
               <ListItem>
                 <Button
                   className='step-category'
@@ -219,6 +234,20 @@ const DrawerMenu = () => {
                     </Link>
                   </ListItem>
                   <ListItem>
+                    <Link href="/profile/favourites">
+                      <Button
+                        onClick={() => onClose()}
+                        className="step-favourites"
+                        w="full"
+                        bg="transparent"
+                        justifyContent={'left'}
+                      >
+                        <ListIcon as={MdFavorite} />
+                        {t("Favourites")}
+                      </Button>
+                    </Link>
+                  </ListItem>
+                  <ListItem>
                     <Link href="/profile/notifications">
                       <Button
                         onClick={() => onClose()}
@@ -260,6 +289,7 @@ const DrawerMenu = () => {
                       </Button>
                     </Link>
                   </ListItem>
+                 
                   <ListItem>
                     <Link href="/profile/questions">
                       <Button
@@ -302,37 +332,10 @@ const DrawerMenu = () => {
                       </Button>
                     </Link>
                   </ListItem>
-                  <ListItem>
-                    <Link href="/profile/favourites">
-                      <Button
-                        onClick={() => onClose()}
-                        className="step-favourites"
-                        w="full"
-                        bg="transparent"
-                        justifyContent={'left'}
-                      >
-                        <ListIcon as={MdFavorite} />
-                        {t("Favourites")}
-                      </Button>
-                    </Link>
-                  </ListItem>
+                
                 </>
               )}
 
-              <ListItem>
-                <Link href="/help">
-                  <Button
-                    onClick={() => onClose()}
-                    className="step-help"
-                    w="full"
-                    bg="transparent"
-                    justifyContent={'left'}
-                  >
-                    <ListIcon as={MdHelp} />
-                    {t("Help")}
-                  </Button>
-                </Link>
-              </ListItem>
             </List>
           </DrawerBody>
 

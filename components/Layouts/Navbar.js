@@ -152,17 +152,16 @@ const Navbar = () => {
     },
     {
       label: t('To Fiat'),
+      guide: 'step-bridge',
       children: [
         {
           label: 'PayDece',
           href: 'https://app.paydece.io/',
-          guide: 'step-tofiat',
           external: true
         },
         {
           label: 'Bridge',
           href: 'https://bridge.connext.network/?receivingChainId=100',
-          guide: 'step-bridge',
           external: true
         }
       ],
