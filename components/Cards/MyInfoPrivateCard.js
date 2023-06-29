@@ -44,9 +44,11 @@ const MyInfoPrivateCard = ({ dataProfile, t }) => {
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
               {dataProfile.eth_address}
             </Text>
-            <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
-              Real Name: {dataProfile.private_info.realname || "No Data"}
-            </Text>
+            {dataProfile.private_info && dataProfile.private_info.realname && (
+              <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
+                Real Name: {dataProfile.private_info.realname}
+              </Text>
+            )}
             <Text fontWeight={600} color={'gray.500'} size="sm" mb={4}>
               <b>{t("Address")}: </b>
               {dataProfile.private_info && (
