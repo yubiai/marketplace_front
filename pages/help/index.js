@@ -46,7 +46,7 @@ const Help = () => {
             {t("Answer use0")}
           </Text>
           <Text mt="3px">
-            {t("Answer use1")}
+            {t("Answer use1")} <Link href="https://metamask.io">https://metamask.io</Link> 
           </Text>
           <Text mt="3px">
             {t("Answer use2")} <Link href="https://app.yubiai.market">https://app.yubiai.market</Link>
