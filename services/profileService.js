@@ -166,6 +166,20 @@ async function addTerms(profile, term, token) {
     : null)
 }
 
+/**
+ * Add Verify Protocol in the Profile
+ * @param {str} profile
+ */
+async function verifyProtocol(profile, payload, token) {
+  return await axios.put(`/profiles/verifyprotocol/${profile}`, payload, token
+    ? {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+    : null)
+}
+
 
 export const profileService = {
   login,
@@ -180,5 +194,6 @@ export const profileService = {
   addFavorite,
   removeFavorite,
   addTerms,
-  tourAccepted
+  tourAccepted,
+  verifyProtocol
 }

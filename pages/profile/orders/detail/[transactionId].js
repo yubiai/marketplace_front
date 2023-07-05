@@ -47,6 +47,7 @@ import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
 import { calculateFinishDate } from '../../../../utils/orderUtils';
 import EvidencesList from '../../../../components/Infos/EvidencesList';
+import ListBadges from '../../../../components/Utils/ListBadges';
 
 const OrderDetail = () => {
   const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
@@ -146,6 +147,7 @@ const OrderDetail = () => {
         currentTS >= fullStatus.deal.dealCreatedAt + fullStatus.deal.timeForService);
     }
   }
+
 
   const toggleLoadingStatus = status => {
     setOperationInProgress(status);
@@ -421,14 +423,7 @@ const OrderDetail = () => {
                 <Box>
                   <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.seller.name}`}</Text>
                   <Text>{t("Eth Address")}: {orderDetail && orderDetail.item.seller.eth_address.slice(orderDetail.item.seller.eth_address.length - 8)}</Text>
-                  {/* <Center mt="0.6em">
-                    {orderDetail && orderDetail.item.seller && orderDetail.item.seller.eth_address && orderDetail.item.seller.poh_info && orderDetail.item.seller.poh_info.first_name && (
-                      <ButtonProtocolProfile profile={orderDetail.item.seller} protocol={"poh"} />
-                    )}
-                    {orderDetail && orderDetail.item.seller && orderDetail.item.seller.eth_address && orderDetail.item.seller.lens_info && orderDetail.item.seller.lens_info.handle && (
-                      <ButtonProtocolProfile profile={orderDetail.item.seller} protocol={"lens"} />
-                    )}
-                  </Center> */}
+                  <ListBadges badges={orderDetail.item.seller.badges} />
                 </Box>
               </Center>
 

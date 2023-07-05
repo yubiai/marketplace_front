@@ -52,6 +52,7 @@ import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
 import ButtonCloseDeal from '../../../../components/Buttons/ButtonCloseDeal';
 import { calculateFinishDate } from '../../../../utils/orderUtils';
+import ListBadges from '../../../../components/Utils/ListBadges';
 
 const OrderDetail = () => {
   const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
@@ -467,14 +468,8 @@ const OrderDetail = () => {
                 <Box>
                   <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.buyer.name}`}</Text>
                   <Text>{t("Eth Address")}: {orderDetail && orderDetail.item.buyer.eth_address.slice(orderDetail.item.buyer.eth_address.length - 8)}</Text>
-                  {/* <Center mt="0.6em">
-                    {orderDetail && orderDetail.item.buyer && orderDetail.item.buyer.eth_address && orderDetail.item.buyer.poh_info && orderDetail.item.buyer.poh_info.first_name && (
-                      <ButtonProtocolProfile profile={orderDetail.item.buyer} protocol={"poh"} />
-                    )}
-                    {orderDetail && orderDetail.item.buyer && orderDetail.item.buyer.eth_address && orderDetail.item.buyer.lens_info && orderDetail.item.buyer.lens_info.handle && (
-                      <ButtonProtocolProfile profile={orderDetail.item.buyer} protocol={"lens"} />
-                    )}
-                  </Center> */}
+                  <ListBadges badges={orderDetail.item.buyer.badges} />
+
                 </Box>
               </Center>
 

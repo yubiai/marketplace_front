@@ -14,5 +14,14 @@
     "Registration date": "Fecha de registracion",
     "View poh profile": "View POH profile",
     "View lens profile": "View Lens profile",
-    "Not registered": "No registrado"
+    "Not registered": "No registrado",
+    "My badges": "Mis insignias",
+    "Verifications": "Verificaciones",
+    "Failed to verify": "No se pudo verificar",
+    "Incorrect validation": "Validacion Incorrecta",
+    "Successful verification": "Verificacion con exito",
+    "Correct validation": "Validación correcta",
+    "Could not verify with lens protocol": "No se pudo verificar con el protocolo lens",
+    "Already verified everything": "Ya verificado todo",
+    "Empty": "Vacio"
   }

@@ -13,6 +13,7 @@ import {
   Box,
   Text,
 } from '@chakra-ui/react'
+import ListBadges from '../Utils/ListBadges';
 
 const InfoUserModal = ({ user, t }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -28,6 +29,7 @@ const InfoUserModal = ({ user, t }) => {
       >
         {t("Sell by")} {user.name}
       </Text>
+      <ListBadges badges={user.badges} />
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -51,14 +53,7 @@ const InfoUserModal = ({ user, t }) => {
               </Center>
               <Text mt="1em">{t("Wallet")}</Text>
               <Text fontSize={"14px"}>{user.eth_address}</Text>
-              {/* <Center mt="1em">
-                {user && user.eth_address && user.poh_info && user.poh_info.first_name && (
-                  <ButtonProtocolProfile profile={user} protocol={"poh"} />
-                )}
-                {user && user.lens_info && user.lens_info.handle && (
-                  <ButtonProtocolProfile profile={user} protocol={"lens"} />
-                )}
-              </Center> */}
+              <ListBadges badges={user.badges} />
             </Box>
           </ModalBody>
 

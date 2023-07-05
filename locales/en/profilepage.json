@@ -14,5 +14,14 @@
     "Registration date": "Registration date",
     "View poh profile": "View POH profile",
     "View lens profile": "View Lens profile",
-    "Not registered": "Not registered"
+    "Not registered": "Not registered",
+    "My badges": "My badges",
+    "Verifications": "Verifications",
+    "Failed to verify": "Failed to verify",
+    "Incorrect validation": "Incorrect validation",
+    "Successful verification": "Successful verification",
+    "Correct validation": "Correct validation",
+    "Could not verify with lens protocol": "Could not verify with lens protocol",
+    "Already verified everything": "Already verified everything",
+    "Empty": "Empty"
 }
