@@ -4,7 +4,7 @@
     "Edit": "Edit",
     "Edit my profile": "Edit my profile",
     "Change photo": "Change photo",
-    "Name": "Name",
+    "Real Name": "Name",
     "Address": "Address",
     "City": "City",
     "Country": "Country",
@@ -16,5 +16,6 @@
     "Data not saved": "Data not saved",
     "Cancel": "Cancel",
     "Characters": "Characters:",
-    "Photo Perfil": "Photo Perfil"
+    "Photo Perfil": "Profile Picture",
+    "Optional": "Optional"
 }

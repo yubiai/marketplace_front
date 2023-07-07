@@ -194,7 +194,8 @@ const ProfileEdit = () => {
               <Text color="red" m="5px">{errors.name?.type === 'required' && t("Title is required")}</Text>
               <Text color="red" m="5px">{errors.name?.type === 'minLength' && t("Minimum required characters are " + MIN_NAME_LENGTH)}</Text>
               <Text color="red" m="5px">{errors.name?.type === 'maxLength' && t("Maximum required characters are " + MAX_NAME_LENGTH)}</Text>
-              <Text mt="2em">{t("Real Name")}</Text></FormControl>
+            </FormControl>
+            <Text mt="2em">{t("Real Name")} ({t("Optional")})</Text>
             <Input
               color="black"
               placeholder={t("Real Name")}
@@ -202,7 +203,7 @@ const ProfileEdit = () => {
               bg="white"
               {...register('private_info.realname', { minLength: 3, maxLength: 150 })}
             />
-            <Text mt="2em">{t("Address")}</Text>
+            <Text mt="2em">{t("Address")} ({t("Optional")})</Text>
             <Input
               color="black"
               placeholder={t("Address")}
@@ -210,7 +211,7 @@ const ProfileEdit = () => {
               bg="white"
               {...register('private_info.address', { minLength: 3, maxLength: 150 })}
             />
-            <Text mt="2em">{t("City")}</Text>
+            <Text mt="2em">{t("City")} ({t("Optional")})</Text>
             <Input
               color="black"
               placeholder={t("City")}
@@ -218,7 +219,7 @@ const ProfileEdit = () => {
               bg="white"
               {...register('private_info.city', { minLength: 3, maxLength: 150 })}
             />
-            <Text mt="2em">{t("Country")}</Text>
+            <Text mt="2em">{t("Country")} ({t("Optional")})</Text>
             <Input
               color="black"
               placeholder={t("Country")}
@@ -226,7 +227,7 @@ const ProfileEdit = () => {
               bg="white"
               {...register('private_info.country', { minLength: 3, maxLength: 150 })}
             />
-            <Text mt="2em">{t("Telephone")}</Text>
+            <Text mt="2em">{t("Telephone")} ({t("Optional")})</Text>
             <Input
               color="black"
               placeholder={t("Telephone")}
@@ -234,7 +235,7 @@ const ProfileEdit = () => {
               bg="white"
               {...register('private_info.telephone', { minLength: 3, maxLength: 150 })}
             />
-            <Text mt="2em">{t("Email")}</Text>
+            <Text mt="2em">{t("Email")} ({t("Optional")})</Text>
             <Input
               color="black"
               placeholder={t("Email")}
