@@ -1,4 +1,4 @@
-import { Box, Breadcrumb, BreadcrumbItem, Button, Center, Container, Flex, Heading, Image, Input, Text, useToast } from '@chakra-ui/react'
+import { Box, Breadcrumb, BreadcrumbItem, Button, Center, Container, Flex, FormControl, FormLabel, Heading, Image, Input, Text, useToast } from '@chakra-ui/react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
@@ -144,53 +144,57 @@ const ProfileEdit = () => {
           </Breadcrumb>
           <Heading mt="1em">{t("Edit my profile")}</Heading>
           <form onSubmit={handleSubmit(onSubmit)}>
-            {changePhoto ? (
-              <>
-                <FileUpload
-                  name="file1"
-                  acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp"
-                  isRequired={true}
-                  placeholder="Your Photo"
-                  control={control}
-                  resetField={resetField}
-                  getValues={getValues}
-                >
-                  {t("Photo Perfil")}
-                </FileUpload>
-                <Button ml="1em" bg="orange.600" color="white" _hover={{ bg: "orange.300" }} onClick={() => setChangePhoto(false)}>{t("Cancel")}</Button>
-              </>
-            ) : (
-              <Center mt="2em">
-                <Flex flex={{ base: 1, md: 0.4 }}>
-                  <Image
-                    alt="Photo perfil"
-                    objectFit="cover"
-                    boxSize="100%"
-                    borderRadius={'10px'}
-                    src={url_fleek + dataProfile.photo}
-                    fallbackSrc={"/static/images/userdefault.png"}
-                  />
-                </Flex>
-                <Button ml="1em" bg="#00abd1" color="white" _hover={{ bg: "blue.300" }} onClick={() => setChangePhoto(true)}>{t("Change photo")}</Button>
-              </Center>
-            )}
-            <Text mt="2em">{"Nick"}</Text>
-            <Input
-              color="black"
-              placeholder={"Nick"}
-              _placeholder={{ color: 'gray.400' }}
-              bg="white"
-              isRequired
-              {...register('name', {
-                required: true, minLength: MIN_NAME_LENGTH, maxLength: MAX_NAME_LENGTH, onChange: (e) => { setCountName(e.target.value.length) }
-              })}
-            />
-            <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countName < MIN_NAME_LENGTH || countName > MAX_NAME_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countName}</Text> / {MAX_NAME_LENGTH}</Flex>
-            <Text color="red" m="5px">{errors.name?.type === 'pattern' && errors.title?.message}</Text>
-            <Text color="red" m="5px">{errors.name?.type === 'required' && t("Title is required")}</Text>
-            <Text color="red" m="5px">{errors.name?.type === 'minLength' && t("Minimum required characters are " + MIN_NAME_LENGTH)}</Text>
-            <Text color="red" m="5px">{errors.name?.type === 'maxLength' && t("Maximum required characters are " + MAX_NAME_LENGTH)}</Text>
-            <Text mt="2em">{t("Real Name")}</Text>
+            <FormControl isRequired mt="1em">
+              <FormLabel color="black">{t("Photo Perfil")}</FormLabel>
+              {changePhoto ? (
+                <>
+                  <FileUpload
+                    name="file1"
+                    acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp"
+                    isRequired={true}
+                    placeholder="Your Photo"
+                    control={control}
+                    resetField={resetField}
+                    getValues={getValues}
+                  >
+                    {t("Photo Perfil")}
+                  </FileUpload>
+                  <Button ml="1em" bg="orange.600" color="white" _hover={{ bg: "orange.300" }} onClick={() => setChangePhoto(false)}>{t("Cancel")}</Button>
+                </>
+              ) : (
+                <Center mt="2em">
+                  <Flex flex={{ base: 1, md: 0.4 }}>
+                    <Image
+                      alt="Photo perfil"
+                      objectFit="cover"
+                      boxSize="100%"
+                      borderRadius={'10px'}
+                      src={url_fleek + dataProfile.photo}
+                      fallbackSrc={"/static/images/userdefault.png"}
+                    />
+                  </Flex>
+                  <Button ml="1em" bg="#00abd1" color="white" _hover={{ bg: "blue.300" }} onClick={() => setChangePhoto(true)}>{t("Change photo")}</Button>
+                </Center>
+              )}
+            </FormControl>
+            <FormControl isRequired mt="1em">
+              <FormLabel color="black">{"Nick"}</FormLabel>
+              <Input
+                color="black"
+                placeholder={"Nick"}
+                _placeholder={{ color: 'gray.400' }}
+                bg="white"
+                isRequired
+                {...register('name', {
+                  required: true, minLength: MIN_NAME_LENGTH, maxLength: MAX_NAME_LENGTH, onChange: (e) => { setCountName(e.target.value.length) }
+                })}
+              />
+              <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countName < MIN_NAME_LENGTH || countName > MAX_NAME_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countName}</Text> / {MAX_NAME_LENGTH}</Flex>
+              <Text color="red" m="5px">{errors.name?.type === 'pattern' && errors.title?.message}</Text>
+              <Text color="red" m="5px">{errors.name?.type === 'required' && t("Title is required")}</Text>
+              <Text color="red" m="5px">{errors.name?.type === 'minLength' && t("Minimum required characters are " + MIN_NAME_LENGTH)}</Text>
+              <Text color="red" m="5px">{errors.name?.type === 'maxLength' && t("Maximum required characters are " + MAX_NAME_LENGTH)}</Text>
+              <Text mt="2em">{t("Real Name")}</Text></FormControl>
             <Input
               color="black"
               placeholder={t("Real Name")}
