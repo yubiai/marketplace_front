@@ -23,11 +23,11 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
-/*   Slider,
-  SliderFilledTrack,
-  SliderMark,
-  SliderThumb,
-  SliderTrack, */
+  /*   Slider,
+    SliderFilledTrack,
+    SliderMark,
+    SliderThumb,
+    SliderTrack, */
   Spinner,
   Text,
   Textarea,
@@ -52,6 +52,7 @@ import { getListSubCategory } from '../../utils/itemUtils'
 import { loadCurrencyPrices, setYubiaiInstance } from '../../providers/orderProvider'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import useTranslation from 'next-translate/useTranslation';
+import Editor from '../../components/Editor/Editor'
 
 const NewListing = () => {
   const global = useGlobal()
@@ -109,10 +110,10 @@ const NewListing = () => {
       const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
       loadCurrencyPrices(dispatch, global, networkType);
     }
-    async function initialArbInstance(){
+    async function initialArbInstance() {
       if (!global.yubiaiPaymentArbitrableInstance) {
         const res = await setYubiaiInstance(dispatch);
-        if(!res){
+        if (!res) {
           toast({
             title: "Wrong Network",
             description: "Change the network to one that is enabled.",
@@ -280,7 +281,7 @@ const NewListing = () => {
                   color="black"
                   name="category"
                   id="category"
-                  placeholder= {t("Select Category")}
+                  placeholder={t("Select Category")}
                   _placeholder={{ color: 'gray.400' }}
                   isRequired={true}
                   {...register('category', {
@@ -342,7 +343,7 @@ const NewListing = () => {
               })}
               isRequired
             />
-            <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH ||countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
+            <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
             <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
             <Text color="red" m="5px">{errors.title?.type === 'required' && t("Title is required")}</Text>
             <Text color="red" m="5px">{errors.title?.type === 'minLength' && t("Minimum required characters are 15")}</Text>
@@ -351,7 +352,8 @@ const NewListing = () => {
 
           <FormControl isRequired mt="1em">
             <FormLabel color="black">{t("Description")}</FormLabel>
-            <Textarea
+            <Editor />
+            {/*  <Textarea
               placeholder={t(`Description is required, minimum ${MIN_DESCRIPTION_LENGTH} characters and maximum ${MAX_DESCRIPTION_LENGTH} characters`)}
               _placeholder={{ color: 'gray.400' }}
               color="gray.700"
@@ -363,7 +365,7 @@ const NewListing = () => {
             <Text color="red" m="5px">{errors.description?.type === 'pattern' && errors.description?.message}</Text>
             <Text color="red" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
             <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 100")}</Text>
-            <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 800")}</Text>
+            <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 800")}</Text> */}
           </FormControl>
 
           {global.currencyPriceList && global.currencyPriceList.length > 0 && (

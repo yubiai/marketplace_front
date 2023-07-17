@@ -3,6 +3,7 @@ import { ChakraProvider, ColorModeScript } from '@chakra-ui/react'
 import theme from '../styles/theme'
 
 import '../styles/globals.css'
+import '../styles/lexical.css'
 import Footer from '../components/Layouts/Footer'
 import Header from '../components/Layouts/Header'
 import Navbar from '../components/Layouts/Navbar'
