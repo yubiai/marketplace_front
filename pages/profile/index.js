@@ -12,7 +12,6 @@ import { useRouter } from 'next/router'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation';
-import MyBadgesCard from '../../components/Cards/MyBadgesCard'
 
 const Profile = () => {
   const global = useGlobal()
@@ -36,7 +35,7 @@ const Profile = () => {
   const {
     data: profile,
     isLoading,
-    isError, mutate
+    isError
   } = useFetch(
     global && global.profile && global.profile._id
       ? `/profiles/id/${global.profile._id}`
@@ -88,7 +87,7 @@ const Profile = () => {
           {/* <Text fontWeight={'bold'}>{t("Proof of humanity Information")}</Text>
           <MyInfoPohCard dataProfile={profile} balance={balanceToken} t={t} /> */}
           <Text fontWeight={'bold'}>{t("Lens Protocol Information")}</Text>
-          <MyInfoLensCard dataProfile={profile} t={t} />
+          {/* <MyInfoLensCard dataProfile={profile} t={t} /> */}
         </Box>
       </ProfileMenu>
     </>
