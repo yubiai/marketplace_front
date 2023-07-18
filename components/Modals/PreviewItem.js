@@ -4,6 +4,7 @@ import ImagePreviewListingCard from '../Cards/ImagePreviewListingCard'
 import PlayerAudio from '../Utils/PlayerAudio'
 import PlayerVideo from '../Utils/PlayerVideo'
 import useTranslation from 'next-translate/useTranslation';
+import EditorRead from '../Editor/EditorRead'
 
 const PreviewItem = ({ item }) => {
   const [selectFile, setSelectFile] = useState(item && item.files[0])
@@ -11,7 +12,7 @@ const PreviewItem = ({ item }) => {
 
   return (
     <Flex width={'full'} direction={{ base: 'column', sm: 'column', md: 'row' }}>
-      <Box width={{base: "100%", sm: "100%", md: "50%"}}>
+      <Box width={{ base: "100%", sm: "100%", md: "50%" }}>
         <Box height={'500px'} width={'full'}>
           {selectFile && (selectFile.type === "image/jpeg" || selectFile.type === "image/jpg" || selectFile.type === "image/png" || selectFile.type === "image/webp") && (
             <Image
@@ -48,22 +49,22 @@ const PreviewItem = ({ item }) => {
           </Flex>
         </Box>
       </Box>
-      <Box width={{base: "100%", sm: "100%", md: "50%"}} p={'1em'}>
+      <Box width={{ base: "100%", sm: "100%", md: "50%" }} p={'1em'}>
         <Text fontWeight={'bold'}>{t("Title")}</Text>
         <Text>{item?.title}</Text>
-        <Text fontWeight={'bold'}>{t("Description")}</Text>
-        <Text>{item?.description}</Text>
+
         <Text fontWeight={'bold'}>{t("Category")}</Text>
         <Text>{item?.category}</Text>
         <Text fontWeight={'bold'}>{t("Sub Category")} </Text>
         <Text>{item?.subcategory}</Text>
         <Text fontWeight={'bold'}>{t("Net Price")} </Text>
         <Text>{item?.price} {item?.currencySymbolPrice}</Text>
-{/*         <Text fontWeight={'bold'}>{t("UBI Burning Amount")} </Text>
+        {/*         <Text fontWeight={'bold'}>{t("UBI Burning Amount")} </Text>
         <Text> {item?.ubiburningamount} % ({item?.price * item?.ubiburningamount / 100} {item?.currencySymbolPrice})</Text> */}
         <Text fontWeight={'bold'}>{t("Total to receive")} </Text>
         <Text>{item?.price - item?.price * item?.ubiburningamount / 100} {item?.currencySymbolPrice}</Text>
-
+        <Text fontWeight={'bold'}>{t("Description")}</Text>
+        <EditorRead content={item?.description} />
 
       </Box>
     </Flex>

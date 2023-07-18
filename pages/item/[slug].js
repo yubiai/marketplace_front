@@ -27,6 +27,7 @@ import Error from '../../components/Infos/Error'
 import useTranslation from 'next-translate/useTranslation';
 import SEO from '../../components/Utils/SEO'
 import ButtonNewChannel from '../../components/Buttons/ButtonNewChannel'
+import EditorRead from '../../components/Editor/EditorRead'
 
 const ItemById = ({ item }) => {
   const global = useGlobal();
@@ -281,7 +282,7 @@ const ItemById = ({ item }) => {
               <Divider />
               <Box m="1em" h={"100%"}>
                 <Text mt="10px" fontWeight={"semibold"}>{t("Description")}</Text>
-                <Text mt="10px">{item.description}</Text>
+                <EditorRead content={item.description} />
               </Box>
               <Divider mt="2em" />
               <Box m="1em">
@@ -358,7 +359,7 @@ const ItemById = ({ item }) => {
                   </Center>
 
                   <Box position={"absolute"} left={2} bottom={0}>
-                  <ButtonNewChannel buyer={global?.profile?._id} seller={item.seller._id} item_id={item._id} profile={global?.profile} t={t} />
+                    <ButtonNewChannel buyer={global?.profile?._id} seller={item.seller._id} item_id={item._id} profile={global?.profile} t={t} />
                   </Box>
 
                   <Box position={"absolute"} right={2} bottom={0}>

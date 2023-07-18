@@ -45,6 +45,7 @@ export default function Editor({setContent, setCount}) {
   const editorConfig = {
     theme: YbTheme,
     onError(error) {
+      console.log(error)
       throw error;
     },
     nodes: [

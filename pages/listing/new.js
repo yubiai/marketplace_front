@@ -23,7 +23,6 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
-  Spacer,
   /*   Slider,
     SliderFilledTrack,
     SliderMark,
@@ -61,8 +60,6 @@ const NewListing = () => {
   const toast = useToast();
   const { t } = useTranslation("newlisting");
   const { lang } = useTranslation('common');
-
-  const [step, setStep] = useState(0);
 
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -210,16 +207,8 @@ const NewListing = () => {
     // Data Save useState
     setDataSubmit(form)
     setResult(newData)
-    setStep(1);
     // Open Modal
-    //onOpen()
-  }
-
-  const stepFinish = () => {
-    if (countDescription > 0 && countDescription < 1600) {
-      onOpen()
-    }
-    return
+    onOpen()
   }
 
   // Confirm Submit
@@ -282,8 +271,34 @@ const NewListing = () => {
           </BreadcrumbItem>
         </Breadcrumb>
         <Heading mt="5px">{t("New Listing")}</Heading>
-        {step === 0 && (
+          <Box>
+          <Heading mt="1em">{t("Description")}</Heading>
+          <Editor setContent={setContentDescription} setCount={setCountDescription} />
+          <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
+          <Text color="red" m="5px">{countDescription < MIN_DESCRIPTION_LENGTH && countDescription > 1 && t("Minimum required characters are 100")}</Text>
+          <Text color="red" m="5px">{countDescription > MAX_DESCRIPTION_LENGTH && t("Maximum required characters are 1600")}</Text>
+        </Box>
           <form onSubmit={handleSubmit(onSubmit)}>
+            <Heading mt="1em">Info</Heading>
+            <FormControl isRequired mt="1em">
+              <FormLabel color="black">{t("Title")}</FormLabel>
+
+              <Input
+                placeholder={t(`Title is required, minimum ${MIN_TITLE_LENGTH} characters and maximum ${MAX_TITLE_LENGTH} characters`)}
+                _placeholder={{ color: 'gray.400' }}
+                color="gray.700"
+                bg="white"
+                {...register('title', {
+                  required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, onChange: (e) => { setCountTitle(e.target.value.length) }
+                })}
+                isRequired
+              />
+              <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
+              <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
+              <Text color="red" m="5px">{errors.title?.type === 'required' && t("Title is required")}</Text>
+              <Text color="red" m="5px">{errors.title?.type === 'minLength' && t("Minimum required characters are 15")}</Text>
+              <Text color="red" m="5px">{errors.title?.type === 'maxLength' && t("Maximum required characters are 72")}</Text>
+            </FormControl>
             {categories && categories.length > 0 && (
               <Box mt="1em">
                 <FormControl isRequired>
@@ -342,29 +357,10 @@ const NewListing = () => {
                 <Divider />
               </Box>
             )}
-            <FormControl isRequired mt="1em">
-              <FormLabel color="black">{t("Title")}</FormLabel>
 
-              <Input
-                placeholder={t(`Title is required, minimum ${MIN_TITLE_LENGTH} characters and maximum ${MAX_TITLE_LENGTH} characters`)}
-                _placeholder={{ color: 'gray.400' }}
-                color="gray.700"
-                bg="white"
-                {...register('title', {
-                  required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, onChange: (e) => { setCountTitle(e.target.value.length) }
-                })}
-                isRequired
-              />
-              <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
-              <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
-              <Text color="red" m="5px">{errors.title?.type === 'required' && t("Title is required")}</Text>
-              <Text color="red" m="5px">{errors.title?.type === 'minLength' && t("Minimum required characters are 15")}</Text>
-              <Text color="red" m="5px">{errors.title?.type === 'maxLength' && t("Maximum required characters are 72")}</Text>
-            </FormControl>
 
             {/*<FormControl isRequired mt="1em">
              <FormLabel color="black">{t("Description")}</FormLabel>
-             <Editor setContent={setContentDescription} t={t} />
  
               <Textarea
                placeholder={t(`Description is required, minimum ${MIN_DESCRIPTION_LENGTH} characters and maximum ${MAX_DESCRIPTION_LENGTH} characters`)}
@@ -523,29 +519,10 @@ const NewListing = () => {
 
             <Box float={'right'} m="2em">
               <Button bg="#00abd1" color="white" type="submit">
-                {/* {t("Preview & Submit for review")} */} Next Step
+                {t("Preview & Submit for review")}
               </Button>
             </Box>
           </form>
-        )}
-        {step === 1 && (
-          <Box h="80vh">
-            <Text color="black">{t("Description")}</Text>
-            <Editor setContent={setContentDescription} setCount={setCountDescription} />
-            <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
-            <Text color="red" m="5px">{countDescription < MIN_DESCRIPTION_LENGTH && countDescription > 1 && t("Minimum required characters are 100")}</Text>
-            <Text color="red" m="5px">{countDescription > MAX_DESCRIPTION_LENGTH && t("Maximum required characters are 1600")}</Text>
-            <Flex>
-            <Button bg="orange.300" color="white" onClick={() => setStep(0)}>
-              Back
-            </Button>
-            <Spacer />
-            <Button bg="#00abd1" color="white" onClick={() => stepFinish()}>
-               {t("Preview & Submit for review")}
-            </Button>
-            </Flex>
-          </Box>
-        )}
         <Modal
           closeOnOverlayClick={false}
           isOpen={isOpen}
