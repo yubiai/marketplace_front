@@ -358,25 +358,6 @@ const NewListing = () => {
               </Box>
             )}
 
-
-            {/*<FormControl isRequired mt="1em">
-             <FormLabel color="black">{t("Description")}</FormLabel>
- 
-              <Textarea
-               placeholder={t(`Description is required, minimum ${MIN_DESCRIPTION_LENGTH} characters and maximum ${MAX_DESCRIPTION_LENGTH} characters`)}
-               _placeholder={{ color: 'gray.400' }}
-               color="gray.700"
-               bg="white"
-               {...register('description', { required: true, minLength: MIN_DESCRIPTION_LENGTH, maxLength: MAX_DESCRIPTION_LENGTH, onChange: (e) => { setCountDescription(e.target.value.length) } })}
-               isRequired
-             />
-             <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
-             <Text color="red" m="5px">{errors.description?.type === 'pattern' && errors.description?.message}</Text>
-             <Text color="red" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
-             <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 100")}</Text>
-             <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 800")}</Text>
-           </FormControl> */}
-
             {global.currencyPriceList && global.currencyPriceList.length > 0 && (
               <FormControl isRequired mt="1em">
                 <FormLabel color="black">{t("Price")}</FormLabel>
