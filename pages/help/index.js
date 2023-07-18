@@ -37,19 +37,53 @@ const Help = () => {
             <Text>{t("What is Yubiai?")}</Text>
           </Heading>
           <Text>
-            {t("Yubiai is a decentralized marketplace that allows any people registered in proof of humanity to buy and sell everything using crypto")}
+            {t("Yubiai is")}
           </Text>
           <Heading mt="10px">
             <Text>{t("How do I use Yubiai?")}</Text>
           </Heading>
-          <Text mt="5px" >
-            {t("Answer use")}
+          <Text mt="5px">
+            {t("Answer use0")}
           </Text>
+          <Text mt="3px">
+            {t("Answer use1")} <Link href="https://metamask.io">https://metamask.io</Link> 
+          </Text>
+          <Text mt="3px">
+            {t("Answer use2")} <Link href="https://app.yubiai.market">https://app.yubiai.market</Link>
+          </Text>
+          <Text mt="3px">
+            {t("Answer use3")}
+          </Text>
+          <Text mt="3px">
+            {t("Answer use4")}
+          </Text>
+          <Text mt="3px">
+            {t("Answer use5")}
+          </Text>
+
           <Heading mt="10px">
             <Text >{t("How does Yubiai work?")}</Text>
           </Heading>
-          <Text mt="5px" >
-            {t("Answer explain")}
+          <Text mt="5px" noOfLines={3}>
+            {t("Answer explain0")}
+          </Text>
+          <Text mt="3px">
+            {t("Answer explain1")}
+          </Text>
+          <Text mt="3px">
+            {t("Answer explain2")}
+          </Text>
+          <Text mt="3px">
+            {t("Answer explain3")}
+          </Text>
+          <Text mt="3px">
+            {t("Answer explain4")}
+          </Text>
+          <Text mt="3px">
+            {t("Answer explain5")}
+          </Text>
+          <Text mt="3px">
+            {t("Answer explain6")}
           </Text>
           <Heading mt="10px">
             <Text >{t("Invest")}</Text>

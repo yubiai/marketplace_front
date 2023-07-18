@@ -31,8 +31,10 @@ const Paginations = ({ data }) => {
   const global = useGlobal()
   const dispatch = useDispatchGlobal()
 
+  if(!data) return null;
+
   const pages = []
-  for (let i = 1; i < data?.totalPages + 1; i++) {
+  for (let i = 1; i < data.totalPages + 1; i++) {
     pages.push(<Page id={i} key={i} />)
   }
 
@@ -64,7 +66,7 @@ const Paginations = ({ data }) => {
               onClick={descrPageIndex}
               color="white"
               bg="#00abd1"
-              disabled={global.pageIndex <= 0}
+              isDisabled={global.pageIndex <= 0}
             >
               <ArrowLeftIcon w={4} h={4} />
             </Button>
@@ -73,7 +75,7 @@ const Paginations = ({ data }) => {
               onClick={incrPageIndex}
               color="white"
               bg="#00abd1"
-              disabled={global.pageIndex >= data?.totalPages - 1}
+              isDisabled={global.pageIndex >= data.totalPages - 1}
             >
               <ArrowRightIcon w={4} h={4} />
             </Button>

@@ -12,7 +12,7 @@ import { useRouter } from 'next/router'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation';
-import MyInfoLensCard from '../../components/Cards/MyInfoLensCard'
+import MyBadgesCard from '../../components/Cards/MyBadgesCard'
 
 const Profile = () => {
   const global = useGlobal()
@@ -20,6 +20,7 @@ const Profile = () => {
   const dispatch = useDispatchGlobal()
   const { t } = useTranslation("profilepage");
   const { user, loggedOut } = useUser()
+
 
   // if logged in, redirect to the home
   useEffect(() => {
@@ -35,7 +36,7 @@ const Profile = () => {
   const {
     data: profile,
     isLoading,
-    isError,
+    isError, mutate
   } = useFetch(
     global && global.profile && global.profile._id
       ? `/profiles/id/${global.profile._id}`

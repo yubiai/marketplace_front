@@ -3,7 +3,8 @@
     "Profile": "Perfil",
     "Edit": "Editar",
     "Edit my profile": "Editar mi perfil",
-    "Real Name": "Real Name",
+    "Change photo": "Cambiar Foto",
+    "Real Name": "Nombre",
     "Address": "Dirección",
     "City": "Ciudad",
     "Country": "País",
@@ -12,5 +13,9 @@
     "Go Back": "Volver ",
     "Save": "Guardar",
     "Data saved": "Datos guardados con éxito",
-    "Data not saved": "No se han podido guardar tus datos"
+    "Data not saved": "No se han podido guardar tus datos",
+    "Cancel": "Cancelar",
+    "Characters": "Caracteres:",
+    "Photo Perfil": "Foto Perfil",
+    "Optional": "Opcional"
 }

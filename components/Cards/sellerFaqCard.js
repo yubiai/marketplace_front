@@ -23,7 +23,28 @@ const SellerFaqCard = () => {
         <Text>{t("How do I start selling?")}</Text>
       </Heading>
       <Text mt="1em">
-        {t("Begin by clicking on")}
+        {t("Seller answer0")}
+      </Text>
+      <Text mt="0.5em">
+        {t("Seller answer1")}
+      </Text>
+      <Text mt="0.5em">
+        {t("Seller answer2")}
+      </Text>
+      <Text mt="0.5em">
+        {t("Seller answer3")}
+      </Text>
+      <Text mt="0.5em">
+        {t("Seller answer4")}
+      </Text>
+      <Text mt="0.5em">
+        {t("Seller answer5")}
+      </Text>
+      <Text mt="0.5em">
+        {t("Seller answer6")}
+      </Text>
+      <Text mt="0.5em">
+        {t("Seller answer7")}
       </Text>
 {/*       <Heading fontSize={"2xl"} mt="1em">
         <Text>{t("What is `UBI Burning Amount`?")}</Text>

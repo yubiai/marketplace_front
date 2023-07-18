@@ -23,8 +23,22 @@ const BuyerFaqCard = () => {
         <Text>{t("How do I start buying?")}</Text>
       </Heading>
       <Text mt="1em">
-        {t("Begin by clicking")}
+        {t("Buyer answer0")}
       </Text>
+      <Text mt="0.25em">
+        {t("Buyer answer1")}
+      </Text>
+      <Text mt="0.25em">
+        {t("Buyer answer2")}
+      </Text>
+      <Text mt="0.25em">
+        {t("Buyer answer3")}
+      </Text>
+      <Text mt="0.25em">
+        {t("Buyer answer4")}
+      </Text>
+      
+
 {/*       <Heading fontSize={"2xl"} mt="1em">
         <Text>{t("What is `UBI Burning Amount`?")}</Text>
       </Heading>

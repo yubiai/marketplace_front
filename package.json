@@ -21,6 +21,7 @@
     "@reactour/tour": "^3.1.6",
     "@wagmi/core": "^1.1.1",
     "@walletconnect/ethereum-provider": "^2.4.9",
+    "@walletconnect/modal": "^2.4.7",
     "@walletconnect/web3-provider": "^1.6.2",
     "@web3modal/standalone": "^2.3.3",
     "0xsequence": "^0.43.33",

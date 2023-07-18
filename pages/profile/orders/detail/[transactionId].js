@@ -33,6 +33,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   useToast,
+  Image,
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
 import {
@@ -46,9 +47,11 @@ import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
 import { calculateFinishDate } from '../../../../utils/orderUtils';
 import EvidencesList from '../../../../components/Infos/EvidencesList';
-import ButtonProtocolProfile from '../../../../components/Buttons/ButtonProtocolProfile';
+import ListBadges from '../../../../components/Utils/ListBadges';
 
 const OrderDetail = () => {
+  const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
+
   const [loading, setLoading] = useState(false);
   /**
    * External dependencies
@@ -144,6 +147,7 @@ const OrderDetail = () => {
         currentTS >= fullStatus.deal.dealCreatedAt + fullStatus.deal.timeForService);
     }
   }
+
 
   const toggleLoadingStatus = status => {
     setOperationInProgress(status);
@@ -405,26 +409,21 @@ const OrderDetail = () => {
               mt="1em"
             >
               <Center>
-                <Avatar
-                  size={'xl'}
-                  src={orderDetail && orderDetail.item.seller.photo}
-                  alt={'Avatar Alt'}
-                  mb={4}
-                  pos={'relative'}
+                <Image
+                  alt={'Logo'}
+                  borderRadius="2xl"
+                  marginTop={'6px'}
+                  width={'150px'}
+                  objectFit={'cover'}
+                  src={url_fleek + orderDetail.item.seller.photo}
+                  fallbackSrc={"/static/images/userdefault.png"}
                 />
               </Center>
               <Center textAlign={"center"}>
                 <Box>
                   <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.seller.name}`}</Text>
                   <Text>{t("Eth Address")}: {orderDetail && orderDetail.item.seller.eth_address.slice(orderDetail.item.seller.eth_address.length - 8)}</Text>
-                  <Center mt="0.6em">
-                    {orderDetail && orderDetail.item.seller && orderDetail.item.seller.eth_address && orderDetail.item.seller.poh_info && orderDetail.item.seller.poh_info.first_name && (
-                      <ButtonProtocolProfile profile={orderDetail.item.seller} protocol={"poh"} />
-                    )}
-                    {orderDetail && orderDetail.item.seller && orderDetail.item.seller.eth_address && orderDetail.item.seller.lens_info && orderDetail.item.seller.lens_info.handle && (
-                      <ButtonProtocolProfile profile={orderDetail.item.seller} protocol={"lens"} />
-                    )}
-                  </Center>
+                  <ListBadges badges={orderDetail.item.seller.badges} />
                 </Box>
               </Center>
 

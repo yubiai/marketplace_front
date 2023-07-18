@@ -42,7 +42,8 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  Spinner
+  Spinner,
+  Image
 } from '@chakra-ui/react';
 import useUser from '../../../../hooks/data/useUser';
 import { StatusOrderByState, CLAIMED_STATUS, statusDescMap, StatusOrder, ONGOING_STATUS } from '../../../../components/Infos/StatusOrder';
@@ -51,10 +52,11 @@ import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
 import ButtonCloseDeal from '../../../../components/Buttons/ButtonCloseDeal';
 import { calculateFinishDate } from '../../../../utils/orderUtils';
-import ButtonProtocolProfile from '../../../../components/Buttons/ButtonProtocolProfile';
-
+import ListBadges from '../../../../components/Utils/ListBadges';
 
 const OrderDetail = () => {
+  const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
+
   /**
    * External dependencies
    */
@@ -452,26 +454,22 @@ const OrderDetail = () => {
             >
 
               <Center>
-                <Avatar
-                  size={'xl'}
-                  src={orderDetail && orderDetail.item.buyer.photo}
-                  alt={'Avatar Alt'}
-                  mb={4}
-                  pos={'relative'}
+              <Image
+                  alt={'Logo'}
+                  borderRadius="2xl"
+                  marginTop={'6px'}
+                  width={'150px'}
+                  objectFit={'cover'}
+                  src={url_fleek + orderDetail.item.buyer.photo}
+                  fallbackSrc={"/static/images/userdefault.png"}
                 />
               </Center>
               <Center textAlign={"center"}>
                 <Box>
                   <Text fontWeight={600} color="black">{`${orderDetail && orderDetail.item.buyer.name}`}</Text>
                   <Text>{t("Eth Address")}: {orderDetail && orderDetail.item.buyer.eth_address.slice(orderDetail.item.buyer.eth_address.length - 8)}</Text>
-                  <Center mt="0.6em">
-                    {orderDetail && orderDetail.item.buyer && orderDetail.item.buyer.eth_address && orderDetail.item.buyer.poh_info && orderDetail.item.buyer.poh_info.first_name && (
-                      <ButtonProtocolProfile profile={orderDetail.item.buyer} protocol={"poh"} />
-                    )}
-                    {orderDetail && orderDetail.item.buyer && orderDetail.item.buyer.eth_address && orderDetail.item.buyer.lens_info && orderDetail.item.buyer.lens_info.handle && (
-                      <ButtonProtocolProfile profile={orderDetail.item.buyer} protocol={"lens"} />
-                    )}
-                  </Center>
+                  <ListBadges badges={orderDetail.item.buyer.badges} />
+
                 </Box>
               </Center>
 

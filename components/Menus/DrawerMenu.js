@@ -34,12 +34,13 @@ import {
   MdForum,
   MdOutlinePowerSettingsNew,
   MdArticle,
-  MdOutlineShuffle
+  MdOutlineShuffle,
+  MdOutlineAttachMoney
 } from 'react-icons/md'
 import { useGlobal } from '../../providers/globalProvider'
 import { balanceUbi1 } from '../../utils/ethereum'
 import { useRouter } from 'next/router'
-import ButtonConnect from '../Buttons/ButtonConnect'
+import ButtonConnectMetamask from '../Buttons/ButtonConnectMetamask'
 import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
 import useTranslation from 'next-translate/useTranslation';
 
@@ -104,7 +105,7 @@ const DrawerMenu = () => {
               />
             ) : (
               <>
-                <ButtonConnect />
+                <ButtonConnectMetamask />
               </>
             )}
 
@@ -134,6 +135,25 @@ const DrawerMenu = () => {
               </ListItem>
               <ListItem>
                 <Link
+                  href="https://app.paydece.io/"
+                  passHref legacyBehavior
+                >
+                  <a target="_blank" rel="noopener noreferrer">
+                    <Button
+                      className='step-bridge'
+                      onClick={() => onCategory()}
+                      w="full"
+                      bg="transparent"
+                      justifyContent={'left'}
+                    >
+                      <ListIcon as={MdOutlineAttachMoney} />
+                      {t("To Fiat")}
+                    </Button>
+                  </a>
+                </Link>
+              </ListItem>
+              <ListItem>
+                <Link
                   href="https://bridge.connext.network/?receivingChainId=100"
                   passHref legacyBehavior
                 >
@@ -149,6 +169,21 @@ const DrawerMenu = () => {
                       Bridge
                     </Button>
                   </a>
+                </Link>
+              </ListItem>
+              
+              <ListItem>
+                <Link href="/help">
+                  <Button
+                    onClick={() => onClose()}
+                    className="step-help"
+                    w="full"
+                    bg="transparent"
+                    justifyContent={'left'}
+                  >
+                    <ListIcon as={MdHelp} />
+                    {t("Help")}
+                  </Button>
                 </Link>
               </ListItem>
               <ListItem>
@@ -199,6 +234,20 @@ const DrawerMenu = () => {
                     </Link>
                   </ListItem>
                   <ListItem>
+                    <Link href="/profile/favourites">
+                      <Button
+                        onClick={() => onClose()}
+                        className="step-favourites"
+                        w="full"
+                        bg="transparent"
+                        justifyContent={'left'}
+                      >
+                        <ListIcon as={MdFavorite} />
+                        {t("Favourites")}
+                      </Button>
+                    </Link>
+                  </ListItem>
+                  <ListItem>
                     <Link href="/profile/notifications">
                       <Button
                         onClick={() => onClose()}
@@ -240,6 +289,7 @@ const DrawerMenu = () => {
                       </Button>
                     </Link>
                   </ListItem>
+                 
                   <ListItem>
                     <Link href="/profile/questions">
                       <Button
@@ -282,37 +332,10 @@ const DrawerMenu = () => {
                       </Button>
                     </Link>
                   </ListItem>
-                  <ListItem>
-                    <Link href="/profile/favourites">
-                      <Button
-                        onClick={() => onClose()}
-                        className="step-favourites"
-                        w="full"
-                        bg="transparent"
-                        justifyContent={'left'}
-                      >
-                        <ListIcon as={MdFavorite} />
-                        {t("Favourites")}
-                      </Button>
-                    </Link>
-                  </ListItem>
+                
                 </>
               )}
 
-              <ListItem>
-                <Link href="/help">
-                  <Button
-                    onClick={() => onClose()}
-                    className="step-help"
-                    w="full"
-                    bg="transparent"
-                    justifyContent={'left'}
-                  >
-                    <ListIcon as={MdHelp} />
-                    {t("Help")}
-                  </Button>
-                </Link>
-              </ListItem>
             </List>
           </DrawerBody>
 

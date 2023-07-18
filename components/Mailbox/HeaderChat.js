@@ -1,9 +1,11 @@
 import { Flex, Avatar, Text } from '@chakra-ui/react'
 
 const HeaderChat = ({ dataUser, type }) => {
+  const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
+
   return (
     <Flex w="100%">
-      <Avatar size="lg" name="Dan Abrahmov" src={dataUser.photo}>
+      <Avatar size="lg" name={dataUser && dataUser.name} src={url_fleek + dataUser.photo}>
         {/*         <AvatarBadge boxSize="1.25em" bg="green.500" />
          */}
       </Avatar>
