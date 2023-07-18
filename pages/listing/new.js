@@ -408,53 +408,7 @@ const NewListing = () => {
               </NumberInput>
             </FormControl>
 
-            {/* <Box pt={6} pb={2} color="gray.700"
-           >
-             <FormControl isRequired mt="1em">
-               <FormLabel color="black">{t("UBI Burning Amount")}</FormLabel>
-               <Text fontStyle={"italic"}>({t("Remember that the amount to be burned will be deducted from the final sale price")}).</Text>
-               <Box textAlign={"center"}>
-                 <Slider
-                   width={{ base: "80%", sm: "80%", md: "100%" }}
-                   mt="3em"
-                   aria-label="slider-ex-6"
-                   defaultValue={2}
-                   min={0.6}
-                   max={10}
-                   onChange={(val) => setSliderValue(val)}
-                 >
-                   <SliderMark value={0.6} {...labelStyles}>
-                     0.6%
-                   </SliderMark>
-                   <SliderMark value={2} {...labelStyles}>
-                     2%
-                     <Text fontStyle={"italic"} fontSize={{ base: "0.8em", md: "1em" }} ml="5px">({t("Recommended")})</Text>
-                   </SliderMark>
-                   <SliderMark value={5} {...labelStyles}>
-                     5%
-                   </SliderMark>
-                   <SliderMark value={10} {...labelStyles}>
-                     10%
-                   </SliderMark>
-                   <SliderMark
-                     value={sliderValue}
-                     textAlign="center"
-                     bg="#00abd1"
-                     color="white"
-                     mt="-10"
-                     ml="-5"
-                     w="12"
-                   >
-                     {sliderValue}%
-                   </SliderMark>
-                   <SliderTrack>
-                     <SliderFilledTrack />
-                   </SliderTrack>
-                   <SliderThumb />
-                 </Slider>
-               </Box>
-             </FormControl>
-           </Box> */}
+          
 
             <Heading mt="1em">{t("Images / Videos / Audios")}</Heading>
 
