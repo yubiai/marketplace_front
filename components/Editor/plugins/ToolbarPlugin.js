@@ -426,7 +426,6 @@ export default function ToolbarPlugin() {
     false
   );
   const [codeLanguage, setCodeLanguage] = useState("");
-  const [setIsRTL] = useState(false);
   const [isLink, setIsLink] = useState(false);
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
@@ -466,8 +465,7 @@ export default function ToolbarPlugin() {
       setIsUnderline(selection.hasFormat("underline"));
       setIsStrikethrough(selection.hasFormat("strikethrough"));
       setIsCode(selection.hasFormat("code"));
-      setIsRTL($isParentElementRTL(selection));
-
+      
       // Update links
       const node = getSelectedNode(selection);
       const parent = node.getParent();
