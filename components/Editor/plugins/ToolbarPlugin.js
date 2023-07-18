@@ -15,7 +15,6 @@ import {
 } from "lexical";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import {
-  $isParentElementRTL,
   $wrapNodes,
   $isAtNodeEnd
 } from "@lexical/selection";
