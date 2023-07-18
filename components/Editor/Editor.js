@@ -20,28 +20,23 @@ import { TRANSFORMERS } from "@lexical/markdown";
 import ListMaxIndentLevelPlugin from "./plugins/ListMaxIndentLevelPlugin";
 import CodeHighlightPlugin from "./plugins/CodeHighlightPlugin";
 import AutoLinkPlugin from "./plugins/AutoLinkPlugin";
-import { $getRoot, $getSelection } from "lexical";
-import { useState } from "react";
+import { $getRoot } from "lexical";
 
 function Placeholder() {
-  return <div className="editor-placeholder">Placeholder</div>;
+  return <div className="editor-placeholder">Description</div>;
 }
 
-export default function Editor() {
+export default function Editor({setContent, setCount}) {
 
-  const [countDescription, setCountDescription] = useState(0);
 
   const onChange = (editorState) => {
     const editorStateTextString = editorState.read(() => {
-      const selection = $getSelection();
-
-      console.log(selection);
-      console.log($getRoot(), "$getRoot()")
-
+      const valueDescription = JSON.stringify(editorState); // or JSON.stringify(editorState.toJSON())
+      setContent(valueDescription)
       return $getRoot().getTextContent();
     });
 
-    setCountDescription(editorStateTextString.length);
+    setCount(editorStateTextString.length);
 
     return;
   };
@@ -85,12 +80,11 @@ export default function Editor() {
             <ListPlugin />
             <LinkPlugin />
             <AutoLinkPlugin />
-            <ListMaxIndentLevelPlugin maxDepth={7} />
+            <ListMaxIndentLevelPlugin maxDepth={15} />
             <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
           </div>
         </div>
       </LexicalComposer>
-      <div>{countDescription}</div>
     </>
   );
 }
