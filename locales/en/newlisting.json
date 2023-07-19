@@ -27,6 +27,7 @@
     "Title is required": "Title is required",
     "Minimum required characters are 15": "Minimum required characters are 15",
     "Maximum required characters are 72": "Maximum required characters are 72",
+    "Title must be between 15 and 72 characters": "Title must be between 15 and 72 characters.",
     "Description": "Description",
     "Description is required, minimum 100 characters and maximum 800 characters": "Description is required, minimum 100 characters and maximum 800 characters",
     "Description is Required": "Description is Required",
@@ -51,5 +52,7 @@
     "Net Price": "Net Price",
     "Total to receive": "Total to receive",
     "Your listing has been submitted!": "Your listing has been submitted!",
-    "Revision": "Our team would review your listing and notify you via email once your listing is live. This usually takes 2 hours to review."
+    "Revision": "Our team would review your listing and notify you via email once your listing is live. This usually takes 2 hours to review.",
+    "Error Form": "Error Form",
+    "There is an error in the form": "There is an error in the form"
 }

@@ -62,7 +62,34 @@ const NewListing = () => {
   const { lang } = useTranslation('common');
 
   //Modal
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // Title
+  const [title, setTitle] = useState('');
+  const [titleError, setTitleError] = useState(false);
+  const [countTitle, setCountTitle] = useState(0);
+  const MIN_TITLE_LENGTH = 15;
+  const MAX_TITLE_LENGTH = 72;
+
+  const handleChangeTitle = (e) => {
+    const { value } = e.target;
+    setCountTitle(value.length);
+    if (value.length < MIN_TITLE_LENGTH || value.length > MAX_TITLE_LENGTH) {
+      setTitleError(true);
+      setTitle(null);
+      return
+    } else {
+      setTitle(value);
+      setTitleError(false);
+      return
+    }
+  };
+
+  // Description
+  const [contentDescription, setContentDescription] = useState(null);
+  const [countDescription, setCountDescription] = useState(0);
+  const MIN_DESCRIPTION_LENGTH = 100;
+  const MAX_DESCRIPTION_LENGTH = 1600;
 
   const [selectedCurrency, setSelectedCurrency] = useState('ETH')
 
@@ -70,17 +97,8 @@ const NewListing = () => {
   const [subCategories, setSubCategories] = useState([])
 
   // State useForm
-  const { handleSubmit, register, getValues, control, formState: { errors }, resetField } = useForm()
+  const { handleSubmit, register, getValues, control, resetField } = useForm()
   const [result, setResult] = useState(null)
-
-  const [countTitle, setCountTitle] = useState(0);
-  const MIN_TITLE_LENGTH = 15;
-  const MAX_TITLE_LENGTH = 72;
-
-  const [contentDescription, setContentDescription] = useState(null);
-  const [countDescription, setCountDescription] = useState(0);
-  const MIN_DESCRIPTION_LENGTH = 100;
-  const MAX_DESCRIPTION_LENGTH = 1600;
 
   // State Submit
   const [stateSubmit, setStateSubmit] = useState(0)
@@ -163,6 +181,18 @@ const NewListing = () => {
 
   // Form Submit Preview
   const onSubmit = async (data) => {
+    if (!title || !contentDescription || countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH) {
+      toast({
+        title: t("Error Form"),
+        description: t("There is an error in the form"),
+        position: 'top-right',
+        status: 'warning',
+        duration: 3000,
+        isClosable: true
+      });
+      return
+    }
+
     const form = new FormData()
 
     if (data.file1) {
@@ -177,7 +207,7 @@ const NewListing = () => {
       form.append('files', data.file3)
     }
 
-    form.append('title', data.title)
+    form.append('title', title)
     form.append('description', contentDescription)
     form.append('price', priceValue)
     form.append('seller', global.profile._id)
@@ -271,95 +301,97 @@ const NewListing = () => {
           </BreadcrumbItem>
         </Breadcrumb>
         <Heading mt="5px">{t("New Listing")}</Heading>
-          <Box>
-          <Heading mt="1em">{t("Description")}</Heading>
+        <Box mt="1em">
+          <Heading as="h4" size="md">
+            {t('Title')} <span style={{ color: 'red' }}>*</span>
+          </Heading>
+          <Input
+            mt="1em"
+            placeholder={t(`Title must be between 15 and 72 characters`)}
+            _placeholder={{ color: 'gray.400' }}
+            color="gray.700"
+            bg="white"
+            value={title}
+            onChange={handleChangeTitle}
+            isRequired
+          />
+          {titleError && (
+            <Box mt="0.5em" color="red.500" fontSize="sm">
+              {t(`Title must be between 15 and 72 characters`)}
+            </Box>
+          )}
+          <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
+        </Box>
+        <Box mt="1em">
+          <Heading as='h4' size='md'>{t("Description")} <span style={{ color: 'red' }}>*</span></Heading>
           <Editor setContent={setContentDescription} setCount={setCountDescription} />
           <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
           <Text color="red" m="5px">{countDescription < MIN_DESCRIPTION_LENGTH && countDescription > 1 && t("Minimum required characters are 100")}</Text>
           <Text color="red" m="5px">{countDescription > MAX_DESCRIPTION_LENGTH && t("Maximum required characters are 1600")}</Text>
         </Box>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Heading mt="1em">Info</Heading>
-            <FormControl isRequired mt="1em">
-              <FormLabel color="black">{t("Title")}</FormLabel>
+        <form onSubmit={handleSubmit(onSubmit)}>
 
-              <Input
-                placeholder={t(`Title is required, minimum ${MIN_TITLE_LENGTH} characters and maximum ${MAX_TITLE_LENGTH} characters`)}
-                _placeholder={{ color: 'gray.400' }}
-                color="gray.700"
-                bg="white"
-                {...register('title', {
-                  required: true, minLength: MIN_TITLE_LENGTH, maxLength: MAX_TITLE_LENGTH, onChange: (e) => { setCountTitle(e.target.value.length) }
-                })}
-                isRequired
-              />
-              <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
-              <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
-              <Text color="red" m="5px">{errors.title?.type === 'required' && t("Title is required")}</Text>
-              <Text color="red" m="5px">{errors.title?.type === 'minLength' && t("Minimum required characters are 15")}</Text>
-              <Text color="red" m="5px">{errors.title?.type === 'maxLength' && t("Maximum required characters are 72")}</Text>
-            </FormControl>
-            {categories && categories.length > 0 && (
-              <Box mt="1em">
-                <FormControl isRequired>
-                  <FormLabel color="black"> {t("Category")}</FormLabel>
-                  <Select
-                    bg="white"
-                    color="black"
-                    name="category"
-                    id="category"
-                    placeholder={t("Select Category")}
-                    _placeholder={{ color: 'gray.400' }}
-                    isRequired={true}
-                    {...register('category', {
-                      required: true,
-                      onChange: (e) => {
-                        getSubCategories(e.target.value)
-                      },
-                    })}
-                  >
-                    {categories.map((category) => (
-                      <option key={category._id} value={category._id} id="category">
-                        {t(category.title)}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
+          {categories && categories.length > 0 && (
+            <Box mt="1em">
+              <FormControl isRequired>
+                <FormLabel color="black"> {t("Category")}</FormLabel>
+                <Select
+                  bg="white"
+                  color="black"
+                  name="category"
+                  id="category"
+                  placeholder={t("Select Category")}
+                  _placeholder={{ color: 'gray.400' }}
+                  isRequired={true}
+                  {...register('category', {
+                    required: true,
+                    onChange: (e) => {
+                      getSubCategories(e.target.value)
+                    },
+                  })}
+                >
+                  {categories.map((category) => (
+                    <option key={category._id} value={category._id} id="category">
+                      {t(category.title)}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
 
-              </Box>
-            )}
+            </Box>
+          )}
 
-            {subCategories.length > 0 && (
-              <Box mt="1em">
-                <FormControl isRequired>
-                  <FormLabel color="black">{t("Sub Category")}</FormLabel>
-                  <Select
-                    bg="white"
-                    color="black"
-                    name="subcategory"
-                    id="subcategory"
-                    placeholder={t("Select Sub Category")}
-                    _placeholder={{ color: 'gray.400' }}
-                    isRequired={true}
-                    {...register('subcategory', { required: true })}
-                  >
-                    {subCategories.map((subcategory) => (
-                      <option
-                        key={subcategory._id}
-                        value={subcategory._id}
-                        id="subcategory"
-                      >
-                        {subcategory[lang]}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
-                <Divider />
-              </Box>
-            )}
+          {subCategories.length > 0 && (
+            <Box mt="1em">
+              <FormControl isRequired>
+                <FormLabel color="black">{t("Sub Category")}</FormLabel>
+                <Select
+                  bg="white"
+                  color="black"
+                  name="subcategory"
+                  id="subcategory"
+                  placeholder={t("Select Sub Category")}
+                  _placeholder={{ color: 'gray.400' }}
+                  isRequired={true}
+                  {...register('subcategory', { required: true })}
+                >
+                  {subCategories.map((subcategory) => (
+                    <option
+                      key={subcategory._id}
+                      value={subcategory._id}
+                      id="subcategory"
+                    >
+                      {subcategory[lang]}
+                    </option>
+                  ))}
+                </Select>
+              </FormControl>
+              <Divider />
+            </Box>
+          )}
 
 
-            {/*<FormControl isRequired mt="1em">
+          {/*<FormControl isRequired mt="1em">
              <FormLabel color="black">{t("Description")}</FormLabel>
  
               <Textarea
@@ -377,57 +409,57 @@ const NewListing = () => {
              <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 800")}</Text>
            </FormControl> */}
 
-            {global.currencyPriceList && global.currencyPriceList.length > 0 && (
-              <FormControl isRequired mt="1em">
-                <FormLabel color="black">{t("Price")}</FormLabel>
-                <Select
-                  bg="white"
-                  color="black"
-                  name="currency"
-                  id="currency"
-                  placeholder={t("Select Currency")}
-                  onChange={(e) => {
-                    setSelectedCurrency(e.target.value)
-                  }}
-                >
-                  {global.currencyPriceList.map((currency) => (
-                    <option
-                      key={currency._id}
-                      value={currency.symbol}
-                      id="currency"
-                    >
-                      {currency.symbol}
-                    </option>
-                  ))}
-
-                </Select>
-              </FormControl>
-            )}
+          {global.currencyPriceList && global.currencyPriceList.length > 0 && (
             <FormControl isRequired mt="1em">
-              <FormLabel color="black">{t("Amount")}</FormLabel>
-              <NumberInput
-                onChange={(valueString) => {
-                  setPriceValue(parse(valueString))
-                  return
-                }}
-                value={format(priceValue)}
-                color="gray.700"
+              <FormLabel color="black">{t("Price")}</FormLabel>
+              <Select
                 bg="white"
-                min={0.00001}
-                max={999999}
-                precision={5}
-                isRequired
+                color="black"
+                name="currency"
+                id="currency"
+                placeholder={t("Select Currency")}
+                onChange={(e) => {
+                  setSelectedCurrency(e.target.value)
+                }}
               >
-                <NumberInputField placeholder='0.00001' _placeholder={{ color: 'gray.400' }}
-                />
-                <NumberInputStepper>
-                  <NumberIncrementStepper />
-                  <NumberDecrementStepper />
-                </NumberInputStepper>
-              </NumberInput>
-            </FormControl>
+                {global.currencyPriceList.map((currency) => (
+                  <option
+                    key={currency._id}
+                    value={currency.symbol}
+                    id="currency"
+                  >
+                    {currency.symbol}
+                  </option>
+                ))}
 
-            {/* <Box pt={6} pb={2} color="gray.700"
+              </Select>
+            </FormControl>
+          )}
+          <FormControl isRequired mt="1em">
+            <FormLabel color="black">{t("Amount")}</FormLabel>
+            <NumberInput
+              onChange={(valueString) => {
+                setPriceValue(parse(valueString))
+                return
+              }}
+              value={format(priceValue)}
+              color="gray.700"
+              bg="white"
+              min={0.00001}
+              max={999999}
+              precision={5}
+              isRequired
+            >
+              <NumberInputField placeholder='0.00001' _placeholder={{ color: 'gray.400' }}
+              />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </FormControl>
+
+          {/* <Box pt={6} pb={2} color="gray.700"
            >
              <FormControl isRequired mt="1em">
                <FormLabel color="black">{t("UBI Burning Amount")}</FormLabel>
@@ -475,54 +507,54 @@ const NewListing = () => {
              </FormControl>
            </Box> */}
 
-            <Heading mt="1em">{t("Images / Videos / Audios")}</Heading>
+          <Heading as='h4' size='md' mt="1em">{t("Images / Videos / Audios")}</Heading>
 
-            <Text>
-              {t("UploadInfo")}
-            </Text>
+          <Text mt="1em">
+            {t("UploadInfo")}
+          </Text>
 
-            <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }} color="gray.700">
-              <FileUpload
-                name="file1"
-                acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp"
-                isRequired={true}
-                placeholder="Your File 1"
-                control={control}
-                resetField={resetField}
-                getValues={getValues}
-              >
-                {t("Main Image")}
-              </FileUpload>
-              <FileUpload
-                name="file2"
-                acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp, video/mp4, audio/mpeg"
-                isRequired={false}
-                placeholder="Your File 2"
-                control={control}
-                resetField={resetField}
-                getValues={getValues}
-              >
-                {t("File")}
-              </FileUpload>
-              <FileUpload
-                name="file3"
-                acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp, video/mp4, audio/mpeg"
-                isRequired={false}
-                placeholder="Your File 3"
-                control={control}
-                resetField={resetField}
-                getValues={getValues}
-              >
-                {t("File")}
-              </FileUpload>
-            </Flex>
+          <Flex display={'flex'} flexDirection={{ base: 'column', sm: 'row' }} color="gray.700">
+            <FileUpload
+              name="file1"
+              acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp"
+              isRequired={true}
+              placeholder="Your File 1"
+              control={control}
+              resetField={resetField}
+              getValues={getValues}
+            >
+              {t("Main Image")}
+            </FileUpload>
+            <FileUpload
+              name="file2"
+              acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp, video/mp4, audio/mpeg"
+              isRequired={false}
+              placeholder="Your File 2"
+              control={control}
+              resetField={resetField}
+              getValues={getValues}
+            >
+              {t("File")}
+            </FileUpload>
+            <FileUpload
+              name="file3"
+              acceptedFileTypes="image/png, image/jpeg, image/jpg, image/webp, video/mp4, audio/mpeg"
+              isRequired={false}
+              placeholder="Your File 3"
+              control={control}
+              resetField={resetField}
+              getValues={getValues}
+            >
+              {t("File")}
+            </FileUpload>
+          </Flex>
 
-            <Box float={'right'} m="2em">
-              <Button bg="#00abd1" color="white" type="submit">
-                {t("Preview & Submit for review")}
-              </Button>
-            </Box>
-          </form>
+          <Box float={'right'} m="2em">
+            <Button bg="#00abd1" color="white" type="submit">
+              {t("Preview & Submit for review")}
+            </Button>
+          </Box>
+        </form>
         <Modal
           closeOnOverlayClick={false}
           isOpen={isOpen}
