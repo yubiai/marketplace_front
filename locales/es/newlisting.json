@@ -27,6 +27,7 @@
     "Title is required": "Título obligatorio",
     "Minimum required characters are 15": "Se requiere una cantidad mínima de 15 caracteres",
     "Maximum required characters are 72": "Se requiere una cantidad máxima de 72 caracteres",
+    "Title must be between 15 and 72 characters": "El título debe tener entre 15 y 72 caracteres.",
     "Description": "Descripción",
     "Description is required, minimum 100 characters and maximum 800 characters": "Se requiere una descripción mínima de 100 caracteres y máxima de 800 caracteres",
     "Description is Required": "Descripción obligatoria",
@@ -51,5 +52,7 @@
     "Net Price": "Precio Neto",
     "Total to receive": "Total a recibir",
     "Your listing has been submitted!": "Su publicación ha sido enviada!",
-    "Revision": "Nuestro equipo revisará su publicación y le notificará por correo electrónico una vez que su anuncio esté activo. La revisión suele tardar 2 horas."
+    "Revision": "Nuestro equipo revisará su publicación y le notificará por correo electrónico una vez que su anuncio esté activo. La revisión suele tardar 2 horas.",
+    "Error Form": "Error Formulario",
+    "There is an error in the form": "Hay algún error en el formulario."
 }

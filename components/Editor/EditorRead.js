@@ -37,7 +37,7 @@ export default function EditorRead({content}) {
   return (
     <>
       <LexicalComposer initialConfig={editorConfig}>
-        <div className="editor-container">
+        <div className="editor-container-read">
             <RichTextPlugin
               contentEditable={<ContentEditable className="editor-input-read" />}
               ErrorBoundary={LexicalErrorBoundary}
