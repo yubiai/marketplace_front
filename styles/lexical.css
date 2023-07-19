@@ -72,7 +72,6 @@
 }
 
 .editor-input-read {
-  min-height: 150px;
   resize: none;
   font-size: 15px;
   caret-color: rgb(5, 5, 5);

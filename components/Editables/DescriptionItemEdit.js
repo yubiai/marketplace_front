@@ -7,51 +7,58 @@ import {
     Text,
     useToast,
     Box,
-    FormControl,
     Spinner,
-    Textarea,
+    Heading,
 } from '@chakra-ui/react'
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { itemService } from '../../services/itemService'
+import { itemService } from '../../services/itemService';
+import EditorRead from '../Editor/EditorRead';
+import Editor from '../Editor/Editor';
 
 const DescriptionItemEdit = ({ item, token, mutate, t }) => {
     const toast = useToast();
-    const { handleSubmit, register, formState: { errors }, reset } = useForm();
 
     const [isLoading, setIsLoading] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
 
+    const [contentDescription, setContentDescription] = useState(null);
     const [countDescription, setCountDescription] = useState(0);
     const MIN_DESCRIPTION_LENGTH = 100;
     const MAX_DESCRIPTION_LENGTH = 1600;
-
-
+    
     // Open and Close Edit
     const openEdit = () => {
-        reset({
-            description: item.description
-        });
-        setCountDescription(item.description.length)
         setIsEditing(true);
+        console.log(item.description, "item.description")
+        setContentDescription(item.description)
         return
     }
 
     const closeEdit = () => {
-        reset({
-            description: item.description
-        });
+        setContentDescription(item.description)
         setIsEditing(false);
         return
     }
 
-    async function onSubmit(data) {
+    async function onSaveDescription() {
         setIsLoading(true)
+        console.log(contentDescription, "contentDescription")
+        if (!contentDescription || countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH) {
+            toast({
+                title: t("Error Form"),
+                description: t("There is an error in the form"),
+                position: 'top-right',
+                status: 'warning',
+                duration: 3000,
+                isClosable: true
+            });
+            setIsLoading(false)
+            return
+        }
 
-        if (data && data.title !== item.title) {
-
+        try {
             await itemService.updateItemById(item._id, {
-                description: data.description
+                description: contentDescription
             }, token);
 
             await itemService.purgeItem(item.slug, token);
@@ -65,14 +72,15 @@ const DescriptionItemEdit = ({ item, token, mutate, t }) => {
                 duration: 3000,
                 isClosable: true
             });
-            setIsEditing(false);
             setTimeout(() => {
+                setIsEditing(false);
                 setIsLoading(false)
             }, 2000);
             return
+        } catch (error) {
+            console.error(error);
+            return
         }
-        setIsLoading(false)
-        return
     }
 
     return (
@@ -102,35 +110,23 @@ const DescriptionItemEdit = ({ item, token, mutate, t }) => {
                             size="md"
                         />
                     ) : (
-                        <form onSubmit={handleSubmit(onSubmit)}>
-
-                            <FormControl isRequired>
-                                <Textarea
-                                    placeholder={t(`Description is required, minimum ${MIN_DESCRIPTION_LENGTH} characters and maximum ${MAX_DESCRIPTION_LENGTH} characters`)}
-                                    _placeholder={{ color: 'gray.400' }}
-                                    color="gray.700"
-                                    bg="white"
-                                    {...register('description', {
-                                        required: true, maxLength: MAX_DESCRIPTION_LENGTH, minLength: MIN_DESCRIPTION_LENGTH, onChange: (e) => { setCountDescription(e.target.value.length) }
-                                    })}
-                                    isRequired
-                                />
-                                <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
-                                <Text color="red" m="5px">{errors.description?.type === 'pattern' && errors.description?.message}</Text>
-                                <Text color="red" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
-                                <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 100")}</Text>
-                                <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 800")}</Text>
-                            </FormControl>
-
-                            <Button bg="#00abd1" color="white" type="submit">
+                        <Box mt="1em">
+                            <Heading as='h4' size='md'>{t("Description")} <span style={{ color: 'red' }}>*</span></Heading>
+                            <Editor setContent={setContentDescription} setCount={setCountDescription} content={contentDescription} />
+                            <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
+                            <Text color="red" m="5px">{countDescription < MIN_DESCRIPTION_LENGTH && countDescription > 1 && t("Minimum required characters are 100")}</Text>
+                            <Text color="red" m="5px">{countDescription > MAX_DESCRIPTION_LENGTH && t("Maximum required characters are 1600")}</Text>
+                            <Button bg="#00abd1" color="white" onClick={() => { onSaveDescription() }}>
                                 {t("Save")}
                             </Button>
-                        </form>
+                        </Box>
                     )}
                 </Box>
             ) : (
-                <Text p="5px"
-                    mt="10px">{item.description}</Text>
+                <>
+
+                    <EditorRead content={item.description} />
+                </>
             )}
         </>
     )

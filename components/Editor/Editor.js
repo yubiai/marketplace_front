@@ -26,7 +26,7 @@ function Placeholder() {
   return <div className="editor-placeholder">Description</div>;
 }
 
-export default function Editor({setContent, setCount}) {
+export default function Editor({setContent, setCount, content}) {
 
 
   const onChange = (editorState) => {
@@ -43,6 +43,7 @@ export default function Editor({setContent, setCount}) {
 
 
   const editorConfig = {
+    editorState: content ? content : null,
     theme: YbTheme,
     onError(error) {
       console.log(error)
