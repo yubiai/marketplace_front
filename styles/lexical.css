@@ -171,6 +171,7 @@
   text-align: right;
   min-width: 25px;
 }
+
 .editor-code:after {
   content: attr(data-highlight-language);
   top: 0;
@@ -358,6 +359,15 @@ pre::-webkit-scrollbar-thumb {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   vertical-align: middle;
+}
+
+/* Media Query para dispositivos móviles */
+@media (max-width: 767px) {
+
+  /* Cambios para el toolbar en dispositivos móviles */
+  .toolbar {
+    flex-wrap: wrap;
+  }
 }
 
 .toolbar button.toolbar-item {
