@@ -16,6 +16,7 @@ import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
 import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
 import { TRANSFORMERS } from "@lexical/markdown";
+import Cookies from 'js-cookie'
 
 import ListMaxIndentLevelPlugin from "./plugins/ListMaxIndentLevelPlugin";
 import CodeHighlightPlugin from "./plugins/CodeHighlightPlugin";
@@ -26,18 +27,29 @@ function Placeholder() {
   return <div className="editor-placeholder">Description</div>;
 }
 
-export default function Editor({setContent, setCount, content}) {
+export default function Editor({ setContent, setCount, content, newItem }) {
 
-
+  let timeoutId;
   const onChange = (editorState) => {
     const editorStateTextString = editorState.read(() => {
-      const valueDescription = JSON.stringify(editorState); // or JSON.stringify(editorState.toJSON())
+      const valueDescription = JSON.stringify(editorState); // or JSON.stringify(editorState.toJSON());
       setContent(valueDescription)
       return $getRoot().getTextContent();
     });
 
     setCount(editorStateTextString.length);
 
+    if (newItem == true) {
+      // Clear the previous timeout if it exists
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      // Delay the saving to cookies by 10 seconds
+      timeoutId = setTimeout(() => {
+        Cookies.set('itemSaved', JSON.stringify(editorState), { expires: 1, secure: true });
+      }, 10000);
+    }
     return;
   };
 

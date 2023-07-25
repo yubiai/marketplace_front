@@ -52,6 +52,7 @@ import { loadCurrencyPrices, setYubiaiInstance } from '../../providers/orderProv
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import useTranslation from 'next-translate/useTranslation';
 import Editor from '../../components/Editor/Editor'
+import Cookies from 'js-cookie'
 
 const NewListing = () => {
   const global = useGlobal();
@@ -60,6 +61,7 @@ const NewListing = () => {
   const toast = useToast();
   const { t } = useTranslation("newlisting");
   const { lang } = useTranslation('common');
+  const contentCookies = Cookies.get('itemSaved');
 
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -257,6 +259,7 @@ const NewListing = () => {
 
       setLoadingSubmit(false)
       onClose()
+      Cookies.remove('itemSaved');
       setStateSubmit(1)
 
       setTimeout(() => {
@@ -324,7 +327,7 @@ const NewListing = () => {
         </Box>
         <Box mt="1em">
           <Heading as='h4' size='md'>{t("Description")} <span style={{ color: 'red' }}>*</span></Heading>
-          <Editor setContent={setContentDescription} setCount={setCountDescription} />
+          <Editor setContent={setContentDescription} setCount={setCountDescription} content={contentCookies} newItem={true} />
           <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
           <Text color="red" m="5px">{countDescription < MIN_DESCRIPTION_LENGTH && countDescription > 1 && t("Minimum required characters are 100")}</Text>
           <Text color="red" m="5px">{countDescription > MAX_DESCRIPTION_LENGTH && t("Maximum required characters are 1600")}</Text>
