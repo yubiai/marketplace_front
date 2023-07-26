@@ -38,7 +38,7 @@ const Listings = () => {
 
   const { data, isLoading, isError, mutate } = useFetch(
     global && global.profile && global.profile._id
-      ? `/profiles/my_published/${global.profile._id}?page=${global.pageIndex}&size=8`
+      ? `/profiles/my_published/${global.profile._id}?page=${global.pageIndex}&size=9`
       : null,
     global?.profile?.token
   )
@@ -109,7 +109,7 @@ const Listings = () => {
               data.items &&
               data.items.length > 0 &&
               data.items.map((item, i) => {
-                return <ItemCardPublish key={i} item={item} token={global?.profile?.token} mutate={mutate}  t={t} />
+                return <ItemCardPublish key={i} item={item} token={global?.profile?.token} mutate={mutate} t={t} />
               })}
           </Grid>
           <Paginations data={data ? data : null} />

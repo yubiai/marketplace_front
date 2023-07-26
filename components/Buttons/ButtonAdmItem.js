@@ -6,8 +6,11 @@ import { publishService } from "../../services/publishService";
 
 const ButtonAdmItem = ({ item, token, mutate, loading, setLoading, t }) => {
 
+    // Status:
+    // 1: Inactivo en revision - 2: Activo - 3: Inactivo
+
     const router = useRouter()
-    
+
     const ReviewItem = async () => {
         //To review
         setLoading(true)
@@ -41,6 +44,10 @@ const ButtonAdmItem = ({ item, token, mutate, loading, setLoading, t }) => {
                 {t("Actions")}
             </MenuButton>
             <MenuList>
+                {item.status == 1 && item.published == false && (
+                    <MenuItem onClick={() => UnpublishItem()}>{t("Cancel Review")}</MenuItem>
+
+                )}
                 {item.status == 2 && item.published == true && (
                     <MenuItem onClick={() => UnpublishItem()}>{t("Unpublish")}</MenuItem>
 

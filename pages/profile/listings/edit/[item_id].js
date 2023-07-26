@@ -1,5 +1,5 @@
 import { ChevronRightIcon } from "@chakra-ui/icons";
-import { Box, Breadcrumb, BreadcrumbItem, Center, Container, Divider, Heading, Spinner, Stack, StackDivider, Text } from "@chakra-ui/react";
+import { Box, Breadcrumb, BreadcrumbItem, Center, Container, Divider, Flex, Heading, Spinner, Stack, StackDivider, Text } from "@chakra-ui/react";
 import moment from "moment";
 import Head from "next/head";
 import Link from "next/link";
@@ -17,6 +17,7 @@ import useUser from "../../../../hooks/data/useUser";
 import { useGlobal } from "../../../../providers/globalProvider";
 import Error from '../../../../components/Infos/Error';
 import useTranslation from 'next-translate/useTranslation';
+import ButtonDeleteItem from "../../../../components/Buttons/ButtonDeleteItem";
 
 const EditItem = () => {
     const global = useGlobal()
@@ -47,8 +48,8 @@ const EditItem = () => {
 
     if (isLoading && !item || !user) return <Loading />
 
-    if (isError) {
-        return <Error error={isError?.message} />
+    if (isError || item && item.status == 6) {
+        return <Error error={isError?.message || "Error"} />
     }
 
     return (
@@ -124,7 +125,7 @@ const EditItem = () => {
                                 <Box>
                                     <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em">{t("CreatedAt")} {moment(item.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
                                     <Text fontWeight={"semibold"} fontStyle={"italic"} mt="1em" mb="1em">{t("UpdatedAt")} {moment(item.updatedAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
-                                    <Box>                                    
+                                    <Box>
                                         <TitleItemEdit item={item} token={global.profile.token} mutate={mutate} t={t} />
                                         <DescriptionItemEdit item={item} token={global.profile.token} mutate={mutate} t={t} />
                                     </Box>
@@ -133,11 +134,14 @@ const EditItem = () => {
                                     <FilesItemEdit item={item} token={global.profile.token} mutate={mutate} t={t} />
                                 </Box>
                             </Stack>
+                            <Flex justifyContent={"space-between"}>
+                                <Box></Box>
+                                <ButtonDeleteItem itemId={item._id} token={global.profile.token} t={t}/>
+                            </Flex>
                         </Stack>
                     ) : (
                         <Error error={t("This item is not your property.")} />
                     )}
-
                 </Container>
             </ProfileMenu>
         </>

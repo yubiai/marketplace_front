@@ -55,5 +55,10 @@
     "File 3": "Archivo 3",
     "Failed to upload new file.": "Error al cargar el archivo nuevo.",
     "Go to Home": "Ir al Inicio",
-    "Error deleting file.": "Error al eliminar archivo."
+    "Error deleting file.": "Error al eliminar archivo.",
+    "Delete Item": "Eliminar Publicación",
+    "Are you sure you want to delete this item": "¿Estas seguro que quiere eliminar esta publicacion?",
+    "Cancel": "Cancelar",
+    "Delete": "Eliminar",
+    "Error trying to delete item": "Error al intentar borrar el ítem"
 }
