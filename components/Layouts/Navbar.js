@@ -151,7 +151,7 @@ const Navbar = () => {
       guide: 'step-favourites'
     },
     {
-      label: t('To Fiat'),
+      label: "Bridge",
       guide: 'step-bridge',
       children: [
 /*         {
@@ -160,7 +160,7 @@ const Navbar = () => {
           external: true
         }, */
         {
-          label: 'Bridge',
+          label: 'Connext',
           href: 'https://bridge.connext.network/?receivingChainId=100',
           external: true
         }
