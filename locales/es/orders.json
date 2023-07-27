@@ -82,8 +82,14 @@
     "Evidences": "Evidencias",
     "Order doesn't exist": "La orden no existe",
     "New Price": "Nuevo Precio",
-    "Added New Price": "Agregar nuevo precio",
+    "Added New Settings": "Nueva Configuración guardada",
     "Save": "Guardar",
     "Buy Now": "Comprar ahora",
-    "Channel blocked": "Chat Bloqueado"
+    "Channel blocked": "Chat Bloqueado",
+    "Settings": "Configuraciones",
+    "Time For Service": "Tiempo de servicio",
+    "Time For Claim": "Tiempo para reclamar",
+    "Days": "Dias",
+    "Removed Settings": "Configuraciones eliminadas",
+    "Failed to save": "Error al guardar"
 }

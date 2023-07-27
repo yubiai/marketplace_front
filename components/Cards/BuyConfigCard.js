@@ -2,7 +2,7 @@ import { Box, Button, Flex, FormControl, FormLabel, NumberDecrementStepper, Numb
 import { useRouter } from "next/router";
 import { useDispatchGlobal } from "../../providers/globalProvider";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { channelService } from "../../services/channelService";
 
@@ -13,29 +13,39 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
     const [isLoading, setIsLoading] = useState(false);
     const toast = useToast();
 
-    const [editNewPrice, setEditNewPrice] = useState(false);
+    const [editSettings, setEditSettings] = useState(false);
 
-    // Input Price config
+    // Input Number config
     const format = (val) => val
     const parse = (val) => val.replace(/^\$/, '')
     const [priceValue, setPriceValue] = useState('')
 
+    const [timeForServiceValue, setTimeForServiceValue] = useState('');
+    const [timeForClaimValue, setTimeForClaimValue] = useState('');
+
     const { handleSubmit, reset } = useForm()
+
+    useEffect(() => {
+      reset(channel)
+    }, [])
+    
 
     const onCancel = async () => {
         try {
             setIsLoading(true)
-            await channelService.updatePriceConfig({
+            await channelService.updateSettings({
                 _id: channel._id,
-                priceconfig: null
+                priceconfig: null,
+                time_for_service: null,
+                time_for_claim: null
             }, profile.token)
             reset();
             update();
-            setEditNewPrice(false);
+            setEditSettings(false);
             setTimeout(() => {
                 toast({
-                    title: 'New price',
-                    description: 'Cancelled',
+                    title: t('Settings'),
+                    description: t('Removed Settings'),
                     position: 'top-right',
                     status: 'warning',
                     duration: 2000,
@@ -52,14 +62,16 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
     }
 
 
-    const buyAndCheckoutItem = async() => {
+    const buyAndCheckoutItem = async () => {
         const res = await update();
 
         if (res && res.status === true && res.priceconfig) {
             const itemConfig = {
                 ...channel.item_id,
                 seller: channel.seller,
-                price: channel.priceconfig
+                price: channel.priceconfig,
+                time_for_service: channel.time_for_service,
+                time_for_claim: channel.time_for_claim
             }
 
             dispatch({
@@ -81,19 +93,22 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
 
     const onSubmit = async () => {
         try {
+            console.log(timeForServiceValue, timeForClaimValue, "times")
             setIsLoading(true)
-            await channelService.updatePriceConfig({
+            await channelService.updateSettings({
                 _id: channel._id,
-                priceconfig: priceValue
+                priceconfig: priceValue,
+                time_for_service: timeForServiceValue,
+                time_for_claim: timeForClaimValue
             }, profile.token);
 
             reset();
             update();
-            setEditNewPrice(false);
+            setEditSettings(false);
             setTimeout(() => {
                 toast({
-                    title: 'New price',
-                    description: 'Saved',
+                    title: t('Added New Settings'),
+                    description: t('Save'),
                     position: 'top-right',
                     status: 'success',
                     duration: 2000,
@@ -106,7 +121,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
             console.error(err);
             toast({
                 title: 'Error',
-                description: 'New Price Error',
+                description: t('Failed to save'),
                 position: 'top-right',
                 status: 'warning',
                 duration: 2000,
@@ -125,26 +140,29 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                 <Box mt="2em">
                     {profile._id === channel.seller._id && (
                         <>
-                            {!editNewPrice && channel?.priceconfig && (
+                            {!editSettings && channel?.priceconfig && (
                                 <>
-                                    <Text>{t("New Price")}</Text>
+                                    <Flex>
+                                        <Text fontWeight={"bold"} mt="9px">{t("Settings")}</Text>
+                                    </Flex>
                                     {isLoading ? (
                                         <Spinner />
                                     ) : (
                                         <>
-                                            <Flex>
-                                                <Text mt="10px">{channel.priceconfig} {channel.item_id.currencySymbolPrice}</Text>
-                                                <Button ml="5px" onClick={() => setEditNewPrice(true)}><EditIcon></EditIcon></Button>
-                                                <Button ml="5px" onClick={() => onCancel()}><DeleteIcon></DeleteIcon></Button>
+                                            <Text mt="10px">{t("New Price")}: {channel.priceconfig} {channel.item_id.currencySymbolPrice}</Text>
+                                            <Text mt="10px">{t("Time For Service")}: {channel.time_for_service} {t("Days")}</Text>
+                                            <Text mt="10px">{t("Time For Claim")}: {channel.time_for_claim} {t("Days")}</Text>
+                                            <Flex mt="1em" justifyContent={"space-between"}>
+                                                <Button bg="green.300" ml="5px" onClick={() => setEditSettings(true)}><EditIcon></EditIcon></Button>
+                                                <Button bg="red.300" ml="5px" onClick={() => onCancel()}><DeleteIcon></DeleteIcon></Button>
                                             </Flex>
-
                                         </>
                                     )}
 
                                 </>
                             )}
 
-                            {!editNewPrice && !channel?.priceconfig && !isLoading && (
+                            {!editSettings && !channel?.priceconfig && !isLoading && (
                                 <>
                                     <Button
                                         bg="green.400"
@@ -153,17 +171,17 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                         mt="1em"
                                         fontSize={'16px'}
                                         fontWeight={'600'}
-                                        onClick={() => setEditNewPrice(true)}
+                                        onClick={() => setEditSettings(true)}
                                         _hover={{ bg: 'green.500' }}
                                     >
-                                        {t("Added New Price")}
+                                        {t("Added New Settings")}
                                     </Button>
                                 </>
                             )}
-                            {editNewPrice && (
+                            {editSettings && (
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     <FormControl isRequired mt="1em">
-                                        <FormLabel color="black">New Price</FormLabel>
+                                        <FormLabel color="black">{t("New Price")}</FormLabel>
                                         <NumberInput
                                             onChange={(valueString) => {
                                                 setPriceValue(parse(valueString))
@@ -185,6 +203,53 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                             </NumberInputStepper>
                                         </NumberInput>
                                     </FormControl>
+                                    <FormControl isRequired mt="1em">
+                                        <FormLabel color="black">{t("Time For Service")}</FormLabel>
+                                        <NumberInput
+                                            onChange={(valueString) => {
+                                                setTimeForServiceValue(parse(valueString))
+                                                return
+                                            }}
+                                            value={format(timeForServiceValue)}
+                                            color="gray.700"
+                                            bg="white"
+                                            min={1}
+                                            max={10}
+                                            precision={1}
+                                            isRequired
+                                        >
+                                            <NumberInputField placeholder='Min: 1 - Max: 10' _placeholder={{ color: 'gray.400' }}
+                                            />
+                                            <NumberInputStepper>
+                                                <NumberIncrementStepper />
+                                                <NumberDecrementStepper />
+                                            </NumberInputStepper>
+                                        </NumberInput>
+                                    </FormControl>
+                                    <FormControl isRequired mt="1em">
+                                        <FormLabel color="black">{t("Time For Claim")}</FormLabel>
+                                        <NumberInput
+                                            onChange={(valueString) => {
+                                                setTimeForClaimValue(parse(valueString))
+                                                return
+                                            }}
+                                            value={format(timeForClaimValue)}
+                                            color="gray.700"
+                                            bg="white"
+                                            min={1}
+                                            max={10}
+                                            precision={1}
+                                            isRequired
+                                        >
+                                            <NumberInputField placeholder='Min: 1 - Max: 10' _placeholder={{ color: 'gray.400' }}
+                                            />
+                                            <NumberInputStepper>
+                                                <NumberIncrementStepper />
+                                                <NumberDecrementStepper />
+                                            </NumberInputStepper>
+                                        </NumberInput>
+                                    </FormControl>
+                                    
                                     <Button mt="1em" w="100%" bg="#00abd1" color="white" type="submit">
                                         {t("Save")}
                                     </Button>
@@ -194,10 +259,10 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                     )}
                     {profile._id === channel.buyer._id && channel.priceconfig && (
                         <>
-                            <Text>{t("New Price")}</Text>
-                            <Flex>
-                                <Text mt="10px">{channel.priceconfig} {channel.item_id.currencySymbolPrice}</Text>
-                            </Flex>
+                            <Text fontWeight={"bold"}>{t("Settings")}</Text>
+                            <Text mt="10px">{t("New Price")}: {channel.priceconfig} {channel.item_id.currencySymbolPrice}</Text>
+                            <Text mt="10px">{t("Time For Service")}: {channel.time_for_service} {t("Days")}</Text>
+                            <Text mt="10px">{t("Time For Claim")}: {channel.time_for_claim} {t("Days")}</Text>
                             <Button
                                 bg="#00abd1"
                                 color="white"

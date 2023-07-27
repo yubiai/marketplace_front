@@ -191,8 +191,6 @@ const MailBoxByOrderId = () => {
 
   if (isLoading || !channel || !user) return <Loading />
 
-  console.log(channel, "channel")
-
   return (
     <>
       <Head>
@@ -325,7 +323,6 @@ const MailBoxByOrderId = () => {
 
           {channel && channel.status === true ? (
             <>
-              <BuyConfigCard channel={channel} profile={global.profile} update={mutate} t={t} />
               {channel && global.profile._id === channel.seller._id && channel.order_id === null && (<Button
                 bg="red.300"
                 color="white"
@@ -334,6 +331,9 @@ const MailBoxByOrderId = () => {
                 fontSize={'16px'}
                 fontWeight={'600'}
                 onClick={() => updateStatusChannel(false)}
+                _hover={{
+                  bg: "red.400"
+                }}
               >
                 {t("Cancel Chat")}
               </Button>)}
@@ -349,7 +349,7 @@ const MailBoxByOrderId = () => {
               }}>Abrir chat</Button>)}
             </>
           )}
-
+          <BuyConfigCard channel={channel} profile={global.profile} update={mutate} t={t} />
         </Box>
       </Container>
     </>

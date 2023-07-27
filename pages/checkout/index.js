@@ -192,10 +192,15 @@ const Checkout = () => {
         { ...global.itemToCheckout },
         global.currencyPriceList
       )
-      const { orderInfo, transaction } = result
+      const { orderInfo, transaction, time_for_claim, time_for_service } = result
       console.log(orderInfo, "ORDERINFO")
       setOrderData(orderInfo)
-      setTransactionData(transaction)
+      let neWtransaction = {
+        ...transaction,
+        time_for_claim,
+        time_for_service
+      }
+      setTransactionData(neWtransaction)
     };
 
     if (!global.currencyPriceList.length && (global.yubiaiPaymentArbitrableInstance || {}).web3) {

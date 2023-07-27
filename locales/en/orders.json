@@ -81,8 +81,14 @@
     "Evidences": "Evidences",
     "Order doesn't exist": "Order doesn't exist",
     "New Price": "New Price",
-    "Added New Price": "Added New Price",
+    "Added New Settings": "Added New Settings",
     "Save": "Save",
     "Buy Now": "Buy Now",
-    "Channel blocked": "Channel blocked"
+    "Channel blocked": "Channel blocked",
+    "Settings": "Settings",
+    "Time For Service": "Time For Service",
+    "Time For Claim": "Time For Claim",
+    "Days": "Days",
+    "Removed Settings": "Removed Settings",
+    "Failed to save": "Failed to save"
 }

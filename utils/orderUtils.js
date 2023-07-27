@@ -115,6 +115,11 @@ const parserForWei = (value) => {
     return valorEnFloat;
 }
 
+const formatDayBySeconds = (value) => {
+    const segundosEnUnDia = 86400;
+    return value * segundosEnUnDia;
+}
+
 
 export {
     parseItemIntoOrderTransaction,
@@ -124,5 +129,6 @@ export {
     parseFromAToBToken,
     translateStatusIdToNamingInTransaction,
     calculateFinishDate,
-    parserForWei
+    parserForWei,
+    formatDayBySeconds
 }

@@ -19,8 +19,6 @@ const ButtonNewChannel = ({ buyer, seller, item_id, profile, t }) => {
                 buyer, seller, item_id
             }, profile.token);
 
-            console.log(verifyChannel, "verifyChannel");
-
             if (verifyChannel && verifyChannel.data && verifyChannel.data.id) {
                 return router.push(`/profile/mailboxs/id/${verifyChannel.data.id}`)
             } else {

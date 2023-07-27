@@ -5,12 +5,14 @@ import {
     getBlockExplorerForNetwork,
     getContractsForNetwork
 } from '../../utils/walletUtils';
+import { formatDayBySeconds } from '../../utils/orderUtils';
 
 const WEI_DECIMAL_PLACES = 18;
 
 const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, yubiaiPaymentArbitrableInstance, t }) => {
     const global = useGlobal();
-    const { amount, recipient } = transactionInfo;
+
+    const { amount, recipient, time_for_claim, time_for_service } = transactionInfo;
 
     const createTransaction = async () => {
         try {
@@ -28,8 +30,8 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             const result = await yubiaiPaymentArbitrableInstance.createDeal(
                 token.token_address,
                 burnFee,
-                process.env.NEXT_PUBLIC_TIME_FOR_SERVICE,
-                process.env.NEXT_PUBLIC_TIME_FOR_CLAIM,
+                time_for_service ? formatDayBySeconds(time_for_service) : process.env.NEXT_PUBLIC_TIME_FOR_SERVICE,
+                time_for_claim ? formatDayBySeconds(time_for_claim) : process.env.NEXT_PUBLIC_TIME_FOR_CLAIM,
                 senderWallet,
                 recipient,
                 String(amountToWei),
@@ -52,15 +54,15 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
             const transactionPayedAmount = deal.amount;
             const parsedTransactionPayedAmountInETH = parseFloat(yubiaiPaymentArbitrableInstance.web3.utils.fromWei(
                 transactionPayedAmount), 10);
-            
+
             let transactionFeeAmount = 0;
 
-            if(deal.extraBurnFee > 0){
+            if (deal.extraBurnFee > 0) {
 
                 const finalCalculationForFee = parsedTransactionPayedAmountInETH - (
                     parsedTransactionPayedAmountInETH / 100 * (parseInt(deal.extraBurnFee, 10) / 100)
                 );
-    
+
                 transactionFeeAmount = yubiaiPaymentArbitrableInstance.web3.utils.toWei(finalCalculationForFee.toFixed(WEI_DECIMAL_PLACES));
             } else {
                 transactionFeeAmount = 0;

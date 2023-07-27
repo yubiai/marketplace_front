@@ -35,6 +35,7 @@ const getWeb3Instance = () => {
 }
 
 const loadOrderData = async (item = {}, currencyPriceList = [], ethPrice = false) => {
+  console.log(item, "item")
   const seller = item.seller;
   const currencySymbol = ethPrice ? 'ETH' : item.currencySymbolPrice;
 
@@ -61,7 +62,9 @@ const loadOrderData = async (item = {}, currencyPriceList = [], ethPrice = false
 
   return {
     orderInfo,
-    transaction
+    transaction,
+    time_for_service: item.time_for_service,
+    time_for_claim: item.time_for_claim
   }
 }
 
