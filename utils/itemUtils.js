@@ -1,8 +1,6 @@
 import { categoryService } from '../services/categoryService'
 import { subcategoryService } from '../services/subcategoryService'
-import {
-  $getRoot,
-} from 'lexical';
+
 
 const getListCategory = () => {
   let categories = new Promise((resolve, reject) => {
