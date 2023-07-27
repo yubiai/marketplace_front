@@ -28,6 +28,7 @@ import useTranslation from 'next-translate/useTranslation';
 import SEO from '../../components/Utils/SEO'
 import ButtonNewChannel from '../../components/Buttons/ButtonNewChannel'
 import EditorRead from '../../components/Editor/EditorRead'
+import { getDescriptionSeo } from '../../utils/itemUtils'
 
 const ItemById = ({ item }) => {
   const global = useGlobal();
@@ -160,7 +161,7 @@ const ItemById = ({ item }) => {
     <>
       <SEO
         title={title}
-        description={item.description.slice(0, 150)}
+        description={getDescriptionSeo(item.description)}
         keywords="Yubiai, Web3 Marketplace, Decentralized Exchange, Crypto Trading, Secure Transaction, Smart Contract Enabled Platform, Non-Custodial Wallets, High Security Protocols, Instant Liquidity, Low Fees"
         imageUrl={"https://images.yubiai.market/3547361c-6cea-4745-8807-5760c4eafa94-bucket/prod/" + item.files[0].filename}
       />
