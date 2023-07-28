@@ -214,11 +214,11 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                             color="gray.700"
                                             bg="white"
                                             min={1}
-                                            max={10}
+                                            max={60}
                                             precision={1}
                                             isRequired
                                         >
-                                            <NumberInputField placeholder='Min: 1 - Max: 10' _placeholder={{ color: 'gray.400' }}
+                                            <NumberInputField placeholder='Min: 1 - Max: 60' _placeholder={{ color: 'gray.400' }}
                                             />
                                             <NumberInputStepper>
                                                 <NumberIncrementStepper />
