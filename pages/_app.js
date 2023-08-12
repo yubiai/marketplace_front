@@ -22,6 +22,65 @@ import MetaErrorAlert from '../components/Alerts/metaErrorAlert';
 Axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API_URL
 //Axios.defaults.withCredentials = true;
 
+// Rainbowkit
+import '@rainbow-me/rainbowkit/styles.css';
+import {
+  connectorsForWallets,
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
+import {
+  metaMaskWallet,
+} from '@rainbow-me/rainbowkit/wallets';
+import { configureChains, createConfig, WagmiConfig } from 'wagmi';
+import {
+  polygon,
+  polygonMumbai,
+  goerli,
+  gnosis
+} from 'wagmi/chains';
+import { publicProvider } from 'wagmi/providers/public';
+import { infuraProvider } from '@wagmi/core/providers/infura'
+
+const { chains, publicClient, webSocketPublicClient } = configureChains(
+  [
+    ...(process.env.NEXT_PUBLIC_ENV === 'dev' ? [polygonMumbai, goerli, polygon] : [gnosis]),
+  ],
+  [infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA })],
+  publicProvider()
+);
+
+const projectId = 'Yubiai';
+
+const demoAppInfo = {
+  appName: 'Yubiai',
+};
+
+
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Recommended',
+    wallets: [
+      metaMaskWallet({ projectId, chains }),
+      /* sequenceWallet({
+        chains,
+        connect: {
+          app: projectId,
+          networkId: 80001,
+          authorize: true,
+          askForEmail: true
+        }
+      }) */
+    ]
+  }
+]);
+
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors,
+  publicClient,
+  webSocketPublicClient,
+});
+
 const fetcher = async (url) => {
   try {
     const res = await Axios.get(url)
@@ -34,29 +93,33 @@ const fetcher = async (url) => {
 function MyApp({ Component, pageProps }) {
 
   return (
-    <ChakraProvider theme={theme}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      
-      <GlobalProvider>
-        <SWRConfig
-          value={{
-            fetcher,
-            dedupingInterval: 10000
-          }}
-        >
-          <AuthProvider>
-            <TourGuideProvider>
-              <Header />
-              <Navbar />
-              <MetaAlert />
-              <MetaErrorAlert />
-              <Component {...pageProps} />
-              <Footer />
-            </TourGuideProvider>
-          </AuthProvider>
-        </SWRConfig>
-      </GlobalProvider>
-    </ChakraProvider>
+    <WagmiConfig config={wagmiConfig}>
+      <RainbowKitProvider chains={chains}>
+        <ChakraProvider theme={theme}>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+
+          <GlobalProvider>
+            <SWRConfig
+              value={{
+                fetcher,
+                dedupingInterval: 10000
+              }}
+            >
+              <AuthProvider>
+                <TourGuideProvider>
+                  <Header />
+                  <Navbar />
+                  <MetaAlert />
+                  <MetaErrorAlert />
+                  <Component {...pageProps} />
+                  <Footer />
+                </TourGuideProvider>
+              </AuthProvider>
+            </SWRConfig>
+          </GlobalProvider>
+        </ChakraProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
   )
 }
 
