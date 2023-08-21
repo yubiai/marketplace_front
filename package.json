@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@0xsequence/design-system": "^1.0.13",
+    "@0xsequence/rainbowkit-plugin": "^2.1.0",
     "@chakra-ui/icons": "^1.1.7",
     "@chakra-ui/react": "^2.3.1",
     "@emotion/react": "^11.9.0",
@@ -22,6 +24,7 @@
     "@walletconnect/modal": "^2.4.7",
     "@walletconnect/web3-provider": "^1.6.2",
     "@web3modal/standalone": "^2.3.3",
+    "0xsequence": "^1.1.8",
     "authereum": "0.0.4-beta.186",
     "axios": "^0.27.2",
     "draft-convert": "^2.1.13",
