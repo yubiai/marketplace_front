@@ -83,8 +83,8 @@ const UserMenu = () => {
           <Link href="/profile/orders/sales">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdShoppingBasket /> <Text fontWeight={"medium"} ml="5px">{t("Sales")}</Text></MenuItem>
           </Link>
-          <Link href="/profile/favourites">
-            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdFavorite /> <Text fontWeight={"medium"} ml="5px">{t("Favourites")}</Text></MenuItem>
+          <Link href="/profile/bookmarks">
+            <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdFavorite /> <Text fontWeight={"medium"} ml="5px">{t("Bookmarks")}</Text></MenuItem>
           </Link>
           <Link href="/help">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}><MdHelp /> <Text fontWeight={"medium"} ml="5px">{t("Help")}</Text></MenuItem>

@@ -153,7 +153,7 @@ export const FileUpload = ({
           <FaTrash fontSize="1em" />
         </Button>
       </Center>
-      <Text color="red">{errors && errors.file1 && name === "file1" && "Image Main Rest"}</Text>
+      <Text color="orange.500">{errors && errors.file1 && name === "file1" && "Image Main Rest"}</Text>
     </FormControl>
   )
 }

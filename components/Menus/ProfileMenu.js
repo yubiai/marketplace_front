@@ -65,7 +65,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     { name: t('Questions'), icon: MdForum, url: '/profile/questions' },
     { name: t('Orders'), icon: MdShoppingBag, url: '/profile/orders' },
     { name: t('Sales'), icon: MdShoppingBasket, url: '/profile/orders/sales' },
-    { name: t('Favourites'), icon: MdFavorite, url: '/profile/favourites' },
+    { name: t('Bookmarks'), icon: MdFavorite, url: '/profile/bookmarks' },
   ]
   return (
     <Box

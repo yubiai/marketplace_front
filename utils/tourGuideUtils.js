@@ -10,8 +10,8 @@ const stepsTour = (t) => {
       content: t('Search an item by categories and subcategories')
     },
     {
-      selector: '.step-favourites',
-      content: t('Take a look at your favorite posts')
+      selector: '.step-bookmarks',
+      content: t('Take a look at your bookmarks posts')
     },
     {
       selector: '.step-help',

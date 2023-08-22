@@ -146,9 +146,9 @@ const Navbar = () => {
       guide: 'step-sell'
     },
     {
-      label: global && global.profile ? t('Favourites') : null,
-      href: '/profile/favourites',
-      guide: 'step-favourites'
+      label: global && global.profile ? t('Bookmarks') : null,
+      href: '/profile/bookmarks',
+      guide: 'step-bookmarks'
     },
     {
       label: "Bridge",

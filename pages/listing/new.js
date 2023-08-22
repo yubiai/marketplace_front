@@ -319,18 +319,18 @@ const NewListing = () => {
             isRequired
           />
           {titleError && (
-            <Box mt="0.5em" color="red.500" fontSize="sm">
+            <Box mt="0.5em" color="orange.500" fontSize="sm">
               {t(`Title must be between 15 and 72 characters`)}
             </Box>
           )}
-          <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
+          <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "orange.500" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
         </Box>
         <Box mt="1em">
-          <Heading as='h4' size='md'>{t("Description")} <span style={{ color: 'red' }}>*</span></Heading>
+          <Heading as='h4' size='md'>{t("Description")} <span style={{ color: 'orange.500' }}>*</span></Heading>
           <Editor setContent={setContentDescription} setCount={setCountDescription} content={contentCookies} newItem={true} />
-          <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
-          <Text color="red" m="5px">{countDescription < MIN_DESCRIPTION_LENGTH && countDescription > 1 && t("Minimum required characters are 100")}</Text>
-          <Text color="red" m="5px">{countDescription > MAX_DESCRIPTION_LENGTH && t("Maximum required characters are 1600")}</Text>
+          <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "orange.500" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
+          <Text color="orange.500" m="5px">{countDescription < MIN_DESCRIPTION_LENGTH && countDescription > 1 && t("Minimum required characters are 100")}</Text>
+          <Text color="orange.500" m="5px">{countDescription > MAX_DESCRIPTION_LENGTH && t("Maximum required characters are 1600")}</Text>
         </Box>
         <form onSubmit={handleSubmit(onSubmit)}>
 

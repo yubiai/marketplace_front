@@ -114,11 +114,11 @@ const TitleItemEdit = ({ item, token, mutate, t }) => {
                                     })}
                                     isRequired
                                 />
-                                <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
-                                <Text color="red" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
-                                <Text color="red" m="5px">{errors.title?.type === 'required' && t("Title is required")}</Text>
-                                <Text color="red" m="5px">{errors.title?.type === 'minLength' && t("Minimum required characters are 15")}</Text>
-                                <Text color="red" m="5px">{errors.title?.type === 'maxLength' && t("Maximum required characters are 72")}</Text>
+                                <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "orange.500" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
+                                <Text color="orange.500" m="5px">{errors.title?.type === 'pattern' && errors.title?.message}</Text>
+                                <Text color="orange.500" m="5px">{errors.title?.type === 'required' && t("Title is required")}</Text>
+                                <Text color="orange.500" m="5px">{errors.title?.type === 'minLength' && t("Minimum required characters are 15")}</Text>
+                                <Text color="orange.500" m="5px">{errors.title?.type === 'maxLength' && t("Maximum required characters are 72")}</Text>
                             </FormControl>
                             <Button bg="#00abd1" color="white" type="submit">
                                 {t("Save")}
