@@ -95,6 +95,8 @@ const NewListing = () => {
 
   const [selectedCurrency, setSelectedCurrency] = useState('ETH')
 
+  const [selectedTypePrice, setSelectedTypePrice] = useState('');
+
   // State SubCategories
   const [subCategories, setSubCategories] = useState([])
 
@@ -211,7 +213,8 @@ const NewListing = () => {
 
     form.append('title', title)
     form.append('description', contentDescription)
-    form.append('price', priceValue)
+    form.append('typeprice', selectedTypePrice)
+    form.append('price', selectedTypePrice && selectedTypePrice != "To settle" ? priceValue : 888888) 
     form.append('seller', global.profile._id)
     form.append('maxorders', 3)
     form.append('category', data.category)
@@ -440,7 +443,40 @@ const NewListing = () => {
           )}
           <FormControl isRequired mt="1em">
             <FormLabel color="black">{t("Amount")}</FormLabel>
-            <NumberInput
+            <Select
+              bg="white"
+              color="black"
+              name="typeprice"
+              id="typeprice"
+              placeholder={t("Select Type")}
+              onChange={(e) => {
+                setSelectedTypePrice(e.target.value)
+              }}
+            >
+              <option
+                key="To settle"
+                value="To settle"
+                id="To settle"
+              >
+                {t("To settle")}
+              </option>
+              <option
+                key="Hourly rate"
+                value="Hourly rate"
+                id="Hourly rate"
+              >
+                {t("Hourly rate")}
+              </option>
+              <option
+                key="Total"
+                value="Total"
+                id="Total"
+              >
+                Total
+              </option>
+            </Select>
+            {selectedTypePrice && selectedTypePrice != "To settle" && (
+              <NumberInput
               onChange={(valueString) => {
                 setPriceValue(parse(valueString))
                 return
@@ -448,6 +484,7 @@ const NewListing = () => {
               value={format(priceValue)}
               color="gray.700"
               bg="white"
+              mt="1em"
               min={0.00001}
               max={999999}
               precision={5}
@@ -460,9 +497,10 @@ const NewListing = () => {
                 <NumberDecrementStepper />
               </NumberInputStepper>
             </NumberInput>
+            )}
           </FormControl>
 
-            {/* <Box pt={6} pb={2} color="gray.700"
+          {/* <Box pt={6} pb={2} color="gray.700"
            >
              <FormControl isRequired mt="1em">
                <FormLabel color="black">{t("UBI Burning Amount")}</FormLabel>

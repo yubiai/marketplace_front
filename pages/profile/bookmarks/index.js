@@ -106,7 +106,7 @@ const Bookmarks = () => {
               data.items &&
               data.items.length > 0 &&
               data.items.map((item, i) => {
-                return <ItemCardLg key={i} item={item} />
+                return <ItemCardLg key={i} item={item} t={t} />
               })}
           </Grid>
           <Paginations data={data ? data : null} />

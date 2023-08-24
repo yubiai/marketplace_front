@@ -65,5 +65,9 @@
     "Start a chat with the seller": "Iniciar un chat con el vendedor",
     "Are you sure you want to start a conversation?": "¿Estás seguro de que quieres iniciar o seguir una conversación?",
     "Yes": "Si",
-    "Error starting a chat": "Error al iniciar un chat"
+    "Error starting a chat": "Error al iniciar un chat",
+    "To settle": "A convenir",
+    "Hourly rate": "Por hora",
+    "Type price": "Tipo de precio",
+    "Total": "Total"
 }

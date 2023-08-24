@@ -331,9 +331,9 @@ const ItemById = ({ item }) => {
                 <InfoUserModal user={item.seller} t={t} />
               )}
             </Box>
-            <Text mt="1em">{item.price} {item.currencySymbolPrice}</Text>
-
-            <Text>0% {t("additional for Yubiai Fee")}</Text>
+            <Text mt="1em">{item && item.typeprice && item.typeprice != "To settle" && (<>
+              {item.price} {item.currencySymbolPrice}</>)} ({t(`${item.typeprice}`)})</Text>
+            <Text mt="5px">0% {t("additional for Yubiai Fee")}</Text>
             {/*             <Text>{item.ubiburningamount || 0.6}% {t("additional for UBI Burner Fee")}</Text>*/}
             <Flex
               direction={{ base: 'column' }}

@@ -12,6 +12,8 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
     const dispatch = useDispatchGlobal();
     const toast = useToast();
 
+    const [selectedTypePrice, setSelectedTypePrice] = useState('');
+
     const [loading, setLoading] = useState(false);
 
     const [actionEdit, setActionEdit] = useState(false);
@@ -31,11 +33,11 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
         loadCurrencyPrices(dispatch, global, networkType);
     }
 
-  /*   const labelStyles = {
-        mt: '2',
-        ml: '-2.5',
-        fontSize: 'sm',
-    } */
+    /*   const labelStyles = {
+          mt: '2',
+          ml: '-2.5',
+          fontSize: 'sm',
+      } */
 
     const onEdit = async () => {
 
@@ -66,7 +68,8 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
     const onSubmit = async () => {
         const newData = {
             currencySymbolPrice: selectedCurrency,
-            price: priceValue,
+            typeprice: selectedTypePrice,
+            price: selectedTypePrice && selectedTypePrice != "To settle" ? priceValue : 888888,
             ubiburningamount: sliderValue
         }
         await itemService.updateItemById(item._id, newData, token);
@@ -112,7 +115,7 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
                 />
             )}
             {!actionEdit && (<Text p="5px"
-            >{t("Currency:")} {item.currencySymbolPrice} {" - "} {t("Price:")} {item.price} {item.currencySymbolPrice}</Text>)}
+            >{t("Currency:")} {item.currencySymbolPrice} {" - "} {t("Price:")} {item.typeprice && item.typeprice != "To settle" ? item.price +  " " + item.currencySymbolPrice : ""} {t(`(${item.typeprice})`)}</Text>)}
             {actionEdit && global.currencyPriceList && global.currencyPriceList.length > 0 && (
                 <>
                     <Box h="full" p="5px"
@@ -146,11 +149,45 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
                             )}
                             <FormControl isRequired mt="1em">
                                 <FormLabel color="black">{t("Amount")}</FormLabel>
-                                <NumberInput
+                                <Select
+                                    bg="white"
+                                    color="black"
+                                    name="typeprice"
+                                    id="typeprice"
+                                    placeholder={t("Select Type")}
+                                    onChange={(e) => {
+                                        setSelectedTypePrice(e.target.value)
+                                    }}
+                                >
+                                    <option
+                                        key="To settle"
+                                        value="To settle"
+                                        id="To settle"
+                                    >
+                                        {t("To settle")}
+                                    </option>
+                                    <option
+                                        key="Hourly rate"
+                                        value="Hourly rate"
+                                        id="Hourly rate"
+                                    >
+                                        {t("Hourly rate")}
+                                    </option>
+                                    <option
+                                        key="Total"
+                                        value="Total"
+                                        id="Total"
+                                    >
+                                        Total
+                                    </option>
+                                </Select>
+                                {selectedTypePrice && selectedTypePrice != "To settle" && (
+                                    <NumberInput
                                     onChange={(valueString) => setPriceValue(parse(valueString))}
                                     value={format(priceValue)}
                                     color="gray.700"
                                     bg="white"
+                                    mt="1em"
                                     min={0.00001}
                                     max={999999}
                                     isRequired
@@ -162,6 +199,7 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
                                         <NumberDecrementStepper />
                                     </NumberInputStepper>
                                 </NumberInput>
+                                )}
                             </FormControl>
                             {/* <Box color="gray.700"
                             >

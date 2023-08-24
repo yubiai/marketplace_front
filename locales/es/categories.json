@@ -15,5 +15,8 @@
         "Advisory/Consulting": "Asesoría/Consultoría",
         "Textile Inputs": "Producción textil",
         "Finance": "Finanzas"
-    }
+    },
+    "Hourly rate": "Por Hora",
+    "Type price": "Tipo de precio",
+    "Total": "Total"
 }

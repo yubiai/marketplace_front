@@ -57,12 +57,18 @@ const PreviewItem = ({ item }) => {
         <Text>{item?.category}</Text>
         <Text fontWeight={'bold'}>{t("Sub Category")} </Text>
         <Text>{item?.subcategory}</Text>
-        <Text fontWeight={'bold'}>{t("Net Price")} </Text>
-        <Text>{item?.price} {item?.currencySymbolPrice}</Text>
-        {/*         <Text fontWeight={'bold'}>{t("UBI Burning Amount")} </Text>
-        <Text> {item?.ubiburningamount} % ({item?.price * item?.ubiburningamount / 100} {item?.currencySymbolPrice})</Text> */}
-        <Text fontWeight={'bold'}>{t("Total to receive")} </Text>
-        <Text>{item?.price - item?.price * item?.ubiburningamount / 100} {item?.currencySymbolPrice}</Text>
+        <Text fontWeight={'bold'}>{t("Type price")} </Text>
+        <Text>{item?.typeprice}</Text>
+        {item && item.typeprice && item.typeprice != "To settle" && (
+          <>
+            <Text fontWeight={'bold'}>{t("Net Price")} </Text>
+            <Text>{item?.price} {item?.currencySymbolPrice}</Text>
+            {/*         <Text fontWeight={'bold'}>{t("UBI Burning Amount")} </Text>
+          <Text> {item?.ubiburningamount} % ({item?.price * item?.ubiburningamount / 100} {item?.currencySymbolPrice})</Text> */}
+            <Text fontWeight={'bold'}>{t("Total to receive")} </Text>
+            <Text>{item?.price - item?.price * item?.ubiburningamount / 100} {item?.currencySymbolPrice}</Text>
+          </>
+        )}
         <Text fontWeight={'bold'}>{t("Description")}</Text>
         <EditorRead content={item?.description} />
 

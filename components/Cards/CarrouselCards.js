@@ -3,6 +3,7 @@ import { Button, Container, Text } from '@chakra-ui/react'
 import React from 'react'
 import Slider from 'react-slick'
 import ItemCard from './ItemCard'
+import { useTranslation } from 'react-i18next'
 
 function SampleNextArrow(props) {
   const { onClick } = props
@@ -94,6 +95,8 @@ const settings = {
 }
 
 const CarrouselCards = ({ title, items }) => {
+  const { t } = useTranslation("listing");
+
 
   return (
     <Container display={{ base: "contents" }} maxW="full" mt="2em">
@@ -101,7 +104,7 @@ const CarrouselCards = ({ title, items }) => {
       <Slider {...settings} >
         {items && items.length > 0 && items.map((item, i) => {
           return (
-            <ItemCard item={item} key={i} />
+            <ItemCard item={item} t={t} key={i} />
           )
         })}
       </Slider>

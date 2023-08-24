@@ -65,5 +65,8 @@
     "Start a chat with the seller": "Start a chat with the seller",
     "Are you sure you want to start a conversation?": "Are you sure you want to start or continue a conversation?",
     "Yes": "Yes",
-    "Error starting a chat": "Error starting a chat"
+    "Error starting a chat": "Error starting a chat",
+    "Hourly rate": "Hourly rate",
+    "Type price": "Type Price",
+    "Total": "Total"
 }

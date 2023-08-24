@@ -54,5 +54,10 @@
     "Your listing has been submitted!": "Su publicación ha sido enviada!",
     "Revision": "Nuestro equipo revisará su publicación y le notificará por correo electrónico una vez que su anuncio esté activo. La revisión suele tardar 2 horas.",
     "Error Form": "Error Formulario",
-    "There is an error in the form": "Hay algún error en el formulario."
+    "There is an error in the form": "Hay algún error en el formulario.",
+    "Select Type": "Seleccionar tipo",
+    "To settle": "A convenir",
+    "Hourly rate": "Por hora",
+    "Type price": "Tipo de precio",
+    "Total": "Total"
 }
