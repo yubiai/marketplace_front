@@ -13,14 +13,11 @@ import {
     SliderMark,
     Slider, */
   Divider,
-  ModalOverlay,
-  useDisclosure,
   useToast,
-  Spinner,
   Container,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 
 import ButtonCheckout from '../../components/Buttons/ButtonCheckout';
@@ -252,12 +249,12 @@ const Checkout = () => {
   }
 
   // Overlay Modal
-  const OverlayOne = () => (
+  /* const OverlayOne = () => (
     <ModalOverlay
       bg='blackAlpha.700'
       backdropFilter='blur(10px) hue-rotate(90deg)'
     />
-  )
+  ) */
 
   if (!user) return <Loading />
 
