@@ -3,7 +3,6 @@ import {
   Text,
   Heading,
   Center,
-  Button,
   Avatar,
   Stack,
   AlertIcon,
@@ -14,12 +13,7 @@ import {
     SliderMark,
     Slider, */
   Divider,
-  Modal,
   ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
   useDisclosure,
   useToast,
   Spinner,
@@ -38,12 +32,9 @@ import {
 } from '../../providers/orderProvider';
 import { orderService } from '../../services/orderService';
 import { channelService } from '../../services/channelService';
-import { termService } from '../../services/termService';
 
 import useUser from '../../hooks/data/useUser';
 import Loading from '../../components/Spinners/Loading';
-import RichTextReadOnly from '../../components/Utils/richTextReadOnly';
-import { profileService } from '../../services/profileService';
 import useTranslation from 'next-translate/useTranslation';
 
 const Checkout = () => {
@@ -55,17 +46,17 @@ const Checkout = () => {
   const [orderData, setOrderData] = useState({});
   const [transactionData, setTransactionData] = useState({});
   const [operationInProgress, setOperationInProgress] = useState(false);
-  const [term, setTerm] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [loadingTerm, setLoadingTerm] = useState(false);
+  //const [loading, setLoading] = useState(true);
+  //const [loadingTerm, setLoadingTerm] = useState(false);
+  //const [term, setTerm] = useState(null);
 
   const { user, loggedOut } = useUser();
 
   const [priceType, setPriceType] = useState("");
 
   // Modal
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const btnRef = useRef(null)
+  /* const { isOpen, onOpen, onClose } = useDisclosure()
+  const btnRef = useRef(null) */
 
   // if logged in, redirect to the home
   useEffect(() => {
@@ -84,80 +75,80 @@ const Checkout = () => {
       fontSize: 'sm',
     }; */
 
-  const verifyTyC = async () => {
-
-    try {
-      // Get Last Terms
-      const lastTerms = await termService.getTermsLast(global.profile && global.profile.token);
-      // Get Profile Info
-      const profileInfo = await profileService.getProfileFromId(global.profile._id, global.profile.token)
-
-      if (!lastTerms) {
+  /*   const verifyTyC = async () => {
+  
+      try {
+        // Get Last Terms
+        const lastTerms = await termService.getTermsLast(global.profile && global.profile.token);
+        // Get Profile Info
+        const profileInfo = await profileService.getProfileFromId(global.profile._id, global.profile.token)
+  
+        if (!lastTerms) {
+          router.back();
+          return
+        }
+  
+        if (!profileInfo) {
+          router.back();
+          return
+        }
+  
+        // Check if in the profile you agree with this term
+        const verifyTermProfile = profileInfo.data && profileInfo.data.terms.find((term) => term && term.idTerm == lastTerms.data._id);
+  
+        if (!verifyTermProfile) {
+          setTerm(lastTerms.data)
+          onOpen()
+          return
+        }
+  
+        setLoading(false)
+        return
+      } catch (err) {
+        console.error(err);
         router.back();
         return
       }
-
-      if (!profileInfo) {
-        router.back();
-        return
-      }
-
-      // Check if in the profile you agree with this term
-      const verifyTermProfile = profileInfo.data && profileInfo.data.terms.find((term) => term && term.idTerm == lastTerms.data._id);
-
-      if (!verifyTermProfile) {
-        setTerm(lastTerms.data)
-        onOpen()
-        return
-      }
-
-      setLoading(false)
-      return
-    } catch (err) {
-      console.error(err);
-      router.back();
-      return
     }
-  }
-
-  // Confirm TyC
-  const confirmTerms = async () => {
-    try {
+  
+    // Confirm TyC
+    const confirmTerms = async () => {
+      try {
+        setLoadingTerm(true)
+        await profileService.addTerms(global.profile._id, term, global.profile.token);
+        toast({
+          title: t('Terms and conditions'),
+          description: t('You have accepted the terms and conditions.'),
+          position: 'top-right',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+        })
+        setLoading(false)
+        onClose();
+        setLoadingTerm(false)
+      } catch (err) {
+        console.error(err);
+        router.back();
+        return
+      }
+    }
+  
+    // Reject TyC
+    const rejectTerms = () => {
       setLoadingTerm(true)
-      await profileService.addTerms(global.profile._id, term, global.profile.token);
+      router.back();
       toast({
-        title: t('Terms and conditions'),
-        description: t('You have accepted the terms and conditions.'),
+        title: t('Failed to checkout.'),
+        description: t('In order to initiate the transaction you must accept the terms and conditions.'),
         position: 'top-right',
-        status: 'success',
+        status: 'warning',
         duration: 5000,
         isClosable: true,
       })
-      setLoading(false)
       onClose();
-      setLoadingTerm(false)
-    } catch (err) {
-      console.error(err);
-      router.back();
       return
-    }
-  }
-
-  // Reject TyC
-  const rejectTerms = () => {
-    setLoadingTerm(true)
-    router.back();
-    toast({
-      title: t('Failed to checkout.'),
-      description: t('In order to initiate the transaction you must accept the terms and conditions.'),
-      position: 'top-right',
-      status: 'warning',
-      duration: 5000,
-      isClosable: true,
-    })
-    onClose();
-    return
-  }
+    } */
 
   useEffect(() => {
 
@@ -216,7 +207,7 @@ const Checkout = () => {
     }
 
     if (!transactionData.extraData && global.yubiaiPaymentArbitrableInstance) {
-      verifyTyC()
+      //verifyTyC()
       loadOrder();
     }
   }, [transactionData, global.itemToCheckout, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance])
@@ -328,7 +319,7 @@ const Checkout = () => {
               </Text>
               <Divider mt="1em" />
 
-              {loading && (
+              {/* {loading && (
                 <Center mt="2em">
                   <Spinner
                     thickness="4px"
@@ -338,10 +329,10 @@ const Checkout = () => {
                     size="md"
                   />
                 </Center>
-              )}
-              {!loading && (
+              )} */}
+               {/*{!loading && (
                 <>
-                  {/* <Center>
+                  <Center>
                     <Text mt="1em" fontStyle={"normal"} fontWeight={"bold"}>{t("UBI Burning")}</Text>
                   </Center>
                   <Text mt="3" fontStyle="italic">
@@ -381,29 +372,29 @@ const Checkout = () => {
                       </SliderTrack>
                       <SliderThumb bg='blue.400' />
                     </Slider>
-                  </Box> */}
-                  <Alert status="warning" mt="1em" color="black" bg="orange.100">
-                    <AlertIcon color="orange" />
-                    {t("When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service")}{' '}
-                  </Alert>
-                  <Stack mt={8}>
-                    <ButtonCheckout
-                      transactionInfo={transactionData}
-                      toggleLoadingStatus={toggleLoadingStatus}
-                      createOrder={createOrder}
-                      operationInProgress={operationInProgress}
-                      currency={(orderData.item || {}).currencySymbolPrice}
-                      burnFee={sliderValue}
-                      yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                      t={t}
-                    />
-                  </Stack>
+                  </Box> 
                 </>
-              )}
+              )}*/}
+              <Alert status="warning" mt="1em" color="black" bg="orange.100">
+                <AlertIcon color="orange" />
+                {t("When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service")}{' '}
+              </Alert>
+              <Stack mt={8}>
+                <ButtonCheckout
+                  transactionInfo={transactionData}
+                  toggleLoadingStatus={toggleLoadingStatus}
+                  createOrder={createOrder}
+                  operationInProgress={operationInProgress}
+                  currency={(orderData.item || {}).currencySymbolPrice}
+                  burnFee={sliderValue}
+                  yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                  t={t}
+                />
+              </Stack>
             </Box>
           </Center>
         </Container>
-        <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'outside'} size={"6xl"}>
+        {/*  circuit terms disabled <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'outside'} size={"6xl"}>
           <OverlayOne />
           <ModalContent bg="white" color="black">
             <ModalHeader>{t("Terms and Conditions")}</ModalHeader>
@@ -434,7 +425,7 @@ const Checkout = () => {
               )}
             </ModalFooter>
           </ModalContent>
-        </Modal>
+        </Modal> */}
       </>
     )
   )
