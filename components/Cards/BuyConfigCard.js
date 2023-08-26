@@ -75,7 +75,8 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                 seller: channel.seller,
                 price: channel.priceconfig,
                 time_for_service: channel.time_for_service,
-                time_for_claim: channel.time_for_claim
+                time_for_claim: channel.time_for_claim,
+                typeprice: channel.typeprice
             }
 
             dispatch({
@@ -293,6 +294,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                         <>
                             <Text fontWeight={"bold"}>{t("Settings")}</Text>
                             <Text mt="10px">{t("New Price")}: {channel.priceconfig} {channel.item_id.currencySymbolPrice}</Text>
+                            <Text mt="10px">{t(`${channel.typeprice}`)}</Text>
                             <Text mt="10px">{t("Time For Service")}: {channel.time_for_service} {t("Days")}</Text>
                             <Text mt="10px">{t("Time For Claim")}: {channel.time_for_claim} {t("Days")}</Text>
                             <Button

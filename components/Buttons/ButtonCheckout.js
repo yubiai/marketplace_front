@@ -12,7 +12,7 @@ const WEI_DECIMAL_PLACES = 18;
 const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, yubiaiPaymentArbitrableInstance, t }) => {
     const global = useGlobal();
 
-    const { amount, recipient, time_for_claim, time_for_service } = transactionInfo;
+    const { amount, recipient, time_for_claim, time_for_service, typeprice } = transactionInfo;
 
     const createTransaction = async () => {
         try {
@@ -93,6 +93,7 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                 timeForService: parseInt(timeForService, 10),
                 timeForClaim: parseInt(timeForClaim, 10),
                 currentClaim: parseInt(currentClaim, 10),
+                typeprice: typeprice,
                 transactionIndex: dealId,
                 transactionPayedAmount,
                 transactionFeeAmount,

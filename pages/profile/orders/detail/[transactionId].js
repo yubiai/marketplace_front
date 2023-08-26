@@ -96,7 +96,6 @@ const OrderDetail = () => {
       transactionId, global.profile.token);
     const { data } = response;
     const orderInfo = data.result;
-
     // Check if it is the buyer if not outside
     const userEthAddress = global && global.profile && global.profile.eth_address.toUpperCase();
     const userBuyer = orderInfo && orderInfo.userBuyer && orderInfo.userBuyer.toUpperCase();
@@ -256,6 +255,7 @@ const OrderDetail = () => {
   if (!loading) return <Loading />;
 
   console.log((deal || {}), "(deal || {})")
+  console.log(orderDetail, "orderDetail")
   return (
     <>
       <Head>
@@ -345,10 +345,9 @@ const OrderDetail = () => {
                     <Text>{t("Price")} {
                       `${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)} ${orderDetail.item.currencySymbolPrice || 'ETH'}`
                     }</Text>
-
+                    <Text>{`${t(orderDetail.transaction.typeprice)}`}</Text>
                   </Box>
                 </Center>
-
               }
 
               <Center mt={{ base: '1em', md: '0px' }}>

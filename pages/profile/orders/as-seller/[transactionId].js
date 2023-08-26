@@ -389,6 +389,7 @@ const OrderDetail = () => {
                       <Text>{t("Price")} {
                         `${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)} ${orderDetail.item.currencySymbolPrice || 'ETH'}`
                       }</Text>
+                      <Text>{`${t(orderDetail.transaction.typeprice)}`}</Text>
                     </Box>
                   </Center>
                 )
@@ -454,7 +455,7 @@ const OrderDetail = () => {
             >
 
               <Center>
-              <Image
+                <Image
                   alt={'Logo'}
                   borderRadius="2xl"
                   marginTop={'6px'}

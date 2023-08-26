@@ -59,7 +59,9 @@ const Checkout = () => {
   const [loading, setLoading] = useState(true);
   const [loadingTerm, setLoadingTerm] = useState(false);
 
-  const { user, loggedOut } = useUser()
+  const { user, loggedOut } = useUser();
+
+  const [priceType, setPriceType] = useState("");
 
   // Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -164,10 +166,10 @@ const Checkout = () => {
       loadCurrencyPrices(dispatch, global, networkType);
     };
 
-    async function initialArbInstance(){
+    async function initialArbInstance() {
       if (!global.yubiaiPaymentArbitrableInstance) {
         const res = await setYubiaiInstance(dispatch);
-        if(!res){
+        if (!res) {
           toast({
             title: "Wrong Network",
             description: "Change the network to one that is enabled.",
@@ -192,13 +194,14 @@ const Checkout = () => {
         { ...global.itemToCheckout },
         global.currencyPriceList
       )
-      const { orderInfo, transaction, time_for_claim, time_for_service } = result
-      console.log(orderInfo, "ORDERINFO")
+      const { orderInfo, transaction, time_for_claim, time_for_service, typeprice } = result
+      setPriceType(typeprice);
       setOrderData(orderInfo)
       let neWtransaction = {
         ...transaction,
         time_for_claim,
-        time_for_service
+        time_for_service,
+        typeprice
       }
       setTransactionData(neWtransaction)
     };
@@ -314,9 +317,11 @@ const Checkout = () => {
               <Heading fontSize={'2xl'} fontFamily={'body'}>
                 {t("Order summary")}
               </Heading>
-              <Text fontWeight={600} color={'gray.500'} mb={4}>
+              <Text fontWeight={600} color={'gray.500'}>
                 {t("Price")}: {orderData.item && orderData.item.price}{' '}
                 {orderData.item && orderData.item.currencySymbolPrice}
+              </Text>
+              <Text fontWeight={400} color="gray.500" mb={4}>{priceType}
               </Text>
               <Text textAlign={'center'} color={'gray.700'} px={3}>
                 {orderData.item && orderData.item.title}
