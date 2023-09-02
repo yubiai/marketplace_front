@@ -15,8 +15,8 @@ const Questions = ({ item, profile_id, token, t }) => {
     const limitQuery = 6;
 
     const [countQuestion, setCountQuestion] = useState(0);
-    const MIN_QUESTION_LENGTH = 50;
-    const MAX_QUESTION_LENGTH = 400;
+    const MIN_QUESTION_LENGTH = 30;
+    const MAX_QUESTION_LENGTH = 800;
 
     const toast = useToast();
 
@@ -141,10 +141,10 @@ const Questions = ({ item, profile_id, token, t }) => {
                                     </Button>)}
 
                                 </Flex>
-                                <Flex m="5px" fontStyle={"italic"}>{t("Characters")}: <Text color={countQuestion < MIN_QUESTION_LENGTH || countQuestion > MAX_QUESTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countQuestion}</Text> / {MAX_QUESTION_LENGTH}</Flex>
-                                <Text color="red" m="5px">{errors.question?.type === 'required' && t("Description is Required")}</Text>
-                                <Text color="red" m="5px">{errors.question?.type === 'minLength' && t("Minimum required characters are 50")}</Text>
-                                <Text color="red" m="5px">{errors.question?.type === 'maxLength' && t("Maximum required characters are 400")}</Text>
+                                <Flex m="5px" fontStyle={"italic"}>{t("Characters")}: <Text color={countQuestion < MIN_QUESTION_LENGTH || countQuestion > MAX_QUESTION_LENGTH ? "orange.500" : "green"} mr="5px" ml="5px">{countQuestion}</Text> / {MAX_QUESTION_LENGTH}</Flex>
+                                <Text color="orange.500" m="5px">{errors.question?.type === 'required' && t("Description is Required")}</Text>
+                                <Text color="orange.500" m="5px">{errors.question?.type === 'minLength' && t(`Minimum required characters are ${MIN_QUESTION_LENGTH}`)}</Text>
+                                <Text color="orange.500" m="5px">{errors.question?.type === 'maxLength' && t(`Maximum required characters are ${MAX_QUESTION_LENGTH}`)}</Text>
                             </FormControl>
                         </Box>
                     </form>

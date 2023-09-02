@@ -23,7 +23,7 @@ import Link from 'next/link'
 import ItemCardLg from '../../../components/Cards/ItemCardLg'
 import useTranslation from 'next-translate/useTranslation';
 
-const Favourites = () => {
+const Bookmarks = () => {
   const global = useGlobal()
   const router = useRouter()
   const { t } = useTranslation("home")
@@ -79,7 +79,7 @@ const Favourites = () => {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <Text>{t("Your favourites")}</Text>
+              <Text>{t("Your bookmarks")}</Text>
             </BreadcrumbItem>
           </Breadcrumb>
 
@@ -106,7 +106,7 @@ const Favourites = () => {
               data.items &&
               data.items.length > 0 &&
               data.items.map((item, i) => {
-                return <ItemCardLg key={i} item={item} />
+                return <ItemCardLg key={i} item={item} t={t} />
               })}
           </Grid>
           <Paginations data={data ? data : null} />
@@ -116,4 +116,4 @@ const Favourites = () => {
   )
 }
 
-export default Favourites
+export default Bookmarks;

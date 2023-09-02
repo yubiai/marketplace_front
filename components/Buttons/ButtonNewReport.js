@@ -29,12 +29,12 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
     const toast = useToast();
 
     const [countMotive, setCountMotive] = useState(0);
-    const MIN_MOTIVE_LENGTH = 15;
+    const MIN_MOTIVE_LENGTH = 2;
     const MAX_MOTIVE_LENGTH = 72;
 
     const [countDescription, setCountDescription] = useState(0);
     const MIN_DESCRIPTION_LENGTH = 30;
-    const MAX_DESCRIPTION_LENGTH = 800;
+    const MAX_DESCRIPTION_LENGTH = 400;
 
     const onSubmit = async (data) => {
 
@@ -138,15 +138,15 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
                                     })}
                                     isRequired
                                 />
-                                <Flex m="5px" fontStyle={"italic"}>{t("Characters")}: <Text color={countMotive < MIN_MOTIVE_LENGTH || countMotive > MAX_MOTIVE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countMotive}</Text> / {MAX_MOTIVE_LENGTH}</Flex>
-                                <Text color="red" m="5px">{errors.motive?.type === 'required' && "Description is Required"}</Text>
-                                <Text color="red" m="5px">{errors.motive?.type === 'minLength' && "Minimum required characters are " + MIN_MOTIVE_LENGTH}</Text>
-                                <Text color="red" m="5px">{errors.motive?.type === 'maxLength' && "Maximum required characters are " + MAX_MOTIVE_LENGTH}</Text>
+                                <Flex m="5px" fontStyle={"italic"}>{t("Characters")}: <Text color={countMotive < MIN_MOTIVE_LENGTH || countMotive > MAX_MOTIVE_LENGTH ? "orange.500" : "green"} mr="5px" ml="5px">{countMotive}</Text> / {MAX_MOTIVE_LENGTH}</Flex>
+                                <Text color="orange.500" m="5px">{errors.motive?.type === 'required' && "Description is Required"}</Text>
+                                <Text color="orange.500" m="5px">{errors.motive?.type === 'minLength' && "Minimum required characters are " + MIN_MOTIVE_LENGTH}</Text>
+                                <Text color="orange.500" m="5px">{errors.motive?.type === 'maxLength' && "Maximum required characters are " + MAX_MOTIVE_LENGTH}</Text>
                             </FormControl>
                             <FormControl isRequired mt="1em">
                                 <FormLabel color="black">{t("Description")}</FormLabel>
                                 <Textarea
-                                    placeholder={t("Description is required, minimum 30 characters and maximum 800 characters")}
+                                    placeholder={t("Description is required, minimum 30 characters and maximum 400 characters")}
                                     _placeholder={{ color: 'gray.400' }}
                                     color="gray.700"
                                     bg="white"
@@ -155,10 +155,10 @@ const ButtonNewReport = ({ reference, type, userId, owner, token, t }) => {
                                     })}
                                     isRequired
                                 />
-                                <Flex m="5px" fontStyle={"italic"}>{t("Characters")}: <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
-                                <Text color="red" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
-                                <Text color="red" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 30")}</Text>
-                                <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 400")}</Text>
+                                <Flex m="5px" fontStyle={"italic"}>{t("Characters")}: <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "orange.500" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
+                                <Text color="orange.500" m="5px">{errors.description?.type === 'required' && t("Description is Required")}</Text>
+                                <Text color="orange.500" m="5px">{errors.description?.type === 'minLength' && t("Minimum required characters are 30")}</Text>
+                                <Text color="orange.500" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 400")}</Text>
                             </FormControl>
                         </ModalBody>
 

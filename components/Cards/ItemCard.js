@@ -1,7 +1,7 @@
 import { Box, Center, Text, Stack, Image, Divider, Badge } from '@chakra-ui/react'
 import Link from 'next/link'
 
-const ItemCard = ({ item }) => {
+const ItemCard = ({ item, t }) => {
   return (
     <Center p={1} cursor="pointer">
       <Link href={`/item/${item.slug}`}>
@@ -40,7 +40,7 @@ const ItemCard = ({ item }) => {
             </Text>
             {item.seller && (
               <Box position="absolute" bottom="5" left="1" >
-                <Badge color={"blue.800"} bg="white" fontSize={{base: "8px", md: "10px"}} mr={"3px"} noOfLines={2}
+                <Badge color={"blue.800"} bg="white" fontSize={{ base: "8px", md: "10px" }} mr={"3px"} noOfLines={2}
                   style={{
                     whiteSpace: "normal",
                     wordWrap: "break-word",
@@ -49,13 +49,23 @@ const ItemCard = ({ item }) => {
               </Box>
             )}
             <Stack direction={'row'} position="absolute" bottom="0">
-              <Text fontWeight={800} fontSize={'1ems'} >
-                {item.price}
-              </Text>
-              <Text>{item.currencySymbolPrice}</Text>
-              {/* <Text textDecoration={'line-through'} color={'red'}>
+              {
+                item && item.typeprice && item.typeprice != "To settle" ? (
+                  <>
+                    <Text fontWeight={800} fontSize={'1ems'} >
+                      {item.price}
+                    </Text>
+                    <Text>{item.currencySymbolPrice}</Text> 
+                    {/* <Text textDecoration={'line-through'} color={'red'}>
               $199
             </Text> */}
+
+                  </>
+                ) : (
+                  <Text fontSize={"sm"}>{item.typeprice ? (t(`${item.typeprice}`)) : ""}</Text>
+                )
+              }
+
             </Stack>
           </Stack>
         </Box>

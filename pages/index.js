@@ -98,7 +98,7 @@ const Home = ({ items }) => {
           )}
           {listFavourites && listFavourites.length > 0 && (
             <CarrouselCards
-              title={t('Your favourites')}
+              title={t('Your bookmarks')}
               items={listFavourites}
             />
           )}

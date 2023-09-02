@@ -63,6 +63,11 @@ const NewListing = () => {
   const { lang } = useTranslation('common');
   const contentCookies = Cookies.get('itemSaved');
 
+  // State useForm
+  const { handleSubmit, register, getValues, control, resetField} = useForm()
+  const [result, setResult] = useState(null)
+  const [viewErrors, setViewErrors] = useState(false);
+
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -95,12 +100,10 @@ const NewListing = () => {
 
   const [selectedCurrency, setSelectedCurrency] = useState('ETH')
 
+  const [selectedTypePrice, setSelectedTypePrice] = useState('');
+
   // State SubCategories
   const [subCategories, setSubCategories] = useState([])
-
-  // State useForm
-  const { handleSubmit, register, getValues, control, resetField } = useForm()
-  const [result, setResult] = useState(null)
 
   // State Submit
   const [stateSubmit, setStateSubmit] = useState(0)
@@ -184,6 +187,7 @@ const NewListing = () => {
   // Form Submit Preview
   const onSubmit = async (data) => {
     if (!title || !contentDescription || countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH) {
+      setViewErrors(true);
       toast({
         title: t("Error Form"),
         description: t("There is an error in the form"),
@@ -211,7 +215,8 @@ const NewListing = () => {
 
     form.append('title', title)
     form.append('description', contentDescription)
-    form.append('price', priceValue)
+    form.append('typeprice', selectedTypePrice)
+    form.append('price', selectedTypePrice && selectedTypePrice != "To settle" ? priceValue : 888888)
     form.append('seller', global.profile._id)
     form.append('maxorders', 3)
     form.append('category', data.category)
@@ -318,19 +323,19 @@ const NewListing = () => {
             onChange={handleChangeTitle}
             isRequired
           />
-          {titleError && (
-            <Box mt="0.5em" color="red.500" fontSize="sm">
+          {viewErrors && titleError && (
+            <Box mt="0.5em" color="orange.500" fontSize="sm">
               {t(`Title must be between 15 and 72 characters`)}
             </Box>
           )}
-          <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
+          <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countTitle < MIN_TITLE_LENGTH || countTitle > MAX_TITLE_LENGTH ? "orange.500" : "green"} mr="5px" ml="5px">{countTitle}</Text> / {MAX_TITLE_LENGTH}</Flex>
         </Box>
         <Box mt="1em">
-          <Heading as='h4' size='md'>{t("Description")} <span style={{ color: 'red' }}>*</span></Heading>
+          <Heading as='h4' size='md'>{t("Description")} <span style={{ color: 'orange.500' }}>*</span></Heading>
           <Editor setContent={setContentDescription} setCount={setCountDescription} content={contentCookies} newItem={true} />
-          <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "red" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
-          <Text color="red" m="5px">{countDescription < MIN_DESCRIPTION_LENGTH && countDescription > 1 && t("Minimum required characters are 100")}</Text>
-          <Text color="red" m="5px">{countDescription > MAX_DESCRIPTION_LENGTH && t("Maximum required characters are 1600")}</Text>
+          <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "orange.500" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
+          <Text color="orange.500" m="5px">{viewErrors && countDescription < MIN_DESCRIPTION_LENGTH && countDescription > 1 && t("Minimum required characters are 100")}</Text>
+          <Text color="orange.500" m="5px">{viewErrors && countDescription > MAX_DESCRIPTION_LENGTH && t("Maximum required characters are 1600")}</Text>
         </Box>
         <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -440,29 +445,64 @@ const NewListing = () => {
           )}
           <FormControl isRequired mt="1em">
             <FormLabel color="black">{t("Amount")}</FormLabel>
-            <NumberInput
-              onChange={(valueString) => {
-                setPriceValue(parse(valueString))
-                return
-              }}
-              value={format(priceValue)}
-              color="gray.700"
+            <Select
               bg="white"
-              min={0.00001}
-              max={999999}
-              precision={5}
-              isRequired
+              color="black"
+              name="typeprice"
+              id="typeprice"
+              placeholder={t("Select Type")}
+              onChange={(e) => {
+                setSelectedTypePrice(e.target.value)
+              }}
             >
-              <NumberInputField placeholder='0.00001' _placeholder={{ color: 'gray.400' }}
-              />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
+              <option
+                key="To settle"
+                value="To settle"
+                id="To settle"
+              >
+                {t("To settle")}
+              </option>
+              <option
+                key="Hourly rate"
+                value="Hourly rate"
+                id="Hourly rate"
+              >
+                {t("Hourly rate")}
+              </option>
+              <option
+                key="Total"
+                value="Total"
+                id="Total"
+              >
+                Total
+              </option>
+            </Select>
+            {selectedTypePrice && selectedTypePrice != "To settle" && (
+              <NumberInput
+                onChange={(valueString) => {
+                  setPriceValue(parse(valueString))
+                  return
+                }}
+                value={format(priceValue)}
+                color="gray.700"
+                bg="white"
+                mt="1em"
+                min={0.00001}
+                max={999999}
+                precision={5}
+                isRequired
+              >
+                <NumberInputField placeholder='0.00001' _placeholder={{ color: 'gray.400' }}
+                />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            )}
           </FormControl>
 
-            {/* <Box pt={6} pb={2} color="gray.700"
+          {/* <Box pt={6} pb={2} color="gray.700"
            >
              <FormControl isRequired mt="1em">
                <FormLabel color="black">{t("UBI Burning Amount")}</FormLabel>

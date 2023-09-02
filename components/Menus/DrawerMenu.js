@@ -214,16 +214,16 @@ const DrawerMenu = () => {
                     </Link>
                   </ListItem>
                   <ListItem>
-                    <Link href="/profile/favourites">
+                    <Link href="/profile/bookmarks">
                       <Button
                         onClick={() => onClose()}
-                        className="step-favourites"
+                        className="step-bookmarks"
                         w="full"
                         bg="transparent"
                         justifyContent={'left'}
                       >
                         <ListIcon as={MdFavorite} />
-                        {t("Favourites")}
+                        {t("Bookmarks")}
                       </Button>
                     </Link>
                   </ListItem>
@@ -274,7 +274,7 @@ const DrawerMenu = () => {
                     <Link href="/profile/questions">
                       <Button
                         onClick={() => onClose()}
-                        className="step-favourites"
+                        className="step-bookmarks"
                         w="full"
                         bg="transparent"
                         justifyContent={'left'}
@@ -288,7 +288,7 @@ const DrawerMenu = () => {
                     <Link href="/profile/orders">
                       <Button
                         onClick={() => onClose()}
-                        className="step-favourites"
+                        className="step-bookmarks"
                         w="full"
                         bg="transparent"
                         justifyContent={'left'}
@@ -302,7 +302,7 @@ const DrawerMenu = () => {
                     <Link href="/profile/orders/sales">
                       <Button
                         onClick={() => onClose()}
-                        className="step-favourites"
+                        className="step-bookmarks"
                         w="full"
                         bg="transparent"
                         justifyContent={'left'}

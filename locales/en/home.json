@@ -1,10 +1,15 @@
 {
     "Popular Services": "Popular services",
     "Your favourites": "Your favourites",
+    "Your bookmarks": "Your bookmarks",
     "Last viewed items": "Last viewed items",
     "Home": "Home",
     "Profile": "Profile",
+    "Bookmarks": "Bookmarks",
     "Favourites": "Favourites",
-    "You do not have any items added to favourites": "You do not have any items added to favourites.",
-    "Go Back": "Go Back"
+    "You do not have any items added to bookmarks": "You do not have any items added to bookmarks.",
+    "Go Back": "Go Back",
+    "Hourly rate": "Hourly rate",
+    "Type price": "Type Price",
+    "Total": "Total"
 }

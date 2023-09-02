@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 import Link from 'next/link'
 
-const ItemCardLg = ({ item }) => {
+const ItemCardLg = ({ item, t }) => {
   return (
     <Box p={2} cursor="pointer">
       <Link href={`/item/${item.slug}`}>
@@ -59,14 +59,23 @@ const ItemCardLg = ({ item }) => {
                 >{item.seller.name}</Badge>
               </Box>
             )}
+
             <Stack direction={'row'} position="absolute" bottom="0" left="1">
-              <Text fontWeight={800} fontSize={'1ems'} ml="2px">
-                {item.price}
-              </Text>
-              <Text>{item.currencySymbolPrice || 'ETH'}</Text>
-              {/* <Text textDecoration={'line-through'} color={'red'}>
+              {
+                item && item.typeprice && item.typeprice != "To settle" && (
+                  <>
+                    <Text fontWeight={800} fontSize={'1ems'} >
+                      {item.price}
+                    </Text>
+                    <Text>{item.currencySymbolPrice}</Text> <Text fontSize={"sm"}>{item.typeprice ? (t(`(${item.typeprice})`)) : ""}</Text>
+                    {/* <Text textDecoration={'line-through'} color={'red'}>
               $199
             </Text> */}
+
+                  </>
+                )
+              }
+
             </Stack>
           </Stack>
         </Box>

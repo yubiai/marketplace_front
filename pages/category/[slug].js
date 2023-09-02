@@ -99,7 +99,7 @@ const ItemsByCategory = ({ response, category }) => {
               data.items.length > 0 &&
               data.items.map((item, i) => {
                 return (
-                  <ItemCardLg key={i} item={item} />
+                  <ItemCardLg key={i} item={item} t={t} />
                 )
               })}
           </Grid>

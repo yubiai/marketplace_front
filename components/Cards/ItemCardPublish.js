@@ -13,7 +13,7 @@ import ButtonAdmItem from '../Buttons/ButtonAdmItem'
 
 const ItemCardPublish = ({ item, token, mutate, t }) => {
   const [loading, setLoading] = useState(false);
-
+  console.log("item", item)
   return (
     <Box p={2} cursor="pointer">
       <Link href={`/item/${item.slug}`}>
@@ -70,10 +70,15 @@ const ItemCardPublish = ({ item, token, mutate, t }) => {
               {item.title}
             </Text>
             <Stack direction={'row'} position="absolute" bottom="1">
-              <Text fontWeight={800} fontSize={'1ems'}>
+              {item && item.typeprice && item.typeprice != "To settle" && (
+                <>
+                <Text fontWeight={800} fontSize={'1ems'}>
                 {item.price}
               </Text>
-              <Text>{item.currencySymbolPrice}</Text>
+              <Text>{item.currencySymbolPrice}</Text> 
+                </>
+              )}
+              <Text fontSize={"sm"}>({t(`${item.typeprice}`)})</Text>
               {/* <Text textDecoration={'line-through'} color={'red'}>
               $199
             </Text> */}

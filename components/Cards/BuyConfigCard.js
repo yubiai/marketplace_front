@@ -1,4 +1,4 @@
-import { Box, Button, Flex, FormControl, FormLabel, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Spinner, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormLabel, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, Spinner, Text, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useDispatchGlobal } from "../../providers/globalProvider";
 import { useForm } from "react-hook-form";
@@ -13,7 +13,11 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
     const [isLoading, setIsLoading] = useState(false);
     const toast = useToast();
 
+    console.log(channel, "channel")
+
     const [editSettings, setEditSettings] = useState(false);
+
+    const [selectedTypePrice, setSelectedTypePrice] = useState('');
 
     // Input Number config
     const format = (val) => val
@@ -26,9 +30,9 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
     const { handleSubmit, reset } = useForm()
 
     useEffect(() => {
-      reset(channel)
+        reset(channel)
     }, [])
-    
+
 
     const onCancel = async () => {
         try {
@@ -71,7 +75,8 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                 seller: channel.seller,
                 price: channel.priceconfig,
                 time_for_service: channel.time_for_service,
-                time_for_claim: channel.time_for_claim
+                time_for_claim: channel.time_for_claim,
+                typeprice: channel.typeprice
             }
 
             dispatch({
@@ -97,6 +102,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
             setIsLoading(true)
             await channelService.updateSettings({
                 _id: channel._id,
+                typeprice: selectedTypePrice,
                 priceconfig: priceValue,
                 time_for_service: timeForServiceValue,
                 time_for_claim: timeForClaimValue
@@ -150,6 +156,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                     ) : (
                                         <>
                                             <Text mt="10px">{t("New Price")}: {channel.priceconfig} {channel.item_id.currencySymbolPrice}</Text>
+                                            <Text mt="10px">{t(`${channel.typeprice}`)}</Text>
                                             <Text mt="10px">{t("Time For Service")}: {channel.time_for_service} {t("Days")}</Text>
                                             <Text mt="10px">{t("Time For Claim")}: {channel.time_for_claim} {t("Days")}</Text>
                                             <Flex mt="1em" justifyContent={"space-between"}>
@@ -168,7 +175,6 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                         bg="green.400"
                                         color="white"
                                         w="100%"
-                                        mt="1em"
                                         fontSize={'16px'}
                                         fontWeight={'600'}
                                         onClick={() => setEditSettings(true)}
@@ -182,6 +188,32 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                 <form onSubmit={handleSubmit(onSubmit)}>
                                     <FormControl isRequired mt="1em">
                                         <FormLabel color="black">{t("New Price")}</FormLabel>
+                                        <Select
+                                            bg="white"
+                                            color="black"
+                                            name="typeprice"
+                                            id="typeprice"
+                                            mt="1em"
+                                            placeholder={t("Select Type")}
+                                            onChange={(e) => {
+                                                setSelectedTypePrice(e.target.value)
+                                            }}
+                                        >
+                                            <option
+                                                key="Hourly rate"
+                                                value="Hourly rate"
+                                                id="Hourly rate"
+                                            >
+                                                {t("Hourly rate")}
+                                            </option>
+                                            <option
+                                                key="Total"
+                                                value="Total"
+                                                id="Total"
+                                            >
+                                                Total
+                                            </option>
+                                        </Select>
                                         <NumberInput
                                             onChange={(valueString) => {
                                                 setPriceValue(parse(valueString))
@@ -190,6 +222,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                             value={format(priceValue)}
                                             color="gray.700"
                                             bg="white"
+                                            mt="1em"
                                             min={0.00001}
                                             max={999999}
                                             precision={5}
@@ -249,7 +282,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                             </NumberInputStepper>
                                         </NumberInput>
                                     </FormControl>
-                                    
+
                                     <Button mt="1em" w="100%" bg="#00abd1" color="white" type="submit">
                                         {t("Save")}
                                     </Button>
@@ -261,6 +294,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                         <>
                             <Text fontWeight={"bold"}>{t("Settings")}</Text>
                             <Text mt="10px">{t("New Price")}: {channel.priceconfig} {channel.item_id.currencySymbolPrice}</Text>
+                            <Text mt="10px">{t(`${channel.typeprice}`)}</Text>
                             <Text mt="10px">{t("Time For Service")}: {channel.time_for_service} {t("Days")}</Text>
                             <Text mt="10px">{t("Time For Claim")}: {channel.time_for_claim} {t("Days")}</Text>
                             <Button

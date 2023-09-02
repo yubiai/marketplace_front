@@ -331,44 +331,45 @@ const ItemById = ({ item }) => {
                 <InfoUserModal user={item.seller} t={t} />
               )}
             </Box>
-            <Text mt="1em">{item.price} {item.currencySymbolPrice}</Text>
-
-            <Text>0% {t("additional for Yubiai Fee")}</Text>
+            <Text mt="1em">{item && item.typeprice && item.typeprice != "To settle" && (<>
+              {item.price} {item.currencySymbolPrice}</>)} ({t(`${item.typeprice}`)})</Text>
+            <Text mt="5px">0% {t("additional for Yubiai Fee")}</Text>
             {/*             <Text>{item.ubiburningamount || 0.6}% {t("additional for UBI Burner Fee")}</Text>*/}
-            <Flex
-              direction={{ base: 'column' }}
-              justifyContent="center"
-              w="full"
-              h={{ base: "full", md: "300px" }}
-            >
-              {owner === false && global?.profile?._id && (
-                <>
-                  <Center>
-                    <Button
-                      bg="#00abd1"
-                      color="white"
-                      w="312px"
-                      h="32px"
-                      fontSize={'16px'}
-                      fontWeight={'600'}
-                      onClick={() => buyAndCheckoutItem()}
-                      disabled={!global.profile || item.published == false || item.status != 2}
-                    >
-                      {t("Buy Now")}
-                    </Button>
+            {owner === false && global?.profile?._id && (
+              <Flex
+                direction={{ base: 'column' }}
+                justifyContent="center"
+                w="full"
+                h={{ base: "full", md: "300px" }}
+              >
+                {item && item.typeprice && item.typeprice != "To settle" && (
+                  <>
+                    <Center>
+                      <Button
+                        bg="#00abd1"
+                        color="white"
+                        w="312px"
+                        h="32px"
+                        fontSize={'16px'}
+                        fontWeight={'600'}
+                        onClick={() => buyAndCheckoutItem()}
+                        disabled={!global.profile || item.published == false || item.status != 2}
+                      >
+                        {t("Buy Now")}
+                      </Button>
 
-                  </Center>
+                    </Center>
+                  </>
+                )}
+                <Box position={"absolute"} left={2} bottom={0}>
+                  <ButtonNewChannel buyer={global?.profile?._id} seller={item.seller._id} item_id={item._id} profile={global?.profile} t={t} />
+                </Box>
 
-                  <Box position={"absolute"} left={2} bottom={0}>
-                    <ButtonNewChannel buyer={global?.profile?._id} seller={item.seller._id} item_id={item._id} profile={global?.profile} t={t} />
-                  </Box>
-
-                  <Box position={"absolute"} right={2} bottom={0}>
-                    <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t} />
-                  </Box>
-                </>
-              )}
-            </Flex>
+                <Box position={"absolute"} right={2} bottom={0}>
+                  <ButtonNewReport reference={item._id} type={"Item"} userId={global?.profile?._id} owner={owner} token={global?.profile?.token} t={t} />
+                </Box>
+              </Flex>
+            )}
           </Box>
         </Flex>
       </Container>

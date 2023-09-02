@@ -1,4 +1,4 @@
-import { Box, Button, Center, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Tooltip, useDisclosure, useToast } from "@chakra-ui/react"
+import { Box, Button, Center, Spinner, Tooltip, useToast } from "@chakra-ui/react"
 import { useState } from "react";
 import { MdChat } from "react-icons/md"
 import { channelService } from "../../services/channelService";
@@ -8,7 +8,6 @@ const ButtonNewChannel = ({ buyer, seller, item_id, profile, t }) => {
     const toast = useToast();
     const router = useRouter()
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
     const [loading, setLoading] = useState(false);
 
     const newChannel = async () => {
@@ -41,7 +40,6 @@ const ButtonNewChannel = ({ buyer, seller, item_id, profile, t }) => {
         } catch (error) {
 
             setLoading(false);
-            onClose();
             toast({
                 title: t('Error Chat'),
                 description: t('Error starting a chat'),
@@ -57,7 +55,7 @@ const ButtonNewChannel = ({ buyer, seller, item_id, profile, t }) => {
 
     return (
         <>
-            {profile && profile._id && profile.token && (
+            {profile && profile._id && profile.token && !loading && (
                 <Box>
                     <Tooltip label={t("Start a chat")} aria-label='Button New Channel' placement='top' bg={"#00abd1"} color={"white"}>
                         <Button
@@ -66,7 +64,7 @@ const ButtonNewChannel = ({ buyer, seller, item_id, profile, t }) => {
                             color={'white'}
                             rounded={'full'}
                             cursor={'pointer'}
-                            onClick={() => onOpen()}
+                            onClick={() => newChannel()}
                             float={"right"}
                             _hover={{
                                 backgroundColor: 'green.200'
@@ -78,32 +76,11 @@ const ButtonNewChannel = ({ buyer, seller, item_id, profile, t }) => {
                 </Box>
             )}
 
-            <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>{t("Start a chat with the seller")}</ModalHeader>
-                    {loading ? (
-                        <>
-                            <Center m="1em">
-                                <Spinner />
-                            </Center>
-                        </>
-                    ) : (
-                        <>
-                            <ModalCloseButton />
-                            <ModalBody pb={6}>
-                                {t("Are you sure you want to start a conversation?")}
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button colorScheme='blue' mr={3} onClick={() => newChannel()}>
-                                    {t("Yes")}
-                                </Button>
-                                <Button onClick={onClose}>No</Button>
-                            </ModalFooter>
-                        </>
-                    )}
-                </ModalContent>
-            </Modal>
+            {loading && (
+                <Center m="1em">
+                    <Spinner />
+                </Center>
+            )}
         </>
     )
 }
