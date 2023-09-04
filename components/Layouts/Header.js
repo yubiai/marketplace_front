@@ -53,10 +53,10 @@ const Header = () => {
             mt={'15px'}
             display={{ base: 'none', md: 'flex' }}
             width="330px">
-            <ButtonSwitchNetwork bg={"white"} color={'#00abd1'} />
-            <ConnectButton />
-            {/*             {global.meta ? <ButtonConnect /> : ''}
- */}            {global.meta ? <ButtonConnectMetamask /> : ''}
+            <ConnectButton chainStatus="icon" />
+            {/* Reemplazao de rainbowkit            <ButtonSwitchNetwork bg={"white"} color={'#00abd1'} />
+            {global.meta ? <ButtonConnect /> : ''}
+       {global.meta ? <ButtonConnectMetamask /> : ''} */}
           </Center>
           <DrawerMenu />
         </Flex>
