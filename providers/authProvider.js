@@ -4,22 +4,18 @@ import { profileService } from '../services/profileService'
 import { useDispatchGlobal } from './globalProvider'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
-import { ethers } from 'ethers'
-import { connectWallet, verifyNetwork } from '../utils/connectWeb3'
+import { useAccount } from 'wagmi'
 
 export const AuthProvider = ({ children }) => {
-  const router = useRouter()
-  const dispatch = useDispatchGlobal()
+  const router = useRouter();
+  const dispatch = useDispatchGlobal();
+  const { isConnected } = useAccount()
 
   useEffect(() => {
     const authToken = async () => {
       try {
-        const provider = new ethers.providers.Web3Provider(window && window.location ? window.ethereum : "null");
-
-        const walletVerify = await connectWallet(provider)
-
-        // Check with metamask
-        if (!walletVerify) {
+        // Check with Loggin rainbowkit
+        if (!isConnected) {
           throw "No Wallet"
         }
 
@@ -34,8 +30,6 @@ export const AuthProvider = ({ children }) => {
         if (!Yubiai && !Ybcookies) {
           throw "No Token"
         }
-
-        const verifyNetWorkChainID = await verifyNetwork();
 
         const response = Yubiai
           ? await axios.get('/auth/session/', {
@@ -56,9 +50,6 @@ export const AuthProvider = ({ children }) => {
             : null
 
         if (user && user.status === 200) {
-          if(!verifyNetWorkChainID){
-            router.push('/logout')
-          }
           dispatch({
             type: 'AUTHPROFILE',
             payload: { ...user.data, token: Yubiai.token },
@@ -69,7 +60,7 @@ export const AuthProvider = ({ children }) => {
           return
         }
       } catch (err) {
-        console.error(err, "Error Auth")
+        console.error(err, "Not connected")
         return
       }
     }

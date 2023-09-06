@@ -3,14 +3,10 @@ import { Box, Flex, Button, Container, Image, Center } from '@chakra-ui/react'
 import LanguageChange from '../Menus/LanguageChange'
 import DrawerMenu from '../Menus/DrawerMenu'
 import SearchBar from './SearchBar'
-import { useGlobal } from '../../providers/globalProvider'
-import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
 import useTranslation from 'next-translate/useTranslation';
-import ButtonConnectMetamask from '../Buttons/ButtonConnectMetamask'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Header = () => {
-  const global = useGlobal()
   const { t } = useTranslation("navbar");
 
   return (

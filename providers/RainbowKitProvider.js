@@ -22,6 +22,41 @@ import { infuraProvider } from '@wagmi/core/providers/infura'
 import { publicProvider } from 'wagmi/providers/public';
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import Cookies from 'js-cookie';
+import { profileService } from '../services/profileService';
+import { useDispatchGlobal } from './globalProvider';
+
+// Login Profile
+const loginProfile = (address, dispatch) => {
+  return new Promise(async (resolve, reject) => {
+
+    const res = await profileService.loginSQ(address)
+      .catch((err) => {
+        if (err && err.response && err.response.data && err.response.data.error) {
+          console.error(err)
+          return reject(false)
+        }
+      })
+
+    const token = res.data.token;
+    const profile = res.data.data;
+
+    dispatch({
+      type: 'AUTHPROFILE',
+      payload: profile
+    });
+
+    const yubiaiLS = {
+      token: token,
+      wallet: profile.eth_address
+    };
+
+    Cookies.set('Yubiai', token, { expires: 1, secure: true })
+    localStorage.setItem('Yubiai', JSON.stringify(yubiaiLS));
+
+    return resolve();
+  })
+}
 
 
 
@@ -46,7 +81,7 @@ const connectors = connectorsForWallets([
       metaMaskWallet({ projectId, chains }),
       sequenceWallet({
         chains,
-        defaultNetwork: 1,
+        defaultNetwork: 5,
         shimDisconnect: true,
         connect: {
           app: 'Yubiai'
@@ -64,7 +99,7 @@ const wagmiConfig = createConfig({
 });
 
 function RainbowKitWrapper({ children }) {
-  const router = useRouter();
+  const dispatch = useDispatchGlobal();
 
   const [authenticationStatus, setAuthenticationStatus] = useState("");
   const authenticationAdapter = createAuthenticationAdapter({
@@ -77,7 +112,7 @@ function RainbowKitWrapper({ children }) {
 
     createMessage: ({ nonce, address, chainId }) => {
       try {
-
+        console.log("create message")
         const formatMessage = {
           domain: window.location.host,
           address,
@@ -87,7 +122,7 @@ function RainbowKitWrapper({ children }) {
           chainId,
           nonce,
         }
-
+        console.log(formatMessage, "formatMessage")
         const message = new SiweMessage(formatMessage);
         return message;
       } catch (err) {
@@ -102,9 +137,24 @@ function RainbowKitWrapper({ children }) {
 
     verify: async ({ message, signature }) => {
       try {
-
+        console.log(message, "message")
+        console.log("Arranco")
+        console.log(signature)
         // Sequence
         if (signature && signature.length >= 420) {
+          await loginProfile(message.address, dispatch).catch((err) => {
+            console.error(err);
+            /* dispatch({
+              type: 'AUTHERROR',
+              payload: t('To connect it is necessary to be registered in Proof of Humanity and have your status as registered.')
+            }); */
+            return;
+          })
+
+          dispatch({
+            type: 'AUTHERROR',
+            payload: null
+          });
           setAuthenticationStatus("authenticated");
           return Boolean(true);
         } else {
@@ -112,7 +162,8 @@ function RainbowKitWrapper({ children }) {
           const verifyRes = await axios.post(`/auth/verifysignature`, {
             message, signature
           });
-          console.log(verifyRes, "verifyRes")
+
+          await loginProfile(message.address);
           setAuthenticationStatus(verifyRes.data == true ? "authenticated" : "unauthenticated");
           return Boolean(true);
         }

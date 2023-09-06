@@ -44,31 +44,29 @@ const fetcher = async (url) => {
 function MyApp({ Component, pageProps }) {
 
   return (
-    <RainbowKitWrapper>
-    <ChakraProvider theme={theme}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+    <GlobalProvider>
+      <RainbowKitWrapper>
+        <ChakraProvider theme={theme}>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
 
-      <GlobalProvider>
-        <SWRConfig
-          value={{
-            fetcher,
-            dedupingInterval: 10000
-          }}
-        >
+          <SWRConfig
+            value={{
+              fetcher,
+              dedupingInterval: 10000
+            }}
+          >
             <AuthProvider>
               <TourGuideProvider>
                 <Header />
                 <Navbar />
-                <MetaAlert />
-                <MetaErrorAlert />
                 <Component {...pageProps} />
                 <Footer />
               </TourGuideProvider>
             </AuthProvider>
-        </SWRConfig>
-      </GlobalProvider>
-    </ChakraProvider>
-    </RainbowKitWrapper>
+          </SWRConfig>
+        </ChakraProvider>
+      </RainbowKitWrapper>
+    </GlobalProvider>
   )
 }
 

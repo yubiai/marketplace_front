@@ -7,6 +7,7 @@ import { useGlobal } from '../providers/globalProvider'
 import { profileService } from '../services/profileService'
 import useTranslation from 'next-translate/useTranslation';
 import SEO from '../components/Utils/SEO'
+import { useTour } from '@reactour/tour'
 
 const Home = ({ items }) => {
   const global = useGlobal();
@@ -14,6 +15,7 @@ const Home = ({ items }) => {
   const [listRandom, setListRandom] = useState(null);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation("home");
+  const { setIsOpen } = useTour();
 
   const arrayRandom = () => {
     if (items) {
@@ -39,6 +41,16 @@ const Home = ({ items }) => {
     setListFavourites(null)
     if (global && global.profile && global.profile._id) {
       try {
+        console.log(global.profile, "goalaaodaksodksaods")
+        // JoyTour Initial
+        if (global.profile.permission === 1) {
+          setTimeout(() => {
+            setIsOpen(true)
+            return
+          }, 500);
+
+          return
+        }
         const result = await profileService.getFavourites(global.profile._id, "30", global?.profile?.token);
         const favourites = result.data.items;
 
@@ -81,7 +93,7 @@ const Home = ({ items }) => {
       <main>
         <Box h={{ base: "full", sm: "full", md: "full", lg: "full", xl: "100vh" }} m="2em">
           <CarrouselCards
-            title= {t('Popular Services')}
+            title={t('Popular Services')}
             items={items}
           />
           {loading && (
