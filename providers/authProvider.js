@@ -4,12 +4,13 @@ import { profileService } from '../services/profileService'
 import { useDispatchGlobal } from './globalProvider'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
-import { useAccount } from 'wagmi'
+import { useAccount, useDisconnect } from 'wagmi'
 
 export const AuthProvider = ({ children }) => {
   const router = useRouter();
   const dispatch = useDispatchGlobal();
   const { isConnected } = useAccount()
+  const { disconnect } = useDisconnect()
 
   useEffect(() => {
     const authToken = async () => {
@@ -60,7 +61,10 @@ export const AuthProvider = ({ children }) => {
           return
         }
       } catch (err) {
-        console.error(err, "Not connected")
+        console.error(err, "Not connected");
+        if(isConnected){
+          disconnect();
+        }
         return
       }
     }
