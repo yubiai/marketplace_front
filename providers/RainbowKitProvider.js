@@ -16,7 +16,7 @@ import { sequenceWallet } from '@0xsequence/rainbowkit-plugin'
 import { SiweMessage } from 'siwe';
 
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { gnosis, goerli } from 'wagmi/chains';
+import { gnosis, goerli, mainnet } from 'wagmi/chains';
 import { infuraProvider } from '@wagmi/core/providers/infura'
 
 import { publicProvider } from 'wagmi/providers/public';
@@ -62,7 +62,7 @@ const loginProfile = (address, dispatch) => {
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
-    goerli
+    goerli, mainnet
   ],
   [infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_ENDPOINT_GOERLI })],
   publicProvider()
@@ -163,7 +163,7 @@ function RainbowKitWrapper({ children }) {
             message, signature
           });
 
-          await loginProfile(message.address);
+          await loginProfile(message.address, dispatch);
           setAuthenticationStatus(verifyRes.data == true ? "authenticated" : "unauthenticated");
           return Boolean(true);
         }

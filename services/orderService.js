@@ -23,6 +23,7 @@ async function getOrderByOrderId(orderId, token) {
 }
 
 async function createOrder(body, token) {
+  console.log("acrra??", body,"ass")
   return await axios.post(
     '/orders/', {...body},
     token

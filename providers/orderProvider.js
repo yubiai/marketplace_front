@@ -34,27 +34,15 @@ const getWeb3Instance = () => {
   );
 }
 
-const loadOrderData = async (item = {}, currencyPriceList = [], ethPrice = false) => {
+const loadOrderData = async (item = {}, currency) => {
   const seller = item.seller;
-  const currencySymbol = ethPrice ? 'ETH' : item.currencySymbolPrice;
 
   const { eth_address } = seller;
-
-  const currencyContract = currencyPriceList.length ? currencyPriceList.find(
-    currencyItem => currencyItem.symbol === currencySymbol) : {};
-
-  if (ethPrice) {
-    const _contract = currencyPriceList.length ? currencyPriceList.find(
-      currencyItem => currencyItem.symbol === item.currencySymbolPrice) : {};
-
-    item.price = item.currencySymbolPrice !== 'ETH' ? parseFromAToBToken(
-      item.price, _contract, currencyContract) : item.price
-  }
 
   const result = parseItemIntoOrderTransaction(
     item,
     eth_address,
-    currencyContract
+    currency
   )
 
   const { orderInfo, transaction } = result;

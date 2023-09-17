@@ -1,114 +1,144 @@
 import { Button, Center, Spinner } from '@chakra-ui/react';
-import { useGlobal } from '../../providers/globalProvider';
 import {
-    getCurrentNetwork,
     getBlockExplorerForNetwork,
     getContractsForNetwork
 } from '../../utils/walletUtils';
 import { formatDayBySeconds } from '../../utils/orderUtils';
+import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from 'wagmi';
+import { ethers } from 'ethers';
+import { yubiaiArbitrable } from '../../utils/escrow-utils/abis';
 
-const WEI_DECIMAL_PLACES = 18;
+const createTransaction = async (result, dealId, amount, timeForService, timeForClaim, typeprice, networkType, blockExplorer, contractAddress, createOrder, toggleLoadingStatus) => {
+    try {
+        const {
+            blockHash,
+            blockNumber,
+            cumulativeGasUsed,
+            effectiveGasPrice,
+            from,
+            to,
+            transactionHash            
+        } = result;
 
-const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, yubiaiPaymentArbitrableInstance, t }) => {
-    const global = useGlobal();
+        const transactionPayedAmount = amount.toString();
+
+        let transactionFeeAmount = "0";
+
+        const blockNumberString = blockNumber.toString()
+        const cumulativeGasUsedString = cumulativeGasUsed.toString()
+        const effectiveGasPriceString = effectiveGasPrice.toString()
+
+        await createOrder({
+            from,
+            to,
+            transactionMeta: {
+                transactionHash,
+                blockHash,
+                blockNumberString,
+                cumulativeGasUsedString,
+                effectiveGasPriceString,
+                contractAddressURI: `${blockExplorer}/address/${contractAddress}`
+            },
+            transactionState: parseInt(1, 10),
+            claimCount: parseInt(0, 10),
+            timeForService: parseInt(timeForService, 10),
+            timeForClaim: parseInt(timeForClaim, 10),
+            currentClaim: parseInt(0, 10),
+            typeprice: typeprice,
+            transactionIndex: dealId.toString(),
+            transactionPayedAmount,
+            transactionFeeAmount,
+            transactionDate: Math.floor((new Date()).getTime() / 1000),
+            networkEnv: networkType
+        });
+    } catch (e) {
+        console.log('Error creating an Escrow contract: ', e);
+        toggleLoadingStatus(false);
+    }
+};
+
+const ButtonCheckout = ({ addressAccount, transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, chain, router, t }) => {
+
+    console.log(currency, "currency")
+    console.log(chain, "chain")
+
+    const networkType = chain.name.toLowerCase();
+    const networkBaseToken = chain.nativeCurrency.symbol;
+    const networkData = getBlockExplorerForNetwork(networkType);
+    const blockExplorer = networkData.blockExplorer;
+    const yubiaiContract = getContractsForNetwork(networkType);
+
+    if(networkBaseToken != currency){
+        router.push("/logout");
+        return;
+    }
 
     const { amount, recipient, time_for_claim, time_for_service, typeprice } = transactionInfo;
 
-    const createTransaction = async () => {
-        try {
-            toggleLoadingStatus(true);
-            const amountToWei = yubiaiPaymentArbitrableInstance.web3.utils.toWei(amount.value.toString());
-            const senderWallet = await yubiaiPaymentArbitrableInstance.getAccount();
+    const amountToWei = ethers.utils.parseEther(amount.value.toString());
 
-            const networkTypeObj = getCurrentNetwork() || {};
-            const networkType = (networkTypeObj.aliasTitle) || 'mainnet';
-            const networkBaseToken = (networkTypeObj.currency) || 'ETH';
-            const blockExplorer = getBlockExplorerForNetwork(networkType);
-            const yubiaiContract = getContractsForNetwork(networkType);
+    const termsUrl = process.env.NEXT_PUBLIC_TERMS_URL_DEFAULT
 
-            const token = currency !== networkBaseToken ? global.currencyPriceList.find(price => price.symbol === currency) : { token_address: null };
-            const result = await yubiaiPaymentArbitrableInstance.createDeal(
-                token.token_address,
-                burnFee,
+    //Preparando el contrato
+    const { config } = usePrepareContractWrite({
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'createDealWithValue',
+        account: addressAccount,
+        args: [
+            [
+                Number(amountToWei),
+                addressAccount,
+                0,
+                burnFee * 100,
+                0,
+                0,
+                recipient,
+                Math.floor((new Date()).getTime() / 1000),
                 time_for_service ? formatDayBySeconds(time_for_service) : process.env.NEXT_PUBLIC_TIME_FOR_SERVICE,
                 time_for_claim ? formatDayBySeconds(time_for_claim) : process.env.NEXT_PUBLIC_TIME_FOR_CLAIM,
-                senderWallet,
-                recipient,
-                String(amountToWei),
-                process.env.NEXT_PUBLIC_TERMS_URL_DEFAULT
-            );
+                networkData.token_address,
+                0,
+                0
+            ], termsUrl
+        ]
+    });
 
-            const {
-                blockHash,
-                blockNumber,
-                cumulativeGasUsed,
-                effectiveGasPrice,
-                from,
-                to,
-                transactionHash,
-                events
-            } = result;
+    // Use Contract
+    const { data, write } = useContractWrite(config);
 
-            const { dealId, deal } = events.DealCreated.returnValues;
+    // Use Wait for transaction
+    const { data: result, isLoading, isSuccess } = useWaitForTransaction({
+        hash: data?.hash,
+    });
 
-            const transactionPayedAmount = deal.amount;
-            const parsedTransactionPayedAmountInETH = parseFloat(yubiaiPaymentArbitrableInstance.web3.utils.fromWei(
-                transactionPayedAmount), 10);
+    if (data?.hash && result && result.logs && isSuccess) {
+        console.log(isSuccess, "isSuccess")
+        console.log(data?.hash, "data?.hash");
+        console.log(result, "result");
+        console.log(data, "datadatadatadata")
+        toggleLoadingStatus(true);
 
-            let transactionFeeAmount = 0;
+        const decodedEvent = ethers.utils.defaultAbiCoder.decode(
+            [
+                'uint64'
+            ],
+            result.logs[1].topics[1]
+        );
 
-            if (deal.extraBurnFee > 0) {
+        const dealId = decodedEvent[0].toNumber()
 
-                const finalCalculationForFee = parsedTransactionPayedAmountInETH - (
-                    parsedTransactionPayedAmountInETH / 100 * (parseInt(deal.extraBurnFee, 10) / 100)
-                );
+        createTransaction(result, dealId, Number(amountToWei), time_for_service ? formatDayBySeconds(time_for_service) : process.env.NEXT_PUBLIC_TIME_FOR_SERVICE, time_for_claim ? formatDayBySeconds(time_for_claim) : process.env.NEXT_PUBLIC_TIME_FOR_CLAIM, typeprice, networkType, blockExplorer, yubiaiContract.yubiaiArbitrable, createOrder, toggleLoadingStatus)
 
-                transactionFeeAmount = yubiaiPaymentArbitrableInstance.web3.utils.toWei(finalCalculationForFee.toFixed(WEI_DECIMAL_PLACES));
-            } else {
-                transactionFeeAmount = 0;
-            }
+        return
+    }
 
-            const {
-                claimCount,
-                createdAt,
-                currentClaim,
-                state,
-                timeForService,
-                timeForClaim
-            } = deal;
 
-            await createOrder({
-                from,
-                to,
-                transactionMeta: {
-                    transactionHash,
-                    blockHash,
-                    blockNumber,
-                    cumulativeGasUsed,
-                    effectiveGasPrice,
-                    contractAddressURI: `${blockExplorer}/address/${yubiaiContract.yubiaiArbitrable}`
-                },
-                transactionState: parseInt(state, 10),
-                claimCount: parseInt(claimCount, 10),
-                timeForService: parseInt(timeForService, 10),
-                timeForClaim: parseInt(timeForClaim, 10),
-                currentClaim: parseInt(currentClaim, 10),
-                typeprice: typeprice,
-                transactionIndex: dealId,
-                transactionPayedAmount,
-                transactionFeeAmount,
-                transactionDate: createdAt,
-                networkEnv: networkType || 'mainnet'
-            });
-        } catch (e) {
-            console.log('Error creating an Escrow contract: ', e);
-            toggleLoadingStatus(false);
-        }
-    };
+
 
     return (
         <>
-            {operationInProgress && (
+            {operationInProgress || isLoading && (
                 <Center >
                     <Spinner
                         thickness="4px"
@@ -119,7 +149,9 @@ const ButtonCheckout = ({ transactionInfo, createOrder, toggleLoadingStatus, ope
                     />
                 </Center>
             )}
-            <Button bg='#00abd1' color={'white'} onClick={createTransaction} isDisabled={operationInProgress && operationInProgress}>{t("Hire service")}</Button>
+            <Button bg='#00abd1' color={'white'} onClick={() => write?.()} isDisabled={operationInProgress || isLoading && operationInProgress}>{t("Hire service")}</Button>
+            {isLoading && "Loading..."}
+            {isSuccess && "Is Success"}
         </>
     );
 };
