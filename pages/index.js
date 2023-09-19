@@ -1,4 +1,4 @@
-import { Box, Spinner } from '@chakra-ui/react'
+import { Box, Button, Spinner } from '@chakra-ui/react'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import CarrouselCards from '../components/Cards/CarrouselCards'
@@ -8,6 +8,7 @@ import { profileService } from '../services/profileService'
 import useTranslation from 'next-translate/useTranslation';
 import SEO from '../components/Utils/SEO'
 import { useTour } from '@reactour/tour'
+import { useDisconnect } from 'wagmi'
 
 const Home = ({ items }) => {
   const global = useGlobal();
@@ -16,6 +17,7 @@ const Home = ({ items }) => {
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation("home");
   const { setIsOpen } = useTour();
+  const { disconnect } = useDisconnect()
 
   const arrayRandom = () => {
     if (items) {
@@ -96,6 +98,7 @@ const Home = ({ items }) => {
             title={t('Popular Services')}
             items={items}
           />
+          <Button onClick={() => disconnect()}>Desconectar</Button>
           {loading && (
             <Box h="60vh">
               <Spinner

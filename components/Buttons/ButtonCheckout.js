@@ -8,7 +8,7 @@ import { useContractWrite, usePrepareContractWrite, useWaitForTransaction } from
 import { ethers } from 'ethers';
 import { yubiaiArbitrable } from '../../utils/escrow-utils/abis';
 
-const createTransaction = async (result, dealId, amount, timeForService, timeForClaim, typeprice, networkType, blockExplorer, contractAddress, createOrder, toggleLoadingStatus) => {
+const createTransaction = async (data, dealId, amount, timeForService, timeForClaim, typeprice, networkType, blockExplorer, contractAddress, createOrder, toggleLoadingStatus) => {
     try {
         const {
             blockHash,
@@ -17,8 +17,8 @@ const createTransaction = async (result, dealId, amount, timeForService, timeFor
             effectiveGasPrice,
             from,
             to,
-            transactionHash            
-        } = result;
+            transactionHash
+        } = data;
 
         const transactionPayedAmount = amount.toString();
 
@@ -57,10 +57,7 @@ const createTransaction = async (result, dealId, amount, timeForService, timeFor
     }
 };
 
-const ButtonCheckout = ({ addressAccount, transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, chain, router, t }) => {
-
-    console.log(currency, "currency")
-    console.log(chain, "chain")
+const ButtonCheckout = ({ addressAccount, transactionInfo, createOrder, toggleLoadingStatus, operationInProgress, burnFee, currency, chain, router, toast, t }) => {
 
     const networkType = chain.name.toLowerCase();
     const networkBaseToken = chain.nativeCurrency.symbol;
@@ -68,7 +65,7 @@ const ButtonCheckout = ({ addressAccount, transactionInfo, createOrder, toggleLo
     const blockExplorer = networkData.blockExplorer;
     const yubiaiContract = getContractsForNetwork(networkType);
 
-    if(networkBaseToken != currency){
+    if (networkBaseToken != currency) {
         router.push("/logout");
         return;
     }
@@ -105,36 +102,37 @@ const ButtonCheckout = ({ addressAccount, transactionInfo, createOrder, toggleLo
     });
 
     // Use Contract
-    const { data, write } = useContractWrite(config);
+    const { data, isLoading: isLoadingWrite, write } = useContractWrite(config);
 
     // Use Wait for transaction
-    const { data: result, isLoading, isSuccess } = useWaitForTransaction({
+    const { isLoading } = useWaitForTransaction({
         hash: data?.hash,
+        onSuccess(data) {
+            toggleLoadingStatus(true);
+
+            const decodedEvent = ethers.utils.defaultAbiCoder.decode(
+                [
+                    'uint64'
+                ],
+                data.logs[1].topics[1]
+            );
+            const dealId = decodedEvent[0].toNumber()
+ 
+            createTransaction(data, dealId, Number(amountToWei), time_for_service ? formatDayBySeconds(time_for_service) : process.env.NEXT_PUBLIC_TIME_FOR_SERVICE, time_for_claim ? formatDayBySeconds(time_for_claim) : process.env.NEXT_PUBLIC_TIME_FOR_CLAIM, typeprice, networkType, blockExplorer, yubiaiContract.yubiaiArbitrable, createOrder, toggleLoadingStatus);
+        },
+        onError(error) {
+            console.log('Error', error)
+            toast({
+                id: "Error metamask",
+                title: 'Error Checkout',
+                description: error.name,
+                position: 'top-right',
+                status: 'warning',
+                duration: 5000,
+                isClosable: true,
+            })
+        }
     });
-
-    if (data?.hash && result && result.logs && isSuccess) {
-        console.log(isSuccess, "isSuccess")
-        console.log(data?.hash, "data?.hash");
-        console.log(result, "result");
-        console.log(data, "datadatadatadata")
-        toggleLoadingStatus(true);
-
-        const decodedEvent = ethers.utils.defaultAbiCoder.decode(
-            [
-                'uint64'
-            ],
-            result.logs[1].topics[1]
-        );
-
-        const dealId = decodedEvent[0].toNumber()
-
-        createTransaction(result, dealId, Number(amountToWei), time_for_service ? formatDayBySeconds(time_for_service) : process.env.NEXT_PUBLIC_TIME_FOR_SERVICE, time_for_claim ? formatDayBySeconds(time_for_claim) : process.env.NEXT_PUBLIC_TIME_FOR_CLAIM, typeprice, networkType, blockExplorer, yubiaiContract.yubiaiArbitrable, createOrder, toggleLoadingStatus)
-
-        return
-    }
-
-
-
 
     return (
         <>
@@ -149,9 +147,7 @@ const ButtonCheckout = ({ addressAccount, transactionInfo, createOrder, toggleLo
                     />
                 </Center>
             )}
-            <Button bg='#00abd1' color={'white'} onClick={() => write?.()} isDisabled={operationInProgress || isLoading && operationInProgress}>{t("Hire service")}</Button>
-            {isLoading && "Loading..."}
-            {isSuccess && "Is Success"}
+            <Button bg='#00abd1' color={'white'} onClick={() => write?.()} isDisabled={operationInProgress || isLoadingWrite || isLoading}>{t("Hire service")}</Button>
         </>
     );
 };

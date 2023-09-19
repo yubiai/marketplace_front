@@ -18,9 +18,7 @@ import Head from 'next/head';
 import ButtonCheckout from '../../components/Buttons/ButtonCheckout';
 import { useGlobal, useDispatchGlobal } from '../../providers/globalProvider';
 import {
-  loadCurrencyPrices,
   loadOrderData,
-  setYubiaiInstance,
 } from '../../providers/orderProvider';
 import { orderService } from '../../services/orderService';
 import { channelService } from '../../services/channelService';
@@ -63,7 +61,6 @@ const Checkout = () => {
         { ...global.itemToCheckout },
         chain.nativeCurrency.symbol
       )
-      console.log(result, "result")
       const { orderInfo, transaction, time_for_claim, time_for_service, typeprice } = result
       setPriceType(typeprice);
       setOrderData(orderInfo)
@@ -85,17 +82,7 @@ const Checkout = () => {
   }, [])
 
   const createOrder = async (transactionResult) => {
-    console.log(transactionResult, "transactionResulttransactionResult")
     const currentWalletAccount = address;
-    console.log({
-      order: {
-        itemId: orderData.item._id,
-        userBuyer: currentWalletAccount,
-        userSeller: orderData.item.seller.eth_address,
-        status: 'ORDER_CREATED',
-      },
-      transactionInfo: transactionResult,
-    }, "asdasd")
     const orderResponse = await orderService.createOrder(
       {
         order: {
@@ -125,8 +112,9 @@ const Checkout = () => {
       global.profile.token
     )
 
-    toggleLoadingStatus(false)
-    router.push(`/profile/orders/detail/${transactionResult.transactionMeta.transactionHash}`)
+    console.log(transactionResult.transactionMeta.transactionHash, "transactionResult.transactionMeta.transactionHash")
+    router.push(`/profile/orders/detail/${transactionResult.transactionMeta.transactionHash}`);
+    return
   }
 
   const toggleLoadingStatus = (status) => {
@@ -208,6 +196,7 @@ const Checkout = () => {
                   burnFee={sliderValue}
                   chain={chain}
                   router={router}
+                  toast={toast}
                   t={t}
                 />
               </Stack>

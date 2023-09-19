@@ -57,6 +57,9 @@ export const AuthProvider = ({ children }) => {
           })
           return
         } else {
+          if(isConnected){
+            disconnect();
+          }
           router.push('/logout')
           return
         }
