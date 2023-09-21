@@ -15,7 +15,6 @@ import { orderService } from "../../services/orderService";
 import { channelService } from "../../services/channelService";
 import { formatDayBySeconds } from "../../utils/orderUtils";
 
-
 const Checkout = () => {
     const global = useGlobal();
     const toast = useToast();
@@ -39,7 +38,7 @@ const Checkout = () => {
     }, [user, loggedOut, router, dispatch]);
 
     const { chain } = useNetwork()
-    const { address } = useAccount();
+    const { address, connector } = useAccount();
 
     const networkType = chain.name.toLowerCase();
     const networkData = getBlockExplorerForNetwork(networkType);
@@ -97,12 +96,13 @@ const Checkout = () => {
     const { isLoading } = useWaitForTransaction({
         hash: data?.hash,
         async onSuccess(data) {
+
             setLoadingCheckout(true);
             const decodedEvent = ethers.utils.defaultAbiCoder.decode(
                 [
                     'uint64'
                 ],
-                data.logs[1].topics[1]
+                data.logs[connector.id == "metaMask" ? 1 : 2].topics[1]
             );
 
             // Data para Crear la order
