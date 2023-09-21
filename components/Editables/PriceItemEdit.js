@@ -1,16 +1,15 @@
 import { CloseIcon, EditIcon } from "@chakra-ui/icons";
 import { Box, Button, ButtonGroup, Flex, FormControl, FormLabel, IconButton, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Select, /* Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack, */ Spinner, Text, useToast } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatchGlobal, useGlobal } from "../../providers/globalProvider";
-import { loadCurrencyPrices, setYubiaiInstance } from "../../providers/orderProvider";
 import { itemService } from "../../services/itemService";
-
+import { useNetwork } from "wagmi";
 
 const PriceItemEdit = ({ item, token, mutate, t }) => {
-    const global = useGlobal();
-    const dispatch = useDispatchGlobal();
     const toast = useToast();
+
+    // Chains
+    const { chains } = useNetwork()
 
     const [selectedTypePrice, setSelectedTypePrice] = useState('');
 
@@ -27,11 +26,6 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
     const [selectedCurrency, setSelectedCurrency] = useState('ETH')
     const [sliderValue, setSliderValue] = useState(0)
 
-    // Load Currencies
-    const loadCurrencies = async () => {
-        const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
-        loadCurrencyPrices(dispatch, global, networkType);
-    }
 
     /*   const labelStyles = {
           mt: '2',
@@ -43,27 +37,13 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
 
         setLoading(true)
 
-        if (!global.yubiaiPaymentArbitrableInstance) {
-            await setYubiaiInstance(dispatch);
-        }
-
-        if (global.yubiaiPaymentArbitrableInstance && global.currencyPriceList.length) {
+        if (chains && chains.length > 0) {
             setActionEdit(true);
             setLoading(false)
         }
 
         return
     }
-
-    useEffect(() => {
-
-        if (!global.currencyPriceList.length && global.profile && global.yubiaiPaymentArbitrableInstance) {
-            loadCurrencies();
-            setActionEdit(true);
-            setLoading(false)
-        }
-
-    }, [global.yubiaiPaymentArbitrableInstance])
 
     const onSubmit = async () => {
         const newData = {
@@ -115,13 +95,13 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
                 />
             )}
             {!actionEdit && (<Text p="5px"
-            >{t("Currency:")} {item.currencySymbolPrice} {" - "} {t("Price:")} {item.typeprice && item.typeprice != "To settle" ? item.price +  " " + item.currencySymbolPrice : ""} {t(`(${item.typeprice})`)}</Text>)}
-            {actionEdit && global.currencyPriceList && global.currencyPriceList.length > 0 && (
+            >{t("Currency:")} {item.currencySymbolPrice} {" - "} {t("Price:")} {item.typeprice && item.typeprice != "To settle" ? item.price + " " + item.currencySymbolPrice : ""} {t(`(${item.typeprice})`)}</Text>)}
+            {actionEdit && chains && chains.length > 0 && (
                 <>
                     <Box h="full" p="5px"
                     >
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            {global.currencyPriceList && global.currencyPriceList.length > 0 && (
+                            {chains && chains.length > 0 && (
                                 <FormControl isRequired mt="1em">
                                     <FormLabel color="black">{t("Currency")}</FormLabel>
                                     <Select
@@ -134,13 +114,13 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
                                             setSelectedCurrency(e.target.value)
                                         }}
                                     >
-                                        {global.currencyPriceList.map((currency) => (
+                                        {chains.map((currency) => (
                                             <option
                                                 key={currency._id}
-                                                value={currency.symbol}
+                                                value={currency.nativeCurrency.symbol}
                                                 id="currency"
                                             >
-                                                {currency.symbol}
+                                                {currency.name} - {currency.nativeCurrency.symbol}
                                             </option>
                                         ))}
 
@@ -183,22 +163,22 @@ const PriceItemEdit = ({ item, token, mutate, t }) => {
                                 </Select>
                                 {selectedTypePrice && selectedTypePrice != "To settle" && (
                                     <NumberInput
-                                    onChange={(valueString) => setPriceValue(parse(valueString))}
-                                    value={format(priceValue)}
-                                    color="gray.700"
-                                    bg="white"
-                                    mt="1em"
-                                    min={0.00001}
-                                    max={999999}
-                                    isRequired
-                                >
-                                    <NumberInputField placeholder='0.001' _placeholder={{ color: 'gray.400' }}
-                                    />
-                                    <NumberInputStepper>
-                                        <NumberIncrementStepper />
-                                        <NumberDecrementStepper />
-                                    </NumberInputStepper>
-                                </NumberInput>
+                                        onChange={(valueString) => setPriceValue(parse(valueString))}
+                                        value={format(priceValue)}
+                                        color="gray.700"
+                                        bg="white"
+                                        mt="1em"
+                                        min={0.00001}
+                                        max={999999}
+                                        isRequired
+                                    >
+                                        <NumberInputField placeholder='0.001' _placeholder={{ color: 'gray.400' }}
+                                        />
+                                        <NumberInputStepper>
+                                            <NumberIncrementStepper />
+                                            <NumberDecrementStepper />
+                                        </NumberInputStepper>
+                                    </NumberInput>
                                 )}
                             </FormControl>
                             {/* <Box color="gray.700"

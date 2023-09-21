@@ -15,7 +15,6 @@ import Header from '../components/Layouts/Header'
 import Navbar from '../components/Layouts/Navbar'
 
 import Axios from 'axios'
-import MetaAlert from '../components/Alerts/metaAlert'
 import { GlobalProvider } from '../providers/globalProvider'
 import { AuthProvider } from '../providers/authProvider'
 
@@ -23,7 +22,6 @@ import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 import { SWRConfig } from 'swr'
 import TourGuideProvider from '../providers/tourProvider';
-import MetaErrorAlert from '../components/Alerts/metaErrorAlert';
 
 Axios.defaults.baseURL = process.env.NEXT_PUBLIC_BACKEND_API_URL
 //Axios.defaults.withCredentials = true;

@@ -1,6 +1,6 @@
 import { Box, Heading, Spinner } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useDispatchGlobal } from '../providers/globalProvider'
 import Cookies from 'js-cookie'
 import { useAccount, useDisconnect } from 'wagmi'
