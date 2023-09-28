@@ -120,6 +120,50 @@ const formatDayBySeconds = (value) => {
     return value * segundosEnUnDia;
 }
 
+const getFullStatusOfDealClaim = (value, dealId) => {
+    return new Promise((resolve, reject) => {
+        try{
+            console.log(value)
+            const dealInfo = value[0].result;
+            const claimInfo = value[1].result;
+            const isOver = value[2].result;
+            const settings = value[3].result;
+    
+            console.log(dealInfo, claimInfo, isOver, settings);
+            let formattedClaimInfo = {};
+    
+            const disputeId = claimInfo[0];
+    
+            formattedClaimInfo = {
+                claimID: Number(dealInfo[11]),
+                claimStatus: claimInfo[6],
+                claimCreatedAt: parseInt(claimInfo[4], 10),
+                claimSolvedAt: parseInt(claimInfo[5]),
+                claimCount: parseInt(dealInfo[4], 10),
+                disputeId: parseInt(disputeId, 10),
+                timeForClaim: parseInt(dealInfo[9], 10),
+                maxClaimsAllowed: parseInt(settings[1], 10),
+            };
+    
+    
+            return resolve({
+                deal: {
+                    dealId,
+                    dealStatus: dealInfo[2].toString(),
+                    dealCreatedAt: parseInt(dealInfo[7], 10),
+                    timeForService: parseInt(dealInfo[8], 10),
+                    isOver,
+                },
+                claim: {
+                    ...formattedClaimInfo,
+                }
+            });
+        } catch(err){
+            return reject(false);
+        }
+    })
+}
+
 
 export {
     parseItemIntoOrderTransaction,
@@ -130,5 +174,6 @@ export {
     translateStatusIdToNamingInTransaction,
     calculateFinishDate,
     parserForWei,
-    formatDayBySeconds
+    formatDayBySeconds,
+    getFullStatusOfDealClaim
 }

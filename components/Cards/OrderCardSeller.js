@@ -1,25 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { Stack, Text, Button, Divider, SimpleGrid, Box, Image, Center } from '@chakra-ui/react'
+import React, { useState } from 'react';
+import { Stack, Text, Button, Divider, SimpleGrid, Box, Image, Center, Spinner } from '@chakra-ui/react'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { StatusOrderByStateShort } from '../Infos/StatusOrder';
-import useTranslation from 'next-translate/useTranslation';
+import { getFullStatusOfDealClaim } from '../../utils/orderUtils';
+import { useContractReads } from 'wagmi';
 
-const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
+const OrderCardSeller = ({ yubiaiContract, abiYubiai, order, network, t }) => {
   const router = useRouter();
-  const [deal, setDeal] = useState({deal: {}, claim: {}});
-  const { t } = useTranslation("orders");
-  useEffect(() => {
-    const setDealInfo = async _order => {
-      const fullStatus = await yubiaiPaymentInstance.getFullStatusOfDeal(_order.transaction.transactionIndex);
-      setDeal(fullStatus);
-    }
+  const [deal, setDeal] = useState({ deal: {}, claim: {} });
 
-    if (!deal.deal.dealId && yubiaiPaymentInstance) {
-      setDealInfo(order);
+  const { isLoading } = useContractReads({
+    contracts: [
+      {
+        address: yubiaiContract,
+        abi: abiYubiai,
+        functionName: 'deals',
+        args: [order.transaction.transactionIndex],
+      },
+      {
+        address: yubiaiContract,
+        abi: abiYubiai,
+        functionName: 'claims',
+        args: [order.transaction.currentClaim],
+      },
+      {
+        address: yubiaiContract,
+        abi: abiYubiai,
+        functionName: 'isOver',
+        args: [order.transaction.transactionIndex],
+      },
+      {
+        address: yubiaiContract,
+        abi: abiYubiai,
+        functionName: 'settings'
+      },
+    ],
+    async onSuccess(data) {
+      const result = await getFullStatusOfDealClaim(data, order.transaction.transactionIndex);
+      setDeal(result);
     }
-  }, [deal, yubiaiPaymentInstance]);
+  })
 
   return (
     <Stack p="4" boxShadow="lg" m="0.5px" borderRadius="lg" bg="white">
@@ -29,6 +51,8 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
           {order.createdAt
             ? moment(order?.createdAt).format('DD MMMM, YYYY h:mm:ss a')
             : moment(order?.dateOrder).format('DD MMMM, YYYY h:mm:ss a')}</Text>
+
+        {isLoading && <Spinner />}
 
         {order?.status != "ORDER_REFUNDED" && (
           <>
@@ -56,6 +80,10 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
             </>
           )
         }
+
+        <Box bg="green.700" rounded={"5px"}>
+          <Text color="white" fontStyle="italic" pl="15px" pr="15px">{order?.transaction.networkEnv.toUpperCase()}</Text>
+        </Box>
 
       </Stack>
       <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
@@ -89,6 +117,7 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
               backgroundColor={'#00abd1'}
               color={'white'}
               cursor={'pointer'}
+              isDisabled={order?.transaction.networkEnv != network}
               _hover={{
                 bg: "gray.400"
               }}
@@ -98,6 +127,11 @@ const OrderCardSeller = ({ order, yubiaiPaymentInstance }) => {
             >
               {t("View Order")}
             </Button>
+            {order?.transaction.networkEnv != network && (
+              <Center>
+                <Text textColor={"red.500"} fontSize={"0.8em"}>Error Network</Text>
+              </Center>
+            )}
           </Box>
         </Center>
       </SimpleGrid>

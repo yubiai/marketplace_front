@@ -53,6 +53,8 @@ import useTranslation from 'next-translate/useTranslation';
 import ButtonCloseDeal from '../../../../components/Buttons/ButtonCloseDeal';
 import { calculateFinishDate } from '../../../../utils/orderUtils';
 import ListBadges from '../../../../components/Utils/ListBadges';
+import { useNetwork } from 'wagmi';
+import { getContractsForNetwork } from '../../../../utils/walletUtils';
 
 const OrderDetail = () => {
   const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
@@ -82,6 +84,7 @@ const OrderDetail = () => {
   const [transactionDate, setTransactionDate] = useState('');
   const [deal, setDeal] = useState({ deal: {}, claim: {} });
   const [isLateToChallenge, setIsLateToChallenge] = useState(false);
+  const [contractActionRead, setContractActionRead] = useState(false);
 
   /**
    * Auxiliar status and instances
@@ -98,6 +101,11 @@ const OrderDetail = () => {
       router.replace('/logout');
     }
   }, [user, loggedOut, router, dispatch]);
+  
+  // Wagmi
+  const { chain } = useNetwork()
+  const networkType = chain?.name.toLowerCase();
+  const yubiaiContract = getContractsForNetwork(networkType);
 
   const loadOrder = async () => {
     const response = await orderService.getOrderByTransaction(
@@ -140,7 +148,16 @@ const OrderDetail = () => {
       setVerifyMessages(true)
     }
 
+    setContractActionRead(true);
+
   }
+
+  useEffect(() => {
+
+    if (global.profile) {
+      loadOrder();
+    }
+  }, [global.profile]);
 
   const toggleLoadingStatus = (status) => {
     setOperationInProgress(status)
