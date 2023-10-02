@@ -100,6 +100,7 @@ const OrderDetail = () => {
   const yubiaiContract = getContractsForNetwork(networkType);
 
   const loadOrder = async () => {
+    console.log("arracno el load order")
     const response = await orderService.getOrderByTransaction(
       transactionId, global.profile.token);
     const { data } = response;
@@ -510,10 +511,12 @@ const OrderDetail = () => {
                                     transactionHash: transactionMeta.transactionHash
                                   }}
                                   amount={transactionPayedAmount || '0'}
-                                  stepsPostAction={loadOrder}
+                                  stepsPostAction={router}
                                   toggleLoadingStatus={toggleLoadingStatus}
-                                  yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                                  orderCompletedBySeller={orderDetail.orderCompletedBySeller} t={t}
+                                  orderCompletedBySeller={orderDetail.orderCompletedBySeller} 
+                                  contractAddress={yubiaiContract.yubiaiArbitrable}
+                                  yubiaiAbi={yubiaiArbitrable}
+                                  t={t}
                                 />
                               </Box>
                             </div>

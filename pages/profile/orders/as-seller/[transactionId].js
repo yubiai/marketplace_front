@@ -2,16 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import { orderService } from '../../../../services/orderService';
-import { dealService } from '../../../../services/dealService';
 import {
   useGlobal,
   useDispatchGlobal,
 } from '../../../../providers/globalProvider';
-import {
-  loadCurrencyPrices,
-  loadOrderData,
-  setYubiaiInstance,
-} from '../../../../providers/orderProvider';
 import ButtonPayOrder from '../../../../components/Buttons/ButtonPayOrder';
 import ButtonChallengeClaim from '../../../../components/Buttons/ButtonChallengeClaim';
 import Link from 'next/link';
@@ -51,14 +45,18 @@ import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
 import ButtonCloseDeal from '../../../../components/Buttons/ButtonCloseDeal';
-import { calculateFinishDate } from '../../../../utils/orderUtils';
+import { calculateFinishDate, getFullStatusOfDealClaim } from '../../../../utils/orderUtils';
 import ListBadges from '../../../../components/Utils/ListBadges';
-import { useNetwork } from 'wagmi';
+import { useContractReads, useNetwork } from 'wagmi';
 import { getContractsForNetwork } from '../../../../utils/walletUtils';
+import { yubiaiArbitrable } from '../../../../utils/escrow-utils/abis';
+import { ethers } from 'ethers';
+import { dealService } from '../../../../services/dealService';
 
 const OrderDetail = () => {
   const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
 
+  const [loading, setLoading] = useState(false);
   /**
    * External dependencies
    */
@@ -76,7 +74,6 @@ const OrderDetail = () => {
    */
   const [orderDetail, setOrderDetail] = useState(null);
   const { t } = useTranslation("orders");
-  const [transactionData, setTransactionData] = useState({});
   const [transactionMeta, setTransactionMeta] = useState(null);
   const [evidence, setEvidence] = useState(null);
   const [transactionPayedAmount, setTransactionPayedAmount] = useState('');
@@ -101,7 +98,7 @@ const OrderDetail = () => {
       router.replace('/logout');
     }
   }, [user, loggedOut, router, dispatch]);
-  
+
   // Wagmi
   const { chain } = useNetwork()
   const networkType = chain?.name.toLowerCase();
@@ -130,11 +127,7 @@ const OrderDetail = () => {
       return router.replace('/logout');
     }
 
-    const { transaction } = await loadOrderData(
-      orderInfo.item, global.currencyPriceList, true);
-
     setOrderDetail(orderInfo);
-    setTransactionData(transaction);
     setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount);
     setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount);
     setTransactionDate(orderInfo.transaction.transactionDate * 1000);
@@ -144,12 +137,12 @@ const OrderDetail = () => {
     const verifyMessages = await channelService.getMessagesByOrderId(
       orderInfo._id, global.profile.token);
 
-    if (verifyMessages.data) {
+    if (verifyMessages && verifyMessages.data) {
       setVerifyMessages(true)
     }
 
+    setLoading(true);
     setContractActionRead(true);
-
   }
 
   useEffect(() => {
@@ -158,6 +151,69 @@ const OrderDetail = () => {
       loadOrder();
     }
   }, [global.profile]);
+
+  const updateStatusOrder = async (deal) => {
+
+    const statusNow = statusDescMap(
+      deal.deal,
+      deal.claim
+    );
+
+    if (statusNow !== orderDetail.status) {
+      await orderService.updateOrderStatus(orderDetail.transaction && orderDetail.transaction.transactionMeta.transactionHash, statusNow, global?.profile?.token);
+    }
+
+  }
+
+  const { isLoading } = useContractReads({
+    contracts: [
+      {
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'deals',
+        args: [orderDetail?.transaction.transactionIndex],
+      },
+      {
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'claims',
+        args: [orderDetail?.transaction.currentClaim || 0],
+      },
+      {
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'isOver',
+        args: [orderDetail?.transaction.transactionIndex],
+      },
+      {
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'settings'
+      },
+    ],
+    enabled: contractActionRead,
+    async onSuccess(data) {
+
+      if (orderDetail) {
+        const result = await getFullStatusOfDealClaim(data, orderDetail?.transaction.transactionIndex);
+        const currentTS = Math.floor((new Date()).getTime() / 1000);
+        const limitClaimTime = Math.floor((parseInt(result.claimCreatedAt, 10) + parseInt(result.claim.timeForChallenge, 10)) / 1000);
+
+        setIsLateToChallenge(currentTS < limitClaimTime);
+
+        // Obtener Evidence
+        if (result && result.claim.claimCount > 0 && result.claim.claimID) {
+          const response = await dealService.getEvidenceByClaimID(result.claim.claimID);
+          setEvidence(response.data);
+        }
+        if (result) {
+          setDeal(result);
+          updateStatusOrder(result);
+        }
+      }
+    }
+  })
+
 
   const toggleLoadingStatus = (status) => {
     setOperationInProgress(status)
@@ -202,69 +258,11 @@ const OrderDetail = () => {
       : `https://etherscan.io/tx/${transactionHash}`;
   };
 
-  useEffect(() => {
-    if (!transactionId) {
-      return;
-    }
 
-    const loadCurrencies = async () => {
-      const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
-      loadCurrencyPrices(dispatch, global, networkType);
-    };
 
-    async function initialArbInstance() {
-      if (!global.yubiaiPaymentArbitrableInstance) {
-        const res = await setYubiaiInstance(dispatch);
-        if (!res) {
-          toast({
-            title: "Wrong Network",
-            description: "Change the network to one that is enabled.",
-            position: 'top-right',
-            status: 'warning',
-            duration: 3000,
-            isClosable: true
-          });
-          setTimeout(() => {
-            router.push("/logout");
-          }, 3000);
-          return
-        }
-        return
-      }
-    }
 
-    initialArbInstance();
-
-    const setDealInfo = async transaction => {
-      const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(transaction.transactionIndex);
-      const { timeForChallenge } = await global.yubiaiPaymentArbitrableInstance.contract.methods.settings().call();
-      const currentTS = Math.floor((new Date()).getTime() / 1000);
-      const limitClaimTime = Math.floor(
-        (parseInt(fullStatus.claimCreatedAt, 10) + parseInt(timeForChallenge, 10)) / 1000);
-
-      // Obtener Evidence
-      if (fullStatus && fullStatus.claim.claimCount > 0 && fullStatus.claim.claimID) {
-        const response = await dealService.getEvidenceByClaimID(fullStatus.claim.claimID);
-        setEvidence(response.data);
-      }
-
-      setDeal(fullStatus);
-      setIsLateToChallenge(currentTS < limitClaimTime);
-    }
-
-    if ((orderDetail || {}).transaction && global.yubiaiPaymentArbitrableInstance) {
-      setDealInfo((orderDetail || {}).transaction);
-    }
-
-    if (!global.currencyPriceList.length && (global.profile || {}).token && (global.yubiaiPaymentArbitrableInstance || {}).web3) {
-      loadCurrencies();
-      return;
-    }
-
-    if (!(transactionData || {}).extraData && (global.profile || {}).token && global.yubiaiPaymentArbitrableInstance) {
-      loadOrder();
-    }
-  }, [global.profile, transactionId, transactionData, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance])
+  /* 
+       */
 
   const onMarkDone = async () => {
     setLoadingMarkDone(true)
@@ -273,8 +271,6 @@ const OrderDetail = () => {
         transactionId, {
         orderCompletedBySeller: true
       }, global.profile.token);
-
-      loadOrder();
 
       toast({
         title: t('Order'),
@@ -286,8 +282,9 @@ const OrderDetail = () => {
       })
 
       setTimeout(() => {
-        setLoadingMarkDone(false)
-        onClose()
+        setContractActionRead(true);
+        loadOrder();
+        onClose();
       }, 2000);
       return
 
@@ -309,9 +306,11 @@ const OrderDetail = () => {
     }
   }
 
-  if (!orderDetail) return <Loading />;
+  if (isLoading) return <Loading />
+  if (!loading || !orderDetail) return <Loading />;
 
-  console.log((deal || {}))
+  console.log((deal || {}), "(deal || {})")
+  console.log(orderDetail, "orderDetail")
 
   return (
     <>
@@ -404,8 +403,7 @@ const OrderDetail = () => {
                     <Box width={"full"} >
                       <Text fontWeight={600}>{orderDetail.item.title}</Text>
                       <Text>{t("Price")} {
-                        `${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)} ${orderDetail.item.currencySymbolPrice || 'ETH'}`
-                      }</Text>
+                        `${ethers.utils.formatEther(orderDetail.transaction.transactionPayedAmount)} ${orderDetail.item.currencySymbolPrice || 'ETH'}`}</Text>
                       <Text>{`${t(orderDetail.transaction.typeprice)}`}</Text>
                     </Box>
                   </Center>
@@ -548,7 +546,7 @@ const OrderDetail = () => {
                   fontSize={{ base: "0.9em", md: "1.4em" }}
                   cursor={'pointer'}
                   onClick={onOpen}
-                  isDisabled={orderDetail && orderDetail.orderCompletedBySeller}
+                  isDisabled={orderDetail && orderDetail.orderCompletedBySeller || loadingMarkDone}
                   _hover={{
                     bg: "blue.300"
                   }}

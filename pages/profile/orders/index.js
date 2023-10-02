@@ -32,21 +32,20 @@ const Orders = () => {
   const { t } = useTranslation("orders")
   const { user, loggedOut } = useUser()
 
-  //Network Wagmi
-  const { chain } = useNetwork()
-  const networkType = chain.name.toLowerCase();
-  const yubiaiContract = getContractsForNetwork(networkType);
-
   // if logged in, redirect to the home
   useEffect(() => {
     if (loggedOut) {
       router.replace('/logout')
     }
-    if(!yubiaiContract.yubiaiArbitrable){
+    if (!yubiaiContract.yubiaiArbitrable) {
       router.replace('/logout')
     }
   }, [user, loggedOut, router, dispatch]);
 
+  //Network Wagmi
+  const { chain } = useNetwork()
+  const networkType = chain && chain.name && chain.name.toLowerCase();
+  const yubiaiContract = getContractsForNetwork(networkType);
 
   const { data, isLoading, isError } = useFetch(
     global && global.profile && global.profile.eth_address ? `/orders/buyer/${global.profile.eth_address}?page=${global.pageIndex}&size=5&network=${networkType}` : null,

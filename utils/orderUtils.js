@@ -143,6 +143,7 @@ const getFullStatusOfDealClaim = (value, dealId) => {
                 disputeId: parseInt(disputeId, 10),
                 timeForClaim: parseInt(dealInfo[9], 10),
                 maxClaimsAllowed: parseInt(settings[1], 10),
+                timeForChallenge: parseInt(settings[3], 10)
             };
     
     

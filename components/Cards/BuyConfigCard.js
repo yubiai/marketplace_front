@@ -13,8 +13,6 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
     const [isLoading, setIsLoading] = useState(false);
     const toast = useToast();
 
-    console.log(channel, "channel")
-
     const [editSettings, setEditSettings] = useState(false);
 
     const [selectedTypePrice, setSelectedTypePrice] = useState('');
@@ -140,7 +138,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
         }
     }
 
-    if (channel && channel.order_id === null) {
+    if (channel && channel.order_id === null && channel.status == true) {
         return (
             <>
                 <Box mt="2em">
