@@ -202,10 +202,10 @@ const Checkout = () => {
             if (transactionData) {
 
                 const { amount, recipient, time_for_claim, time_for_service } = transactionData;
-
-                const amountToWei = ethers.utils.parseEther(amount.value.toString());
+                console.log(amount.value, "amount.value")
+                const amountToWei = ethers.utils.parseEther(amount.value.toString(), "ether");
                 setAmountToWeiOrder(Number(amountToWei));
-
+                console.log(Number(amountToWei), "Number(amountToWei)")
                 setTimeForService(time_for_service ? formatDayBySeconds(time_for_service) : process.env.NEXT_PUBLIC_TIME_FOR_SERVICE);
 
                 setTimeForClaim(time_for_claim ? formatDayBySeconds(time_for_claim) : process.env.NEXT_PUBLIC_TIME_FOR_CLAIM);
@@ -227,7 +227,8 @@ const Checkout = () => {
                             0,
                             0
                         ], termsUrl
-                    ]
+                    ],
+                    value: Number(amountToWei)
                 })
             }
             return

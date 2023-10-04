@@ -206,6 +206,7 @@ const OrderDetail = () => {
           const response = await dealService.getEvidenceByClaimID(result.claim.claimID);
           setEvidence(response.data);
         }
+
         if (result) {
           setDeal(result);
           updateStatusOrder(result);
@@ -257,12 +258,6 @@ const OrderDetail = () => {
       ? `https://${transaction.networkEnv}.etherscan.io/tx/${transactionHash}`
       : `https://etherscan.io/tx/${transactionHash}`;
   };
-
-
-
-
-  /* 
-       */
 
   const onMarkDone = async () => {
     setLoadingMarkDone(true)
