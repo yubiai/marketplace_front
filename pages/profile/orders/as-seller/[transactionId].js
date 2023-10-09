@@ -611,13 +611,16 @@ const OrderDetail = () => {
                           <Box mt="2em" width="100%" textAlign={{ base: "center", md: "left" }}>
                             <ButtonPayOrder
                               transactionInfo={{
-                                claimId: (deal || {}).claim.claimID,
-                                transactionHash: transactionMeta.transactionHash
+                                transactionIndex: (orderDetail.transaction || {}).transactionIndex,
+                                transactionHash: transactionMeta.transactionHash,
+                                claimID: (deal || {}).claim.claimID
                               }}
                               amount={transactionPayedAmount || '0'}
-                              stepsPostAction={loadOrder}
+                              stepsPostAction={router}
                               toggleLoadingStatus={toggleLoadingStatus}
-                              yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                              orderCompletedBySeller={orderDetail.orderCompletedBySeller}
+                              contractAddress={yubiaiContract.yubiaiArbitrable}
+                              yubiaiAbi={yubiaiArbitrable}
                               isSeller={true}
                               t={t}
                             />
@@ -645,12 +648,13 @@ const OrderDetail = () => {
                                 transactionInfo={{
                                   claimID: (deal || {}).claim.claimID,
                                   transactionHash: transactionMeta.transactionHash,
-
                                 }}
                                 stepsPostAction={loadOrder}
                                 evidenceID={evidence && evidence._id}
                                 toggleLoadingStatus={toggleLoadingStatus}
-                                yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance} t={t}
+                                contractAddress={yubiaiContract.yubiaiArbitrable}
+                                yubiaiAbi={yubiaiArbitrable}
+                                t={t}
                               />
                             </Box>
                           }
@@ -668,11 +672,11 @@ const OrderDetail = () => {
                         dealId={(deal || {}).deal.dealId}
                         transactionHash={transactionMeta.transactionHash}
                         toggleLoadingStatus={toggleLoadingStatus}
-                        yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
+                        contractAddress={yubiaiContract.yubiaiArbitrable}
+                        yubiaiAbi={yubiaiArbitrable}
                         stepsPostAction={loadOrder}
                         t={t}
                       />
-
                       <Text mt="5px" fontWeight={"normal"} fontStyle={"italic"}>
                         {t("Time to claim exhausted")}
                       </Text>

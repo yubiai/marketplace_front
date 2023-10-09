@@ -5,9 +5,9 @@ import { orderService } from '../../services/orderService';
 import { useContractWrite } from 'wagmi';
 
 const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus, isSeller, orderCompletedBySeller, contractAddress, yubiaiAbi, t }) => {
-
+    console.log(transactionInfo, "contractAddresscontractAddresscontractAddresscontractAddress")
     const global = useGlobal();
-    const { transactionIndex, transactionHash } = transactionInfo;
+    const { transactionIndex, transactionHash, claimID } = transactionInfo;
 
     const { write: payOrder } = useContractWrite({
         address: contractAddress,
@@ -36,7 +36,7 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
         address: contractAddress,
         abi: yubiaiAbi,
         functionName: 'acceptClaim',
-        args: [transactionIndex],
+        args: [claimID],
         async onSuccess(data) {
             console.log('Success', data)
             if (data) {
