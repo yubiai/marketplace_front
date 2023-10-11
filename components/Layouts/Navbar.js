@@ -106,14 +106,12 @@ const Navbar = () => {
 
   const DesktopSubNav = ({ label, href }) => {
     return (
-      <Link href={`${href}`}  width={'100%'}
-      maxWidth={'fit-content'}>
+      <Link href={`${href}`}  width={'100%'}>
         <Button
           role={'group'}
           display={'block'}
           rounded={'md'}
           width={'100%'}
-          maxWidth={'fit-content'}
           _hover={{ bg: 'blue.50' }}
         >
           <Stack direction={'row'} align={'center'} >

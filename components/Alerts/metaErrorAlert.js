@@ -5,7 +5,7 @@ import { useGlobal } from '../../providers/globalProvider'
 const MetaErrorAlert = () => {
   const [infoError, setInfoError] = useState(null)
   const global = useGlobal();
-
+  // Retirado por rainbowkit
   useEffect(() => {
     const verifyError = () => {
       if (global.autherror) {

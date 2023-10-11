@@ -3,12 +3,16 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { useDispatchGlobal } from '../providers/globalProvider'
 import Cookies from 'js-cookie'
+import { useAccount, useDisconnect } from 'wagmi'
 
 const Logout = () => {
   const dispatch = useDispatchGlobal()
   const router = useRouter()
+  const { isConnected } = useAccount()
+  const { disconnect } = useDisconnect()
 
   useEffect(() => {
+
     const LoadingLogout = () => {
       dispatch({
         type: 'AUTHPROFILE',
@@ -21,11 +25,17 @@ const Logout = () => {
       }, 1000)
     }
     LoadingLogout()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    if(isConnected){
+      disconnect();
+    }
+  }, [isConnected, disconnect])
+
   return (
-    <Box textAlign="center" py={10} px={6} h={{base: '100vh', sm: '100vh', md: "80vh"}}>
+    <Box textAlign="center" py={10} px={6} h={{ base: '100vh', sm: '100vh', md: "80vh" }}>
       <Spinner
         thickness="4px"
         speed="0.65s"

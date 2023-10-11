@@ -37,10 +37,7 @@ import {
   MdOutlineShuffle
 } from 'react-icons/md'
 import { useGlobal } from '../../providers/globalProvider'
-import { balanceUbi1 } from '../../utils/ethereum'
 import { useRouter } from 'next/router'
-import ButtonConnectMetamask from '../Buttons/ButtonConnectMetamask'
-import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
 import useTranslation from 'next-translate/useTranslation';
 
 const DrawerMenu = () => {
@@ -52,7 +49,6 @@ const DrawerMenu = () => {
 
   const [listCategory, onListCategory] = useState(false)
   const [statusLogin, setStatusLogin] = useState(false)
-  const [balanceToken, setBalanceToken] = useState(null)
 
   const onCategory = () => {
     onListCategory(!listCategory)
@@ -61,9 +57,6 @@ const DrawerMenu = () => {
   useEffect(() => {
     const verifyLogin = async () => {
       if (global && global.profile) {
-        await balanceUbi1(global.profile.eth_address || null).then((res) => {
-          setBalanceToken(res)
-        })
         setStatusLogin(true)
       } else {
         setStatusLogin(false)
@@ -99,12 +92,11 @@ const DrawerMenu = () => {
             {statusLogin ? (
               <UserInfo
                 profile={global && global.profile}
-                balanceToken={balanceToken}
                 t={t}
               />
             ) : (
               <>
-                <ButtonConnectMetamask />
+                <p>Boton falta</p>
               </>
             )}
 
@@ -115,7 +107,7 @@ const DrawerMenu = () => {
             <List spacing={3}>
               <ListItem>
                 <Box>
-                  <ButtonSwitchNetwork bg={'#00abd1'} color={'white'} />
+                <p>Boton falta</p>
                 </Box>
               </ListItem>
               <Divider />

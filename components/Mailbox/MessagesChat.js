@@ -9,7 +9,6 @@ const MessagesChat = ({ messages, buyer, seller, me }) => {
   //Scroll hacia abajo
   useEffect(() => elementRef.current.scrollIntoView())
 
-
   const dates = new Set()
 
   const renderDate = (date, dateNum) => {

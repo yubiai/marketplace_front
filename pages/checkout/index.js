@@ -1,431 +1,326 @@
-import {
-  Box,
-  Text,
-  Heading,
-  Center,
-  Avatar,
-  Stack,
-  AlertIcon,
-  Alert,
-  /*   SliderThumb,
-    SliderFilledTrack,
-    SliderTrack,
-    SliderMark,
-    Slider, */
-  Divider,
-  useToast,
-  Container,
-} from '@chakra-ui/react';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import Head from 'next/head';
-
-import ButtonCheckout from '../../components/Buttons/ButtonCheckout';
-import { useGlobal, useDispatchGlobal } from '../../providers/globalProvider';
-import {
-  loadCurrencyPrices,
-  loadOrderData,
-  setYubiaiInstance,
-} from '../../providers/orderProvider';
-import { orderService } from '../../services/orderService';
-import { channelService } from '../../services/channelService';
-
-import useUser from '../../hooks/data/useUser';
-import Loading from '../../components/Spinners/Loading';
-import useTranslation from 'next-translate/useTranslation';
+import { Avatar, Box, Center, Container, Divider, Heading, Stack, Text, Alert, AlertIcon, Button, useToast, Spinner } from "@chakra-ui/react";
+import Head from "next/head";
+import { useTranslation } from "react-i18next";
+import { useDispatchGlobal, useGlobal } from "../../providers/globalProvider";
+import { useRouter } from "next/router";
+import useUser from "../../hooks/data/useUser";
+import { useEffect, useState } from "react";
+import { useAccount, useContractWrite, useNetwork, useWaitForTransaction } from "wagmi";
+import { getBlockExplorerForNetwork, getContractsForNetwork } from "../../utils/walletUtils";
+import { yubiaiArbitrable } from "../../utils/escrow-utils/abis";
+import { loadOrderData } from "../../providers/orderProvider";
+import { ethers } from "ethers";
+import Loading from "../../components/Spinners/Loading";
+import { orderService } from "../../services/orderService";
+import { channelService } from "../../services/channelService";
+import { formatDayBySeconds } from "../../utils/orderUtils";
 
 const Checkout = () => {
-  const global = useGlobal();
-  const toast = useToast();
-  const dispatch = useDispatchGlobal();
-  const router = useRouter();
-  const { t } = useTranslation("checkout");
-  const [orderData, setOrderData] = useState({});
-  const [transactionData, setTransactionData] = useState({});
-  const [operationInProgress, setOperationInProgress] = useState(false);
-  //const [loading, setLoading] = useState(true);
-  //const [loadingTerm, setLoadingTerm] = useState(false);
-  //const [term, setTerm] = useState(null);
+    const global = useGlobal();
+    const toast = useToast();
+    const dispatch = useDispatchGlobal();
+    const router = useRouter();
+    const [orderData, setOrderData] = useState({});
+    const [transactionData, setTransactionData] = useState({});
+    const [priceType, setPriceType] = useState("");
+    const [loadingCheckout, setLoadingCheckout] = useState(false);
 
-  const { user, loggedOut } = useUser();
+    const termsUrl = process.env.NEXT_PUBLIC_TERMS_URL_DEFAULT;
 
-  const [priceType, setPriceType] = useState("");
+    const { t } = useTranslation("checkout");
 
-  // Modal
-  /* const { isOpen, onOpen, onClose } = useDisclosure()
-  const btnRef = useRef(null) */
-
-  // if logged in, redirect to the home
-  useEffect(() => {
-    if (loggedOut) {
-      router.replace('/logout')
-    }
-  }, [user, loggedOut, router, dispatch]);
-
-  const sliderValue = 0;
-
-  /*const [sliderValue, setSliderValue] = useState(0)
-
-     const labelStyles = {
-      mt: '2',
-      ml: '-2.5',
-      fontSize: 'sm',
-    }; */
-
-  /*   const verifyTyC = async () => {
-  
-      try {
-        // Get Last Terms
-        const lastTerms = await termService.getTermsLast(global.profile && global.profile.token);
-        // Get Profile Info
-        const profileInfo = await profileService.getProfileFromId(global.profile._id, global.profile.token)
-  
-        if (!lastTerms) {
-          router.back();
-          return
+    const { user, loggedOut } = useUser();
+    // if logged in, redirect to the home
+    useEffect(() => {
+        if (loggedOut) {
+            router.replace('/logout')
         }
-  
-        if (!profileInfo) {
-          router.back();
-          return
-        }
-  
-        // Check if in the profile you agree with this term
-        const verifyTermProfile = profileInfo.data && profileInfo.data.terms.find((term) => term && term.idTerm == lastTerms.data._id);
-  
-        if (!verifyTermProfile) {
-          setTerm(lastTerms.data)
-          onOpen()
-          return
-        }
-  
-        setLoading(false)
+    }, [user, loggedOut, router, dispatch]);
+
+    const { chain } = useNetwork()
+    const { address, connector } = useAccount();
+
+    const networkType = chain.name.toLowerCase();
+    const networkData = getBlockExplorerForNetwork(networkType);
+    const blockExplorer = networkData.blockExplorer;
+    const yubiaiContract = getContractsForNetwork(networkType);
+
+    const [amountToWeiOrder, setAmountToWeiOrder] = useState();
+    const [timeForClaim, setTimeForClaim] = useState();
+    const [timeForService, setTimeForService] = useState();
+
+    const createOrder = async (transactionResult) => {
+        const currentWalletAccount = address;
+        const orderResponse = await orderService.createOrder(
+            {
+                order: {
+                    itemId: orderData.item._id,
+                    userBuyer: currentWalletAccount,
+                    userSeller: orderData.item.seller.eth_address,
+                    status: 'ORDER_CREATED',
+                },
+                transactionInfo: transactionResult,
+            },
+            global?.profile?.token
+        )
+        const { data } = orderResponse
+        const { result } = data
+
+        const orderId = result._id
+        const buyerId = global.profile._id
+        const sellerId = orderData.item.seller._id
+
+        await channelService.createChannel(
+            {
+                buyer: buyerId,
+                seller: sellerId,
+                item_id: orderData.item._id,
+                order_id: orderId
+            },
+            global.profile.token
+        )
+
+        console.log(transactionResult.transactionMeta.transactionHash, "transactionResult.transactionMeta.transactionHash")
+        router.push(`/profile/orders/detail/${transactionResult.transactionMeta.transactionHash}`);
         return
-      } catch (err) {
-        console.error(err);
-        router.back();
-        return
-      }
-    }
-  
-    // Confirm TyC
-    const confirmTerms = async () => {
-      try {
-        setLoadingTerm(true)
-        await profileService.addTerms(global.profile._id, term, global.profile.token);
-        toast({
-          title: t('Terms and conditions'),
-          description: t('You have accepted the terms and conditions.'),
-          position: 'top-right',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-        })
-        setLoading(false)
-        onClose();
-        setLoadingTerm(false)
-      } catch (err) {
-        console.error(err);
-        router.back();
-        return
-      }
-    }
-  
-    // Reject TyC
-    const rejectTerms = () => {
-      setLoadingTerm(true)
-      router.back();
-      toast({
-        title: t('Failed to checkout.'),
-        description: t('In order to initiate the transaction you must accept the terms and conditions.'),
-        position: 'top-right',
-        status: 'warning',
-        duration: 5000,
-        isClosable: true,
-      })
-      onClose();
-      return
-    } */
-
-  useEffect(() => {
-
-    const loadCurrencies = async () => {
-      const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
-      loadCurrencyPrices(dispatch, global, networkType);
-    };
-
-    async function initialArbInstance() {
-      if (!global.yubiaiPaymentArbitrableInstance) {
-        const res = await setYubiaiInstance(dispatch);
-        if (!res) {
-          toast({
-            title: "Wrong Network",
-            description: "Change the network to one that is enabled.",
-            position: 'top-right',
-            status: 'warning',
-            duration: 3000,
-            isClosable: true
-          });
-          setTimeout(() => {
-            router.push("/logout");
-          }, 3000);
-          return
-        }
-        return
-      }
     }
 
-    initialArbInstance();
+    const { data, isLoading: isLoadingWrite, write } = useContractWrite({
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'createDealWithValue',
+        account: address
+    });
 
-    const loadOrder = async () => {
-      const result = await loadOrderData(
-        { ...global.itemToCheckout },
-        global.currencyPriceList
-      )
-      const { orderInfo, transaction, time_for_claim, time_for_service, typeprice } = result
-      setPriceType(typeprice);
-      setOrderData(orderInfo)
-      let neWtransaction = {
-        ...transaction,
-        time_for_claim,
-        time_for_service,
-        typeprice
-      }
-      setTransactionData(neWtransaction)
-    };
+    // Use Wait for transaction
+    const { isLoading } = useWaitForTransaction({
+        hash: data?.hash,
+        async onSuccess(data) {
 
-    if (!global.currencyPriceList.length && (global.yubiaiPaymentArbitrableInstance || {}).web3) {
-      loadCurrencies();
-      return;
-    }
+            setLoadingCheckout(true);
+            const decodedEvent = ethers.utils.defaultAbiCoder.decode(
+                [
+                    'uint64'
+                ],
+                data.logs[connector.id == "metaMask" ? 1 : 2].topics[1]
+            );
 
-    if (!global.itemToCheckout && global.yubiaiPaymentArbitrableInstance) {
-      return;
-    }
+            // Data para Crear la order
+            const dealId = decodedEvent[0].toNumber();
+            const {
+                blockHash,
+                blockNumber,
+                cumulativeGasUsed,
+                effectiveGasPrice,
+                from,
+                to,
+                transactionHash
+            } = data;
 
-    if (!transactionData.extraData && global.yubiaiPaymentArbitrableInstance) {
-      //verifyTyC()
-      loadOrder();
-    }
-  }, [transactionData, global.itemToCheckout, global.currencyPriceList, global.yubiaiPaymentArbitrableInstance])
+            const transactionPayedAmount = amountToWeiOrder.toString();
 
-  const createOrder = async (transactionResult = {}) => {
-    const currentWalletAccount = await global.yubiaiPaymentArbitrableInstance.getAccount();
-    const orderResponse = await orderService.createOrder(
-      {
-        order: {
-          itemId: orderData.item._id,
-          userBuyer: currentWalletAccount,
-          userSeller: orderData.item.seller.eth_address,
-          status: 'ORDER_CREATED',
+            const transactionFeeAmount = "0";
+
+            const blockNumberString = blockNumber.toString();
+            const cumulativeGasUsedString = cumulativeGasUsed.toString();
+            const effectiveGasPriceString = effectiveGasPrice.toString();
+
+            await createOrder({
+                from,
+                to,
+                transactionMeta: {
+                    transactionHash,
+                    blockHash,
+                    blockNumberString,
+                    cumulativeGasUsedString,
+                    effectiveGasPriceString,
+                    contractAddressURI: `${blockExplorer}/address/${yubiaiContract.yubiaiArbitrable}`
+                },
+                transactionState: parseInt(1, 10),
+                claimCount: parseInt(0, 10),
+                timeForService: parseInt(timeForService, 10),
+                timeForClaim: parseInt(timeForClaim, 10),
+                currentClaim: parseInt(0, 10),
+                typeprice: priceType,
+                transactionIndex: dealId.toString(),
+                transactionPayedAmount,
+                transactionFeeAmount,
+                transactionDate: Math.floor((new Date()).getTime() / 1000),
+                networkEnv: networkType
+            });
+
+            return;
         },
-        transactionInfo: transactionResult,
-      },
-      global?.profile?.token
-    )
-    const { data } = orderResponse
-    const { result } = data
+        onError(error) {
+            toast({
+                id: "Error metamask",
+                title: 'Error Checkout',
+                description: error.name,
+                position: 'top-right',
+                status: 'warning',
+                duration: 5000,
+                isClosable: true,
+            })
+            setLoadingCheckout(false);
+            return;
+        }
+    });
 
-    const orderId = result._id
-    const buyerId = global.profile._id
-    const sellerId = orderData.item.seller._id
+    useEffect(() => {
 
-    await channelService.createChannel(
-      {
-        buyer: buyerId,
-        seller: sellerId,
-        item_id: orderData.item._id,
-        order_id: orderId
-      },
-      global.profile.token
-    )
+        const loadOrder = async () => {
+            const result = await loadOrderData(
+                { ...global.itemToCheckout },
+                chain.nativeCurrency.symbol
+            )
+            const { orderInfo, transaction, time_for_claim, time_for_service, typeprice } = result
+            setPriceType(typeprice);
+            setOrderData(orderInfo)
 
-    toggleLoadingStatus(false)
-    router.push(`/profile/orders/detail/${transactionResult.transactionMeta.transactionHash}`)
-  }
+            let neWtransaction = {
+                ...transaction,
+                time_for_claim,
+                time_for_service,
+                typeprice
+            }
+            setTransactionData(neWtransaction);
+        };
 
-  const toggleLoadingStatus = (status) => {
-    setOperationInProgress(status)
-  }
+        if (global && global.itemToCheckout && chain && chain.nativeCurrency && global.itemToCheckout.currencySymbolPrice == chain.nativeCurrency.symbol) {
+            loadOrder();
+        } else {
+            router.back();
+        }
 
-  // Overlay Modal
-  /* const OverlayOne = () => (
-    <ModalOverlay
-      bg='blackAlpha.700'
-      backdropFilter='blur(10px) hue-rotate(90deg)'
-    />
-  ) */
+    }, []);
 
-  if (!user) return <Loading />
 
-  return (
-    transactionData && (
-      <>
-        <Head>
-          <title>Yubiai Marketplace - Search Item</title>
-          <meta
-            name="keywords"
-            content="yubiai, market, marketplace, crypto, eth, poh, metamask"
-          />
-        </Head>
-        <Container
-          maxW="6xl"
-          h={"100vh"}
-          display={'flex'}
-          flexDirection={'column'}
-        >
-          <Center py={6}>
-            <Box
-              maxW={'360px'}
-              w={'full'}
-              bg={'white'}
-              boxShadow={'2xl'}
-              rounded={'lg'}
-              p={6}
-              textAlign={'center'}
-            >
-              <Avatar
-                size={'xl'}
-                src={`${process.env.NEXT_PUBLIC_LINK_FLEEK && orderData.item && orderData.item.files && orderData.item.files[0] && process.env.NEXT_PUBLIC_LINK_FLEEK + orderData.item.files[0].filename}`}
-                alt={'Avatar Alt'}
-                mb={4}
-                pos={'relative'}
-                _after={{
-                  content: '""',
-                  w: 4,
-                  h: 4,
-                  bg: 'green.300',
-                  border: '2px solid white',
-                  rounded: 'full',
-                  pos: 'absolute',
-                  bottom: 0,
-                  right: 3,
-                }}
-              />
-              <Heading fontSize={'2xl'} fontFamily={'body'}>
-                {t("Order summary")}
-              </Heading>
-              <Text fontWeight={600} color={'gray.500'}>
-                {t("Price")}: {orderData.item && orderData.item.price}{' '}
-                {orderData.item && orderData.item.currencySymbolPrice}
-              </Text>
-              <Text fontWeight={400} color="gray.500" mb={4}>{priceType}
-              </Text>
-              <Text textAlign={'center'} color={'gray.700'} px={3}>
-                {orderData.item && orderData.item.title}
-              </Text>
-              <Divider mt="1em" />
+    // Hire service
+    const onCheckOut = () => {
+        try {
 
-              {/* {loading && (
-                <Center mt="2em">
-                  <Spinner
-                    thickness="4px"
-                    speed="0.65s"
-                    emptyColor="gray.200"
-                    color="blue.500"
-                    size="md"
-                  />
-                </Center>
-              )} */}
-               {/*{!loading && (
-                <>
-                  <Center>
-                    <Text mt="1em" fontStyle={"normal"} fontWeight={"bold"}>{t("UBI Burning")}</Text>
-                  </Center>
-                  <Text mt="3" fontStyle="italic">
-                    {t("UBI percentage")}
-                  </Text>
-                  <Box pt={6} pb={2} mt="1em">
-                    <Slider
-                      color="black"
-                      aria-label="slider-ex-6"
-                      defaultValue={0}
-                      min={0}
-                      max={10}
-                      onChange={(val) => setSliderValue(val)}
-                    >
-                      <SliderMark value={0} {...labelStyles}>
-                        0%
-                      </SliderMark>
-                      <SliderMark value={5} {...labelStyles}>
-                        5%
-                      </SliderMark>
-                      <SliderMark value={10} {...labelStyles}>
-                        10%
-                      </SliderMark>
-                      <SliderMark
-                        value={sliderValue}
-                        textAlign="center"
-                        bg="#00abd1"
-                        color="white"
-                        mt="-10"
-                        ml="-5"
-                        w="12"
-                      >
-                        {sliderValue}%
-                      </SliderMark>
-                      <SliderTrack bg='gray.400'>
-                        <SliderFilledTrack />
-                      </SliderTrack>
-                      <SliderThumb bg='blue.400' />
-                    </Slider>
-                  </Box> 
-                </>
-              )}*/}
-              <Alert status="warning" mt="1em" color="black" bg="orange.100">
-                <AlertIcon color="orange" />
-                {t("When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service")}{' '}
-              </Alert>
-              <Stack mt={8}>
-                <ButtonCheckout
-                  transactionInfo={transactionData}
-                  toggleLoadingStatus={toggleLoadingStatus}
-                  createOrder={createOrder}
-                  operationInProgress={operationInProgress}
-                  currency={(orderData.item || {}).currencySymbolPrice}
-                  burnFee={sliderValue}
-                  yubiaiPaymentArbitrableInstance={global.yubiaiPaymentArbitrableInstance}
-                  t={t}
+            if (transactionData) {
+
+                const { amount, recipient, time_for_claim, time_for_service } = transactionData;
+                console.log(amount.value, "amount.value")
+                const amountToWei = ethers.utils.parseEther(amount.value.toString(), "ether");
+                setAmountToWeiOrder(Number(amountToWei));
+                console.log(Number(amountToWei), "Number(amountToWei)")
+                setTimeForService(time_for_service ? formatDayBySeconds(time_for_service) : process.env.NEXT_PUBLIC_TIME_FOR_SERVICE);
+
+                setTimeForClaim(time_for_claim ? formatDayBySeconds(time_for_claim) : process.env.NEXT_PUBLIC_TIME_FOR_CLAIM);
+
+                write({
+                    args: [
+                        [
+                            Number(amountToWei),
+                            address,
+                            0,
+                            0,
+                            0,
+                            0,
+                            recipient,
+                            Math.floor((new Date()).getTime() / 1000),
+                            time_for_service ? formatDayBySeconds(time_for_service) : process.env.NEXT_PUBLIC_TIME_FOR_SERVICE,
+                            time_for_claim ? formatDayBySeconds(time_for_claim) : process.env.NEXT_PUBLIC_TIME_FOR_CLAIM,
+                            networkData.token_address,
+                            0,
+                            0
+                        ], termsUrl
+                    ],
+                    value: Number(amountToWei)
+                })
+            }
+            return
+
+        } catch (error) {
+            console.error(error);
+            setLoadingCheckout(false);
+            return
+        }
+    }
+
+    if (global && !global.itemToCheckout || !orderData || !transactionData) return <Loading />
+
+    return (
+        <>
+            <Head>
+                <title>Yubiai Marketplace - Checkout</title>
+                <meta
+                    name="keywords"
+                    content="yubiai, market, marketplace, crypto, eth, poh, metamask"
                 />
-              </Stack>
-            </Box>
-          </Center>
-        </Container>
-        {/*  circuit terms disabled <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} finalFocusRef={btnRef} scrollBehavior={'outside'} size={"6xl"}>
-          <OverlayOne />
-          <ModalContent bg="white" color="black">
-            <ModalHeader>{t("Terms and Conditions")}</ModalHeader>
-            <ModalBody pb={6}>
-              <RichTextReadOnly text={term && term.text} />
-            </ModalBody>
+            </Head>
+            <Container
+                maxW="6xl"
+                h={"100vh"}
+                display={'flex'}
+                flexDirection={'column'}
+            >
+                <Center py={6}>
+                    <Box
+                        maxW={'360px'}
+                        w={'full'}
+                        bg={'white'}
+                        boxShadow={'2xl'}
+                        rounded={'lg'}
+                        p={6}
+                        textAlign={'center'}
+                    >
+                        <Avatar
+                            size={'xl'}
+                            src={`${process.env.NEXT_PUBLIC_LINK_FLEEK && orderData.item && orderData.item.files && orderData.item.files[0] && process.env.NEXT_PUBLIC_LINK_FLEEK + orderData.item.files[0].filename}`}
+                            alt={'Avatar Alt'}
+                            mb={4}
+                            pos={'relative'}
+                            _after={{
+                                content: '""',
+                                w: 4,
+                                h: 4,
+                                bg: 'green.300',
+                                border: '2px solid white',
+                                rounded: 'full',
+                                pos: 'absolute',
+                                bottom: 0,
+                                right: 3,
+                            }}
+                        />
+                        <Heading fontSize={'2xl'} fontFamily={'body'}>
+                            {t("Order summary")}
+                        </Heading>
+                        <Text fontWeight={600} color={'gray.500'}>
+                            {t("Price")}: {orderData.item && orderData.item.price}{' '}
+                            {orderData.item && orderData.item.currencySymbolPrice}
+                        </Text>
+                        <Text fontWeight={400} color="gray.500" mb={4}>{priceType}                         </Text>
+                        <Text textAlign={'center'} color={'gray.700'} px={3}>
+                            {orderData.item && orderData.item.title}
+                        </Text>
+                        <Divider mt="1em" />
 
-            <ModalFooter>
-              {!loadingTerm && (
-                <>
-                  <Button onClick={() => rejectTerms()} mr="1em">{t("Reject")}</Button>
-
-                  <Button colorScheme='blue' mr={3} onClick={() => confirmTerms()}>
-                    {t("Accept")}
-                  </Button>
-                </>
-              )}
-              {loadingTerm && (
-                <Center mt="2em">
-                  <Spinner
-                    thickness="4px"
-                    speed="0.65s"
-                    emptyColor="gray.200"
-                    color="blue.500"
-                    size="md"
-                  />
+                        <Alert status="warning" mt="1em" color="black" bg="orange.100">
+                            <AlertIcon color="orange" />
+                            {t("When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service")}{' '}
+                        </Alert>
+                        <Stack mt={8}>
+                            {loadingCheckout || isLoadingWrite || isLoading && (
+                                <Center >
+                                    <Spinner
+                                        thickness="4px"
+                                        speed="0.65s"
+                                        emptyColor="gray.200"
+                                        color="blue.500"
+                                        size="md"
+                                    />
+                                </Center>
+                            )}
+                            <Button bg='#00abd1' color={'white'} onClick={() => onCheckOut()} isDisabled={loadingCheckout || isLoadingWrite || isLoading}>{t("Hire service")}</Button>
+                        </Stack>
+                    </Box>
                 </Center>
-              )}
-            </ModalFooter>
-          </ModalContent>
-        </Modal> */}
-      </>
+            </Container>
+        </>
     )
-  )
 }
 
-export default Checkout
+export default Checkout;

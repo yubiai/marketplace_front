@@ -2,46 +2,66 @@ import React from 'react';
 import { Button } from '@chakra-ui/react';
 import { useGlobal } from '../../providers/globalProvider';
 import { orderService } from '../../services/orderService';
+import { useContractWrite } from 'wagmi';
 
-const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus, yubiaiPaymentArbitrableInstance, isSeller, orderCompletedBySeller, t }) => {
+const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus, isSeller, orderCompletedBySeller, contractAddress, yubiaiAbi, t }) => {
+    console.log(transactionInfo, "contractAddresscontractAddresscontractAddresscontractAddress")
     const global = useGlobal();
+    const { transactionIndex, transactionHash, claimID } = transactionInfo;
 
-    const payOrder = async () => {
-        const { transactionIndex, transactionHash } = transactionInfo;
-
-        try {
-            toggleLoadingStatus(true)
-            const parsedTransactionIndex = yubiaiPaymentArbitrableInstance.web3.utils.toNumber(
-                transactionIndex);
-
-            const result = await yubiaiPaymentArbitrableInstance.payDeal(parsedTransactionIndex)
-            if (result) {
+    const { write: payOrder } = useContractWrite({
+        address: contractAddress,
+        abi: yubiaiAbi,
+        functionName: 'closeDeal',
+        args: [transactionIndex],
+        async onSuccess(data) {
+            console.log('Success', data)
+            if (data) {
                 await orderService.updateOrderStatus(
                     transactionHash, 'ORDER_PAID', global?.profile?.token);
-                stepsPostAction();
-                toggleLoadingStatus(false);
+                setTimeout(() => {
+                    stepsPostAction();
+                    return
+                }, 2000);
             }
-        } catch (e) {
-            console.log('Error paying transaction: ', e);
+        },
+        onError(error) {
+            console.log('Error', error)
+            console.log('Error paying transaction: ', error);
             toggleLoadingStatus(false);
-        }
-    };
+        },
+    })
 
-    const acceptClaim = async () => {
-        const { claimId, transactionHash } = transactionInfo;
-
-        try {
-            toggleLoadingStatus(true);
-            await yubiaiPaymentArbitrableInstance.acceptClaim(claimId);
-            await orderService.updateOrderStatus(transactionHash, 'ORDER_REFUNDED', global?.profile?.token);
-            stepsPostAction();
+    const { write: acceptClaim } = useContractWrite({
+        address: contractAddress,
+        abi: yubiaiAbi,
+        functionName: 'acceptClaim',
+        args: [claimID],
+        async onSuccess(data) {
+            console.log('Success', data)
+            if (data) {
+                await orderService.updateOrderStatus(transactionHash, 'ORDER_REFUNDED', global?.profile?.token);
+                setTimeout(() => {
+                    stepsPostAction();
+                    return
+                }, 2000);
+            }
+        },
+        onError(error) {
+            console.log('Error paying transaction: ', error);
             toggleLoadingStatus(false);
             return
-        } catch (e) {
-            console.log('Error accepting claim the transaction : ', e);
-            toggleLoadingStatus(false);
-            return
-        }
+        },
+    });
+
+    const payOrderFunc = () => {
+        toggleLoadingStatus(true);
+        payOrder()
+    }
+
+    const acceptClaimFunc = () => {
+        toggleLoadingStatus(true);
+        acceptClaim()
     }
 
     return (
@@ -49,7 +69,7 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
             bg: "gray.400"
         }} isDisabled={!isSeller && !orderCompletedBySeller} color={'white'} onClick={
             () => {
-                isSeller ? acceptClaim() : payOrder()
+                isSeller ? acceptClaimFunc() : payOrderFunc()
             }
         }>
             {isSeller ? t("Accept claim") : t("Release payment")}

@@ -137,6 +137,7 @@ const ItemById = ({ item }) => {
   }
 
   useEffect(() => {
+    console.log(global, "globallele")
     if (item) {
       funcSelectImage()
     }
@@ -152,7 +153,7 @@ const ItemById = ({ item }) => {
       type: 'SET_ITEM_TO_CHECKOUT',
       payload: item,
     })
-    router.push('/checkout')
+    router.push('/checkout/')
   }
 
   if (!item) return <Error error={"Error getting data."} />

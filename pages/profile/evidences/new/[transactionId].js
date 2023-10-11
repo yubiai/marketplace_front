@@ -41,12 +41,16 @@ import SuccessEvidence from "../../../../components/Modals/SuccessEvidence";
 import Loading from "../../../../components/Spinners/Loading";
 import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider";
-import { setYubiaiInstance } from "../../../../providers/orderProvider";
 import { channelService } from "../../../../services/channelService";
 import { dpolicyService } from "../../../../services/dpolicyService";
 import { evidenceService } from "../../../../services/evidenceService";
 import { orderService } from "../../../../services/orderService";
 import useTranslation from 'next-translate/useTranslation';
+import { ethers } from "ethers";
+import { useNetwork, useContractWrite, useWaitForTransaction, useContractReads } from "wagmi";
+import { getContractsForNetwork } from "../../../../utils/walletUtils";
+import { yubiaiArbitrable } from "../../../../utils/escrow-utils/abis";
+import { getFullStatusOfDealClaim } from "../../../../utils/orderUtils";
 
 const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 
@@ -72,6 +76,8 @@ const NewEvidence = () => {
 
   const [evidenceSave, setEvidenceSave] = useState(null);
 
+  const [contractActionRead, setContractActionRead] = useState(false);
+
   const [valueToClaim, setValueToClaim] = useState(0);
   const [marksToClaim, setMarksToClaim] = useState([]);
 
@@ -82,8 +88,7 @@ const NewEvidence = () => {
     }
   }, [user, loggedOut, router, dispatch]);
 
-  const parseWeiToTokenAmount = weiAmount => (
-    (global.yubiaiPaymentArbitrableInstance || {}).web3 && parseFloat(global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(String(weiAmount)), 10) || 0);
+  const parseWeiToTokenAmount = weiAmount => (ethers.utils.formatEther(weiAmount));
 
   const loadOrder = async () => {
     try {
@@ -91,7 +96,7 @@ const NewEvidence = () => {
         transactionId, global.profile.token);
       const { data } = response;
       setOrderDetail(data.result);
-      console.log(data.result, "data.result")
+      console.log(data.result, "data. del load Order")
       loadMsgsByOrderID(data.result);
       const payedAmount = parseInt(data.result.transaction.transactionPayedAmount, 10) || 0;
       setMarksToClaim(generateMarksFromAmount(payedAmount));
@@ -131,10 +136,6 @@ const NewEvidence = () => {
 
           loadOrder();
 
-          if (!global.yubiaiPaymentArbitrableInstance) {
-            setYubiaiInstance(dispatch);
-            return;
-          }
           return
         } catch (err) {
           console.error(err);
@@ -146,7 +147,7 @@ const NewEvidence = () => {
 
     initial();
 
-  }, [global.profile, global.yubiaiPaymentArbitrableInstance]);
+  }, [global.profile]);
 
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -181,6 +182,119 @@ const NewEvidence = () => {
     }
     return finalArray;
   }
+
+  // Wagmi
+  const { chain } = useNetwork()
+  const networkType = chain?.name.toLowerCase();
+  const yubiaiContract = getContractsForNetwork(networkType);
+
+  // Read Contract
+  useContractReads({
+    contracts: [
+      {
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'deals',
+        args: [orderDetail?.transaction.transactionIndex],
+      },
+      {
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'claims',
+        args: [orderDetail?.transaction.currentClaim],
+      },
+      {
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'isOver',
+        args: [orderDetail?.transaction.transactionIndex],
+      },
+      {
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'settings'
+      }
+    ],
+    enabled: contractActionRead,
+    async onSuccess(data) {
+      console.log("Se activo el contract Reads")
+      try {
+        const fullStatus = await getFullStatusOfDealClaim(data, orderDetail?.transaction.transactionIndex);
+        console.log("Se leyeto el status deals", fullStatus);
+
+        await evidenceService.updateStatus(evidenceSave?._id, {
+          dealId: orderDetail?.transaction.transactionIndex,
+          claimID: fullStatus.claim.claimID,
+          status: 1
+        }, global?.profile?.token);
+
+        console.log(fullStatus.claim.claimID, "Claim ID")
+        console.log(fullStatus.claim.claimCount, "claimCount")
+
+        console.log("Se actualizo el evidence", evidenceSave?._id);
+
+        const status = 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
+        let transactionHash = orderDetail?.transaction.transactionMeta.transactionHash;
+        await orderService.updateOrderStatus(transactionHash, status, global?.profile?.token);
+        await orderService.setDisputeOnOrderTransactionById(orderDetail?.transaction.transactionId, {
+          claimCount: fullStatus.claim.claimCount, 
+          currentClaim: fullStatus.claim.claimID,
+          disputeId: fullStatus.claim.disputeId,
+          transactionState: fullStatus.claim.claimStatus
+        }, global?.profile?.token);
+        console.log("Se actualizo el order Status")
+        router.replace(`/profile/orders/detail/${transactionHash}`);
+        return
+      } catch (err) {
+        console.error(err);
+        setLoadingSubmit(false);
+        setStateSubmit(2);
+        return
+      }
+    }
+  })
+
+  // Write Contract
+  const { data: resultMakeClaim, write: makeContractWrite } = useContractWrite({
+    address: yubiaiContract.yubiaiArbitrable,
+    abi: yubiaiArbitrable,
+    functionName: 'makeClaim',
+    value: ethers.utils.parseEther(String(process.env.NEXT_PUBLIC_FEE_ARBITRATION)),
+    async onSuccess(data) {
+      console.log('Success make claim', data);
+      return
+    },
+    onError(err) {
+      console.error('Error creating a claim for a deal: ', err);
+      if (err.code == 4001) {
+        setLoadingSubmit(false);
+        setStateSubmit(3);
+        return
+      }
+      setLoadingSubmit(false);
+      setStateSubmit(2);
+      return
+    },
+  })
+
+  // Use Wait for transaction
+  useWaitForTransaction({
+    hash: resultMakeClaim?.hash,
+    async onSuccess(data) {
+      console.log(data, "Data useWair For Transaction")
+      loadOrder();
+      setTimeout(() => {
+        setContractActionRead(true);
+      }, 1000);
+      return
+    },
+    onError(error) {
+      console.error(error);
+      setLoadingSubmit(false);
+      setStateSubmit(2);
+      return
+    }
+  });
 
   const verifyFiles = (e) => {
     if (e.target.files && e.target.files.length === 0) {
@@ -301,6 +415,7 @@ const NewEvidence = () => {
 
     try {
       if (evidenceSave) {
+        console.log(evidenceSave.value_to_claim, "valueToClaim")
 
         manageClaim(
           orderDetail.transaction.transactionIndex,
@@ -320,7 +435,7 @@ const NewEvidence = () => {
 
         const { result } = response.data;
         setEvidenceSave(result && result._id ? result : null);
-
+        console.log(valueToClaim, "valueToClaim")
         manageClaim(
           orderDetail.transaction.transactionIndex,
           String(valueToClaim),
@@ -341,27 +456,18 @@ const NewEvidence = () => {
 
   const manageClaim = async (dealId, amount, evidenceURI, transactionHash, idEvidence) => {
     try {
+      console.log(dealId, amount, evidenceURI, transactionHash, idEvidence, "dealId, amount, evidenceURI, transactionHash, idEvidence")
       if (!user.walletAddress) {
         throw "No address"
       }
-      const parsedFeeAmount = global.yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(process.env.NEXT_PUBLIC_FEE_ARBITRATION));
 
-      const result = await global.yubiaiPaymentArbitrableInstance.makeClaim(
-        dealId, amount, evidenceURI, parsedFeeAmount);
+      makeContractWrite({
+        args: [
+          dealId, amount, evidenceURI
+        ]
+      });
 
-      if (result) {
-        const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(dealId);
-        await evidenceService.updateStatus(idEvidence, {
-          dealId: dealId,
-          claimID: fullStatus.claim.claimID,
-          status: 1
-        }, global?.profile?.token);
-
-        const status = 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
-        await orderService.updateOrderStatus(transactionHash, status, global?.profile?.token);
-        router.replace(`/profile/orders/detail/${transactionHash}`);
-        return
-      }
+      return
     } catch (err) {
       console.error('Error creating a claim for a deal: ', err);
       if (err.code == 4001) {
@@ -412,7 +518,7 @@ const NewEvidence = () => {
   return (
     <>
       <Head>
-        <title>Yubiai Marketplace - New Listing</title>
+        <title>Yubiai Marketplace - New Evidence</title>
       </Head>
       <Container maxW="2xl" h={'full'} display={'flex'} flexDirection={'column'}>
         <Breadcrumb spacing='8px' mt='1em' separator={<ChevronRightIcon color='gray.500' />}>
@@ -509,7 +615,7 @@ const NewEvidence = () => {
               <FormLabel color="black">{t("Amount to claim")}</FormLabel>
               {
                 orderDetail && orderDetail.item &&
-                <p>{parseWeiToTokenAmount(valueToClaim)}{orderDetail.item.currencySymbolPrice}</p>
+                <p>{parseWeiToTokenAmount(valueToClaim)} {orderDetail.item.currencySymbolPrice}</p>
               }
               <Box textAlign={"center"}>
                 <Slider

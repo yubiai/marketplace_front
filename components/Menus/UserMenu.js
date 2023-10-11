@@ -12,7 +12,6 @@ import { FaUserCircle } from 'react-icons/fa'
 import UserInfo from '../Infos/UserInfo'
 import { useEffect, useState } from 'react'
 import { useGlobal } from '../../providers/globalProvider'
-import { balanceUbi1 } from '../../utils/ethereum'
 import { useRouter } from 'next/router'
 import { BsFillBellFill } from 'react-icons/bs'
 import { MdArticle, MdChat, MdFavorite, MdForum, MdHelp, MdOutlinePowerSettingsNew, MdSell, MdShoppingBag, MdShoppingBasket } from 'react-icons/md'
@@ -24,15 +23,11 @@ const UserMenu = () => {
   const global = useGlobal()
   const { t } = useTranslation("drawermenu");
   const [profileLogin, setProfileLogin] = useState(null)
-  const [balanceToken, setBalanceToken] = useState(null)
 
   useEffect(() => {
     const getProfile = async () => {
       if (global.profile) {
         setProfileLogin(global.profile)
-        await balanceUbi1(global.profile.eth_address || null).then((res) => {
-          setBalanceToken(res)
-        })
       }
     }
     getProfile()
@@ -56,7 +51,7 @@ const UserMenu = () => {
       )}
       <Portal zIndex={'20'}>
         <MenuList color="black" bg="white">
-          <UserInfo profile={profileLogin} balanceToken={balanceToken} t={t}/>
+          <UserInfo profile={profileLogin} t={t}/>
 
           <Link href="/profile">
             <MenuItem color="black" _focus={{ bg: "gray.200" }}>

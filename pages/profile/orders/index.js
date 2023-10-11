@@ -7,7 +7,6 @@ import {
   Container,
   Heading,
   Text,
-  useToast,
 } from '@chakra-ui/react'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -21,13 +20,14 @@ import Loading from '../../../components/Spinners/Loading'
 import useFetch from '../../../hooks/data/useFetch'
 import useUser from '../../../hooks/data/useUser'
 import { useDispatchGlobal, useGlobal } from '../../../providers/globalProvider'
-import { setYubiaiInstance } from '../../../providers/orderProvider'
 import useTranslation from 'next-translate/useTranslation';
+import { useNetwork } from 'wagmi'
+import { getContractsForNetwork } from '../../../utils/walletUtils'
+import { yubiaiArbitrable } from '../../../utils/escrow-utils/abis'
 
 const Orders = () => {
   const global = useGlobal()
   const router = useRouter()
-  const toast = useToast();
   const dispatch = useDispatchGlobal()
   const { t } = useTranslation("orders")
   const { user, loggedOut } = useUser()
@@ -37,38 +37,22 @@ const Orders = () => {
     if (loggedOut) {
       router.replace('/logout')
     }
+    if (!yubiaiContract.yubiaiArbitrable) {
+      router.replace('/logout')
+    }
   }, [user, loggedOut, router, dispatch]);
 
+  //Network Wagmi
+  const { chain } = useNetwork()
+  const networkType = chain && chain.name && chain.name.toLowerCase();
+  const yubiaiContract = getContractsForNetwork(networkType);
+
   const { data, isLoading, isError } = useFetch(
-    global && global.profile && global.profile.eth_address ? `/orders/buyer/${global.profile.eth_address}?page=${global.pageIndex}&size=5` : null,
+    global && global.profile && global.profile.eth_address ? `/orders/buyer/${global.profile.eth_address}?page=${global.pageIndex}&size=5&network=${networkType}` : null,
     global && global.profile && global.profile.token
   )
 
-  useEffect(() => {
-    async function initialArbInstance(){
-      if (!global.yubiaiPaymentArbitrableInstance) {
-        const res = await setYubiaiInstance(dispatch);
-        if(!res){
-          toast({
-            title: "Wrong Network",
-            description: "Change the network to one that is enabled.",
-            position: 'top-right',
-            status: 'warning',
-            duration: 3000,
-            isClosable: true
-          });
-          setTimeout(() => {
-            router.push("/logout");
-          }, 3000);
-          return
-        }
-        return
-      }
-    }
-    initialArbInstance();
-  }, [global.yubiaiPaymentArbitrableInstance]);
-
-  if (isLoading || !global.yubiaiPaymentArbitrableInstance) return <Loading />
+  if (isLoading) return <Loading />
 
   if (isError) {
     return <Error error={isError?.message} />
@@ -127,7 +111,7 @@ const Orders = () => {
             data.items &&
             data.items.length > 0 &&
             data.items.map((item, i) => {
-              return <OrderCardBuyer yubiaiPaymentInstance={global.yubiaiPaymentArbitrableInstance} order={item} key={i} t={t} />
+              return <OrderCardBuyer yubiaiContract={yubiaiContract.yubiaiArbitrable} abiYubiai={yubiaiArbitrable} order={item} network={networkType} key={i} t={t} />
             })}
           <Paginations data={data ? data : null} />
         </Container>

@@ -45,26 +45,28 @@ import Loading from '../../components/Spinners/Loading'
 import FileUpload from '../../components/Utils/FileUpload'
 import useFetch from '../../hooks/data/useFetch'
 import useUser from '../../hooks/data/useUser'
-import { useDispatchGlobal, useGlobal } from '../../providers/globalProvider'
+import { useGlobal } from '../../providers/globalProvider'
 import { publishService } from '../../services/publishService'
 import { getListSubCategory } from '../../utils/itemUtils'
-import { loadCurrencyPrices, setYubiaiInstance } from '../../providers/orderProvider'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import useTranslation from 'next-translate/useTranslation';
 import Editor from '../../components/Editor/Editor'
 import Cookies from 'js-cookie'
+import { useNetwork } from 'wagmi'
 
 const NewListing = () => {
   const global = useGlobal();
-  const dispatch = useDispatchGlobal();
   const router = useRouter();
   const toast = useToast();
   const { t } = useTranslation("newlisting");
   const { lang } = useTranslation('common');
   const contentCookies = Cookies.get('itemSaved');
 
+  // Chains
+  const { chains } = useNetwork()
+
   // State useForm
-  const { handleSubmit, register, getValues, control, resetField} = useForm()
+  const { handleSubmit, register, getValues, control, resetField } = useForm()
   const [result, setResult] = useState(null)
   const [viewErrors, setViewErrors] = useState(false);
 
@@ -94,6 +96,7 @@ const NewListing = () => {
 
   // Description
   const [contentDescription, setContentDescription] = useState(null);
+  const [contentDescriptionStringfy, setContentDescriptionStringfy] = useState(null);
   const [countDescription, setCountDescription] = useState(0);
   const MIN_DESCRIPTION_LENGTH = 100;
   const MAX_DESCRIPTION_LENGTH = 1600;
@@ -128,40 +131,7 @@ const NewListing = () => {
     if (loggedOut) {
       router.replace('/logout')
     }
-
-    const loadCurrencies = async () => {
-      const networkType = await global.yubiaiPaymentArbitrableInstance.web3.eth.net.getNetworkType();
-      loadCurrencyPrices(dispatch, global, networkType);
-    }
-    async function initialArbInstance() {
-      if (!global.yubiaiPaymentArbitrableInstance) {
-        const res = await setYubiaiInstance(dispatch);
-        if (!res) {
-          toast({
-            title: "Wrong Network",
-            description: "Change the network to one that is enabled.",
-            position: 'top-right',
-            status: 'warning',
-            duration: 3000,
-            isClosable: true
-          });
-          setTimeout(() => {
-            router.push("/logout");
-          }, 3000);
-          return
-        }
-        return
-      }
-    }
-
-    initialArbInstance();
-
-    if (user && !global.currencyPriceList.length && global.profile && global.yubiaiPaymentArbitrableInstance) {
-      loadCurrencies();
-      return
-    }
-
-  }, [user, global.yubiaiPaymentArbitrableInstance, global.currencyPriceList, global.profile, loggedOut])
+  }, [user, loggedOut, router])
 
   const { data: categories, isLoading, isError } = useFetch('/categories/')
 
@@ -215,6 +185,7 @@ const NewListing = () => {
 
     form.append('title', title)
     form.append('description', contentDescription)
+    form.append('descriptionString', contentDescriptionStringfy)
     form.append('typeprice', selectedTypePrice)
     form.append('price', selectedTypePrice && selectedTypePrice != "To settle" ? priceValue : 888888)
     form.append('seller', global.profile._id)
@@ -281,7 +252,9 @@ const NewListing = () => {
     return <Error error={isError?.message} />
   }
 
-  if (isLoading || !user || !global.yubiaiPaymentArbitrableInstance) return <Loading />
+  if (isLoading || !user) return <Loading />
+
+  if(!chains || chains && chains.length == 0) return <Error error={"No Currency"} />
 
   return (
     <>
@@ -332,8 +305,8 @@ const NewListing = () => {
         </Box>
         <Box mt="1em">
           <Heading as='h4' size='md'>{t("Description")} <span style={{ color: 'orange.500' }}>*</span></Heading>
-          <Editor setContent={setContentDescription} setCount={setCountDescription} content={contentCookies} newItem={true} />
-          <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "black.500" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
+          <Editor setContent={setContentDescription} setContentStringfy={setContentDescriptionStringfy} setCount={setCountDescription} content={contentCookies} newItem={true} />
+          <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "orange.500" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
           <Text color="orange.500" m="5px">{viewErrors && countDescription < MIN_DESCRIPTION_LENGTH && countDescription > 1 && t("Minimum required characters are 100")}</Text>
           <Text color="orange.500" m="5px">{viewErrors && countDescription > MAX_DESCRIPTION_LENGTH && t("Maximum required characters are 1600")}</Text>
         </Box>
@@ -417,7 +390,7 @@ const NewListing = () => {
              <Text color="red" m="5px">{errors.description?.type === 'maxLength' && t("Maximum required characters are 800")}</Text>
            </FormControl> */}
 
-          {global.currencyPriceList && global.currencyPriceList.length > 0 && (
+          {chains.length > 0 && (
             <FormControl isRequired mt="1em">
               <FormLabel color="black">{t("Price")}</FormLabel>
               <Select
@@ -430,16 +403,15 @@ const NewListing = () => {
                   setSelectedCurrency(e.target.value)
                 }}
               >
-                {global.currencyPriceList.map((currency) => (
+                {chains.map((currency) => (
                   <option
                     key={currency._id}
-                    value={currency.symbol}
+                    value={currency.nativeCurrency.symbol}
                     id="currency"
                   >
-                    {currency.symbol}
+                    {currency.name} - {currency.nativeCurrency.symbol}
                   </option>
                 ))}
-
               </Select>
             </FormControl>
           )}

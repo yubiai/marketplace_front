@@ -27,13 +27,14 @@ function Placeholder() {
   return <div className="editor-placeholder">Description</div>;
 }
 
-export default function Editor({ setContent, setCount, content, newItem }) {
+export default function Editor({ setContent, setContentStringfy, setCount, content, newItem }) {
 
   let timeoutId;
   const onChange = (editorState) => {
     const editorStateTextString = editorState.read(() => {
       const valueDescription = JSON.stringify(editorState); // or JSON.stringify(editorState.toJSON());
-      setContent(valueDescription)
+      setContentStringfy(JSON.stringify($getRoot().getTextContent()));
+      setContent(valueDescription);
       return $getRoot().getTextContent();
     });
 
