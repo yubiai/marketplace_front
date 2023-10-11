@@ -20,7 +20,7 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
                 await orderService.updateOrderStatus(
                     transactionHash, 'ORDER_PAID', global?.profile?.token);
                 setTimeout(() => {
-                    stepsPostAction.reload();
+                    stepsPostAction();
                     return
                 }, 2000);
             }
@@ -42,7 +42,7 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
             if (data) {
                 await orderService.updateOrderStatus(transactionHash, 'ORDER_REFUNDED', global?.profile?.token);
                 setTimeout(() => {
-                    stepsPostAction.reload();
+                    stepsPostAction();
                     return
                 }, 2000);
             }

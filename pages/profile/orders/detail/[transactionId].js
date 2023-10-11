@@ -73,7 +73,6 @@ const OrderDetail = () => {
   const [transactionMeta, setTransactionMeta] = useState(null);
   const { t } = useTranslation("orders");
   const [transactionPayedAmount, setTransactionPayedAmount] = useState('');
-  const [transactionFeeAmount, setTransactionFeeAmount] = useState('');
   const [transactionDate, setTransactionDate] = useState('');
   const [deal, setDeal] = useState({ deal: {}, claim: {} });
   const [contractActionRead, setContractActionRead] = useState(false);
@@ -129,7 +128,6 @@ const OrderDetail = () => {
     setOrderDetail(orderInfo);
     setTransactionData(transaction);
     setTransactionPayedAmount(orderInfo.transaction.transactionPayedAmount);
-    setTransactionFeeAmount(orderInfo.transaction.transactionFeeAmount);
     setTransactionDate(orderInfo.transaction.transactionDate * 1000);
     setTransactionMeta(orderInfo.transaction.transactionMeta);
 
@@ -375,19 +373,19 @@ const OrderDetail = () => {
                 <Text fontWeight={600}>{t("Date")} {moment(transactionDate).format('MM/DD/YYYY, h:mm:ss a')}</Text>
               }
               {
-                (transactionPayedAmount && global.yubiaiPaymentArbitrableInstance) &&
+                (transactionPayedAmount &&
                 <Text fontWeight={600}>
                   {t("Value")}: {
-                    `${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionPayedAmount)}${orderDetail.item.currencySymbolPrice || 'ETH'}`
+                    `${ethers.utils.formatEther(transactionPayedAmount)} ${orderDetail.item.currencySymbolPrice || 'ETH'}`
                   }
                 </Text>
-              }
-              {
-                (transactionFeeAmount && global.yubiaiPaymentArbitrableInstance) &&
+              )}
+              {/* {
+                (transactionFeeAmount &&
                 <Text fontWeight={600}>
-                  {t("Fee")}: {`${global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(transactionFeeAmount)}`}
-                </Text>
-              }
+                  {t("Fee")}: {`${ethers.utils.formatEther(??)} ${orderDetail.item.currencySymbolPrice || 'ETH'}`}
+                </Text>)
+              } */}
               <Link
                 href={getTransactionLink((orderDetail.transaction || {}), transactionMeta)}
                 passHref legacyBehavior

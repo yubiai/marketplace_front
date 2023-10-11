@@ -125,7 +125,7 @@ const Home = ({ items }) => {
 
 export async function getStaticProps() {
   try {
-    const res = await axios.get('/items/?size=30&categoryId=628be6c99659a661e05f9e2f')
+    const res = await axios.get('/items/?size=30&categoryId=652366200f5cd11f8c09800d')
     const items = res.data.items;
     if (items.length === 0) {
       return { notFound: true };

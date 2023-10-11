@@ -96,6 +96,7 @@ const NewListing = () => {
 
   // Description
   const [contentDescription, setContentDescription] = useState(null);
+  const [contentDescriptionStringfy, setContentDescriptionStringfy] = useState(null);
   const [countDescription, setCountDescription] = useState(0);
   const MIN_DESCRIPTION_LENGTH = 100;
   const MAX_DESCRIPTION_LENGTH = 1600;
@@ -184,6 +185,7 @@ const NewListing = () => {
 
     form.append('title', title)
     form.append('description', contentDescription)
+    form.append('descriptionString', contentDescriptionStringfy)
     form.append('typeprice', selectedTypePrice)
     form.append('price', selectedTypePrice && selectedTypePrice != "To settle" ? priceValue : 888888)
     form.append('seller', global.profile._id)
@@ -303,7 +305,7 @@ const NewListing = () => {
         </Box>
         <Box mt="1em">
           <Heading as='h4' size='md'>{t("Description")} <span style={{ color: 'orange.500' }}>*</span></Heading>
-          <Editor setContent={setContentDescription} setCount={setCountDescription} content={contentCookies} newItem={true} />
+          <Editor setContent={setContentDescription} setContentStringfy={setContentDescriptionStringfy} setCount={setCountDescription} content={contentCookies} newItem={true} />
           <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "orange.500" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
           <Text color="orange.500" m="5px">{viewErrors && countDescription < MIN_DESCRIPTION_LENGTH && countDescription > 1 && t("Minimum required characters are 100")}</Text>
           <Text color="orange.500" m="5px">{viewErrors && countDescription > MAX_DESCRIPTION_LENGTH && t("Maximum required characters are 1600")}</Text>

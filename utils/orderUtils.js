@@ -123,7 +123,7 @@ const formatDayBySeconds = (value) => {
 const getFullStatusOfDealClaim = (value, dealId) => {
     return new Promise((resolve, reject) => {
         try{
-            console.log(value)
+            console.log(value, "valueeeeeeeeeeeee")
             const dealInfo = value[0].result;
             const claimInfo = value[1].result;
             const isOver = value[2].result;

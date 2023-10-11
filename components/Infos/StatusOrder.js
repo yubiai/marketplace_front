@@ -49,6 +49,9 @@ export const StatusOrder = (status, t) => {
 
 export const StatusOrderByState = (deal = {}, claim = {}, t) => {
   const status = statusDescMap(deal, claim);
+  console.log(deal, "dealdealdeal")
+
+  console.log(claim, "claimclaimclaim")
   switch (status) {
     case "ORDER_CREATED":
       return (

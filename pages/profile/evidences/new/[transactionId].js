@@ -201,7 +201,7 @@ const NewEvidence = () => {
         address: yubiaiContract.yubiaiArbitrable,
         abi: yubiaiArbitrable,
         functionName: 'claims',
-        args: [orderDetail?.transaction.transactionIndex],
+        args: [orderDetail?.transaction.currentClaim],
       },
       {
         address: yubiaiContract.yubiaiArbitrable,
@@ -228,15 +228,24 @@ const NewEvidence = () => {
           status: 1
         }, global?.profile?.token);
 
+        console.log(fullStatus.claim.claimID, "Claim ID")
+        console.log(fullStatus.claim.claimCount, "claimCount")
+
         console.log("Se actualizo el evidence", evidenceSave?._id);
 
         const status = 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
         let transactionHash = orderDetail?.transaction.transactionMeta.transactionHash;
         await orderService.updateOrderStatus(transactionHash, status, global?.profile?.token);
+        await orderService.setDisputeOnOrderTransactionById(orderDetail?.transaction.transactionId, {
+          claimCount: fullStatus.claim.claimCount, 
+          currentClaim: fullStatus.claim.claimID,
+          disputeId: fullStatus.claim.disputeId,
+          transactionState: fullStatus.claim.claimStatus
+        }, global?.profile?.token);
         console.log("Se actualizo el order Status")
         router.replace(`/profile/orders/detail/${transactionHash}`);
         return
-      } catch(err){
+      } catch (err) {
         console.error(err);
         setLoadingSubmit(false);
         setStateSubmit(2);
@@ -273,7 +282,23 @@ const NewEvidence = () => {
     hash: resultMakeClaim?.hash,
     async onSuccess(data) {
       console.log(data, "Data useWair For Transaction")
-      setContractActionRead(true);
+      const decodedEvent = ethers.utils.defaultAbiCoder.decode(
+        [
+          'uint64'
+        ],
+        data.logs[0].topics[1]
+      );
+
+      // Data para Crear la order
+      const currentClaim = decodedEvent[0].toNumber();
+      console.log(currentClaim, "currentClaim");
+
+
+
+      loadOrder();
+      setTimeout(() => {
+        setContractActionRead(true);
+      }, 1000);
       return
     },
     onError(error) {

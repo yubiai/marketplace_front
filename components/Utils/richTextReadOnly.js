@@ -9,6 +9,7 @@ const RichTextReadOnly = ({ text }) => {
   );
 
   useEffect(() => {
+    console.log(text, "text")
     if (text) {
       const DBEditorState = convertFromRaw(JSON.parse(text));
       setEditorState(EditorState.createWithContent(DBEditorState));
