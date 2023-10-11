@@ -282,19 +282,6 @@ const NewEvidence = () => {
     hash: resultMakeClaim?.hash,
     async onSuccess(data) {
       console.log(data, "Data useWair For Transaction")
-      const decodedEvent = ethers.utils.defaultAbiCoder.decode(
-        [
-          'uint64'
-        ],
-        data.logs[0].topics[1]
-      );
-
-      // Data para Crear la order
-      const currentClaim = decodedEvent[0].toNumber();
-      console.log(currentClaim, "currentClaim");
-
-
-
       loadOrder();
       setTimeout(() => {
         setContractActionRead(true);
