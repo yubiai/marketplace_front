@@ -1,6 +1,5 @@
 import { Avatar, Box, Center, Container, Divider, Heading, Stack, Text, Alert, AlertIcon, Button, useToast, Spinner } from "@chakra-ui/react";
 import Head from "next/head";
-import { useTranslation } from "react-i18next";
 import { useDispatchGlobal, useGlobal } from "../../providers/globalProvider";
 import { useRouter } from "next/router";
 import useUser from "../../hooks/data/useUser";
@@ -14,6 +13,7 @@ import Loading from "../../components/Spinners/Loading";
 import { orderService } from "../../services/orderService";
 import { channelService } from "../../services/channelService";
 import { formatDayBySeconds } from "../../utils/orderUtils";
+import useTranslation from 'next-translate/useTranslation';
 
 const Checkout = () => {
     const global = useGlobal();
@@ -24,10 +24,14 @@ const Checkout = () => {
     const [transactionData, setTransactionData] = useState({});
     const [priceType, setPriceType] = useState("");
     const [loadingCheckout, setLoadingCheckout] = useState(false);
+    const [messageError, setMessageError] = useState(null);
+
+    const { t } = useTranslation("checkout");
 
     const termsUrl = process.env.NEXT_PUBLIC_TERMS_URL_DEFAULT;
 
-    const { t } = useTranslation("checkout");
+    //Errors
+    const messageErrorCost = "The total cost (gas * gas fee + value) of executing this transaction exceeds the balance of the account";
 
     const { user, loggedOut } = useUser();
     // if logged in, redirect to the home
@@ -89,14 +93,27 @@ const Checkout = () => {
         address: yubiaiContract.yubiaiArbitrable,
         abi: yubiaiArbitrable,
         functionName: 'createDealWithValue',
-        account: address
+        account: address,
+        onError(error) {
+            console.log('Error useContractWrite', error.message)
+            setMessageError(error.message);
+            toast({
+                id: "Error metamask",
+                title: 'Error Checkout',
+                description: error.name,
+                position: 'top-right',
+                status: 'warning',
+                duration: 5000,
+                isClosable: true,
+            })
+        },
     });
 
     // Use Wait for transaction
     const { isLoading } = useWaitForTransaction({
         hash: data?.hash,
         async onSuccess(data) {
-
+            setMessageError(null);
             setLoadingCheckout(true);
             const decodedEvent = ethers.utils.defaultAbiCoder.decode(
                 [
@@ -152,6 +169,7 @@ const Checkout = () => {
             return;
         },
         onError(error) {
+            setMessageError(error.message);
             toast({
                 id: "Error metamask",
                 title: 'Error Checkout',
@@ -234,11 +252,13 @@ const Checkout = () => {
             return
 
         } catch (error) {
+            console.log("errorrr")
             console.error(error);
             setLoadingCheckout(false);
             return
         }
     }
+
 
     if (global && !global.itemToCheckout || !orderData || !transactionData) return <Loading />
 
@@ -257,6 +277,14 @@ const Checkout = () => {
                 display={'flex'}
                 flexDirection={'column'}
             >
+                {messageError && (
+                    <Alert status="error" mt="1em" color="black" bg="red.100">
+                        <AlertIcon color="red" />
+                        {messageError.startsWith(messageErrorCost) ? (
+                            t("The balance")
+                        ) : messageError}
+                    </Alert>
+                )}
                 <Center py={6}>
                     <Box
                         maxW={'360px'}
@@ -300,7 +328,7 @@ const Checkout = () => {
 
                         <Alert status="warning" mt="1em" color="black" bg="orange.100">
                             <AlertIcon color="orange" />
-                            {t("When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service")}{' '}
+                            {t("When you click")}
                         </Alert>
                         <Stack mt={8}>
                             {loadingCheckout || isLoadingWrite || isLoading && (
@@ -316,6 +344,7 @@ const Checkout = () => {
                             )}
                             <Button bg='#00abd1' color={'white'} onClick={() => onCheckOut()} isDisabled={loadingCheckout || isLoadingWrite || isLoading}>{t("Hire service")}</Button>
                         </Stack>
+
                     </Box>
                 </Center>
             </Container>
