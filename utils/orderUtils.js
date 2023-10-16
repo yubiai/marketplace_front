@@ -81,13 +81,13 @@ const parseItemIntoOrderTransaction = (
     }
 }
 
-const calculateFinishDate = (transactionDate, claimCount, claimSolvedAt) => {
+const calculateFinishDate = (transactionDate, claimCount, claimSolvedAt, TimeForService, TimeFormClaim, TimeForReclaim) => {
 
     let dateCalcu
 
-    const TimeFormClaim = Number(process.env.NEXT_PUBLIC_TIME_FOR_CLAIM);
+    /* const TimeFormClaim = Number(process.env.NEXT_PUBLIC_TIME_FOR_CLAIM);
     const TimeForService = Number(process.env.NEXT_PUBLIC_TIME_FOR_SERVICE);
-    const TimeForReclaim = Number(process.env.NEXT_PUBLIC_TIME_FOR_RECLAIM);
+    const TimeForReclaim = Number(process.env.NEXT_PUBLIC_TIME_FOR_RECLAIM); */
 
     if (claimCount > 0) {
         // SC -> return (block.timestamp >= (claims[deal.currentClaim].solvedAt + settings.timeForReclaim));

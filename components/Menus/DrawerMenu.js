@@ -12,7 +12,6 @@ import {
   List,
   ListItem,
   ListIcon,
-  Box,
   Text,
 } from '@chakra-ui/react'
 import Link from 'next/link'
@@ -39,6 +38,8 @@ import {
 import { useGlobal } from '../../providers/globalProvider'
 import { useRouter } from 'next/router'
 import useTranslation from 'next-translate/useTranslation';
+import { ButtonRainbowkit } from '../Buttons/ButtonRainbowKit'
+
 
 const DrawerMenu = () => {
   const global = useGlobal()
@@ -90,13 +91,16 @@ const DrawerMenu = () => {
           <DrawerHeader bg="yb.1">
 
             {statusLogin ? (
-              <UserInfo
-                profile={global && global.profile}
-                t={t}
-              />
+              <>
+                <UserInfo
+                  profile={global && global.profile}
+                  t={t}
+                />
+                <ButtonRainbowkit />
+              </>
             ) : (
               <>
-                <p>Boton falta</p>
+                <ButtonRainbowkit />
               </>
             )}
 
@@ -105,12 +109,6 @@ const DrawerMenu = () => {
 
           <DrawerBody>
             <List spacing={3}>
-              <ListItem>
-                <Box>
-                <p>Boton falta</p>
-                </Box>
-              </ListItem>
-              <Divider />
               <ListItem>
                 <Link href="/">
                   <Button
@@ -143,7 +141,7 @@ const DrawerMenu = () => {
                   </a>
                 </Link>
               </ListItem>
-              
+
               <ListItem>
                 <Link href="/help">
                   <Button
@@ -169,7 +167,7 @@ const DrawerMenu = () => {
                   <ListIcon
                     as={listCategory ? MdArrowUpward : MdArrowDownward}
                   />
-                   {t("Categories")}
+                  {t("Categories")}
                 </Button>
               </ListItem>
               {listCategory && (
@@ -261,7 +259,7 @@ const DrawerMenu = () => {
                       </Button>
                     </Link>
                   </ListItem>
-                 
+
                   <ListItem>
                     <Link href="/profile/questions">
                       <Button
@@ -304,7 +302,7 @@ const DrawerMenu = () => {
                       </Button>
                     </Link>
                   </ListItem>
-                
+
                 </>
               )}
 

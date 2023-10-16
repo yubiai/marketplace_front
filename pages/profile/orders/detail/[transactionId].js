@@ -455,7 +455,7 @@ const OrderDetail = () => {
             }
             {(deal || {}).deal.dealStatus === ONGOING_STATUS && (
               <>
-                <Text mt="1em" fontWeight={"bold"}>{t("Finish Date")}: {calculateFinishDate(transactionDate, deal.claim.claimCount, deal.claim.claimSolvedAt)}</Text>
+                <Text mt="1em" fontWeight={"bold"}>{t("Finish Date")}: {calculateFinishDate(transactionDate, deal.claim.claimCount, deal.claim.claimSolvedAt, deal.deal.timeForService, deal.claim.timeForClaim, deal.claim.timeForClaim)}</Text>
               </>
             )}
 

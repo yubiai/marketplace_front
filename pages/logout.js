@@ -18,6 +18,10 @@ const Logout = () => {
         type: 'AUTHPROFILE',
         payload: null,
       })
+      dispatch({
+        type: 'SET_LOGINRAINBOW',
+        payload: 'unauthenticated',
+      })
       localStorage.removeItem('Yubiai')
       Cookies.remove('Yubiai')
       setTimeout(() => {
