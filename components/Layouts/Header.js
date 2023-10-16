@@ -4,7 +4,7 @@ import LanguageChange from '../Menus/LanguageChange'
 import DrawerMenu from '../Menus/DrawerMenu'
 import SearchBar from './SearchBar'
 import useTranslation from 'next-translate/useTranslation';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ButtonRainbowkit } from '../Buttons/ButtonRainbowKit'
 
 const Header = () => {
   const { t } = useTranslation("navbar");
@@ -49,7 +49,8 @@ const Header = () => {
             mt={'15px'}
             display={{ base: 'none', md: 'flex' }}
             width="330px">
-            <ConnectButton chainStatus="icon" />
+            {/* <ConnectButton chainStatus="icon" /> */}
+            <ButtonRainbowkit />
             {/* Reemplazao de rainbowkit            <ButtonSwitchNetwork bg={"white"} color={'#00abd1'} />
             {global.meta ? <ButtonConnect /> : ''}
        {global.meta ? <ButtonConnectMetamask /> : ''} */}

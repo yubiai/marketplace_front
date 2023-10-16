@@ -23,12 +23,12 @@ import PlayerVideo from '../../components/Utils/PlayerVideo'
 import PlayerAudio from '../../components/Utils/PlayerAudio'
 import Questions from '../../components/Layouts/Questions'
 import ButtonNewReport from '../../components/Buttons/ButtonNewReport'
-import Error from '../../components/Infos/Error'
 import useTranslation from 'next-translate/useTranslation';
 import SEO from '../../components/Utils/SEO'
 import ButtonNewChannel from '../../components/Buttons/ButtonNewChannel'
 import EditorRead from '../../components/Editor/EditorRead'
 import { getDescriptionSeo } from '../../utils/itemUtils'
+import Loading from '../../components/Spinners/Loading'
 
 const ItemById = ({ item }) => {
   const global = useGlobal();
@@ -156,7 +156,7 @@ const ItemById = ({ item }) => {
     router.push('/checkout/')
   }
 
-  if (!item) return <Error error={"Error getting data."} />
+  if (!item) return <Loading />
 
   return (
     <>
