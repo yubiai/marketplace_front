@@ -1,13 +1,12 @@
 {
     "Order summary": "Order summary",
     "Price": "Price",
-    "UBI Burning": "UBI Burning",
-    "UBI percentage": "Set the desired percentage of $UBI to be burned on top of the total price. This will favor the token ($UBI) by increasing its price.",
-    "When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service": "When you click on 'Hire service', your payment will be held and it will be released to the seller when you get the service.",
+    "When you click": "When you click on Hire service, your payment will be held and it will be released to the seller when you get the service.",
     "Terms and Conditions": "Terms and Conditions",
     "Reject": "Reject",
     "Accept": "Accept",
     "Terms and conditions": "Terms and conditions",
     "You have accepted the terms and conditions.": "You have accepted the terms and conditions.",
-    "Hire service": "Hire service"
+    "Hire service": "Hire service",
+    "The balance": "The total cost (gas * gas fee + value) of executing this transaction exceeds the balance of the account."
 }

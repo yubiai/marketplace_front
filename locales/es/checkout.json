@@ -1,13 +1,12 @@
 {
     "Order summary": "Resumen del pedido",
     "Price": "Precio",
-    "UBI Burning": "Quemado de UBI",
-    "UBI percentage": "Establezca el porcentaje deseado de $UBI que se quemará sobre el precio total. Esto favorecerá el token ($UBI) al aumentar su precio",
-    "When you click on &apos;Hire service&apos;, your payment will be held and it will be released to the seller when you get the service": "Cuando hagas click en 'Contratar servicio', tu pago será retenido y cuando obtengas el servicio liberado al vendedor.",
+    "When you click": "Cuando hagas click en Contratar servicio, tu pago será retenido y cuando obtengas el servicio liberado al vendedor.",
     "Terms and Conditions": "Terms and Conditions",
-    "Reject": "Reject",
-    "Accept": "Accept",
+    "Reject": "Rechazar",
+    "Accept": "Aceptar",
     "Terms and conditions": "Términos y condiciones",
     "You have accepted the terms and conditions.": "Has aceptado los términos y condiciones.",
-    "Hire service": "Contratar servicio"
+    "Hire service": "Contratar servicio",
+    "The balance": "El costo total (gas * tarifa de gas + valor) de ejecutar esta transacción excede el saldo de la cuenta."
 }
