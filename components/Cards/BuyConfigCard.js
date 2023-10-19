@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { channelService } from "../../services/channelService";
+import TimeForServiceInfo from "../Infos/TimeForServiceInfo";
+import TimeForClaimInfo from "../Infos/TimeForClaimInfo";
 
 
 const BuyConfigCard = ({ channel, profile, update, t }) => {
@@ -155,8 +157,8 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                         <>
                                             <Text mt="10px">{t("New Price")}: {channel.priceconfig} {channel.item_id.currencySymbolPrice}</Text>
                                             <Text mt="10px">{t(`${channel.typeprice}`)}</Text>
-                                            <Text mt="10px">{t("Time For Service")}: {channel.time_for_service} {t("Days")}</Text>
-                                            <Text mt="10px">{t("Time For Claim")}: {channel.time_for_claim} {t("Days")}</Text>
+                                            <Text mt="10px">{t("Time For Service")}: {channel.time_for_service} {t("Days")} <TimeForServiceInfo t={t} /></Text>
+                                            <Text mt="10px">{t("Time For Claim")}: {channel.time_for_claim} {t("Days")} <TimeForClaimInfo t={t} /></Text>
                                             <Flex mt="1em" justifyContent={"space-between"}>
                                                 <Button bg="green.300" ml="5px" onClick={() => setEditSettings(true)}><EditIcon></EditIcon></Button>
                                                 <Button bg="red.300" ml="5px" onClick={() => onCancel()}><DeleteIcon></DeleteIcon></Button>
@@ -235,7 +237,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                         </NumberInput>
                                     </FormControl>
                                     <FormControl isRequired mt="1em">
-                                        <FormLabel color="black">{t("Time For Service")}</FormLabel>
+                                        <FormLabel color="black">{t("Time For Service")} <TimeForServiceInfo t={t} /></FormLabel>
                                         <NumberInput
                                             onChange={(valueString) => {
                                                 setTimeForServiceValue(parse(valueString))
@@ -258,7 +260,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                         </NumberInput>
                                     </FormControl>
                                     <FormControl isRequired mt="1em">
-                                        <FormLabel color="black">{t("Time For Claim")}</FormLabel>
+                                        <FormLabel color="black">{t("Time For Claim")}  <TimeForClaimInfo t={t} /> </FormLabel>
                                         <NumberInput
                                             onChange={(valueString) => {
                                                 setTimeForClaimValue(parse(valueString))
@@ -293,8 +295,8 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                             <Text fontWeight={"bold"}>{t("Settings")}</Text>
                             <Text mt="10px">{t("New Price")}: {channel.priceconfig} {channel.item_id.currencySymbolPrice}</Text>
                             <Text mt="10px">{t(`${channel.typeprice}`)}</Text>
-                            <Text mt="10px">{t("Time For Service")}: {channel.time_for_service} {t("Days")}</Text>
-                            <Text mt="10px">{t("Time For Claim")}: {channel.time_for_claim} {t("Days")}</Text>
+                            <Text mt="10px">{t("Time For Service")}: {channel.time_for_service} {t("Days")} <TimeForServiceInfo t={t} /></Text>
+                            <Text mt="10px">{t("Time For Claim")}: {channel.time_for_claim} {t("Days")} <TimeForClaimInfo t={t} /> </Text>
                             <Button
                                 bg="#00abd1"
                                 color="white"

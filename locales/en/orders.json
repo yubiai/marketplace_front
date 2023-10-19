@@ -93,5 +93,7 @@
     "Failed to save": "Failed to save",
     "Hourly rate": "Hourly rate",
     "Type price": "Type Price",
-    "Total": "Total"
+    "Total": "Total",
+    "TimeForServiceInfo": "Represents the amount of time in days for how much will the payment be held in the smart contract.",
+    "TimeForClaimInfo": "Represents the window of  time each party has to make a claim."
 }
