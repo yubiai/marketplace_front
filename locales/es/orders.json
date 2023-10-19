@@ -95,5 +95,7 @@
     "To settle": "A convenir",
     "Hourly rate": "Por hora",
     "Type price": "Tipo de precio",
-    "Total": "Total"
+    "Total": "Total",
+    "TimeForServiceInfo": "Representa la cantidad de tiempo en días durante la cual se retendrá el pago en el contrato inteligente.",
+    "TimeForClaimInfo": "Representa la ventana de tiempo que cada parte tiene para presentar un reclamo."
 }
