@@ -25,7 +25,7 @@ export default function ProfileMenu({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   
   return (
-    <Box minH={{ base: "full", md: "85vh" }} bg={'gray.100'}>
+    <Box minH={{ base: "full", md: "87vh" }} bg={'gray.100'}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: 'none', md: 'block' }}
