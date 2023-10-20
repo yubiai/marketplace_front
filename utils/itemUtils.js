@@ -41,4 +41,13 @@ const getDescriptionSeo = (descriptionLexical) => {
   }
 }
 
-export { getListCategory, getListSubCategory, getDescriptionSeo }
+const convertTimeToReadable = (time, t) => {
+  const days = Math.floor(time);
+  const hours = Math.round((time - days) * 24); // Multiplicamos la parte decimal por 24 para obtener las horas
+  const dayText = days === 1 ? 'day' : 'days';
+  const hourText = hours === 1 ? 'hour' : 'hours';
+
+  return `${days} ${t(dayText)} ${hours} ${t(hourText)}`;
+}
+
+export { getListCategory, getListSubCategory, getDescriptionSeo, convertTimeToReadable }

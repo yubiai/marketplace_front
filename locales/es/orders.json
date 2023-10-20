@@ -97,5 +97,9 @@
     "Type price": "Tipo de precio",
     "Total": "Total",
     "TimeForServiceInfo": "Representa la cantidad de tiempo en días durante la cual se retendrá el pago en el contrato inteligente.",
-    "TimeForClaimInfo": "Representa la ventana de tiempo que cada parte tiene para presentar un reclamo."
+    "TimeForClaimInfo": "Representa la ventana de tiempo que cada parte tiene para presentar un reclamo.",
+    "day": "dia",
+    "days": "dias",
+    "hour": "hora",
+    "hours": "horas"
 }
