@@ -81,6 +81,8 @@ const NewEvidence = () => {
   const [valueToClaim, setValueToClaim] = useState(0);
   const [marksToClaim, setMarksToClaim] = useState([]);
 
+  const [errorInfo, setErrorInfo] = useState(null);
+
   // if logged in, redirect to the home
   useEffect(() => {
     if (loggedOut) {
@@ -217,10 +219,8 @@ const NewEvidence = () => {
     ],
     enabled: contractActionRead,
     async onSuccess(data) {
-      console.log("Se activo el contract Reads")
       try {
         const fullStatus = await getFullStatusOfDealClaim(data, orderDetail?.transaction.transactionIndex);
-        console.log("Se leyeto el status deals", fullStatus);
 
         await evidenceService.updateStatus(evidenceSave?._id, {
           dealId: orderDetail?.transaction.transactionIndex,
@@ -237,7 +237,7 @@ const NewEvidence = () => {
         let transactionHash = orderDetail?.transaction.transactionMeta.transactionHash;
         await orderService.updateOrderStatus(transactionHash, status, global?.profile?.token);
         await orderService.setDisputeOnOrderTransactionById(orderDetail?.transaction.transactionId, {
-          claimCount: fullStatus.claim.claimCount, 
+          claimCount: fullStatus.claim.claimCount,
           currentClaim: fullStatus.claim.claimID,
           disputeId: fullStatus.claim.disputeId,
           transactionState: fullStatus.claim.claimStatus
@@ -266,6 +266,8 @@ const NewEvidence = () => {
     },
     onError(err) {
       console.error('Error creating a claim for a deal: ', err);
+      console.log(err.message);
+      setErrorInfo(err.message);
       if (err.code == 4001) {
         setLoadingSubmit(false);
         setStateSubmit(3);
@@ -796,7 +798,17 @@ const NewEvidence = () => {
                       Error
                     </Heading>
                     <Text color={'gray.500'}>
-                      {t("Failed to post")}
+                      {errorInfo ? (
+                        <>
+                          {t(
+                            `${errorInfo.split('.').shift()}`
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          {t("Failed to post")}
+                        </>
+                      )}
                     </Text>
                   </Box>
                 </ModalBody>
