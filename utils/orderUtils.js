@@ -108,6 +108,15 @@ const calculateFinishDate = (transactionDate, claimCount, claimSolvedAt, TimeFor
     return dateCalcu;
 }
 
+const calculateTimeForChallenge = (claimCreatedAt, timeForChallenge) => {
+
+    let dateCalcu = claimCreatedAt + timeForChallenge;
+
+    dateCalcu = moment(dateCalcu * 1000).format('MM/DD/YYYY, h:mm:ss a')
+
+    return dateCalcu;
+}
+
 const parserForWei = (value) => {
     const valorBigNumber = ethers.BigNumber.from(value.toString());
     const valorEnEther = ethers.utils.formatEther(valorBigNumber);
@@ -176,5 +185,6 @@ export {
     calculateFinishDate,
     parserForWei,
     formatDayBySeconds,
-    getFullStatusOfDealClaim
+    getFullStatusOfDealClaim,
+    calculateTimeForChallenge
 }

@@ -35,5 +35,6 @@
     "Enable editing": "Permitir la edición",
     "Failed to post": "Lo sentimos, no se pudo enviar la evidencia en este momento. Por favor, revise los datos ingresados e intente nuevamente. Si el problema persiste, puede deberse a un error del sistema. Por favor, intente nuevamente más tarde.",
     "Operation cancelled": "Operación cancelada",
-    "Failed to metamask": "El usuario ha cancelado la confirmación en Metamask. Por favor, revise la evidencia y vuelva a intentar enviarla o editarla. Asegúrese de aceptar la confirmación en Metamask para completar la operación."
+    "Failed to metamask": "El usuario ha cancelado la confirmación en Metamask. Por favor, revise la evidencia y vuelva a intentar enviarla o editarla. Asegúrese de aceptar la confirmación en Metamask para completar la operación.",
+    "The total cost (gas * gas fee + value) of executing this transaction exceeds the balance of the account": "El costo total (gas * tarifa de gas + valor) de ejecutar esta transacción excede el saldo de la cuenta."
 }

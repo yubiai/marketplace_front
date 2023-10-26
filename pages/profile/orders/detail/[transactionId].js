@@ -44,13 +44,14 @@ import {
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
-import { calculateFinishDate, getFullStatusOfDealClaim } from '../../../../utils/orderUtils';
+import { calculateFinishDate, calculateTimeForChallenge, getFullStatusOfDealClaim } from '../../../../utils/orderUtils';
 import EvidencesList from '../../../../components/Infos/EvidencesList';
 import ListBadges from '../../../../components/Utils/ListBadges';
 import { useContractReads, useNetwork } from 'wagmi';
 import { getContractsForNetwork } from '../../../../utils/walletUtils';
 import { yubiaiArbitrable } from '../../../../utils/escrow-utils/abis'
 import { ethers } from 'ethers';
+import ButtonForceClaim from '../../../../components/Buttons/ButtonForceClaim';
 
 const OrderDetail = () => {
   const url_fleek = process.env.NEXT_PUBLIC_LINK_FLEEK;
@@ -252,8 +253,9 @@ const OrderDetail = () => {
 
   if (!loading) return <Loading />;
 
-  console.log((deal || {}), "(deal || {})")
-  console.log(orderDetail, "orderDetail")
+  console.log((deal || {}), "(deal || {})");
+  console.log(orderDetail, "orderDetail");
+
   return (
     <>
       <Head>
@@ -305,7 +307,7 @@ const OrderDetail = () => {
               {t("Order Detail")}
             </Heading>
             <Text fontWeight={600} fontSize={'0.8em'} color={'gray.500'} mt="5px">
-              {moment(orderDetail && orderDetail?.dateOrder).format('DD/MM/YYYY, h:mm:ss a')} | Deal # {(deal || {}).deal.dealId}
+              {moment(orderDetail && orderDetail?.dateOrder).format('DD/MM/YYYY, h:mm:ss a')}
             </Text>
             <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
             <Text fontWeight={600} fontSize="2xl">{t("Item")}</Text>
@@ -368,18 +370,19 @@ const OrderDetail = () => {
                 deal.deal,
                 deal.claim
               )}</Text>
+              <Text fontWeight={600}>Deal ID: {(deal || {}).deal.dealId}</Text>
               {
                 transactionDate &&
                 <Text fontWeight={600}>{t("Date")} {moment(transactionDate).format('MM/DD/YYYY, h:mm:ss a')}</Text>
               }
               {
                 (transactionPayedAmount &&
-                <Text fontWeight={600}>
-                  {t("Value")}: {
-                    `${ethers.utils.formatEther(transactionPayedAmount)} ${orderDetail.item.currencySymbolPrice || 'ETH'}`
-                  }
-                </Text>
-              )}
+                  <Text fontWeight={600}>
+                    {t("Value")}: {
+                      `${ethers.utils.formatEther(transactionPayedAmount)} ${orderDetail.item.currencySymbolPrice || 'ETH'}`
+                    }
+                  </Text>
+                )}
               {/* {
                 (transactionFeeAmount &&
                 <Text fontWeight={600}>
@@ -511,7 +514,7 @@ const OrderDetail = () => {
                                   amount={transactionPayedAmount || '0'}
                                   stepsPostAction={router}
                                   toggleLoadingStatus={toggleLoadingStatus}
-                                  orderCompletedBySeller={orderDetail.orderCompletedBySeller} 
+                                  orderCompletedBySeller={orderDetail.orderCompletedBySeller}
                                   contractAddress={yubiaiContract.yubiaiArbitrable}
                                   yubiaiAbi={yubiaiArbitrable}
                                   t={t}
@@ -523,7 +526,7 @@ const OrderDetail = () => {
                       </Box>
                       {
                         isDealEnabledToClaim &&
-                        <Box bg='orange.200' p="1em" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <Box bg='orange.200' p="1em" rounded={{ base: "5px" }} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                           <div>
                             <Text color="black">
                               {
@@ -551,6 +554,31 @@ const OrderDetail = () => {
               </Box>)
             }
             <EvidencesList dealId={(deal || {}).deal.dealId} token={global.profile.token} t={t} />
+            {(deal || {}).deal.dealStatus == "2" &&
+              new Date() > calculateTimeForChallenge((deal || {}).claim.claimCreatedAt, (deal || {}).claim.timeForChallenge) && (
+                <Box>
+                  <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+                  <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
+                  <Box p="1em" position="relative" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                    <ButtonForceClaim
+                      transactionInfo={{
+                        transactionIndex: (orderDetail.transaction || {}).transactionIndex,
+                        transactionHash: transactionMeta.transactionHash,
+                        claimID: (deal || {}).claim.claimID
+                      }}
+                      amount={transactionPayedAmount || '0'}
+                      stepsPostAction={router}
+                      toggleLoadingStatus={toggleLoadingStatus}
+                      orderCompletedBySeller={orderDetail.orderCompletedBySeller}
+                      contractAddress={yubiaiContract.yubiaiArbitrable}
+                      yubiaiAbi={yubiaiArbitrable}
+                      toast={toast}
+                      t={t}
+                    />
+                  </Box>
+                </Box>
+              )
+            }
           </Box>
         </Center>
       </Container>
