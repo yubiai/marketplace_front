@@ -44,7 +44,7 @@ import {
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { channelService } from '../../../../services/channelService';
 import useTranslation from 'next-translate/useTranslation';
-import { calculateFinishDate, calculateTimeForChallenge, getFullStatusOfDealClaim } from '../../../../utils/orderUtils';
+import { calculateFinishDate, getFullStatusOfDealClaim } from '../../../../utils/orderUtils';
 import EvidencesList from '../../../../components/Infos/EvidencesList';
 import ListBadges from '../../../../components/Utils/ListBadges';
 import { useContractReads, useNetwork } from 'wagmi';
@@ -554,30 +554,32 @@ const OrderDetail = () => {
               </Box>)
             }
             <EvidencesList dealId={(deal || {}).deal.dealId} token={global.profile.token} t={t} />
-            {(deal || {}).deal.dealStatus == "2" &&
-              new Date() > calculateTimeForChallenge((deal || {}).claim.claimCreatedAt, (deal || {}).claim.timeForChallenge) && (
-                <Box>
-                  <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
-                  <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
-                  <Box p="1em" position="relative" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                    <ButtonForceClaim
-                      transactionInfo={{
-                        transactionIndex: (orderDetail.transaction || {}).transactionIndex,
-                        transactionHash: transactionMeta.transactionHash,
-                        claimID: (deal || {}).claim.claimID
-                      }}
-                      amount={transactionPayedAmount || '0'}
-                      stepsPostAction={router}
-                      toggleLoadingStatus={toggleLoadingStatus}
-                      orderCompletedBySeller={orderDetail.orderCompletedBySeller}
-                      contractAddress={yubiaiContract.yubiaiArbitrable}
-                      yubiaiAbi={yubiaiArbitrable}
-                      toast={toast}
-                      t={t}
-                    />
-                  </Box>
+            {(deal || {}).deal.dealStatus == "2" && (
+              <Box>
+                <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
+                <Text fontWeight={600} fontSize="2xl">{t("Actions")}</Text>
+                <Box p="1em" position="relative" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <Text color="black">
+                    {t("Claim Payment Buyer")}
+                  </Text>
+                  <ButtonForceClaim
+                    transactionInfo={{
+                      transactionIndex: (orderDetail.transaction || {}).transactionIndex,
+                      transactionHash: transactionMeta.transactionHash,
+                      claim: (deal || {}).claim
+                    }}
+                    amount={transactionPayedAmount || '0'}
+                    stepsPostAction={router}
+                    toggleLoadingStatus={toggleLoadingStatus}
+                    orderCompletedBySeller={orderDetail.orderCompletedBySeller}
+                    contractAddress={yubiaiContract.yubiaiArbitrable}
+                    yubiaiAbi={yubiaiArbitrable}
+                    toast={toast}
+                    t={t}
+                  />
                 </Box>
-              )
+              </Box>
+            )
             }
           </Box>
         </Center>

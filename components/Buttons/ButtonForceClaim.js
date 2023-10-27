@@ -3,17 +3,18 @@ import { Alert, AlertIcon, Button } from '@chakra-ui/react';
 import { orderService } from '../../services/orderService';
 import { useGlobal } from '../../providers/globalProvider';
 import { useContractWrite } from 'wagmi';
+import moment from 'moment';
 
 const ButtonForceClaim = ({ transactionInfo, toggleLoadingStatus, contractAddress, yubiaiAbi, stepsPostAction, toast, t }) => {
     const global = useGlobal();
-    const { transactionHash, claimID } = transactionInfo;
+    const { transactionHash, claim } = transactionInfo;
     const [errorInfo, setErrorInfo] = useState(null);
 
     const { write: acceptClaim } = useContractWrite({
         address: contractAddress,
         abi: yubiaiAbi,
         functionName: 'acceptClaim',
-        args: [claimID],
+        args: [claim.claimID],
         async onSuccess(data) {
             console.log('Success', data)
             if (data) {
@@ -54,7 +55,7 @@ const ButtonForceClaim = ({ transactionInfo, toggleLoadingStatus, contractAddres
 
     return (
         <>
-            <Button bg='#00abd1' w={{ base: "100%", md: "200px" }} _hover={{
+            <Button mt="1em" bg='#00abd1' w={{ base: "100%", md: "200px" }} isDisabled={moment().unix() < claim.claimCreatedAt + claim.timeForChallenge} _hover={{
                 bg: "blue.300"
             }} color={'white'} onClick={() => { acceptClaimFunc() }}>
                 {t("Claim Payment")}
