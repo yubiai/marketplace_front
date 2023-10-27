@@ -5,7 +5,7 @@ import { useGlobal } from '../../providers/globalProvider';
 import { useContractWrite } from 'wagmi';
 import moment from 'moment';
 
-const ButtonForceClaim = ({ transactionInfo, toggleLoadingStatus, contractAddress, yubiaiAbi, stepsPostAction, toast, t }) => {
+const ButtonForceClaim = ({ transactionInfo, stepsPostAction, toggleLoadingStatus, contractAddress, yubiaiAbi, toast, t }) => {
     const global = useGlobal();
     const { transactionHash, claim } = transactionInfo;
     const [errorInfo, setErrorInfo] = useState(null);
