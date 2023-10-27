@@ -568,10 +568,8 @@ const OrderDetail = () => {
                       transactionHash: transactionMeta.transactionHash,
                       claim: (deal || {}).claim
                     }}
-                    amount={transactionPayedAmount || '0'}
                     stepsPostAction={router}
                     toggleLoadingStatus={toggleLoadingStatus}
-                    orderCompletedBySeller={orderDetail.orderCompletedBySeller}
                     contractAddress={yubiaiContract.yubiaiArbitrable}
                     yubiaiAbi={yubiaiArbitrable}
                     toast={toast}
