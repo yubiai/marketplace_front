@@ -29,7 +29,6 @@ export const ButtonRainbowkit = () => {
                     authenticationStatus,
                     mounted
                 }) => {
-                    console.log(authenticationStatus, "authenticationStatus")
                     const connectRainbow = () => {
                         openConnectModal();
                         onClose();
@@ -64,7 +63,7 @@ export const ButtonRainbowkit = () => {
                             {(() => {
                                 if (!connected) {
                                     return (
-                                        <Button onClick={onOpen} leftIcon={<FaWallet />} bg="#00abd1" color={"white"}>
+                                        <Button onClick={onOpen} leftIcon={<FaWallet />} bg="white" color={"#00ABD1"}>
                                             Connect
                                         </Button>
                                     );
