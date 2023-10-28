@@ -5,7 +5,7 @@ import { useGlobal } from '../../providers/globalProvider';
 import { useContractWrite } from 'wagmi';
 import moment from 'moment';
 
-const ButtonForceClaim = ({ transactionInfo, stepsPostAction, toggleLoadingStatus, contractAddress, yubiaiAbi, toast, t }) => {
+const ButtonForceClaim = ({ transactionInfo, toggleLoadingStatus, contractAddress, yubiaiAbi, toast, t }) => {
     const global = useGlobal();
     const { transactionHash, claim } = transactionInfo;
     const [errorInfo, setErrorInfo] = useState(null);
@@ -21,7 +21,7 @@ const ButtonForceClaim = ({ transactionInfo, stepsPostAction, toggleLoadingStatu
                 setErrorInfo(null)
                 await orderService.updateOrderStatus(transactionHash, 'ORDER_REFUNDED', global?.profile?.token);
                 setTimeout(() => {
-                    stepsPostAction();
+                    toggleLoadingStatus(false);
                     toast({
                         title: t('Order'),
                         description: t('Successfully changed the status'),
@@ -36,6 +36,7 @@ const ButtonForceClaim = ({ transactionInfo, stepsPostAction, toggleLoadingStatu
         },
         onError(error) {
             setErrorInfo(error.message, "error")
+            toggleLoadingStatus(false);
             toast({
                 title: "Error",
                 position: 'top-right',
@@ -43,7 +44,6 @@ const ButtonForceClaim = ({ transactionInfo, stepsPostAction, toggleLoadingStatu
                 duration: 3000,
                 isClosable: true
               });
-            toggleLoadingStatus(false);
             return
         },
     });
