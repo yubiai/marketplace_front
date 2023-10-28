@@ -110,7 +110,6 @@ export const StatusOrderByState = (deal = {}, claim = {}, t) => {
 export const StatusOrderByStateShort = (deal = {}, claim = {}, t) => {
   console.log(deal, claim, "aaa")
   const status = statusDescMap(deal, claim);
-  console.log(status, "statuuuuu")
   switch (status) {
     case "ORDER_CREATED":
       return (

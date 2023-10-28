@@ -426,7 +426,7 @@ const OrderDetail = () => {
 
             <Text fontWeight={600} fontSize="2xl">{t("Transaction details")}</Text>
 
-            <Box p="1em" color="black" bg="orange.100" mt="1em" mb="1em">
+            <Box p="1em" color="black" bg="orange.100" mt="1em" mb="1em" rounded={{ base: "5px" }}>
               <Flex><Text fontWeight={600}>ID: </Text> <Text>0x...{transactionMeta && transactionMeta.transactionHash.slice(transactionMeta.transactionHash.length - 16)}</Text></Flex>
               <Text fontWeight={600}>Status: {(deal || {}).deal.dealStatus && statusDescMap(
                 deal.deal,
@@ -634,7 +634,7 @@ const OrderDetail = () => {
                           </Box>
                         </div>
                       </Box>
-                      <Box bg='orange.200' p="1em" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <Box bg='orange.200' p="1em" rounded={{ base: "5px" }} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
                         <div>
                           <Text color="black">
                             {

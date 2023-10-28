@@ -104,7 +104,7 @@ export const ButtonRainbowkit = () => {
                                             )}
                                             {chain.name}
                                         </Button>
-                                        <Button onClick={openAccountModal} type="button">
+                                        <Button onClick={openAccountModal} fontSize={{base: "11px", md: "15px"}} type="button">
                                             {account.displayName}
                                             {account.displayBalance
                                                 ? ` (${account.displayBalance})`
