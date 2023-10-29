@@ -6,7 +6,7 @@ const styles = {
     left: 0,
     background: 'rgba(42, 42, 42, 0.2)',
     zIndex: 1,
-    height: '100%'
+    height: '90%'
   }
 };
 
