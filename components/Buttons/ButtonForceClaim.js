@@ -20,6 +20,7 @@ const ButtonForceClaim = ({ transactionInfo, stepsPostAction, toggleLoadingStatu
             if (data) {
                 setErrorInfo(null)
                 await orderService.updateOrderStatus(transactionHash, 'ORDER_REFUNDED', global?.profile?.token);
+                stepsPostAction();
                 toast({
                     title: t('Order'),
                     description: t('Successfully changed the status'),
@@ -29,9 +30,9 @@ const ButtonForceClaim = ({ transactionInfo, stepsPostAction, toggleLoadingStatu
                     isClosable: true,
                 })
                 setTimeout(() => {
-                    stepsPostAction();
+                    toggleLoadingStatus(false);
                     return
-                }, 2000);
+                }, 3000);
             }
         },
         onError(error) {
