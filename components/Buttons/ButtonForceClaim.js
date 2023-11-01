@@ -29,7 +29,7 @@ const ButtonForceClaim = ({ transactionInfo, stepsPostAction, toggleLoadingStatu
                     isClosable: true,
                 })
                 setTimeout(() => {
-                    stepsPostAction.reload();
+                    stepsPostAction();
                     return
                 }, 2000);
             }

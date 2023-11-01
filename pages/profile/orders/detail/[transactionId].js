@@ -101,6 +101,7 @@ const OrderDetail = () => {
 
   const loadOrder = async () => {
     console.log("arracno el load order")
+    setContractActionRead(false);
     const response = await orderService.getOrderByTransaction(
       transactionId, global.profile.token);
     const { data } = response;
@@ -568,7 +569,7 @@ const OrderDetail = () => {
                       transactionHash: transactionMeta.transactionHash,
                       claim: (deal || {}).claim
                     }}
-                    stepsPostAction={router}
+                    stepsPostAction={loadOrder}
                     toggleLoadingStatus={toggleLoadingStatus}
                     contractAddress={yubiaiContract.yubiaiArbitrable}
                     yubiaiAbi={yubiaiArbitrable}
