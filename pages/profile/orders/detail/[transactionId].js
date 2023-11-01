@@ -101,7 +101,7 @@ const OrderDetail = () => {
 
   const loadOrder = async () => {
     console.log("arracno el load order")
-    setContractActionRead(false);
+    setDeal({ deal: {}, claim: {} });
     const response = await orderService.getOrderByTransaction(
       transactionId, global.profile.token);
     const { data } = response;
@@ -194,7 +194,6 @@ const OrderDetail = () => {
     ],
     enabled: contractActionRead,
     async onSuccess(data) {
-      console.log(data, "se activo success")
       if (orderDetail) {
         const result = await getFullStatusOfDealClaim(data, orderDetail?.transaction.transactionIndex);
         const currentTS = Math.floor((new Date()).getTime() / 1000);
@@ -252,7 +251,7 @@ const OrderDetail = () => {
       : `https://etherscan.io/tx/${transactionHash}`;
   };
 
-  if (!loading) return <Loading />;
+  if (!loading && !(deal || {}).deal?.dealId) return <Loading />;
 
   console.log((deal || {}), "(deal || {})");
   console.log(orderDetail, "orderDetail");
