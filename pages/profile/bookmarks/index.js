@@ -50,7 +50,7 @@ const Bookmarks = () => {
   return (
     <>
       <Head>
-        <title>Yubiai Marketplace - Favourites</title>
+        <title>Yubiai Marketplace - Bookmarks</title>
         <meta
           name="keywords"
           content="yubiai, market, marketplace, crypto, eth, poh, metamask"
