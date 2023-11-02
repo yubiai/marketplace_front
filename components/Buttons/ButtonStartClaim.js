@@ -62,7 +62,6 @@ const ButtonStartClaim = ({ transactionMeta, profile, t}) => {
                     isClosable: true,
                 })
             }
-            console.log(lastDPolicy.data, "lastDPolicy.data")
             setDisputePolicy(lastDPolicy.data);
             onOpen();
             return

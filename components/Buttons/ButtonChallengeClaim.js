@@ -16,10 +16,6 @@ const ButtonChallengeClaim = ({ transactionInfo, stepsPostAction, evidenceID, to
         abi: yubiaiAbi,
         functionName: 'challengeClaim',
         value: ethers.utils.parseEther(String(process.env.NEXT_PUBLIC_FEE_ARBITRATION)),
-        async onSuccess(data) {
-            console.log('Success Challenge Claim', data);
-            return
-        },
         onError(err) {
             console.error('Error accepting claim the transaction : ', err);
             toggleLoadingStatus(false);
@@ -30,9 +26,7 @@ const ButtonChallengeClaim = ({ transactionInfo, stepsPostAction, evidenceID, to
     // Use Wait for transaction
     useWaitForTransaction({
         hash: resultChallengeClaim?.hash,
-        async onSuccess(data) {
-            console.log(data, "Update ORDER_DISPUTE_IN_PROGRESS")
-
+        async onSuccess() {
             await evidenceService.updateStatus(evidenceID, {
                 status: 2
             }, global?.profile?.token);

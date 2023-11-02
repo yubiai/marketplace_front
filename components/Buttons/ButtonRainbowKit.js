@@ -12,7 +12,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { FaWallet } from 'react-icons/fa';
 import { useConnect } from 'wagmi'
 
-export const ButtonRainbowkit = () => {
+export const ButtonRainbowkit = ({t}) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { connectors, connect } = useConnect();
     const sequenceConnector = connectors.find((connector) => connector.id === 'sequence')
@@ -70,9 +70,9 @@ export const ButtonRainbowkit = () => {
                                 }
                                 if (chain.unsupported) {
                                     return (
-                                        <button onClick={openChainModal} type="button">
-                                            Wrong network
-                                        </button>
+                                        <Button onClick={openChainModal} type="button" bg="white" color={"#00ABD1"}>
+                                            {t("Wrong network")}
+                                        </Button>
                                     );
                                 }
                                 return (

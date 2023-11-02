@@ -23,7 +23,6 @@ async function getOrderByOrderId(orderId, token) {
 }
 
 async function createOrder(body, token) {
-  console.log("acrra??", body,"ass")
   return await axios.post(
     '/orders/', {...body},
     token
@@ -74,7 +73,6 @@ async function getOrdersBySeller(sellerWallet, token) {
 }
 
 async function setDisputeOnOrderTransactionById(transactionId, body, token) {
-  console.log(transactionId, body, "aca en el serviceorders")
   return await axios.put(
     `/orders/transaction/${transactionId}`, body,
     token

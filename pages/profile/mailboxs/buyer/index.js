@@ -27,8 +27,6 @@ const MailBoxsBuyer = () => {
         }
     }, [user, loggedOut, router, dispatch])
 
-    console.log(user, "user")
-
     const {
         data: channels,
         isLoading,
@@ -39,9 +37,7 @@ const MailBoxsBuyer = () => {
             : null,
         global && global.profile && global.profile.token
     )
-
-    console.log(channels, "channels")
-
+    
     if (isError) {
         return <Error error={isError?.message} />
     }

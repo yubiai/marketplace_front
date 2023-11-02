@@ -95,11 +95,11 @@ const DrawerMenu = () => {
                   profile={global && global.profile}
                   t={t}
                 />
-                <ButtonRainbowkit />
+                <ButtonRainbowkit t={t} />
               </>
             ) : (
               <>
-                <ButtonRainbowkit />
+                <ButtonRainbowkit t={t} />
               </>
             )}
 

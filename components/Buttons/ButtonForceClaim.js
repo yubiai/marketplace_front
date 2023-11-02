@@ -16,7 +16,6 @@ const ButtonForceClaim = ({ transactionInfo, stepsPostAction, toggleLoadingStatu
         functionName: 'acceptClaim',
         args: [claim.claimID],
         async onSuccess(data) {
-            console.log('Success', data)
             if (data) {
                 setErrorInfo(null)
                 await orderService.updateOrderStatus(transactionHash, 'ORDER_REFUNDED', global?.profile?.token);

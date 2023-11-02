@@ -50,9 +50,6 @@ export const StatusOrder = (status, t) => {
 
 export const StatusOrderByState = (deal = {}, claim = {}, t) => {
   const status = statusDescMap(deal, claim);
-  console.log(deal, "dealdealdeal")
-
-  console.log(claim, "claimclaimclaim")
   switch (status) {
     case "ORDER_CREATED":
       return (
@@ -108,7 +105,6 @@ export const StatusOrderByState = (deal = {}, claim = {}, t) => {
 }
 
 export const StatusOrderByStateShort = (deal = {}, claim = {}, t) => {
-  console.log(deal, claim, "aaa")
   const status = statusDescMap(deal, claim);
   switch (status) {
     case "ORDER_CREATED":
@@ -154,10 +150,8 @@ export const StatusOrderByStateShort = (deal = {}, claim = {}, t) => {
 }
 
 export const statusDescMap = (deal = {}, claim = {}) => {
-  console.log(deal.dealStatus, "deal.dealStatus")
   switch (deal.dealStatus) {
     case "1":
-      console.log("entro aca?")
       if (claim.claimID != "0") {
         if (claim.claimSolvedAt && claim.claimStatus === "2") {
           return "CLAIM_WON_BY_BUYER";

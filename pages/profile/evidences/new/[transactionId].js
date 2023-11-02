@@ -98,7 +98,6 @@ const NewEvidence = () => {
         transactionId, global.profile.token);
       const { data } = response;
       setOrderDetail(data.result);
-      console.log(data.result, "data. del load Order")
       loadMsgsByOrderID(data.result);
       const payedAmount = parseInt(data.result.transaction.transactionPayedAmount, 10) || 0;
       setMarksToClaim(generateMarksFromAmount(payedAmount));
@@ -228,11 +227,6 @@ const NewEvidence = () => {
           status: 1
         }, global?.profile?.token);
 
-        console.log(fullStatus.claim.claimID, "Claim ID")
-        console.log(fullStatus.claim.claimCount, "claimCount")
-
-        console.log("Se actualizo el evidence", evidenceSave?._id);
-
         const status = 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
         let transactionHash = orderDetail?.transaction.transactionMeta.transactionHash;
         await orderService.updateOrderStatus(transactionHash, status, global?.profile?.token);
@@ -242,7 +236,6 @@ const NewEvidence = () => {
           disputeId: fullStatus.claim.disputeId,
           transactionState: fullStatus.claim.claimStatus
         }, global?.profile?.token);
-        console.log("Se actualizo el order Status")
         router.replace(`/profile/orders/detail/${transactionHash}`);
         return
       } catch (err) {
@@ -260,13 +253,8 @@ const NewEvidence = () => {
     abi: yubiaiArbitrable,
     functionName: 'makeClaim',
     value: ethers.utils.parseEther(String(process.env.NEXT_PUBLIC_FEE_ARBITRATION)),
-    async onSuccess(data) {
-      console.log('Success make claim', data);
-      return
-    },
     onError(err) {
-      console.error('Error creating a claim for a deal: ', err);
-      console.log(err.message);
+      console.error('Error creating a claim for a deal: ', err.message);
       setErrorInfo(err.message);
       if (err.code == 4001) {
         setLoadingSubmit(false);
@@ -282,8 +270,7 @@ const NewEvidence = () => {
   // Use Wait for transaction
   useWaitForTransaction({
     hash: resultMakeClaim?.hash,
-    async onSuccess(data) {
-      console.log(data, "Data useWair For Transaction")
+    async onSuccess() {
       loadOrder();
       setTimeout(() => {
         setContractActionRead(true);
@@ -417,8 +404,6 @@ const NewEvidence = () => {
 
     try {
       if (evidenceSave) {
-        console.log(evidenceSave.value_to_claim, "valueToClaim")
-
         manageClaim(
           orderDetail.transaction.transactionIndex,
           String(evidenceSave.value_to_claim),
@@ -437,28 +422,23 @@ const NewEvidence = () => {
 
         const { result } = response.data;
         setEvidenceSave(result && result._id ? result : null);
-        console.log(valueToClaim, "valueToClaim")
         manageClaim(
           orderDetail.transaction.transactionIndex,
           String(valueToClaim),
-          result.url_ipfs_json,
-          orderDetail.transaction.transactionMeta.transactionHash,
-          result._id
+          result.url_ipfs_json
         );
 
         return
       }
     } catch (err) {
-      console.log(err, "err");
       setLoadingSubmit(false);
       setStateSubmit(2);
       return
     }
   }
 
-  const manageClaim = async (dealId, amount, evidenceURI, transactionHash, idEvidence) => {
+  const manageClaim = async (dealId, amount, evidenceURI) => {
     try {
-      console.log(dealId, amount, evidenceURI, transactionHash, idEvidence, "dealId, amount, evidenceURI, transactionHash, idEvidence")
       if (!user.walletAddress) {
         throw "No address"
       }

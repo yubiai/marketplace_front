@@ -84,7 +84,6 @@ const Checkout = () => {
             global.profile.token
         )
 
-        console.log(transactionResult.transactionMeta.transactionHash, "transactionResult.transactionMeta.transactionHash")
         router.push(`/profile/orders/detail/${transactionResult.transactionMeta.transactionHash}`);
         return
     }
@@ -95,7 +94,6 @@ const Checkout = () => {
         functionName: 'createDealWithValue',
         account: address,
         onError(error) {
-            console.log('Error useContractWrite', error.message)
             setMessageError(error.message);
             toast({
                 id: "Error metamask",
@@ -220,10 +218,8 @@ const Checkout = () => {
             if (transactionData) {
 
                 const { amount, recipient, time_for_claim, time_for_service } = transactionData;
-                console.log(amount.value, "amount.value")
                 const amountToWei = ethers.utils.parseEther(amount.value.toString(), "ether");
                 setAmountToWeiOrder(Number(amountToWei));
-                console.log(Number(amountToWei), "Number(amountToWei)")
                 setTimeForService(time_for_service ? formatDayBySeconds(time_for_service) : process.env.NEXT_PUBLIC_TIME_FOR_SERVICE);
 
                 setTimeForClaim(time_for_claim ? formatDayBySeconds(time_for_claim) : process.env.NEXT_PUBLIC_TIME_FOR_CLAIM);
@@ -252,7 +248,6 @@ const Checkout = () => {
             return
 
         } catch (error) {
-            console.log("errorrr")
             console.error(error);
             setLoadingCheckout(false);
             return
