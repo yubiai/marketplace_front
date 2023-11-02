@@ -70,7 +70,7 @@ export const ButtonRainbowkit = ({ t }) => {
                             {(() => {
                                 if (!connected) {
                                     return (
-                                        <Popover isOpen={true} placement={'auto-end'} >
+                                        <Popover isOpen={true} isLazy >
                                             <PopoverTrigger>
                                                 <Button onClick={onOpen} leftIcon={<FaWallet />} bg="white" color={"#00ABD1"}>
                                                     Connect
