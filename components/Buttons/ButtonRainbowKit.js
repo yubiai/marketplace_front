@@ -7,12 +7,21 @@ import {
     useDisclosure,
     Button,
     Center,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverAnchor,
 } from '@chakra-ui/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { FaWallet } from 'react-icons/fa';
 import { useConnect } from 'wagmi'
 
-export const ButtonRainbowkit = ({t}) => {
+export const ButtonRainbowkit = ({ t }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { connectors, connect } = useConnect();
     const sequenceConnector = connectors.find((connector) => connector.id === 'sequence')
@@ -63,9 +72,19 @@ export const ButtonRainbowkit = ({t}) => {
                             {(() => {
                                 if (!connected) {
                                     return (
-                                        <Button onClick={onOpen} leftIcon={<FaWallet />} bg="white" color={"#00ABD1"}>
-                                            Connect
-                                        </Button>
+                                        <Popover isOpen={true} placement={'auto'} >
+                                            <PopoverTrigger>
+                                                <Button onClick={onOpen} leftIcon={<FaWallet />} bg="white" color={"#00ABD1"}>
+                                                    Connect
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent>
+                                                <PopoverArrow />
+                                                <PopoverCloseButton />
+                                                <PopoverHeader>{t("Welcome")}</PopoverHeader>
+                                                <PopoverBody>{t("MsgWelcome")}</PopoverBody>
+                                            </PopoverContent>
+                                        </Popover>
                                     );
                                 }
                                 if (chain.unsupported) {
@@ -104,7 +123,7 @@ export const ButtonRainbowkit = ({t}) => {
                                             )}
                                             {chain.name}
                                         </Button>
-                                        <Button onClick={openAccountModal} fontSize={{base: "11px", md: "15px"}} type="button">
+                                        <Button onClick={openAccountModal} fontSize={{ base: "11px", md: "15px" }} type="button">
                                             {account.displayName}
                                             {account.displayBalance
                                                 ? ` (${account.displayBalance})`

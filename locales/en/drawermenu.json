@@ -15,5 +15,7 @@
     "Favourites": "Favourites",
     "Disconnect": "Disconnect",
     "Bookmarks": "Bookmarks",
-    "Wrong network": "Wrong network"
+    "Wrong network": "Wrong network",
+    "Welcome": "Welcome",
+    "MsgWelcome": "Connect your wallet and start earning cryptocurrencies or contracting services with your cryptocurrencies."
 }
