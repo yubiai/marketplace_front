@@ -19,5 +19,7 @@
     "Failed": "Failed",
     "To connect it is necessary to be registered in Proof of Humanity and have your status as registered.": "To connect it is necessary to be registered in Proof of Humanity and have your status as registered.",
     "Connect with your wallet and start earning crypto or hiring with your cryptos": "Connect with your wallet and start earning crypto or hiring with your cryptos",
-    "Wrong network": "Wrong network"
+    "Wrong network": "Wrong network",
+    "Welcome": "Welcome",
+    "MsgWelcome": "Connect your wallet and start earning cryptocurrencies or contracting services with your cryptocurrencies."
   }
