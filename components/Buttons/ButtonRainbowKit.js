@@ -14,15 +14,17 @@ import {
     PopoverBody,
     PopoverArrow,
     PopoverCloseButton,
+    useMediaQuery
 } from '@chakra-ui/react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { FaWallet } from 'react-icons/fa';
-import { useConnect } from 'wagmi'
+import { useConnect } from 'wagmi';
 
 export const ButtonRainbowkit = ({ t }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const { connectors, connect } = useConnect();
     const sequenceConnector = connectors.find((connector) => connector.id === 'sequence')
+    const [isResponsive] = useMediaQuery("(max-width: 768px)");
 
     return (
         <>
@@ -69,21 +71,29 @@ export const ButtonRainbowkit = ({ t }) => {
                         >
                             {(() => {
                                 if (!connected) {
-                                    return (
-                                        <Popover isOpen={true} isLazy >
-                                            <PopoverTrigger>
-                                                <Button onClick={onOpen} leftIcon={<FaWallet />} bg="white" color={"#00ABD1"}>
-                                                    Connect
-                                                </Button>
-                                            </PopoverTrigger>
-                                            <PopoverContent>
-                                                <PopoverArrow />
-                                                <PopoverCloseButton />
-                                                <PopoverHeader>{t("Welcome")}</PopoverHeader>
-                                                <PopoverBody>{t("MsgWelcome")}</PopoverBody>
-                                            </PopoverContent>
-                                        </Popover>
-                                    );
+                                    if (isResponsive) {
+                                        return (
+                                            <Button onClick={onOpen} leftIcon={<FaWallet />} bg="white" color={"#00ABD1"}>
+                                                Connect
+                                            </Button>
+                                        )
+                                    } else {
+                                        return (
+                                            <Popover defaultIsOpen={true}>
+                                                <PopoverTrigger>
+                                                    <Button onClick={onOpen} leftIcon={<FaWallet />} bg="white" color={"#00ABD1"}>
+                                                        Connect
+                                                    </Button>
+                                                </PopoverTrigger>
+                                                <PopoverContent>
+                                                    <PopoverArrow />
+                                                    <PopoverCloseButton />
+                                                    <PopoverHeader>{t("Welcome")}</PopoverHeader>
+                                                    <PopoverBody>{t("MsgWelcome")}</PopoverBody>
+                                                </PopoverContent>
+                                            </Popover>
+                                        );
+                                    }
                                 }
                                 if (chain.unsupported) {
                                     return (
