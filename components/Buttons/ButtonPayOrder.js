@@ -5,7 +5,6 @@ import { orderService } from '../../services/orderService';
 import { useContractWrite } from 'wagmi';
 
 const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus, isSeller, orderCompletedBySeller, contractAddress, yubiaiAbi, t }) => {
-    console.log(transactionInfo, "contractAddresscontractAddresscontractAddresscontractAddress")
     const global = useGlobal();
     const { transactionIndex, transactionHash, claimID } = transactionInfo;
 
@@ -15,7 +14,6 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
         functionName: 'closeDeal',
         args: [transactionIndex],
         async onSuccess(data) {
-            console.log('Success', data)
             if (data) {
                 await orderService.updateOrderStatus(
                     transactionHash, 'ORDER_PAID', global?.profile?.token);
@@ -26,7 +24,6 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
             }
         },
         onError(error) {
-            console.log('Error', error)
             console.log('Error paying transaction: ', error);
             toggleLoadingStatus(false);
         },
@@ -38,7 +35,6 @@ const ButtonPayOrder = ({ transactionInfo, stepsPostAction, toggleLoadingStatus,
         functionName: 'acceptClaim',
         args: [claimID],
         async onSuccess(data) {
-            console.log('Success', data)
             if (data) {
                 await orderService.updateOrderStatus(transactionHash, 'ORDER_REFUNDED', global?.profile?.token);
                 setTimeout(() => {

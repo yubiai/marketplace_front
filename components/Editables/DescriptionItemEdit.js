@@ -30,7 +30,6 @@ const DescriptionItemEdit = ({ item, token, mutate, t }) => {
     // Open and Close Edit
     const openEdit = () => {
         setIsEditing(true);
-        console.log(item.description, "item.description")
         setContentDescription(item.description)
         return
     }
@@ -43,7 +42,6 @@ const DescriptionItemEdit = ({ item, token, mutate, t }) => {
 
     async function onSaveDescription() {
         setIsLoading(true)
-        console.log(contentDescription, "contentDescription")
         if (!contentDescription || countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH) {
             toast({
                 title: t("Error Form"),

@@ -13,54 +13,37 @@ import {
 import { sequenceWallet } from '@0xsequence/rainbowkit-plugin'
 
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { gnosis, goerli, mainnet } from 'wagmi/chains';
+import { goerli, mainnet } from 'wagmi/chains';
+import { gnosis } from '@wagmi/core/chains';
 import { infuraProvider } from '@wagmi/core/providers/infura'
 
 import { publicProvider } from 'wagmi/providers/public';
 import { useRouter } from 'next/router';
-import Cookies from 'js-cookie';
-import { profileService } from '../services/profileService';
 
-// Login Profile
-const loginProfile = (address, dispatch) => {
-  return new Promise(async (resolve, reject) => {
+/* const GnosisChain = {
+  id: 100,
+  name: 'Gnosis Chain',
+  network: 'Gnosis',
+  nativeCurrency: {
+    decimals: 18,
+    name: 'xDai',
+    symbol: 'xDai',
+  },
+  rpcUrls: {
+    default: 'wss://gnosis.publicnode.com',
+  },
+  blockExplorers: {
+    default: { name: 'Gnosis Scan', url: 'https://gnosisscan.io/' },
+  },
+  iconUrls: ["https://images.prismic.io/koinly-marketing/16d1deb7-e71f-48a5-9ee7-83eb0f7038e4_Gnosis+Chain+Logo.png"],
+  testnet: false,
+} */
 
-    const res = await profileService.loginSQ(address)
-      .catch((err) => {
-        if (err && err.response && err.response.data && err.response.data.error) {
-          console.error(err)
-          return reject(false)
-        }
-      })
-
-    const token = res.data.token;
-    const profile = res.data.data;
-
-    dispatch({
-      type: 'AUTHPROFILE',
-      payload: profile
-    });
-
-    const yubiaiLS = {
-      token: token,
-      wallet: profile.eth_address
-    };
-
-    Cookies.set('Yubiai', token, { expires: 1, secure: true })
-    localStorage.setItem('Yubiai', JSON.stringify(yubiaiLS));
-
-    return resolve();
-  })
-}
-
-
-
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [
-    goerli, mainnet
+const { chains, publicClient, webSocketPublicClient } = configureChains( process.env.NEXT_PUBLIC_ENV == "prod" ? [{ ...gnosis, iconUrl: '/chains/gnosis.svg' }] : [goerli, mainnet],
+  [ 
+    infuraProvider({ apiKey: process.env.NEXT_PUBLIC_ENV == "prod" ? process.env.NEXT_PUBLIC_INFURA_ENDPOINT_GNOSIS : process.env.NEXT_PUBLIC_INFURA_ENDPOINT_GOERLI }),
+    publicProvider()
   ],
-  [infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_ENDPOINT_GOERLI })],
-  publicProvider()
 );
 
 const projectId = 'Yubiai';
@@ -95,11 +78,9 @@ const wagmiConfig = createConfig({
 
 function RainbowKitWrapper({ children }) {
   const router = useRouter()
-
   const authenticationAdapter = createAuthenticationAdapter({
 
     signOut: async () => {
-      console.log("arranco signout")
       router.replace('/logout')
       return;
     }

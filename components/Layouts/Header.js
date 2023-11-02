@@ -49,7 +49,7 @@ const Header = () => {
             mt={'15px'}
             display={{ base: 'none', md: 'flex' }}
             width="330px">
-            <ButtonRainbowkit />
+            <ButtonRainbowkit t={t} />
           </Center>
           <DrawerMenu />
         </Flex>

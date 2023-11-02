@@ -3,7 +3,6 @@ import { yubiaiArbitrable } from './abis';
 
 
 export function createDealCheckout(yubiaiContract, token, extraBurnFee, timeForService, timeForClaim, buyer, seller, amount, termsUrl) {
-    console.log(yubiaiContract, token, extraBurnFee, timeForService, timeForClaim, buyer, seller, amount, termsUrl, "Data q viene");
 
     //Preparando el contrato
     const { config } = usePrepareContractWrite({
@@ -33,8 +32,6 @@ export function createDealCheckout(yubiaiContract, token, extraBurnFee, timeForS
     const { isLoading, isSuccess } = useWaitForTransaction({
         hash: data?.hash,
     });
-
-    console.log(data, isLoading, isSuccess);
 
     return data;
 }
@@ -79,9 +76,6 @@ export const useCreateDealHook = async (useContractWrite, yubiaiContract, token,
 
     write();
 
-    console.log(isLoading, "isLoading")
-    console.log(isSuccess, "isSuccess")
-    console.log(data, "dataaa")
     return {
         data: dati
     }

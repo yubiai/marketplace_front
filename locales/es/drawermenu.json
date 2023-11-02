@@ -14,5 +14,6 @@
     "Favourites": "Favoritos",
     "Bookmarks": "Favoritos",
     "Help": "Ayuda",
-    "Disconnect": "Desconectarse"
+    "Disconnect": "Desconectarse",
+    "Wrong network": "Error de Red"
 }

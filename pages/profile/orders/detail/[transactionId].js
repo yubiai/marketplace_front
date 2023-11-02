@@ -100,7 +100,6 @@ const OrderDetail = () => {
   const yubiaiContract = getContractsForNetwork(networkType);
 
   const loadOrder = async () => {
-    console.log("arracno el load order")
     setDeal({ deal: {}, claim: {} });
     const response = await orderService.getOrderByTransaction(
       transactionId, global.profile.token);
@@ -252,9 +251,6 @@ const OrderDetail = () => {
   };
 
   if (!loading && !(deal || {}).deal?.dealId) return <Loading />;
-
-  console.log((deal || {}), "(deal || {})");
-  console.log(orderDetail, "orderDetail");
 
   return (
     <>

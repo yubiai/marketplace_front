@@ -41,7 +41,6 @@ const Home = ({ items }) => {
     setListFavourites(null)
     if (global && global.profile && global.profile._id) {
       try {
-        console.log(global.profile, "goalaaodaksodksaods")
         // JoyTour Initial
         if (global.profile.permission === 1) {
           setTimeout(() => {

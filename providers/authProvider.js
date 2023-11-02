@@ -50,7 +50,6 @@ export const AuthProvider = ({ children }) => {
 
   const { isLoading: loadingSignNonce, signMessageAsync } = useSignMessage({
     async onSuccess(data) {
-      console.log('Success signMessageAsync', data)
       if (data && data.length >= 420) {
         await loginProfile(address, dispatch).catch((err) => {
           console.error(err);
@@ -85,7 +84,7 @@ export const AuthProvider = ({ children }) => {
       }
     },
     onError(error) {
-      console.log('Error signMessageAsync', error)
+      console.error('Error signMessageAsync', error.message)
       dispatch({
         type: 'SET_LOGINRAINBOW',
         payload: 'unauthenticated',
@@ -95,12 +94,9 @@ export const AuthProvider = ({ children }) => {
   })
 
   const loginVerify = async () => {
-    console.log("Empezo el login Verify")
     try {
       const nonceBack = await axios.get(`/auth/nonce`);
-      console.log(nonceBack);
 
-      console.log("create message")
       const formatMessage = {
         domain: window.location.host,
         address,
@@ -110,7 +106,6 @@ export const AuthProvider = ({ children }) => {
         chainId: chain && chain.id,
         nonce: nonceBack.data,
       }
-      console.log(formatMessage, "formatMessage")
       const message = new SiweMessage(formatMessage);
       setMessageNonce(message);
       await signMessageAsync({
@@ -128,12 +123,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    console.log(isConnected, "isConnected");
-    console.log(activeConnector, "activeConnector")
-
     if (isConnected == true && activeConnector) {
-
-      console.log("Estoy loguedo")
       loginVerify();
     }
     return
@@ -156,7 +146,6 @@ export const AuthProvider = ({ children }) => {
         const Ybcookies = Cookies.get('Yubiai') ? Cookies.get('Yubiai') : null
 
         if (!Yubiai && !Ybcookies) {
-          console.log("No token")
           throw "No Token"
         }
 

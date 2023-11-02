@@ -154,7 +154,6 @@ const FooterChat = ({ inputMessage, setInputMessage, previewFiles, setPreviewFil
             },
           }}>
           {previewFiles && previewFiles.length > 0 && previewFiles.map((file, i) => {
-            console.log(file)
             return (
               <FilePreviewMini file={file} key={i} removeFile={removeFile} />
             )

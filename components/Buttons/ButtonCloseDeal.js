@@ -19,9 +19,7 @@ const ButtonCloseDeal = ({ dealId, transactionHash, toggleLoadingStatus, contrac
 
     useWaitForTransaction({
         hash: resultCloseDeal?.hash,
-        async onSuccess(data) {
-            console.log(data, "Data resultCloseDeal For Transaction")
-
+        async onSuccess() {
             await orderService.updateOrderStatus(transactionHash, 'ORDER_CLOSE_DEAL', global.profile.token);
 
             stepsPostAction();

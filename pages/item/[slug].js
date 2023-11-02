@@ -137,7 +137,6 @@ const ItemById = ({ item }) => {
   }
 
   useEffect(() => {
-    console.log(global, "globallele")
     if (item) {
       funcSelectImage()
     }

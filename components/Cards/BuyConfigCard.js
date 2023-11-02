@@ -99,7 +99,6 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
 
     const onSubmit = async () => {
         try {
-            console.log(timeForServiceValue, timeForClaimValue, "times")
             setIsLoading(true)
             await channelService.updateSettings({
                 _id: channel._id,

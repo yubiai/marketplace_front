@@ -140,8 +140,6 @@ const OrderDetail = () => {
       setVerifyMessages(true)
     }
 
-    console.log(orderDetail, "ordertebefore")
-    console.log("se activo el reads");
     setContractActionRead(true);
   }
 
@@ -160,7 +158,6 @@ const OrderDetail = () => {
     );
 
     if (statusNow !== orderDetail.status) {
-      console.log("se activo por q cambio res de arb")
       await orderService.updateOrderStatus(orderDetail.transaction && orderDetail.transaction.transactionMeta.transactionHash, statusNow, global?.profile?.token);
     }
 
@@ -196,7 +193,6 @@ const OrderDetail = () => {
     ],
     enabled: contractActionRead,
     async onSuccess(data) {
-      console.log("se activo?");
       setContractActionRead(false);
       if (orderDetail) {
         const result = await getFullStatusOfDealClaim(data, orderDetail?.transaction.transactionIndex);
@@ -212,7 +208,6 @@ const OrderDetail = () => {
         }
 
         if (result) {
-          console.log(result, "result")
           setDeal(result);
           updateStatusOrder(result);
           return
@@ -310,9 +305,6 @@ const OrderDetail = () => {
   }
 
   if (isLoading || loading || !orderDetail) return <Loading />;
-
-  console.log((deal || {}), "(deal || {})")
-  console.log(orderDetail, "orderDetail")
 
   return (
     <>

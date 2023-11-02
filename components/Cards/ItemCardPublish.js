@@ -13,7 +13,6 @@ import ButtonAdmItem from '../Buttons/ButtonAdmItem'
 
 const ItemCardPublish = ({ item, token, mutate, t }) => {
   const [loading, setLoading] = useState(false);
-  console.log("item", item)
   return (
     <Box p={2} cursor="pointer">
       <Link href={`/item/${item.slug}`}>

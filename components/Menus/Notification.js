@@ -41,12 +41,15 @@ const Notification = () => {
 
   useEffect(() => {
     async function initial() {
+      if(isError == "Unauthorized"){
+        return router.replace("/logout");
+      }
       await mutate();
     }
     initial();
-  }, [global.notificationsActive])
-  
-  if (isLoading || isError) return (
+  }, [global.notificationsActive, isError])
+
+  if (isLoading) return (
     <Spinner
       thickness="4px"
       speed="0.65s"

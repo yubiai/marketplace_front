@@ -45,7 +45,6 @@ const EvidenceDetailCard = ({ claim }) => {
     )
 
     if (evidence) {
-        console.log(evidence, "evidence.value_to_claim")
         return (
             <>
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
