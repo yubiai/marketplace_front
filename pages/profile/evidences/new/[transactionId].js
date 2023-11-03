@@ -51,6 +51,7 @@ import { useNetwork, useContractWrite, useWaitForTransaction, useContractReads }
 import { getContractsForNetwork } from "../../../../utils/walletUtils";
 import { yubiaiArbitrable } from "../../../../utils/escrow-utils/abis";
 import { getFullStatusOfDealClaim } from "../../../../utils/orderUtils";
+import { parseUnits } from '@ethersproject/units';
 
 const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 
@@ -82,6 +83,9 @@ const NewEvidence = () => {
   const [marksToClaim, setMarksToClaim] = useState([]);
 
   const [errorInfo, setErrorInfo] = useState(null);
+
+  const feeArbitration = process.env.NEXT_PUBLIC_FEE_ARBITRATION;
+  const amountToWei = parseUnits(feeArbitration.toString());
 
   // if logged in, redirect to the home
   useEffect(() => {
@@ -252,7 +256,7 @@ const NewEvidence = () => {
     address: yubiaiContract.yubiaiArbitrable,
     abi: yubiaiArbitrable,
     functionName: 'makeClaim',
-    value: ethers.utils.parseEther(String(process.env.NEXT_PUBLIC_FEE_ARBITRATION)),
+    value: amountToWei,
     onError(err) {
       console.error('Error creating a claim for a deal: ', err.message);
       setErrorInfo(err.message);

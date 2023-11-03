@@ -14,6 +14,7 @@ import { orderService } from "../../services/orderService";
 import { channelService } from "../../services/channelService";
 import { formatDayBySeconds } from "../../utils/orderUtils";
 import useTranslation from 'next-translate/useTranslation';
+import { parseUnits } from '@ethersproject/units';
 
 const Checkout = () => {
     const global = useGlobal();
@@ -32,6 +33,7 @@ const Checkout = () => {
 
     //Errors
     const messageErrorCost = "The total cost (gas * gas fee + value) of executing this transaction exceeds the balance of the account";
+    const userRejected = "User rejected the request";
 
     const { user, loggedOut } = useUser();
     // if logged in, redirect to the home
@@ -221,16 +223,17 @@ const Checkout = () => {
             if (transactionData) {
 
                 const { amount, recipient, time_for_claim, time_for_service } = transactionData;
-                const amountToWei = ethers.utils.parseEther(amount.value.toString(), "ether");
-                setAmountToWeiOrder(Number(amountToWei));
-                setTimeForService(time_for_service ? formatDayBySeconds(time_for_service) : process.env.NEXT_PUBLIC_TIME_FOR_SERVICE);
+                const amountToWei = parseUnits(Number(amount.value).toFixed(2));
 
+                setAmountToWeiOrder(amountToWei);
+
+                setTimeForService(time_for_service ? formatDayBySeconds(time_for_service) : process.env.NEXT_PUBLIC_TIME_FOR_SERVICE);
                 setTimeForClaim(time_for_claim ? formatDayBySeconds(time_for_claim) : process.env.NEXT_PUBLIC_TIME_FOR_CLAIM);
-                console.log("Aca esta el address?" + address);
+
                 write({
                     args: [
                         [
-                            Number(amountToWei),
+                            amountToWei,
                             address,
                             0,
                             0,
@@ -245,7 +248,7 @@ const Checkout = () => {
                             0
                         ], termsUrl
                     ],
-                    value: Number(amountToWei)
+                    value: amountToWei
                 })
             }
             return
@@ -278,9 +281,12 @@ const Checkout = () => {
                 {messageError && (
                     <Alert status="error" mt="1em" color="black" bg="red.100">
                         <AlertIcon color="red" />
-                        {messageError.startsWith(messageErrorCost) ? (
+                        {messageError.startsWith(messageErrorCost) && (
                             t("The balance")
-                        ) : messageError}
+                        )}
+                        {messageError.startsWith(userRejected) && (
+                            t("Error user rejected")
+                        )}
                     </Alert>
                 )}
                 <Center py={6}>

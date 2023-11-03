@@ -4,18 +4,21 @@ import { useGlobal } from '../../providers/globalProvider';
 import { orderService } from '../../services/orderService';
 import { evidenceService } from '../../services/evidenceService';
 import { useContractWrite, useWaitForTransaction } from 'wagmi';
-import { ethers } from 'ethers';
+import { parseUnits } from '@ethersproject/units';
 
 const ButtonChallengeClaim = ({ transactionInfo, stepsPostAction, evidenceID, toggleLoadingStatus, contractAddress, yubiaiAbi, t }) => {
     const global = useGlobal();
     const { claimID, transactionHash } = transactionInfo;
+
+    const feeArbitration = process.env.NEXT_PUBLIC_FEE_ARBITRATION;
+    const amountToWei = parseUnits(feeArbitration.toString());
 
     // Write Contract
     const { data: resultChallengeClaim, write: challengeClaimWrite } = useContractWrite({
         address: contractAddress,
         abi: yubiaiAbi,
         functionName: 'challengeClaim',
-        value: ethers.utils.parseEther(String(process.env.NEXT_PUBLIC_FEE_ARBITRATION)),
+        value: amountToWei,
         onError(err) {
             console.error('Error accepting claim the transaction : ', err);
             toggleLoadingStatus(false);
