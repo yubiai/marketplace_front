@@ -52,6 +52,7 @@ const Checkout = () => {
     const [amountToWeiOrder, setAmountToWeiOrder] = useState();
     const [timeForClaim, setTimeForClaim] = useState();
     const [timeForService, setTimeForService] = useState();
+    console.log(yubiaiContract, "yubiaiContract")
 
     const createOrder = async (transactionResult) => {
         const currentWalletAccount = address;
