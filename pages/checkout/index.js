@@ -43,12 +43,13 @@ const Checkout = () => {
 
     const { chain } = useNetwork()
     const { address, connector } = useAccount();
-
+    console.log("addressaddress", address)
     const networkType = chain.name.toLowerCase();
+    console.log(networkType, "networkType")
     const networkData = getBlockExplorerForNetwork(networkType);
     const blockExplorer = networkData.blockExplorer;
     const yubiaiContract = getContractsForNetwork(networkType);
-
+    console.log(yubiaiContract, "yubiaiContract")
     const [amountToWeiOrder, setAmountToWeiOrder] = useState();
     const [timeForClaim, setTimeForClaim] = useState();
     const [timeForService, setTimeForService] = useState();
@@ -94,6 +95,7 @@ const Checkout = () => {
         functionName: 'createDealWithValue',
         account: address,
         onError(error) {
+            console.log(error, "error")
             setMessageError(error.message);
             toast({
                 id: "Error metamask",
@@ -167,6 +169,7 @@ const Checkout = () => {
             return;
         },
         onError(error) {
+            console.error(error, "error")
             setMessageError(error.message);
             toast({
                 id: "Error metamask",
@@ -223,7 +226,7 @@ const Checkout = () => {
                 setTimeForService(time_for_service ? formatDayBySeconds(time_for_service) : process.env.NEXT_PUBLIC_TIME_FOR_SERVICE);
 
                 setTimeForClaim(time_for_claim ? formatDayBySeconds(time_for_claim) : process.env.NEXT_PUBLIC_TIME_FOR_CLAIM);
-
+                console.log("Aca esta el address?" + address);
                 write({
                     args: [
                         [
