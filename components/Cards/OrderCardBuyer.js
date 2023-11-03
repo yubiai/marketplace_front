@@ -89,13 +89,13 @@ const OrderCardBuyer = ({ yubiaiContract, abiYubiai, order, network, t }) => {
       <SimpleGrid columns={{ base: '1', sm: '1', md: '2', lg: '3', xl: '4' }} spacing={5} color="black">
         <Center>
           <Box maxW={"90px"} mt="0.7em">
-            <Link href={'/item/' + order?.itemId.slug}>
+            <Link href={'/item/' + order?.itemId?.slug}>
               <Image
                 borderRadius='full'
                 boxSize='90px'
                 objectFit='cover'
-                src={order && order.itemId.files && order.itemId.files[0] && process.env.NEXT_PUBLIC_LINK_FLEEK + order.itemId.files[0].filename}
-                fallbackSrc={order && order.itemId.files && order.itemId.files[0] && process.env.NEXT_PUBLIC_LINK_GC + order.itemId.files[0].filename}
+                src={order && order.itemId && order.itemId.files && order.itemId.files[0] && process.env.NEXT_PUBLIC_LINK_FLEEK + order.itemId.files[0].filename}
+                fallbackSrc={order && order.itemId && order.itemId.files && order.itemId.files[0] && process.env.NEXT_PUBLIC_LINK_GC + order.itemId.files[0].filename}
                 alt='Image item the order'
               /></Link>
 
@@ -103,17 +103,17 @@ const OrderCardBuyer = ({ yubiaiContract, abiYubiai, order, network, t }) => {
         </Center>
         <Center noOfLines={3} mt="1em">
           <Box textAlign={"center"} p="5px">
-            <Link href={'/item/' + order?.itemId.slug}><Text cursor={'pointer'}
+            <Link href={'/item/' + order?.itemId?.slug}><Text cursor={'pointer'}
               fontWeight={600} _hover={{
                 textDecoration: "underline"
               }}
-            >{order.itemId.title}</Text></Link>
+            >{order?.itemId?.title}</Text></Link>
           </Box>
         </Center>
         <Center>
           <Box display={"flex"} w="80%">
             <Text fontWeight={600}>{t("Seller")}</Text>
-            <Text ml="2px" noOfLines={2}>{order.itemId.seller.name} </Text>
+            <Text ml="2px" noOfLines={2}>{order?.itemId?.seller?.name} </Text>
           </Box>
         </Center>
         <Center>
