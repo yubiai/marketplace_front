@@ -59,7 +59,7 @@ const connectors = connectorsForWallets([
       metaMaskWallet({ projectId, chains }),
       sequenceWallet({
         chains,
-        defaultNetwork: 5,
+        defaultNetwork: process.env.NEXT_PUBLIC_ENV == "prod" ? 100 : 5,
         shimDisconnect: true,
         connect: {
           app: 'Yubiai'
