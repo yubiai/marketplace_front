@@ -8,5 +8,6 @@
     "Terms and conditions": "Términos y condiciones",
     "You have accepted the terms and conditions.": "Has aceptado los términos y condiciones.",
     "Hire service": "Contratar servicio",
-    "The balance": "El costo total (gas * tarifa de gas + valor) de ejecutar esta transacción excede el saldo de la cuenta."
+    "The balance": "El costo total (gas * tarifa de gas + valor) de ejecutar esta transacción excede el saldo de la cuenta.",
+    "Error user rejected": "El usuario rechazó la solicitud."
 }

@@ -89,7 +89,10 @@ const getBlockExplorerForNetwork = (networkType) => {
     case 'chiado':
       return 'https://blockscout.chiadochain.net';
     case 'gnosis':
-      return 'https://gnosisscan.io/';
+      return {
+        blockExplorer: 'https://gnosisscan.io',
+        token_address: '0x6810e776880c02933d47db1b9fc05908e5386b96'
+      }
     case 'bsc':
       return 'https://bscscan.com';
     case 'sepolia':
