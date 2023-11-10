@@ -48,7 +48,7 @@ const EvidenceDetailCard = ({ claim }) => {
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">Evidence - Claim ID #{evidence.claimID}</Text>
                 <Text fontSize='sm'>Created At: {moment(evidence.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
-                <Text mt="5px" fontWeight={"bold"}>Value Claim: {formatUnits(evidence.value_to_claim, 18)} </Text>
+                <Text mt="5px" fontWeight={"bold"}>Value Claim: {formatUnits(String(evidence.value_to_claim), 18)} </Text>
                 <Text mt="5px" fontWeight={"bold"}>Title: {evidence.title}</Text>
                 <Text mt="5px" fontWeight={"bold"}>Description</Text>
                 <Text>{evidence.description}</Text>

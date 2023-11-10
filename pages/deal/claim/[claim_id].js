@@ -89,7 +89,7 @@ const EvidenceDetail = () => {
                         <Text fontWeight={600} fontSize="2xl" mt="1em">Description</Text>
                         <Text>{evidence.description}</Text>
                         <Text fontWeight={600} fontSize="2xl" mt="1em">Value To Claim</Text>
-                        <Text>{formatUnits(evidence.value_to_claim, 18)}</Text>
+                        <Text>{formatUnits(String(evidence.value_to_claim), 18)}</Text>
                         <Divider />
                         <Text fontWeight={600} fontSize="2xl" mt="1em">PDF</Text>
                         <Link color="blue.700" href={process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_pdf} isExternal>{process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_pdf}</Link>
