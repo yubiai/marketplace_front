@@ -9,7 +9,7 @@ import ViewMsgFile from "../../../components/Cards/ViewMsgFile";
 import FileIcon from "../../../components/Infos/FileIcon";
 import Loading from "../../../components/Spinners/Loading";
 import { StatusEvidence } from "../../../components/Infos/StatusEvidence";
-import { parserForWei } from "../../../utils/orderUtils";
+import { formatUnits } from '@ethersproject/units';
 import ValidateSignatureEvidence from "../../../components/Modals/ValidateSignatureEvidence";
 
 const EvidenceDetail = () => {
@@ -89,7 +89,7 @@ const EvidenceDetail = () => {
                         <Text fontWeight={600} fontSize="2xl" mt="1em">Description</Text>
                         <Text>{evidence.description}</Text>
                         <Text fontWeight={600} fontSize="2xl" mt="1em">Value To Claim</Text>
-                        <Text>{parserForWei(evidence.value_to_claim)}</Text>
+                        <Text>{formatUnits(evidence.value_to_claim, 18)}</Text>
                         <Divider />
                         <Text fontWeight={600} fontSize="2xl" mt="1em">PDF</Text>
                         <Link color="blue.700" href={process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_pdf} isExternal>{process.env.NEXT_PUBLIC_IPFS_GATEWAY + evidence.url_ipfs_pdf}</Link>

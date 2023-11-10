@@ -10,15 +10,15 @@ const ButtonChallengeClaim = ({ transactionInfo, stepsPostAction, evidenceID, to
     const global = useGlobal();
     const { claimID, transactionHash } = transactionInfo;
 
-    const feeArbitration = process.env.NEXT_PUBLIC_FEE_ARBITRATION;
-    const amountToWei = parseUnits(feeArbitration.toString());
+    const feeArbitration = process.env.NEXT_PUBLIC_ENV == "prod" ? process.env.NEXT_PUBLIC_FEE_ARBITRATION_GNOSIS : process.env.NEXT_PUBLIC_FEE_ARBITRATION_TEST;
+    const feeArbitrationToWei = parseUnits(feeArbitration.toString());
 
     // Write Contract
     const { data: resultChallengeClaim, write: challengeClaimWrite } = useContractWrite({
         address: contractAddress,
         abi: yubiaiAbi,
         functionName: 'challengeClaim',
-        value: amountToWei,
+        value: feeArbitrationToWei,
         onError(err) {
             console.error('Error accepting claim the transaction : ', err);
             toggleLoadingStatus(false);

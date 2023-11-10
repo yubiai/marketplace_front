@@ -2,14 +2,12 @@ import { Center, Divider, Link, Spinner, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { dealService } from "../../services/dealService";
 import moment from "moment";
-import { ethers } from "ethers";
+import { formatUnits } from '@ethersproject/units';
 
 const EvidenceDetailCard = ({ claim }) => {
 
     const [evidence, setEvidence] = useState(null);
     const [loading, setLoading] = useState(false);
-
-    const parseWeiToTokenAmount = weiAmount => (ethers.utils.formatEther(weiAmount));
 
     const getEvidence = async () => {
         try {
@@ -50,7 +48,7 @@ const EvidenceDetailCard = ({ claim }) => {
                 <Divider orientation='horizontal' mt="1em" mb="1em" bg="gray.400" />
                 <Text fontWeight={600} fontSize="2xl">Evidence - Claim ID #{evidence.claimID}</Text>
                 <Text fontSize='sm'>Created At: {moment(evidence.createdAt).format('DD MMMM, YYYY h:mm:ss a')}</Text>
-                <Text mt="5px" fontWeight={"bold"}>Value Claim: {parseWeiToTokenAmount(evidence.value_to_claim)} </Text>
+                <Text mt="5px" fontWeight={"bold"}>Value Claim: {formatUnits(evidence.value_to_claim, 18)} </Text>
                 <Text mt="5px" fontWeight={"bold"}>Title: {evidence.title}</Text>
                 <Text mt="5px" fontWeight={"bold"}>Description</Text>
                 <Text>{evidence.description}</Text>

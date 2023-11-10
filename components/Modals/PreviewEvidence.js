@@ -2,7 +2,7 @@ import { Box, Divider, Flex, Text } from "@chakra-ui/react";
 import ViewMsgFile from "../Cards/ViewMsgFile";
 import ViewMsgText from "../Cards/ViewMsgText";
 import FilePreviewMini from "../Infos/FilePreviewMini";
-import { parserForWei } from "../../utils/orderUtils";
+import { formatUnits } from '@ethersproject/units';
 
 const PreviewEvidence = ({ result, transactionHash, previewFiles, selectedMsg, t }) => {
 
@@ -15,7 +15,7 @@ const PreviewEvidence = ({ result, transactionHash, previewFiles, selectedMsg, t
             <Text>{result.description}</Text>
             <Divider />
             <Text fontWeight={600} fontSize="2xl" mt="1em">Value To Claim</Text>
-            <Text>{parserForWei(result.value_to_claim)}</Text>
+            <Text>{formatUnits(result.value_to_claim, 18)}</Text>
             <Divider />
             <Text fontWeight={600} fontSize="2xl" mt="1em">{t("Transaction Hash")}</Text>
             <Text>{transactionHash}</Text>

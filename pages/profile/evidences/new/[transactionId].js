@@ -46,12 +46,11 @@ import { dpolicyService } from "../../../../services/dpolicyService";
 import { evidenceService } from "../../../../services/evidenceService";
 import { orderService } from "../../../../services/orderService";
 import useTranslation from 'next-translate/useTranslation';
-import { ethers } from "ethers";
 import { useNetwork, useContractWrite, useWaitForTransaction, useContractReads } from "wagmi";
 import { getContractsForNetwork } from "../../../../utils/walletUtils";
 import { yubiaiArbitrable } from "../../../../utils/escrow-utils/abis";
 import { getFullStatusOfDealClaim } from "../../../../utils/orderUtils";
-import { parseUnits } from '@ethersproject/units';
+import { parseUnits, formatUnits, parseEther } from '@ethersproject/units';
 
 const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 
@@ -84,8 +83,8 @@ const NewEvidence = () => {
 
   const [errorInfo, setErrorInfo] = useState(null);
 
-  const feeArbitration = process.env.NEXT_PUBLIC_FEE_ARBITRATION;
-  const amountToWei = parseUnits(feeArbitration.toString());
+  const feeArbitration = process.env.NEXT_PUBLIC_ENV == "prod" ? process.env.NEXT_PUBLIC_FEE_ARBITRATION_GNOSIS : process.env.NEXT_PUBLIC_FEE_ARBITRATION_TEST;
+  const feeArbitrationToWei = parseUnits(feeArbitration.toString());
 
   // if logged in, redirect to the home
   useEffect(() => {
@@ -94,8 +93,6 @@ const NewEvidence = () => {
     }
   }, [user, loggedOut, router, dispatch]);
 
-  const parseWeiToTokenAmount = weiAmount => (ethers.utils.formatEther(weiAmount));
-
   const loadOrder = async () => {
     try {
       const response = await orderService.getOrderByTransaction(
@@ -103,7 +100,7 @@ const NewEvidence = () => {
       const { data } = response;
       setOrderDetail(data.result);
       loadMsgsByOrderID(data.result);
-      const payedAmount = parseInt(data.result.transaction.transactionPayedAmount, 10) || 0;
+      const payedAmount = formatUnits(data.result.transaction.transactionPayedAmount, 18);
       setMarksToClaim(generateMarksFromAmount(payedAmount));
       return;
     } catch (err) {
@@ -181,11 +178,28 @@ const NewEvidence = () => {
 
   const generateMarksFromAmount = baseAmount => {
     const minAmount = (baseAmount || 0) / 10;
+  
+    const decimals = baseAmount.toString().split('.')[1];
+    const decimalPlaces = decimals ? decimals.length + 1 : 0;
+  
     const finalArray = [minAmount];
     for (let i = minAmount; i <= baseAmount; i += minAmount) {
-      finalArray.push(i);
+      finalArray.push(parseFloat(i.toFixed(decimalPlaces)));
     }
+
     return finalArray;
+  }
+
+  const generateStepSlider = baseAmount => {
+    let step
+
+    const decimals = baseAmount.toString().split('.')[1];
+    const decimalPlaces = decimals ? decimals.length + 1 : 0;
+
+    const baseAmount10 = baseAmount / 10;
+
+    step = parseFloat(baseAmount10.toFixed(decimalPlaces))
+    return step;
   }
 
   // Wagmi
@@ -256,7 +270,7 @@ const NewEvidence = () => {
     address: yubiaiContract.yubiaiArbitrable,
     abi: yubiaiArbitrable,
     functionName: 'makeClaim',
-    value: amountToWei,
+    value: feeArbitrationToWei,
     onError(err) {
       console.error('Error creating a claim for a deal: ', err.message);
       setErrorInfo(err.message);
@@ -357,7 +371,7 @@ const NewEvidence = () => {
   // Submit
   // Form Submit Preview
   const onSubmit = async (data) => {
-    if (!previewFiles.length) {
+        if (!previewFiles.length) {
       console.error('Dispute file is required');
       setErrorMsg(t('Dispute file is required'));
       return;
@@ -376,7 +390,7 @@ const NewEvidence = () => {
     form.append('transactionHash', orderDetail.transaction.transactionMeta.transactionHash);
     form.append('author', global.profile._id);
     form.append('author_address', global.profile.eth_address);
-    form.append('value_to_claim', valueToClaim);
+    form.append('value_to_claim', parseEther(String(valueToClaim)));
 
     let messages = [];
 
@@ -410,7 +424,7 @@ const NewEvidence = () => {
       if (evidenceSave) {
         manageClaim(
           orderDetail.transaction.transactionIndex,
-          String(evidenceSave.value_to_claim),
+          Math.round(valueToClaim * 1e18),
           evidenceSave.url_ipfs_json,
           orderDetail.transaction.transactionMeta.transactionHash,
           evidenceSave._id
@@ -428,7 +442,7 @@ const NewEvidence = () => {
         setEvidenceSave(result && result._id ? result : null);
         manageClaim(
           orderDetail.transaction.transactionIndex,
-          String(valueToClaim),
+          Math.round(valueToClaim * 1e18),
           result.url_ipfs_json
         );
 
@@ -438,7 +452,7 @@ const NewEvidence = () => {
       setLoadingSubmit(false);
       setStateSubmit(2);
       return
-    }
+    } 
   }
 
   const manageClaim = async (dealId, amount, evidenceURI) => {
@@ -601,7 +615,7 @@ const NewEvidence = () => {
               <FormLabel color="black">{t("Amount to claim")}</FormLabel>
               {
                 orderDetail && orderDetail.item &&
-                <p>{parseWeiToTokenAmount(valueToClaim)} {orderDetail.item.currencySymbolPrice}</p>
+                <p>{valueToClaim} {orderDetail.item.currencySymbolPrice}</p>
               }
               <Box textAlign={"center"}>
                 <Slider
@@ -613,7 +627,8 @@ const NewEvidence = () => {
                   color="black"
                   style={{ margin: "10px 0" }}
                   min={0}
-                  max={parseInt(orderDetail.transaction.transactionPayedAmount, 10)}
+                  max={formatUnits(orderDetail.transaction.transactionPayedAmount, 18)}
+                  step={generateStepSlider(formatUnits(orderDetail.transaction.transactionPayedAmount, 18))}
                   onChange={(val) => setValueToClaim(val)}
                 >
                   <SliderMark {...labelStyles} value={0}>0</SliderMark>
@@ -621,7 +636,7 @@ const NewEvidence = () => {
                     (marksToClaim && marksToClaim.length) && marksToClaim.map(
                       (wei, index) => {
                         if (index % 2 == 0 && index !== 0) {
-                          return <SliderMark {...labelStyles} value={wei} key={`slider-mark-amount-${index}`}>{parseWeiToTokenAmount(wei)}</SliderMark>
+                          return <SliderMark {...labelStyles} value={wei} key={`slider-mark-amount-${index}`}>{wei}</SliderMark>
                         } else {
                           return null
                         }
