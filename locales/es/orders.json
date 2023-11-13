@@ -83,6 +83,7 @@
     "Claim Error Buyer": "Te encontraste con un problema. Esto puede deberse a fondos insuficientes en tu billetera o porque aún no se ha alcanzado el plazo específico para presentar un reclamo.",
     "Time to claim exhausted": "Se termino el tiempo para reclamar.",
     "Evidences": "Evidencias",
+    "No actions available": "Sin acciones disponibles",
     "Order doesn't exist": "La orden no existe",
     "New Price": "Nuevo Precio",
     "Added New Settings": "Editar configuración del pedido",

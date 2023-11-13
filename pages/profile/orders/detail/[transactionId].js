@@ -493,7 +493,7 @@ const OrderDetail = () => {
                   <Box w="full">
                     <SimpleGrid columns={{ base: 0, md: 2 }} spacing={10}>
                       <Box p="1em" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                        {transactionData && transactionPayedAmount && (
+                        {transactionData && transactionPayedAmount && (deal || {}).deal.isOver != true ? (
                           <>
                             <div>
                               <Text color="black">
@@ -507,9 +507,9 @@ const OrderDetail = () => {
                                     transactionIndex: (orderDetail.transaction || {}).transactionIndex,
                                     transactionHash: transactionMeta.transactionHash
                                   }}
-                                  amount={transactionPayedAmount || '0'}
-                                  stepsPostAction={router}
+                                  stepsPostAction={loadOrder}
                                   toggleLoadingStatus={toggleLoadingStatus}
+                                  isSeller={true}
                                   orderCompletedBySeller={orderDetail.orderCompletedBySeller}
                                   contractAddress={yubiaiContract.yubiaiArbitrable}
                                   yubiaiAbi={yubiaiArbitrable}
@@ -518,6 +518,10 @@ const OrderDetail = () => {
                               </Box>
                             </div>
                           </>
+                        ) : (
+                          <Box rounded={{ base: "5px" }} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                          <Text>{t("No actions available")}</Text>
+                          </Box>
                         )}
                       </Box>
                       {

@@ -82,6 +82,7 @@
     "Claim Error Buyer": "You encountered an issue. It could be due to insufficient funds in your wallet or because the specific timeframe for making a claim has not yet been reached.",
     "Time to claim exhausted": "Time to claim exhausted",
     "Evidences": "Evidences",
+    "No actions available": "No actions available",
     "Order doesn't exist": "Order doesn't exist",
     "New Price": "New Price",
     "Added New Settings": "Edit order settings",

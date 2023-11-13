@@ -430,12 +430,12 @@ const OrderDetail = () => {
               }
               {
                 (transactionPayedAmount &&
-                <Text fontWeight={600}>
-                  {t("Value")}: {
-                    `${ethers.utils.formatEther(transactionPayedAmount)} ${orderDetail.item.currencySymbolPrice || 'ETH'}`
-                  }
-                </Text>
-              )}
+                  <Text fontWeight={600}>
+                    {t("Value")}: {
+                      `${ethers.utils.formatEther(transactionPayedAmount)} ${orderDetail.item.currencySymbolPrice || 'ETH'}`
+                    }
+                  </Text>
+                )}
               {/* {
                 (transactionFeeAmount &&
                 <Text fontWeight={600}>
@@ -614,13 +614,12 @@ const OrderDetail = () => {
                                 transactionHash: transactionMeta.transactionHash,
                                 claimID: (deal || {}).claim.claimID
                               }}
-                              amount={transactionPayedAmount || '0'}
                               stepsPostAction={loadOrder}
                               toggleLoadingStatus={toggleLoadingStatus}
+                              isSeller={true}
                               orderCompletedBySeller={orderDetail.orderCompletedBySeller}
                               contractAddress={yubiaiContract.yubiaiArbitrable}
                               yubiaiAbi={yubiaiArbitrable}
-                              isSeller={true}
                               t={t}
                             />
                           </Box>
