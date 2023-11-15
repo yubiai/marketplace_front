@@ -39,7 +39,7 @@
     "Since the jury ruled in favor of the seller": "Since the jury ruled in favor of the seller, the deadline for filing a new claim has been changed. As per the jury's decision, the new maximum deadline for filing a claim is 3 days.",
     "Please confirm": "Please confirm that you have received the work and have verified that it satisfies all of the conditions you specified during the chat before releasing the payment. Do not confirm and inform the vendor on the chat if the work they completed did not meet your expectations.",
     "Confirm": "Always confirm that you have received the seller is service before tapping [Release payment]. DO NOT release crypto to the buyer if you haven’t received their service.",
-    "Issues": "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case.",
+    "Issues": "If you encounter any issues during the transaction process, you can start a claim and a third party intermediary will assist you on solving your case.(Bear in mind that this has a cost of 15xDai)",
     "You cannot claim this order because the status of this transaction is over.": "You cannot claim this order because the status of this transaction is over.",
     "You cannot claim this order because the status of this transaction is over": "You cannot claim this order because the status of this transaction is over.",
     "The buyer has claimed a refund for this order": "A refund has been claimed for this order.",

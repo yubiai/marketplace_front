@@ -509,7 +509,7 @@ const OrderDetail = () => {
                                   }}
                                   stepsPostAction={loadOrder}
                                   toggleLoadingStatus={toggleLoadingStatus}
-                                  isSeller={true}
+                                  isSeller={false}
                                   orderCompletedBySeller={orderDetail.orderCompletedBySeller}
                                   contractAddress={yubiaiContract.yubiaiArbitrable}
                                   yubiaiAbi={yubiaiArbitrable}
@@ -541,7 +541,7 @@ const OrderDetail = () => {
                           <div>
                             {
                               !(deal || {}).deal.isOver &&
-                              <Box mt={{ base: "1em", md: "0px" }} textAlign={{ base: "center", md: "right" }}>
+                              <Box mt={{ base: "1em", md: "1em" }} textAlign={{ base: "center", md: "right" }}>
                                 <ButtonStartClaim transactionMeta={transactionMeta} profile={global.profile} t={t} />
                               </Box>
                             }
