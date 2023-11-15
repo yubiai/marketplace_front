@@ -1,8 +1,12 @@
 
-const logoutUser = () => {
-    console.log("Logout User")
+const loginProfile = (address) => {
+    return new Promise(async (resolve, reject) => {
+
+        console.log("Nada")
+        return
+    })
 }
 
 export {
-    logoutUser
+    loginProfile
 }

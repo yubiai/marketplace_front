@@ -78,7 +78,10 @@ const getCurrentWallet = (lowerCase = false) => {
 const getBlockExplorerForNetwork = (networkType) => {
   switch (networkType) {
     case 'goerli':
-      return 'https://goerli.etherscan.io';
+      return {
+        blockExplorer: 'https://goerli.etherscan.io',
+        token_address: '0x7af963cF6D228E564e2A0aA0DdBF06210B38615D'
+      }
     case 'mainnet':
       return 'https://etherscan.io';
     case 'kovan':
@@ -86,7 +89,10 @@ const getBlockExplorerForNetwork = (networkType) => {
     case 'chiado':
       return 'https://blockscout.chiadochain.net';
     case 'gnosis':
-      return 'https://gnosisscan.io/';
+      return {
+        blockExplorer: 'https://gnosisscan.io',
+        token_address: '0x6810e776880c02933d47db1b9fc05908e5386b96'
+      }
     case 'bsc':
       return 'https://bscscan.com';
     case 'sepolia':

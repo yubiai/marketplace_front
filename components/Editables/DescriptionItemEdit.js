@@ -22,6 +22,7 @@ const DescriptionItemEdit = ({ item, token, mutate, t }) => {
     const [isEditing, setIsEditing] = useState(false);
 
     const [contentDescription, setContentDescription] = useState(null);
+    const [contentDescriptionStringfy, setContentDescriptionStringfy] = useState(null);
     const [countDescription, setCountDescription] = useState(0);
     const MIN_DESCRIPTION_LENGTH = 100;
     const MAX_DESCRIPTION_LENGTH = 1600;
@@ -29,7 +30,6 @@ const DescriptionItemEdit = ({ item, token, mutate, t }) => {
     // Open and Close Edit
     const openEdit = () => {
         setIsEditing(true);
-        console.log(item.description, "item.description")
         setContentDescription(item.description)
         return
     }
@@ -42,7 +42,6 @@ const DescriptionItemEdit = ({ item, token, mutate, t }) => {
 
     async function onSaveDescription() {
         setIsLoading(true)
-        console.log(contentDescription, "contentDescription")
         if (!contentDescription || countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH) {
             toast({
                 title: t("Error Form"),
@@ -58,7 +57,8 @@ const DescriptionItemEdit = ({ item, token, mutate, t }) => {
 
         try {
             await itemService.updateItemById(item._id, {
-                description: contentDescription
+                description: contentDescription,
+                descriptionString: contentDescriptionStringfy
             }, token);
 
             await itemService.purgeItem(item.slug, token);
@@ -112,7 +112,7 @@ const DescriptionItemEdit = ({ item, token, mutate, t }) => {
                     ) : (
                         <Box mt="1em">
                             <Heading as='h4' size='md'>{t("Description")} <span style={{ color: 'orange.500' }}>*</span></Heading>
-                            <Editor setContent={setContentDescription} setCount={setCountDescription} content={contentDescription} />
+                            <Editor setContent={setContentDescription} setContentStringfy={setContentDescriptionStringfy} setCount={setCountDescription} content={contentDescription} />
                             <Flex m="5px" fontStyle={"italic"}>{t("Characters")} <Text color={countDescription < MIN_DESCRIPTION_LENGTH || countDescription > MAX_DESCRIPTION_LENGTH ? "orange.500" : "green"} mr="5px" ml="5px">{countDescription}</Text> / {MAX_DESCRIPTION_LENGTH}</Flex>
                             <Text color="orange.500" m="5px">{countDescription < MIN_DESCRIPTION_LENGTH && countDescription > 1 && t("Minimum required characters are 100")}</Text>
                             <Text color="orange.500" m="5px">{countDescription > MAX_DESCRIPTION_LENGTH && t("Maximum required characters are 1600")}</Text>

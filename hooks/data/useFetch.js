@@ -7,7 +7,7 @@ export default function useFetch(url, token) {
 
   return {
     data,
-    isLoading: !error && !data,
+    isLoading: !data ? true : false,
     isError: error ? error.data : null,
     mutate
   }

@@ -55,7 +55,7 @@ const EditItem = () => {
     return (
         <>
             <Head>
-                <title>Yubiai Marketplace - Notifications </title>
+                <title>Yubiai Marketplace - Edit Item </title>
                 <meta
                     name="keywords"
                     content="yubiai, market, marketplace, crypto, eth, poh, metamask"

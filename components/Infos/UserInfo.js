@@ -6,7 +6,7 @@ const UserInfo = ({ profile, /* balanceToken, t */ }) => {
 
   if (profile) {
     return (
-      <HStack>
+      <HStack mb="1em">
         <Box w="33%" h="60px">
           <Center>
             <Image

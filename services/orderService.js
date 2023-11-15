@@ -62,19 +62,6 @@ async function updateOrderCompletedBySeller(transactionId, payload, token) {
 }
 
 
-async function setDisputeOnOrderTransaction(transactionId, disputeId, token) {
-  return await axios.post(
-    `/orders/${transactionId}/set-dispute`, { disputeId },
-    token
-    ? {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    : null
-  )
-}
-
 async function getOrdersBySeller(sellerWallet, token) {
   return await axios.get(
     `/orders/seller/${sellerWallet.toUpperCase()}`,
@@ -85,12 +72,25 @@ async function getOrdersBySeller(sellerWallet, token) {
     } : null)
 }
 
+async function setDisputeOnOrderTransactionById(transactionId, body, token) {
+  return await axios.put(
+    `/orders/transaction/${transactionId}`, body,
+    token
+    ? {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    : null
+  )
+}
+
 export const orderService = {
   getOrderByTransaction,
   createOrder,
   updateOrderStatus,
   updateOrderCompletedBySeller,
-  setDisputeOnOrderTransaction,
   getOrdersBySeller,
   getOrderByOrderId,
+  setDisputeOnOrderTransactionById
 }

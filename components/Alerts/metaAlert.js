@@ -5,7 +5,7 @@ import { useDispatchGlobal } from '../../providers/globalProvider'
 const MetaAlert = () => {
   const [verifyMeta, setVerifyMeta] = useState(false)
   const dispatch = useDispatchGlobal()
-
+ // Retirado por rainbowkit
   useEffect(() => {
     const verifyMetamask = () => {
       if (!window.ethereum) {

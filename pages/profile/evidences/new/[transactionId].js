@@ -41,12 +41,16 @@ import SuccessEvidence from "../../../../components/Modals/SuccessEvidence";
 import Loading from "../../../../components/Spinners/Loading";
 import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider";
-import { setYubiaiInstance } from "../../../../providers/orderProvider";
 import { channelService } from "../../../../services/channelService";
 import { dpolicyService } from "../../../../services/dpolicyService";
 import { evidenceService } from "../../../../services/evidenceService";
 import { orderService } from "../../../../services/orderService";
 import useTranslation from 'next-translate/useTranslation';
+import { useNetwork, useContractWrite, useWaitForTransaction, useContractReads } from "wagmi";
+import { getContractsForNetwork } from "../../../../utils/walletUtils";
+import { yubiaiArbitrable } from "../../../../utils/escrow-utils/abis";
+import { getFullStatusOfDealClaim } from "../../../../utils/orderUtils";
+import { parseUnits, formatUnits, parseEther } from '@ethersproject/units';
 
 const fileTypes = ['image/jpeg', 'image/jpg', 'image/png', 'video/mp4', 'audio/mpeg', 'application/pdf'];
 
@@ -72,8 +76,15 @@ const NewEvidence = () => {
 
   const [evidenceSave, setEvidenceSave] = useState(null);
 
+  const [contractActionRead, setContractActionRead] = useState(false);
+
   const [valueToClaim, setValueToClaim] = useState(0);
   const [marksToClaim, setMarksToClaim] = useState([]);
+
+  const [errorInfo, setErrorInfo] = useState(null);
+
+  const feeArbitration = process.env.NEXT_PUBLIC_ENV == "prod" ? process.env.NEXT_PUBLIC_FEE_ARBITRATION_GNOSIS : process.env.NEXT_PUBLIC_FEE_ARBITRATION_TEST;
+  const feeArbitrationToWei = parseUnits(feeArbitration.toString());
 
   // if logged in, redirect to the home
   useEffect(() => {
@@ -82,18 +93,14 @@ const NewEvidence = () => {
     }
   }, [user, loggedOut, router, dispatch]);
 
-  const parseWeiToTokenAmount = weiAmount => (
-    (global.yubiaiPaymentArbitrableInstance || {}).web3 && parseFloat(global.yubiaiPaymentArbitrableInstance.web3.utils.fromWei(String(weiAmount)), 10) || 0);
-
   const loadOrder = async () => {
     try {
       const response = await orderService.getOrderByTransaction(
         transactionId, global.profile.token);
       const { data } = response;
       setOrderDetail(data.result);
-      console.log(data.result, "data.result")
       loadMsgsByOrderID(data.result);
-      const payedAmount = parseInt(data.result.transaction.transactionPayedAmount, 10) || 0;
+      const payedAmount = formatUnits(data.result.transaction.transactionPayedAmount, 18);
       setMarksToClaim(generateMarksFromAmount(payedAmount));
       return;
     } catch (err) {
@@ -131,10 +138,6 @@ const NewEvidence = () => {
 
           loadOrder();
 
-          if (!global.yubiaiPaymentArbitrableInstance) {
-            setYubiaiInstance(dispatch);
-            return;
-          }
           return
         } catch (err) {
           console.error(err);
@@ -146,7 +149,7 @@ const NewEvidence = () => {
 
     initial();
 
-  }, [global.profile, global.yubiaiPaymentArbitrableInstance]);
+  }, [global.profile]);
 
   //Modal
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -175,12 +178,130 @@ const NewEvidence = () => {
 
   const generateMarksFromAmount = baseAmount => {
     const minAmount = (baseAmount || 0) / 10;
+  
+    const decimals = baseAmount.toString().split('.')[1];
+    const decimalPlaces = decimals ? decimals.length + 1 : 0;
+  
     const finalArray = [minAmount];
     for (let i = minAmount; i <= baseAmount; i += minAmount) {
-      finalArray.push(i);
+      finalArray.push(parseFloat(i.toFixed(decimalPlaces)));
     }
+
     return finalArray;
   }
+
+  const generateStepSlider = baseAmount => {
+    let step
+
+    const decimals = baseAmount.toString().split('.')[1];
+    const decimalPlaces = decimals ? decimals.length + 1 : 0;
+
+    const baseAmount10 = baseAmount / 10;
+
+    step = parseFloat(baseAmount10.toFixed(decimalPlaces))
+    return step;
+  }
+
+  // Wagmi
+  const { chain } = useNetwork()
+  const networkType = chain?.name.toLowerCase();
+  const yubiaiContract = getContractsForNetwork(networkType);
+
+  // Read Contract
+  useContractReads({
+    contracts: [
+      {
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'deals',
+        args: [orderDetail?.transaction.transactionIndex],
+      },
+      {
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'claims',
+        args: [orderDetail?.transaction.currentClaim],
+      },
+      {
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'isOver',
+        args: [orderDetail?.transaction.transactionIndex],
+      },
+      {
+        address: yubiaiContract.yubiaiArbitrable,
+        abi: yubiaiArbitrable,
+        functionName: 'settings'
+      }
+    ],
+    enabled: contractActionRead,
+    async onSuccess(data) {
+      try {
+        const fullStatus = await getFullStatusOfDealClaim(data, orderDetail?.transaction.transactionIndex);
+
+        await evidenceService.updateStatus(evidenceSave?._id, {
+          dealId: orderDetail?.transaction.transactionIndex,
+          claimID: fullStatus.claim.claimID,
+          status: 1
+        }, global?.profile?.token);
+
+        const status = 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
+        let transactionHash = orderDetail?.transaction.transactionMeta.transactionHash;
+        await orderService.updateOrderStatus(transactionHash, status, global?.profile?.token);
+        await orderService.setDisputeOnOrderTransactionById(orderDetail?.transaction.transactionId, {
+          claimCount: fullStatus.claim.claimCount,
+          currentClaim: fullStatus.claim.claimID,
+          disputeId: fullStatus.claim.disputeId,
+          transactionState: fullStatus.claim.claimStatus
+        }, global?.profile?.token);
+        router.replace(`/profile/orders/detail/${transactionHash}`);
+        return
+      } catch (err) {
+        console.error(err);
+        setLoadingSubmit(false);
+        setStateSubmit(2);
+        return
+      }
+    }
+  })
+
+  // Write Contract
+  const { data: resultMakeClaim, write: makeContractWrite } = useContractWrite({
+    address: yubiaiContract.yubiaiArbitrable,
+    abi: yubiaiArbitrable,
+    functionName: 'makeClaim',
+    value: feeArbitrationToWei,
+    onError(err) {
+      console.error('Error creating a claim for a deal: ', err.message);
+      setErrorInfo(err.message);
+      if (err.code == 4001) {
+        setLoadingSubmit(false);
+        setStateSubmit(3);
+        return
+      }
+      setLoadingSubmit(false);
+      setStateSubmit(2);
+      return
+    },
+  })
+
+  // Use Wait for transaction
+  useWaitForTransaction({
+    hash: resultMakeClaim?.hash,
+    async onSuccess() {
+      loadOrder();
+      setTimeout(() => {
+        setContractActionRead(true);
+      }, 1000);
+      return
+    },
+    onError(error) {
+      console.error(error);
+      setLoadingSubmit(false);
+      setStateSubmit(2);
+      return
+    }
+  });
 
   const verifyFiles = (e) => {
     if (e.target.files && e.target.files.length === 0) {
@@ -250,7 +371,7 @@ const NewEvidence = () => {
   // Submit
   // Form Submit Preview
   const onSubmit = async (data) => {
-    if (!previewFiles.length) {
+        if (!previewFiles.length) {
       console.error('Dispute file is required');
       setErrorMsg(t('Dispute file is required'));
       return;
@@ -269,7 +390,7 @@ const NewEvidence = () => {
     form.append('transactionHash', orderDetail.transaction.transactionMeta.transactionHash);
     form.append('author', global.profile._id);
     form.append('author_address', global.profile.eth_address);
-    form.append('value_to_claim', valueToClaim);
+    form.append('value_to_claim', parseEther(String(valueToClaim)));
 
     let messages = [];
 
@@ -301,10 +422,9 @@ const NewEvidence = () => {
 
     try {
       if (evidenceSave) {
-
         manageClaim(
           orderDetail.transaction.transactionIndex,
-          String(evidenceSave.value_to_claim),
+          Math.round(valueToClaim * 1e18),
           evidenceSave.url_ipfs_json,
           orderDetail.transaction.transactionMeta.transactionHash,
           evidenceSave._id
@@ -320,48 +440,34 @@ const NewEvidence = () => {
 
         const { result } = response.data;
         setEvidenceSave(result && result._id ? result : null);
-
         manageClaim(
           orderDetail.transaction.transactionIndex,
-          String(valueToClaim),
-          result.url_ipfs_json,
-          orderDetail.transaction.transactionMeta.transactionHash,
-          result._id
+          Math.round(valueToClaim * 1e18),
+          result.url_ipfs_json
         );
 
         return
       }
     } catch (err) {
-      console.log(err, "err");
       setLoadingSubmit(false);
       setStateSubmit(2);
       return
-    }
+    } 
   }
 
-  const manageClaim = async (dealId, amount, evidenceURI, transactionHash, idEvidence) => {
+  const manageClaim = async (dealId, amount, evidenceURI) => {
     try {
       if (!user.walletAddress) {
         throw "No address"
       }
-      const parsedFeeAmount = global.yubiaiPaymentArbitrableInstance.web3.utils.toWei(String(process.env.NEXT_PUBLIC_FEE_ARBITRATION));
 
-      const result = await global.yubiaiPaymentArbitrableInstance.makeClaim(
-        dealId, amount, evidenceURI, parsedFeeAmount);
+      makeContractWrite({
+        args: [
+          dealId, amount, evidenceURI
+        ]
+      });
 
-      if (result) {
-        const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(dealId);
-        await evidenceService.updateStatus(idEvidence, {
-          dealId: dealId,
-          claimID: fullStatus.claim.claimID,
-          status: 1
-        }, global?.profile?.token);
-
-        const status = 'ORDER_DISPUTE_RECEIVER_FEE_PENDING';
-        await orderService.updateOrderStatus(transactionHash, status, global?.profile?.token);
-        router.replace(`/profile/orders/detail/${transactionHash}`);
-        return
-      }
+      return
     } catch (err) {
       console.error('Error creating a claim for a deal: ', err);
       if (err.code == 4001) {
@@ -412,7 +518,7 @@ const NewEvidence = () => {
   return (
     <>
       <Head>
-        <title>Yubiai Marketplace - New Listing</title>
+        <title>Yubiai Marketplace - New Evidence</title>
       </Head>
       <Container maxW="2xl" h={'full'} display={'flex'} flexDirection={'column'}>
         <Breadcrumb spacing='8px' mt='1em' separator={<ChevronRightIcon color='gray.500' />}>
@@ -509,7 +615,7 @@ const NewEvidence = () => {
               <FormLabel color="black">{t("Amount to claim")}</FormLabel>
               {
                 orderDetail && orderDetail.item &&
-                <p>{parseWeiToTokenAmount(valueToClaim)}{orderDetail.item.currencySymbolPrice}</p>
+                <p>{valueToClaim} {orderDetail.item.currencySymbolPrice}</p>
               }
               <Box textAlign={"center"}>
                 <Slider
@@ -521,7 +627,8 @@ const NewEvidence = () => {
                   color="black"
                   style={{ margin: "10px 0" }}
                   min={0}
-                  max={parseInt(orderDetail.transaction.transactionPayedAmount, 10)}
+                  max={formatUnits(orderDetail.transaction.transactionPayedAmount, 18)}
+                  step={generateStepSlider(formatUnits(orderDetail.transaction.transactionPayedAmount, 18))}
                   onChange={(val) => setValueToClaim(val)}
                 >
                   <SliderMark {...labelStyles} value={0}>0</SliderMark>
@@ -529,7 +636,7 @@ const NewEvidence = () => {
                     (marksToClaim && marksToClaim.length) && marksToClaim.map(
                       (wei, index) => {
                         if (index % 2 == 0 && index !== 0) {
-                          return <SliderMark {...labelStyles} value={wei} key={`slider-mark-amount-${index}`}>{parseWeiToTokenAmount(wei)}</SliderMark>
+                          return <SliderMark {...labelStyles} value={wei} key={`slider-mark-amount-${index}`}>{wei}</SliderMark>
                         } else {
                           return null
                         }
@@ -690,7 +797,17 @@ const NewEvidence = () => {
                       Error
                     </Heading>
                     <Text color={'gray.500'}>
-                      {t("Failed to post")}
+                      {errorInfo ? (
+                        <>
+                          {t(
+                            `${errorInfo.split('.').shift()}`
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          {t("Failed to post")}
+                        </>
+                      )}
                     </Text>
                   </Box>
                 </ModalBody>

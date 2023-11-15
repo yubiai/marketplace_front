@@ -20,7 +20,6 @@ import HeaderChat from '../../../../components/Mailbox/HeaderChat'
 import Loading from '../../../../components/Spinners/Loading'
 import useFetch from '../../../../hooks/data/useFetch'
 import { useDispatchGlobal, useGlobal } from '../../../../providers/globalProvider'
-import { setYubiaiInstance } from '../../../../providers/orderProvider'
 import { channelService } from '../../../../services/channelService'
 import useUser from '../../../../hooks/data/useUser'
 import Error from '../../../../components/Infos/Error'
@@ -37,12 +36,11 @@ const MailBoxByOrderId = () => {
 
   const { id } = router.query
 
-  const [messages, setMessages] = useState([])
   const [inputMessage, setInputMessage] = useState('')
   const [previewFiles, setPreviewFiles] = useState([]);
 
   const [loadingSubmit, setLoadingSubmit] = useState(false);
-  //const [deal, setDeal] = useState(null);
+
   const { t } = useTranslation("orders");
   const { user, loggedOut } = useUser()
 
@@ -55,8 +53,8 @@ const MailBoxByOrderId = () => {
 
   const {
     data: channel,
-    isLoading,
     isError,
+    isLoading,
     mutate
   } = useFetch(
     global && global.profile && global.profile.token && id
@@ -65,47 +63,21 @@ const MailBoxByOrderId = () => {
     global && global.profile && global.profile.token
   )
 
-  /*  const loadItem = async () => {
-     const result = await orderService.getOrderByOrderId(order_id, global.profile?.token);
-     const data = result.data.result;
-      const fullStatus = await global.yubiaiPaymentArbitrableInstance.getFullStatusOfDeal(data.transaction.transactionIndex);
-     setDeal(fullStatus); 
-   } */
-
-  const refreshMessages = async () => {
-    await channelService.getChannelById(id)
-      .then((res) => {
-        if (res.data && res.data.messages && res.data.messages.length > 0) {
-          setMessages(res.data.messages);
-        }
-      })
-      .catch((err) => {
-        console.error(err)
-      })
-  }
-
-  useEffect(() => {
-    if (!global.yubiaiPaymentArbitrableInstance) {
-      setYubiaiInstance(dispatch);
-      return;
-    }
-
-    if (channel) {
-      setMessages(channel.messages);
-      //loadItem();
-    }
-  }, [channel, global?.profile, global?.yubiaiPaymentArbitrableInstance])
-
   // Saved Message
   const saveMessage = async (message) => {
     await channelService
       .pushMsg(channel._id, message, global.profile.token)
       .then(() => {
-        setInputMessage('')
-        refreshMessages()
+        setInputMessage('');
+        mutate()
+        setTimeout(() => {
+          setLoadingSubmit(false)
+        }, 2000);
       })
       .catch(() => {
         setInputMessage('')
+        setLoadingSubmit(false)
+        mutate()
       })
   }
 
@@ -114,14 +86,15 @@ const MailBoxByOrderId = () => {
       .pushMsgWithFiles(channel._id, message, global.profile.token)
       .then(() => {
         setPreviewFiles([])
+        mutate()
         setTimeout(() => {
           setLoadingSubmit(false)
-          refreshMessages()
         }, 2000);
       })
       .catch(() => {
         setPreviewFiles([])
         setLoadingSubmit(false)
+        mutate()
       })
   }
 
@@ -151,6 +124,7 @@ const MailBoxByOrderId = () => {
   }
 
   const handleSendMessage = async () => {
+    setLoadingSubmit(true)
 
     if (inputMessage.trim().length > 0) {
       const data = inputMessage
@@ -162,12 +136,10 @@ const MailBoxByOrderId = () => {
       }
 
       setInputMessage('')
-      setMessages((old) => [...old, newMessage])
       saveMessage(newMessage)
     }
 
     if (previewFiles.length > 0) {
-      setLoadingSubmit(true)
 
       const form = new FormData()
 
@@ -271,7 +243,7 @@ const MailBoxByOrderId = () => {
               />
               {global.profile && (
                 <MessagesChat
-                  messages={messages}
+                  messages={channel.messages}
                   buyer={channel.buyer}
                   seller={channel.seller}
                   me={global && global.profile && global.profile._id}
@@ -284,7 +256,7 @@ const MailBoxByOrderId = () => {
                 mt="5"
               />
               <Flex>
-                {channel && channel.status === true && (
+                {channel && channel.status === true || isLoading ? (
                   <FooterChat
                     inputMessage={inputMessage}
                     setInputMessage={setInputMessage}
@@ -295,7 +267,7 @@ const MailBoxByOrderId = () => {
                     orderStatus={channel.order_id && channel.order_id.status ? channel.order_id.status : null}
                     t={t}
                   />
-                )}
+                ) : null}
               </Flex>
             </Flex>
           </Flex>

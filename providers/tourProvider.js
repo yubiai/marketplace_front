@@ -4,10 +4,12 @@ import { profileService } from '../services/profileService';
 import { stepsTour } from '../utils/tourGuideUtils';
 import { useGlobal } from './globalProvider';
 import useTranslation from 'next-translate/useTranslation';
+import { useMediaQuery } from '@chakra-ui/media-query';
 
 const TourGuideProvider = ({ children }) => {
     const global = useGlobal();
     const { t } = useTranslation("help");
+    const [isResponsive] = useMediaQuery("(max-width: 768px)");
 
     const handleTourClose = async () => {
         try {
@@ -19,16 +21,26 @@ const TourGuideProvider = ({ children }) => {
         }
     }
 
-    return (
-        <>
-            <TourProvider steps={stepsTour(t)} beforeClose={() => handleTourClose()} 
-            styles={{ popover: (base) => ({ ...base, 
-                color: "black" }) }}
-            >
+    if(!isResponsive){
+        return (
+            <>
+                <TourProvider steps={stepsTour(t)} beforeClose={() => handleTourClose()} 
+                styles={{ popover: (base) => ({ ...base, 
+                    color: "black" }) }}
+                >
+                    {children}
+                </TourProvider>
+            </>
+        )
+    } else {
+        return (
+            <>
                 {children}
-            </TourProvider>
-        </>
-    )
+            </>
+        )
+    }
+
+
 }
 
 export default TourGuideProvider;

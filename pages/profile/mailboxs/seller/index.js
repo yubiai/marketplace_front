@@ -4,7 +4,7 @@ import Head from "next/head"
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import useTranslation from 'next-translate/useTranslation';
 import useUser from "../../../../hooks/data/useUser";
 import { useDispatchGlobal, useGlobal } from "../../../../providers/globalProvider";
 import useFetch from "../../../../hooks/data/useFetch";
@@ -27,8 +27,6 @@ const MailBoxsSeller = () => {
         }
     }, [user, loggedOut, router, dispatch])
 
-    console.log(user, "user")
-
     const {
         data: channels,
         isLoading,
@@ -39,8 +37,6 @@ const MailBoxsSeller = () => {
             : null,
         global && global.profile && global.profile.token
     )
-
-    console.log(channels, "channels")
 
     if (isError) {
         return <Error error={isError?.message} />

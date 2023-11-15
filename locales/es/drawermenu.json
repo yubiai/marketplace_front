@@ -14,5 +14,8 @@
     "Favourites": "Favoritos",
     "Bookmarks": "Favoritos",
     "Help": "Ayuda",
-    "Disconnect": "Desconectarse"
+    "Disconnect": "Desconectarse",
+    "Wrong network": "Error de Red",
+    "Welcome": "Bienvenido/a",
+    "MsgWelcome": "Conecta tu billetera y comienza a ganar criptomonedas o contratar servicios con tus criptomonedas."
 }

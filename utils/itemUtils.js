@@ -36,9 +36,17 @@ const getDescriptionSeo = (descriptionLexical) => {
     const firstTextValue = data.root.children[0].children[0].text;
     return firstTextValue.slice(0, 150);
   } else {
-    console.log('No se encontró el valor de "text" en el JSON o la estructura del JSON es incorrecta.');
     return "Yubiai Marketplace"
   }
 }
 
-export { getListCategory, getListSubCategory, getDescriptionSeo }
+const convertTimeToReadable = (time, t) => {
+  const days = Math.floor(time);
+  const hours = Math.round((time - days) * 24); // Multiplicamos la parte decimal por 24 para obtener las horas
+  const dayText = days === 1 ? 'day' : 'days';
+  const hourText = hours === 1 ? 'hour' : 'hours';
+
+  return `${days} ${t(dayText)} ${hours} ${t(hourText)}`;
+}
+
+export { getListCategory, getListSubCategory, getDescriptionSeo, convertTimeToReadable }

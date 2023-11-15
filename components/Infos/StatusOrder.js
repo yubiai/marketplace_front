@@ -1,5 +1,6 @@
 import { Box, Link, Text } from "@chakra-ui/react";
 import EvidenceDetailCard from "../Cards/EvidenceDetailCard";
+import { calculateTimeForChallenge } from "../../utils/orderUtils";
 
 export const NONE_STATUS = "0";
 export const ONGOING_STATUS = "1";
@@ -62,6 +63,8 @@ export const StatusOrderByState = (deal = {}, claim = {}, t) => {
           <Box bg="pink.300" rounded={"5px"} p="5px" w={{ base: "100%", md: "max-content" }}>
             <Text fontSize={"larger"} fontStyle="normal" color="black" pl="15px" pr="15px">{t("The buyer has claimed a refund for this order")} (N° {claim.claimCount})</Text>
           </Box>
+          <Text mt="1em">{calculateTimeForChallenge(claim.claimCreatedAt, claim.timeForChallenge)}</Text>
+          <Text>({t('End date where the seller can take an action')})</Text>
           <EvidenceDetailCard claim={claim} />
         </>
       );

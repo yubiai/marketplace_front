@@ -81,13 +81,13 @@ const parseItemIntoOrderTransaction = (
     }
 }
 
-const calculateFinishDate = (transactionDate, claimCount, claimSolvedAt) => {
+const calculateFinishDate = (transactionDate, claimCount, claimSolvedAt, TimeForService, TimeFormClaim, TimeForReclaim) => {
 
     let dateCalcu
 
-    const TimeFormClaim = Number(process.env.NEXT_PUBLIC_TIME_FOR_CLAIM);
+    /* const TimeFormClaim = Number(process.env.NEXT_PUBLIC_TIME_FOR_CLAIM);
     const TimeForService = Number(process.env.NEXT_PUBLIC_TIME_FOR_SERVICE);
-    const TimeForReclaim = Number(process.env.NEXT_PUBLIC_TIME_FOR_RECLAIM);
+    const TimeForReclaim = Number(process.env.NEXT_PUBLIC_TIME_FOR_RECLAIM); */
 
     if (claimCount > 0) {
         // SC -> return (block.timestamp >= (claims[deal.currentClaim].solvedAt + settings.timeForReclaim));
@@ -108,6 +108,15 @@ const calculateFinishDate = (transactionDate, claimCount, claimSolvedAt) => {
     return dateCalcu;
 }
 
+const calculateTimeForChallenge = (claimCreatedAt, timeForChallenge) => {
+
+    let dateCalcu = claimCreatedAt + timeForChallenge;
+
+    dateCalcu = moment(dateCalcu * 1000).format('MM/DD/YYYY, h:mm:ss a')
+
+    return dateCalcu;
+}
+
 const parserForWei = (value) => {
     const valorBigNumber = ethers.BigNumber.from(value.toString());
     const valorEnEther = ethers.utils.formatEther(valorBigNumber);
@@ -120,6 +129,49 @@ const formatDayBySeconds = (value) => {
     return value * segundosEnUnDia;
 }
 
+const getFullStatusOfDealClaim = (value, dealId) => {
+    return new Promise((resolve, reject) => {
+        try{
+            const dealInfo = value[0].result;
+            const claimInfo = value[1].result;
+            const isOver = value[2].result;
+            const settings = value[3].result;
+    
+            let formattedClaimInfo = {};
+    
+            const disputeId = claimInfo[0];
+    
+            formattedClaimInfo = {
+                claimID: Number(dealInfo[11]),
+                claimStatus: claimInfo[6],
+                claimCreatedAt: parseInt(claimInfo[4], 10),
+                claimSolvedAt: parseInt(claimInfo[5]),
+                claimCount: parseInt(dealInfo[4], 10),
+                disputeId: parseInt(disputeId, 10),
+                timeForClaim: parseInt(dealInfo[9], 10),
+                maxClaimsAllowed: parseInt(settings[1], 10),
+                timeForChallenge: parseInt(settings[3], 10)
+            };
+    
+    
+            return resolve({
+                deal: {
+                    dealId,
+                    dealStatus: dealInfo[2].toString(),
+                    dealCreatedAt: parseInt(dealInfo[7], 10),
+                    timeForService: parseInt(dealInfo[8], 10),
+                    isOver,
+                },
+                claim: {
+                    ...formattedClaimInfo,
+                }
+            });
+        } catch(err){
+            return reject(false);
+        }
+    })
+}
+
 
 export {
     parseItemIntoOrderTransaction,
@@ -130,5 +182,7 @@ export {
     translateStatusIdToNamingInTransaction,
     calculateFinishDate,
     parserForWei,
-    formatDayBySeconds
+    formatDayBySeconds,
+    getFullStatusOfDealClaim,
+    calculateTimeForChallenge
 }

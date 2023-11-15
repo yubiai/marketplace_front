@@ -3,15 +3,39 @@ import { Button } from '@chakra-ui/react';
 import { orderService } from '../../services/orderService';
 import { useGlobal } from '../../providers/globalProvider';
 import { useRouter } from 'next/router';
+import { useContractWrite, useWaitForTransaction } from 'wagmi';
 
-const ButtonCloseDeal = ({ dealId, transactionHash, toggleLoadingStatus, yubiaiPaymentArbitrableInstance, stepsPostAction, t }) => {
+const ButtonCloseDeal = ({ dealId, transactionHash, toggleLoadingStatus, contractAddress, yubiaiAbi, stepsPostAction, t }) => {
     const global = useGlobal();
     const router = useRouter();
     const [isDisabled, setIsDisabled] = useState(false);
 
+    const { data: resultCloseDeal, write: writeCloseDeal } = useContractWrite({
+        address: contractAddress,
+        abi: yubiaiAbi,
+        functionName: 'closeDeal',
+        args: [dealId]
+    })
+
+    useWaitForTransaction({
+        hash: resultCloseDeal?.hash,
+        async onSuccess() {
+            await orderService.updateOrderStatus(transactionHash, 'ORDER_CLOSE_DEAL', global.profile.token);
+
+            stepsPostAction();
+            toggleLoadingStatus(false);
+            return
+        },
+        onError(error) {
+            console.error('Error close deal the transaction : ', error);
+            toggleLoadingStatus(false);
+            return
+        }
+    });
+
     const closeDeal = async () => {
 
-        if(!global.profile.token || !transactionHash || !dealId){
+        if (!global.profile.token || !transactionHash || !dealId) {
             router.push("/logout");
             return
         }
@@ -19,13 +43,7 @@ const ButtonCloseDeal = ({ dealId, transactionHash, toggleLoadingStatus, yubiaiP
         try {
             setIsDisabled(true);
             toggleLoadingStatus(true)
-            const senderWallet = await yubiaiPaymentArbitrableInstance.getAccount();
-            await yubiaiPaymentArbitrableInstance.contract.methods.closeDeal(dealId).send({ from: senderWallet });
-
-            await orderService.updateOrderStatus(transactionHash, 'ORDER_CLOSE_DEAL', global.profile.token);
-
-            stepsPostAction();
-            toggleLoadingStatus(false);
+            writeCloseDeal()
             return
         } catch (e) {
             console.error('Error close deal the transaction : ', e);

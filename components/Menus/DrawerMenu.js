@@ -12,7 +12,6 @@ import {
   List,
   ListItem,
   ListIcon,
-  Box,
   Text,
 } from '@chakra-ui/react'
 import Link from 'next/link'
@@ -37,11 +36,10 @@ import {
   MdOutlineShuffle
 } from 'react-icons/md'
 import { useGlobal } from '../../providers/globalProvider'
-import { balanceUbi1 } from '../../utils/ethereum'
 import { useRouter } from 'next/router'
-import ButtonConnectMetamask from '../Buttons/ButtonConnectMetamask'
-import ButtonSwitchNetwork from '../Buttons/ButtonSwitchNetwork'
 import useTranslation from 'next-translate/useTranslation';
+import { ButtonRainbowkit } from '../Buttons/ButtonRainbowKit'
+
 
 const DrawerMenu = () => {
   const global = useGlobal()
@@ -52,7 +50,6 @@ const DrawerMenu = () => {
 
   const [listCategory, onListCategory] = useState(false)
   const [statusLogin, setStatusLogin] = useState(false)
-  const [balanceToken, setBalanceToken] = useState(null)
 
   const onCategory = () => {
     onListCategory(!listCategory)
@@ -61,9 +58,6 @@ const DrawerMenu = () => {
   useEffect(() => {
     const verifyLogin = async () => {
       if (global && global.profile) {
-        await balanceUbi1(global.profile.eth_address || null).then((res) => {
-          setBalanceToken(res)
-        })
         setStatusLogin(true)
       } else {
         setStatusLogin(false)
@@ -79,7 +73,6 @@ const DrawerMenu = () => {
         color="white"
         bg="transparent"
         onClick={onOpen}
-        p={0}
         display={{ base: 'flex', md: 'none' }}
       >
         <FiMoreVertical fontSize={'2em'} />
@@ -91,20 +84,22 @@ const DrawerMenu = () => {
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
-        <DrawerContent overflow='scroll'>
+        <DrawerContent>
           <DrawerCloseButton />
 
           <DrawerHeader bg="yb.1">
 
             {statusLogin ? (
-              <UserInfo
-                profile={global && global.profile}
-                balanceToken={balanceToken}
-                t={t}
-              />
+              <>
+                <UserInfo
+                  profile={global && global.profile}
+                  t={t}
+                />
+                <ButtonRainbowkit t={t} />
+              </>
             ) : (
               <>
-                <ButtonConnectMetamask />
+                <ButtonRainbowkit t={t} />
               </>
             )}
 
@@ -113,12 +108,6 @@ const DrawerMenu = () => {
 
           <DrawerBody>
             <List spacing={3}>
-              <ListItem>
-                <Box>
-                  <ButtonSwitchNetwork bg={'#00abd1'} color={'white'} />
-                </Box>
-              </ListItem>
-              <Divider />
               <ListItem>
                 <Link href="/">
                   <Button
@@ -151,7 +140,7 @@ const DrawerMenu = () => {
                   </a>
                 </Link>
               </ListItem>
-              
+
               <ListItem>
                 <Link href="/help">
                   <Button
@@ -177,7 +166,7 @@ const DrawerMenu = () => {
                   <ListIcon
                     as={listCategory ? MdArrowUpward : MdArrowDownward}
                   />
-                   {t("Categories")}
+                  {t("Categories")}
                 </Button>
               </ListItem>
               {listCategory && (
@@ -269,7 +258,7 @@ const DrawerMenu = () => {
                       </Button>
                     </Link>
                   </ListItem>
-                 
+
                   <ListItem>
                     <Link href="/profile/questions">
                       <Button
@@ -312,7 +301,7 @@ const DrawerMenu = () => {
                       </Button>
                     </Link>
                   </ListItem>
-                
+
                 </>
               )}
 

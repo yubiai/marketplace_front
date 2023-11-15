@@ -16,7 +16,8 @@ const initialState = {
   arbitratorInstance: null,
   itemToCheckout: null,
   currencyPriceList: [],
-  notificationsActive: false
+  notificationsActive: false,
+  loginRainbow: "unauthenticated"
 }
 
 // Reducers
@@ -96,6 +97,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         notificationsActive: !initialState.notificationsActive,
+      }
+    case 'SET_LOGINRAINBOW':
+      return {
+        ...state,
+        loginRainbow: action.payload
       }
     default:
       throw new Error('Action Fail')

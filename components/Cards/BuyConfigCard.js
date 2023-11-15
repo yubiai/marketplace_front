@@ -5,6 +5,9 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { channelService } from "../../services/channelService";
+import TimeForServiceInfo from "../Infos/TimeForServiceInfo";
+import TimeForClaimInfo from "../Infos/TimeForClaimInfo";
+import { convertTimeToReadable } from "../../utils/itemUtils";
 
 
 const BuyConfigCard = ({ channel, profile, update, t }) => {
@@ -12,8 +15,6 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
     const dispatch = useDispatchGlobal();
     const [isLoading, setIsLoading] = useState(false);
     const toast = useToast();
-
-    console.log(channel, "channel")
 
     const [editSettings, setEditSettings] = useState(false);
 
@@ -98,7 +99,6 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
 
     const onSubmit = async () => {
         try {
-            console.log(timeForServiceValue, timeForClaimValue, "times")
             setIsLoading(true)
             await channelService.updateSettings({
                 _id: channel._id,
@@ -140,7 +140,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
         }
     }
 
-    if (channel && channel.order_id === null) {
+    if (channel && channel.order_id === null && channel.status == true) {
         return (
             <>
                 <Box mt="2em">
@@ -155,10 +155,9 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                         <Spinner />
                                     ) : (
                                         <>
-                                            <Text mt="10px">{t("New Price")}: {channel.priceconfig} {channel.item_id.currencySymbolPrice}</Text>
-                                            <Text mt="10px">{t(`${channel.typeprice}`)}</Text>
-                                            <Text mt="10px">{t("Time For Service")}: {channel.time_for_service} {t("Days")}</Text>
-                                            <Text mt="10px">{t("Time For Claim")}: {channel.time_for_claim} {t("Days")}</Text>
+                                            <Text mt="10px" fontSize="0.9em">{t("New Price")}: {channel.priceconfig} {channel.item_id.currencySymbolPrice} ({t(`${channel.typeprice}`)})</Text>
+                                            <Text mt="10px" fontSize="0.9em"><TimeForServiceInfo t={t} /> {t("Time For Service")}: {convertTimeToReadable(channel.time_for_service, t)} </Text>
+                                            <Text mt="10px" fontSize="0.9em"><TimeForClaimInfo t={t} /> {t("Time For Claim")}: {convertTimeToReadable(channel.time_for_claim, t)} </Text>
                                             <Flex mt="1em" justifyContent={"space-between"}>
                                                 <Button bg="green.300" ml="5px" onClick={() => setEditSettings(true)}><EditIcon></EditIcon></Button>
                                                 <Button bg="red.300" ml="5px" onClick={() => onCancel()}><DeleteIcon></DeleteIcon></Button>
@@ -237,7 +236,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                         </NumberInput>
                                     </FormControl>
                                     <FormControl isRequired mt="1em">
-                                        <FormLabel color="black">{t("Time For Service")}</FormLabel>
+                                        <FormLabel color="black"><TimeForServiceInfo t={t} /> {t("Time For Service")} </FormLabel>
                                         <NumberInput
                                             onChange={(valueString) => {
                                                 setTimeForServiceValue(parse(valueString))
@@ -251,7 +250,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                             precision={1}
                                             isRequired
                                         >
-                                            <NumberInputField placeholder='Min: 1 - Max: 60' _placeholder={{ color: 'gray.400' }}
+                                            <NumberInputField placeholder='Min: 1 - Max: 60 days' _placeholder={{ color: 'gray.400' }}
                                             />
                                             <NumberInputStepper>
                                                 <NumberIncrementStepper />
@@ -259,8 +258,13 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                             </NumberInputStepper>
                                         </NumberInput>
                                     </FormControl>
+                                    {timeForServiceValue > 0 && (
+                                        <Box mt="5px">
+                                            {convertTimeToReadable(timeForServiceValue, t)}
+                                        </Box>
+                                    )}
                                     <FormControl isRequired mt="1em">
-                                        <FormLabel color="black">{t("Time For Claim")}</FormLabel>
+                                        <FormLabel color="black"> <TimeForClaimInfo t={t} /> {t("Time For Claim")}  </FormLabel>
                                         <NumberInput
                                             onChange={(valueString) => {
                                                 setTimeForClaimValue(parse(valueString))
@@ -274,7 +278,7 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                             precision={1}
                                             isRequired
                                         >
-                                            <NumberInputField placeholder='Min: 1 - Max: 10' _placeholder={{ color: 'gray.400' }}
+                                            <NumberInputField placeholder='Min: 1 - Max: 10 days' _placeholder={{ color: 'gray.400' }}
                                             />
                                             <NumberInputStepper>
                                                 <NumberIncrementStepper />
@@ -282,7 +286,11 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                                             </NumberInputStepper>
                                         </NumberInput>
                                     </FormControl>
-
+                                    {timeForClaimValue > 0 && (
+                                        <Box mt="5px">
+                                            {convertTimeToReadable(timeForClaimValue, t)}
+                                        </Box>
+                                    )}
                                     <Button mt="1em" w="100%" bg="#00abd1" color="white" type="submit">
                                         {t("Save")}
                                     </Button>
@@ -293,10 +301,9 @@ const BuyConfigCard = ({ channel, profile, update, t }) => {
                     {profile._id === channel.buyer._id && channel.priceconfig && (
                         <>
                             <Text fontWeight={"bold"}>{t("Settings")}</Text>
-                            <Text mt="10px">{t("New Price")}: {channel.priceconfig} {channel.item_id.currencySymbolPrice}</Text>
-                            <Text mt="10px">{t(`${channel.typeprice}`)}</Text>
-                            <Text mt="10px">{t("Time For Service")}: {channel.time_for_service} {t("Days")}</Text>
-                            <Text mt="10px">{t("Time For Claim")}: {channel.time_for_claim} {t("Days")}</Text>
+                            <Text mt="10px" fontSize="0.9em">{t("New Price")}: {channel.priceconfig} {channel.item_id.currencySymbolPrice} ({t(`${channel.typeprice}`)})</Text>
+                            <Text mt="10px" fontSize="0.9em"><TimeForServiceInfo t={t} /> {t("Time For Service")}: {convertTimeToReadable(channel.time_for_service, t)} </Text>
+                            <Text mt="10px" fontSize="0.9em"><TimeForServiceInfo t={t} /> {t("Time For Claim")}: {convertTimeToReadable(channel.time_for_claim, t)}</Text>
                             <Button
                                 bg="#00abd1"
                                 color="white"
